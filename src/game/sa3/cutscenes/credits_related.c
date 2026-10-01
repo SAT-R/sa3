@@ -2,8 +2,20 @@
 #include "core.h"
 
 typedef struct {
-    u8 filler0[0xAC];
-    /* 0x084 */ Sprite sprAC;
+    /* 0x01C */ u8 *initArg0;
+    /* 0x000 */ u8 filler4[0x10];
+    /* 0x01C */ u16 unk14; // TODO: type
+    /* 0x01C */ u16 unk16;
+    /* 0x01C */ u8 unk18;
+    /* 0x01C */ u16 unk1A;
+    /* 0x01C */ u8 *vram1C;
+    /* 0x028 */ Vec2_32 unk20;
+    /* 0x028 */ Vec2_32 unk28[3];
+    /* 0x040 */ Vec2_32 unk40;
+    /* 0x048 */ Sprite spr48;
+    /* 0x070 */ Sprite spr70;
+    /* 0x098 */ u8 filler98[0x14];
+    /* 0x0AC */ Sprite sprAC;
     /* 0x0D4 */ u8 fillerD4[0x4];
     /* 0x0D8 */ Background bgD8;
     /* 0x118 */ u8 filler118[0x130];
@@ -30,7 +42,7 @@ typedef struct {
     /* 0x14C */ u8 filler14C[0x4];
 } CreditsRelated150;
 
-s32 sub_80A45B4(void *param0, u8 *vram);
+u8 *sub_80A45B4(u8 *param0, u8 *vram);
 void sub_80A4678(CreditsRelated248 *strc248);
 void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2);
 void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2);
@@ -77,6 +89,8 @@ void Task_12C_80A714C(void);
 void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
 void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
 void sub_80A72F4(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
+void TaskDestructor_80A7BFC(Task *t);
+void Task_248_80A7E24(void);
 
 #if M2C
 void Task_248_80A4DDC(CreditsRelated248 *strc248);
@@ -100,46 +114,51 @@ void Task_150_80A690C(CreditsRelated150 *strc150);
 void Task_150_80A69E4(CreditsRelated150 *strc150);
 void Task_12C_80A70B8(CreditsRelated12C *strc12C);
 void Task_12C_80A714C(CreditsRelated12C *strc12C);
+void Task_248_80A7E24(CreditsRelated12C *strc12C);
 #endif
 
-#if 0
-u8 *sub_80A45B4(void *param0, u8 *vram)
+u8 *sub_80A45B4(u8 *param0, u8 *vram)
 {
     Task *t;
     CreditsRelated248 *strc248;
     u8 var_r3;
 
     if (*param0 == 0x10) {
-        t = TaskCreate(Task_248_80A7E24, 0x248U, 0x100U, 0U, TaskDestructor_80A7BFC);
+        t = TaskCreate(Task_248_80A7E24, sizeof(CreditsRelated248), 0x100U, 0U, TaskDestructor_80A7BFC);
     } else {
-        t = TaskCreate((void (*)(?, s32, ? *)) Task_248_80A4DDC, 0x248U, 0x100U, 0U, TaskDestructor_80A7BFC);
+        t = TaskCreate(Task_248_80A4DDC, sizeof(CreditsRelated248), 0x100U, 0U, TaskDestructor_80A7BFC);
     }
+
     strc248 = TASK_DATA(t);
-    strc248->unk0 = param0;
+    strc248->initArg0 = param0;
     strc248->unk16 = 0;
-    strc248->filler0[0x18] = 0;
+    strc248->unk18 = 0;
     strc248->unk1A = 0;
-    strc248->unk40 = 0;
-    strc248->unk44 = 0;
-    var_r3 = 0;
-    do {
+    strc248->unk40.x = 0;
+    strc248->unk40.y = 0;
+
+    for (var_r3 = 0; var_r3 < ARRAY_COUNT(strc248->unk28); var_r3++) {
         strc248->unk28[var_r3].x = 0;
-        *(&strc248->unk28[0].y + (var_r3 * 8)) = 0;
-        var_r3 += 1;
-    } while ((u32)var_r3 <= 2U);
-    strc248->unk20 = 0xF000;
-    strc248->unk24 = 0;
+        strc248->unk28[var_r3].y = 0;
+    }
+
+    strc248->unk20.x = Q(DISPLAY_WIDTH);
+    strc248->unk20.y = Q(0);
     strc248->vram1C = vram;
+
     sub_80A4678(strc248);
     sub_80A4D6C(strc248);
+
     gBgSprites_Unknown1[1] = 0x12;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = 0xFF;
     gBgSprites_Unknown2[1][3] = 0x40;
+
     return strc248->vram1C;
 }
 
+#if 0
 void sub_80A4678(CreditsRelated248 *strc248)
 {
     s32 spC;
@@ -536,7 +555,7 @@ void Task_248_80A4DDC(CreditsRelated248 *strc248)
     gBldRegs.bldCnt = 0x3FFF;
     gBldRegs.bldY = 0;
     gDispCnt |= 0x2200;
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A4E38;
+    gCurTask->main = Task_248_80A4E38;
 }
 
 void Task_248_80A4E38(CreditsRelated248 *strc248)
@@ -602,7 +621,7 @@ void Task_248_80A4EDC(CreditsRelated248 *strc248)
     }
     gBldRegs.bldY = 0x10;
     strc248->filler0[4] = 0;
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A4F94;
+    gCurTask->main = Task_248_80A4F94;
 }
 
 void Task_248_80A4F94(CreditsRelated248 *strc248)
@@ -631,7 +650,7 @@ void Task_248_80A4F94(CreditsRelated248 *strc248)
         return;
     }
     strc248->unk1A = 0x1000U;
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A5050;
+    gCurTask->main = Task_248_80A5050;
 }
 
 void Task_248_80A5050(CreditsRelated248 *strc248)
@@ -690,7 +709,7 @@ void Task_248_80A50FC(CreditsRelated248 *strc248)
         return;
     }
     temp_r0->unk1A = (u16)temp_r0_2;
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A51B4;
+    gCurTask->main = Task_248_80A51B4;
 }
 
 void Task_248_80A51B4(CreditsRelated248 *strc248)
@@ -1096,7 +1115,7 @@ void CreatePreCreditsCutscene(u8 param0)
     gDispCnt = 0x1040;
     if (var_r7 != 0) {
         var_r7 = 0x10;
-        var_r8 = TaskCreate((void (*)(?, s32, ? *)) Task_150_PreCreditsCutsceneTrueEndingInit, 0x150U, 0x100U, 0U, TaskDestructor_PreCreditsCutscene);
+        var_r8 = TaskCreate(Task_150_PreCreditsCutsceneTrueEndingInit, 0x150U, 0x100U, 0U, TaskDestructor_PreCreditsCutscene);
         temp_r0 = &gPlayers[var_r5];
         temp_r0->unk2A = (u8)(-0x10 & temp_r0->unk2A);
         temp_r0_2 = &gPlayers[var_r6];
@@ -1489,7 +1508,7 @@ void Task_150_80A6090(CreditsRelated150 *strc150)
     gWinRegs[5] = 0x1F;
     gBldRegs.bldCnt = 0x3FFF;
     gBldRegs.bldY = 0;
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A60F0;
+    gCurTask->main = Task_150_80A60F0;
 }
 
 void Task_150_80A60F0(CreditsRelated150 *strc150)
@@ -1536,7 +1555,7 @@ void Task_150_80A619C(CreditsRelated150 *strc150)
         strc150->unk8 = 0;
         strc150->unk5 += 1;
         sub_80A5CB0(strc150, 2U, 0U);
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A60F0;
+        gCurTask->main = Task_150_80A60F0;
     }
 }
 
@@ -1730,7 +1749,7 @@ void Task_150_PreCreditsCutsceneTrueEndingInit(CreditsRelated248 *strc248)
             temp_r5->unkC = sub_80A9BD8(temp_r5->unkC, -0x14, -0x5A, 0, temp_r5 + 4);
             temp_r5->unk8 = 0;
             temp_r5->unk6 = 0U;
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A65C8;
+        gCurTask->main = Task_150_80A65C8;
         return;
     }
 }
@@ -1752,7 +1771,7 @@ void Task_150_80A65C8(CreditsRelated150 *strc150)
         temp_r2_2 = temp_r6->unk6 * 8;
         temp_r6->unkC = sub_80A9BD8(temp_r6->unkC, *(temp_r2_2 + &gUnknown_080D9E90), *(temp_r2_2 + (&gUnknown_080D9E90 + 4)), temp_r6 + 4);
         if ((u32)temp_r6->unk6 > 0xCU) {
-            gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A6768;
+            gCurTask->main = Task_150_80A6768;
         }
     }
 }
@@ -2375,7 +2394,7 @@ void Task_12C_80A70B8(CreditsRelated12C *strc12C)
         temp_r0->prevVariant = 0xFF;
         temp_r0->palId = 0;
         UpdateSpriteAnimation(temp_r0);
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_12C_80A714C;
+        gCurTask->main = Task_12C_80A714C;
         return;
     }
     sub_80A72F4((CreditsRelated12C *)temp_r4, &sp0);
@@ -2941,7 +2960,7 @@ void Task_248_80A7CB8(? arg7C, s32 argFC, ? *argFD)
     sub_80A5824((CreditsRelated248 *)temp_r0);
     if ((sub_80A563C((CreditsRelated248 *)temp_r0) == 1) && (*temp_r0->unk0 == 0xC)) {
         temp_r0->unk18 = 0;
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A4EDC;
+        gCurTask->main = Task_248_80A4EDC;
     }
 }
 
@@ -2998,7 +3017,7 @@ void Task_248_80A7DD0(? arg7C, s32 argFC, ? *argFD)
     sub_80A5824((CreditsRelated248 *)temp_r4);
     UpdateBgAnimationTiles(temp_r4 + 0xD8);
     if (**temp_r4 == 0x15) {
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A52DC;
+        gCurTask->main = Task_248_80A52DC;
         return;
     }
     if (gBldRegs.bldY == 0x10) {
@@ -3016,7 +3035,7 @@ void Task_248_80A7E24(? arg7C, s32 argFC, ? *argFD)
     gBgScrollRegs[1][0] = 4;
     gBgScrollRegs[1][1] = ((s32)temp_r0->unk24 >> 8) + 0x50;
     sub_80A4A88((CreditsRelated248 *)temp_r0, 0U, 0U);
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A5050;
+    gCurTask->main = Task_248_80A5050;
 }
 
 void TaskDestructor_PreCreditsCutscene(Task *arg0) { EwramFree(arg0->data->unk14C); }
@@ -3033,7 +3052,7 @@ void Task_150_PreCreditsCutsceneNormalInit(? arg7C, s32 argFC, ? *argFD)
     }
     temp_r2->unkC = sub_80A828C(temp_r2 + 4, temp_r2->unkC, temp_r2 + 0x14);
     temp_r2->unk6 = 0U;
-    gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A6090;
+    gCurTask->main = Task_150_80A6090;
 }
 
 void Task_248_80A7EE4(? arg7C, s32 argFC, ? *argFD)
@@ -3111,7 +3130,7 @@ void Task_248_80A7FDC(? arg7C, s32 argFC, ? *argFD)
         temp_r5->unk8 = 0;
         temp_r5->unk6 = 0;
         temp_r5->unkC = sub_80A9BD8(temp_r5->unkC, -0x14, -0x5A, 0, temp_r5 + 4);
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A664C;
+        gCurTask->main = Task_248_80A664C;
     }
 }
 
@@ -3146,7 +3165,7 @@ void Task_248_80A808C(? arg7C, s32 argFC, ? *argFD)
         temp_r1->unk20 = temp_r1_2;
     }
     if (temp_r1->unk4 == 0x10) {
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_248_80A6700;
+        gCurTask->main = Task_248_80A6700;
     }
 }
 
@@ -3162,7 +3181,7 @@ void Task_150_80A80EC(? arg7C, s32 argFC, ? *argFD)
         temp_r0->unk6 = 0;
         temp_r0->unk4 = 0x15;
         sub_80A5EF0((CreditsRelated150 *)temp_r0, 0xAU, 1U);
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A690C;
+        gCurTask->main = Task_150_80A690C;
         return;
     }
     sub_80A6DD0((CreditsRelated150 *)temp_r0);
@@ -3183,7 +3202,7 @@ void Task_150_80A814C(? arg7C, s32 argFC, ? *argFD)
     if (sub_80A820C(temp_r1) == 1) {
         temp_r1->unk8 = 0U;
         sub_80A5E8C((CreditsRelated150 *)temp_r1, 0xEU, 0U);
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_150_80A69E4;
+        gCurTask->main = Task_150_80A69E4;
     }
 }
 
@@ -3268,7 +3287,7 @@ u8 *sub_80A828C(u8 *arg0, u8 *arg1, s32 arg2)
     u16 temp_r1;
 
     if (*arg0 == 0x10) {
-        var_r0 = TaskCreate((void (*)(?, s32, ? *)) Task_12C_80A70B8, 0x12CU, 0x100U, 0U, TaskDestructor_12C_80A8324);
+        var_r0 = TaskCreate(Task_12C_80A70B8, 0x12CU, 0x100U, 0U, TaskDestructor_12C_80A8324);
     } else {
         var_r0 = TaskCreate(Task_12C_80A8328, 0x12CU, 0x100U, 0U, TaskDestructor_12C_80A8324);
     }
@@ -3360,7 +3379,7 @@ void sub_80A8424(? arg7C, s32 argFC, ? *argFD)
     memcpy(&sp0, &gUnknown_080D9F58, 4);
     sub_80A72F4((CreditsRelated12C *)temp_r4, &sp0);
     if (**temp_r4 == 0xB) {
-        gCurTask->main = (void (*)(?, s32, ? *)) Task_12C_80A70B8;
+        gCurTask->main = Task_12C_80A70B8;
     }
 }
 
