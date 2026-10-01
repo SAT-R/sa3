@@ -362,7 +362,6 @@ void sub_80A4678(CreditsRelated248 *strc248)
     }
 }
 
-#if 0
 void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2)
 {
     Sprite *sp[CSO_OTHER_CHARS_COUNT];
@@ -374,21 +373,29 @@ void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2)
     u8 var_r5;
     u8 var_r8;
 
-    if (gPlayers->charFlags.character > 5U) {
+    // TODO: BUG? Should be >= NUM_CHARACTERS, not >.
+    if (gPlayers->charFlags.character > NUM_CHARACTERS) {
         sp10 = gCharacterSelectOrderLUT[SONIC];
         sp14 = gCharacterSelectOrderLUT[TAILS];
     } else {
         sp10 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
         sp14 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
-    if (param2 != 0) { }
+    if (param2 != 0) {
+        sp[0] = &strc248->spr1D0;
+        sp[1] = &strc248->spr1F8;
+        sp[2] = &strc248->spr220;
+    } else {
+        sp[0] = &strc248->spr158;
+        sp[1] = &strc248->spr180;
+        sp[2] = &strc248->spr1A8;
+    }
     var_r8 = 0;
-    for(var_r5 = 0; var_r5 < 5; var_r5++)
-    {
+    for (var_r5 = 0; var_r5 < 5; var_r5++) {
         if ((var_r5 != sp10) && (var_r5 != sp14)) {
             sprOtherChar = sp[var_r8];
-            sprOtherChar->anim = gUnknown_080D9B5C[var_r5]->anim;
-            sprOtherChar->variant = gUnknown_080D9B5C[var_r5]->variant;
+            sprOtherChar->anim = gUnknown_080D9B5C[var_r5][param1].anim;
+            sprOtherChar->variant = gUnknown_080D9B5C[var_r5][param1].variant;
             sprOtherChar->prevVariant = -1;
             sprOtherChar->oamFlags = 0x240;
             sprOtherChar->animCursor = 0;
@@ -399,7 +406,8 @@ void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2)
             if ((u32)*strc248->initArg0 <= 0x13U) {
                 if ((u32)(u8)(param1 - 3) > 1U) {
                     if ((u32)(u8)(var_r5 - 2) <= 1U) {
-                        sprOtherChar->frameFlags = 0x400 | 0x1000;
+                        sprOtherChar->frameFlags = 0x1000;
+                        sprOtherChar->frameFlags |= 0x400;
                     } else {
                         sprOtherChar->frameFlags = 0x1000;
                     }
@@ -429,72 +437,7 @@ void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2)
     }
 }
 
-void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2)
-{
-    Sprite *sp[CSO_OTHER_CHARS_COUNT];
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    Sprite *temp_r4;
-    Sprite *var_r1;
-    TileInfo2 **temp_r1;
-    u8 var_r0;
-    u8 var_r5;
-    u8 var_r8;
-
-    spC = (s32)param1;
-    sp10 = (s32)param2;
-    if (gPlayers->charFlags.character > 5U) {
-        sp14   = gCharacterSelectOrderLUT[SONIC];
-        var_r0 = gCharacterSelectOrderLUT[TAILS];
-    } else {
-        sp14 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
-        var_r0 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
-    }
-    if (sp10 != 0) { }
-    var_r8 = 0;
-    for(var_r5 = 0; var_r5 < 5; var_r5++)
-    {
-        if ((var_r5 != sp14) && (var_r5 != var_r0)) {
-            temp_r4 = sp[var_r8];
-            temp_r4->anim = gUnknown_080D9B5C[var_r5]->anim;
-            temp_r4->variant = gUnknown_080D9B5C[var_r5]->variant;
-            temp_r4->prevVariant = -1;
-            temp_r4->oamFlags = 0x240;
-            temp_r4->animCursor = 0;
-            temp_r4->qAnimDelay = 0;
-            temp_r4->animSpeed = 0x10;
-            temp_r4->palId = var_r5;
-            if (var_r5 == 4) {
-                temp_r4->palId = 5;
-            }
-            temp_r4->frameFlags = 0x1000;
-            if (((u32)*strc248->initArg0 <= 0x13U) && ((u32)var_r5 <= 1U)) {
-                temp_r4->frameFlags = 0x400 | 0x1000;
-            } else {
-                temp_r4->frameFlags = 0x1000;
-            }
-            if (var_r5 == 3) {
-                var_r1 = &strc248->spr48;
-                if (sp10 != 0) {
-                    var_r1 = &strc248->spr70;
-                }
-                var_r1->anim = gUnknown_080D9B5C[CS_GFX_CHEESE][spC].anim;
-                var_r1->variant = gUnknown_080D9B5C[CS_GFX_CHEESE][spC].variant;
-                var_r1->prevVariant = -1;
-                var_r1->oamFlags = 0x280;
-                var_r1->animCursor = 0;
-                var_r1->qAnimDelay = 0;
-                var_r1->animSpeed = 0x10;
-                var_r1->palId = 0;
-                var_r1->frameFlags = 0;
-                UpdateSpriteAnimation(var_r1);
-            }
-            UpdateSpriteAnimation(temp_r4);
-            var_r8 += 1;
-        }
-    }
-}
+#if 0
 
 void sub_80A4BF8(CreditsRelated248 *strc248, u8 param1, u8 param2, u8 param3)
 {
