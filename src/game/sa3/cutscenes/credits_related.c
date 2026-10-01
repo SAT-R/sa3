@@ -964,60 +964,68 @@ bool32 sub_80A555C(CreditsRelated248 *strc248, u8 param1)
     }
 }
 
-#if 0
 bool32 sub_80A55DC(CreditsRelated248 *strc248)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    bool32 var_r6;
-    u8 var_r4;
+    bool32 result;
+    u8 i;
 
-    var_r6 = 0;
-    temp_r0 = strc248->unk20.y;
-    if ((temp_r0 > 0) || (temp_r0_2 = temp_r0 + 0x40, strc248->unk20.y = temp_r0_2, (temp_r0_2 >= 0))) {
+    result = 0;
+    if (strc248->unk20.y <= 0) {
+        strc248->unk20.y += Q(0.25);
+        if (strc248->unk20.y >= 0) {
+            strc248->unk20.y = 0;
+            result = 1;
+        }
+    } else {
         strc248->unk20.y = 0;
-        var_r6 = 1;
+        result = 1;
     }
-    gBgScrollRegs[1][0] = (s16)((s32)strc248->unk20.x >> 8);
-    gBgScrollRegs[1][1] = ((s32)strc248->unk20.y >> 8) + 0x50;
-    temp_r0_3 = strc248->unk40.y - 0x40;
-    strc248->unk40.y = temp_r0_3;
-    if (temp_r0_3 <= 0) {
+
+    gBgScrollRegs[1][0] = I(strc248->unk20.x);
+    gBgScrollRegs[1][1] = I(strc248->unk20.y) + 80;
+
+    strc248->unk40.y -= 0x40;
+    if (strc248->unk40.y <= 0) {
         strc248->unk40.y = 0;
     }
-    var_r4 = 0;
-    do {
-        *(&strc248->unk28[0].y + (var_r4 * 8)) = strc248->unk40.y - strc248->unk20.y;
-        var_r4 += 1;
-    } while ((u32)var_r4 <= 2U);
-    return var_r6;
+
+    for (i = 0; i < ARRAY_COUNT(strc248->unk28); i++) {
+        strc248->unk28[i].y = -strc248->unk20.y + strc248->unk40.y;
+    }
+
+    return result;
 }
 
 bool32 sub_80A563C(CreditsRelated248 *strc248)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    u32 var_r6;
-    u8 var_r4;
+    bool32 result;
+    u8 i;
 
-    var_r6 = 0;
-    temp_r0 = strc248->unk20.y;
-    if ((temp_r0 < 0xFFFFCC00) || (temp_r0_2 = temp_r0 - 0x40, strc248->unk20.y = temp_r0_2, (temp_r0_2 <= 0xFFFFCC00))) {
-        strc248->unk20.y = -0x3400;
-        var_r6 = 1;
+    result = 0;
+    if (strc248->unk20.y >= -Q(52)) {
+        strc248->unk20.y -= Q(0.25);
+        if (strc248->unk20.y <= -Q(52)) {
+            strc248->unk20.y = -Q(52);
+            result = 1;
+        }
+    } else {
+        strc248->unk20.y = -Q(52);
+        result = 1;
     }
-    gBgScrollRegs[1][0] = (s16)((s32)strc248->unk20.x >> 8);
-    gBgScrollRegs[1][1] = ((s32)strc248->unk20.y >> 8) + 0x50;
-    strc248->unk40.y += 0x20;
-    var_r4 = 0;
-    do {
-        *(&strc248->unk28[0].y + (var_r4 * 8)) = strc248->unk40.y - strc248->unk20.y;
-        var_r4 += 1;
-    } while ((u32)var_r4 <= 2U);
-    return var_r6;
+
+    gBgScrollRegs[1][0] = I(strc248->unk20.x);
+    gBgScrollRegs[1][1] = I(strc248->unk20.y) + 80;
+
+    strc248->unk40.y += Q(0.125);
+
+    for (i = 0; i < ARRAY_COUNT(strc248->unk28); i++) {
+        strc248->unk28[i].y = -strc248->unk20.y + strc248->unk40.y;
+    }
+
+    return result;
 }
 
+#if 0
 u32 sub_80A5698(CreditsRelated248 *strc248)
 {
     Sprite *sp[CSO_OTHER_CHARS_COUNT];
