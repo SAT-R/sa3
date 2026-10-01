@@ -45,9 +45,9 @@ typedef struct {
     /* 0x01C */ u8 unk18;
     /* 0x01C */ u16 unk1A;
     /* 0x01C */ u8 *vram1C;
-    /* 0x028 */ Vec2_32 unk20;
-    /* 0x028 */ Vec2_32 unk28[3];
-    /* 0x040 */ Vec2_32 unk40;
+    /* 0x028 */ Vec2_32 qUnk20;
+    /* 0x028 */ Vec2_32 qUnk28[3];
+    /* 0x040 */ Vec2_32 qUnk40;
     /* 0x048 */ Sprite spr48;
     /* 0x070 */ Sprite spr70;
     /* 0x098 */ u8 filler98[0x14];
@@ -215,16 +215,16 @@ u8 *sub_80A45B4(u8 *param0, u8 *vram)
     strc248->unk10[3] = 0;
     strc248->unk18 = 0;
     strc248->unk1A = 0;
-    strc248->unk40.x = 0;
-    strc248->unk40.y = 0;
+    strc248->qUnk40.x = 0;
+    strc248->qUnk40.y = 0;
 
-    for (var_r3 = 0; var_r3 < ARRAY_COUNT(strc248->unk28); var_r3++) {
-        strc248->unk28[var_r3].x = 0;
-        strc248->unk28[var_r3].y = 0;
+    for (var_r3 = 0; var_r3 < ARRAY_COUNT(strc248->qUnk28); var_r3++) {
+        strc248->qUnk28[var_r3].x = 0;
+        strc248->qUnk28[var_r3].y = 0;
     }
 
-    strc248->unk20.x = Q(DISPLAY_WIDTH);
-    strc248->unk20.y = Q(0);
+    strc248->qUnk20.x = Q(DISPLAY_WIDTH);
+    strc248->qUnk20.y = Q(0);
     strc248->vram1C = vram;
 
     sub_80A4678(strc248);
@@ -280,11 +280,11 @@ void sub_80A4678(CreditsRelated248 *strc248)
             s->variant = gUnknown_080D9B5C[i]->variant;
             s->prevVariant = -1;
             if (*strc248->initArg0 == 0x10) {
-                strc248->unk28[unselectedChar].x = Q(gUnknown_080D9B7E[i]);
+                strc248->qUnk28[unselectedChar].x = Q(gUnknown_080D9B7E[i]);
             } else {
-                strc248->unk28[unselectedChar].x = Q(gUnknown_080D9B79[i]) + Q(4);
+                strc248->qUnk28[unselectedChar].x = Q(gUnknown_080D9B79[i]) + Q(4);
             }
-            s->x = I(strc248->unk28[unselectedChar].x);
+            s->x = I(strc248->qUnk28[unselectedChar].x);
             s->y = 0;
             s->oamFlags = 0x240;
             s->animCursor = 0;
@@ -307,7 +307,7 @@ void sub_80A4678(CreditsRelated248 *strc248)
                 s->anim = gUnknown_080D9B5C[CS_GFX_CHEESE]->anim;
                 s->variant = gUnknown_080D9B5C[CS_GFX_CHEESE]->variant;
                 s->prevVariant = -1;
-                s->x = I(strc248->unk28[unselectedChar].x) - 18;
+                s->x = I(strc248->qUnk28[unselectedChar].x) - 18;
                 s->y = 0;
                 s->oamFlags = 0x280;
                 s->animCursor = 0;
@@ -402,7 +402,7 @@ void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2)
             sprOtherChar->animSpeed = 0x10;
             sprOtherChar->palId = 0;
             sprOtherChar->frameFlags = 0x1000;
-            if ((u32)*strc248->initArg0 <= 0x13U) {
+            if ((u32)*strc248->initArg0 < 20) {
                 if ((u32)(u8)(param1 - 3) > 1U) {
                     if ((u32)(u8)(var_r5 - 2) <= 1U) {
                         sprOtherChar->frameFlags = 0x1000;
@@ -598,8 +598,8 @@ void sub_80A4BF8(CreditsRelated248 *strc248, u8 param1, u8 param2, u8 param3)
 void sub_80A4D6C(CreditsRelated248 *strc248)
 {
     gBgCntRegs[1] = 0x4501;
-    gBgScrollRegs[1][0] = (s16)((s32)strc248->unk20.x >> 8);
-    gBgScrollRegs[1][1] = ((s32)strc248->unk20.y >> 8) + 0x50;
+    gBgScrollRegs[1][0] = (s16)((s32)strc248->qUnk20.x >> 8);
+    gBgScrollRegs[1][1] = ((s32)strc248->qUnk20.y >> 8) + 0x50;
 
     {
         Background *bg = &strc248->bgD8;
@@ -641,22 +641,22 @@ void Task_248_80A4E38(void)
     UpdateBgAnimationTiles(&strc248->bgD8);
     sub_80A5698(strc248);
 
-    if (strc248->unk20.x > 0x400) {
+    if (strc248->qUnk20.x > 0x400) {
         if (*strc248->initArg0 == 6) {
-            strc248->unk20.x -= Q(2);
+            strc248->qUnk20.x -= Q(2);
         } else if (*strc248->initArg0 == 7) {
-            strc248->unk20.x -= Q(1);
+            strc248->qUnk20.x -= Q(1);
         } else if (*strc248->initArg0 <= 5) {
-            strc248->unk20.x -= Q(2.0625);
+            strc248->qUnk20.x -= Q(2.0625);
         }
 
-        if (strc248->unk20.x < 0x400) {
-            strc248->unk20.x = 0x400;
+        if (strc248->qUnk20.x < 0x400) {
+            strc248->qUnk20.x = 0x400;
         }
     }
 
-    gBgScrollRegs[1][0] = I(strc248->unk20.x);
-    gBgScrollRegs[1][1] = I(strc248->unk20.y) + 80;
+    gBgScrollRegs[1][0] = I(strc248->qUnk20.x);
+    gBgScrollRegs[1][1] = I(strc248->qUnk20.y) + 80;
 
     if (*strc248->initArg0 == 9) {
         sub_80A490C(strc248, 1U, 1U);
@@ -737,14 +737,14 @@ void Task_248_80A5050(void)
         gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
     }
 
-    if (*strc248->initArg0 == 0x10) {
+    if (*strc248->initArg0 == 16) {
         strc248->unk18 = 1;
-        strc248->unk28[0].y += 0x100;
-        strc248->unk28[1].y += 0x100;
-        strc248->unk28[2].y += 0x100;
+        strc248->qUnk28[0].y += Q(1);
+        strc248->qUnk28[1].y += Q(1);
+        strc248->qUnk28[2].y += Q(1);
         gCurTask->main = Task_248_80A51B4;
     } else {
-        *strc248->initArg0 = 0xD;
+        *strc248->initArg0 = 13;
         gCurTask->main = Task_248_80A50FC;
     }
 }
@@ -788,12 +788,12 @@ void Task_248_80A51B4(void)
     void (*var_r0)(CreditsRelated248 *);
 
     UpdateBgAnimationTiles(&strc248->bgD8);
-    if (*strc248->initArg0 == 0x10) {
+    if (*strc248->initArg0 == 16) {
         sub_80A5698(strc248);
     }
     if (strc248->unk18 != 0) {
         gDispCnt |= DISPCNT_WIN0_ON;
-        if (*strc248->initArg0 == 0x10) {
+        if (*strc248->initArg0 == 16) {
             gWinRegs[0] = 0xF0;
             gWinRegs[2] = 0xA0;
             gWinRegs[1] = 0;
@@ -822,11 +822,11 @@ void Task_248_80A51B4(void)
         return;
     }
     strc248->unk16 = gBldRegs.bldY;
-    if (*strc248->initArg0 == 0x10) {
+    if (*strc248->initArg0 == 16) {
         gCurTask->main = Task_248_80A7D7C;
     } else {
         sub_80A490C(strc248, 3U, 0U);
-        *strc248->initArg0 = 0xE;
+        *strc248->initArg0 = 14;
         gCurTask->main = Task_248_80A7D00;
     }
 }
@@ -938,7 +938,7 @@ void Task_248_80A52DC(void)
     }
 
     if (var_r7 == 3) {
-        *strc248->initArg0 = 0x16;
+        *strc248->initArg0 = 22;
     }
 
     if (gBldRegs.bldY == 0x10) {
@@ -956,8 +956,8 @@ bool32 sub_80A555C(CreditsRelated248 *strc248, u8 param1)
         }
     }
 
-    if (strc248->unk28[param1].x > -Q(40)) {
-        strc248->unk28[param1].x -= Q(gUnknown_080D9BAA[strc248->unkC[param1]]);
+    if (strc248->qUnk28[param1].x > -Q(40)) {
+        strc248->qUnk28[param1].x -= Q(gUnknown_080D9BAA[strc248->unkC[param1]]);
         return FALSE;
     } else {
         return TRUE;
@@ -970,27 +970,27 @@ bool32 sub_80A55DC(CreditsRelated248 *strc248)
     u8 i;
 
     result = 0;
-    if (strc248->unk20.y <= 0) {
-        strc248->unk20.y += Q(0.25);
-        if (strc248->unk20.y >= 0) {
-            strc248->unk20.y = 0;
+    if (strc248->qUnk20.y <= 0) {
+        strc248->qUnk20.y += Q(0.25);
+        if (strc248->qUnk20.y >= 0) {
+            strc248->qUnk20.y = 0;
             result = 1;
         }
     } else {
-        strc248->unk20.y = 0;
+        strc248->qUnk20.y = 0;
         result = 1;
     }
 
-    gBgScrollRegs[1][0] = I(strc248->unk20.x);
-    gBgScrollRegs[1][1] = I(strc248->unk20.y) + 80;
+    gBgScrollRegs[1][0] = I(strc248->qUnk20.x);
+    gBgScrollRegs[1][1] = I(strc248->qUnk20.y) + 80;
 
-    strc248->unk40.y -= 0x40;
-    if (strc248->unk40.y <= 0) {
-        strc248->unk40.y = 0;
+    strc248->qUnk40.y -= 0x40;
+    if (strc248->qUnk40.y <= 0) {
+        strc248->qUnk40.y = 0;
     }
 
-    for (i = 0; i < ARRAY_COUNT(strc248->unk28); i++) {
-        strc248->unk28[i].y = -strc248->unk20.y + strc248->unk40.y;
+    for (i = 0; i < ARRAY_COUNT(strc248->qUnk28); i++) {
+        strc248->qUnk28[i].y = -strc248->qUnk20.y + strc248->qUnk40.y;
     }
 
     return result;
@@ -1002,46 +1002,38 @@ bool32 sub_80A563C(CreditsRelated248 *strc248)
     u8 i;
 
     result = 0;
-    if (strc248->unk20.y >= -Q(52)) {
-        strc248->unk20.y -= Q(0.25);
-        if (strc248->unk20.y <= -Q(52)) {
-            strc248->unk20.y = -Q(52);
+    if (strc248->qUnk20.y >= -Q(52)) {
+        strc248->qUnk20.y -= Q(0.25);
+        if (strc248->qUnk20.y <= -Q(52)) {
+            strc248->qUnk20.y = -Q(52);
             result = 1;
         }
     } else {
-        strc248->unk20.y = -Q(52);
+        strc248->qUnk20.y = -Q(52);
         result = 1;
     }
 
-    gBgScrollRegs[1][0] = I(strc248->unk20.x);
-    gBgScrollRegs[1][1] = I(strc248->unk20.y) + 80;
+    gBgScrollRegs[1][0] = I(strc248->qUnk20.x);
+    gBgScrollRegs[1][1] = I(strc248->qUnk20.y) + 80;
 
-    strc248->unk40.y += Q(0.125);
+    strc248->qUnk40.y += Q(0.125);
 
-    for (i = 0; i < ARRAY_COUNT(strc248->unk28); i++) {
-        strc248->unk28[i].y = -strc248->unk20.y + strc248->unk40.y;
+    for (i = 0; i < ARRAY_COUNT(strc248->qUnk28); i++) {
+        strc248->qUnk28[i].y = -strc248->qUnk20.y + strc248->qUnk40.y;
     }
 
     return result;
 }
 
-#if 0
-u32 sub_80A5698(CreditsRelated248 *strc248)
+bool32 sub_80A5698(CreditsRelated248 *strc248)
 {
     Sprite *sp[CSO_OTHER_CHARS_COUNT];
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
-    Vec2_32 *temp_r4;
-    s32 *temp_r0;
-    s32 temp_r0_3;
-    u16 temp_r1;
-    u16 temp_r2_2;
-    u32 temp_r2;
-    u32 temp_r5;
-    u8 *temp_r0_2;
+    bool32 animRunningOrChanged;
+    AnimCmdResult acmdRes;
     u8 var_r1;
     u8 var_r2;
-    u8 var_r7;
+    u8 i;
+    Sprite *s;
 
     if (gPlayers->charFlags.character > 5U) {
         var_r2 = gCharacterSelectOrderLUT[SONIC];
@@ -1050,44 +1042,50 @@ u32 sub_80A5698(CreditsRelated248 *strc248)
         var_r2 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
         var_r1 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
-    temp_r4 = strc248->unk28;
-    temp_r0 = &strc248->unk28[0].y;
-    if ((var_r2 != 3) && (var_r1 != 3)) {
-        temp_r4_2 = &strc248->spr48;
-        strc248->spr48.x = ((s32)temp_r4[strc248->unk5].x >> 8) - ((s32)strc248->unk20.x >> 8);
-        strc248->spr48.y = ((s32) * ((strc248->unk5 * 8) + temp_r0) >> 8) + 0x78;
 
-        if (((strc248->spr48.anim == gUnknown_080D9B1C[0].anim) && (strc248->spr48.variant == gUnknown_080D9B1C[0].variant))
-            || ((strc248->spr48.anim == gUnknown_080D9B1C[5].anim) && (strc248->spr48.variant == gUnknown_080D9B1C[5].variant))) {
-            strc248->spr48.x += 18;
-            strc248->spr48.y -= 15;
+    sp[0] = &strc248->spr158;
+    sp[1] = &strc248->spr180;
+    sp[2] = &strc248->spr1A8;
+
+    if ((var_r2 != CSO_CREAM) && (var_r1 != CSO_CREAM)) {
+        s = &strc248->spr48;
+        s->x = I(strc248->qUnk28[strc248->unk5].x) - I(strc248->qUnk20.x);
+        s->y = I(strc248->qUnk28[strc248->unk5].y) + 120;
+
+        if (((s->anim == gUnknown_080D9B1C[0].anim) && (s->variant == gUnknown_080D9B1C[0].variant))
+            || ((s->anim == gUnknown_080D9B1C[5].anim) && (s->variant == gUnknown_080D9B1C[5].variant))) {
+            s->x += 18;
+            s->y -= 15;
         }
-        UpdateSpriteAnimation(temp_r4_2);
-        DisplaySprite(temp_r4_2);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    var_r7 = 0;
-    do {
-        temp_r4_3 = sp[var_r7];
-        if ((*strc248->initArg0 <= 8U)
-            && (((temp_r4_3->anim == gUnknown_080D9A1C[0].anim) && (temp_r4_3->variant == gUnknown_080D9A1C[0].variant))
-                || ((temp_r4_3->anim == gUnknown_080D9ADC[0].anim) && (temp_r4_3->variant == gUnknown_080D9ADC[0].variant))
-                || ((temp_r4_3->anim == gUnknown_080D99DC[0].anim) && (temp_r4_3->variant == gUnknown_080D99DC[0].variant)))
-            && ((u32)strc248->initArg0 > 5U)) {
-            temp_r4_3->frameFlags &= 0xFFFFFBFF;
+
+    for (i = 0; i < ARRAY_COUNT(sp); i++) {
+        s = sp[i];
+        if ((*strc248->initArg0 < 9)
+            && (((s->anim == gUnknown_080D9A1C[0].anim) && (s->variant == gUnknown_080D9A1C[0].variant))
+                || ((s->anim == gUnknown_080D9ADC[0].anim) && (s->variant == gUnknown_080D9ADC[0].variant))
+                || ((s->anim == gUnknown_080D99DC[0].anim) && (s->variant == gUnknown_080D99DC[0].variant)))
+            && (*strc248->initArg0 > 5U)) {
+            s->frameFlags &= ~0x400;
         }
-        temp_r4_3->x = ((s32)temp_r4[var_r7].x >> 8) - ((s32)strc248->unk20.x >> 8);
-        temp_r4_3->y = ((s32) * ((var_r7 * 8) + temp_r0) >> 8) + 0x78;
-        if (*strc248->initArg0 > 0xCU) {
-            temp_r4_3->oamFlags = 0x40;
+        s->x = I(strc248->qUnk28[i].x) - I(strc248->qUnk20.x);
+        s->y = I(strc248->qUnk28[i].y) + 120;
+
+        if (*strc248->initArg0 > 12) {
+            s->oamFlags = SPRITE_OAM_ORDER(1);
         }
-        temp_r0_3 = UpdateSpriteAnimation(temp_r4_3);
-        temp_r5 = (u32)((0 - temp_r0_3) | temp_r0_3) >> 0x1F;
-        DisplaySprite(temp_r4_3);
-        var_r7 += 1;
-    } while ((u32)var_r7 <= 2U);
-    return temp_r5;
+
+        acmdRes = UpdateSpriteAnimation(s);
+        animRunningOrChanged = (((u32)-acmdRes | acmdRes) >> 31); // TODO: Match using Ternary Operator instead!
+        DisplaySprite(s);
+    }
+
+    return animRunningOrChanged;
 }
 
+#if 0
 u32 sub_80A5824(CreditsRelated248 *strc248)
 {
     Sprite *sp[CSO_OTHER_CHARS_COUNT];
@@ -1111,11 +1109,11 @@ u32 sub_80A5824(CreditsRelated248 *strc248)
         var_r1 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
 
-    temp_r4 = strc248->unk28;
-    temp_r0 = &strc248->unk28[0].y;
+    temp_r4 = strc248->qUnk28;
+    temp_r0 = &strc248->qUnk28[0].y;
     if ((var_r2 != 3) && (var_r1 != 3)) {
         temp_r4_2 = &strc248->spr70;
-        temp_r4_2->x = ((s32)temp_r4[strc248->unk5].x >> 8) - ((s32)strc248->unk20.x >> 8);
+        temp_r4_2->x = ((s32)temp_r4[strc248->unk5].x >> 8) - ((s32)strc248->qUnk20.x >> 8);
         temp_r4_2->y = ((s32) * ((strc248->unk5 * 8) + temp_r0) >> 8) + 0x78;
         temp_r2_2 = temp_r4_2->anim;
         if (((temp_r2_2 == gUnknown_080D9B1C[0].anim) && (temp_r4_2->variant == gUnknown_080D9B1C[0].variant))
@@ -1129,7 +1127,7 @@ u32 sub_80A5824(CreditsRelated248 *strc248)
     var_r5 = 0;
     do {
         temp_r4_3 = sp[var_r5];
-        temp_r4_3->x = ((s32)temp_r4[var_r5].x >> 8) - ((s32)strc248->unk20.x >> 8);
+        temp_r4_3->x = ((s32)temp_r4[var_r5].x >> 8) - ((s32)strc248->qUnk20.x >> 8);
         temp_r4_3->y = ((s32) * ((var_r5 * 8) + temp_r0) >> 8) + 0x78;
         if ((u32)*strc248->initArg0 > 0xCU) {
             temp_r4_3->oamFlags = 0x40;
@@ -1743,12 +1741,12 @@ void Task_150_PreCreditsCutsceneTrueEndingInit(CreditsRelated248 *strc248) {
         strc248->unk14 = (s32) (gUnknown_080D9B7E[var_r6] << 8);
         strc248->unk18 = 0x7900;
         strc248->vram1C = (u8 *) (gUnknown_080D9B7E[var_r3] << 8);
-        strc248->unk20.x = 0x7900;
+        strc248->qUnk20.x = 0x7900;
         sub_80A5B08((CreditsRelated150 *) strc248);
         temp_r1 = strc248->unkC;
-        strc248->unk28[1].y = temp_r1;
+        strc248->qUnk28[1].y = temp_r1;
         strc248->unkC = (s32) (temp_r1 + 0x280);
-        strc248->unk40 = 0x533;
+        strc248->qUnk40 = 0x533;
         strc248->unk4E = 0;
         strc248->unk4F = 0xFF;
         strc248->unk44 = (s16) ((s32) strc248->unk14 >> 8);
@@ -1758,8 +1756,8 @@ void Task_150_PreCreditsCutsceneTrueEndingInit(CreditsRelated248 *strc248) {
         strc248->unk4A = 0;
         strc248->unk50 = 0x10;
         strc248->unk53 = 0;
-        strc248->unk28[2].y = 0;
-        UpdateSpriteAnimation((Sprite *) &strc248->unk28[1].y);
+        strc248->qUnk28[2].y = 0;
+        UpdateSpriteAnimation((Sprite *) &strc248->qUnk28[1].y);
         strc248->unkC = sub_80A828C(&strc248->unk4, strc248->unkC, &strc248->unk14);
     default:
 block_9:
@@ -1803,17 +1801,17 @@ void Task_248_80A664C(CreditsRelated248 *strc248) {
     u16 temp_r0_2;
     u8 temp_r2;
 
-    strc248->unk20.x = strc248->unk18;
+    strc248->qUnk20.x = strc248->unk18;
     sub_80A6A5C(strc248);
     if (strc248->unk4 == 0xE) {
-        temp_r0 = strc248->unk28[1].x - 0x40;
-        strc248->unk28[1].x = temp_r0;
+        temp_r0 = strc248->qUnk28[1].x - 0x40;
+        strc248->qUnk28[1].x = temp_r0;
         if (temp_r0 <= 0) {
-            strc248->unk28[1].x = 0;
+            strc248->qUnk28[1].x = 0;
         }
-        strc248->unk18 = (s32) ((strc248->unk28[1].x + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8));
+        strc248->unk18 = (s32) ((strc248->qUnk28[1].x + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8));
     }
-    strc248->unk20.x = strc248->unk18;
+    strc248->qUnk20.x = strc248->unk18;
     temp_r0_2 = strc248->unk8 + 1;
     strc248->unk8 = temp_r0_2;
     temp_r2 = strc248->unk6[0];
@@ -2024,7 +2022,7 @@ u32 sub_80A6A5C(CreditsRelated248 *strc248) {
         temp_r4_2 = &strc248->spr48.oamFlags;
         temp_r2_3 = (s32) strc248->vram1C >> 8;
         strc248->unk6C = (s16) temp_r2_3;
-        temp_r1_2 = (s32) strc248->unk20.x >> 8;
+        temp_r1_2 = (s32) strc248->qUnk20.x >> 8;
         strc248->unk6E = (s16) temp_r1_2;
         if ((u32) strc248->unk4 <= 8U) {
             strc248->unk6C = (s16) (temp_r2_3 + 0x12);
@@ -2049,7 +2047,7 @@ u32 sub_80A6A5C(CreditsRelated248 *strc248) {
         strc248->unk12C = (s32) (strc248->unk12C | 0x400);
     }
     strc248->unk134 = (s16) ((s32) strc248->vram1C >> 8);
-    strc248->unk136 = (s16) ((s32) strc248->unk20.x >> 8);
+    strc248->unk136 = (s16) ((s32) strc248->qUnk20.x >> 8);
     if (UpdateSpriteAnimation((Sprite *) temp_r4_4) == ACMD_RESULT__ENDED) {
         var_r7 = (u32) (u8) (var_r7 + 1);
     }
@@ -2100,7 +2098,7 @@ u32 sub_80A6BDC(CreditsRelated248 *strc248) {
         temp_r4_2 = &strc248->spr70.oamFlags;
         temp_r2_3 = (s32) strc248->vram1C >> 8;
         strc248->unk94 = (s16) temp_r2_3;
-        temp_r1_2 = (s32) strc248->unk20.x >> 8;
+        temp_r1_2 = (s32) strc248->qUnk20.x >> 8;
         strc248->unk96 = (s16) temp_r1_2;
         if ((u32) strc248->unk4 <= 8U) {
             strc248->unk94 = (s16) (temp_r2_3 + 0x12);
@@ -2118,7 +2116,7 @@ u32 sub_80A6BDC(CreditsRelated248 *strc248) {
     DisplaySprite(temp_r4_3);
     temp_r4_4 = &strc248->bgD8.unk24;
     strc248->bgD8.prevScrollX = (u16) ((s32) strc248->vram1C >> 8);
-    strc248->bgD8.prevScrollY = (u16) ((s32) strc248->unk20.x >> 8);
+    strc248->bgD8.prevScrollY = (u16) ((s32) strc248->qUnk20.x >> 8);
     if (UpdateSpriteAnimation((Sprite *) temp_r4_4) == ACMD_RESULT__ENDED) {
         var_r7 = (u32) (u8) (var_r7 + 1);
     }
@@ -2164,7 +2162,7 @@ u32 sub_80A6CE0(CreditsRelated248 *strc248) {
         temp_r1_2 = (s32) strc248->vram1C >> 8;
         strc248->unk6C = (s16) temp_r1_2;
         strc248->unk6C = (s16) (temp_r1_2 + 0x12);
-        strc248->unk6E = (s16) (((s32) strc248->unk20.x >> 8) - 0xF);
+        strc248->unk6E = (s16) (((s32) strc248->qUnk20.x >> 8) - 0xF);
         UpdateSpriteAnimation((Sprite *) temp_r4_2);
         DisplaySprite((Sprite *) temp_r4_2);
     }
@@ -2177,7 +2175,7 @@ u32 sub_80A6CE0(CreditsRelated248 *strc248) {
     DisplaySprite((Sprite *) temp_r4_3);
     temp_r4_4 = &strc248->filler118[0xC];
     strc248->unk134 = (s16) ((s32) strc248->vram1C >> 8);
-    strc248->unk136 = (s16) ((s32) strc248->unk20.x >> 8);
+    strc248->unk136 = (s16) ((s32) strc248->qUnk20.x >> 8);
     if (UpdateSpriteAnimation((Sprite *) temp_r4_4) == ACMD_RESULT__ENDED) {
         var_r7 = (u32) (u8) (var_r7 + 1);
     }
@@ -2645,7 +2643,7 @@ void Task_28_80A7674(CreditsRelated248 *strc248) {
         gCurTask->main = sub_80A7738;
         return;
     }
-    strc248->unk18 = (s32) ((0x5A00 - strc248->unk20.y) - ((gBgScrollRegs[1][1] - 0x50) << 8));
+    strc248->unk18 = (s32) ((0x5A00 - strc248->qUnk20.y) - ((gBgScrollRegs[1][1] - 0x50) << 8));
     if (strc248->unk6[2] == 0) {
         strc248->unk6[2] = 1;
         temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
@@ -2656,8 +2654,8 @@ void Task_28_80A7674(CreditsRelated248 *strc248) {
             sub_80A735C(strc248->initArg0, &strc248->unk6[2], 0U, 0U);
         }
     }
-    *strc248->unkC = (((s32) strc248->unk20.y >> 8) * 0x101) + ((s32) strc248->unk18 >> 8);
-    *strc248->unk10 = (((s32) strc248->unk20.x >> 8) * 0x101) + ((s32) strc248->vram1C >> 8);
+    *strc248->unkC = (((s32) strc248->qUnk20.y >> 8) * 0x101) + ((s32) strc248->unk18 >> 8);
+    *strc248->unk10 = (((s32) strc248->qUnk20.x >> 8) * 0x101) + ((s32) strc248->vram1C >> 8);
 }
 
 void sub_80A7738(CreditsRelated248 *strc248) {
@@ -3031,11 +3029,11 @@ void Task_248_80A7FDC(CreditsRelated248 *strc248) {
 
     sub_80A6A5C(strc248);
     if (strc248->unk4 == 0xB) {
-        temp_r1 = strc248->unk28[1].x;
-        strc248->unk28[1].x = temp_r1 + 0x20;
+        temp_r1 = strc248->qUnk28[1].x;
+        strc248->qUnk28[1].x = temp_r1 + 0x20;
         temp_r1_2 = (temp_r1 + 0x7820) - ((gBgScrollRegs[1][1] - 0x50) << 8);
         strc248->unk18 = temp_r1_2;
-        strc248->unk20.x = temp_r1_2;
+        strc248->qUnk20.x = temp_r1_2;
     }
     if (strc248->unk4 == 0xD) {
         strc248->unk8 = 0;
@@ -3059,14 +3057,14 @@ void Task_248_80A808C(CreditsRelated248 *strc248) {
 
     sub_80A6BDC(strc248);
     if (strc248->unk4 == 0xE) {
-        temp_r0 = strc248->unk28[1].x - 0x40;
-        strc248->unk28[1].x = temp_r0;
+        temp_r0 = strc248->qUnk28[1].x - 0x40;
+        strc248->qUnk28[1].x = temp_r0;
         if (temp_r0 <= 0) {
-            strc248->unk28[1].x = 0;
+            strc248->qUnk28[1].x = 0;
         }
-        temp_r1 = (strc248->unk28[1].x + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8);
+        temp_r1 = (strc248->qUnk28[1].x + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8);
         strc248->unk18 = temp_r1;
-        strc248->unk20.x = temp_r1;
+        strc248->qUnk20.x = temp_r1;
     }
     if (strc248->unk4 == 0x10) {
         gCurTask->main = Task_248_80A6700;
@@ -3378,7 +3376,7 @@ void Task_8C_80A85F4(CreditsRelated248 *strc248) {
     s32 temp_r0;
     s32 temp_r0_2;
 
-    temp_r0 = UpdateSpriteAnimation((Sprite *) &strc248->unk28[2].y);
+    temp_r0 = UpdateSpriteAnimation((Sprite *) &strc248->qUnk28[2].y);
     if (temp_r0 == ACMD_RESULT__ENDED) {
         strc248->unk52 = (s16) temp_r0;
         strc248->unk57 = 0xFF;
