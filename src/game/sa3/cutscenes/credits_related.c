@@ -1085,21 +1085,17 @@ bool32 sub_80A5698(CreditsRelated248 *strc248)
     return animRunningOrChanged;
 }
 
-#if 0
-u32 sub_80A5824(CreditsRelated248 *strc248)
+bool32 sub_80A5824(CreditsRelated248 *strc248)
 {
     Sprite *sp[CSO_OTHER_CHARS_COUNT];
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
+    Sprite *s;
     Vec2_32 *temp_r4;
     s32 *temp_r0;
-    s32 temp_r0_2;
-    u16 temp_r2_2;
-    u32 temp_r2;
+    AnimCmdResult acmdRes;
     u32 temp_r6;
     u8 var_r1;
     u8 var_r2;
-    u8 var_r5;
+    u8 i;
 
     if (gPlayers->charFlags.character > 5U) {
         var_r2 = gCharacterSelectOrderLUT[SONIC];
@@ -1109,37 +1105,41 @@ u32 sub_80A5824(CreditsRelated248 *strc248)
         var_r1 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
 
-    temp_r4 = strc248->qUnk28;
-    temp_r0 = &strc248->qUnk28[0].y;
+    sp[0] = &strc248->spr1D0;
+    sp[1] = &strc248->spr1F8;
+    sp[2] = &strc248->spr220;
+
     if ((var_r2 != 3) && (var_r1 != 3)) {
-        temp_r4_2 = &strc248->spr70;
-        temp_r4_2->x = ((s32)temp_r4[strc248->unk5].x >> 8) - ((s32)strc248->qUnk20.x >> 8);
-        temp_r4_2->y = ((s32) * ((strc248->unk5 * 8) + temp_r0) >> 8) + 0x78;
-        temp_r2_2 = temp_r4_2->anim;
-        if (((temp_r2_2 == gUnknown_080D9B1C[0].anim) && (temp_r4_2->variant == gUnknown_080D9B1C[0].variant))
-            || ((temp_r2_2 == gUnknown_080D9B1C[5].anim) && (temp_r4_2->variant == gUnknown_080D9B1C[5].variant))) {
-            temp_r4_2->x = (u16)temp_r4_2->x + 0x12;
-            temp_r4_2->y = (u16)temp_r4_2->y - 0xF;
+        s = &strc248->spr70;
+        s->x = I(strc248->qUnk28[strc248->unk5].x) - I(strc248->qUnk20.x);
+        s->y = I(strc248->qUnk28[strc248->unk5].y) + 120;
+
+        if (((s->anim == gUnknown_080D9B1C[0].anim) && (s->variant == gUnknown_080D9B1C[0].variant))
+            || ((s->anim == gUnknown_080D9B1C[5].anim) && (s->variant == gUnknown_080D9B1C[5].variant))) {
+            s->x += 18;
+            s->y -= 15;
         }
-        UpdateSpriteAnimation(temp_r4_2);
-        DisplaySprite(temp_r4_2);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    var_r5 = 0;
-    do {
-        temp_r4_3 = sp[var_r5];
-        temp_r4_3->x = ((s32)temp_r4[var_r5].x >> 8) - ((s32)strc248->qUnk20.x >> 8);
-        temp_r4_3->y = ((s32) * ((var_r5 * 8) + temp_r0) >> 8) + 0x78;
-        if ((u32)*strc248->initArg0 > 0xCU) {
-            temp_r4_3->oamFlags = 0x40;
+
+    for (i = 0; i < 3; i++) {
+        s = sp[i];
+        s->x = I(strc248->qUnk28[i].x) - ((s32)strc248->qUnk20.x >> 8);
+        s->y = I(strc248->qUnk28[i].y) + 120;
+        if (*strc248->initArg0 > 0xCU) {
+            s->oamFlags = SPRITE_OAM_ORDER(1);
         }
-        temp_r0_2 = UpdateSpriteAnimation(temp_r4_3);
-        temp_r6 = (u32)((0 - temp_r0_2) | temp_r0_2) >> 0x1F;
-        DisplaySprite(temp_r4_3);
-        var_r5 += 1;
-    } while ((u32)var_r5 <= 2U);
+        acmdRes = UpdateSpriteAnimation(s);
+        temp_r6 = (u32)((-acmdRes) | acmdRes) >> 31; // TODO: Match using Ternary Operator instead!
+        DisplaySprite(s);
+    }
+
     return temp_r6;
 }
 
+#if 01
+#else
 void CreatePreCreditsCutscene(u8 param0)
 {
     s32 sp4;
