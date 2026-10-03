@@ -192,6 +192,8 @@ extern const u8 gUnknown_080D9BC0[0x10];
 extern const u16 gUnknown_080D9E58[8];
 extern TileInfo2 *gUnknown_080D9E40[6];
 extern const u32 gUnknown_080D9E68[6];
+extern const u8 gUnknown_080D9E80[0x10];
+extern const Vec2_32 gUnknown_080D9E90[15];
 extern const u8 gUnknown_080DA054[0x18];
 extern const ColorRaw gUnknown_080DA084[16 * PALETTE_LEN_4BPP];
 
@@ -1315,133 +1317,127 @@ void sub_80A5B08(CreditsRelated150 *strc150)
     }
 }
 
-#if 0
-void sub_80A5CB0(CreditsRelated150 *strc150, u8 param1, u8 param2) {
-    Sprite *var_r3;
-    Sprite *var_r3_2;
-    Sprite *var_r4;
-    s32 *temp_r1_2;
-    s32 *temp_r1_3;
-    s32 temp_r2_3;
-    u32 temp_r2_2;
-    u32 var_r0_2;
-    u32 var_r0_3;
-    u8 temp_r1;
-    u8 temp_r2;
-    u8 var_r0;
-    u8 var_r6;
+void sub_80A5CB0(CreditsRelated150 *strc150, u8 param1, u8 param2)
+{
+    Sprite *sp[0];
     u8 var_r8;
+    u8 var_r6;
 
-    temp_r1 = param1;
-    temp_r2 = param2;
-    temp_r2_2 = gPlayers->unk2A << 0x1C;
-    if ((u32) (temp_r2_2 >> 0x1C) > 5U) {
-        var_r8 = gCharacterSelectOrderLUT->unk0;
-        var_r6 = gCharacterSelectOrderLUT[2];
+    if (gPlayers->charFlags.character > 5U) {
+        var_r8 = gCharacterSelectOrderLUT[SONIC];
+        var_r6 = gCharacterSelectOrderLUT[TAILS];
     } else {
-        var_r8 = gCharacterSelectOrderLUT[temp_r2_2 >> 0x1C];
-        var_r6 = gCharacterSelectOrderLUT[(u32) (gPlayers->unk17A << 0x1C) >> 0x1C];
+        var_r8 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
-    var_r4 = &strc150->sprD4;
-    if (temp_r2 != 0) {
-        var_r4 -= 0x28;
-    }
-    temp_r1_2 = (var_r8 * 4) + &gUnknown_080D9E40;
-    temp_r2_3 = temp_r1 * 8;
-    var_r4->anim = *(temp_r2_3 + *temp_r1_2);
-    var_r4->variant = (temp_r2_3 + *temp_r1_2)->unk2;
-    var_r4->prevVariant = 0xFF;
-    var_r4->oamFlags = 0x40;
-    var_r4->animCursor = 0;
-    var_r4->qAnimDelay = 0;
-    var_r4->animSpeed = 0x10;
-    if ((u32) strc150->filler0[4] <= 8U) {
-        var_r0 = var_r8;
-    } else {
-        var_r0 = 0;
-    }
-    var_r4->palId = var_r0;
-    var_r0_2 = 0;
-    var_r4->frameFlags = 0;
-    if ((u32) temp_r1 <= 5U) {
-        if (((u32) (u8) (var_r8 - 2) <= 1U) && ((u32) strc150->filler0[4] > 7U)) {
-            var_r0_2 = 0x400;
-        } else {
-            var_r0_2 = var_r4->frameFlags & 0xFFFFFBFF;
+
+    {
+        Sprite *s = &strc150->sprD4;
+        if (param2 != 0) {
+            s = &strc150->sprAC;
         }
-    }
-    var_r4->frameFlags = var_r0_2;
-    UpdateSpriteAnimation(var_r4);
-    if (temp_r2 != 0) {
-        var_r3 = &strc150->sprFC;
-    } else {
-        var_r3 = &strc150->spr124;
-    }
-    temp_r1_3 = (var_r6 * 4) + &gUnknown_080D9E40;
-    var_r3->anim = *(temp_r2_3 + *temp_r1_3);
-    var_r3->variant = (temp_r2_3 + *temp_r1_3)->unk2;
-    var_r3->prevVariant = 0xFF;
-    var_r3->oamFlags = 0x80;
-    var_r3->animCursor = 0;
-    var_r3->qAnimDelay = 0;
-    var_r3->animSpeed = 0x10;
-    if ((u32) strc150->filler0[4] <= 8U) {
-        var_r3->palId = var_r6;
-    } else {
-        var_r3->palId = 0;
-    }
-    var_r3->frameFlags = 0;
-    if ((u32) temp_r1 <= 5U) {
-        if (((u32) (u8) (var_r6 - 2) <= 1U) && ((u32) strc150->filler0[4] > 7U)) {
-            var_r0_3 = 0x400;
+        s->anim = gUnknown_080D9E40[var_r8][param1].anim;
+        s->variant = gUnknown_080D9E40[var_r8][param1].variant;
+        s->prevVariant = -1;
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        if ((u32)strc150->unk4 <= 8U) {
+            s->palId = var_r8;
         } else {
-            goto block_26;
+            s->palId = 0;
         }
-    } else if ((var_r6 == 3) && (temp_r1 == 7)) {
-        var_r0_3 = 0x400;
-    } else {
-block_26:
-        var_r0_3 = var_r3->frameFlags & 0xFFFFFBFF;
+
+        s->frameFlags = 0;
+        if (param1 <= 5U) {
+            if ((var_r8 == 2 || var_r8 == 3) && ((u32)strc150->unk4 > 7U)) {
+                s->frameFlags = 0x400;
+            } else {
+                s->frameFlags &= ~0x400;
+            }
+        } else {
+            s->frameFlags = 0;
+        }
+        UpdateSpriteAnimation(s);
     }
-    var_r3->frameFlags = var_r0_3;
-    UpdateSpriteAnimation(var_r3);
+    {
+        Sprite *s;
+
+        if (param2 != 0) {
+            s = &strc150->sprFC;
+        } else {
+            s = &strc150->spr124;
+        }
+        s->anim = gUnknown_080D9E40[var_r6][param1].anim;
+        s->variant = gUnknown_080D9E40[var_r6][param1].variant;
+        s->prevVariant = -1;
+        s->oamFlags = 0x80;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        if ((u32)strc150->unk4 <= 8U) {
+            s->palId = var_r6;
+        } else {
+            s->palId = 0;
+        }
+        s->frameFlags = 0;
+        if ((u32)param1 <= 5U) {
+            if ((var_r6 == 2 || var_r6 == 3) && (strc150->unk4 > 7U)) {
+                s->frameFlags = 0x400;
+            } else {
+                s->frameFlags &= ~0x400;
+            }
+        } else if ((var_r6 == 3) && (param1 == 7)) {
+            s->frameFlags = 0x400;
+        } else {
+            s->frameFlags &= ~0x400;
+        }
+        UpdateSpriteAnimation(s);
+    }
+
     if ((var_r8 == 3) || (var_r6 == 3)) {
-        var_r3_2 = &strc150->spr5C;
-        if (temp_r2 != 0) {
-            var_r3_2 += 0x28;
+        Sprite *s = &strc150->spr5C;
+
+        if (param2 != 0) {
+            s = &strc150->spr84;
         }
-        var_r3_2->anim = *(temp_r2_3 + gUnknown_080D9E40.unk14);
-        var_r3_2->variant = (temp_r2_3 + gUnknown_080D9E40.unk14)->unk2;
-        var_r3_2->prevVariant = 0xFF;
-        var_r3_2->oamFlags = 0x280;
-        var_r3_2->animCursor = 0;
-        var_r3_2->qAnimDelay = 0;
-        var_r3_2->animSpeed = 0x10;
-        var_r3_2->palId = 0;
-        var_r3_2->frameFlags = 0;
-        if (((u32) temp_r1 <= 3U) && ((u32) strc150->filler0[4] > 7U)) {
-            var_r3_2->frameFlags = 0x400;
+        s->anim = gUnknown_080D9E40[5][param1].anim;
+        s->variant = gUnknown_080D9E40[5][param1].variant;
+        s->prevVariant = -1;
+        s->oamFlags = 0x280;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+
+        s->frameFlags = 0;
+        if (param1 < 4) {
+            if (strc150->unk4 > 7U) {
+                s->frameFlags = 0x400;
+            } else {
+                s->frameFlags = 0;
+            }
         } else {
-            var_r3_2->frameFlags = 0;
+            s->frameFlags = 0;
         }
-        UpdateSpriteAnimation(var_r3_2);
+        UpdateSpriteAnimation(s);
     }
 }
 
-void sub_80A5E8C(CreditsRelated150 *strc150, u8 param1, u8 param2) {
-    Sprite *var_r4;
+void sub_80A5E8C(CreditsRelated150 *strc150, u8 param1, u8 param2)
+{
+    Sprite *var_r4 = &strc150->sprD4;
     s32 temp_r1;
 
-    var_r4 = &strc150->sprD4;
-    if ((param2 << 0x18) != 0) {
-        var_r4 -= 0x28;
+    if (param2) {
+        var_r4 = &strc150->sprAC;
     }
-    var_r4->tiles = strc150->unkC;
-    strc150->unkC = (u8 *) (strc150->unkC + (gUnknown_080D9E68.unk8 << 5));
-    temp_r1 = param1 * 8;
-    var_r4->anim = *(temp_r1 + gUnknown_080D9E40.unk8);
-    var_r4->variant = (temp_r1 + gUnknown_080D9E40.unk8)->unk2;
-    var_r4->prevVariant = 0xFF;
+    var_r4->tiles = strc150->vramC;
+    strc150->vramC += (gUnknown_080D9E68[2] << 5);
+    var_r4->anim = gUnknown_080D9E40[2][param1].anim;
+    var_r4->variant = gUnknown_080D9E40[2][param1].variant;
+    var_r4->prevVariant = -1;
     var_r4->oamFlags = 0;
     var_r4->animCursor = 0;
     var_r4->qAnimDelay = 0;
@@ -1451,76 +1447,72 @@ void sub_80A5E8C(CreditsRelated150 *strc150, u8 param1, u8 param2) {
     UpdateSpriteAnimation(var_r4);
 }
 
-void sub_80A5EF0(CreditsRelated150 *strc150, u8 param1, u8 param2) {
+void sub_80A5EF0(CreditsRelated150 *strc150, u8 param1, u8 param2)
+{
     Sprite *var_r2;
     Sprite *var_r4;
     Sprite *var_r4_2;
     s32 *temp_r1_2;
     s32 *temp_r1_3;
     s32 temp_r3;
-    u32 temp_r2_2;
-    u8 temp_r1;
-    u8 temp_r2;
     u8 var_r0;
     u8 var_r5;
     u8 var_r7;
 
-    temp_r1 = param1;
-    temp_r2 = param2;
-    temp_r2_2 = gPlayers->unk2A << 0x1C;
-    if ((u32) (temp_r2_2 >> 0x1C) > 5U) {
-        var_r5 = gCharacterSelectOrderLUT->unk0;
-        var_r7 = gCharacterSelectOrderLUT[2];
+    if (gPlayers->charFlags.character > 5U) {
+        var_r5 = gCharacterSelectOrderLUT[SONIC];
+        var_r7 = gCharacterSelectOrderLUT[TAILS];
     } else {
-        var_r5 = gCharacterSelectOrderLUT[temp_r2_2 >> 0x1C];
-        var_r7 = gCharacterSelectOrderLUT[(u32) (gPlayers->unk17A << 0x1C) >> 0x1C];
+        var_r5 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r7 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
     var_r4 = &strc150->sprD4;
-    if (temp_r2 != 0) {
-        var_r4 -= 0x28;
+    if (param2 != 0) {
+        var_r4 = &strc150->sprAC;
     }
-    temp_r1_2 = (var_r5 * 4) + &gUnknown_080D9E40;
-    temp_r3 = temp_r1 * 8;
-    var_r4->anim = *(temp_r3 + *temp_r1_2);
-    var_r4->variant = (temp_r3 + *temp_r1_2)->unk2;
-    var_r4->prevVariant = 0xFF;
+    var_r4->anim = gUnknown_080D9E40[var_r5][param1].anim;
+    var_r4->variant = gUnknown_080D9E40[var_r5][param1].variant;
+    var_r4->prevVariant = -1;
     var_r4->oamFlags = 0;
     var_r4->animCursor = 0;
     var_r4->qAnimDelay = 0;
-    if ((var_r5 == 0) && (temp_r1 == 0xA)) {
-        var_r0 = 0x20;
+
+    if ((var_r5 == 0) && (param1 == 0xA)) {
+        var_r4->animSpeed = SPRITE_ANIM_SPEED(2.0);
     } else {
-        var_r0 = 0x10;
+        var_r4->animSpeed = SPRITE_ANIM_SPEED(1.0);
     }
-    var_r4->animSpeed = var_r0;
     var_r4->palId = var_r5;
     if (var_r5 == 4) {
         var_r4->palId = 5;
     }
     var_r4->frameFlags = 0;
     if (var_r5 == 0) {
-        if ((u32) strc150->filler0[4] > 0x12U) {
-            var_r4->frameFlags = (u32) var_r5;
+        if (strc150->unk4 > 0x12U) {
+            var_r4->frameFlags = 0;
         } else {
-            goto block_16;
+            var_r4->frameFlags = 0x400;
         }
-    } else if ((var_r5 == 1) && ((u32) strc150->filler0[4] <= 0x13U)) {
-block_16:
-        var_r4->frameFlags = 0x400;
+    } else if (var_r5 == 1) {
+        if ((u32)strc150->unk4 <= 0x13U) {
+            var_r4->frameFlags = 0x400;
+        } else {
+            var_r4->frameFlags = 0;
+        }
     } else {
         var_r4->frameFlags = 0;
     }
     UpdateSpriteAnimation(var_r4);
-    if (((u32) strc150->filler0[4] > 0x14U) || (temp_r1 != 0xA)) {
-        if (temp_r2 != 0) {
+
+    if (((u32)strc150->unk4 > 0x14U) || (param1 != 0xA)) {
+        if (param2 != 0) {
             var_r2 = &strc150->sprFC;
         } else {
             var_r2 = &strc150->spr124;
         }
-        temp_r1_3 = (var_r7 * 4) + &gUnknown_080D9E40;
-        var_r2->anim = *(*temp_r1_3 + temp_r3);
-        var_r2->variant = (*temp_r1_3 + temp_r3)->unk2;
-        var_r2->prevVariant = 0xFF;
+        var_r2->anim = gUnknown_080D9E40[var_r7][param1].anim;
+        var_r2->variant = gUnknown_080D9E40[var_r7][param1].variant;
+        var_r2->prevVariant = -1;
         var_r2->oamFlags = 0x40;
         var_r2->animCursor = 0;
         var_r2->qAnimDelay = 0;
@@ -1530,20 +1522,25 @@ block_16:
             var_r2->palId = 5;
         }
         var_r2->frameFlags = 0;
-        if (((u32) strc150->filler0[4] <= 0x13U) && ((u32) var_r7 <= 1U)) {
-            var_r2->frameFlags = 0x400;
+        if (strc150->unk4 < 20) {
+            if (var_r7 == 0 || var_r7 == 1) {
+                var_r2->frameFlags = 0x400;
+            } else {
+                var_r2->frameFlags = 0;
+            }
         } else {
             var_r2->frameFlags = 0;
         }
         UpdateSpriteAnimation(var_r2);
+
         if ((var_r5 == 3) || (var_r7 == 3)) {
             var_r4_2 = &strc150->spr5C;
-            if (temp_r2 != 0) {
-                var_r4_2 += 0x28;
+            if (param2 != 0) {
+                var_r4_2 = &strc150->spr84;
             }
-            var_r4_2->anim = *(gUnknown_080D9E40.unk14 + temp_r3);
-            var_r4_2->variant = (gUnknown_080D9E40.unk14 + temp_r3)->unk2;
-            var_r4_2->prevVariant = 0xFF;
+            var_r4_2->anim = gUnknown_080D9E40[5][param1].anim;
+            var_r4_2->variant = gUnknown_080D9E40[5][param1].variant;
+            var_r4_2->prevVariant = -1;
             var_r4_2->oamFlags = 0x280;
             var_r4_2->animCursor = 0;
             var_r4_2->qAnimDelay = 0;
@@ -1555,290 +1552,623 @@ block_16:
     }
 }
 
-void Task_150_80A6090(CreditsRelated150 *strc150) {
-    sub_80A6A5C(strc150 + ((s32) strc150 << 0x12));
-    gDispCnt |= 0x2000;
-    gWinRegs[0] = 0xF0;
-    gWinRegs[2] = 0xA0;
-    gWinRegs[4] = 0x3F;
-    gWinRegs[5] = 0x1F;
+void Task_150_80A6090(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+
+    sub_80A6A5C(strc150);
+    gDispCnt |= DISPCNT_WIN0_ON;
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    gWinRegs[WINREG_WININ] = 0x3F;
+    gWinRegs[WINREG_WINOUT] = 0x1F;
     gBldRegs.bldCnt = 0x3FFF;
     gBldRegs.bldY = 0;
-    gCurTask->main = (void (*)(CreditsRelated248 *)) Task_150_80A60F0;
+    gCurTask->main = Task_150_80A60F0;
 }
 
-void Task_150_80A60F0(CreditsRelated150 *strc150) {
+void Task_150_80A60F0(void)
+{
     u16 temp_r0;
     u8 temp_r4;
     void (*var_r0)(CreditsRelated150 *);
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
 
-    sub_80A6A5C((CreditsRelated248 *) strc150);
-    if (strc150->filler0[4] == 6) {
-        strc150->unk14 = (s32) (strc150->unk14 + 0x100);
-        strc150->unk1C = (s32) (strc150->unk1C + 0x100);
+#ifndef NON_MATCHING
+    u8 playerChar = gPlayers[PLAYER_1].charFlags.character;
+    asm("" ::"r"(playerChar));
+#endif
+
+    sub_80A6A5C(strc150);
+    if (strc150->unk4 == 6) {
+        strc150->unk14 += Q(1);
+        strc150->unk1C += Q(1);
     }
-    temp_r0 = strc150->unk8 + 1;
-    strc150->unk8 = temp_r0;
-    if ((u32) temp_r0 >= (u32) *((strc150->filler0[5] * 2) + &gUnknown_080D9E58)) {
+
+    if (++strc150->unk8 >= gUnknown_080D9E58[strc150->unk5]) {
         strc150->unk8 = 0U;
-        strc150->filler0[5] = strc150->filler0[4] + 1;
-        strc150->filler0[4] = *(strc150->filler0[5] + &gUnknown_080DA054);
-        temp_r4 = (&gUnknown_080D9BC0)[strc150->filler0[5]];
+        strc150->unk5 = strc150->unk4 + 1;
+        strc150->unk4 = gUnknown_080DA054[strc150->unk5];
+        temp_r4 = gUnknown_080D9BC0[strc150->unk5];
         sub_80A5CB0(strc150, temp_r4, 0U);
         if (temp_r4 == 3) {
-            var_r0 = Task_150_80A619C;
-            goto block_7;
-        }
-        if (strc150->filler0[4] == 7) {
-            var_r0 = Task_150_80A6208;
-block_7:
-            gCurTask->main = var_r0;
+            gCurTask->main = Task_150_80A619C;
+        } else if (strc150->unk4 == 7) {
+            gCurTask->main = Task_150_80A6208;
         }
     }
 }
 
-void Task_150_80A619C(CreditsRelated150 *strc150) {
-    sub_80A6A5C((CreditsRelated248 *) strc150);
-    if (strc150->filler0[4] == 4) {
-        strc150->unkC = sub_80A45B4(&strc150->filler0[4], strc150->unkC);
-        strc150->filler0[4] = 5;
+void Task_150_80A619C(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+
+#ifndef NON_MATCHING
+    u8 playerChar = gPlayers[PLAYER_1].charFlags.character;
+    asm("" ::"r"(playerChar));
+#endif
+
+    sub_80A6A5C(strc150);
+    if (strc150->unk4 == 4) {
+        strc150->vramC = sub_80A45B4(&strc150->unk4, strc150->vramC);
+        strc150->unk4 = 5;
     }
-    if (strc150->filler0[4] == 6) {
+    if (strc150->unk4 == 6) {
         strc150->unk8 = 0;
-        strc150->filler0[5] += 1;
+        strc150->unk5 += 1;
         sub_80A5CB0(strc150, 2U, 0U);
-        gCurTask->main = (void (*)(CreditsRelated248 *)) Task_150_80A60F0;
+        gCurTask->main = Task_150_80A60F0;
     }
 }
 
-void Task_150_80A6208(CreditsRelated150 *strc150) {
-    s32 *temp_r5;
-    s32 *temp_r5_2;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u32 temp_r2;
-    u32 var_r0;
-    u32 var_r0_2;
-    u32 var_r8;
+void Task_150_80A6208(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
     u8 var_r6;
     u8 var_r7;
+#ifndef NON_MATCHING
+    register Sprite *s asm("r2");
+#else
+    Sprite *s;
+#endif
+    u8 var_r8 = 0;
 
-    var_r8 = 0;
-    temp_r2 = gPlayers->unk2A << 0x1C;
-    if ((u32) (temp_r2 >> 0x1C) > 5U) {
-        var_r6 = gCharacterSelectOrderLUT->unk0;
-        var_r7 = gCharacterSelectOrderLUT[2];
+    if (gPlayers->charFlags.character > 5U) {
+        var_r6 = gCharacterSelectOrderLUT[SONIC];
+        var_r7 = gCharacterSelectOrderLUT[TAILS];
     } else {
-        var_r6 = gCharacterSelectOrderLUT[temp_r2 >> 0x1C];
-        var_r7 = gCharacterSelectOrderLUT[(u32) (gPlayers->unk17A << 0x1C) >> 0x1C];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r7 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
-    strc150->unk8 = (u16) (strc150->unk8 + 1);
+    strc150->unk8++;
+
     if (sub_80A6370(strc150) == 1) {
-        temp_r5 = (var_r6 * 4) + &gUnknown_080D9E40;
-        temp_r3 = gUnknown_080D9BC0 * 8;
-        temp_r1 = *(temp_r3 + *temp_r5);
-        if (strc150->sprD4.anim != temp_r1) {
-            strc150->sprD4.anim = temp_r1;
-            strc150->sprD4.variant = (temp_r3 + *temp_r5)->unk2;
-            strc150->sprD4.prevVariant = 0xFF;
-            if ((u32) (u8) (var_r6 - 2) <= 1U) {
-                var_r0 = strc150->sprD4.frameFlags | 0x400;
+        s32 index;
+        s = &strc150->sprD4;
+        index = gUnknown_080D9BC0[0];
+        if (s->anim != gUnknown_080D9E40[var_r6][index].anim) {
+            s->anim = gUnknown_080D9E40[var_r6][index].anim;
+            s->variant = gUnknown_080D9E40[var_r6][index].variant;
+            s->prevVariant = -1;
+            if (var_r6 == 2 || var_r6 == 3) {
+                s->frameFlags |= 0x400;
             } else {
-                var_r0 = strc150->sprD4.frameFlags & 0xFFFFFBFF;
+                s->frameFlags &= ~0x400;
             }
-            strc150->sprD4.frameFlags = var_r0;
         }
-        var_r8 = 0x01000000U >> 0x18;
+        var_r8++;
     }
     if (sub_80A63FC(strc150) == 1) {
-        temp_r5_2 = (var_r7 * 4) + &gUnknown_080D9E40;
-        temp_r3_2 = gUnknown_080D9BC0 * 8;
-        temp_r1_2 = *(temp_r3_2 + *temp_r5_2);
-        if (strc150->spr124.anim != temp_r1_2) {
-            strc150->spr124.anim = temp_r1_2;
-            strc150->spr124.variant = (temp_r3_2 + *temp_r5_2)->unk2;
-            strc150->spr124.prevVariant = 0xFF;
-            if ((u32) (u8) (var_r7 - 2) <= 1U) {
-                var_r0_2 = strc150->spr124.frameFlags | 0x400;
+        s32 index;
+        s = &strc150->spr124;
+        index = gUnknown_080D9BC0[0];
+        if (s->anim != gUnknown_080D9E40[var_r7][index].anim) {
+            s->anim = gUnknown_080D9E40[var_r7][index].anim;
+            s->variant = gUnknown_080D9E40[var_r7][index].variant;
+            s->prevVariant = -1;
+            if (var_r7 == 2 || var_r7 == 3) {
+                s->frameFlags |= 0x400;
             } else {
-                var_r0_2 = strc150->spr124.frameFlags & 0xFFFFFBFF;
+                s->frameFlags &= ~0x400;
             }
-            strc150->spr124.frameFlags = var_r0_2;
         }
-        var_r8 = (u32) (u8) (var_r8 + 1);
+        var_r8++;
     }
+
     if (var_r8 == 2) {
         sub_80A5CB0(strc150, 0U, 0U);
-        strc150->filler0[5] += 1;
+        strc150->unk5 += 1;
         gCurTask->main = Task_150_80A7F58;
         return;
     }
-    sub_80A6A5C((CreditsRelated248 *) strc150);
+    sub_80A6A5C(strc150);
 }
 
-u32 sub_80A6370(CreditsRelated150 *strc150) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
+bool32 sub_80A6370(CreditsRelated150 *strc150)
+{
+    s32 r0;
     s32 temp_r2_2;
-    u32 temp_r2;
-    u8 *var_r0;
+    const u8 *var_r0;
+    Sprite *s = &strc150->sprD4;
+    Player *player = &gPlayers[PLAYER_1];
+    u8 playerChar = player->charFlags.character;
+    u8 order;
 
-    temp_r2 = gPlayers->unk2A << 0x1C;
-    if ((u32) (temp_r2 >> 0x1C) > 5U) {
-        var_r0 = gCharacterSelectOrderLUT;
+    if (player->charFlags.character > 5U) {
+        order = gCharacterSelectOrderLUT[SONIC];
     } else {
-        var_r0 = &gCharacterSelectOrderLUT[temp_r2 >> 0x1C];
+        order = gCharacterSelectOrderLUT[player->charFlags.character];
     }
-    temp_r2_2 = gUnknown_080D9B79[*var_r0] << 8;
-    temp_r0 = strc150->unk14;
-    if (temp_r0 < temp_r2_2) {
-        strc150->sprD4.frameFlags |= 0x400;
-        temp_r0_2 = strc150->unk14 + 0x200;
-        strc150->unk14 = temp_r0_2;
-        if (temp_r0_2 >= temp_r2_2) {
-            goto block_8;
-        }
-        goto block_9;
-    }
-    if ((temp_r0 <= temp_r2_2) || (strc150->sprD4.frameFlags &= 0xFFFFFBFF, temp_r0_3 = strc150->unk14 + 0xFFFFFE00, strc150->unk14 = temp_r0_3, (temp_r0_3 <= temp_r2_2))) {
-block_8:
-        strc150->unk14 = temp_r2_2;
-        return 1U;
-    }
-block_9:
-    return 0U;
-}
+    r0 = gUnknown_080D9B79[order];
 
-u32 sub_80A63FC(CreditsRelated150 *strc150) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r2;
-
-    temp_r2 = gUnknown_080D9B79[gCharacterSelectOrderLUT[(u32) (gPlayers->unk17A << 0x1C) >> 0x1C]] << 8;
-    temp_r0 = strc150->unk1C;
-    if (temp_r0 < temp_r2) {
-        strc150->spr124.frameFlags |= 0x400;
-        temp_r0_2 = strc150->unk1C + 0x100;
-        strc150->unk1C = temp_r0_2;
-        if (temp_r0_2 >= temp_r2) {
-            goto block_5;
-        }
-        goto block_6;
-    }
-    if ((temp_r0 <= temp_r2) || (strc150->spr124.frameFlags &= 0xFFFFFBFF, temp_r0_3 = strc150->unk1C + 0xFFFFFF00, strc150->unk1C = temp_r0_3, (temp_r0_3 <= temp_r2))) {
-block_5:
-        strc150->unk1C = temp_r2;
-        return 1U;
-    }
-block_6:
-    return 0U;
-}
-
-void Task_150_PreCreditsCutsceneTrueEndingInit(CreditsRelated248 *strc248) {
-    s32 temp_r1;
-    u32 temp_r2;
-    u8 temp_r0;
-    u8 var_r3;
-    u8 var_r6;
-
-    temp_r0 = strc248->unk6[0];
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        temp_r2 = gPlayers->unk2A << 0x1C;
-        if ((u32) (temp_r2 >> 0x1C) > 5U) {
-            var_r6 = gCharacterSelectOrderLUT->unk0;
-            var_r3 = gCharacterSelectOrderLUT[2];
+    if (strc150->unk14 < Q(r0)) {
+        s->frameFlags |= 0x400;
+        strc150->unk14 += Q(2);
+        if (strc150->unk14 < Q(r0)) {
+            return 0U;
         } else {
-            var_r6 = gCharacterSelectOrderLUT[temp_r2 >> 0x1C];
-            var_r3 = gCharacterSelectOrderLUT[(u32) (gPlayers->unk17A << 0x1C) >> 0x1C];
+            strc150->unk14 = Q(r0);
+            return 1U;
         }
-        strc248->unk14 = (s32) (gUnknown_080D9B7E[var_r6] << 8);
-        strc248->unk18 = 0x7900;
-        strc248->vram1C = (u8 *) (gUnknown_080D9B7E[var_r3] << 8);
-        strc248->qUnk20.x = 0x7900;
-        sub_80A5B08((CreditsRelated150 *) strc248);
-        temp_r1 = strc248->unkC;
-        strc248->qUnk28[1].y = temp_r1;
-        strc248->unkC = (s32) (temp_r1 + 0x280);
-        strc248->qUnk40 = 0x533;
-        strc248->unk4E = 0;
-        strc248->unk4F = 0xFF;
-        strc248->unk44 = (s16) ((s32) strc248->unk14 >> 8);
-        strc248->unk46 = (s16) (((s32) strc248->unk18 >> 8) + 0xA);
-        strc248->unk48 = 0;
-        strc248->unk42 = 0;
-        strc248->unk4A = 0;
-        strc248->unk50 = 0x10;
-        strc248->unk53 = 0;
-        strc248->qUnk28[2].y = 0;
-        UpdateSpriteAnimation((Sprite *) &strc248->qUnk28[1].y);
-        strc248->unkC = sub_80A828C(&strc248->unk4, strc248->unkC, &strc248->unk14);
-    default:
-block_9:
-        strc248->unk6[0] += 1;
-        return;
-    case 1:
-        sub_80A5EF0((CreditsRelated150 *) strc248, 0U, 1U);
-        strc248->unkC = (s32) sub_80A45B4(&strc248->unk4, (u8 *) strc248->unkC);
-        goto block_9;
-    case 2:
-        strc248->unkC = sub_80A9BD8(strc248->unkC, -0x14, -0x5A, NULL, &strc248->unk4);
-        strc248->unk8 = 0;
-        strc248->unk6[0] = 0;
-        gCurTask->main = (void (*)(CreditsRelated248 *)) Task_150_80A65C8;
-        return;
+    } else {
+        if (strc150->unk14 <= Q(r0)) {
+            strc150->unk14 = Q(r0);
+            return 1U;
+        }
+        s->frameFlags &= ~0x400;
+        strc150->unk14 -= Q(2);
+        if (strc150->unk14 > Q(r0)) {
+            return 0U;
+        } else {
+            strc150->unk14 = Q(r0);
+            return 1U;
+        }
     }
 }
 
-void Task_150_80A65C8(CreditsRelated150 *strc150) {
+bool32 sub_80A63FC(CreditsRelated150 *strc150)
+{
+    s32 r0;
     s32 temp_r2_2;
-    u16 temp_r0;
-    u8 temp_r2;
+    const u8 *var_r0;
+    Sprite *s = &strc150->spr124;
+    u8 order = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
+    r0 = gUnknown_080D9B79[order];
+
+    if (strc150->unk1C < Q(r0)) {
+        s->frameFlags |= 0x400;
+        strc150->unk1C += Q(1);
+        if (strc150->unk1C < Q(r0)) {
+            return 0U;
+        } else {
+            strc150->unk1C = Q(r0);
+            return 1U;
+        }
+    } else {
+        if (strc150->unk1C <= Q(r0)) {
+            strc150->unk1C = Q(r0);
+            return 1U;
+        }
+        s->frameFlags &= ~0x400;
+        strc150->unk1C -= Q(1);
+        if (strc150->unk1C > Q(r0)) {
+            return 0U;
+        } else {
+            strc150->unk1C = Q(r0);
+            return 1U;
+        }
+    }
+}
+
+void Task_150_PreCreditsCutsceneTrueEndingInit(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    u32 temp_r2;
+    u8 *temp_r1;
+    u8 var_r6 = 0;
+    u8 var_r3 = 0;
+
+    if (strc150->unk6 == 0) {
+        if (gPlayers->charFlags.character > 5U) {
+            var_r6 = gCharacterSelectOrderLUT[SONIC];
+            var_r3 = gCharacterSelectOrderLUT[TAILS];
+        } else {
+            var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+            var_r3 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
+        }
+        strc150->unk14 = gUnknown_080D9B7E[var_r6] << 8;
+        strc150->unk18 = 0x7900;
+        strc150->unk1C = gUnknown_080D9B7E[var_r3] << 8;
+        strc150->unk20 = 0x7900;
+        sub_80A5B08(strc150);
+        {
+            Sprite *s = &strc150->spr34;
+            s->tiles = strc150->vramC;
+            strc150->vramC += 0x280;
+            s->anim = 0x533;
+            s->variant = 0;
+            s->prevVariant = 0xFF;
+            s->x = (s16)((s32)strc150->unk14 >> 8);
+            s->y = ((s32)strc150->unk18 >> 8) + 0xA;
+            s->oamFlags = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->frameFlags = 0;
+            UpdateSpriteAnimation(s);
+        }
+        strc150->vramC = sub_80A828C(&strc150->unk4, strc150->vramC, &strc150->unk14);
+    } else if (strc150->unk6 == 1) {
+        sub_80A5EF0(strc150, 0U, 1U);
+        strc150->vramC = sub_80A45B4(&strc150->unk4, strc150->vramC);
+    } else if (strc150->unk6 == 2) {
+        strc150->vramC = sub_80A9BD8(strc150->vramC, -0x14, -0x5A, 0, &strc150->unk4);
+        strc150->unk8 = var_r6;
+        strc150->unk6 = 0;
+        gCurTask->main = Task_150_80A65C8;
+        return;
+    }
+    strc150->unk6 += 1;
+}
+
+#if 0
+void Task_150_80A65C8(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
 
     sub_80A6DD0(strc150);
-    temp_r0 = strc150->unk8 + 1;
-    strc150->unk8 = temp_r0;
-    temp_r2 = strc150->filler0[6];
-    if ((u32) temp_r0 > (u32) *(temp_r2 + &gUnknown_080D9E80)) {
-        strc150->filler0[6] = temp_r2 + 1;
-        temp_r2_2 = strc150->filler0[6] * 8;
-        strc150->unkC = sub_80A9BD8(strc150->unkC, *(temp_r2_2 + &gUnknown_080D9E90), *(temp_r2_2 + (&gUnknown_080D9E90 + 4)), &strc150->filler0[4]);
-        if ((u32) strc150->filler0[6] > 0xCU) {
-            gCurTask->main = (void (*)(CreditsRelated248 *)) Task_150_80A6768;
+
+    if (++strc150->unk8 > gUnknown_080D9E80[strc150->unk6]) {
+        strc150->unk6 += 1;
+        strc150->vramC = sub_80A9BD8(strc150->vramC, gUnknown_080D9E90[strc150->unk6].x, gUnknown_080D9E90[strc150->unk6].y, strc150->unk6,
+                                     &strc150->unk4);
+        if (strc150->unk6 > 0xCU) {
+            gCurTask->main = Task_150_80A6768;
         }
     }
 }
 
-void Task_150_80A664C(CreditsRelated248 *strc248) {
+void Task_150_80A664C(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    s32 temp_r2_2;
+    u16 temp_r0_2;
+    u8 temp_r2;
+    u8 temp_r3;
+
+    strc150->unk20 = strc150->unk18;
+    sub_80A6A5C(strc150);
+    if (strc150->unk4 == 0xE) {
+        strc150->unk30 -= 0x40;
+        if (strc150->unk30 <= 0) {
+            strc150->unk30 = 0;
+        }
+        strc150->unk18 = strc150->unk30 + Q(DISPLAY_CENTER_X) - Q(gBgScrollRegs[1][1] - DISPLAY_CENTER_Y);
+    }
+    strc150->unk20 = strc150->unk18;
+    if (++strc150->unk8 > gUnknown_080D9E80[strc150->unk6]) {
+        strc150->unk6 += 1;
+        temp_r3 = strc150->unk6;
+        strc150->vramC = sub_80A9BD8(strc150->vramC, gUnknown_080D9E90[temp_r3].x, gUnknown_080D9E90[temp_r3].y, temp_r3, &strc150->unk4);
+        if ((u32)strc150->unk6 > 0xDU) {
+            sub_80A5CB0(strc150, 6U, 1U);
+            gCurTask->main = Task_150_80A808C;
+        }
+    }
+}
+
+void Task_150_80A6700(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    u16 temp_r1;
+    u16 temp_r1_2;
+
+    sub_80A6BDC(strc150);
+    temp_r1 = strc150->unk8;
+    if ((u32)temp_r1 <= 0x1DFU) {
+        strc150->unk8 = temp_r1 + 1;
+    }
+    temp_r1_2 = strc150->unk8;
+    if (temp_r1_2 == 0x1E0) {
+        strc150->unk8 = temp_r1_2 + 1;
+        strc150->vramC = sub_80A9E24(&strc150->unk4, strc150->vramC);
+    }
+    if (strc150->unk4 == 0x12) {
+        sub_80A5CB0(strc150, 7U, 0U);
+        gCurTask->main = Task_150_80A805C;
+    }
+}
+
+void Task_150_80A6768(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    u16 sp4[3] = { 0 };
+    Sprite *temp_r4;
+    u16 temp_r1;
+    u16 temp_r1_2;
+    u32 temp_r2;
+    u8 var_r6;
+    u8 var_r7;
+
+    if (gPlayers->charFlags.character > 5U) {
+        var_r7 = gCharacterSelectOrderLUT[SONIC];
+        var_r6 = gCharacterSelectOrderLUT[TAILS];
+    } else {
+        var_r7 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
+    }
+    sp4[0] = 0x1E0;
+    sp4[1] = 0x258;
+    sp4[2] = 0x30CU;
+    sub_80A6DD0(strc150);
+    if ((u32)strc150->unk8 >= (u32)sp4[0]) {
+        temp_r4 = &strc150->spr34;
+        strc150->spr34.x = (s16)((s32)strc150->unk14 >> 8);
+        strc150->spr34.y = ((s32)strc150->unk18 >> 8) + 8;
+        UpdateSpriteAnimation(temp_r4);
+        DisplaySprite(temp_r4);
+    }
+    temp_r1 = strc150->unk8;
+    if ((u32)temp_r1 <= (u32)sp4[2]) {
+        strc150->unk8 = temp_r1 + 1;
+    }
+    temp_r1_2 = strc150->unk8;
+    if (temp_r1_2 == sp4[0]) {
+        strc150->unk8 = temp_r1_2 + 1;
+        strc150->unk4 = 0x13;
+        sub_80A5EF0(strc150, 8U, 1U);
+        strc150->vramC = sub_80AA06C(&strc150->unk4, strc150->vramC);
+        if (var_r7 == 0) {
+            strc150->unk18 += 0x600;
+        } else if (var_r6 == 0) {
+            strc150->unk20 += 0x600;
+        }
+    }
+    if (strc150->unk8 == sp4[1]) {
+        sub_80AD7B4(strc150->ewramData14C, 0x2B, 0x64, 0x28, strc150->vramC);
+        strc150->qUnk24.x = Q(100);
+        strc150->qUnk24.y = Q(40);
+    }
+    if ((u32)strc150->unk8 > (u32)sp4[1]) {
+        strc150->initArg0 = (u8 *)sub_8023734(strc150->ewramData14C);
+        sub_80239A8(strc150->ewramData14C);
+    }
+    if (strc150->initArg0 == (u8 *)1) {
+        sub_80239A8(strc150->ewramData14C);
+        if ((u32)strc150->unk8 >= (u32)sp4[2]) {
+            if (var_r7 == 0) {
+                strc150->unk18 += 0xFFFFF800;
+            } else if (var_r6 == 0) {
+                strc150->unk20 += 0xFFFFF800;
+            }
+            strc150->unk4 = 0x14;
+            sub_80A825C(strc150);
+            sub_80A5EF0(strc150, 0xAU, 1U);
+            gCurTask->main = Task_150_80A80EC;
+        }
+    }
+}
+
+void Task_150_80A690C(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    s32 temp_r2;
+    s32 var_r5;
+    u16 temp_r0;
+    u8 temp_r0_2;
+    u8 temp_r3;
+
+    var_r5 = 0;
+    temp_r3 = strc150->unk6;
+    if ((u32)temp_r3 <= 5U) {
+        temp_r0 = strc150->unk8 + 1;
+        strc150->unk8 = temp_r0;
+        if ((u32)temp_r0 > (u32)gUnknown_080D9BB2[strc150->unk6]) {
+            strc150->unk8 = 0;
+            temp_r0_2 = temp_r3 + 1;
+            strc150->unk6 = temp_r0_2;
+            if ((u32)temp_r0_2 > 6U) {
+                strc150->unk6 = 6;
+            }
+        }
+    }
+    if ((strc150->unk6 == 3) && (strc150->unk8 == 0)) {
+        sub_80A5EF0(strc150, 0xBU, 1U);
+    }
+    if ((strc150->unk6 == 6) && (strc150->unk8 == 0)) {
+        sub_80A5EF0(strc150, 0xCU, 1U);
+    }
+    temp_r2 = strc150->unk1C;
+    if (temp_r2 > 0xFFFFD800) {
+        strc150->unk1C = temp_r2 - (gUnknown_080D9BAA[strc150->unk6] << 8);
+    } else {
+        var_r5 = 1;
+    }
+    sub_80A6DD0(strc150);
+    if ((strc150->unk4 == 0x16) && (var_r5 != 0)) {
+        strc150->unk14 = 0x8200;
+        strc150->unk18 = -0x1E00;
+        strc150->unk8 = 0;
+        sub_80A5E8C(strc150, 0xDU, 0U);
+        gCurTask->main = Task_150_80A814C;
+    }
+}
+
+void Task_150_80A69E4(void)
+{
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    u16 temp_r0;
+
+    sub_80A8234(strc150);
+    temp_r0 = strc150->unk8 + 1;
+    strc150->unk8 = temp_r0;
+    if (temp_r0 == 0xB4) {
+        gDispCnt |= 0x2000;
+        gWinRegs[0] = 0xF0;
+        gWinRegs[2] = 0xA0;
+        gWinRegs[4] = 0x3FFF;
+        gWinRegs[5] |= 0x1F;
+        gBldRegs.bldCnt = 0x3FFF;
+        gBldRegs.bldY = 0;
+        strc150->unk10 = 0;
+        strc150->unk8 = 0;
+        gCurTask->main = Task_150_80A8198;
+    }
+}
+extern TileInfo2 gUnknown_080D9C90[13];
+extern TileInfo2 gUnknown_080D9D08[13];
+u32 sub_80A6A5C(CreditsRelated150 *strc150)
+{
+    Sprite *temp_r4;
+    Sprite *temp_r4_2;
+    Sprite *temp_r4_3;
+    Sprite *temp_r4_4;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r2_2;
+    s32 temp_r2_3;
+    u16 temp_r2_4;
+    u16 temp_r2_5;
+    u32 temp_r2;
+    u32 var_r7;
+    u8 temp_r0;
+    u8 var_r2;
+    u8 var_r6;
+
+    var_r7 = 0;
+    if (gPlayers->charFlags.character > 5U) {
+        var_r2 = gCharacterSelectOrderLUT[SONIC];
+        var_r6 = gCharacterSelectOrderLUT[TAILS];
+    } else {
+        var_r2 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
+    }
+    if (var_r2 == 3) {
+        temp_r4 = &strc150->spr5C;
+        temp_r2_2 = (s32)strc150->unk14 >> 8;
+        strc150->spr5C.x = (s16)temp_r2_2;
+        temp_r1 = (s32)strc150->unk18 >> 8;
+        strc150->spr5C.y = (s16)temp_r1;
+        if ((u32)strc150->unk4 <= 8U) {
+            strc150->spr5C.x = temp_r2_2 + 0x12;
+            strc150->spr5C.y = temp_r1 - 0xF;
+        }
+        UpdateSpriteAnimation(temp_r4);
+        DisplaySprite(temp_r4);
+    }
+    if (var_r6 == 3) {
+        temp_r4_2 = &strc150->spr5C;
+        temp_r2_3 = (s32)strc150->unk1C >> 8;
+        strc150->spr5C.x = (s16)temp_r2_3;
+        temp_r1_2 = (s32)strc150->unk20 >> 8;
+        strc150->spr5C.y = (s16)temp_r1_2;
+        if ((u32)strc150->unk4 <= 8U) {
+            strc150->spr5C.x = temp_r2_3 + 0x12;
+            strc150->spr5C.y = temp_r1_2 - 0xF;
+        }
+        UpdateSpriteAnimation(temp_r4_2);
+        DisplaySprite(temp_r4_2);
+    }
+    temp_r4_3 = &strc150->sprD4;
+    if ((strc150->unk4 <= 8U)
+        && ((((strc150->sprD4.anim == gUnknown_080D9D08[0].anim) && (strc150->sprD4.variant == gUnknown_080D9D08[0].variant))
+             || ((strc150->sprD4.anim == gUnknown_080D9C90[0].anim) && (strc150->sprD4.variant == gUnknown_080D9C90[0].variant)))
+            && (strc150->unk4 > 5U))) {
+        strc150->sprD4.frameFlags |= 0x400;
+    }
+    strc150->sprD4.x = (s16)((s32)strc150->unk14 >> 8);
+    strc150->sprD4.y = (s16)((s32)strc150->unk18 >> 8);
+    if (UpdateSpriteAnimation(temp_r4_3) == ACMD_RESULT__ENDED) {
+        var_r7 = 0x01000000U >> 0x18;
+    }
+    DisplaySprite(temp_r4_3);
+    temp_r4_4 = &strc150->spr124;
+    if ((strc150->unk4 <= 8U)
+        && (((strc150->spr124.anim == gUnknown_080D9D08[0].anim) && (strc150->spr124.variant == gUnknown_080D9D08[0].variant))
+            || ((strc150->spr124.anim == gUnknown_080D9C90[0].anim) && (strc150->spr124.variant == gUnknown_080D9C90[0].variant)))
+        && ((u32)strc150->unk4 > 5U)) {
+        strc150->spr124.frameFlags |= 0x400;
+    }
+    strc150->spr124.x = (s16)((s32)strc150->unk1C >> 8);
+    strc150->spr124.y = (s16)((s32)strc150->unk20 >> 8);
+    if (UpdateSpriteAnimation(temp_r4_4) == ACMD_RESULT__ENDED) {
+        var_r7 = (u32)(u8)(var_r7 + 1);
+    }
+    DisplaySprite(temp_r4_4);
+    if (var_r7 != 2) {
+        return 1U;
+    }
+    return 0U;
+}
+
+void Task_150_80A664C(void) {
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
     s32 temp_r0;
     s32 temp_r2_2;
     u16 temp_r0_2;
     u8 temp_r2;
+    u8 temp_r3;
 
-    strc248->qUnk20.x = strc248->unk18;
-    sub_80A6A5C(strc248);
-    if (strc248->unk4 == 0xE) {
-        temp_r0 = strc248->qUnk28[1].x - 0x40;
-        strc248->qUnk28[1].x = temp_r0;
+    strc150->unk20 = strc150->unk18;
+    sub_80A6A5C(strc150);
+    if (strc150->unk4 == 0xE) {
+        temp_r0 = strc150->unk30 - 0x40;
+        strc150->unk30 = temp_r0;
         if (temp_r0 <= 0) {
-            strc248->qUnk28[1].x = 0;
+            strc150->unk30 = 0;
         }
-        strc248->unk18 = (s32) ((strc248->qUnk28[1].x + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8));
+        strc150->unk18 = (strc150->unk30 + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8);
     }
-    strc248->qUnk20.x = strc248->unk18;
-    temp_r0_2 = strc248->unk8 + 1;
-    strc248->unk8 = temp_r0_2;
-    temp_r2 = strc248->unk6[0];
+    strc150->unk20 = strc150->unk18;
+    temp_r0_2 = strc150->unk8 + 1;
+    strc150->unk8 = temp_r0_2;
+    temp_r2 = strc150->unk6;
     if ((u32) temp_r0_2 > (u32) *(temp_r2 + &gUnknown_080D9E80)) {
-        strc248->unk6[0] = temp_r2 + 1;
-        temp_r2_2 = strc248->unk6[0] * 8;
-        strc248->unkC = sub_80A9BD8(strc248->unkC, *(temp_r2_2 + &gUnknown_080D9E90), *(temp_r2_2 + (&gUnknown_080D9E90 + 4)), &strc248->unk4);
-        if ((u32) strc248->unk6[0] > 0xDU) {
-            sub_80A5CB0((CreditsRelated150 *) strc248, 6U, 1U);
+        strc150->unk6 = temp_r2 + 1;
+        temp_r3 = strc150->unk6;
+        strc150->vramC = sub_80A9BD8(strc150->vramC,
+                                     gUnknown_080D9E90[temp_r3].x,
+                                     gUnknown_080D9E90[temp_r3].y,
+                                     temp_r3, &strc150->unk4);
+        if ((u32) strc150->unk6 > 0xDU) {
+            sub_80A5CB0(strc150, 6U, 1U);
+            gCurTask->main = Task_150_80A808C;
+        }
+    }
+}
+
+void Task_150_80A664C(void) {
+    CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
+    s32 temp_r0;
+    s32 temp_r2_2;
+    u16 temp_r0_2;
+    u8 temp_r2;
+    u8 temp_r3;
+
+    strc150->unk20 = strc150->unk18;
+    sub_80A6A5C(strc150);
+    if (strc150->unk4 == 0xE) {
+        temp_r0 = strc150->unk30 - 0x40;
+        strc150->unk30 = temp_r0;
+        if (temp_r0 <= 0) {
+            strc150->unk30 = 0;
+        }
+        strc150->unk18 = (strc150->unk30 + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8);
+    }
+    strc150->unk20 = strc150->unk18;
+    temp_r0_2 = strc150->unk8 + 1;
+    strc150->unk8 = temp_r0_2;
+    temp_r2 = strc150->unk6;
+    if ((u32) temp_r0_2 > (u32) *(temp_r2 + &gUnknown_080D9E80)) {
+        strc150->unk6 = temp_r2 + 1;
+        temp_r3 = strc150->unk6;
+        strc150->vramC = sub_80A9BD8(strc150->vramC,
+                                     gUnknown_080D9E90[temp_r3].x,
+                                     gUnknown_080D9E90[temp_r3].y,
+                                     temp_r3, &strc150->unk4);
+        if ((u32) strc150->unk6 > 0xDU) {
+            sub_80A5CB0(strc150, 6U, 1U);
             gCurTask->main = Task_150_80A808C;
         }
     }
