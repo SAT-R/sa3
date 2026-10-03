@@ -1831,10 +1831,6 @@ void Task_150_80A65C8(void)
 void Task_150_80A664C(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
-    s32 temp_r2_2;
-    u16 temp_r0_2;
-    u8 temp_r2;
-    u8 temp_r3;
 
     strc150->unk20 = strc150->unk18;
     sub_80A6A5C(strc150);
