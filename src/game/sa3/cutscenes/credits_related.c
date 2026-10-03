@@ -1812,7 +1812,6 @@ void Task_150_PreCreditsCutsceneTrueEndingInit(void)
     strc150->unk6 += 1;
 }
 
-#if 0
 void Task_150_80A65C8(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
@@ -1840,17 +1839,21 @@ void Task_150_80A664C(void)
     strc150->unk20 = strc150->unk18;
     sub_80A6A5C(strc150);
     if (strc150->unk4 == 0xE) {
-        strc150->unk30 -= 0x40;
+        s32 value;
+        strc150->unk30 -= Q(0.25);
         if (strc150->unk30 <= 0) {
             strc150->unk30 = 0;
         }
-        strc150->unk18 = strc150->unk30 + Q(DISPLAY_CENTER_X) - Q(gBgScrollRegs[1][1] - DISPLAY_CENTER_Y);
+        value = strc150->unk30;
+        value += Q(DISPLAY_CENTER_X) - Q(gBgScrollRegs[1][1] - DISPLAY_CENTER_Y);
+        strc150->unk18 = value;
     }
     strc150->unk20 = strc150->unk18;
     if (++strc150->unk8 > gUnknown_080D9E80[strc150->unk6]) {
         strc150->unk6 += 1;
-        temp_r3 = strc150->unk6;
-        strc150->vramC = sub_80A9BD8(strc150->vramC, gUnknown_080D9E90[temp_r3].x, gUnknown_080D9E90[temp_r3].y, temp_r3, &strc150->unk4);
+
+        strc150->vramC = sub_80A9BD8(strc150->vramC, gUnknown_080D9E90[strc150->unk6].x, gUnknown_080D9E90[strc150->unk6].y, strc150->unk6,
+                                     &strc150->unk4);
         if ((u32)strc150->unk6 > 0xDU) {
             sub_80A5CB0(strc150, 6U, 1U);
             gCurTask->main = Task_150_80A808C;
@@ -1861,25 +1864,25 @@ void Task_150_80A664C(void)
 void Task_150_80A6700(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
-    u16 temp_r1;
-    u16 temp_r1_2;
 
     sub_80A6BDC(strc150);
-    temp_r1 = strc150->unk8;
-    if ((u32)temp_r1 <= 0x1DFU) {
-        strc150->unk8 = temp_r1 + 1;
+
+    if (strc150->unk8 < 0x1E0) {
+        strc150->unk8 += 1;
     }
-    temp_r1_2 = strc150->unk8;
-    if (temp_r1_2 == 0x1E0) {
-        strc150->unk8 = temp_r1_2 + 1;
+
+    if (strc150->unk8 == 0x1E0) {
+        strc150->unk8 += 1;
         strc150->vramC = sub_80A9E24(&strc150->unk4, strc150->vramC);
     }
+
     if (strc150->unk4 == 0x12) {
         sub_80A5CB0(strc150, 7U, 0U);
         gCurTask->main = Task_150_80A805C;
     }
 }
 
+#if 0
 void Task_150_80A6768(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
