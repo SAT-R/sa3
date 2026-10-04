@@ -8,6 +8,7 @@
 #include "game/notification_text.h"
 #include "game/shared/stage/player.h" // NUM_SINGLE_PLAYER_CHARS
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 // TODO: Do we have an enum for this already?
 typedef enum {
@@ -64,7 +65,15 @@ typedef struct {
 } CreditsRelated248;
 
 typedef struct {
-    /* 0x0D4 */ u8 filler0[0x4C];
+    /* 0x000 */ u8 *unk0;
+    /* 0x000 */ s32 unk4;
+    /* 0x008 */ u8 *vram8;
+    /* 0x00C */ Vec2_32 unkC;
+    /* 0x014 */ s32 unk14;
+    /* 0x018 */ s32 unk18;
+    /* 0x01C */ s32 unk1C;
+    /* 0x01C */ s32 unk20;
+    /* 0x024 */ Sprite spr24;
     /* 0x04C */ Sprite spr4C;
     /* 0x074 */ Sprite spr74;
     /* 0x09C */ Sprite spr9C;
@@ -196,6 +205,8 @@ extern TileInfo2 *gUnknown_080D9E40[6];
 extern const u32 gUnknown_080D9E68[6];
 extern const u8 gUnknown_080D9E80[0x10];
 extern const Vec2_32 gUnknown_080D9E90[15];
+extern const TileInfo2 gUnknown_080D9F08[10];
+extern const u8 gUnknown_080D9F58[4];
 extern const u8 gUnknown_080DA054[0x18];
 extern const ColorRaw gUnknown_080DA084[16 * PALETTE_LEN_4BPP];
 
@@ -501,7 +512,7 @@ void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2)
             temp_r4 = sp[var_r8];
             temp_r4->anim = gUnknown_080D9B5C[var_r5][param1].anim;
             temp_r4->variant = gUnknown_080D9B5C[var_r5][param1].variant;
-            temp_r4->prevVariant = 0xFF;
+            temp_r4->prevVariant = -1;
             temp_r4->oamFlags = 0x240;
             temp_r4->animCursor = 0;
             temp_r4->qAnimDelay = 0;
@@ -530,7 +541,7 @@ void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2)
                 }
                 var_r1->anim = gUnknown_080D9B5C[CS_GFX_CHEESE][param1].anim;
                 var_r1->variant = gUnknown_080D9B5C[CS_GFX_CHEESE][param1].variant;
-                var_r1->prevVariant = 0xFF;
+                var_r1->prevVariant = -1;
                 var_r1->oamFlags = 0x280;
                 var_r1->animCursor = 0;
                 var_r1->qAnimDelay = 0;
@@ -1789,7 +1800,7 @@ void Task_150_PreCreditsCutsceneTrueEndingInit(void)
             strc150->vramC += 0x280;
             s->anim = 0x533;
             s->variant = 0;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
             s->x = (s16)((s32)strc150->unk14 >> 8);
             s->y = ((s32)strc150->unk18 >> 8) + 0xA;
             s->oamFlags = 0;
@@ -2161,285 +2172,285 @@ bool32 sub_80A6BDC(CreditsRelated150 *strc150)
     }
 }
 
-#else
-u32 sub_80A6CE0(CreditsRelated248 *strc248)
+bool32 sub_80A6CE0(CreditsRelated150 *strc150)
 {
-    s16 *temp_r4;
-    s16 *temp_r4_2;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    u32 temp_r2;
-    u32 var_r7;
-    u8 *temp_r4_3;
-    u8 *temp_r4_4;
     u8 var_r2;
     u8 var_r6;
+    u8 var_r7 = 0;
 
-    var_r7 = 0;
-    temp_r2 = gPlayers->unk2A << 0x1C;
-    if ((u32)(temp_r2 >> 0x1C) > 5U) {
-        var_r2 = gCharacterSelectOrderLUT->unk0;
-        var_r6 = gCharacterSelectOrderLUT[2];
+    if (gPlayers->charFlags.character > 5U) {
+        var_r2 = gCharacterSelectOrderLUT[SONIC];
+        var_r6 = gCharacterSelectOrderLUT[TAILS];
     } else {
-        var_r2 = gCharacterSelectOrderLUT[temp_r2 >> 0x1C];
-        var_r6 = gCharacterSelectOrderLUT[(u32)(gPlayers->unk17A << 0x1C) >> 0x1C];
+        var_r2 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
-    if (var_r2 == 3) {
-        temp_r4 = &strc248->spr48.oamFlags;
-        temp_r1 = (s32)strc248->unk14 >> 8;
-        strc248->unk6C = (s16)temp_r1;
-        strc248->unk6C = (s16)(temp_r1 + 0x12);
-        strc248->unk6E = (s16)(((s32)strc248->unk18 >> 8) - 0xF);
-        UpdateSpriteAnimation((Sprite *)temp_r4);
-        DisplaySprite((Sprite *)temp_r4);
-    }
-    if (var_r6 == 3) {
-        temp_r4_2 = &strc248->spr48.oamFlags;
-        temp_r1_2 = (s32)strc248->vram1C >> 8;
-        strc248->unk6C = (s16)temp_r1_2;
-        strc248->unk6C = (s16)(temp_r1_2 + 0x12);
-        strc248->unk6E = (s16)(((s32)strc248->qUnk20.x >> 8) - 0xF);
-        UpdateSpriteAnimation((Sprite *)temp_r4_2);
-        DisplaySprite((Sprite *)temp_r4_2);
-    }
-    temp_r4_3 = strc248->fillerD4;
-    strc248->unkE4 = (s16)((s32)strc248->unk14 >> 8);
-    strc248->unkE6 = (s16)((s32)strc248->unk18 >> 8);
-    if (UpdateSpriteAnimation((Sprite *)temp_r4_3) == ACMD_RESULT__ENDED) {
-        var_r7 = 0x01000000U >> 0x18;
-    }
-    DisplaySprite((Sprite *)temp_r4_3);
-    temp_r4_4 = &strc248->filler118[0xC];
-    strc248->unk134 = (s16)((s32)strc248->vram1C >> 8);
-    strc248->unk136 = (s16)((s32)strc248->qUnk20.x >> 8);
-    if (UpdateSpriteAnimation((Sprite *)temp_r4_4) == ACMD_RESULT__ENDED) {
-        var_r7 = (u32)(u8)(var_r7 + 1);
-    }
-    DisplaySprite((Sprite *)temp_r4_4);
-    if (var_r7 != 2) {
-        return 1U;
-    }
-    return 0U;
-}
 
-u32 sub_80A6DD0(CreditsRelated150 *strc150)
-{
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_4;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    u32 temp_r2;
-    u32 var_r7;
-    u8 *temp_r4_3;
-    u8 var_r2;
-    u8 var_r6;
-
-    var_r7 = 0;
-    temp_r2 = gPlayers->unk2A << 0x1C;
-    if ((u32)(temp_r2 >> 0x1C) > 5U) {
-        var_r2 = gCharacterSelectOrderLUT->unk0;
-        var_r6 = gCharacterSelectOrderLUT[2];
-    } else {
-        var_r2 = gCharacterSelectOrderLUT[temp_r2 >> 0x1C];
-        var_r6 = gCharacterSelectOrderLUT[(u32)(gPlayers->unk17A << 0x1C) >> 0x1C];
-    }
     if (var_r2 == 3) {
-        temp_r4 = &strc150->spr84;
-        temp_r1 = (s32)strc150->unk14 >> 8;
-        strc150->spr84.x = (s16)temp_r1;
-        strc150->spr84.x = temp_r1 + 0x12;
-        strc150->spr84.y = ((s32)strc150->unk18 >> 8) - 0xF;
+        Sprite *temp_r4 = &strc150->spr5C;
+        temp_r4->x = I(strc150->unk14);
+        temp_r4->y = I(strc150->unk18);
+        temp_r4->x += 18;
+        temp_r4->y -= 15;
         UpdateSpriteAnimation(temp_r4);
         DisplaySprite(temp_r4);
     }
     if (var_r6 == 3) {
-        temp_r4_2 = &strc150->spr84;
-        temp_r1_2 = (s32)strc150->unk1C >> 8;
-        strc150->spr84.x = (s16)temp_r1_2;
-        strc150->spr84.x = temp_r1_2 + 0x12;
-        strc150->spr84.y = ((s32)strc150->unk20 >> 8) - 0xF;
+        Sprite *temp_r4_2 = &strc150->spr5C;
+        temp_r4_2->x = I(strc150->unk1C);
+        temp_r4_2->y = I(strc150->unk20);
+        temp_r4_2->x += 18;
+        temp_r4_2->y -= 15;
         UpdateSpriteAnimation(temp_r4_2);
         DisplaySprite(temp_r4_2);
     }
-    temp_r4_3 = strc150->fillerAC;
-    strc150->unkBC = (s16)((s32)strc150->unk14 >> 8);
-    strc150->unkBE = (s16)((s32)strc150->unk18 >> 8);
-    if (UpdateSpriteAnimation((Sprite *)temp_r4_3) == ACMD_RESULT__ENDED) {
-        var_r7 = 0x01000000U >> 0x18;
+    {
+        Sprite *temp_r4_3 = &strc150->sprD4;
+        temp_r4_3->x = I(strc150->unk14);
+        temp_r4_3->y = I(strc150->unk18);
+        if (UpdateSpriteAnimation(temp_r4_3) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(temp_r4_3);
     }
-    DisplaySprite((Sprite *)temp_r4_3);
-    temp_r4_4 = &strc150->sprFC;
-    strc150->sprFC.x = (s16)((s32)strc150->unk1C >> 8);
-    strc150->sprFC.y = (s16)((s32)strc150->unk20 >> 8);
-    if (UpdateSpriteAnimation(temp_r4_4) == ACMD_RESULT__ENDED) {
-        var_r7 = (u32)(u8)(var_r7 + 1);
+    {
+        Sprite *temp_r4_4 = &strc150->spr124;
+        temp_r4_4->x = I(strc150->unk1C);
+        temp_r4_4->y = I(strc150->unk20);
+        if (UpdateSpriteAnimation(temp_r4_4) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(temp_r4_4);
     }
-    DisplaySprite(temp_r4_4);
-    if (var_r7 != 2) {
+
+    if (var_r7 == 2) {
+        return 0U;
+    } else {
+
         return 1U;
     }
-    return 0U;
+}
+
+bool32 sub_80A6DD0(CreditsRelated150 *strc150)
+{
+    u8 var_r2;
+    u8 var_r6;
+    u8 var_r7 = 0;
+
+    if (gPlayers->charFlags.character > 5U) {
+        var_r2 = gCharacterSelectOrderLUT[SONIC];
+        var_r6 = gCharacterSelectOrderLUT[TAILS];
+    } else {
+        var_r2 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
+    }
+
+    if (var_r2 == 3) {
+        Sprite *temp_r4 = &strc150->spr84;
+        temp_r4->x = I(strc150->unk14);
+        temp_r4->y = I(strc150->unk18);
+        temp_r4->x += 18;
+        temp_r4->y -= 15;
+        UpdateSpriteAnimation(temp_r4);
+        DisplaySprite(temp_r4);
+    }
+    if (var_r6 == 3) {
+        Sprite *temp_r4_2 = &strc150->spr84;
+        temp_r4_2->x = I(strc150->unk1C);
+        temp_r4_2->y = I(strc150->unk20);
+        temp_r4_2->x += 18;
+        temp_r4_2->y -= 15;
+        UpdateSpriteAnimation(temp_r4_2);
+        DisplaySprite(temp_r4_2);
+    }
+    {
+        Sprite *temp_r4_3 = &strc150->sprAC;
+        temp_r4_3->x = I(strc150->unk14);
+        temp_r4_3->y = I(strc150->unk18);
+        if (UpdateSpriteAnimation(temp_r4_3) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(temp_r4_3);
+    }
+    {
+        Sprite *temp_r4_4 = &strc150->sprFC;
+        temp_r4_4->x = I(strc150->unk1C);
+        temp_r4_4->y = I(strc150->unk20);
+        if (UpdateSpriteAnimation(temp_r4_4) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(temp_r4_4);
+    }
+
+    if (var_r7 == 2) {
+        return 0U;
+    } else {
+
+        return 1U;
+    }
 }
 
 void sub_80A6EBC(CreditsRelated12C *strc12C)
 {
-    gDispCnt |= 0x100;
-    *gBgCntRegs = 0x8D07;
+    gDispCnt |= DISPCNT_BG0_ON; // NOTE: DISPCNT_MODE_0;
+
+    gBgCntRegs[0] = BGCNT_SCREENBASE(13) | BGCNT_CHARBASE(1) | BGCNT_TXT256x512 | BGCNT_16COLOR | BGCNT_PRIORITY(3);
     gBgScrollRegs[0][0] = 8;
-    gBgScrollRegs[0][1] = 0x30;
-    strc12C->bgEC.graphics.dest = (void *)0x06004000;
-    strc12C->bgEC.graphics.anim = 0;
-    strc12C->bgEC.layoutVram = (u16 *)0x06006800;
-    strc12C->bgEC.unk18 = 0;
-    strc12C->bgEC.unk1A = 0;
-    strc12C->bgEC.tilemapId = 0x132;
-    strc12C->bgEC.unk1E = 0;
-    strc12C->bgEC.unk20 = 0;
-    strc12C->bgEC.unk22 = 0;
-    strc12C->bgEC.unk24 = 0;
-    strc12C->bgEC.targetTilesX = 0x20;
-    strc12C->bgEC.targetTilesY = 0x40;
-    strc12C->bgEC.paletteOffset = 0;
-    strc12C->bgEC.flags = 0;
-    DrawBackground(&strc12C->bgEC);
+    gBgScrollRegs[0][1] = 48;
+
+    {
+        Background *bg = &strc12C->bgEC;
+        bg->graphics.dest = BG_CHAR_ADDR(1);
+        bg->graphics.anim = 0;
+        bg->layoutVram = BG_SCREEN_ADDR(13);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = TM_ALTAR_EMERALD_BG_COPY;
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 256 / TILE_WIDTH;
+        bg->targetTilesY = 512 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 0;
+        DrawBackground(bg);
+    }
 }
 
-void sub_80A6F34(void *arg0)
+void sub_80A6F34(CreditsRelated12C *strc12C)
 {
-    u16 sp0;
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
-    Sprite *temp_r0_3;
-    Sprite *temp_r0_4;
-    Sprite *temp_r0_5;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r6;
-    u8 temp_r5;
-
-    temp_r0 = arg0 + 0x74;
-    temp_r2 = arg0->unk8;
-    arg0->unk74 = temp_r2;
-    arg0->unk8 = (s32)(temp_r2 + (gUnknown_080D9F08.unkC << 5));
-    temp_r0->anim = gUnknown_080D9F08.unk8;
-    temp_r0->variant = gUnknown_080D9F08.unkA;
-    temp_r0->prevVariant = 0xFF;
-    temp_r0->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r0->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r0->oamFlags = 0x500;
-    temp_r0->animCursor = 0;
-    temp_r0->qAnimDelay = 0;
-    temp_r0->animSpeed = 0x10;
-    temp_r0->palId = 0;
-    temp_r0->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0);
-    temp_r0_2 = arg0 + 0x4C;
-    temp_r1 = arg0->unk8;
-    arg0->unk4C = temp_r1;
-    temp_r6 = gUnknown_080D9F08.unk24 << 5;
-    arg0->unk8 = (s32)(temp_r1 + temp_r6);
-    sp0 = gUnknown_080D9F08.unk20;
-    temp_r0_2->anim = gUnknown_080D9F08.unk20;
-    temp_r5 = gUnknown_080D9F08.unk22;
-    temp_r0_2->variant = temp_r5;
-    temp_r0_2->prevVariant = -1;
-    temp_r0_2->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r0_2->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r0_2->oamFlags = 0x500;
-    temp_r0_2->animCursor = 0;
-    temp_r0_2->qAnimDelay = 0;
-    temp_r0_2->animSpeed = 0x10;
-    temp_r0_2->palId = 0;
-    temp_r0_2->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_2);
-    temp_r0_3 = arg0 + 0xC4;
-    arg0->unkC4 = (s32)arg0->unk8;
-    arg0->unk8 = (s32)(arg0->unk8 + (gUnknown_080D9F08.unk1C << 5));
-    temp_r0_3->anim = gUnknown_080D9F08.unk18;
-    temp_r0_3->variant = gUnknown_080D9F08.unk1A;
-    temp_r0_3->prevVariant = -1;
-    temp_r0_3->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r0_3->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r0_3->oamFlags = 0x500;
-    temp_r0_3->animCursor = 0;
-    temp_r0_3->qAnimDelay = 0;
-    temp_r0_3->animSpeed = 0x10;
-    temp_r0_3->palId = 1;
-    temp_r0_3->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_3);
-    temp_r0_4 = arg0 + 0x9C;
-    arg0->unk9C = (s32)arg0->unk8;
-    arg0->unk8 = (s32)(arg0->unk8 + temp_r6);
-    temp_r0_4->anim = sp0;
-    temp_r0_4->variant = temp_r5;
-    temp_r0_4->prevVariant = -1;
-    temp_r0_4->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r0_4->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r0_4->oamFlags = 0x500;
-    temp_r0_4->animCursor = 0;
-    temp_r0_4->qAnimDelay = 0;
-    temp_r0_4->animSpeed = 0x10;
-    temp_r0_4->palId = 1;
-    temp_r0_4->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_4);
-    temp_r0_5 = arg0 + 0x24;
-    temp_r1_2 = arg0->unk8;
-    arg0->unk24 = temp_r1_2;
-    arg0->unk8 = (s32)(temp_r1_2 + 0x2A0);
-    temp_r0_5->anim = gUnknown_080D9F08.unk0;
-    temp_r0_5->variant = gUnknown_080D9F08.unk2;
-    temp_r0_5->prevVariant = -1;
-    temp_r0_5->x = (s16)((s32)arg0->unkC >> 8);
-    temp_r0_5->y = (s16)((s32)arg0->unk10 >> 8);
-    temp_r0_5->oamFlags = 0x500;
-    temp_r0_5->animCursor = 0;
-    temp_r0_5->qAnimDelay = 0;
-    temp_r0_5->animSpeed = 0x10;
-    temp_r0_5->palId = 4;
-    temp_r0_5->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_5);
+    {
+        Sprite *s = &strc12C->spr74;
+        s->tiles = strc12C->vram8;
+        strc12C->vram8 += (gUnknown_080D9F08[1].numTiles << 5);
+        s->anim = gUnknown_080D9F08[1].anim;
+        s->variant = gUnknown_080D9F08[1].variant;
+        s->prevVariant = -1;
+        s->x = I(strc12C->unkC.x);
+        s->y = I(strc12C->unkC.y);
+        s->oamFlags = 0x500;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &strc12C->spr4C;
+        s->tiles = strc12C->vram8;
+        strc12C->vram8 += gUnknown_080D9F08[4].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D9F08[4].anim;
+        s->variant = gUnknown_080D9F08[4].variant;
+        s->prevVariant = -1;
+        s->x = I(strc12C->unkC.x);
+        s->y = I(strc12C->unkC.y);
+        s->oamFlags = 0x500;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &strc12C->sprC4;
+        s->tiles = strc12C->vram8;
+        strc12C->vram8 += (gUnknown_080D9F08[3].numTiles * TILE_SIZE_4BPP);
+        s->anim = gUnknown_080D9F08[3].anim;
+        s->variant = gUnknown_080D9F08[3].variant;
+        s->prevVariant = -1;
+        s->x = I(strc12C->unkC.x);
+        s->y = I(strc12C->unkC.y);
+        s->oamFlags = 0x500;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 1;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &strc12C->spr9C;
+        s->tiles = strc12C->vram8;
+        strc12C->vram8 += gUnknown_080D9F08[4].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D9F08[4].anim;
+        s->variant = gUnknown_080D9F08[4].variant;
+        s->prevVariant = -1;
+        s->x = I(strc12C->unkC.x);
+        s->y = I(strc12C->unkC.y);
+        s->oamFlags = 0x500;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 1;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(&strc12C->spr9C);
+    }
+    {
+        Sprite *s = &strc12C->spr24;
+        s->tiles = strc12C->vram8;
+        strc12C->vram8 += 21 * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D9F08[0].anim;
+        s->variant = gUnknown_080D9F08[0].variant;
+        s->prevVariant = -1;
+        s->x = I(strc12C->unkC.x);
+        s->y = I(strc12C->unkC.y);
+        s->oamFlags = 0x500;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 4;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 }
 
-void Task_12C_80A70B8(CreditsRelated12C *strc12C)
+void Task_12C_80A70B8(void)
 {
+    CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
     Vec2_u16 sp0;
     s32 temp_r1;
 
-    memcpy(&sp0, &gUnknown_080D9F58, 4);
-    if ((u32)*strc12C->unk0 <= 0xBU) {
-        temp_r1 = strc12C->unk18;
-        strc12C->unk18 = (s32)(temp_r1 + 0x20);
-        strc12C->unk10 = (s32)((temp_r1 + 0x9620) - ((gBgScrollRegs[1][1] - 0x50) << 8));
+    memcpy(&sp0, &gUnknown_080D9F58, sizeof(sp0));
+    if (*strc12C->unk0 <= 0xBU) {
+        s32 unk18 = strc12C->unk18;
+        strc12C->unk18 += 0x20;
+        unk18 += 0x9620;
+        strc12C->unkC.y = (s32)((unk18) - ((gBgScrollRegs[1][1] - 0x50) << 8));
     }
-    if ((u32)*strc12C->unk0 > 0xCU) {
-        strc12C->unk30 = (u16)gUnknown_080D9F08.unk28;
-        strc12C->filler0[0x3E] = gUnknown_080D9F08.unk2A;
-        strc12C->filler0[0x3F] = 0xFF;
-        strc12C->filler0[0x43] = 0;
-        UpdateSpriteAnimation((Sprite *)&strc12C->filler0[0x24]);
-        gCurTask->main = (void (*)(CreditsRelated248 *))Task_12C_80A714C;
+    if (*strc12C->unk0 > 0xCU) {
+        Sprite *s = &strc12C->spr24;
+        s->anim = gUnknown_080D9F08[5].anim;
+        s->variant = gUnknown_080D9F08[5].variant;
+        s->prevVariant = 0xFF;
+        s->palId = 0;
+        UpdateSpriteAnimation(s);
+        gCurTask->main = Task_12C_80A714C;
         return;
     }
     sub_80A72F4(strc12C, &sp0);
 }
 
-void Task_12C_80A714C(CreditsRelated12C *strc12C)
+void Task_12C_80A714C(void)
 {
+    CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
     Vec2_u16 sp0;
     s32 temp_r0;
 
-    memcpy(&sp0, &gUnknown_080D9F58, 4);
+    memcpy(&sp0, &gUnknown_080D9F58, sizeof(sp0));
     if (*strc12C->unk0 == 0xE) {
-        temp_r0 = strc12C->unk18 - 0x40;
-        strc12C->unk18 = temp_r0;
-        if (temp_r0 <= 0) {
+        s32 unk18;
+        strc12C->unk18 -= Q(0.25);
+        if (strc12C->unk18 <= 0) {
             strc12C->unk18 = 0;
         }
-        strc12C->unk10 = (s32)((strc12C->unk18 - ((gBgScrollRegs[1][1] - 0x50) << 8)) + 0x9800);
+        unk18 = strc12C->unk18;
+        unk18 -= ((gBgScrollRegs[1][1] - 0x50) << 8);
+        strc12C->unkC.y = unk18 + 0x9800;
     } else {
-        strc12C->unk10 = (s32)(0x9800 - ((gBgScrollRegs[1][1] - 0x50) << 8));
+        strc12C->unkC.y = (s32)(0x9800 - ((gBgScrollRegs[1][1] - 0x50) << 8));
     }
     sub_80A72F4(strc12C, &sp0);
     if (((u32)*strc12C->unk0 > 0x11U) && (gBldRegs.bldY == 0x10)) {
@@ -2447,6 +2458,7 @@ void Task_12C_80A714C(CreditsRelated12C *strc12C)
     }
 }
 
+#else
 void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1)
 {
     Sprite *temp_r2_2;
@@ -2467,7 +2479,7 @@ void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1)
     var_r6 = 0;
 loop_1:
     var_r3 = 0;
-    temp_r2 = strc12C->unkC;
+    temp_r2 = strc12C->unkC.x;
     if (temp_r2 > 0xF000) {
         var_r1 = (u8)((s32)(temp_r2 + 0xFFFF1000) >> 8);
     } else {
@@ -2475,7 +2487,7 @@ loop_1:
     }
     if ((u32)var_r1 > 0xFU) {
         var_r1_2 = 0;
-        strc12C->unkC = (s32)(temp_r2 + 0xFFFFF000);
+        strc12C->unkC.x = (s32)(temp_r2 + 0xFFFFF000);
         strc12C->filler0[4] += 1;
     } else {
         var_r1_2 = 0;
@@ -2505,16 +2517,15 @@ loop_1:
             var_r3 = 1;
         }
         temp_r2_2 = *((var_r0 * 4) + sp);
-        temp_r1_4 = (s32)strc12C->unkC >> 8;
+        temp_r1_4 = (s32)strc12C->unkC.x >> 8;
         temp_r2_2->x = (s16)temp_r1_4;
-        temp_r2_2->y = (s16)((s32)strc12C->unk10 >> 8);
+        temp_r2_2->y = (s16)((s32)strc12C->unkC.y >> 8);
         temp_r2_2->x = temp_r1_4 - param1->x;
         if (var_r3 != 0) {
-            var_r0_2 = temp_r2_2->frameFlags | 0x400;
+            temp_r2_2->frameFlags |= 0x400;
         } else {
-            var_r0_2 = temp_r2_2->frameFlags & 0xFFFFFBFF;
+            temp_r2_2->frameFlags &= ~0x400;
         }
-        temp_r2_2->frameFlags = var_r0_2;
         DisplaySprite(temp_r2_2);
         param1->x += 0x10;
         var_r6 += 1;
@@ -2535,10 +2546,10 @@ void sub_80A72F4(CreditsRelated12C *strc12C, Vec2_u16 *param1)
     sp0.y = 3;
     var_r7 = 0;
     do {
-        temp_r0 = ((s32)strc12C->unkC >> 8) - param1->x;
+        temp_r0 = ((s32)strc12C->unkC.x >> 8) - param1->x;
         strc12C->unk34 = temp_r0;
         strc12C->unk34 = (s16)(temp_r0 - sp0.x);
-        strc12C->unk36 = (s16)(((s32)strc12C->unk10 >> 8) - sp0.y);
+        strc12C->unk36 = (s16)(((s32)strc12C->unkC.y >> 8) - sp0.y);
         DisplaySprite((Sprite *)&strc12C->filler0[0x24]);
         sp0.x += 0x3C;
         var_r7 += 1;
@@ -2836,10 +2847,10 @@ u8 *sub_80A79C4(u8 *arg0, u8 *arg1)
     temp_r0->unk4 = 0;
     temp_r0_2 = temp_r0 + 0x14;
     temp_r0->unk14 = arg1;
-    var_r7 = arg1 + (gUnknown_080D9F8C.unk4 << 5);
+    var_r7 = arg1 + (gUnknown_080D9F8C.unk4 * TILE_SIZE_4BPP);
     temp_r0_2->anim = gUnknown_080D9F8C.unk0;
     temp_r0_2->variant = gUnknown_080D9F8C.unk2;
-    temp_r0_2->prevVariant = 0xFF;
+    temp_r0_2->prevVariant = -1;
     temp_r0_2->x = (s16)((s32)temp_r0->unkC >> 8);
     temp_r0_2->y = (s16)((s32)temp_r0->unk10 >> 8);
     temp_r0_2->oamFlags = 0x280;
@@ -2856,11 +2867,11 @@ u8 *sub_80A79C4(u8 *arg0, u8 *arg1)
         temp_r0_3->tiles = var_r7;
         temp_r4 = var_r1 + 1;
         temp_r2 = temp_r4 * 8;
-        var_r7 += *(temp_r2 + (var_r3 + 4)) << 5;
+        var_r7 += *(temp_r2 + (var_r3 + 4)) * TILE_SIZE_4BPP;
         temp_r2_2 = temp_r2 + var_r3;
         temp_r0_3->anim = temp_r2_2->unk0;
         temp_r0_3->variant = temp_r2_2->unk2;
-        temp_r0_3->prevVariant = 0xFF;
+        temp_r0_3->prevVariant = -1;
         temp_r0_3->x = 0;
         temp_r0_3->y = 0;
         temp_r0_3->oamFlags = 0x280;
@@ -4006,7 +4017,7 @@ void sub_80A9068(void *arg0)
     arg0->unk18 = (s32)(temp_r1 + 0x3C0);
     temp_r0->anim = gUnknown_080D9FE4.unk0;
     temp_r0->variant = gUnknown_080D9FE4.unk2;
-    temp_r0->prevVariant = 0xFF;
+    temp_r0->prevVariant = -1;
     temp_r0->x = (s16)((s32)arg0->unk8 >> 8);
     temp_r0->y = (s16)((s32)arg0->unkC >> 8);
     temp_r0->oamFlags = 0;
@@ -4088,7 +4099,7 @@ void sub_80A91C4(CreditsRelated248 *strc248)
         temp_r0 = temp_r5 + 0x1C;
         temp_r0->anim = gUnknown_080D9FE4.unk8;
         temp_r0->variant = gUnknown_080D9FE4.unkA;
-        temp_r0->prevVariant = 0xFF;
+        temp_r0->prevVariant = -1;
         UpdateSpriteAnimation(temp_r0);
         temp_r0_2 = temp_r5 + 0x44;
         temp_r0_2->anim = gUnknown_080DA00C.unk8;
@@ -4117,7 +4128,7 @@ void sub_80A925C(CreditsRelated248 *strc248)
         temp_r0_2 = temp_r5 + 0x1C;
         temp_r0_2->anim = gUnknown_080D9FE4.unk10;
         temp_r0_2->variant = gUnknown_080D9FE4.unk12;
-        temp_r0_2->prevVariant = 0xFF;
+        temp_r0_2->prevVariant = -1;
         UpdateSpriteAnimation(temp_r0_2);
         temp_r0_3 = temp_r5 + 0x44;
         temp_r0_3->anim = gUnknown_080DA00C.unk10;
@@ -4146,7 +4157,7 @@ void sub_80A92E0(CreditsRelated248 *strc248)
         temp_r0_2 = temp_r5 + 0x1C;
         temp_r0_2->anim = gUnknown_080D9FE4.unk18;
         temp_r0_2->variant = gUnknown_080D9FE4.unk1A;
-        temp_r0_2->prevVariant = 0xFF;
+        temp_r0_2->prevVariant = -1;
         UpdateSpriteAnimation(temp_r0_2);
         temp_r0_3 = temp_r5 + 0x44;
         temp_r0_3->anim = gUnknown_080DA00C.unk18;
@@ -4170,7 +4181,7 @@ void sub_80A9354(CreditsRelated248 *strc248)
         temp_r0_2 = temp_r4 + 0x1C;
         temp_r0_2->anim = gUnknown_080D9FE4.unk20;
         temp_r0_2->variant = gUnknown_080D9FE4.unk22;
-        temp_r0_2->prevVariant = 0xFF;
+        temp_r0_2->prevVariant = -1;
         UpdateSpriteAnimation(temp_r0_2);
         temp_r0_3 = temp_r4 + 0x44;
         temp_r0_3->anim = gUnknown_080DA00C.unk20;
@@ -4563,7 +4574,7 @@ s32 sub_80A9BD8(s32 arg0, s32 arg1, s32 arg2, u8 arg3, u8 *arg4)
     temp_r2->unkC = (s32)(temp_r2->unkC + 0x80);
     temp_r2_2->anim = gUnknown_080DA284.unk0;
     temp_r2_2->variant = gUnknown_080DA284.unk2;
-    temp_r2_2->prevVariant = 0xFF;
+    temp_r2_2->prevVariant = -1;
     temp_r2_2->x = 0;
     temp_r2_2->y = 0;
     temp_r2_2->oamFlags = 0x200;
@@ -4703,7 +4714,7 @@ s32 sub_80A9E24(u8 *arg0, s32 arg1)
     temp_r0->unkC = (s32)(temp_r0->unkC + 0x280);
     temp_r0_2->anim = gUnknown_080DA06C.unk0;
     temp_r0_2->variant = gUnknown_080DA06C.unk2;
-    temp_r0_2->prevVariant = 0xFF;
+    temp_r0_2->prevVariant = -1;
     temp_r0_2->x = 0;
     temp_r0_2->y = 0;
     temp_r0_2->oamFlags = 0x40;
@@ -4737,7 +4748,7 @@ void Task_40_B_80A9EB4(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **
     if ((u32)temp_r4->unk8 > 0xB3U) {
         temp_r4_2->anim = gUnknown_080DA06C.unk8;
         temp_r4_2->variant = gUnknown_080DA06C.unkA;
-        temp_r4_2->prevVariant = 0xFF;
+        temp_r4_2->prevVariant = -1;
         temp_r4_2->x = 0;
         temp_r4_2->y = 0;
         UpdateSpriteAnimation(temp_r4_2);
@@ -4764,7 +4775,7 @@ void sub_80A9F38(CreditsRelated248 *strc248)
     if ((u32)temp_r0 > 0x1DU) {
         temp_r5_2->anim = gUnknown_080DA06C.unk10;
         temp_r5_2->variant = gUnknown_080DA06C.unk12;
-        temp_r5_2->prevVariant = 0xFF;
+        temp_r5_2->prevVariant = -1;
         temp_r5_2->x = 0;
         temp_r5_2->y = 0;
         UpdateSpriteAnimation(temp_r5_2);
@@ -4837,7 +4848,7 @@ u8 *sub_80AA06C(u8 *arg0, u8 *arg1)
     temp_r6 = arg1 + (gUnknown_080DBA94.unkC << 5);
     temp_r0->anim = gUnknown_080DBA94.unk8;
     temp_r0->variant = gUnknown_080DBA94.unkA;
-    temp_r0->prevVariant = 0xFF;
+    temp_r0->prevVariant = -1;
     temp_r0->x = (s16)((s32)temp_r4->unk8 >> 8);
     temp_r0->y = (s16)((s32)temp_r4->unkC >> 8);
     temp_r0->oamFlags = 0x140;
@@ -4873,7 +4884,7 @@ u8 *sub_80AA06C(u8 *arg0, u8 *arg1)
         temp_r2_2 = temp_r2 + var_r3;
         temp_r0_2->anim = temp_r2_2->unk0;
         temp_r0_2->variant = temp_r2_2->unk2;
-        temp_r0_2->prevVariant = 0xFF;
+        temp_r0_2->prevVariant = -1;
         temp_r0_2->x = (s16)((s32)temp_r4->unk8 >> 8);
         temp_r0_2->y = (s16)((s32)temp_r4->unkC >> 8);
         temp_r0_2->oamFlags = 0;
@@ -5342,7 +5353,7 @@ void sub_80AAA4C(void *arg0)
         temp_r2_2 = temp_r2 + var_r3;
         temp_r0->anim = temp_r2_2->unk0;
         temp_r0->variant = temp_r2_2->unk2;
-        temp_r0->prevVariant = 0xFF;
+        temp_r0->prevVariant = -1;
         temp_r0->x = (s16)((s32)arg0->unk1C >> 8);
         temp_r0->y = (s16)((s32)arg0->unk20 >> 8);
         temp_r0->oamFlags = 0x40;
@@ -5751,7 +5762,7 @@ void Task_D4_80AB1C4(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **ar
             temp_r6->unk2C = 0x06010000;
             temp_r0->anim = gUnknown_080DA358.unk0;
             temp_r0->variant = gUnknown_080DA358.unk2;
-            temp_r0->prevVariant = 0xFF;
+            temp_r0->prevVariant = -1;
             temp_r0->x = (s16)((s32)temp_r6->unk8 >> 8);
             temp_r0->y = (s16)((s32)temp_r6->unkC >> 8);
             temp_r0->oamFlags = temp_r5;
@@ -6435,7 +6446,7 @@ void Task_62C_80ABE28(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **a
             temp_r1->unk10 = (u8 *)(temp_r1->unk10 + temp_r8);
             temp_r0->anim = gUnknown_080DA420.unk0;
             temp_r0->variant = var_r4 + gUnknown_080DA420.unk2;
-            temp_r0->prevVariant = 0xFF;
+            temp_r0->prevVariant = -1;
             temp_r0->x = 0;
             temp_r0->y = 0;
             temp_r0->oamFlags = 0x200;
@@ -6458,7 +6469,7 @@ void Task_62C_80ABE28(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **a
     temp_r1->unk10 = (u8 *)(temp_r1->unk10 + 0x20);
     temp_r0_3->anim = 0x462;
     temp_r0_3->variant = 0xE;
-    temp_r0_3->prevVariant = 0xFF;
+    temp_r0_3->prevVariant = -1;
     temp_r0_3->x = 0;
     temp_r0_3->y = 0;
     temp_r0_3->oamFlags = 0x200;
@@ -6558,7 +6569,7 @@ void sub_80AC030(CreditsRelated248 *strc248)
         temp_r3_2 = temp_r3 + &gUnknown_080DB844;
         temp_r0->anim = temp_r3_2->unk0;
         temp_r0->variant = temp_r3_2->unk2;
-        temp_r0->prevVariant = 0xFF;
+        temp_r0->prevVariant = -1;
         temp_r0->x = 0;
         temp_r0->y = 0;
         temp_r0->oamFlags = 0x200;
@@ -6835,7 +6846,7 @@ void Task_294_80AC51C(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **a
                 temp_r2->unk8 = (u8 *)(temp_r2->unk8 + 0x80);
                 temp_r0_3->anim = gUnknown_080DB950.unk0;
                 temp_r0_3->variant = var_r4 + gUnknown_080DB950.unk2;
-                temp_r0_3->prevVariant = 0xFF;
+                temp_r0_3->prevVariant = -1;
                 temp_r2_2 = var_r4 * 2;
                 temp_r0_3->x = *(temp_r2_2 + &gUnknown_080DB958) + 0x38;
                 temp_r0_3->y = *(temp_r2_2 + (&gUnknown_080DB958 + 1)) + 0x84;
@@ -6855,7 +6866,7 @@ void Task_294_80AC51C(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **a
         temp_r2->unk8 = (u8 *)(temp_r2->unk8 + 0x580);
         temp_r0_4->anim = 0x5F1;
         temp_r0_4->variant = 0;
-        temp_r0_4->prevVariant = 0xFF;
+        temp_r0_4->prevVariant = -1;
         temp_r0_4->x = (s16)((s32)temp_r2->unkC >> 8);
         temp_r0_4->y = (s16)((s32)temp_r2->unk10 >> 8);
         temp_r0_4->oamFlags = 0;
