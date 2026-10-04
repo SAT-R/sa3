@@ -2092,77 +2092,76 @@ u32 sub_80A6A5C(CreditsRelated150 *strc150)
     }
 }
 
-#else
-u32 sub_80A6BDC(CreditsRelated248 *strc248)
+bool32 sub_80A6BDC(CreditsRelated150 *strc150)
 {
-    Sprite *temp_r4_3;
-    s16 *temp_r4;
-    s16 *temp_r4_2;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    u16 *temp_r4_4;
-    u32 temp_r2;
-    u32 var_r7;
     u8 var_r2;
     u8 var_r6;
+    u8 var_r7 = 0;
 
-    var_r7 = 0;
-    temp_r2 = gPlayers->unk2A << 0x1C;
-    if ((u32)(temp_r2 >> 0x1C) > 5U) {
-        var_r2 = gCharacterSelectOrderLUT->unk0;
-        var_r6 = gCharacterSelectOrderLUT[2];
+    if (gPlayers->charFlags.character > 5U) {
+        var_r2 = gCharacterSelectOrderLUT[SONIC];
+        var_r6 = gCharacterSelectOrderLUT[TAILS];
     } else {
-        var_r2 = gCharacterSelectOrderLUT[temp_r2 >> 0x1C];
-        var_r6 = gCharacterSelectOrderLUT[(u32)(gPlayers->unk17A << 0x1C) >> 0x1C];
+        var_r2 = gCharacterSelectOrderLUT[gPlayers[PLAYER_1].charFlags.character];
+        var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
+
     if (var_r2 == 3) {
-        temp_r4 = &strc248->spr70.oamFlags;
-        temp_r2_2 = (s32)strc248->unk14 >> 8;
-        strc248->unk94 = (s16)temp_r2_2;
-        temp_r1 = (s32)strc248->unk18 >> 8;
-        strc248->unk96 = (s16)temp_r1;
-        if ((u32)strc248->unk4 <= 8U) {
-            strc248->unk94 = (s16)(temp_r2_2 + 0x12);
-            strc248->unk96 = (s16)(temp_r1 - 0xF);
+        Sprite *s = &strc150->spr84;
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18);
+
+        if (strc150->initArg0 <= 8U) {
+            s->x += 18;
+            s->y -= 15;
         }
-        UpdateSpriteAnimation((Sprite *)temp_r4);
-        DisplaySprite((Sprite *)temp_r4);
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
+
     if (var_r6 == 3) {
-        temp_r4_2 = &strc248->spr70.oamFlags;
-        temp_r2_3 = (s32)strc248->vram1C >> 8;
-        strc248->unk94 = (s16)temp_r2_3;
-        temp_r1_2 = (s32)strc248->qUnk20.x >> 8;
-        strc248->unk96 = (s16)temp_r1_2;
-        if ((u32)strc248->unk4 <= 8U) {
-            strc248->unk94 = (s16)(temp_r2_3 + 0x12);
-            strc248->unk96 = (s16)(temp_r1_2 - 0xF);
+        Sprite *s = &strc150->spr84;
+        s->x = I(strc150->unk1C);
+        s->y = I(strc150->unk20);
+
+        if (strc150->initArg0 < 9) {
+            s->x += 18;
+            s->y -= 15;
         }
-        UpdateSpriteAnimation((Sprite *)temp_r4_2);
-        DisplaySprite((Sprite *)temp_r4_2);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    temp_r4_3 = &strc248->sprAC;
-    strc248->sprAC.x = (s16)((s32)strc248->unk14 >> 8);
-    strc248->sprAC.y = (s16)((s32)strc248->unk18 >> 8);
-    if (UpdateSpriteAnimation(temp_r4_3) == ACMD_RESULT__ENDED) {
-        var_r7 = 0x01000000U >> 0x18;
+
+    {
+        Sprite *s = &strc150->sprAC;
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18);
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(s);
     }
-    DisplaySprite(temp_r4_3);
-    temp_r4_4 = &strc248->bgD8.unk24;
-    strc248->bgD8.prevScrollX = (u16)((s32)strc248->vram1C >> 8);
-    strc248->bgD8.prevScrollY = (u16)((s32)strc248->qUnk20.x >> 8);
-    if (UpdateSpriteAnimation((Sprite *)temp_r4_4) == ACMD_RESULT__ENDED) {
-        var_r7 = (u32)(u8)(var_r7 + 1);
+    {
+        Sprite *s = &strc150->sprFC;
+        s->x = I(strc150->unk1C);
+        s->y = I(strc150->unk20);
+
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(s);
     }
-    DisplaySprite((Sprite *)temp_r4_4);
-    if (var_r7 != 2) {
+
+    if (var_r7 == 2) {
+        return 0U;
+    } else {
+
         return 1U;
     }
-    return 0U;
 }
 
+#else
 u32 sub_80A6CE0(CreditsRelated248 *strc248)
 {
     s16 *temp_r4;
