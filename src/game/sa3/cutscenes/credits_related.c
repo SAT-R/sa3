@@ -189,6 +189,8 @@ extern const u16
 extern u8 gUnknown_080D9BAA[8];
 extern const u16 gUnknown_080D9BB2[7];
 extern const u8 gUnknown_080D9BC0[0x10];
+extern TileInfo2 gUnknown_080D9C90[13];
+extern TileInfo2 gUnknown_080D9D08[13];
 extern const u16 gUnknown_080D9E58[8];
 extern TileInfo2 *gUnknown_080D9E40[6];
 extern const u32 gUnknown_080D9E68[6];
@@ -1850,7 +1852,7 @@ void Task_150_80A664C(void)
 
         strc150->vramC = sub_80A9BD8(strc150->vramC, gUnknown_080D9E90[strc150->unk6].x, gUnknown_080D9E90[strc150->unk6].y, strc150->unk6,
                                      &strc150->initArg0);
-        if ((u32)strc150->unk6 > 0xDU) {
+        if (strc150->unk6 > 13) {
             sub_80A5CB0(strc150, 6U, 1U);
             gCurTask->main = Task_150_80A808C;
         }
@@ -1878,8 +1880,6 @@ void Task_150_80A6700(void)
     }
 }
 
-#if 01
-#else
 void Task_150_80A6768(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
@@ -1906,8 +1906,8 @@ void Task_150_80A6768(void)
 
     if (strc150->unk8 >= (u32)sp4[0]) {
         temp_r4 = &strc150->spr34;
-        strc150->spr34.x = I(strc150->unk14);
-        strc150->spr34.y = I(strc150->unk18) + 8;
+        temp_r4->x = I(strc150->unk14);
+        temp_r4->y = I(strc150->unk18) + 8;
         UpdateSpriteAnimation(temp_r4);
         DisplaySprite(temp_r4);
     }
@@ -1928,7 +1928,7 @@ void Task_150_80A6768(void)
         }
     }
     if (strc150->unk8 == sp4[1]) {
-        sub_80AD7B4(strc150->ewramData14C, 0x2B, 0x64, 0x28, strc150->vramC);
+        sub_80AD7B4(strc150->ewramData14C, 0x2B, 100, 40, strc150->vramC);
         strc150->qUnk24.x = Q(100);
         strc150->qUnk24.y = Q(40);
     }
@@ -1938,7 +1938,8 @@ void Task_150_80A6768(void)
     }
     if (strc150->unk0 == 1) {
         sub_80239A8(strc150->ewramData14C);
-        if ((u32)strc150->unk8 >= (u32)sp4[2]) {
+
+        if (strc150->unk8 >= sp4[2]) {
             if (var_r7 == 0) {
                 strc150->unk18 -= Q(8);
             } else if (var_r6 == 0) {
@@ -1951,26 +1952,17 @@ void Task_150_80A6768(void)
         }
     }
 }
-//#else
+#if 01
 void Task_150_80A690C(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
-    s32 temp_r2;
-    s32 var_r5;
-    u16 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r3;
+    s32 var_r5 = 0;
 
-    var_r5 = 0;
-    temp_r3 = strc150->unk6;
-    if ((u32)temp_r3 <= 5U) {
-        temp_r0 = strc150->unk8 + 1;
-        strc150->unk8 = temp_r0;
-        if ((u32)temp_r0 > (u32)gUnknown_080D9BB2[strc150->unk6]) {
+    if (strc150->unk6 < 6) {
+        if (++strc150->unk8 > gUnknown_080D9BB2[strc150->unk6]) {
             strc150->unk8 = 0;
-            temp_r0_2 = temp_r3 + 1;
-            strc150->unk6 = temp_r0_2;
-            if ((u32)temp_r0_2 > 6U) {
+
+            if (++strc150->unk6 > 6U) {
                 strc150->unk6 = 6;
             }
         }
@@ -1981,9 +1973,9 @@ void Task_150_80A690C(void)
     if ((strc150->unk6 == 6) && (strc150->unk8 == 0)) {
         sub_80A5EF0(strc150, 0xCU, 1U);
     }
-    temp_r2 = strc150->unk1C;
-    if (temp_r2 > 0xFFFFD800) {
-        strc150->unk1C = temp_r2 - (gUnknown_080D9BAA[strc150->unk6] << 8);
+
+    if (strc150->unk1C > -Q(40)) {
+        strc150->unk1C -= Q(gUnknown_080D9BAA[strc150->unk6]);
     } else {
         var_r5 = 1;
     }
@@ -2003,14 +1995,13 @@ void Task_150_80A69E4(void)
     u16 temp_r0;
 
     sub_80A8234(strc150);
-    temp_r0 = strc150->unk8 + 1;
-    strc150->unk8 = temp_r0;
-    if (temp_r0 == 0xB4) {
-        gDispCnt |= 0x2000;
-        gWinRegs[0] = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] = 0x3FFF;
-        gWinRegs[5] |= 0x1F;
+
+    if (++strc150->unk8 == 0xB4) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] = 0x3FFF;
+        gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
         gBldRegs.bldY = 0;
         strc150->unk10 = 0;
@@ -2018,27 +2009,18 @@ void Task_150_80A69E4(void)
         gCurTask->main = Task_150_80A8198;
     }
 }
-extern TileInfo2 gUnknown_080D9C90[13];
-extern TileInfo2 gUnknown_080D9D08[13];
+
 u32 sub_80A6A5C(CreditsRelated150 *strc150)
 {
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
-    Sprite *temp_r4_4;
     s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r2_2;
-    s32 temp_r2_3;
-    u16 temp_r2_4;
-    u16 temp_r2_5;
     u32 temp_r2;
-    u32 var_r7;
     u8 temp_r0;
     u8 var_r2;
     u8 var_r6;
+    u8 var_r7 = 0;
 
-    var_r7 = 0;
     if (gPlayers->charFlags.character > 5U) {
         var_r2 = gCharacterSelectOrderLUT[SONIC];
         var_r6 = gCharacterSelectOrderLUT[TAILS];
@@ -2047,63 +2029,70 @@ u32 sub_80A6A5C(CreditsRelated150 *strc150)
         var_r6 = gCharacterSelectOrderLUT[gPlayers[PLAYER_2].charFlags.character];
     }
     if (var_r2 == 3) {
-        temp_r4 = &strc150->spr5C;
-        temp_r2_2 = (s32)strc150->unk14 >> 8;
-        strc150->spr5C.x = (s16)temp_r2_2;
-        temp_r1 = (s32)strc150->unk18 >> 8;
-        strc150->spr5C.y = (s16)temp_r1;
-        if ((u32)strc150->initArg0 <= 8U) {
-            strc150->spr5C.x = temp_r2_2 + 0x12;
-            strc150->spr5C.y = temp_r1 - 0xF;
+        Sprite *s = &strc150->spr5C;
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18);
+
+        if (strc150->initArg0 < 9) {
+            s->x += 18;
+            s->y -= 15;
         }
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
     if (var_r6 == 3) {
-        temp_r4_2 = &strc150->spr5C;
-        temp_r2_3 = (s32)strc150->unk1C >> 8;
-        strc150->spr5C.x = (s16)temp_r2_3;
-        temp_r1_2 = (s32)strc150->unk20 >> 8;
-        strc150->spr5C.y = (s16)temp_r1_2;
-        if ((u32)strc150->initArg0 <= 8U) {
-            strc150->spr5C.x = temp_r2_3 + 0x12;
-            strc150->spr5C.y = temp_r1_2 - 0xF;
+        Sprite *s = &strc150->spr5C;
+        s->x = I(strc150->unk1C);
+        s->y = I(strc150->unk20);
+
+        if (strc150->initArg0 < 9) {
+            s->x += 18;
+            s->y -= 15;
         }
-        UpdateSpriteAnimation(temp_r4_2);
-        DisplaySprite(temp_r4_2);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
-    temp_r4_3 = &strc150->sprD4;
-    if ((strc150->initArg0 <= 8U)
-        && ((((strc150->sprD4.anim == gUnknown_080D9D08[0].anim) && (strc150->sprD4.variant == gUnknown_080D9D08[0].variant))
-             || ((strc150->sprD4.anim == gUnknown_080D9C90[0].anim) && (strc150->sprD4.variant == gUnknown_080D9C90[0].variant)))
-            && (strc150->initArg0 > 5U))) {
-        strc150->sprD4.frameFlags |= 0x400;
+    {
+        Sprite *s = &strc150->sprD4;
+        if ((strc150->initArg0 < 9)
+            && ((((s->anim == gUnknown_080D9D08[0].anim) && (s->variant == gUnknown_080D9D08[0].variant))
+                 || ((s->anim == gUnknown_080D9C90[0].anim) && (s->variant == gUnknown_080D9C90[0].variant)))
+                && (strc150->initArg0 > 5U))) {
+            s->frameFlags |= 0x400;
+        }
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18);
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(s);
     }
-    strc150->sprD4.x = (s16)((s32)strc150->unk14 >> 8);
-    strc150->sprD4.y = (s16)((s32)strc150->unk18 >> 8);
-    if (UpdateSpriteAnimation(temp_r4_3) == ACMD_RESULT__ENDED) {
-        var_r7 = 0x01000000U >> 0x18;
+
+    {
+        Sprite *s = &strc150->spr124;
+        if ((strc150->initArg0 <= 8U)
+            && (((s->anim == gUnknown_080D9D08[0].anim) && (s->variant == gUnknown_080D9D08[0].variant))
+                || ((s->anim == gUnknown_080D9C90[0].anim) && (s->variant == gUnknown_080D9C90[0].variant)))
+            && ((u32)strc150->initArg0 > 5U)) {
+            s->frameFlags |= 0x400;
+        }
+        s->x = I(strc150->unk1C);
+        s->y = I(strc150->unk20);
+
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            var_r7 += 1;
+        }
+        DisplaySprite(s);
     }
-    DisplaySprite(temp_r4_3);
-    temp_r4_4 = &strc150->spr124;
-    if ((strc150->initArg0 <= 8U)
-        && (((strc150->spr124.anim == gUnknown_080D9D08[0].anim) && (strc150->spr124.variant == gUnknown_080D9D08[0].variant))
-            || ((strc150->spr124.anim == gUnknown_080D9C90[0].anim) && (strc150->spr124.variant == gUnknown_080D9C90[0].variant)))
-        && ((u32)strc150->initArg0 > 5U)) {
-        strc150->spr124.frameFlags |= 0x400;
+
+    if (var_r7 == 2) {
+        return 0;
+    } else {
+        return 1;
     }
-    strc150->spr124.x = (s16)((s32)strc150->unk1C >> 8);
-    strc150->spr124.y = (s16)((s32)strc150->unk20 >> 8);
-    if (UpdateSpriteAnimation(temp_r4_4) == ACMD_RESULT__ENDED) {
-        var_r7 = (u32)(u8)(var_r7 + 1);
-    }
-    DisplaySprite(temp_r4_4);
-    if (var_r7 != 2) {
-        return 1U;
-    }
-    return 0U;
 }
 
+#else
 void Task_150_80A664C(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
