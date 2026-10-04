@@ -201,6 +201,9 @@ extern void sub_80AD7B4(NotificationText *arg0, u8 arg1, u16 arg2, u16 arg3, u8 
 void Task_28_80A74F8(void);
 void Task_28_80A7578(void);
 void TaskDestructor_80A84D8(Task *t);
+void Task_28_80A7738(void);
+void Task_28_80A7674(void);
+bool32 sub_80A8524(CreditsRelated28 *strc28);
 
 extern const u8 gCharacterSelectOrderLUT[NUM_CHARACTERS]; // 0x80D9B74
 extern const u16 gUnknown_080D99D0[CSO_COUNT];
@@ -230,6 +233,7 @@ extern const u8 gUnknown_080D9F58[4];
 extern const u8 gUnknown_080DA054[0x18];
 extern const ColorRaw gUnknown_080DA084[16 * PALETTE_LEN_4BPP];
 extern const u8 gUnknown_080D9F5C[0x21];
+extern const u8 gUnknown_080D9F7D[6];
 
 #if M2C
 void Task_248_80A4DDC(CreditsRelated248 *strc248);
@@ -2671,14 +2675,10 @@ void Task_28_80A74F8(void)
     *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
 }
 
-#else
-void Task_28_80A7578(CreditsRelated28 *strc28)
+void Task_28_80A7578(void)
 {
-    s32 temp_r0_2;
-    u16 temp_r0;
-    u8 temp_r2;
-
-    if ((u32)strc28->unkB > 4U) {
+    CreditsRelated28 *strc28 = TASK_DATA(gCurTask);
+    if (strc28->unkB > 4U) {
         strc28->unk1C = 0x500;
         strc28->unk18 = 0;
         strc28->unk20 = 0x7100;
@@ -2689,15 +2689,14 @@ void Task_28_80A7578(CreditsRelated28 *strc28)
         gWinRegs[4] = 0x3F3E;
         *strc28->initArg0 = 0xB;
         strc28->unk24 = 0;
-        m4aSongNumStart(0x29BU);
+        m4aSongNumStart(SE_667);
         gCurTask->main = Task_28_80A7674;
         return;
     }
-    temp_r0 = strc28->unk14 + 1;
-    strc28->unk14 = temp_r0;
-    temp_r2 = strc28->unkB;
-    if ((u32)temp_r0 >= (u32) * (temp_r2 + &gUnknown_080D9F7D)) {
-        strc28->unkB = temp_r2 + 1;
+
+    strc28->unk14 += 1;
+    if (strc28->unk14 >= gUnknown_080D9F7D[strc28->unkB]) {
+        strc28->unkB += 1;
         strc28->unk14 = 0;
         gBldRegs.bldY = 0xF;
     } else {
@@ -2705,9 +2704,8 @@ void Task_28_80A7578(CreditsRelated28 *strc28)
     }
     if (strc28->unk8 == 0) {
         strc28->unk8 = 1;
-        temp_r0_2 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_2;
-        if (temp_r0_2 & 2) {
+
+        if (PseudoRandom32() & 2) {
             sub_80A735C(strc28->initArg0, &strc28->unk8, 0, 1);
             return;
         }
@@ -2715,56 +2713,56 @@ void Task_28_80A7578(CreditsRelated28 *strc28)
     }
 }
 
-void Task_28_80A7674(CreditsRelated28 *strc28)
+void Task_28_80A7674(void)
 {
-    s32 temp_r0;
+    CreditsRelated28 *strc28 = TASK_DATA(gCurTask);
 
     if (sub_80A8524(strc28) == 1) {
         strc28->unk14 = 0;
-        gCurTask->main = (void (*)(CreditsRelated150 *))Task_28_80A7738;
+        gCurTask->main = Task_28_80A7738;
         return;
     }
-    strc28->unk18 = (0x5A00 - strc28->unk24) - ((gBgScrollRegs[1][1] - 0x50) << 8);
-    if (strc28->unk8 == 0) {
-        strc28->unk8 = 1;
-        temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0;
-        if (temp_r0 & 2) {
-            sub_80A735C(strc28->initArg0, &strc28->unk8, 0, 1);
-        } else {
-            sub_80A735C(strc28->initArg0, &strc28->unk8, 0, 0);
-        }
-    }
-    *strc28->winV = (((s32)strc28->unk24 >> 8) * 0x101) + ((s32)strc28->unk18 >> 8);
-    *strc28->winH = (((s32)strc28->unk20 >> 8) * 0x101) + ((s32)strc28->unk1C >> 8);
-}
+    {
+        s32 r0 = strc28->unk24;
+        s32 r1 = Q(90) - r0;
+        r1 -= Q(gBgScrollRegs[1][1] - 80);
+        strc28->unk18 = r1;
 
-void Task_28_80A7738(CreditsRelated28 *strc28)
+        if (strc28->unk8 == 0) {
+            strc28->unk8 = 1;
+
+            if (PseudoRandom32() & 2) {
+                sub_80A735C(strc28->initArg0, &strc28->unk8, 0, 1);
+            } else {
+                sub_80A735C(strc28->initArg0, &strc28->unk8, 0, 0);
+            }
+        }
+        *strc28->winV = (I(strc28->unk24) * WIN_RANGE(1, 1)) + I(strc28->unk18);
+        *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
+    }
+}
+#else
+void Task_28_80A77B4(void);
+void Task_28_80A7738(void)
 {
-    s32 temp_r1_2;
-    s32 temp_r2;
-    u16 temp_r0;
-    u16 temp_r1;
+    CreditsRelated28 *strc28 = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk14;
-    if ((u32)temp_r0 <= 0x78U) {
-        temp_r1->unk14 = (u16)(temp_r0 + 1);
-        temp_r2 = temp_r1->unk24;
-        temp_r1_2 = (0x5A00 - temp_r2) - ((gBgScrollRegs[1][1] - 0x50) << 8);
-        temp_r1->unk18 = temp_r1_2;
-        *temp_r1->unkC = ((temp_r2 >> 8) * 0x101) + (temp_r1_2 >> 8);
-        *temp_r1->unk10 = (((s32)temp_r1->unk20 >> 8) * 0x101) + ((s32)temp_r1->unk1C >> 8);
-        if (temp_r1->unk14 == 0x78) {
-            *temp_r1->unk0 = 0xC;
+    if (strc28->unk14 <= 120) {
+        strc28->unk14 += 1;
+        strc28->unk18 = (0x5A00 - strc28->unk24) - ((gBgScrollRegs[1][1] - 0x50) << 8);
+        *strc28->winV = (I(strc28->unk24) * WIN_RANGE(1, 1)) + I(strc28->unk18);
+        *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
+        if (strc28->unk14 == 0x78) {
+            *strc28->initArg0 = 12;
         }
     }
-    if (*temp_r1->unk0 == 0xE) {
-        gCurTask->main = sub_80A77B4;
+
+    if (*strc28->initArg0 == 14) {
+        gCurTask->main = Task_28_80A77B4;
     }
 }
 
-void sub_80A77B4(CreditsRelated248 *strc248)
+void Task_28_80A77B4(CreditsRelated248 *strc248)
 {
     s32 temp_r1_2;
     s32 temp_r2;
