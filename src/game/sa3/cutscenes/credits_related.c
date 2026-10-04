@@ -66,7 +66,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 *unk0;
-    /* 0x000 */ s32 unk4;
+    /* 0x000 */ u8 unk4;
     /* 0x008 */ u8 *vram8;
     /* 0x00C */ Vec2_32 unkC;
     /* 0x014 */ s32 unk14;
@@ -157,8 +157,7 @@ bool32 sub_80A6DD0(CreditsRelated150 *strc150); //
 void sub_80A6EBC(CreditsRelated12C *strc12C); //
 void Task_12C_80A70B8(void);
 void Task_12C_80A714C(void);
-void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
-void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
+s32 sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
 void sub_80A72F4(CreditsRelated12C *strc12C, Vec2_u16 *param1); // TODO: maybe not u16, maybe not even Vec2_u16?
 void TaskDestructor_80A7BFC(Task *t);
 void Task_248_80A7C00(void);
@@ -209,6 +208,7 @@ extern const TileInfo2 gUnknown_080D9F08[10];
 extern const u8 gUnknown_080D9F58[4];
 extern const u8 gUnknown_080DA054[0x18];
 extern const ColorRaw gUnknown_080DA084[16 * PALETTE_LEN_4BPP];
+extern const u8 gUnknown_080D9F5C[0x21];
 
 #if M2C
 void Task_248_80A4DDC(CreditsRelated248 *strc248);
@@ -1963,7 +1963,7 @@ void Task_150_80A6768(void)
         }
     }
 }
-#if 01
+
 void Task_150_80A690C(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
@@ -2458,104 +2458,110 @@ void Task_12C_80A714C(void)
     }
 }
 
-#else
-void sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1)
+s32 sub_80A71E8(CreditsRelated12C *strc12C, Vec2_u16 *param1)
 {
-    Sprite *temp_r2_2;
-    s32 temp_r1;
-    s32 temp_r1_4;
-    s32 temp_r2;
+    Sprite *sp[4];
+    Sprite *s;
     s32 var_r3;
-    u32 var_r0_2;
+    s32 temp_r1;
     u8 *temp_r1_2;
-    u8 *temp_r1_3;
-    u8 temp_r0;
     u8 var_r0;
     u8 var_r1;
-    u8 var_r1_2;
     u8 var_r6;
 
-    param1->x = 8;
-    var_r6 = 0;
-loop_1:
-    var_r3 = 0;
-    temp_r2 = strc12C->unkC.x;
-    if (temp_r2 > 0xF000) {
-        var_r1 = (u8)((s32)(temp_r2 + 0xFFFF1000) >> 8);
-    } else {
-        var_r1 = 0;
-    }
-    if ((u32)var_r1 > 0xFU) {
-        var_r1_2 = 0;
-        strc12C->unkC.x = (s32)(temp_r2 + 0xFFFFF000);
-        strc12C->filler0[4] += 1;
-    } else {
-        var_r1_2 = 0;
-    }
-    temp_r0 = strc12C->filler0[4];
-    if (temp_r0 != 0) {
-        var_r1_2 = temp_r0;
-    }
-    temp_r1 = var_r1_2 + var_r6;
-    if (temp_r1 > 0x20) {
-        if (var_r6 != 0) {
-            temp_r1_2 = strc12C->unk0;
-            if ((u32)*temp_r1_2 <= 3U) {
-                *temp_r1_2 = 4;
+    sp[0] = &strc12C->spr74;
+    sp[1] = &strc12C->spr4C;
+    sp[2] = &strc12C->sprC4;
+    sp[3] = &strc12C->spr9C;
+
+    {
+        s32 result = 0;
+
+        param1->x = 8;
+
+        for (var_r6 = 0; var_r6 < 16; var_r6++) {
+            var_r3 = 0;
+            if (strc12C->unkC.x > Q(240)) {
+                var_r1 = I(strc12C->unkC.x - Q(240));
+            } else {
+                var_r1 = 0;
+            }
+            if (var_r1 > 0xFU) {
+                var_r1 = 0;
+                strc12C->unkC.x -= Q(16);
+                strc12C->unk4 += 1;
+            } else {
+                var_r1 = 0;
+            }
+
+            if (strc12C->unk4 != 0) {
+                var_r1 += strc12C->unk4;
+            }
+            temp_r1 = var_r1 + var_r6;
+
+            if (temp_r1 > 32) {
+                result = 2;
+                if (var_r6 != 0) {
+                    result = 1;
+                    if (*strc12C->unk0 < 4) {
+                        *strc12C->unk0 = 4;
+                    }
+                }
+                if (var_r6 == 5) {
+                    if (*strc12C->unk0 <= 5U) {
+                        *strc12C->unk0 = 6;
+                    }
+                }
+                break;
+            } else {
+                var_r0 = gUnknown_080D9F5C[temp_r1];
+                if (var_r0 > 3U) {
+                    var_r0 -= 4;
+                    var_r3 = 1;
+                }
+                s = sp[var_r0];
+                s->x = I(strc12C->unkC.x);
+                s->y = I(strc12C->unkC.y);
+                s->x -= param1->x;
+
+                if (var_r3 != 0) {
+                    s->frameFlags |= 0x400;
+                } else {
+                    s->frameFlags &= ~0x400;
+                }
+                DisplaySprite(s);
+                param1->x += 16;
             }
         }
-        if (var_r6 == 5) {
-            temp_r1_3 = strc12C->unk0;
-            if ((u32)*temp_r1_3 <= 5U) {
-                *temp_r1_3 = 6;
-            }
-        }
-    } else {
-        var_r0 = *(temp_r1 + &gUnknown_080D9F5C);
-        if ((u32)var_r0 > 3U) {
-            var_r0 -= 4;
-            var_r3 = 1;
-        }
-        temp_r2_2 = *((var_r0 * 4) + sp);
-        temp_r1_4 = (s32)strc12C->unkC.x >> 8;
-        temp_r2_2->x = (s16)temp_r1_4;
-        temp_r2_2->y = (s16)((s32)strc12C->unkC.y >> 8);
-        temp_r2_2->x = temp_r1_4 - param1->x;
-        if (var_r3 != 0) {
-            temp_r2_2->frameFlags |= 0x400;
-        } else {
-            temp_r2_2->frameFlags &= ~0x400;
-        }
-        DisplaySprite(temp_r2_2);
-        param1->x += 0x10;
-        var_r6 += 1;
-        if ((u32)var_r6 <= 0xFU) {
-            goto loop_1;
-        }
+
+        return result;
     }
 }
 
 void sub_80A72F4(CreditsRelated12C *strc12C, Vec2_u16 *param1)
 {
-    Vec2_u16 sp0;
-    s16 temp_r0;
-    u8 var_r7;
+    u16 sp0[2] = { 0 };
+    u8 i;
 
-    memset(&sp0, 0, 4);
-    sp0.x = 0x18;
-    sp0.y = 3;
-    var_r7 = 0;
-    do {
-        temp_r0 = ((s32)strc12C->unkC.x >> 8) - param1->x;
-        strc12C->unk34 = temp_r0;
-        strc12C->unk34 = (s16)(temp_r0 - sp0.x);
-        strc12C->unk36 = (s16)(((s32)strc12C->unkC.y >> 8) - sp0.y);
-        DisplaySprite((Sprite *)&strc12C->filler0[0x24]);
-        sp0.x += 0x3C;
-        var_r7 += 1;
-    } while ((u32)var_r7 <= 3U);
+    sp0[0] = 24;
+    sp0[1] = 3;
+
+    for (i = 0; i < 4; i++) {
+        Sprite *s = &strc12C->spr24;
+
+        s->x = I(strc12C->unkC.x) - param1->x;
+        s->y = I(strc12C->unkC.y);
+        s->x -= sp0[0];
+        s->y -= sp0[1];
+
+        DisplaySprite(s);
+
+        sp0[0] += 60;
+    }
 }
 
+#if 01
+#else
 void sub_80A735C(u8 *arg0, u8 *arg1, u8 arg2, u8 arg3)
 {
     Task *var_r0;
