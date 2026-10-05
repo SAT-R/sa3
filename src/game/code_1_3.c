@@ -153,7 +153,7 @@ extern void sub_8000538(u16 stageId);
 extern s16 sub_802610C(void);
 extern void sub_802613C(void);
 extern void CreatePreCreditsCutscene(u8);
-extern void sub_80A872C(u8);
+extern void CreateCredRelatedStrc90(u8);
 extern ColorRaw sub_80C4C0C(ColorRaw color);
 
 typedef enum {
@@ -1746,7 +1746,7 @@ void Task_2A4_8055378(void)
             gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 
-            sub_80A872C(0);
+            CreateCredRelatedStrc90(0);
         } else if (gStageData.currentLevel == 71) {
 #ifndef NON_MATCHING
             // NOTE: This has to be declared here to match,

@@ -218,7 +218,7 @@ PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
 
 void CreatePreCreditsCutscene() { }
-void sub_80A872C() { }
+void CreateCredRelatedStrc90() { }
 
 void sub_8081C80() { }
 

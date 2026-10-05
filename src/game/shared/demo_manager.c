@@ -61,7 +61,7 @@ void Task_8053094(void);
 extern void LaunchGameIntro(void);
 extern void LaunchTitleScreen(void);
 extern void DemoPlayFree(Player *p);
-extern void sub_80A872C(u8);
+extern void CreateCredRelatedStrc90(u8);
 
 void DemoPlay_Init(void)
 {
@@ -218,6 +218,6 @@ void Task_8053094(void)
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
-        sub_80A872C(ZONE_FINAL - gStageData.zone);
+        CreateCredRelatedStrc90(ZONE_FINAL - gStageData.zone);
     }
 }

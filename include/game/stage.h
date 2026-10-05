@@ -133,7 +133,8 @@ typedef struct {
     /* 0xBC */ u8 unkBC; // bitfield
     /* 0xBD */ u8 unkBD;
     /* 0xBE */ u8 unkBE[7];
-} StageData;
+    /* 0xC5 */ u8 unkC5;
+} StageData; /* size: 0xD0 at max, but unclear at this point */
 
 extern StageData gStageData;
 
