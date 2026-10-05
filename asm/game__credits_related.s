@@ -6,7 +6,6 @@
 .arm
 
 .if 0
-.else
 
 	thumb_func_start Task_28_80A77B4
 Task_28_80A77B4: @ 0x080A77B4
@@ -93,6 +92,7 @@ _080A785C: .4byte gWinRegs
 _080A7860: .4byte 0x00003F3E
 _080A7864: .4byte gBgScrollRegs
 _080A7868: .4byte sub_80A786C
+.else
 
 	thumb_func_start sub_80A786C
 sub_80A786C: @ 0x080A786C

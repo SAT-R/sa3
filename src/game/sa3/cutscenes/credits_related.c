@@ -203,6 +203,7 @@ void Task_28_80A74F8(void);
 void Task_28_80A7578(void);
 void TaskDestructor_80A84D8(Task *t);
 void Task_28_80A7738(void);
+void sub_80A786C(void);
 void Task_28_80A7674(void);
 bool32 sub_80A8524(CreditsRelated28 *strc28);
 
@@ -2768,33 +2769,33 @@ void Task_28_80A7738(void)
     }
 }
 
-#else
-void Task_28_80A77B4(CreditsRelated248 *strc248)
+void Task_28_80A77B4(void)
 {
-    s32 temp_r1_2;
-    s32 temp_r2;
-    u16 temp_r1;
+    CreditsRelated28 *strc28 = TASK_DATA(gCurTask);
+    s32 temp_r1;
+    s32 unk24;
 
-    temp_r1 = gCurTask->data;
-    if ((u32)temp_r1->unkB > 4U) {
+    if (strc28->unkB > 4U) {
         gDispCnt &= 0xDFFF;
-        temp_r1->unk20 = 0x5E00;
-        temp_r1->unk24 = 0;
-        temp_r1->unk1C = 0x2C00;
-        temp_r1->unk18 = 0;
+        strc28->unk20 = 0x5E00;
+        strc28->unk24 = 0;
+        strc28->unk1C = ((Q(115) - strc28->unk20)) * 2 + Q(2);
+        strc28->unk18 = 0;
         gBldRegs.bldCnt = 0x3F7F;
         gBldRegs.bldY = 0;
         gBldRegs.bldAlpha = 0x81F;
         gWinRegs[4] = 0x3F3E;
     }
-    temp_r2 = temp_r1->unk24;
-    temp_r1_2 = (0x5A00 - temp_r2) - ((gBgScrollRegs[1][1] - 0x50) << 8);
-    temp_r1->unk18 = temp_r1_2;
-    *temp_r1->unkC = ((temp_r2 >> 8) * 0x101) + (temp_r1_2 >> 8);
-    *temp_r1->unk10 = (((s32)temp_r1->unk20 >> 8) * 0x101) + ((s32)temp_r1->unk1C >> 8);
+
+    unk24 = strc28->unk24;
+    temp_r1 = Q(90);
+    strc28->unk18 = temp_r1 - unk24 - Q(gBgScrollRegs[1][1] - 80);
+    *strc28->winV = (I(strc28->unk24) * WIN_RANGE(1, 1)) + I(strc28->unk18);
+    *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
     gCurTask->main = sub_80A786C;
 }
 
+#else
 void sub_80A786C(CreditsRelated248 *strc248)
 {
     s32 temp_r1_2;
