@@ -188,6 +188,7 @@ void Task_150_80A808C(void);
 void Task_150_80A80EC(void);
 void Task_150_80A814C(void);
 void Task_150_80A8198(void);
+void Task_28_80A77B4(void);
 AnimCmdResult sub_80A8234(CreditsRelated150 *strc150);
 void sub_80A825C(CreditsRelated150 *arg0);
 u8 *sub_80AA06C(u8 *arg0, u8 *arg1);
@@ -2741,19 +2742,24 @@ void Task_28_80A7674(void)
         *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
     }
 }
-#else
-void Task_28_80A77B4(void);
+
 void Task_28_80A7738(void)
 {
     CreditsRelated28 *strc28 = TASK_DATA(gCurTask);
 
     if (strc28->unk14 <= 120) {
         strc28->unk14 += 1;
-        strc28->unk18 = (0x5A00 - strc28->unk24) - ((gBgScrollRegs[1][1] - 0x50) << 8);
-        *strc28->winV = (I(strc28->unk24) * WIN_RANGE(1, 1)) + I(strc28->unk18);
-        *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
-        if (strc28->unk14 == 0x78) {
-            *strc28->initArg0 = 12;
+        {
+            s32 unk24 = strc28->unk24;
+            s32 r1 = Q(90);
+            r1 -= unk24;
+            r1 -= Q(gBgScrollRegs[1][1] - 80);
+            strc28->unk18 = r1;
+            *strc28->winV = (I(unk24) * WIN_RANGE(1, 1)) + I(strc28->unk18);
+            *strc28->winH = (I(strc28->unk20) * WIN_RANGE(1, 1)) + I(strc28->unk1C);
+            if (strc28->unk14 == 0x78) {
+                *strc28->initArg0 = 12;
+            }
         }
     }
 
@@ -2762,6 +2768,7 @@ void Task_28_80A7738(void)
     }
 }
 
+#else
 void Task_28_80A77B4(CreditsRelated248 *strc248)
 {
     s32 temp_r1_2;
