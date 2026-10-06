@@ -152,6 +152,19 @@ typedef struct {
     /* 0x14C */ NotificationText *ewramData14C;
 } CreditsRelated150;
 
+typedef struct {
+    u8 unk0;
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
+    u16 unk4;
+    u16 unk6;
+    s32 unk8;
+    s32 unkC;
+    Background bg10;
+    u8 filler50[0x40]; // TODO: struct Background ?
+} CreditsRelated90;
+
 u8 *sub_80A45B4(u8 *param0, u8 *vram);
 void sub_80A4678(CreditsRelated248 *strc248);
 void sub_80A490C(CreditsRelated248 *strc248, u8 param1, u8 param2);
@@ -262,6 +275,17 @@ extern void sub_80AD7B4(NotificationText *arg0, u8 arg1, u16 arg2, u16 arg3, u8 
 extern void sub_80260F0();
 extern s16 sub_8001E84(void);
 
+void sub_80A8E54(void);
+void Task_90_80A8BAC(void);
+void sub_80A9920(u8 arg0);
+
+void Task_90_80A8858(void);
+void Task_90_80A8918(void);
+void Task_90_80A8AC4(void);
+void TaskDestructor_90_80A98AC(Task *t);
+extern const u8 gUnknown_080D9FBC[7];
+extern u8 gUnknown_080D9FC3[7];
+
 extern const u8 gCharacterSelectOrderLUT[NUM_CHARACTERS]; // 0x80D9B74
 extern const u16 gUnknown_080D99D0[CSO_COUNT];
 extern const TileInfo2 gUnknown_080D99DC[8];
@@ -293,6 +317,7 @@ extern const u8 gUnknown_080D9F5C[0x21];
 extern const u8 gUnknown_080D9F7D[6];
 extern const u8 gUnknown_080D9F83[9];
 extern const TileInfo2 gUnknown_080D9F8C[3];
+extern const u16 gUnknown_080D9FA4[]; // TODO: Tilemap enum!
 
 #if M2C
 void Task_248_80A4DDC(CreditsRelated248 *strc248);
