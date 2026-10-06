@@ -8,6 +8,7 @@
 #include "game/notification_text.h"
 #include "game/stage.h" // gStageData
 #include "game/shared/stage/player.h" // NUM_SINGLE_PLAYER_CHARS
+#include "game/sa3/title_screen.h" // CreateTitleScreen
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
 
@@ -296,7 +297,9 @@ void Task_48_A_80A9968(void);
 void Task_90_80A8858(void);
 void Task_90_80A8918(void);
 void Task_90_80A8AC4(void);
+void Task_C_80A8ED0(void);
 void TaskDestructor_90_80A98AC(Task *t);
+void TaskDestructor_C_80A99CC(Task *t);
 extern const u8 gUnknown_080D9FBC[7];
 extern u8 gUnknown_080D9FC3[7];
 
@@ -4057,47 +4060,52 @@ void Task_48_A_80A8D24(void)
     gCurTask->main = Task_48_A_80A9968;
 }
 
-#else
-// continue here
-
-#if 0
-void Task_80A8DC4(void *arg0)
+void UNUSED Task_80A8DC4(void)
 {
-    if (arg0->unk2 != 0) {
+    CreditsRelated48_A *strc48_A = TASK_DATA(gCurTask);
+    if (strc48_A->unk2 != 0) {
         gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
-        arg0->unk4 = 0U;
-        arg0->unk2 = 0U;
+        strc48_A->blendY = 0U;
+        strc48_A->unk2 = 0U;
     }
-    if ((u32)gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16)((u16)arg0->unk4 >> 8);
-        arg0->unk4 = (u16)(arg0->unk4 + 0x100);
+
+    if (gBldRegs.bldY < 0x10) {
+        gBldRegs.bldY = I(strc48_A->blendY);
+        strc48_A->blendY += Q(1);
+    } else {
+        gBldRegs.bldY = 0x10;
+        CreateTitleScreen(1U);
+        TaskDestroy(gCurTask);
         return;
     }
-    gBldRegs.bldY = 0x10;
-    CreateTitleScreen(1U);
-    TaskDestroy(gCurTask);
 }
 
-void sub_80A8E54(CreditsRelatedC *strcC)
+void sub_80A8E54(void)
 {
-    TaskCreate(Task_C_80A8ED0, 0xCU, 0x100U, 0U, TaskDestructor_C_80A99CC);
+    Task *t = TaskCreate(Task_C_80A8ED0, sizeof(CreditsRelatedC), 0x100U, 0U, TaskDestructor_C_80A99CC);
+    CreditsRelatedC *strcC = TASK_DATA(t);
     strcC->unk0 = 0;
     strcC->unk2 = 0;
     strcC->unk4 = 0;
     strcC->unk8 = 0xA000;
+
     gDispCnt |= DISPCNT_WIN0_ON;
     gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
     gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
-    gWinRegs[4] = 0x2100;
-    gWinRegs[5] |= 0x1F;
-    gWinRegs[2] = (((s32)strcC->unk4 >> 8) * WIN_RANGE(1, 1)) + ((s32)strcC->unk8 >> 8);
+    gWinRegs[WINREG_WININ] = 0x2100;
+    gWinRegs[WINREG_WINOUT] |= 0x1F;
+    gWinRegs[WINREG_WIN0V] = (I(strcC->unk4) * WIN_RANGE(1, 1)) + I(strcC->unk8);
 }
 
+#else
+// continue here
+
+#if 0
 void Task_C_80A8ED0(CreditsRelatedC *strcC)
 {
     s32 temp_r1_2;
