@@ -92,7 +92,7 @@ typedef struct {
 } CreditsRelatedC;
 
 typedef struct {
-    /* 0x000 */ s32 unk0;
+    /* 0x000 */ u16 unk0;
     /* 0x004 */ s32 unk4;
     /* 0x008 */ s32 qUnk8;
     /* 0x00C */ s32 qUnkC;
@@ -3381,7 +3381,6 @@ void sub_80A825C(CreditsRelated150 *arg0)
     arg0->ewramData14C->unkD = var_r3;
 }
 
-#else
 u8 *sub_80A828C(u8 *arg0, u8 *vram, s32 *arg2)
 {
     Task *t;
@@ -3412,7 +3411,7 @@ u8 *sub_80A828C(u8 *arg0, u8 *vram, s32 *arg2)
     sub_80A6F34(strc12C);
     sub_80A6EBC(strc12C);
 
-    return vram; // strc12C->unk8;
+    return strc12C->vram8;
 }
 
 void TaskDestructor_12C_80A8324(Task *t) { }
@@ -3420,22 +3419,21 @@ void TaskDestructor_12C_80A8324(Task *t) { }
 void Task_12C_80A8328(void)
 {
     CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
-    Vec2_u16 sp0;
-    memset(&sp0, 0, 4);
+    u16 sp0[2] = { 0 };
 
-    sub_80A71E8(strc12C, &sp0);
+    sub_80A71E8(strc12C, (void *)&sp0);
     gCurTask->main = Task_12C_80A8360;
 }
 
 void Task_12C_80A8360(void)
 {
     CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
-    Vec2_u16 sp0 = { 0, 0 };
+    u16 sp0[2] = { 0, 0 };
     u8 temp_r5;
 
-    temp_r5 = sub_80A71E8(strc12C, &sp0);
+    temp_r5 = sub_80A71E8(strc12C, (void *)&sp0);
     if (temp_r5 != 0) {
-        sub_80A72F4(strc12C, &sp0);
+        sub_80A72F4(strc12C, (void *)&sp0);
         if (temp_r5 == 2) {
             strc12C->unk6 = 0;
             gCurTask->main = Task_12C_80A83C8;
@@ -3450,13 +3448,13 @@ void Task_12C_80A8360(void)
 void Task_12C_80A83C8(void)
 {
     CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
-    Vec2_u16 sp0;
+    u16 sp0[2];
     u16 temp_r0;
     u16 temp_r4;
     u8 *temp_r1;
 
     memcpy(&sp0, &gUnknown_080D9F58, 4);
-    sub_80A72F4(strc12C, &sp0);
+    sub_80A72F4(strc12C, (void *)&sp0);
 
     if (*strc12C->unk0 > 7U) {
         strc12C->unk6 += 1;
@@ -3471,11 +3469,10 @@ void Task_12C_80A83C8(void)
 void Task_12C_80A8424(void)
 {
     CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
-    Vec2_u16 sp0;
-    u16 temp_r4;
-
+    u16 sp0[2];
     memcpy(&sp0, &gUnknown_080D9F58, 4);
-    sub_80A72F4(strc12C, &sp0);
+
+    sub_80A72F4(strc12C, (void *)&sp0);
     if (*strc12C->unk0 == 0xB) {
         gCurTask->main = Task_12C_80A70B8;
     }
@@ -3519,46 +3516,74 @@ bool32 sub_80A84DC(CreditsRelated28 *strc28)
         strc28->unk24 = 0;
     }
 
-    if (I(strc28->unk24 + strc28->unk18) > 0) {
-        return 0U;
+    if (I(strc28->unk24 + strc28->unk18) <= 0) {
+        return TRUE;
     }
 
-    return 1U;
+    return FALSE;
 }
 
 bool32 sub_80A8524(CreditsRelated28 *strc28)
 {
-    s32 temp_r0;
     s32 temp_r1;
 
-    temp_r0 = strc28->unk20;
-    if ((temp_r0 <= 0x5E00) || (temp_r1 = temp_r0 - 0x10, strc28->unk20 = temp_r1, (temp_r1 <= 0x5DFF))) {
+    if (strc28->unk20 <= 0x5E00) {
         strc28->unk20 = 0x5E00;
         return 1U;
+    } else {
+        strc28->unk20 -= 0x10;
+        if (strc28->unk20 >= 0x5E00) {
+            strc28->unk1C = ((0x7300 - strc28->unk20) * 2) + 0x200;
+            return 0U;
+        } else {
+            strc28->unk20 = 0x5E00;
+            return 1U;
+        }
     }
-    strc28->unk1C = ((0x7300 - temp_r1) * 2) + 0x200;
-    return 0U;
 }
 
+// TODO: Fake-matchcity!
 bool32 sub_80A8560(CreditsRelated28 *strc28)
 {
-    s32 temp_r2;
-
-    temp_r2 = strc28->unk24;
-    if (temp_r2 > 0) {
-        if ((s32)((gBgScrollRegs[1][1] - 0x50) << 8) > -0x5A) {
-            strc28->unk24 = (s32)((temp_r2 - 0x10) - ((gBgScrollRegs[1][1] - 0x50) << 8));
+    register s32 unk24 asm("r2") = strc28->unk24;
+    if (unk24 <= 0) {
+        strc28->unk24 = 0;
+        return 1;
+    } else {
+        if (Q(gBgScrollRegs[1][1] - 80) > -90) {
+            s32 r1 = unk24 - 0x10;
+            s16 *scrollRegs = (s16 *)gBgScrollRegs;
+#ifndef NON_MATCHING
+            register s32 r0 asm("r0");
+            register s32 r2 asm("r2");
+            asm("mov %2, #6\n"
+                "ldrsh %0, [%1, %2]\n"
+                : "=r"(r0)
+                : "r"(scrollRegs), "r"(r2));
+#else
+            s32 r0 = gBgScrollRegs[1][1];
+#endif
+            r0 = Q(r0 - 80);
+            r1 -= r0;
+            strc28->unk24 = r1;
         } else {
-            strc28->unk24 = (s32)(temp_r2 - 0x40);
+#ifndef NON_MATCHING
+            register s32 r0 asm("r0");
+            asm("mov %0, %1" : "=r"(r0) : "r"(unk24));
+#else
+            s32 r0 = unk24;
+#endif
+
+            r0 -= 0x40;
+            strc28->unk24 = r0;
         }
-        if ((s32)strc28->unk24 < 0) {
-            goto block_5;
+        if (strc28->unk24 >= 0) {
+            return 0;
+        } else {
+            strc28->unk24 = 0;
+            return 1;
         }
-        return 0;
     }
-block_5:
-    strc28->unk24 = 0;
-    return 1;
 }
 
 bool32 sub_80A85B0(CreditsRelated28 *strc28)
@@ -3567,7 +3592,7 @@ bool32 sub_80A85B0(CreditsRelated28 *strc28)
     s32 temp_r1;
 
     temp_r0 = strc28->unk20;
-    if ((temp_r0 > 0x72FF) || (temp_r1 = temp_r0 + 0x10, strc28->unk20 = temp_r1, (temp_r1 > 0x72FF))) {
+    if ((temp_r0 >= 0x7300) || (temp_r1 = temp_r0 + 0x10, strc28->unk20 = temp_r1, (temp_r1 > 0x72FF))) {
         strc28->unk20 = 0x7300;
         strc28->unk1C = 0;
         return 1;
@@ -3585,17 +3610,15 @@ void Task_8C_80A85F4(void)
     s32 temp_r0_2;
 
     {
-        Sprite *s = &strc8C->spr3C[0];
-        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
-            s->prevAnim = 0;
-            s->prevVariant = -1;
+        if (UpdateSpriteAnimation(&strc8C->spr3C[0]) == ACMD_RESULT__ENDED) {
+            strc8C->spr3C[0].qAnimDelay = 0;
+            strc8C->spr3C[0].prevVariant = -1;
         }
     }
     {
-        Sprite *s = &strc8C->spr3C[1];
-        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
-            s->prevAnim = 0;
-            s->prevVariant = -1;
+        if (UpdateSpriteAnimation(&strc8C->spr3C[1]) == ACMD_RESULT__ENDED) {
+            strc8C->spr3C[1].qAnimDelay = 0;
+            strc8C->spr3C[1].prevVariant = -1;
         }
     }
     if (*strc8C->initArg0 == 0x11) {
@@ -3607,13 +3630,17 @@ void sub_80A866C(Sprite *sprIn)
 {
     s32 temp_r0;
     CreditsRelated14 *strc14;
+    u32 rand0, rand;
 
     Task *t = TaskCreate(Task_14_80A86D8, sizeof(CreditsRelated14), 0x100U, 0U, TaskDestructor_14_80A86D4);
     strc14 = TASK_DATA(t);
     strc14->unk0 = 0;
     strc14->unk4 = 0;
     strc14->spr10 = sprIn;
-    strc14->qUnk8 = (s32)(((((u32)PseudoRandom32() >> 8) & 0x1F) << 8) + 0x5F00);
+    rand0 = gPseudoRandom;
+    rand = PseudoRandom32();
+    strc14->qUnk8 = Q(((u32)rand >> 8) % 32u);
+    strc14->qUnk8 += Q(95);
     strc14->qUnkC = 0x4600;
 }
 
@@ -3707,9 +3734,18 @@ void CreateCredRelatedStrc90(u8 arg0)
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = 0x40;
-    bg->targetTilesY = 0x20;
+    bg->targetTilesX = 64;
+    bg->targetTilesY = 32;
+#ifndef NON_MATCHING
+    {
+        u8 *urgh = (u8 *)strc90;
+        urgh += offsetof(CreditsRelated90, bg10.paletteOffset);
+        asm("" ::"r"(strc90));
+        *urgh = 0;
+    }
+#else
     bg->paletteOffset = 0;
+#endif
     bg->flags = 4;
     DrawBackground(bg);
 }
@@ -3795,7 +3831,7 @@ void Task_90_80A8918(void)
             return;
         }
         if (temp_r2 == 1) {
-            gDispCnt |= 0x100;
+            gDispCnt |= DISPCNT_BG0_ON;
             strc90->unk1 += 1;
             m4aSongNumStart(MUS_ENDING_A_COPY);
             sub_80A8E54();
@@ -3810,29 +3846,30 @@ void Task_90_80A8918(void)
         var_r1 = strc90->unk0;
     }
 
-    if (strc90->unk2 < gUnknown_080D9FBC[strc90->unk0]) {
+    if (strc90->unk2 < gUnknown_080D9FBC[var_r1]) {
+        Background *bg = &strc90->bg10;
         strc90->unk1 += 1;
-        strc90->unk2 += 11;
-        strc90->bg10.graphics.dest = (void *)0x06000000;
-        strc90->bg10.graphics.anim = 0;
-        strc90->bg10.layoutVram = (u16 *)0x0600E000;
-        strc90->bg10.unk18 = 0;
-        strc90->bg10.unk1A = 0;
-        strc90->bg10.tilemapId = gUnknown_080D9FA4[strc90->unk0 + strc90->unk2];
-        strc90->bg10.unk1E = 0;
-        strc90->bg10.unk20 = 0;
-        strc90->bg10.unk22 = 0;
-        strc90->bg10.unk24 = 0;
-        strc90->bg10.targetTilesX = 0x20;
-        strc90->bg10.targetTilesY = 0x20;
-        strc90->bg10.paletteOffset = 0;
-        strc90->bg10.flags = 4;
-        DrawBackground(&strc90->bg10);
+        strc90->unk2 += 1;
+        bg->graphics.dest = BG_CHAR_ADDR(0);
+        bg->graphics.anim = 0;
+        bg->layoutVram = BG_SCREEN_ADDR(28);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gUnknown_080D9FA4[strc90->unk0 + strc90->unk2];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 0x20;
+        bg->targetTilesY = 0x20;
+        bg->paletteOffset = 0;
+        bg->flags = 4;
+        DrawBackground(bg);
         strc90->unk6 = 0;
         gCurTask->main = Task_90_80A8AC4;
         return;
     }
-    temp_r0_3 = strc90->unk0;
+
     if (strc90->unk0 > 0xBU) {
         strc90->unk0 -= 0xB;
     }
@@ -3855,7 +3892,8 @@ void Task_90_80A8AC4(void)
         gDispCnt |= 0x4000;
         gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
-        if ((strc90->unk0 == 0) && ((u32)strc90->unk1 <= 2U)) {
+
+        if ((strc90->unk0 == 0) && ((u32)strc90->unk1 < 3)) {
             gWinRegs[4] = 0x2100;
         } else {
             gDispCnt |= 0x100;
@@ -3869,7 +3907,7 @@ void Task_90_80A8AC4(void)
     }
     if (gBldRegs.bldY != 0) {
         gBldRegs.bldY = (u16)((u16)strc90->unk4 >> 8);
-        if ((u16)strc90->unk0 == 0) {
+        if (strc90->unk0 == 0 && strc90->unk1 == 0) {
             strc90->unk4 -= Q(16. / 256.);
             return;
         }
@@ -3887,6 +3925,7 @@ void Task_90_80A8AC4(void)
     gCurTask->main = Task_90_80A8BAC;
 }
 
+#else
 // continue here
 
 #if 0
