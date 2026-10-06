@@ -89,7 +89,7 @@ typedef struct {
     /* 0x00 */ u8 unk0;
     /* 0x02 */ u16 unk2;
     /* 0x04 */ s32 unk4;
-    /* 0x08 */ s32 unk8;
+    /* 0x08 */ s32 qUnk8;
 } CreditsRelatedC;
 
 typedef struct {
@@ -314,8 +314,9 @@ extern const TileInfo2 gUnknown_080D9B1C[8];
 extern const TileInfo2 *gUnknown_080D9B5C[CS_GFX_COUNT];
 extern const u8 gUnknown_080D9B79[NUM_CHARACTERS];
 extern const s16 gUnknown_080D9B7E[NUM_CHARACTERS];
-extern const u16
-    gUnknown_080D9B88[0x10 + 1]; // TODO: The number of entries in this is between 0 and the max value of the GBA's blend register!
+// TODO:       The number of entries in this is between 0 and the max value of the GBA's blend register!
+// NOTE(Jace): I'm not 100% sure about this comment anymore...
+extern const u16 gUnknown_080D9B88[0x10 + 1];
 extern u8 gUnknown_080D9BAA[8];
 extern const u16 gUnknown_080D9BB2[7];
 extern const u8 gUnknown_080D9BC0[0x10];
@@ -335,6 +336,8 @@ extern const u8 gUnknown_080D9F7D[6];
 extern const u8 gUnknown_080D9F83[9];
 extern const TileInfo2 gUnknown_080D9F8C[3];
 extern const u16 gUnknown_080D9FA4[]; // TODO: Tilemap enum!
+extern const u8 gUnknown_080D9FCA[6];
+extern s32 gUnknown_080D9FD0[5]; // Q_24_8
 
 #if M2C
 void Task_248_80A4DDC(CreditsRelated248 *strc248);
@@ -875,7 +878,7 @@ void Task_248_80A4F94(void)
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(138, 95);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT - 1);
         gWinRegs[WINREG_WIN1H] = WIN_RANGE(95, 139);
-        gWinRegs[WINREG_WIN1V] = 0xD1A0;
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0xD1, DISPLAY_HEIGHT);
         gWinRegs[WINREG_WININ] = 0x3E00;
         gWinRegs[WINREG_WINOUT] |= 0x1F;
         gBldRegs.bldCnt = 0x2042;
@@ -4092,39 +4095,26 @@ void sub_80A8E54(void)
     strcC->unk0 = 0;
     strcC->unk2 = 0;
     strcC->unk4 = 0;
-    strcC->unk8 = 0xA000;
+    strcC->qUnk8 = 0xA000;
 
     gDispCnt |= DISPCNT_WIN0_ON;
     gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
     gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gWinRegs[WINREG_WININ] = 0x2100;
     gWinRegs[WINREG_WINOUT] |= 0x1F;
-    gWinRegs[WINREG_WIN0V] = (I(strcC->unk4) * WIN_RANGE(1, 1)) + I(strcC->unk8);
+    gWinRegs[WINREG_WIN0V] = (I(strcC->unk4) * WIN_RANGE(1, 1)) + I(strcC->qUnk8);
 }
 
-#else
-// continue here
-
-#if 0
-void Task_C_80A8ED0(CreditsRelatedC *strcC)
+void Task_C_80A8ED0(void)
 {
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r4;
-    u16 temp_r1;
-    u8 temp_r2;
-    u8 temp_r2_2;
+    CreditsRelatedC *strcC = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1->unk0;
-    temp_r4 = temp_r1->unk8;
-    if (temp_r4 > (s32)(*(temp_r2 + &gUnknown_080D9FCA) << 8)) {
-        temp_r1_2 = temp_r4 - *((temp_r2 * 4) + &gUnknown_080D9FD0);
-        temp_r1->unk8 = temp_r1_2;
-        if (temp_r1_2 <= (s32)(*(temp_r2 + &gUnknown_080D9FCA) << 8)) {
-            temp_r1->unk0 = (u8)(temp_r2 + 1);
-            if ((u32)(temp_r1_2 - 1) > 0x9FFEU) {
-                temp_r1->unk8 = 0;
+    if (strcC->qUnk8 > Q(gUnknown_080D9FCA[strcC->unk0])) {
+        strcC->qUnk8 -= gUnknown_080D9FD0[strcC->unk0];
+        if (strcC->qUnk8 <= Q(gUnknown_080D9FCA[strcC->unk0])) {
+            strcC->unk0 += 1;
+            if (strcC->qUnk8 <= 0 || strcC->qUnk8 >= 0xA000) {
+                strcC->qUnk8 = 0;
                 if (gStageData.playerIndex != 0) {
                     gStageData.unkC5 = 1;
                 }
@@ -4134,21 +4124,24 @@ void Task_C_80A8ED0(CreditsRelatedC *strcC)
                 return;
             }
         }
-        goto block_8;
+    } else {
+        strcC->qUnk8 += gUnknown_080D9FD0[strcC->unk0];
+        if (strcC->qUnk8 >= Q(gUnknown_080D9FCA[strcC->unk0])) {
+            strcC->unk0 += 1;
+        }
     }
-    temp_r1_3 = temp_r4 + *((temp_r2 * 4) + &gUnknown_080D9FD0);
-    temp_r1->unk8 = temp_r1_3;
-    temp_r2_2 = temp_r1->unk0;
-    if (temp_r1_3 >= (s32)(*(temp_r2_2 + &gUnknown_080D9FCA) << 8)) {
-        temp_r1->unk0 = (u8)(temp_r2_2 + 1);
+
+    if (strcC->unk0 > 6U) {
+        strcC->unk0 = 6;
     }
-block_8:
-    if ((u32)temp_r1->unk0 > 6U) {
-        temp_r1->unk0 = 6U;
-    }
-    gWinRegs[2] = (((s32)temp_r1->unk4 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r1->unk8 >> 8);
+
+    gWinRegs[WINREG_WIN0V] = (I(strcC->unk4) * WIN_RANGE(1, 1)) + I(strcC->qUnk8);
 }
 
+#else
+// continue here
+
+#if 0
 void sub_80A8F90(void)
 {
     s32 sp4;
