@@ -251,6 +251,7 @@ void sub_80A8468(CreditsRelated12C *strc12C);
 void Task_12C_80A8424(void);
 void Task_14_80A86D8(void);
 void TaskDestructor_14_80A86D4(Task *t);
+void CreateCredRelatedStrc90(u8 arg0);
 
 void Task_150_PreCreditsCutsceneNormalInit(void);
 void TaskDestructor_PreCreditsCutscene(Task *t);
@@ -2993,8 +2994,6 @@ u8 *sub_80A79C4(u8 *arg0, u8 *vram)
     return vram;
 }
 
-#else
-
 void Task_8C_80A7ACC(void)
 {
     CreditsRelated8C *strc8C = TASK_DATA(gCurTask);
@@ -3004,6 +3003,8 @@ void Task_8C_80A7ACC(void)
     s32 temp_r1;
     s32 temp_r3;
     u8 *temp_r2;
+    u32 rand;
+    s32 unk6;
 
     strc8C->unk10 = (s32)(0x5D00 - ((gBgScrollRegs[1][1] - 0x50) << 8));
 
@@ -3015,19 +3016,17 @@ void Task_8C_80A7ACC(void)
         DisplaySprite(s);
     }
     {
-        Sprite *s = &strc8C->spr3C[0];
-        AnimCmdResult acmdRes = UpdateSpriteAnimation(s);
+        AnimCmdResult acmdRes = UpdateSpriteAnimation(&strc8C->spr3C[0]);
         if (acmdRes == ACMD_RESULT__ENDED) {
-            s->prevAnim = 0;
-            s->prevVariant = -1;
+            strc8C->spr3C[0].qAnimDelay = 0;
+            strc8C->spr3C[0].prevVariant = -1;
         }
     }
     {
-        Sprite *s = &strc8C->spr3C[1];
-        AnimCmdResult acmdRes = UpdateSpriteAnimation(s);
+        AnimCmdResult acmdRes = UpdateSpriteAnimation(&strc8C->spr3C[1]);
         if (acmdRes == ACMD_RESULT__ENDED) {
-            s->prevAnim = 0;
-            s->prevVariant = -1;
+            strc8C->spr3C[1].qAnimDelay = 0;
+            strc8C->spr3C[1].prevVariant = -1;
         }
     }
     if (*strc8C->initArg0 == 0x10) {
@@ -3035,14 +3034,18 @@ void Task_8C_80A7ACC(void)
         return;
     }
     strc8C->unk6 += 1;
-    if ((strc8C->unk4 & 0xFFFF00FF) == 0xB40000) {
+    if ((strc8C->unk4 == 0 && strc8C->unk6 == 0xB4)) {
         strc8C->unk4 = 1;
-        sub_80A735C(temp_r2, NULL, 1U, 0U);
+        sub_80A735C(strc8C->initArg0, NULL, 1U, 0U);
     }
-    if (strc8C->unk6 >= (u32)((((u32)PseudoRandom32() >> 8) & 0x1F) + 0xC4)) {
+    rand = (((u32)PseudoRandom32()));
+    unk6 = strc8C->unk6;
+    if (unk6 >= (u32)(((rand >> 8) & 0x1F) + 0xC4)) {
+        Sprite *s;
         temp_r1 = PseudoRandom32();
+        s = &strc8C->spr3C[((u32)temp_r1 >> 8) & 1];
         strc8C->unk6 = 0xB5U;
-        sub_80A866C(&strc8C->spr3C[((u32)temp_r1 >> 8) & 1]);
+        sub_80A866C(s);
     }
 }
 
@@ -3061,7 +3064,7 @@ void Task_248_80A7C40(void)
 {
     CreditsRelated248 *strc248 = TASK_DATA(gCurTask);
     UpdateBgAnimationTiles(&strc248->bgD8);
-    if ((sub_80A5824(strc248) == 0) && (*strc248->initArg0 == 0xA)) {
+    if ((sub_80A5824(strc248) == 0) && (*strc248->initArg0 == 10)) {
         gCurTask->main = Task_248_80A7C7C;
     }
 }
@@ -3166,7 +3169,7 @@ void Task_150_PreCreditsCutsceneNormalInit(void)
         return;
     }
 
-    strc->vramC = sub_80A828C(strc->unk0, strc->vramC, &strc->unk14);
+    strc->vramC = sub_80A828C(&strc->initArg0, strc->vramC, &strc->unk14);
     strc->unk6 = 0;
 
     gCurTask->main = Task_150_80A6090;
@@ -3227,8 +3230,11 @@ void Task_150_80A7FDC(void)
     sub_80A6A5C(strc150);
 
     if (strc150->initArg0 == 0xB) {
+        // TODO: Can this be matched a bit more cleanly?
+        s32 qUnk30 = strc150->qUnk30;
         strc150->qUnk30 += Q(0.125);
-        strc150->unk18 = (strc150->qUnk30 + Q(120.125)) - Q(gBgScrollRegs[1][1] - 80);
+        qUnk30 += Q(120.125);
+        strc150->unk18 = qUnk30 - Q(gBgScrollRegs[1][1] - 80);
         strc150->unk20 = strc150->unk18;
     }
     if (strc150->initArg0 == 0xD) {
@@ -3252,44 +3258,42 @@ void Task_150_80A805C(void)
 void Task_150_80A808C(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
-    s32 temp_r0;
-    s32 temp_r1;
 
     sub_80A6BDC(strc150);
     if (strc150->initArg0 == 0xE) {
-        temp_r0 = strc150->qUnk30 - 0x40;
-        strc150->qUnk30 = temp_r0;
-        if (temp_r0 <= 0) {
+        strc150->qUnk30 -= 0x40;
+        if (strc150->qUnk30 <= 0) {
             strc150->qUnk30 = 0;
         }
-        temp_r1 = (strc150->qUnk30 + 0x7800) - ((gBgScrollRegs[1][1] - 0x50) << 8);
-        strc150->unk18 = temp_r1;
-        strc150->unk20 = temp_r1;
+
+        {
+            s32 qUnk30 = strc150->qUnk30;
+            qUnk30 += Q(120);
+            strc150->unk18 = qUnk30 - Q(gBgScrollRegs[1][1] - 80);
+            strc150->unk20 = strc150->unk18;
+        }
     }
+
     if (strc150->initArg0 == 0x10) {
         gCurTask->main = Task_150_80A6700;
     }
 }
 
-void CreateCredRelatedStrc90(u8 arg0);
-
 void Task_150_80A80EC(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
-    CreditsRelated150 *temp_r4;
 
-    temp_r4 = strc150 + ((s32)strc150 << 0x12);
     sub_80239A8(strc150->ewramData14C);
-    sub_80A825C(temp_r4);
-    if (sub_80A81E8(temp_r4) == 1) {
-        temp_r4->unk8 = 0;
-        temp_r4->unk6 = 0;
-        temp_r4->initArg0 = 0x15;
-        sub_80A5EF0(temp_r4, 0xAU, 1U);
+    sub_80A825C(strc150);
+    if (sub_80A81E8(strc150) == 1) {
+        strc150->unk8 = 0;
+        strc150->unk6 = 0;
+        strc150->initArg0 = 0x15;
+        sub_80A5EF0(strc150, 0xAU, 1U);
         gCurTask->main = Task_150_80A690C;
         return;
     }
-    sub_80A6DD0(temp_r4);
+    sub_80A6DD0(strc150);
 }
 
 void Task_150_80A814C(void)
@@ -3331,11 +3335,11 @@ void Task_150_80A8198(void)
 
 bool32 sub_80A81E8(CreditsRelated150 *arg0)
 {
-    if (arg0->unk14 <= -Q(40)) {
-        return 1;
-    } else {
+    if (arg0->unk14 > -Q(40)) {
         arg0->unk14 -= Q(5);
         return 0;
+    } else {
+        return 1;
     }
 }
 
@@ -3343,37 +3347,41 @@ bool32 sub_80A820C(CreditsRelated150 *strc150)
 {
     s32 temp_r2;
 
-    if (strc150->unk18 >= Q(121)) {
-        strc150->unk18 = Q(121);
-        return 1;
-    } else {
+    if (strc150->unk18 < Q(121)) {
         strc150->unk18 += Q(3);
         return 0;
+    } else {
+        strc150->unk18 = Q(121);
+        return 1;
     }
 }
 
 AnimCmdResult sub_80A8234(CreditsRelated150 *arg0)
 {
-    s32 temp_r5;
     Sprite *s = &arg0->sprD4;
-    s->x = (s16)((s32)arg0->unk14 >> 8);
-    s->y = (s16)((s32)arg0->unk18 >> 8);
-    temp_r5 = UpdateSpriteAnimation(s);
-    DisplaySprite(s);
-    return temp_r5;
+    s->x = I(arg0->unk14);
+    s->y = I(arg0->unk18);
+
+    {
+        AnimCmdResult acmdRes = UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        return acmdRes;
+    }
 }
 
 void sub_80A825C(CreditsRelated150 *arg0)
 {
-    s8 var_r3 = 0;
+    s16 var_r3 = 0;
 
     if (arg0->qUnk24.x > -Q(210)) {
-        arg0->qUnk24.x = -Q(5);
+        arg0->qUnk24.x -= Q(5);
         var_r3 = -5;
     }
+
     arg0->ewramData14C->unkD = var_r3;
 }
 
+#else
 u8 *sub_80A828C(u8 *arg0, u8 *vram, s32 *arg2)
 {
     Task *t;
