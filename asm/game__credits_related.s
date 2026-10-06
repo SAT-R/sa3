@@ -2202,17 +2202,17 @@ _080A8B8C:
 	strh r0, [r3, #6]
 _080A8B9A:
 	ldr r1, [r5]
-	ldr r0, _080A8BA8 @ =sub_80A8BAC
+	ldr r0, _080A8BA8 @ =Task_90_80A8BAC
 	str r0, [r1, #8]
 _080A8BA0:
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A8BA8: .4byte sub_80A8BAC
+_080A8BA8: .4byte Task_90_80A8BAC
 
-	thumb_func_start sub_80A8BAC
-sub_80A8BAC: @ 0x080A8BAC
+	thumb_func_start Task_90_80A8BAC
+Task_90_80A8BAC: @ 0x080A8BAC
 	push {r4, lr}
 	ldr r2, _080A8BCC @ =gCurTask
 	ldr r0, [r2]

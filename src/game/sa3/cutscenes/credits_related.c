@@ -3604,253 +3604,260 @@ void Task_14_80A86D8(void)
     }
 }
 
+// TODO: Fake-match!
 void CreateCredRelatedStrc90(u8 arg0)
 {
-    Background *temp_r3;
-    Task *var_r4;
-    u16 temp_r0;
-    u8 temp_r6;
+    Background *bg;
+    Task *t;
     u8 var_r0;
     u8 var_r2;
+#ifndef NON_MATCHING
+    register CreditsRelated90 *strc90 asm("r4");
+#else
+    CreditsRelated90 *strc90;
+#endif
 
-    temp_r6 = arg0;
-    gDispCnt = 0x1040;
-    if (temp_r6 == 0) {
-        var_r4 = TaskCreate(Task_90_80A8858, 0x90U, 0x100U, 0U, TaskDestructor_90_80A98AC);
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
+    if (arg0 == 0) {
+        t = TaskCreate(Task_90_80A8858, sizeof(CreditsRelated90), 0x100U, 0U, TaskDestructor_90_80A98AC);
         m4aMPlayAllStop();
     } else {
-        var_r4 = TaskCreate(Task_90_80A8AC4, 0x90U, 0x100U, 0U, TaskDestructor_90_80A98AC);
+        t = TaskCreate(Task_90_80A8AC4, sizeof(CreditsRelated90), 0x100U, 0U, TaskDestructor_90_80A98AC);
     }
-    temp_r0 = var_r4->data;
-    temp_r0->unk2 = 0U;
-    temp_r0->unk3 = 0;
-    temp_r0->unk4 = 0;
-    temp_r0->unk6 = 0;
-    temp_r0->unk1 = 0U;
-    if (temp_r6 != 0) {
-        if ((u32)temp_r6 > 0xAU) {
-            var_r0 = 0xB;
-            goto block_8;
-        }
-        if ((u32)(u8)(temp_r6 - 1) <= 5U) {
-            var_r0 = 0xA;
-        block_8:
-            temp_r0->unk1 = var_r0;
+#ifndef NON_MATCHING
+    {
+        register u32 data asm("r0") = t->data;
+        register u32 iwramBase asm("r1") = IWRAM_START;
+        asm("add %0, %1, %2" : "=r"(strc90) : "r"(data), "r"(iwramBase));
+    }
+#else
+    strc90 = TASK_DATA(t);
+#endif
+    strc90->unk2 = 0;
+    strc90->unk3 = 0;
+    strc90->unk4 = 0;
+    strc90->unk6 = 0;
+    strc90->unk1 = 0;
+
+    if (arg0 != 0) {
+        if (arg0 >= 11) {
+            strc90->unk1 = 11;
+        } else if (arg0 == 1 || arg0 == 2 || arg0 == 3 || arg0 == 4 || arg0 == 5 || arg0 == 6) {
+            strc90->unk1 = 10;
         }
     }
-    temp_r0->unk0 = temp_r6;
-    temp_r0->unk8 = 0;
-    temp_r0->unkC = 0;
-    *gBgSprites_Unknown1 = 0;
+
+    strc90->unk0 = arg0;
+    strc90->unk8 = 0;
+    strc90->unkC = 0;
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;
     gBgSprites_Unknown2[0][3] = 0x40;
-    *gBgCntRegs = 0x5C81;
+    gBgCntRegs[0] = 0x4000 | 0x1C81;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    temp_r3 = temp_r0 + 0x10;
-    var_r2 = *(temp_r0->unk0 + temp_r0->unk2 + &gUnknown_080D9FC3);
-    if (temp_r0->unk1 == 0xB) {
-        var_r2 = 0xB;
+
+    bg = &strc90->bg10;
+    var_r2 = gUnknown_080D9FC3[strc90->unk0 + strc90->unk2];
+    if (strc90->unk1 == 0xB) {
+        var_r2 = 11;
     }
-    temp_r3->graphics.dest = (void *)0x06000000;
-    temp_r3->graphics.anim = 0;
-    temp_r3->layoutVram = (u16 *)0x0600E000;
-    temp_r3->unk18 = 0;
-    temp_r3->unk1A = 0;
-    temp_r3->tilemapId = *((var_r2 * 2) + &gUnknown_080D9FA4);
-    temp_r3->unk1E = 0;
-    temp_r3->unk20 = 0;
-    temp_r3->unk22 = 0;
-    temp_r3->unk24 = 0;
-    temp_r3->targetTilesX = 0x40;
-    temp_r3->targetTilesY = 0x20;
-    temp_r0->unk3A = 0;
-    temp_r3->flags = 4;
-    DrawBackground(temp_r3);
+    bg->graphics.dest = BG_CHAR_ADDR(0);
+    bg->graphics.anim = 0;
+    bg->layoutVram = BG_SCREEN_ADDR(28);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = gUnknown_080D9FA4[var_r2];
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 0x40;
+    bg->targetTilesY = 0x20;
+    bg->paletteOffset = 0;
+    bg->flags = 4;
+    DrawBackground(bg);
 }
 
-void Task_90_80A8858(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
+void Task_90_80A8858()
 {
+    CreditsRelated90 *strc90 = TASK_DATA(gCurTask);
     u16 var_r0;
 
-    if (arg7C->filler0[3] == 0) {
-        gDispCnt |= 0x4000;
-        gWinRegs[1] = 0xF0;
-        gWinRegs[3] = 0xA0;
-        if ((u32)arg7C->filler0[1] <= 2U) {
-            var_r0 = 0x2100;
+    if (strc90->unk3 == 0) {
+        gDispCnt |= DISPCNT_WIN1_ON;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        if (strc90->unk1 <= 2U) {
+            gWinRegs[4] = 0x2100;
         } else {
-            var_r0 = 0x3FFF;
+            gWinRegs[4] = 0x3FFF;
         }
-        gWinRegs[4] = var_r0;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FBF;
         gBldRegs.bldY = 0x10;
-        arg7C->unk4 = 0x1000U;
-        arg7C->filler0[3] = 1;
+        strc90->unk4 = 0x1000U;
+        strc90->unk3 = 1;
     }
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16)((u16)arg7C->unk4 >> 8);
-        if (arg7C->filler0[1] == 0) {
-            arg7C->unk4 = (u16)(arg7C->unk4 - 0x40);
+        gBldRegs.bldY = (u16)((u16)strc90->unk4 >> 8);
+        if (strc90->unk1 == 0) {
+            strc90->unk4 -= 0x40;
             return;
         }
-        arg7C->unk4 = (u16)(arg7C->unk4 + 0xFFFFFF00);
+        strc90->unk4 -= Q(1);
         return;
     }
     gBldRegs.bldY = gBldRegs.bldY;
-    arg7C->filler0[1] += 1;
+    strc90->unk1 += 1;
     gCurTask->main = Task_90_80A8918;
 }
 
-void Task_90_80A8918(CreditsRelated248 *strc248)
+void Task_90_80A8918(void)
 {
-    Background *temp_r0_3;
+    CreditsRelated90 *strc90 = TASK_DATA(gCurTask);
     u16 temp_r0_2;
-    u16 temp_r1;
     u16 var_r0;
     u32 var_r3;
     u8 temp_r0;
-    u8 temp_r0_4;
-    u8 temp_r1_2;
+    u8 temp_r0_3;
+    u8 temp_r1;
     u8 temp_r2;
     u8 temp_r2_2;
     u8 var_r1;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk3 != 0) {
-        gDispCnt |= 0x4000;
-        gWinRegs[1] = 0xF0;
-        gWinRegs[3] = 0xA0;
-        if ((u32)temp_r1->unk1 <= 2U) {
-            var_r0 = 0x2100;
+    if (strc90->unk3 != 0) {
+        gDispCnt |= DISPCNT_WIN1_ON;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        if ((u32)strc90->unk1 <= 2U) {
+            gWinRegs[4] = 0x2100;
         } else {
-            var_r0 = 0x3FFF;
+            gWinRegs[4] = 0x3FFF;
         }
-        gWinRegs[4] = var_r0;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
-        temp_r1->unk4 = 0U;
-        temp_r1->unk3 = 0U;
+        strc90->unk4 = 0;
+        strc90->unk3 = 0;
     }
     if ((u32)gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16)((u16)temp_r1->unk4 >> 8);
-        if (temp_r1->unk0 == 0) {
-            temp_r1->unk4 = (u16)(temp_r1->unk4 + 0x40);
+        gBldRegs.bldY = (u16)((u16)strc90->unk4 >> 8);
+        if (strc90->unk0 == 0) {
+            strc90->unk4 += 0x40;
             return;
         }
-        temp_r1->unk4 = (u16)(temp_r1->unk4 + 0x100);
+        strc90->unk4 += 0x100;
         return;
     }
-    temp_r0 = temp_r1->unk0;
-    if (temp_r0 == 0) {
-        temp_r2 = temp_r1->unk1;
+    if (strc90->unk0 == 0) {
+        temp_r2 = strc90->unk1;
         var_r3 = 0x3C;
         if (temp_r2 == 1) {
             var_r3 = 0x78;
         }
-        temp_r0_2 = temp_r1->unk6;
-        if ((u32)temp_r0_2 < var_r3) {
-            temp_r1->unk6 = (u16)(temp_r0_2 + 1);
+        if (strc90->unk6 < var_r3) {
+            strc90->unk6 += 1;
             return;
         }
         if (temp_r2 == 1) {
             gDispCnt |= 0x100;
-            temp_r1->unk1 = (u8)(temp_r1->unk1 + 1);
-            m4aSongNumStart(0x4FU);
-            sub_80A8E54(M2C_ERROR(/* Read from unset register $r0 */));
-            goto block_21;
+            strc90->unk1 += 1;
+            m4aSongNumStart(MUS_ENDING_A_COPY);
+            sub_80A8E54();
+            gCurTask->main = Task_90_80A8AC4;
+            return;
         }
-        goto block_16;
     }
-block_16:
-    if ((u32)temp_r0 > 0xBU) {
-        var_r1 = temp_r0 - 0xB;
+
+    if (strc90->unk0 > 0xBU) {
+        var_r1 = strc90->unk0 - 11;
     } else {
-        var_r1 = temp_r1->unk0;
+        var_r1 = strc90->unk0;
     }
-    temp_r2_2 = temp_r1->unk2;
-    if ((u32)temp_r2_2 < (u32) * (var_r1 + &gUnknown_080D9FBC)) {
-        temp_r0_3 = temp_r1 + 0x10;
-        temp_r1->unk1 = (u8)(temp_r1->unk1 + 1);
-        temp_r1->unk2 = (u8)(temp_r2_2 + 1);
-        temp_r0_3->graphics.dest = (void *)0x06000000;
-        temp_r0_3->graphics.anim = 0;
-        temp_r0_3->layoutVram = (u16 *)0x0600E000;
-        temp_r0_3->unk18 = 0;
-        temp_r0_3->unk1A = 0;
-        temp_r0_3->tilemapId = *(((temp_r1->unk0 + temp_r1->unk2) * 2) + &gUnknown_080D9FA4);
-        temp_r0_3->unk1E = 0;
-        temp_r0_3->unk20 = 0;
-        temp_r0_3->unk22 = 0;
-        temp_r0_3->unk24 = 0;
-        temp_r0_3->targetTilesX = 0x20;
-        temp_r0_3->targetTilesY = 0x20;
-        temp_r1->unk3A = 0;
-        temp_r0_3->flags = 4;
-        DrawBackground(temp_r0_3);
-        temp_r1->unk6 = 0U;
-    block_21:
-        gCurTask->main = (void (*)(CreditsRelated248 *))Task_90_80A8AC4;
+
+    if (strc90->unk2 < gUnknown_080D9FBC[strc90->unk0]) {
+        strc90->unk1 += 1;
+        strc90->unk2 += 11;
+        strc90->bg10.graphics.dest = (void *)0x06000000;
+        strc90->bg10.graphics.anim = 0;
+        strc90->bg10.layoutVram = (u16 *)0x0600E000;
+        strc90->bg10.unk18 = 0;
+        strc90->bg10.unk1A = 0;
+        strc90->bg10.tilemapId = gUnknown_080D9FA4[strc90->unk0 + strc90->unk2];
+        strc90->bg10.unk1E = 0;
+        strc90->bg10.unk20 = 0;
+        strc90->bg10.unk22 = 0;
+        strc90->bg10.unk24 = 0;
+        strc90->bg10.targetTilesX = 0x20;
+        strc90->bg10.targetTilesY = 0x20;
+        strc90->bg10.paletteOffset = 0;
+        strc90->bg10.flags = 4;
+        DrawBackground(&strc90->bg10);
+        strc90->unk6 = 0;
+        gCurTask->main = Task_90_80A8AC4;
         return;
     }
-    temp_r0_4 = temp_r1->unk0;
-    if ((u32)temp_r0_4 > 0xBU) {
-        temp_r1->unk0 = (u8)(temp_r0_4 - 0xB);
+    temp_r0_3 = strc90->unk0;
+    if (strc90->unk0 > 0xBU) {
+        strc90->unk0 -= 0xB;
     }
-    temp_r1_2 = temp_r1->unk0;
-    if (temp_r1_2 == 0) {
-        CreatePreCreditsCutscene(1U, (CreditsRelated150 *)temp_r1_2);
-    } else if ((u32)(u8)(temp_r1_2 - 1) <= 4U) {
-        sub_80A9920((u8)(temp_r1_2 + 0xB));
+
+    if (strc90->unk0 == 0) {
+        CreatePreCreditsCutscene(1U);
+    } else if (strc90->unk0 == 1 || strc90->unk0 == 2 || strc90->unk0 == 3 || strc90->unk0 == 4 || strc90->unk0 == 5) {
+        sub_80A9920((u8)(strc90->unk0 + 11));
     }
+
     TaskDestroy(gCurTask);
 }
 
-void Task_90_80A8AC4(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
+void Task_90_80A8AC4(void)
 {
+    CreditsRelated90 *strc90 = TASK_DATA(gCurTask);
     u16 var_r0;
 
-    if (arg7C->filler0[3] == 0) {
+    if (strc90->unk3 == 0) {
         gDispCnt |= 0x4000;
-        gWinRegs[1] = 0xF0;
-        gWinRegs[3] = 0xA0;
-        if ((arg7C->filler0[0] == 0) && ((u32)arg7C->filler0[1] <= 2U)) {
-            var_r0 = 0x2100;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        if ((strc90->unk0 == 0) && ((u32)strc90->unk1 <= 2U)) {
+            gWinRegs[4] = 0x2100;
         } else {
             gDispCnt |= 0x100;
-            var_r0 = 0x3FFF;
+            gWinRegs[4] = 0x3FFF;
         }
-        gWinRegs[4] = var_r0;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
         gBldRegs.bldY = 0x10;
-        arg7C->unk4 = 0x1000U;
-        arg7C->filler0[3] = 1;
+        strc90->unk4 = Q(16);
+        strc90->unk3 = 1;
     }
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16)((u16)arg7C->unk4 >> 8);
-        if ((u16)arg7C->unk0 == 0) {
-            arg7C->unk4 = (u16)(arg7C->unk4 - 0x10);
+        gBldRegs.bldY = (u16)((u16)strc90->unk4 >> 8);
+        if ((u16)strc90->unk0 == 0) {
+            strc90->unk4 -= Q(16. / 256.);
             return;
         }
-        if (arg7C->filler0[0] == 0) {
-            arg7C->unk4 = (u16)(arg7C->unk4 - 0x40);
+        if (strc90->unk0 == 0) {
+            strc90->unk4 -= Q(0.25);
             return;
         }
-        arg7C->unk4 = (u16)(arg7C->unk4 + 0xFFFFFF00);
+        strc90->unk4 -= Q(1);
         return;
     }
     gBldRegs.bldY = gBldRegs.bldY;
-    if (arg7C->filler0[0] == 6) {
-        arg7C->unk6 = 0x12C;
+    if (strc90->unk0 == 6) {
+        strc90->unk6 = 0x12C;
     }
-    gCurTask->main = sub_80A8BAC;
+    gCurTask->main = Task_90_80A8BAC;
 }
 
-void sub_80A8BAC(CreditsRelated248 *strc248)
+// continue here
+
+#if 0
+void Task_90_80A8BAC(CreditsRelated248 *strc248)
 {
     u16 temp_r0_2;
     u32 var_r3;
@@ -4388,8 +4395,8 @@ void sub_80A9798(void)
     temp_r1 = gCurTask->data;
     if (temp_r1->unk0 == 0) {
         gDispCnt |= 0x4000;
-        gWinRegs[1] = 0xF0;
-        gWinRegs[3] = 0xA0;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] = 0x3FFF;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
@@ -4413,8 +4420,8 @@ void sub_80A9824(CreditsRelated248 *strc248)
     temp_r1 = gCurTask->data;
     if (temp_r1->unk0 != 0) {
         gDispCnt |= 0x4000;
-        gWinRegs[1] = 0xF0;
-        gWinRegs[3] = 0xA0;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] = 0x3FFF;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
@@ -7264,4 +7271,5 @@ void sub_80ACBF0(void *arg0)
         } while ((u32)var_r4 < (u32)arg0->unk1);
     }
 }
+#endif // inner
 #endif
