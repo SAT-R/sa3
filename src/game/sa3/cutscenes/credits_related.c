@@ -194,8 +194,7 @@ typedef struct {
     /* 0x002 */ u8 unk2;
     /* 0x003 */ u8 unk3;
     /* 0x004 */ ColorRaw palette4[16 * 16];
-    /* 0x204 */ ColorRaw palette204[16 * 16];
-    /* 0x404 */ u8 filler404[0xA00];
+    /* 0x204 */ s32 palette204[16 * 16 * 3];
 } CreditsRelatedE04;
 
 u8 *sub_80A45B4(u8 *param0, u8 *vram);
@@ -4408,79 +4407,62 @@ void Task_6C_80A9354(void)
     }
 }
 
-#else
-// continue here
-
-#if 0
 void Task_E04_80A94EC(void);
 extern ColorRaw Palette_unknown_307[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_308[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_318[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_319[16 * PALETTE_LEN_4BPP];
-void Task_E04_80A93C8(void) {
+
+// (82.67%) https://decomp.me/scratch/TMgIT
+NONMATCH("asm/non_matching/game/sa3/cutscenes/crE04__Task_E04_80A93C8.inc", void Task_E04_80A93C8(void))
+{
     CreditsRelatedE04 *strcE04 = TASK_DATA(gCurTask);
-    ColorRaw paletteSP0[16 * PALETTE_LEN_4BPP];
-    ColorRaw paletteSP1[16 * PALETTE_LEN_4BPP];
-    ColorRaw *swapRefs[2];
-    s32 temp_r3;
+    ColorRaw paletteSP[2][16 * PALETTE_LEN_4BPP];
+    //    ColorRaw paletteSP[1][16 * PALETTE_LEN_4BPP];
+    u32 *sp400[2];
+
     u16 *temp_r4;
     u16 *temp_r5;
     u16 var_r7;
+    u32 maskA, maskB;
+    s32 testR2;
 
     if (strcE04->unk0 != 0) {
-        CpuFastCopy(Palette_unknown_318, paletteSP0, sizeof(paletteSP0));
-        CpuFastCopy(Palette_unknown_319, paletteSP1, sizeof(paletteSP1));
+        CpuFastCopy(Palette_unknown_318, paletteSP[0], sizeof(paletteSP[0]));
+        CpuFastCopy(Palette_unknown_319, paletteSP[1], sizeof(paletteSP[1]));
     } else {
-        CpuFastCopy(Palette_unknown_307, paletteSP0, sizeof(paletteSP0));
-        CpuFastCopy(Palette_unknown_308, paletteSP1, sizeof(paletteSP1));
+        CpuFastCopy(Palette_unknown_307, paletteSP[0], sizeof(paletteSP[0]));
+        CpuFastCopy(Palette_unknown_308, paletteSP[1], sizeof(paletteSP[1]));
     }
 
     var_r7 = 0;
-    swapRefs[0] = strcE04->palette204;
-    swapRefs[1] = paletteSP1;
-    for(var_r7 = 0; var_r7 < 0x100; var_r7++)
+    sp400[0] = strcE04->palette204;
+    sp400[1] = (void *)paletteSP[1];
     {
-        temp_r5 = &swapRefs[1][var_r7];
-        temp_r4 = &swapRefs[0][var_r7];
-        strcE04->palette204[var_r7 * 6 + 0] = (((*temp_r5 >>  0) & 0x1F) - ((*temp_r4 >> 0)  & 0x1F)) * 0x10;
-        strcE04->palette204[var_r7 * 6 + 4] = (((*temp_r5 >>  5) & 0x1F) - ((*temp_r4 >> 5)  & 0x1F)) * 0x10;
-        strcE04->palette204[var_r7 * 6 + 8] = (((*temp_r5 >> 10) & 0x1F) - ((*temp_r4 >> 10) & 0x1F)) * 0x10;
+        for (; var_r7 < 16 * PALETTE_LEN_4BPP; var_r7++) {
+            {
+                u32 *r = &sp400[0][var_r7 * 3 + 0];
+                *r = (((paletteSP[1][var_r7] >> 0) & 0x1F) - ((paletteSP[0][var_r7] >> 0) & 0x1F)) << 4;
+            }
+            {
+                u32 *g = &sp400[0][var_r7 * 3 + 1];
+                *g = (((paletteSP[1][var_r7] >> 5) & 0x1F) - ((paletteSP[0][var_r7] >> 5) & 0x1F)) << 4;
+            }
+            {
+                u32 *b = &sp400[0][var_r7 * 3 + 2];
+                *b = (((paletteSP[1][var_r7] >> 10) & 0x1F) - ((paletteSP[0][var_r7] >> 10) & 0x1F)) << 4;
+            }
+        }
     }
 
     gCurTask->main = Task_E04_80A94EC;
 }
+END_NONMATCH
 
-void Task_E04_80A93C8(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD, ? arg7C, s32 argFC, ? *argFD)
-{
-    s32 temp_r3;
-    u16 *temp_r4;
-    u16 *temp_r5;
-    u16 temp_r1;
-    u16 var_r7;
+#else
+// continue here
 
-    temp_r1 = gCurTask->data;
-    if (*temp_r1 != 0) {
-        CpuFastSet(&Palette_unknown_318, &unksp0, 0x80);
-        CpuFastSet(&Palette_unknown_319, &arg7C, 0x80);
-    } else {
-        CpuFastSet(&Palette_unknown_307, &unksp0, 0x80);
-        CpuFastSet(&Palette_unknown_308, &arg7C, 0x80);
-    }
-    var_r7 = 0;
-    argFC = temp_r1 + 0x204;
-    argFD = &arg7C;
-    do {
-        temp_r3 = var_r7 * 0xC;
-        temp_r5 = argFD + (var_r7 * 2);
-        temp_r4 = &(&unksp0)[var_r7];
-        *(argFC + temp_r3) = ((0x1F & *temp_r5) - (0x1F & *temp_r4)) * 0x10;
-        *(temp_r1 + 0x208 + temp_r3) = ((((u16)*temp_r5 >> 5) & 0x1F) - (((u16)*temp_r4 >> 5) & 0x1F)) * 0x10;
-        *(temp_r3 + (temp_r1 + 0x20C)) = ((((u16)*temp_r5 >> 0xA) & 0x1F) - (((u16)*temp_r4 >> 0xA) & 0x1F)) * 0x10;
-        var_r7 += 1;
-    } while ((u32)var_r7 <= 0xFF);
-    gCurTask->main = Task_E04_80A94EC;
-}
-
+#if 0
 void Task_E04_80A94EC(CreditsRelated248 *strc248, ? arg7C, ? argFC)
 {
     s32 temp_r3;
