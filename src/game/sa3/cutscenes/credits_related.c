@@ -194,8 +194,8 @@ typedef struct {
     /* 0x002 */ u8 unk2;
     /* 0x003 */ u8 unk3;
     /* 0x004 */ ColorRaw palette4[16 * 16];
-    /* 0x004 */ ColorRaw palette204[16 * 16];
-    /* 0x204 */ u8 filler404[0xA00];
+    /* 0x204 */ ColorRaw palette204[16 * 16];
+    /* 0x404 */ u8 filler404[0xA00];
 } CreditsRelatedE04;
 
 u8 *sub_80A45B4(u8 *param0, u8 *vram);
