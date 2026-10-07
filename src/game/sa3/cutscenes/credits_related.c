@@ -193,8 +193,8 @@ typedef struct {
     /* 0x001 */ u8 unk1;
     /* 0x002 */ u8 unk2;
     /* 0x003 */ u8 unk3;
-    /* 0x004 */ ColorRaw palette4[16 * 16];
-    /* 0x204 */ s32 palette204[16 * 16 * 3];
+    /* 0x004 */ ColorRaw palette4[16 * PALETTE_LEN_4BPP];
+    /* 0x204 */ s32 palette204[16 * PALETTE_LEN_4BPP][3];
 } CreditsRelatedE04;
 
 u8 *sub_80A45B4(u8 *param0, u8 *vram);
@@ -321,6 +321,7 @@ void Task_6C_80A91C4(void);
 void Task_6C_80A925C(void);
 void Task_6C_80A92E0(void);
 void Task_6C_80A9354(void);
+void Task_E04_80A94EC(void);
 void sub_80A9920(u8 arg0);
 void Task_48_A_80A9968(void);
 void TaskDestructor_C_80A99CC(Task *t);
@@ -378,6 +379,11 @@ extern const u8 gUnknown_080D9FCA[6];
 extern s32 gUnknown_080D9FD0[5]; // Q_24_8
 extern const TileInfo2 sTrueEndingPlayingGemerl[5]; // 5 = Variant/Pattern count
 extern const TileInfo2 sTrueEndingPlayingCream[5]; // 5 = Variant/Pattern count
+
+extern ColorRaw Palette_unknown_307[16 * PALETTE_LEN_4BPP];
+extern ColorRaw Palette_unknown_308[16 * PALETTE_LEN_4BPP];
+extern ColorRaw Palette_unknown_318[16 * PALETTE_LEN_4BPP];
+extern ColorRaw Palette_unknown_319[16 * PALETTE_LEN_4BPP];
 
 #if M2C
 void Task_248_80A4DDC(CreditsRelated248 *strc248);
@@ -4407,25 +4413,11 @@ void Task_6C_80A9354(void)
     }
 }
 
-void Task_E04_80A94EC(void);
-extern ColorRaw Palette_unknown_307[16 * PALETTE_LEN_4BPP];
-extern ColorRaw Palette_unknown_308[16 * PALETTE_LEN_4BPP];
-extern ColorRaw Palette_unknown_318[16 * PALETTE_LEN_4BPP];
-extern ColorRaw Palette_unknown_319[16 * PALETTE_LEN_4BPP];
-
-// (82.67%) https://decomp.me/scratch/TMgIT
-NONMATCH("asm/non_matching/game/sa3/cutscenes/crE04__Task_E04_80A93C8.inc", void Task_E04_80A93C8(void))
+void Task_E04_80A93C8(void)
 {
     CreditsRelatedE04 *strcE04 = TASK_DATA(gCurTask);
     ColorRaw paletteSP[2][16 * PALETTE_LEN_4BPP];
-    //    ColorRaw paletteSP[1][16 * PALETTE_LEN_4BPP];
-    u32 *sp400[2];
-
-    u16 *temp_r4;
-    u16 *temp_r5;
-    u16 var_r7;
-    u32 maskA, maskB;
-    s32 testR2;
+    u16 i;
 
     if (strcE04->unk0 != 0) {
         CpuFastCopy(Palette_unknown_318, paletteSP[0], sizeof(paletteSP[0]));
@@ -4435,29 +4427,14 @@ NONMATCH("asm/non_matching/game/sa3/cutscenes/crE04__Task_E04_80A93C8.inc", void
         CpuFastCopy(Palette_unknown_308, paletteSP[1], sizeof(paletteSP[1]));
     }
 
-    var_r7 = 0;
-    sp400[0] = strcE04->palette204;
-    sp400[1] = (void *)paletteSP[1];
-    {
-        for (; var_r7 < 16 * PALETTE_LEN_4BPP; var_r7++) {
-            {
-                u32 *r = &sp400[0][var_r7 * 3 + 0];
-                *r = (((paletteSP[1][var_r7] >> 0) & 0x1F) - ((paletteSP[0][var_r7] >> 0) & 0x1F)) << 4;
-            }
-            {
-                u32 *g = &sp400[0][var_r7 * 3 + 1];
-                *g = (((paletteSP[1][var_r7] >> 5) & 0x1F) - ((paletteSP[0][var_r7] >> 5) & 0x1F)) << 4;
-            }
-            {
-                u32 *b = &sp400[0][var_r7 * 3 + 2];
-                *b = (((paletteSP[1][var_r7] >> 10) & 0x1F) - ((paletteSP[0][var_r7] >> 10) & 0x1F)) << 4;
-            }
-        }
+    for (i = 0; i < ARRAY_COUNT(strcE04->palette204); i++) {
+        strcE04->palette204[i][0] = (((paletteSP[1][i] >> 0) & 0x1F) - ((paletteSP[0][i] >> 0) & 0x1F)) << 4;
+        strcE04->palette204[i][1] = (((paletteSP[1][i] >> 5) & 0x1F) - ((paletteSP[0][i] >> 5) & 0x1F)) << 4;
+        strcE04->palette204[i][2] = (((paletteSP[1][i] >> 10) & 0x1F) - ((paletteSP[0][i] >> 10) & 0x1F)) << 4;
     }
 
     gCurTask->main = Task_E04_80A94EC;
 }
-END_NONMATCH
 
 #else
 // continue here
