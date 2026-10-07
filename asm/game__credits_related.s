@@ -7,113 +7,6 @@
 
 .if 0
 .else
-	thumb_func_start Task_6C_80A92E0
-Task_6C_80A92E0: @ 0x080A92E0
-	push {r4, r5, r6, lr}
-	ldr r6, _080A933C @ =gCurTask
-	ldr r0, [r6]
-	ldrh r5, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r5, r4
-	adds r0, r4, #0
-	bl sub_80A9B24
-	ldrh r0, [r4, #2]
-	adds r0, #1
-	strh r0, [r4, #2]
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0xb4
-	bls _080A9336
-	ldr r1, _080A9340 @ =0x0300001C
-	adds r0, r5, r1
-	ldr r2, _080A9344 @ =sTrueEndingPlayingGemerl
-	ldrh r1, [r2, #0x18]
-	strh r1, [r0, #0xc]
-	ldrb r1, [r2, #0x1a]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	bl UpdateSpriteAnimation
-	ldr r1, _080A9348 @ =0x03000044
-	adds r0, r5, r1
-	ldr r2, _080A934C @ =sTrueEndingPlayingCream
-	ldrh r1, [r2, #0x18]
-	strh r1, [r0, #0xc]
-	ldrb r1, [r2, #0x1a]
-	strb r1, [r0, #0x1a]
-	movs r1, #1
-	rsbs r1, r1, #0
-	strb r1, [r0, #0x1b]
-	bl UpdateSpriteAnimation
-	ldr r1, [r6]
-	ldr r0, _080A9350 @ =sub_80A9354
-	str r0, [r1, #8]
-_080A9336:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080A933C: .4byte gCurTask
-_080A9340: .4byte 0x0300001C
-_080A9344: .4byte sTrueEndingPlayingGemerl
-_080A9348: .4byte 0x03000044
-_080A934C: .4byte sTrueEndingPlayingCream
-_080A9350: .4byte sub_80A9354
-
-	thumb_func_start sub_80A9354
-sub_80A9354: @ 0x080A9354
-	push {r4, r5, r6, r7, lr}
-	ldr r7, _080A93B0 @ =gCurTask
-	ldr r0, [r7]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r4, r0
-	adds r0, r6, #0
-	bl sub_80A9B24
-	adds r5, r0, #0
-	cmp r5, #0
-	bne _080A93A8
-	ldr r1, _080A93B4 @ =0x0300001C
-	adds r0, r4, r1
-	ldr r1, _080A93B8 @ =sTrueEndingPlayingGemerl
-	ldrh r2, [r1, #0x20]
-	strh r2, [r0, #0xc]
-	adds r1, #0x22
-	ldrb r1, [r1]
-	strb r1, [r0, #0x1a]
-	movs r1, #0xff
-	strb r1, [r0, #0x1b]
-	bl UpdateSpriteAnimation
-	ldr r1, _080A93BC @ =0x03000044
-	adds r0, r4, r1
-	ldr r1, _080A93C0 @ =sTrueEndingPlayingCream
-	ldrh r2, [r1, #0x20]
-	strh r2, [r0, #0xc]
-	adds r1, #0x22
-	ldrb r1, [r1]
-	strb r1, [r0, #0x1a]
-	movs r1, #1
-	rsbs r1, r1, #0
-	strb r1, [r0, #0x1b]
-	bl UpdateSpriteAnimation
-	strh r5, [r6, #2]
-	ldr r1, [r7]
-	ldr r0, _080A93C4 @ =sub_80A99D0
-	str r0, [r1, #8]
-_080A93A8:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080A93B0: .4byte gCurTask
-_080A93B4: .4byte 0x0300001C
-_080A93B8: .4byte sTrueEndingPlayingGemerl
-_080A93BC: .4byte 0x03000044
-_080A93C0: .4byte sTrueEndingPlayingCream
-_080A93C4: .4byte sub_80A99D0
-
 	thumb_func_start Task_E04_80A93C8
 Task_E04_80A93C8: @ 0x080A93C8
 	push {r4, r5, r6, r7, lr}
@@ -235,7 +128,7 @@ _080A9458:
 	bls _080A9458
 	ldr r1, _080A94E4 @ =gCurTask
 	ldr r0, [r1]
-	ldr r2, _080A94E8 @ =sub_80A94EC
+	ldr r2, _080A94E8 @ =Task_E04_80A94EC
 	str r2, [r0, #8]
 	movs r3, #0x81
 	lsls r3, r3, #3
@@ -252,10 +145,10 @@ _080A94D8: .4byte Palette_unknown_307
 _080A94DC: .4byte Palette_unknown_308
 _080A94E0: .4byte 0x00000404
 _080A94E4: .4byte gCurTask
-_080A94E8: .4byte sub_80A94EC
+_080A94E8: .4byte Task_E04_80A94EC
 
-	thumb_func_start sub_80A94EC
-sub_80A94EC: @ 0x080A94EC
+	thumb_func_start Task_E04_80A94EC
+Task_E04_80A94EC: @ 0x080A94EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -873,8 +766,8 @@ TaskDestructor_C_80A99CC: @ 0x080A99CC
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80A99D0
-sub_80A99D0: @ 0x080A99D0
+	thumb_func_start Task_6C_80A99D0
+Task_6C_80A99D0: @ 0x080A99D0
 	push {r4, r5, lr}
 	ldr r5, _080A9A14 @ =gCurTask
 	ldr r0, [r5]
