@@ -1047,12 +1047,12 @@ gUnknown_080D9FCA:
 gUnknown_080D9FD0:
     .incbin "baserom_sa3.gba", 0x000D9FD0, 0x14
 
-    .global gUnknown_080D9FE4
-gUnknown_080D9FE4:
+    .global sTrueEndingPlayingGemerl
+sTrueEndingPlayingGemerl:
     .incbin "baserom_sa3.gba", 0x000D9FE4, 0x28
 
-    .global gUnknown_080DA00C
-gUnknown_080DA00C:
+    .global sTrueEndingPlayingCream
+sTrueEndingPlayingCream:
     .incbin "baserom_sa3.gba", 0x000DA00C, 0x28
 
     .global gUnknown_080DA034
