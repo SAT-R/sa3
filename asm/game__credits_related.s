@@ -7,222 +7,6 @@
 
 .if 0
 .else
-	thumb_func_start sub_80AA1BC
-sub_80AA1BC: @ 0x080AA1BC
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r6, r0, #0
-	movs r7, #0
-	movs r5, #0
-	adds r4, r6, #0
-	adds r4, #0xd8
-	movs r0, #0
-	mov r8, r0
-_080AA1D2:
-	ldr r1, [r6, #8]
-	asrs r1, r1, #8
-	strh r1, [r4, #0x10]
-	ldr r0, [r6, #0xc]
-	asrs r0, r0, #8
-	strh r0, [r4, #0x12]
-	adds r1, r7, r1
-	strh r1, [r4, #0x10]
-	ldr r0, [r4, #8]
-	ldr r3, _080AA26C @ =0xFFFFFBFF
-	ands r0, r3
-	str r0, [r4, #8]
-	mov r0, r8
-	strb r0, [r4, #0x1f]
-	adds r0, r4, #0
-	str r3, [sp]
-	bl DisplaySprite
-	adds r0, r7, #0
-	adds r0, #0x40
-	lsls r0, r0, #0x10
-	lsrs r7, r0, #0x10
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	ldr r3, [sp]
-	cmp r5, #2
-	bls _080AA1D2
-	adds r0, r6, #0
-	adds r0, #0xb0
-	ldr r2, [r6, #8]
-	asrs r2, r2, #8
-	movs r4, #0
-	strh r2, [r0, #0x10]
-	ldr r1, [r6, #0xc]
-	asrs r1, r1, #8
-	strh r1, [r0, #0x12]
-	adds r2, r7, r2
-	strh r2, [r0, #0x10]
-	ldr r1, [r0, #8]
-	ands r1, r3
-	str r1, [r0, #8]
-	strb r4, [r0, #0x1f]
-	bl DisplaySprite
-	movs r5, #0
-_080AA22E:
-	lsls r4, r5, #2
-	adds r4, r4, r5
-	lsls r4, r4, #3
-	adds r4, #0x10
-	adds r4, r6, r4
-	ldr r1, [r6, #8]
-	asrs r1, r1, #8
-	strh r1, [r4, #0x10]
-	ldr r0, [r6, #0xc]
-	asrs r0, r0, #8
-	adds r1, #0x3a
-	strh r1, [r4, #0x10]
-	adds r0, #0x28
-	strh r0, [r4, #0x12]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #3
-	bls _080AA22E
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080AA26C: .4byte 0xFFFFFBFF
-
-	thumb_func_start sub_80AA270
-sub_80AA270: @ 0x080AA270
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #8
-	adds r4, r0, #0
-	mov sb, r1
-	ldr r1, _080AA348 @ =gDispCnt
-	ldr r2, _080AA34C @ =0x00001041
-	adds r0, r2, #0
-	strh r0, [r1]
-	ldr r0, _080AA350 @ =Task_54_80AA384
-	movs r2, #0x80
-	lsls r2, r2, #1
-	ldr r1, _080AA354 @ =TaskDestructor_54_80AB990
-	str r1, [sp]
-	movs r1, #0x54
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r6, r0
-	str r4, [r0]
-	movs r5, #0
-	movs r2, #0
-	strh r2, [r0, #8]
-	strh r2, [r0, #4]
-	strh r2, [r0, #6]
-	str r2, [r0, #0xc]
-	str r2, [r0, #0x10]
-	str r2, [sp, #4]
-	ldr r3, _080AA358 @ =0x040000D4
-	add r0, sp, #4
-	str r0, [r3]
-	ldr r1, _080AA35C @ =gBgCntRegs
-	mov r8, r1
-	ldrh r1, [r1, #4]
-	movs r0, #0xc
-	ands r0, r1
-	lsls r0, r0, #0xc
-	movs r1, #0xc0
-	lsls r1, r1, #0x13
-	adds r0, r0, r1
-	str r0, [r3, #4]
-	ldr r0, _080AA360 @ =0x85000010
-	str r0, [r3, #8]
-	ldr r0, [r3, #8]
-	ldr r4, _080AA364 @ =gBgSprites_Unknown1
-	strb r5, [r4, #3]
-	ldr r0, _080AA368 @ =gBgSprites_Unknown2
-	strb r5, [r0, #0xc]
-	strb r5, [r0, #0xd]
-	movs r1, #0xff
-	strb r1, [r0, #0xe]
-	movs r3, #0x40
-	strb r3, [r0, #0xf]
-	strb r5, [r4, #2]
-	strb r5, [r0, #8]
-	strb r5, [r0, #9]
-	movs r1, #1
-	rsbs r1, r1, #0
-	strb r1, [r0, #0xa]
-	strb r3, [r0, #0xb]
-	strb r5, [r4, #1]
-	strb r5, [r0, #4]
-	strb r5, [r0, #5]
-	strb r1, [r0, #6]
-	strb r3, [r0, #7]
-	ldr r0, _080AA36C @ =0x00004E07
-	mov r1, r8
-	strh r0, [r1]
-	ldr r0, _080AA370 @ =gBgScrollRegs
-	strh r2, [r0]
-	ldr r1, _080AA374 @ =0x03000014
-	adds r0, r6, r1
-	ldr r1, _080AA378 @ =0x06004000
-	str r1, [r0, #4]
-	strh r2, [r0, #0xa]
-	ldr r1, _080AA37C @ =0x06007000
-	str r1, [r0, #0xc]
-	strh r2, [r0, #0x18]
-	strh r2, [r0, #0x1a]
-	movs r1, #0xa0
-	lsls r1, r1, #1     @ Credits "SONIC ADVANCE 3 END"
-	strh r1, [r0, #0x1c]
-	strh r2, [r0, #0x1e]
-	strh r2, [r0, #0x20]
-	strh r2, [r0, #0x22]
-	strh r2, [r0, #0x24]
-	movs r1, #0x20
-	strh r1, [r0, #0x26]
-	strh r1, [r0, #0x28]
-	ldr r1, _080AA380 @ =0x0300003E
-	adds r6, r6, r1
-	strb r5, [r6]
-	strh r2, [r0, #0x2e]
-	bl DrawBackground
-	mov r0, sb
-	add sp, #8
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080AA348: .4byte gDispCnt
-_080AA34C: .4byte 0x00001041
-_080AA350: .4byte Task_54_80AA384
-_080AA354: .4byte TaskDestructor_54_80AB990
-_080AA358: .4byte 0x040000D4
-_080AA35C: .4byte gBgCntRegs
-_080AA360: .4byte 0x85000010
-_080AA364: .4byte gBgSprites_Unknown1
-_080AA368: .4byte gBgSprites_Unknown2
-_080AA36C: .4byte 0x00004E07
-_080AA370: .4byte gBgScrollRegs
-_080AA374: .4byte 0x03000014
-_080AA378: .4byte 0x06004000
-_080AA37C: .4byte 0x06007000
-_080AA380: .4byte 0x0300003E
-
 	thumb_func_start Task_54_80AA384
 Task_54_80AA384: @ 0x080AA384
 	push {r4, r5, r6, r7, lr}
@@ -284,17 +68,17 @@ _080AA3F8: .4byte 0x00001141
 _080AA3FC:
 	strh r0, [r5, #4]
 	ldr r1, [r6]
-	ldr r0, _080AA40C @ =sub_80AB994
+	ldr r0, _080AA40C @ =Task_54_80AB994
 	str r0, [r1, #8]
 _080AA404:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080AA40C: .4byte sub_80AB994
+_080AA40C: .4byte Task_54_80AB994
 
-	thumb_func_start sub_80AA410
-sub_80AA410: @ 0x080AA410
+	thumb_func_start Task_54_80AA410
+Task_54_80AA410: @ 0x080AA410
 	push {r4, r5, r6, lr}
 	ldr r5, _080AA464 @ =gCurTask
 	ldr r0, [r5]
@@ -355,17 +139,17 @@ _080AA478:
 	cmp r0, #0xb4
 	bls _080AA490
 	ldr r1, [r5]
-	ldr r0, _080AA498 @ =sub_80AA49C
+	ldr r0, _080AA498 @ =Task_54_80AA49C
 	str r0, [r1, #8]
 _080AA490:
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080AA498: .4byte sub_80AA49C
+_080AA498: .4byte Task_54_80AA49C
 
-	thumb_func_start sub_80AA49C
-sub_80AA49C: @ 0x080AA49C
+	thumb_func_start Task_54_80AA49C
+Task_54_80AA49C: @ 0x080AA49C
 	push {r4, r5, r6, r7, lr}
 	movs r5, #0
 	movs r0, #0
@@ -2983,8 +2767,8 @@ TaskDestructor_54_80AB990: @ 0x080AB990
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80AB994
-sub_80AB994: @ 0x080AB994
+	thumb_func_start Task_54_80AB994
+Task_54_80AB994: @ 0x080AB994
 	push {lr}
 	ldr r0, _080AB9C0 @ =gCurTask
 	ldr r3, [r0]
@@ -3002,14 +2786,14 @@ sub_80AB994: @ 0x080AB994
 	bls _080AB9BA
 	movs r0, #0
 	strh r0, [r2, #8]
-	ldr r0, _080AB9C4 @ =sub_80AA410
+	ldr r0, _080AB9C4 @ =Task_54_80AA410
 	str r0, [r3, #8]
 _080AB9BA:
 	pop {r0}
 	bx r0
 	.align 2, 0
 _080AB9C0: .4byte gCurTask
-_080AB9C4: .4byte sub_80AA410
+_080AB9C4: .4byte Task_54_80AA410
 
 	thumb_func_start TaskDestructor_48_C_80AB9C8
 TaskDestructor_48_C_80AB9C8: @ 0x080AB9C8
