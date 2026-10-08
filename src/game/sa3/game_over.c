@@ -351,7 +351,7 @@ void sub_80026BC(void)
         if (CURRENT_GAME_MODE == GAME_MODE_DEMO) {
             DemoPlay_InitSprites();
             DemoPlayAlloc(gPlayers, gStageData.zone);
-        } else if (CURRENT_GAME_MODE == GAME_MODE_2) {
+        } else if (CURRENT_GAME_MODE == GAME_MODE_CREDITS_DEMO) {
             sub_8053030();
             DemoPlayAlloc(gPlayers, gStageData.zone);
             return;
@@ -683,7 +683,8 @@ void Task_8002BBC(void)
         sub_80043B8();
 
         if ((CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) && (START_BUTTON & gPressedKeys) && (CURRENT_GAME_MODE != GAME_MODE_DEMO)
-            && (CURRENT_GAME_MODE != GAME_MODE_2) && ((gStageData.currentLevel != 1) || (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP))) {
+            && (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)
+            && ((gStageData.currentLevel != 1) || (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP))) {
             sub_800341C();
         }
     }
@@ -1353,21 +1354,21 @@ void sub_8003DC4(u16 count)
 
 void sub_8003DF0(u16 song)
 {
-    if (CURRENT_GAME_MODE != GAME_MODE_2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO) {
         m4aSongNumStart(song);
     }
 }
 
 void sub_8003E0C(u16 song)
 {
-    if (CURRENT_GAME_MODE != GAME_MODE_2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO) {
         m4aSongNumStartOrContinue(song);
     }
 }
 
 void sub_8003E28(u16 song)
 {
-    if (CURRENT_GAME_MODE != GAME_MODE_2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO) {
         m4aSongNumStop(song);
     }
 }
@@ -1413,7 +1414,7 @@ void sub_8003F40(void)
     ClearPlayerDataAndSetSpawnPos(level, PLAYER_3);
     ClearPlayerDataAndSetSpawnPos(level, PLAYER_4);
 
-    if (CURRENT_GAME_MODE != GAME_MODE_2) {
+    if (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO) {
         m4aMPlayAllStop();
     }
 

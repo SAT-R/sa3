@@ -12,7 +12,7 @@
 
 #define GAME_MODE_SINGLE_PLAYER    0
 #define GAME_MODE_DEMO             1
-#define GAME_MODE_2                2
+#define GAME_MODE_CREDITS_DEMO     2
 #define GAME_MODE_TIME_ATTACK      3
 #define GAME_MODE_BOSS_TIME_ATTACK 4
 #define GAME_MODE_MP_STORY_COOP    5
@@ -45,7 +45,7 @@ extern const s16 gPlayerCharacterIdleAnims[NUM_CHARACTERS];
 // extern void SetStageSpawnPos(u32 character, u32 level, u32 p2, Player *player);
 
 #define GAME_MODE_IS_SINGLE_PLAYER(mode)                                                                                                   \
-    ((mode == GAME_MODE_SINGLE_PLAYER) || (mode == GAME_MODE_DEMO) || (mode == GAME_MODE_2) || (mode == GAME_MODE_TIME_ATTACK)             \
+    ((mode == GAME_MODE_SINGLE_PLAYER) || (mode == GAME_MODE_DEMO) || (mode == GAME_MODE_CREDITS_DEMO) || (mode == GAME_MODE_TIME_ATTACK)  \
      || (mode == GAME_MODE_BOSS_TIME_ATTACK))
 
 #define GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(mode) (GAME_MODE_IS_SINGLE_PLAYER(mode) || (mode == GAME_MODE_MP_STORY_COOP))

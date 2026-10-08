@@ -192,7 +192,7 @@ void CreateStageRingsManager(void)
 
 void PlayRingCollectSE(void)
 {
-    if ((CURRENT_GAME_MODE != GAME_MODE_2)
+    if ((CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)
         && (((gStageData.unk4 != 9) && (gStageData.unk4 != 4) && (gStageData.unk4 != 5) && (gStageData.unk4 != 6))
             || (gStageData.zone != 7))) {
         if (gStageData.rings & 1) {

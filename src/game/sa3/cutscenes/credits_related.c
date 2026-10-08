@@ -4492,7 +4492,7 @@ void Task_48_B_80A9684(void)
     CreditsRelated48_B *strc48_B = TASK_DATA(gCurTask);
 
     gStageData.playerIndex = 0;
-    CURRENT_GAME_MODE = GAME_MODE_2;
+    CURRENT_GAME_MODE = GAME_MODE_CREDITS_DEMO;
     gStageData.act = gUnknown_080DA034[strc48_B->unk1][1];
     CURRENT_LEVEL = gUnknown_080DA034[strc48_B->unk1][0];
     gStageData.zone = gUnknown_080DA034[strc48_B->unk1][0] / ACTS_PER_ZONE;

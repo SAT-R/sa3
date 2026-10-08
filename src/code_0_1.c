@@ -37,7 +37,7 @@ void sub_800214C(void)
         }
     }
 
-    if (CURRENT_GAME_MODE == GAME_MODE_DEMO || CURRENT_GAME_MODE == GAME_MODE_2) {
+    if (CURRENT_GAME_MODE == GAME_MODE_DEMO || CURRENT_GAME_MODE == GAME_MODE_CREDITS_DEMO) {
         gStageData.buttonConfig.jump = A_BUTTON;
         gStageData.buttonConfig.attack = B_BUTTON;
         gStageData.buttonConfig.trick = R_BUTTON;

@@ -1202,7 +1202,7 @@ void InitEntityBlock_Enemies(u16 param0, EntitiesStruct *es)
     Range *range;
     u32 i;
 
-    if (CURRENT_GAME_MODE == GAME_MODE_2) {
+    if (CURRENT_GAME_MODE == GAME_MODE_CREDITS_DEMO) {
         return;
     }
 

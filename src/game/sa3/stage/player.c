@@ -587,7 +587,7 @@ void Task_80045EC(void)
                     return;
                 }
 
-                if (CURRENT_GAME_MODE != GAME_MODE_DEMO && CURRENT_GAME_MODE != GAME_MODE_2) {
+                if (CURRENT_GAME_MODE != GAME_MODE_DEMO && CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO) {
                     if (p->charFlags.partnerIndex != gStageData.playerIndex) {
                         p->charFlags.someIndex = 5;
                         return;
@@ -979,7 +979,7 @@ bool16 IsInWater(CamCoord worldX, CamCoord worldY, s16 *outYPos)
 
 bool32 Player_PlaySong(Player *p, u16 song)
 {
-    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
+    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)) {
         m4aSongNumStart(song);
         return TRUE;
     }
@@ -988,7 +988,7 @@ bool32 Player_PlaySong(Player *p, u16 song)
 
 s32 Player_PlayOrContinueSong(Player *p, u16 arg1)
 {
-    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
+    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)) {
         m4aSongNumStartOrContinue(arg1);
         return TRUE;
     }
@@ -997,7 +997,7 @@ s32 Player_PlayOrContinueSong(Player *p, u16 arg1)
 
 void Player_StopSong(Player *p, u16 song)
 {
-    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
+    if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)) {
         m4aSongNumStop(song);
     }
 }
@@ -1052,13 +1052,13 @@ void Player_Flyer_SoundStop(Player *p)
 {
     switch (p->charFlags.character) {
         case TAILS:
-            if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
+            if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)) {
                 m4aSongNumStop(SE_TAILS__FLYING);
                 return;
             }
             return;
         case CREAM:
-            if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_2)) {
+            if ((&gPlayers[gStageData.playerIndex] == p) && (CURRENT_GAME_MODE != GAME_MODE_CREDITS_DEMO)) {
                 m4aSongNumStop(SE_CREAM__FLYING);
             }
             break;
@@ -13073,7 +13073,7 @@ void SetPlayerSpawnPosition(s32 levelIndex, s32 pid)
     gStageData.unk24 = 0;
     gStageData.unk20 = 0;
     p->qSpeedGround = 0;
-    if ((CURRENT_GAME_MODE == GAME_MODE_2) && (pid == 0)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_CREDITS_DEMO) && (pid == 0)) {
         switch (levelIndex) {
             case 13:
             case 24:
