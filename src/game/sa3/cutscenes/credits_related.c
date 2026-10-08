@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "malloc_ewram.h"
+#include "code_0_1.h" // sub_800214C / WarpToMap
 #include "code_z_1.h"
 #include "lib/m4a/m4a.h"
 #include "animation_commands_bg.h" // UpdateBgAnimationTiles
@@ -11,6 +12,7 @@
 #include "game/sa3/title_screen.h" // CreateTitleScreen
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
+#include "constants/zones.h"
 
 // TODO: Do we have an enum for this already?
 typedef enum {
@@ -173,6 +175,12 @@ typedef struct {
     u16 blendY;
     Background bg;
 } CreditsRelated48_A;
+
+typedef struct {
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 unk1;
+    /* 0x02 */ u8 filler2[0x46];
+} CreditsRelated48_B;
 
 typedef struct {
     /* 0x00 */ u8 unk0;
@@ -379,6 +387,7 @@ extern const u8 gUnknown_080D9FCA[6];
 extern s32 gUnknown_080D9FD0[5]; // Q_24_8
 extern const TileInfo2 sTrueEndingPlayingGemerl[5]; // 5 = Variant/Pattern count
 extern const TileInfo2 sTrueEndingPlayingCream[5]; // 5 = Variant/Pattern count
+extern const u16 gUnknown_080DA034[5][3];
 
 extern ColorRaw Palette_unknown_307[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_308[16 * PALETTE_LEN_4BPP];
@@ -4465,45 +4474,47 @@ void Task_E04_80A94EC(void)
 
     for (i = 0; i < ARRAY_COUNT(strcE04->palette204); i++) {
         u8 rgb[3] = { 0 };
-        rgb[R_CHANNEL] = ( (R_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][R_CHANNEL] * strcE04->unk1)) >> 8;
-        rgb[G_CHANNEL] = ( (G_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][G_CHANNEL] * strcE04->unk1)) >> 8;
-        rgb[B_CHANNEL] = ( (B_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][B_CHANNEL] * strcE04->unk1)) >> 8;
+        rgb[R_CHANNEL] = ((R_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][R_CHANNEL] * strcE04->unk1)) >> 8;
+        rgb[G_CHANNEL] = ((G_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][G_CHANNEL] * strcE04->unk1)) >> 8;
+        rgb[B_CHANNEL] = ((B_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][B_CHANNEL] * strcE04->unk1)) >> 8;
         gBgPalette[i] = sub_80C4C0C(((rgb[0] << R_SHIFT) | (rgb[1] << G_SHIFT) | (rgb[2] << B_SHIFT)));
     }
 
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+
     strcE04->delay = 0;
     strcE04->unk1 += 1;
+}
+
+// NOTE: This is probably for the in-between gameplay scenes in the credits!
+void Task_48_B_80A9684(void)
+{
+    CreditsRelated48_B *strc48_B = TASK_DATA(gCurTask);
+
+    gStageData.playerIndex = 0;
+    CURRENT_GAME_MODE = GAME_MODE_2;
+    gStageData.act = gUnknown_080DA034[strc48_B->unk1][1];
+    CURRENT_LEVEL = gUnknown_080DA034[strc48_B->unk1][0];
+    gStageData.zone = gUnknown_080DA034[strc48_B->unk1][0] / ACTS_PER_ZONE;
+    gStageData.warpId = 1;
+    sub_800214C();
+
+    gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
+    gPlayers[PLAYER_1].charFlags.character = SONIC;
+    gPlayers[PLAYER_1].charFlags.someIndex = 4;
+    gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_1;
+    gPlayers[PLAYER_2].charFlags.character = gUnknown_080DA034[strc48_B->unk1][2];
+    gPlayers[PLAYER_2].charFlags.someIndex = 2;
+    gPlayers[PLAYER_3].charFlags.someIndex = 0;
+    gPlayers[PLAYER_4].charFlags.someIndex = 0;
+
+    WarpToMap(CURRENT_LEVEL, 1);
 }
 
 #else
 // continue here
 
 #if 0
-void Task_48_B_80A9684(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
-{
-    u16 temp_r0;
-    u8 temp_r2;
-
-    temp_r0 = gCurTask->data;
-    gStageData.playerIndex = 0;
-    gStageData.gameMode = 2;
-    gStageData.act = (u8) * ((temp_r0->unk1 * 6) + (&gUnknown_080DA034 + 2));
-    gStageData.currentLevel = *((temp_r0->unk1 * 6) + &gUnknown_080DA034);
-    gStageData.zone = (u8)((u16) * ((temp_r0->unk1 * 6) + &gUnknown_080DA034) / 10);
-    gStageData.warpId = 1;
-    sub_800214C();
-    gPlayers->unk2A = (u8)(-0x10 & gPlayers->unk2A);
-    gPlayers->unk2B = (u8)((((-4 & gPlayers->unk2B) | 1) & ~0x1C) | 0x10);
-    temp_r2 = -4 & gPlayers->unk17B;
-    gPlayers->unk17B = temp_r2;
-    gPlayers->unk17A = (u8)((-0x10 & gPlayers->unk17A) | (0xF & *((temp_r0->unk1 * 6) + (&gUnknown_080DA034 + 4))));
-    gPlayers->unk17B = (u8)((temp_r2 & ~0x1C) | 8);
-    gPlayers->unk2CB = (u8)(-0x1D & gPlayers->unk2CB);
-    gPlayers->unk41B = (u8)(-0x1D & gPlayers->unk41B);
-    WarpToMap((s16)gStageData.currentLevel, 1);
-}
-
 void sub_80A9798(void)
 {
     u16 temp_r1;
@@ -4573,16 +4584,12 @@ void sub_80A98B0(u8 arg0)
 
 void sub_80A9920(u8 arg0)
 {
-    u16 temp_r0;
-    u8 temp_r4;
-
-    temp_r4 = arg0;
-    temp_r0 = TaskCreate(Task_48_B_80A9684, 0x48, 0x2100, 0, TaskDestructor_48_B_80A9B70)->data;
-    temp_r0->unk2 = temp_r4;
-    temp_r0->unk1 = (s8)(temp_r4 - 0xC);
-    temp_r0->unk4 = 0;
-    temp_r0->unk0 = 0;
-    temp_r0->unk6 = 0;
+    CreditsRelated48_B *strc48_B = TASK_DATA(TaskCreate(Task_48_B_80A9684, 0x48, 0x2100, 0, TaskDestructor_48_B_80A9B70));
+    strc48_B->unk2 = arg0;
+    strc48_B->unk1 = (arg0 - 12);
+    strc48_B->unk4 = 0;
+    strc48_B->unk0 = 0;
+    strc48_B->unk6 = 0;
 }
 
 void TaskDestructor_48_A_80A9964(Task *arg0) { }

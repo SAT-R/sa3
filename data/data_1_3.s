@@ -1057,8 +1057,14 @@ sTrueEndingPlayingCream:
 
     .global gUnknown_080DA034
 gUnknown_080DA034:
-    .incbin "baserom_sa3.gba", 0x000DA034, 0x20
+    @     StageID,    Act, Partner-Character
+    .short 0x0037, 0x0005, 0x0002 
+    .short 0x002D, 0x0005, 0x0001 
+    .short 0x0022, 0x0005, 0x0004 
+    .short 0x0018, 0x0004, 0x0002 
+    .short 0x000F, 0x0003, 0x0004
 
+    .align 2, 0
     .global gUnknown_080DA054
 gUnknown_080DA054:
     .incbin "baserom_sa3.gba", 0x000DA054, 0x18
