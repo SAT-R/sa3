@@ -901,7 +901,7 @@ void sub_800341C(void)
 
     if (GAME_MODE_IS_SINGLE_PLAYER(CURRENT_GAME_MODE)) {
         if (gStageData.act == 0xA) {
-            if (((((u32)(((gLoadedSaveGame.collectedEmeralds) >> (gStageData.zone)) << 24) >> 24) & 1) || (gStageData.unkD == 1))) {
+            if (((((u32)(((LOADED_SAVE->collectedEmeralds) >> (gStageData.zone)) << 24) >> 24) & 1) || (gStageData.unkD == 1))) {
                 var_r7 = 0;
             } else {
                 var_r7 = 2;
@@ -915,7 +915,7 @@ void sub_800341C(void)
             if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
                 var_r7 = 1;
             } else {
-                if (gLoadedSaveGame.unlockedStages[zone] & actType) {
+                if (LOADED_SAVE->unlockedStages[zone] & actType) {
                     var_r7 = 0;
                 } else {
                     var_r7 = 2;
@@ -930,9 +930,9 @@ void sub_800341C(void)
 #endif
     }
 
-    vram = VramMalloc(gUnknown_080CE54C[var_r7][gLoadedSaveGame.language][0]);
-    temp_r6 = gUnknown_080CE54C[var_r7][gLoadedSaveGame.language][1];
-    temp_r5 = gUnknown_080CE54C[var_r7][gLoadedSaveGame.language][2];
+    vram = VramMalloc(gUnknown_080CE54C[var_r7][LOADED_SAVE->language][0]);
+    temp_r6 = gUnknown_080CE54C[var_r7][LOADED_SAVE->language][1];
+    temp_r5 = gUnknown_080CE54C[var_r7][LOADED_SAVE->language][2];
     if (vram != ewram_end) {
         struct Task *t = TaskCreate(Task_38_8003620, sizeof(GameOver38), 0xFFFEU, 4U, TaskDestructor_8003D68);
         GameOver38 *strc;

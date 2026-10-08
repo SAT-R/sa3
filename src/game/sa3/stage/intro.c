@@ -900,7 +900,7 @@ void Task_84_8057B70()
     Background *bg;
     void *tiles;
 
-    if (gLoadedSaveGame.language != 0) {
+    if (LOADED_SAVE->language != 0) {
         var_r1 = 9;
     } else {
         var_r1 = 0;

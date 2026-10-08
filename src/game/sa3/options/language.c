@@ -255,7 +255,7 @@ void Task_Options_Language_Init(void)
         m4aSongNumStart(0x6AU);
 
         if (lang->initArg2 == NULL) {
-            gLoadedSaveGame.language = (u8)(u16)lang->highlitButton;
+            LOADED_SAVE->language = (u8)(u16)lang->highlitButton;
             CreateNameEntryScreen(0);
             TaskDestroy(gCurTask);
             lang->unk8 = 1;
