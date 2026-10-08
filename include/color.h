@@ -58,6 +58,12 @@ typedef union Color {
 #define B_GET(color) ((B_MASK & (color)) >> B_SHIFT)
 #define A_GET(color) ((A_MASK & (color)) >> A_SHIFT)
 
+// NOTE: Variants required to match in some places
+#define R_GET_2(color) (((color) >> R_SHIFT) & COLOR_MASK)
+#define G_GET_2(color) (((color) >> G_SHIFT) & COLOR_MASK)
+#define B_GET_2(color) (((color) >> B_SHIFT) & COLOR_MASK)
+#define A_GET_2(color) (((color) >> A_SHIFT) & COLOR_MASK)
+
 #define R_CHANNEL          0
 #define G_CHANNEL          1
 #define B_CHANNEL          2

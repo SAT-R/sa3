@@ -191,8 +191,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 unk0;
     /* 0x001 */ u8 unk1;
-    /* 0x002 */ u8 unk2;
-    /* 0x003 */ u8 unk3;
+    /* 0x002 */ s16 delay;
     /* 0x004 */ ColorRaw palette4[16 * PALETTE_LEN_4BPP];
     /* 0x204 */ s32 palette204[16 * PALETTE_LEN_4BPP][3];
 } CreditsRelatedE04;
@@ -312,6 +311,7 @@ void Task_90_80A8918(void);
 void Task_90_80A8AC4(void);
 void Task_90_80A8BAC(void);
 void Task_90_80A8C20(void);
+void sub_80ABD44(u8 a);
 void sub_80A8E54(void);
 void Task_C_80A8ED0(void);
 
@@ -353,8 +353,8 @@ extern const TileInfo2 gUnknown_080D9B1C[8];
 extern const TileInfo2 *gUnknown_080D9B5C[CS_GFX_COUNT];
 extern const u8 gUnknown_080D9B79[NUM_CHARACTERS];
 extern const s16 gUnknown_080D9B7E[NUM_CHARACTERS];
-// TODO:       The number of entries in this is between 0 and the max value of the GBA's blend register!
-// NOTE(Jace): I'm not 100% sure about this comment anymore...
+/* * TODO:       The number of entries in this is between 0 and the max value of the GBA's blend register!
+/  * NOTE(Jace): I'm not 100% sure about this comment anymore... */
 extern const u16 gUnknown_080D9B88[0x10 + 1];
 extern u8 gUnknown_080D9BAA[8];
 extern const u16 gUnknown_080D9BB2[7];
@@ -932,15 +932,16 @@ void Task_248_80A4F94(void)
         strc248->unk1A = 0;
         strc248->unk18 = 0;
     }
-    temp_r0 = (u16)strc248->unk1A >> 8;
-    if (temp_r0 <= 0x10) {
-        strc248->unk4 = (u8)temp_r0;
+
+    if (I(strc248->unk1A) < ARRAY_COUNT(gUnknown_080D9B88)) {
+        strc248->unk4 = I(strc248->unk1A);
         gBldRegs.bldAlpha = gUnknown_080D9B88[strc248->unk4];
         strc248->unk1A += Q(2);
         return;
+    } else {
+        strc248->unk1A = Q(0x10);
+        gCurTask->main = Task_248_80A5050;
     }
-    strc248->unk1A = 0x1000;
-    gCurTask->main = Task_248_80A5050;
 }
 
 void Task_248_80A5050(void)
@@ -988,7 +989,7 @@ void Task_248_80A50FC(void)
         gBldRegs.bldY = 0;
         strc248->unk18 = 1U;
     }
-    temp_r0_2 = (u16)strc248->unk1A >> 8;
+    temp_r0_2 = I(strc248->unk1A);
     temp_r1 = temp_r0_2;
     if (temp_r1 != 0) {
         strc248->unk4 = (u8)temp_r0_2;
@@ -4428,65 +4429,57 @@ void Task_E04_80A93C8(void)
     }
 
     for (i = 0; i < ARRAY_COUNT(strcE04->palette204); i++) {
-        strcE04->palette204[i][0] = (((paletteSP[1][i] >> 0) & 0x1F) - ((paletteSP[0][i] >> 0) & 0x1F)) << 4;
-        strcE04->palette204[i][1] = (((paletteSP[1][i] >> 5) & 0x1F) - ((paletteSP[0][i] >> 5) & 0x1F)) << 4;
-        strcE04->palette204[i][2] = (((paletteSP[1][i] >> 10) & 0x1F) - ((paletteSP[0][i] >> 10) & 0x1F)) << 4;
+        strcE04->palette204[i][R_CHANNEL] = (R_GET_2(paletteSP[1][i]) - R_GET_2(paletteSP[0][i])) << 4;
+        strcE04->palette204[i][G_CHANNEL] = (G_GET_2(paletteSP[1][i]) - G_GET_2(paletteSP[0][i])) << 4;
+        strcE04->palette204[i][B_CHANNEL] = (B_GET_2(paletteSP[1][i]) - B_GET_2(paletteSP[0][i])) << 4;
     }
 
     gCurTask->main = Task_E04_80A94EC;
+}
+
+void Task_E04_80A94EC(void)
+{
+    CreditsRelatedE04 *strcE04 = TASK_DATA(gCurTask);
+    ColorRaw paletteSP[2][16 * PALETTE_LEN_4BPP];
+    u16 i;
+
+    if (strcE04->unk0 != 0) {
+        CpuFastCopy(Palette_unknown_318, paletteSP[0], sizeof(paletteSP[0]));
+        CpuFastCopy(Palette_unknown_319, paletteSP[1], sizeof(paletteSP[1]));
+    } else {
+        CpuFastCopy(Palette_unknown_307, paletteSP[0], sizeof(paletteSP[0]));
+        CpuFastCopy(Palette_unknown_308, paletteSP[1], sizeof(paletteSP[1]));
+    }
+
+    if (++strcE04->delay < 11) {
+        return;
+    }
+    if (strcE04->unk1 == 0x10) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        gBgSpritesCount = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        sub_80ABD44(strcE04->unk0);
+        return;
+    }
+
+    for (i = 0; i < ARRAY_COUNT(strcE04->palette204); i++) {
+        u8 rgb[3] = { 0 };
+        rgb[R_CHANNEL] = ( (R_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][R_CHANNEL] * strcE04->unk1)) >> 8;
+        rgb[G_CHANNEL] = ( (G_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][G_CHANNEL] * strcE04->unk1)) >> 8;
+        rgb[B_CHANNEL] = ( (B_GET_2(strcE04->palette4[i]) << 8) + (strcE04->palette204[i][B_CHANNEL] * strcE04->unk1)) >> 8;
+        gBgPalette[i] = sub_80C4C0C(((rgb[0] << R_SHIFT) | (rgb[1] << G_SHIFT) | (rgb[2] << B_SHIFT)));
+    }
+
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+    strcE04->delay = 0;
+    strcE04->unk1 += 1;
 }
 
 #else
 // continue here
 
 #if 0
-void Task_E04_80A94EC(CreditsRelated248 *strc248, ? arg7C, ? argFC)
-{
-    s32 temp_r3;
-    u16 *temp_r4;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u16 var_r8;
-
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk0 != 0) {
-        CpuFastSet(&Palette_unknown_318, &unksp0, 0x80);
-        CpuFastSet(&Palette_unknown_319, &arg7C, 0x80);
-    } else {
-        CpuFastSet(&Palette_unknown_307, &unksp0, 0x80);
-        CpuFastSet(&Palette_unknown_308, &arg7C, 0x80);
-    }
-    temp_r0 = temp_r1->unk2 + 1;
-    temp_r1->unk2 = temp_r0;
-    if ((s32)(s16)temp_r0 <= 0xA) {
-        return;
-    }
-    if (temp_r1->unk1 == 0x10) {
-        TasksDestroyInPriorityRange(0, 0xFFFF);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-        gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-        sub_80ABD44(temp_r1->unk0);
-        return;
-    }
-    var_r8 = 0;
-    do {
-        memset((Vec2_u16 *)&argFC, 0, 3);
-        temp_r4 = temp_r1 + 4 + (var_r8 * 2);
-        temp_r3 = var_r8 * 0xC;
-        argFC.unk0 = (u8)((s32)(((0x1F & *temp_r4) << 8) + (temp_r1->unk1 * *(temp_r1 + 0x204 + temp_r3))) >> 8);
-        argFC.unk1 = (u8)((s32)(((((u16)*temp_r4 >> 5) & 0x1F) << 8) + (temp_r1->unk1 * *(temp_r1 + 0x208 + temp_r3))) >> 8);
-        argFC.unk2 = (u8)((s32)(((((u16)*temp_r4 >> 0xA) & 0x1F) << 8) + (temp_r1->unk1 * *(temp_r1 + 0x20C + temp_r3))) >> 8);
-        gBgPalette[var_r8] = sub_80C4C0C((u16)(argFC.unk0 | (argFC.unk1 << 5) | (argFC.unk2 << 0xA)));
-        temp_r0_2 = var_r8 + 1;
-        var_r8 = temp_r0_2;
-    } while ((u32)temp_r0_2 <= 0xFF);
-    gFlags |= 1;
-    temp_r1->unk2 = 0U;
-    temp_r1->unk1 = (u8)(temp_r1->unk1 + 1);
-}
-
 void Task_48_B_80A9684(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
 {
     u16 temp_r0;

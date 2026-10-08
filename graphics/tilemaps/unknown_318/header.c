@@ -1,7 +1,7 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_unknown_318[] = INCBIN_U16("graphics/tilemaps/unknown_318/palette.gbapal");
+const ColorRaw Palette_unknown_318[] = INCPAL("graphics/tilemaps/unknown_318/palette.pal");
 const u8 Tiles_unknown_318[] = INCBIN_U8("graphics/tilemaps/unknown_318/tiles.4bpp");
 const u16 Tilemap_unknown_318[] = INCBIN_U16("graphics/tilemaps/unknown_318/tilemap.tilemap2");
 
