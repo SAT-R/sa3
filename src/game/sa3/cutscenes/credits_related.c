@@ -417,6 +417,7 @@ void Task_54_80AA384(void);
 void Task_100_80AB8FC(void);
 void TaskDestructor_100_80AB98C(Task *t);
 void TaskDestructor_54_80AB990(Task *t);
+void Task_54_80AB994(void);
 extern void sub_80AD7B4(NotificationText *arg0, u8 arg1, u16 arg2, u16 arg3, u8 *vram);
 
 extern void sub_80260F0();
@@ -5247,6 +5248,33 @@ u8 *sub_80AA270(u8 *arg0, u8 *arg1)
         }
     }
     return arg1;
+}
+
+void Task_54_80AA384(void)
+{
+    CreditsRelated54 *strc54 = TASK_DATA(gCurTask);
+
+    if (strc54->unk4 == 0) {
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[4] = 0x31;
+        gWinRegs[5] = 0;
+        gBldRegs.bldCnt = 0x1C1;
+        gBldRegs.bldY = 0x10;
+        strc54->unk6 = Q(0x10);
+        strc54->unk4 = 1;
+        gDispCnt = 0x1141;
+    }
+
+    if (gBldRegs.bldY != 0) {
+        gBldRegs.bldY = I(strc54->unk6);
+        strc54->unk6 -= Q(0.25);
+        return;
+    }
+
+    gBldRegs.bldY = gBldRegs.bldY;
+    gCurTask->main = Task_54_80AB994;
 }
 
 #else
