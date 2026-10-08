@@ -210,7 +210,9 @@ typedef struct {
 
 typedef struct {
     bool8 unk0;
-    u8 filler1[3];
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
     s16 unk4;
     u16 unk6;
 } CreditsRelatedUnknown;
@@ -349,13 +351,16 @@ void sub_80A9920(u8 arg0);
 void Task_48_A_80A9968(void);
 void TaskDestructor_C_80A99CC(Task *t);
 void Task_6C_80A99D0(void);
+void sub_80A9A1C(void);
 bool32 sub_80A9A44(TrueEndingGemerlCreamPlaying *strc6C);
 bool32 sub_80A9A74(TrueEndingGemerlCreamPlaying *strc6C);
 bool32 sub_80A9AA4(TrueEndingGemerlCreamPlaying *strc6C);
+bool32 sub_80A9AD8(TrueEndingGemerlCreamPlaying *strc6C);
 AnimCmdResult sub_80A9B24(TrueEndingGemerlCreamPlaying *strc6C);
 void TaskDestructor_6C_80A9B68(Task *t);
 void TaskDestructor_E04_80A9B6C(Task *t);
 void TaskDestructor_48_B_80A9B70(Task *t);
+void sub_80AA270(s32 unk, u8 *vram);
 
 extern void sub_80AD7B4(NotificationText *arg0, u8 arg1, u16 arg2, u16 arg3, u8 *vram);
 
@@ -4633,153 +4638,164 @@ bool32 sub_80A99C8(CreditsRelated48_A *strc48_A) { return 1; }
 
 void TaskDestructor_C_80A99CC(Task *t) { }
 
-#else
-// continue here
-
-#if 0
-void Task_6C_80A99D0(CreditsRelated248 *strc248)
+void Task_6C_80A99D0(void)
 {
-    u16 temp_r0;
-    u16 temp_r1;
+    TrueEndingGemerlCreamPlaying *strc6C = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    sub_80A9B24(temp_r1);
-    if (sub_80A9AD8(temp_r1) == 1) {
-        temp_r0 = temp_r1->unk2;
-        if ((u32)temp_r0 <= 0x77) {
-            temp_r1->unk2 = (u16)(temp_r0 + 1);
+    sub_80A9B24(strc6C);
+    if (sub_80A9AD8(strc6C) == 1) {
+        if (strc6C->unk2 < 0x78) {
+            strc6C->unk2 += 1;
         }
-        if (temp_r1->unk2 == 0x78) {
-            sub_80AA270(0, temp_r1->unk18);
+        if (strc6C->unk2 == 0x78) {
+            sub_80AA270(0, strc6C->vram18);
             gCurTask->main = sub_80A9A1C;
         }
     }
 }
 
-void sub_80A9A1C(CreditsRelated248 *strc248)
+void sub_80A9A1C(void)
 {
-    if (sub_80A9AD8(gCurTask->data) == 1) {
+    TrueEndingGemerlCreamPlaying *strc6C = TASK_DATA(gCurTask);
+    if (sub_80A9AD8(strc6C) == 1) {
         TaskDestroy(gCurTask);
     }
 }
 
-s32 sub_80A9A44(void *arg0)
+bool32 sub_80A9A44(TrueEndingGemerlCreamPlaying *strc6C)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
+    if (strc6C->unk10 < Q(120)) {
+        strc6C->unk10 += Q(1.5);
 
-    temp_r0 = arg0->unk10;
-    if ((temp_r0 > 0x77FF) || (temp_r0_2 = temp_r0 + 0x180, arg0->unk10 = temp_r0_2, (temp_r0_2 > 0x77FF))) {
-        arg0->unk10 = 0x7800;
-        return 1;
-    }
-    return 0;
-}
-
-s32 sub_80A9A74(void *arg0)
-{
-    s32 temp_r0;
-    s32 temp_r0_2;
-
-    temp_r0 = arg0->unk8;
-    if ((temp_r0 > 0x121FF) || (temp_r0_2 = temp_r0 + 0x280, arg0->unk8 = temp_r0_2, (temp_r0_2 > 0x121FF))) {
-        arg0->unk8 = 0x12200;
-        return 1;
-    }
-    return 0;
-}
-
-s32 sub_80A9AA4(void *arg0)
-{
-    s32 temp_r0;
-    s32 temp_r0_2;
-
-    temp_r0 = arg0->unk8;
-    if (temp_r0 > 0) {
-        temp_r0_2 = temp_r0 + 0xFFFFFF00;
-        arg0->unk8 = temp_r0_2;
-        if (temp_r0_2 <= 0x8F00) {
-            arg0->unk8 = 0x8F00;
+        if (strc6C->unk10 >= Q(120)) {
+            strc6C->unk10 = Q(120);
             return 1;
         }
-        return 0;
+    } else {
+        strc6C->unk10 = Q(120);
+        return 1;
     }
-    arg0->unk8 = 0x8F00;
-    return 1;
+
+    return 0;
 }
 
-s32 sub_80A9AD8(void *arg0)
+bool32 sub_80A9A74(TrueEndingGemerlCreamPlaying *strc6C)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    u8 var_r2;
+    if (strc6C->unk8 < Q(290)) {
+        strc6C->unk8 += Q(2.5);
 
-    var_r2 = 0;
-    temp_r0 = arg0->unk8;
-    if ((temp_r0 > 0x121FF) || (temp_r0_2 = temp_r0 + 0x140, arg0->unk8 = temp_r0_2, (temp_r0_2 > 0x121FF))) {
-        var_r2 = 1;
+        if (strc6C->unk8 >= Q(290)) {
+            strc6C->unk8 = Q(290);
+            return 1;
+        }
+    } else {
+        strc6C->unk8 = Q(290);
+        return 1;
     }
-    temp_r0_3 = arg0->unk10;
-    if ((temp_r0_3 > 0x121FF) || (arg0->unk10 = (s32)(temp_r0_3 + 0x140), ((s32)arg0->unk8 > 0x121FF))) {
+
+    return 0;
+}
+
+bool32 sub_80A9AA4(TrueEndingGemerlCreamPlaying *strc6C)
+{
+    if (strc6C->unk8 > 0) {
+        strc6C->unk8 -= Q(1);
+
+        if (strc6C->unk8 <= Q(143)) {
+            strc6C->unk8 = Q(143);
+            return 1;
+        }
+    } else {
+        strc6C->unk8 = 0x8F00;
+        return 1;
+    }
+
+    return 0;
+}
+
+bool32 sub_80A9AD8(TrueEndingGemerlCreamPlaying *strc6C)
+{
+    u8 var_r2 = 0;
+
+    if (strc6C->unk8 < Q(290)) {
+        strc6C->unk8 += Q(1.25);
+
+        if (strc6C->unk8 >= Q(290)) {
+            var_r2 += 1;
+        }
+    } else {
         var_r2 += 1;
     }
-    if (var_r2 != 2) {
+
+    if (strc6C->unk10 < Q(290)) {
+        strc6C->unk10 += Q(1.25);
+
+        // TODO: Is this supposed to check strc6C->unk10?
+        if (strc6C->unk8 >= Q(290)) {
+            var_r2 += 1;
+        }
+    } else {
+        var_r2 += 1;
+    }
+
+    if (var_r2 == 2) {
+        return 1;
+    } else {
         return 0;
     }
-    return 1;
 }
 
-s16 sub_80A9B24(void *arg0)
+AnimCmdResult sub_80A9B24(TrueEndingGemerlCreamPlaying *strc6C)
 {
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    s32 temp_r5;
+    Sprite *s;
+    Sprite *s_2;
+    AnimCmdResult acmdRes;
 
-    temp_r4 = arg0 + 0x1C;
-    temp_r4->x = (s16)((s32)arg0->unk8 >> 8);
-    temp_r4->y = (s16)((s32)arg0->unkC >> 8);
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
-    temp_r4_2 = temp_r4 + 0x28;
-    temp_r4_2->x = (s16)((s32)arg0->unk10 >> 8);
-    temp_r4_2->y = (s16)((s32)arg0->unk14 >> 8);
-    temp_r5 = UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
-    return (s16)temp_r5;
+    s = &strc6C->gemerl;
+    s->x = I(strc6C->unk8);
+    s->y = I(strc6C->unkC);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s_2 = &strc6C->cream;
+    s_2->x = I(strc6C->unk10);
+    s_2->y = I(strc6C->unk14);
+    acmdRes = UpdateSpriteAnimation(s_2);
+    DisplaySprite(s_2);
+    return acmdRes;
 }
 
-void TaskDestructor_6C_80A9B68(Task *arg0) { }
+void TaskDestructor_6C_80A9B68(Task *t) { }
 
-void TaskDestructor_E04_80A9B6C(Task *arg0) { }
+void TaskDestructor_E04_80A9B6C(Task *t) { }
 
-void TaskDestructor_48_B_80A9B70(Task *arg0) { }
+void TaskDestructor_48_B_80A9B70(Task *t) { }
 
-void Task_Unk_80A9B74(CreditsRelated248 *strc248)
+void Task_Unk_80A9B74(void)
 {
+    // TODO: This is probably actually using a different struct!
+    CreditsRelatedUnknown *temp_r1 = TASK_DATA(gCurTask);
     u16 temp_r0;
-    u16 temp_r1;
 
-    temp_r1 = gCurTask->data;
-    temp_r0 = temp_r1->unk4 + 1;
-    temp_r1->unk4 = temp_r0;
-    if ((s32)(temp_r0 << 0x10) > 0x02570000) {
+    if (++temp_r1->unk4 > 0x0257) {
         temp_r1->unk4 = 0U;
         gCurTask->main = Task_Unk_80A9824;
     }
 }
 
-void Task_Unk_80A9BA8(CreditsRelated248 *strc248)
+void Task_Unk_80A9BA8(void)
 {
-    u16 temp_r1;
-    u8 temp_r0;
+    // TODO: This is probably actually using a different struct!
+    CreditsRelatedUnknown *strc = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r1->unk2++;
-    CreateCredRelatedStrc90((temp_r1->unk2 - 10));
+    CreateCredRelatedStrc90((strc->unk2++ - 10));
     TaskDestroy(gCurTask);
 }
 
+#else
+// continue here
+
+#if 0
 s32 sub_80A9BD8(s32 arg0, s32 arg1, s32 arg2, u8 arg3, u8 *arg4)
 {
     Sprite *temp_r2_2;
