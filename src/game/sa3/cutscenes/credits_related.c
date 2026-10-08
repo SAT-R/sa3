@@ -5487,7 +5487,7 @@ void Task_48_C_80AA76C(void)
     gBldRegs.bldY = 0x10;
     if (strc48_C->unk1 == 0) {
         var_r8 = 0;
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             LOADED_SAVE->unk34 |= 0x10;
             sub_8001E58();
         }
@@ -5499,7 +5499,7 @@ void Task_48_C_80AA76C(void)
             }
         }
 
-        if (LOADED_SAVE->collectedEmeralds != 0x7F) {
+        if (LOADED_SAVE->collectedEmeralds != EMERALD_COLLECTED_ALL) {
             sub_80AA91C();
             TaskDestroy(gCurTask);
             return;
@@ -5521,7 +5521,7 @@ void Task_48_C_80AA76C(void)
         }
         gCurTask->main = Task_48_C_80ABA94;
     } else {
-        if (!(0x20 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x20)) {
             LOADED_SAVE->unk34 |= 0x20;
             sub_8001E58();
         }
@@ -6853,12 +6853,12 @@ void sub_80AC0C4(CreditsRelated248 *strc248)
     temp_r1 = gCurTask->data;
     sub_80AC2B4(temp_r1);
     if (temp_r1->unk0 == 0) {
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             goto block_6;
         }
         goto block_4;
     }
-    if (0x20 & LOADED_SAVE->unk34) {
+    if (LOADED_SAVE->unk34 & 0x20) {
     block_4:
         if (8 & gInput) {
             TasksDestroyInPriorityRange(0, 0xFFFF);
@@ -6898,12 +6898,12 @@ void sub_80AC1E8(CreditsRelated248 *strc248)
     temp_r1 = gCurTask->data;
     sub_80AC2B4(temp_r1);
     if (temp_r1->unk0 == 0) {
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             goto block_6;
         }
         goto block_4;
     }
-    if (0x20 & LOADED_SAVE->unk34) {
+    if (LOADED_SAVE->unk34 & 0x20) {
     block_4:
         if (8 & gInput) {
             TasksDestroyInPriorityRange(0, 0xFFFF);
@@ -7146,12 +7146,12 @@ void sub_80AC620(CreditsRelated248 *strc248)
     temp_r1 = gCurTask->data;
     sub_80ACBD4(temp_r1);
     if (*temp_r1 == 0) {
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             goto block_6;
         }
         goto block_4;
     }
-    if (0x20 & LOADED_SAVE->unk34) {
+    if (LOADED_SAVE->unk34 & 0x20) {
     block_4:
         if (8 & gInput) {
             TasksDestroyInPriorityRange(0, 0xFFFF);
@@ -7189,12 +7189,12 @@ void sub_80AC6DC(CreditsRelated248 *strc248)
     }
     sub_80ACBF0(temp_r1);
     if (temp_r1->unk0 == 0) {
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             goto block_9;
         }
         goto block_7;
     }
-    if (0x20 & LOADED_SAVE->unk34) {
+    if (LOADED_SAVE->unk34 & 0x20) {
     block_7:
         if (8 & gInput) {
             TasksDestroyInPriorityRange(0, 0xFFFF);
@@ -7233,12 +7233,12 @@ void sub_80AC7D0(CreditsRelated248 *strc248)
     temp_r1 = gCurTask->data;
     sub_80ACBF0(temp_r1);
     if (temp_r1->unk0 == 0) {
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             goto block_6;
         }
         goto block_4;
     }
-    if (0x20 & LOADED_SAVE->unk34) {
+    if (LOADED_SAVE->unk34 & 0x20) {
     block_4:
         if (8 & gInput) {
             TasksDestroyInPriorityRange(0, 0xFFFF);
@@ -7281,12 +7281,12 @@ void sub_80AC8F0(CreditsRelated248 *strc248)
 
     temp_r1 = gCurTask->data;
     if (temp_r1->unk0 == 0) {
-        if (!(0x10 & LOADED_SAVE->unk34)) {
+        if (!(LOADED_SAVE->unk34 & 0x10)) {
             goto block_6;
         }
         goto block_4;
     }
-    if (0x20 & LOADED_SAVE->unk34) {
+    if (LOADED_SAVE->unk34 & 0x20) {
     block_4:
         if (8 & gInput) {
             TasksDestroyInPriorityRange(0, 0xFFFF);

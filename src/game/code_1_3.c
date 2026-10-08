@@ -1755,8 +1755,8 @@ void Task_2A4_8055378(void)
             u8 isSonic = gPlayers[PLAYER_1].charFlags.character == SONIC;
 #endif
             var_r4 = 0;
-            if ((gPlayers[PLAYER_1].charFlags.character == SONIC) && (LOADED_SAVE->collectedEmeralds == 0x7F)
-                && (LOADED_SAVE->unlockedCharacters == 0x1F)) {
+            if ((gPlayers[PLAYER_1].charFlags.character == SONIC) && (LOADED_SAVE->collectedEmeralds == EMERALD_COLLECTED_ALL)
+                && (LOADED_SAVE->unlockedCharacters == ALL_CHARACTERS)) {
                 if (!(LOADED_SAVE->unk34 & 0x10)) {
                     var_r4 = 0;
                 } else {
@@ -1772,7 +1772,7 @@ void Task_2A4_8055378(void)
                 PAUSE_GRAPHICS_QUEUE();
 
                 gStageData.unkBA = 0;
-                WarpToMap(72, 0);
+                WarpToMap(STAGE_NONAGGRESSION, 0);
             } else {
                 sub_8003D2C();
 
@@ -1784,9 +1784,12 @@ void Task_2A4_8055378(void)
                 CreatePreCreditsCutscene(0);
             }
         } else if ((gPlayers[PLAYER_1].charFlags.character == SONIC)
-                   && (((gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << KNUCKLES)))
-                       || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_4, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << AMY)))
-                       || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_6, ACT_3)) && !(LOADED_SAVE->unlockedCharacters & (1 << CREAM))))) {
+                   && (((gStageData.currentLevel == LEVEL_INDEX(ZONE_2, ACT_3))
+                        && !(LOADED_SAVE->unlockedCharacters & CHARACTER_BIT(KNUCKLES)))
+                       || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_4, ACT_3))
+                           && !(LOADED_SAVE->unlockedCharacters & CHARACTER_BIT(AMY)))
+                       || ((gStageData.currentLevel == LEVEL_INDEX(ZONE_6, ACT_3))
+                           && !(LOADED_SAVE->unlockedCharacters & CHARACTER_BIT(CREAM))))) {
             sub_8055F28();
             TaskDestroy(gCurTask);
         } else {
@@ -2358,8 +2361,8 @@ void sub_8056168(void)
 
 bool32 MetExtraBossEnableConditions(void)
 {
-    if ((gPlayers->charFlags.character == SONIC) && (LOADED_SAVE->collectedEmeralds == 0x7F) && (LOADED_SAVE->unlockedCharacters == 0x1F)
-        && (LOADED_SAVE->unk34 & 0x10)) {
+    if ((gPlayers->charFlags.character == SONIC) && (LOADED_SAVE->collectedEmeralds == EMERALD_COLLECTED_ALL)
+        && (LOADED_SAVE->unlockedCharacters == ALL_CHARACTERS) && (LOADED_SAVE->unk34 & 0x10)) {
         return TRUE;
     }
 

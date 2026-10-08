@@ -80,7 +80,7 @@ void ClearSave(SaveGame *save, u32 playerId)
         ptr[i] = 0;
     }
 
-    save->collectedEmeralds = 0;
+    save->collectedEmeralds = EMERALD_COLLECTED_NONE;
     save->unlockFlags = 0;
     save->unk34 = 0;
     save->unk36 = 2; /* Live count on new game/startup? */
@@ -159,7 +159,7 @@ void CompleteSave(SaveGame *save)
         save->unlockedStages[i] = 0x7F; // = (ZoneCompletion) { 1, 1, 1, 1, 1, 1, 1 };
     }
 
-    save->collectedEmeralds = 0x7F;
+    save->collectedEmeralds = EMERALD_COLLECTED_ALL;
     save->unlockFlags = 0x7F;
     save->unk34 = 0x31;
     save->unk36 = 9;
@@ -242,7 +242,7 @@ void ValidateSave(SaveGame *save)
         save->unlockedStages[i] &= 0x7F; // = (ZoneCompletion) { 1, 1, 1, 1, 1, 1, 1 };
     }
 
-    save->collectedEmeralds &= 0x7F;
+    save->collectedEmeralds &= EMERALD_COLLECTED_ALL;
     save->unlockFlags &= 0x07;
     save->unk34 &= 0x0031;
 
