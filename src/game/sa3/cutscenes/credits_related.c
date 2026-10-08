@@ -437,6 +437,10 @@ void Task_54_80AB994(void);
 void TaskDestructor_48_C_80AB9C8(Task *t);
 void Task_48_C_80AB9CC(void);
 void Task_48_C_80AB9F4(void);
+void sub_80AA91C(void);
+void Task_48_C_80ABA20(void);
+void Task_48_C_80ABA80(void);
+void Task_48_C_80ABA94(void);
 extern void sub_80AD7B4(NotificationText *arg0, u8 arg1, u16 arg2, u16 arg3, u8 *vram);
 
 extern void sub_80260F0();
@@ -5458,35 +5462,65 @@ void Task_48_C_80AA6A0(void)
     gCurTask->main = Task_48_C_80AB9F4;
 }
 
-#else
-// continue here
-
-#if 0
-void Task_48_C_80AA76C(CreditsRelated248 *strc248)
+void Task_48_C_80AA76C(void)
 {
-    u16 temp_r1;
     u8 var_r0;
     u8 var_r2;
     u8 var_r8;
 
-    temp_r1 = gCurTask->data;
-    if (temp_r1->unk2 != 0) {
+    CreditsRelated48_C *strc48_C = TASK_DATA(gCurTask);
+    if (strc48_C->unk2 != 0) {
         gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
-        temp_r1->unk4 = 0U;
-        temp_r1->unk2 = 0U;
+        strc48_C->unk4 = 0U;
+        strc48_C->unk2 = 0U;
     }
-    if ((u32)gBldRegs.bldY <= 0xF) {
-        gBldRegs.bldY = (u16)((u16)temp_r1->unk4 >> 8);
-        temp_r1->unk4 = (u16)(temp_r1->unk4 + 0x40);
+    if (gBldRegs.bldY <= 0xF) {
+        gBldRegs.bldY = I(strc48_C->unk4);
+        strc48_C->unk4 += 0x40;
         return;
     }
     gBldRegs.bldY = 0x10;
-    if (temp_r1->unk1 != 0) {
+    if (strc48_C->unk1 == 0) {
+        var_r8 = 0;
+        if (!(0x10 & LOADED_SAVE->unk34)) {
+            LOADED_SAVE->unk34 |= 0x10;
+            sub_8001E58();
+        }
+        for (var_r0 = 0; var_r0 < 7; var_r0++) {
+            for (var_r2 = 0; var_r2 < 4; var_r2++) {
+                if (CheckBit(LOADED_SAVE->collectedMedals[var_r0][var_r2], 2)) {
+                    var_r8 += 1;
+                }
+            }
+        }
+
+        if (LOADED_SAVE->collectedEmeralds != 0x7F) {
+            sub_80AA91C();
+            TaskDestroy(gCurTask);
+            return;
+        }
+        if (((3 & LOADED_SAVE->unlockFlags) == 3) || ((CURRENT_GAME_MODE == 5) && (gStageData.unkC5 == 1)) || (gStageData.unkC5 == 1)) {
+            strc48_C->unk6 = 0;
+            gCurTask->main = Task_48_C_80ABA20;
+            return;
+        }
+        if (!(1 & LOADED_SAVE->unlockFlags)) {
+            sub_80AB120(1);
+            TaskDestroy(gCurTask);
+            return;
+        }
+        if (var_r8 == 0x1C) {
+            sub_80AB120(2);
+            gCurTask->main = Task_48_C_80ABA80;
+            return;
+        }
+        gCurTask->main = Task_48_C_80ABA94;
+    } else {
         if (!(0x20 & LOADED_SAVE->unk34)) {
             LOADED_SAVE->unk34 |= 0x20;
             sub_8001E58();
@@ -5495,47 +5529,12 @@ void Task_48_C_80AA76C(CreditsRelated248 *strc248)
         TaskDestroy(gCurTask);
         return;
     }
-    var_r8 = 0;
-    if (!(0x10 & LOADED_SAVE->unk34)) {
-        LOADED_SAVE->unk34 |= 0x10;
-        sub_8001E58();
-    }
-    var_r0 = 0;
-    do {
-        var_r2 = 0;
-    loop_10:
-        if (4 & LOADED_SAVE->collectedMedals[0][var_r2 + (var_r0 * 4)]) {
-            var_r8 += 1;
-        }
-        var_r2 += 1;
-        if ((u32)var_r2 <= 3) {
-            goto loop_10;
-        }
-        var_r0 += 1;
-    } while ((u32)var_r0 <= 6);
-    if (LOADED_SAVE->collectedEmeralds != 0x7F) {
-        sub_80AA91C();
-        goto block_23;
-    }
-    if (((3 & LOADED_SAVE->unlockFlags) == 3) || ((CURRENT_GAME_MODE == 5) && (gStageData.unkC5 == 1)) || (gStageData.unkC5 == 1)) {
-        temp_r1->unk6 = 0;
-        gCurTask->main = sub_80ABA20;
-        return;
-    }
-    if (!(1 & LOADED_SAVE->unlockFlags)) {
-        sub_80AB120(1);
-    block_23:
-        TaskDestroy(gCurTask);
-        return;
-    }
-    if (var_r8 == 0x1C) {
-        sub_80AB120(2);
-        gCurTask->main = sub_80ABA80;
-        return;
-    }
-    gCurTask->main = sub_80ABA94;
 }
 
+#else
+// continue here
+
+#if 0
 void sub_80AA91C(void)
 {
     s32 sp4;
@@ -6465,7 +6464,7 @@ void Task_48_C_80AB9F4(CreditsRelated248 *strc248)
     }
 }
 
-void sub_80ABA20(CreditsRelated248 *strc248)
+void Task_48_C_80ABA20(CreditsRelated248 *strc248)
 {
     u16 temp_r0;
     u16 temp_r1;
@@ -6482,9 +6481,9 @@ void sub_80ABA20(CreditsRelated248 *strc248)
     }
 }
 
-void sub_80ABA80(CreditsRelated248 *strc248) { TaskDestroy(gCurTask); }
+void Task_48_C_80ABA80(CreditsRelated248 *strc248) { TaskDestroy(gCurTask); }
 
-void sub_80ABA94(CreditsRelated248 *strc248)
+void Task_48_C_80ABA94(CreditsRelated248 *strc248)
 {
     u16 temp_r0;
     u16 temp_r1;

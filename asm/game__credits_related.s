@@ -7,224 +7,6 @@
 
 .if 0
 .else
-
-	thumb_func_start Task_48_C_80AA76C
-Task_48_C_80AA76C: @ 0x080AA76C
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r5, _080AA7CC @ =gCurTask
-	ldr r0, [r5]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	ldrh r0, [r6, #2]
-	ldr r4, _080AA7D0 @ =gBldRegs
-	cmp r0, #0
-	beq _080AA7B8
-	ldr r2, _080AA7D4 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r3, #0x80
-	lsls r3, r3, #6
-	adds r1, r3, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _080AA7D8 @ =gWinRegs
-	movs r3, #0
-	movs r0, #0xf0
-	strh r0, [r1]
-	movs r0, #0xa0
-	strh r0, [r1, #4]
-	ldrh r2, [r1, #8]
-	movs r0, #0x3f
-	orrs r0, r2
-	strh r0, [r1, #8]
-	ldrh r2, [r1, #0xa]
-	movs r0, #0x1f
-	orrs r0, r2
-	strh r0, [r1, #0xa]
-	ldr r0, _080AA7DC @ =0x00003FFF
-	strh r0, [r4]
-	strh r3, [r6, #4]
-	strh r3, [r6, #2]
-_080AA7B8:
-	ldrh r0, [r4, #4]
-	cmp r0, #0xf
-	bhi _080AA7E0
-	ldrh r0, [r6, #4]
-	lsrs r0, r0, #8
-	strh r0, [r4, #4]
-	ldrh r0, [r6, #4]
-	adds r0, #0x40
-	strh r0, [r6, #4]
-	b _080AA90C
-	.align 2, 0
-_080AA7CC: .4byte gCurTask
-_080AA7D0: .4byte gBldRegs
-_080AA7D4: .4byte gDispCnt
-_080AA7D8: .4byte gWinRegs
-_080AA7DC: .4byte 0x00003FFF
-_080AA7E0:
-	movs r3, #0
-	movs r2, #0x10
-	strh r2, [r4, #4]
-	ldrb r0, [r6, #1]
-	cmp r0, #0
-	beq _080AA7EE
-	b _080AA8EC
-_080AA7EE:
-	movs r0, #0
-	mov r8, r0
-	ldr r4, _080AA854 @ =gLoadedSaveGame
-	ldrh r1, [r4, #0x34]
-	adds r0, r2, #0
-	ands r0, r1
-	cmp r0, #0
-	bne _080AA808
-	movs r0, #0x10
-	orrs r0, r1
-	strh r0, [r4, #0x34]
-	bl sub_8001E58
-_080AA808:
-	movs r0, #0
-	adds r5, r4, #0
-	adds r7, r5, #0
-	adds r7, #0x37
-	movs r1, #4
-	mov ip, r1
-_080AA814:
-	movs r2, #0
-	adds r4, r0, #1
-	lsls r3, r0, #2
-_080AA81A:
-	adds r0, r2, r3
-	adds r0, r0, r7
-	ldrb r1, [r0]
-	mov r0, ip
-	ands r0, r1
-	cmp r0, #0
-	beq _080AA832
-	mov r0, r8
-	adds r0, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-_080AA832:
-	adds r0, r2, #1
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	cmp r2, #3
-	bls _080AA81A
-	lsls r0, r4, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #6
-	bls _080AA814
-	adds r0, r5, #0
-	adds r0, #0x32
-	ldrb r0, [r0]
-	cmp r0, #0x7f
-	beq _080AA858
-	bl sub_80AA91C
-	b _080AA8AA
-	.align 2, 0
-_080AA854: .4byte gLoadedSaveGame
-_080AA858:
-	adds r0, r5, #0
-	adds r0, #0x33
-	ldrb r2, [r0]
-	movs r0, #3
-	ands r0, r2
-	cmp r0, #3
-	beq _080AA882
-	ldr r1, _080AA890 @ =gStageData
-	ldrb r0, [r1, #3]
-	cmp r0, #5
-	bne _080AA878
-	adds r0, r1, #0
-	adds r0, #0xc5
-	ldrb r0, [r0]
-	cmp r0, #1
-	beq _080AA882
-_080AA878:
-	adds r0, r1, #0
-	adds r0, #0xc5
-	ldrb r0, [r0]
-	cmp r0, #1
-	bne _080AA89C
-_080AA882:
-	movs r0, #0
-	strh r0, [r6, #6]
-	ldr r0, _080AA894 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080AA898 @ =sub_80ABA20
-	str r0, [r1, #8]
-	b _080AA90C
-	.align 2, 0
-_080AA890: .4byte gStageData
-_080AA894: .4byte gCurTask
-_080AA898: .4byte sub_80ABA20
-_080AA89C:
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	bne _080AA8B8
-	movs r0, #1
-	bl sub_80AB120
-_080AA8AA:
-	ldr r0, _080AA8B4 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _080AA90C
-	.align 2, 0
-_080AA8B4: .4byte gCurTask
-_080AA8B8:
-	mov r3, r8
-	cmp r3, #0x1c
-	bne _080AA8D8
-	movs r0, #2
-	bl sub_80AB120
-	ldr r0, _080AA8D0 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080AA8D4 @ =sub_80ABA80
-	str r0, [r1, #8]
-	b _080AA90C
-	.align 2, 0
-_080AA8D0: .4byte gCurTask
-_080AA8D4: .4byte sub_80ABA80
-_080AA8D8:
-	ldr r0, _080AA8E4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080AA8E8 @ =sub_80ABA94
-	str r0, [r1, #8]
-	b _080AA90C
-	.align 2, 0
-_080AA8E4: .4byte gCurTask
-_080AA8E8: .4byte sub_80ABA94
-_080AA8EC:
-	ldr r2, _080AA918 @ =gLoadedSaveGame
-	ldrh r1, [r2, #0x34]
-	movs r0, #0x20
-	ands r0, r1
-	cmp r0, #0
-	bne _080AA902
-	movs r0, #0x20
-	orrs r0, r1
-	strh r0, [r2, #0x34]
-	bl sub_8001E58
-_080AA902:
-	bl sub_80A8F90
-	ldr r0, [r5]
-	bl TaskDestroy
-_080AA90C:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080AA918: .4byte gLoadedSaveGame
-
 	thumb_func_start sub_80AA91C
 sub_80AA91C: @ 0x080AA91C
 	push {r4, r5, lr}
@@ -2357,8 +2139,8 @@ _080ABA14:
 _080ABA18: .4byte gCurTask
 _080ABA1C: .4byte Task_48_C_80AA76C
 
-	thumb_func_start sub_80ABA20
-sub_80ABA20: @ 0x080ABA20
+	thumb_func_start Task_48_C_80ABA20
+Task_48_C_80ABA20: @ 0x080ABA20
 	push {lr}
 	ldr r0, _080ABA64 @ =gCurTask
 	ldr r0, [r0]
@@ -2400,8 +2182,8 @@ _080ABA74: .4byte gBgSpritesCount
 _080ABA78: .4byte gVramGraphicsCopyCursor
 _080ABA7C: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_80ABA80
-sub_80ABA80: @ 0x080ABA80
+	thumb_func_start Task_48_C_80ABA80
+Task_48_C_80ABA80: @ 0x080ABA80
 	push {lr}
 	ldr r0, _080ABA90 @ =gCurTask
 	ldr r0, [r0]
@@ -2411,8 +2193,8 @@ sub_80ABA80: @ 0x080ABA80
 	.align 2, 0
 _080ABA90: .4byte gCurTask
 
-	thumb_func_start sub_80ABA94
-sub_80ABA94: @ 0x080ABA94
+	thumb_func_start Task_48_C_80ABA94
+Task_48_C_80ABA94: @ 0x080ABA94
 	push {lr}
 	ldr r0, _080ABAD8 @ =gCurTask
 	ldr r0, [r0]
