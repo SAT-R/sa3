@@ -152,7 +152,7 @@ void ChaoMap_InitSprites(ChaoMap *chaomap)
         s->qAnimDelay = 0;
         s->prevAnim = -1;
         s->variant = sChaoIATilesInfo[i][1];
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = 0;
         s->hitboxes[0].index = -1;
@@ -208,7 +208,7 @@ void ChaoMap_InitSprites(ChaoMap *chaomap)
         s->qAnimDelay = 0;
         s->prevAnim = 0xFFFF;
         s->variant = (u8)i;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->animSpeed = 0x10;
         s->palId = i + 1;
         s->hitboxes[0].index = -1;

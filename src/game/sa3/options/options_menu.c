@@ -501,7 +501,7 @@ void sub_808B664(OptionsMenu *options, u8 arg1)
     }
     s->anim = gUnknown_080D6BD8[options->lang0].anim;
     s->variant = gUnknown_080D6BD8[options->lang0].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = I(options->unkA0.x);
     s->y = I(options->unkA0.y);
     UpdateSpriteAnimation(s);

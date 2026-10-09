@@ -262,7 +262,7 @@ void sub_8096C60(OptionsVsRecordScreen *vsRecScreen)
     vsRecScreen->vram104 += gUnknown_080D8BF4[lang].numTiles * TILE_SIZE_4BPP;
     s->anim = gUnknown_080D8BF4[lang].anim;
     s->variant = gUnknown_080D8BF4[lang].variant;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->x = I(vsRecScreen->qUnk138);
     s->y = I(vsRecScreen->qUnk13C);
     s->oamFlags = 0xC0;
@@ -324,7 +324,7 @@ void sub_8096C60(OptionsVsRecordScreen *vsRecScreen)
             s->variant = 0;
             s->anim = gUnknown_080D8C5C.anim;
         }
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
         s->x = (i * 8) + 18;
         s->y = 69;
         s->animCursor = 0;
@@ -439,7 +439,7 @@ void Task_VsRecordScreen(void)
                     s->anim = gUnknown_080D8C5C.anim;
                     s->variant = 0;
                 }
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 s->x = (var_r5 * 8) + 0x12;
                 s->y = 0x45;
                 s->animCursor = 0;
@@ -479,7 +479,7 @@ void Task_80970DC(void)
             vsRecScreen->vram104 += gUnknown_080D8C54.numTiles << 5;
             temp_r0->anim = gUnknown_080D8C54.anim;
             temp_r0->variant = gUnknown_080D8C54.variant + vsRecScreen->recordsRivals[var_r4][var_r5];
-            temp_r0->prevVariant = 0xFF;
+            temp_r0->prevVariant = -1;
             temp_r0->x = ((s32)vsRecScreen->qUnk110 >> 8) + (var_r5 * 8);
             temp_r0->y = ((s32)vsRecScreen->qUnk114 >> 8) + (var_r4 * 0x10);
             temp_r0->animCursor = 0;
