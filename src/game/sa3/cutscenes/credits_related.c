@@ -280,7 +280,7 @@ typedef struct {
 typedef struct {
     u8 language;
     u8 unk1;
-    u16 unk2;
+    s16 unk2;
     u16 unk4;
     u16 unk6;
     s32 unk8;
@@ -470,8 +470,9 @@ void sub_80ABB98(CreditsRelated14C *strc14C);
 bool32 sub_80ABBC8(CreditsRelated14C *strc14C);
 bool32 sub_80ABBEC(CreditsRelated14C *strc14C);
 void Task_14C_80AAC38(void);
-void Task_14C_80AAE50(CreditsRelated14C *strc14C);
+void Task_14C_80AAE50(void);
 void TaskDestructor_14C_80ABAF4(Task *t);
+void Task_14C_80AAD6C(void);
 
 extern void sub_80260F0();
 extern s16 sub_8001E84(void);
@@ -525,6 +526,9 @@ extern const u8 gUnknown_080DA28C[15][2];
 extern const u8 gUnknown_080DA2AA[0xF];
 extern const u8 gUnknown_080DA2B9[0xF];
 extern const TileInfo2 gUnknown_080DA2C8[4];
+extern TileInfo2 gUnknown_080DA2E8[2];
+extern TileInfo2 gUnknown_080DA2F8[NUM_LANGUAGES];
+extern TileInfo2 gUnknown_080DA328;
 extern const TileInfo2 gUnknown_080DBA94[2];
 
 extern ColorRaw Palette_unknown_307[16 * PALETTE_LEN_4BPP];
@@ -533,6 +537,7 @@ extern ColorRaw Palette_unknown_318[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_319[16 * PALETTE_LEN_4BPP];
 
 void Task_54_80AA49C(void);
+void Task_14C_80AAEC0(void);
 extern void LaunchGameIntro(void);
 
 #if M2C
@@ -5534,7 +5539,8 @@ void Task_48_C_80AA76C(void)
             TaskDestroy(gCurTask);
             return;
         }
-        if (((3 & LOADED_SAVE->unlockFlags) == 3) || ((CURRENT_GAME_MODE == 5) && (gStageData.unkC5 == 1)) || (gStageData.unkC5 == 1)) {
+        if (((3 & LOADED_SAVE->unlockFlags) == 3) || ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.unkC5 == 1))
+            || (gStageData.unkC5 == 1)) {
             strc48_C->unk6 = 0;
             gCurTask->main = Task_48_C_80ABA20;
             return;
@@ -5544,7 +5550,7 @@ void Task_48_C_80AA76C(void)
             TaskDestroy(gCurTask);
             return;
         }
-        if (var_r8 == 0x1C) {
+        if (var_r8 == 28) {
             sub_80AB120(2);
             gCurTask->main = Task_48_C_80ABA80;
             return;
@@ -5605,361 +5611,328 @@ void sub_80AA91C(void)
     gBgSprites_Unknown2[3][2] = -1;
     gBgSprites_Unknown2[3][3] = 0x40;
     sub_80AAB6C(strc14C);
-    gWinRegs[2] = (I(strc14C->unk10) * WIN_RANGE(1, 1)) + I(strc14C->unk8);
+
+    gWinRegs[WINREG_WIN0V] = (I(strc14C->unk10) * WIN_RANGE(1, 1)) + I(strc14C->unk8);
+
     gBgPalette[0] = sub_80C4C0C(0U);
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 }
 
-#else
-// continue here
-
-#if 0
 void sub_80AAA4C(CreditsRelated14C *strc14C)
 {
-    ? *sp0;
-    ? *var_r3;
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
-    Sprite *temp_r0_3;
-    s32 temp_r2;
-    s32 temp_r2_3;
-    s32 temp_r7;
-    u8 *var_r7;
-    u8 var_r4;
-    void *temp_r2_2;
+    u8 *vram;
+    u8 i;
 
-    var_r4 = 0;
-    var_r7 = 0x06010000;
-    var_r3 = &gUnknown_080DA2E8;
-    do {
-        temp_r0 = strc14C + ((var_r4 * 0x28) + 0x2C);
-        temp_r0->tiles = var_r7;
-        temp_r2 = var_r4 * 8;
-        var_r7 += *(temp_r2 + (var_r3 + 4)) << 5;
-        temp_r2_2 = temp_r2 + var_r3;
-        temp_r0->anim = temp_r2_2->unk0;
-        temp_r0->variant = temp_r2_2->unk2;
-        temp_r0->prevVariant = -1;
-        temp_r0->x = (s16)((s32)strc14C->unk1C >> 8);
-        temp_r0->y = (s16)((s32)strc14C->unk20 >> 8);
-        temp_r0->oamFlags = 0x40;
-        temp_r0->animCursor = 0;
-        temp_r0->qAnimDelay = 0;
-        temp_r0->animSpeed = 0x10;
-        temp_r0->palId = 0;
-        temp_r0->frameFlags = 0;
-        sp0 = var_r3;
-        UpdateSpriteAnimation(temp_r0);
-        var_r4 += 1;
-    } while ((u32)var_r4 <= 1);
-    temp_r0_2 = strc14C + 0x7C;
-    strc14C->unk7C = var_r7;
-    temp_r2_3 = strc14C->unk0 * 8;
-    temp_r7 = var_r7 + (*(temp_r2_3 + (&gUnknown_080DA2F8 + 4)) << 5);
-    temp_r0_2->anim = *(temp_r2_3 + &gUnknown_080DA2F8);
-    temp_r0_2->variant = ((strc14C->unk0 * 8) + &gUnknown_080DA2F8)->unk2;
-    temp_r0_2->prevVariant |= ~0;
-    temp_r0_2->x = (s16)((s32)strc14C->unk24 >> 8);
-    temp_r0_2->y = (s16)((s32)strc14C->unk28 >> 8);
-    temp_r0_2->oamFlags = 0;
-    temp_r0_2->animCursor = 0;
-    temp_r0_2->qAnimDelay = 0;
-    temp_r0_2->animSpeed = 0x10;
-    temp_r0_2->palId = 0;
-    temp_r0_2->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_2);
-    temp_r0_3 = strc14C + 0xA4;
-    strc14C->unkA4 = temp_r7;
-    temp_r0_3->anim = gUnknown_080DA328.unk0;
-    temp_r0_3->variant = gUnknown_080DA328.unk2;
-    temp_r0_3->prevVariant |= ~0;
-    temp_r0_3->x = (s16)((s32)strc14C->unk24 >> 8);
-    temp_r0_3->y = (s16)((s32)strc14C->unk28 >> 8);
-    temp_r0_3->oamFlags = 0;
-    temp_r0_3->animCursor = 0;
-    temp_r0_3->qAnimDelay = 0;
-    temp_r0_3->animSpeed = 0x10;
-    temp_r0_3->palId = 0;
-    temp_r0_3->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_3);
+    for (i = 0, vram = (u8 *)OBJ_VRAM0; i < ARRAY_COUNT(strc14C->spr2C); i++) {
+        Sprite *s = &strc14C->spr2C[i];
+        s->tiles = vram;
+        vram += gUnknown_080DA2E8[i].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080DA2E8[i].anim;
+        s->variant = gUnknown_080DA2E8[i].variant;
+        s->prevVariant = -1;
+        s->x = I(strc14C->unk1C);
+        s->y = I(strc14C->unk20);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &strc14C->spr7C;
+        s->tiles = vram;
+        vram += gUnknown_080DA2F8[strc14C->language].numTiles * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080DA2F8[strc14C->language].anim;
+        s->variant = gUnknown_080DA2F8[strc14C->language].variant;
+        s->prevVariant = -1;
+        s->x = I(strc14C->unk24);
+        s->y = I(strc14C->unk28);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
+    {
+        Sprite *s = &strc14C->sprA4;
+        s->tiles = vram;
+        s->anim = gUnknown_080DA328.anim;
+        s->variant = gUnknown_080DA328.variant;
+        s->prevVariant |= ~0;
+        s->x = I(strc14C->unk24);
+        s->y = I(strc14C->unk28);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 }
 
-void sub_80AAB6C(void *arg0)
+void sub_80AAB6C(CreditsRelated14C *strc14C)
 {
-    Background *temp_r0;
-    Background *temp_r0_2;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(24) | BGCNT_CHARBASE(2) | BGCNT_256COLOR | BGCNT_TXT512x256 | BGCNT_PRIORITY(0);
+    gBgScrollRegs[2][0] = I(strc14C->unk14);
+    gBgScrollRegs[2][1] = I(strc14C->unk18);
+    {
+        Background *bg2 = &strc14C->bgCC;
+        bg2->graphics.dest = BG_CHAR_ADDR(2);
+        bg2->graphics.anim = 0;
+        bg2->layoutVram = BG_SCREEN_ADDR(24);
+        bg2->unk18 = 0;
+        bg2->unk1A = 0;
+        bg2->tilemapId = TM_UNKNOWN_300;
+        bg2->unk1E = 0;
+        bg2->unk20 = 0;
+        bg2->unk22 = 0;
+        bg2->unk24 = 0;
+        bg2->targetTilesX = 256 / TILE_WIDTH;
+        bg2->targetTilesY = 256 / TILE_WIDTH;
+        bg2->paletteOffset = 0;
+        bg2->flags = BACKGROUND_FLAGS_BG_ID(2) | BACKGROUND_FLAG_4;
+        DrawBackground(bg2);
+    }
 
-    gBgCntRegs[2] = 0x5888;
-    gBgScrollRegs[2][0] = (s16)((s32)arg0->unk14 >> 8);
-    gBgScrollRegs[2][1] = (s16)((s32)arg0->unk18 >> 8);
-    temp_r0 = arg0 + 0xCC;
-    temp_r0->graphics.dest = (void *)0x06008000;
-    temp_r0->graphics.anim = 0;
-    temp_r0->layoutVram = (u16 *)0x0600C000;
-    temp_r0->unk18 = 0;
-    temp_r0->unk1A = 0;
-    temp_r0->tilemapId = 0x12C;
-    temp_r0->unk1E = 0;
-    temp_r0->unk20 = 0;
-    temp_r0->unk22 = 0;
-    temp_r0->unk24 = 0;
-    temp_r0->targetTilesX = 0x20;
-    temp_r0->targetTilesY = 0x20;
-    arg0->unkF6 = 0;
-    temp_r0->flags = 6;
-    DrawBackground(temp_r0);
-    gBgCntRegs[1] = 0x681;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(6) | BGCNT_CHARBASE(0) | BGCNT_256COLOR | BGCNT_TXT256x256 | BGCNT_PRIORITY(1);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    temp_r0_2 = arg0 + 0x10C;
-    temp_r0_2->graphics.dest = (void *)0x06000000;
-    temp_r0_2->graphics.anim = 0;
-    temp_r0_2->layoutVram = (u16 *)0x06003000;
-    temp_r0_2->unk18 = 0;
-    temp_r0_2->unk1A = 0;
-    temp_r0_2->tilemapId = 0x12B;
-    temp_r0_2->unk1E = 0;
-    temp_r0_2->unk20 = 0;
-    temp_r0_2->unk22 = 0;
-    temp_r0_2->unk24 = 0;
-    temp_r0_2->targetTilesX = 0x20;
-    temp_r0_2->targetTilesY = 0x20;
-    arg0->unk136 = 0;
-    temp_r0_2->flags = 5;
-    DrawBackground(temp_r0_2);
+    {
+        Background *bg1 = &strc14C->bg10C;
+        bg1->graphics.dest = BG_CHAR_ADDR(0);
+        bg1->graphics.anim = 0;
+        bg1->layoutVram = BG_SCREEN_ADDR(6);
+        bg1->unk18 = 0;
+        bg1->unk1A = 0;
+        bg1->tilemapId = TM_UNKNOWN_299;
+        bg1->unk1E = 0;
+        bg1->unk20 = 0;
+        bg1->unk22 = 0;
+        bg1->unk24 = 0;
+        bg1->targetTilesX = 256 / TILE_WIDTH;
+        bg1->targetTilesY = 256 / TILE_WIDTH;
+        bg1->paletteOffset = 0;
+        bg1->flags = BACKGROUND_FLAGS_BG_ID(1) | BACKGROUND_FLAG_4;
+        DrawBackground(bg1);
+    }
 }
 
-void Task_14C_80AAC38(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
+void Task_14C_80AAC38(void)
 {
+    CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
     s32 temp_r0;
+    s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
-    s32 temp_r1_4;
-    u16 temp_r1;
     u8 var_r7;
 
-    temp_r1 = gCurTask->data;
     var_r7 = 0;
-    if (temp_r1->unk6 == 0) {
+    if (strc14C->unk6 == 0) {
         gBldRegs.bldCnt = 0xC2;
-        gDispCnt |= 0x6000;
+        gDispCnt |= DISPCNT_WIN0_ON | DISPCNT_WIN1_ON;
         gWinRegs[0] = 0xFF;
         gWinRegs[1] = 0xFF;
         gWinRegs[3] = 0xFF;
         gWinRegs[4] = 0x1137;
         gWinRegs[5] = 0;
         gBldRegs.bldY = 0x10;
-        temp_r1->unk4 = 0x1000U;
-        temp_r1->unk6 = 1U;
-        sub_80AAA4C((void *)temp_r1);
-        gDispCnt |= 0x1600;
+        strc14C->unk4 = 0x1000;
+        strc14C->unk6 = 1;
+        sub_80AAA4C(strc14C);
+        gDispCnt |= DISPCNT_BG1_ON;
+        gDispCnt |= DISPCNT_BG2_ON;
+        gDispCnt |= DISPCNT_OBJ_ON;
         m4aMPlayAllStop();
-        m4aSongNumStart(0x5B);
+        m4aSongNumStart(MUS_MESSAGE);
     }
-    temp_r1_2 = temp_r1->unk10;
-    if (temp_r1_2 > 0x2FFF) {
-        temp_r0 = temp_r1_2 + 0xFFFFFF00;
-        temp_r1->unk10 = temp_r0;
-        if (temp_r0 <= 0x3000) {
-            temp_r1->unk10 = 0x3000;
+
+    if (strc14C->unk10 >= 0x3000) {
+        strc14C->unk10 -= Q(1);
+        if (strc14C->unk10 <= 0x3000) {
+            strc14C->unk10 = 0x3000;
             var_r7 = 1;
         }
     }
-    temp_r1_3 = temp_r1->unk8;
-    if (temp_r1_3 <= 0x4000) {
-        temp_r1_4 = temp_r1_3 + 0x200;
-        temp_r1->unk8 = temp_r1_4;
-        if (temp_r1_4 > 0x3FFF) {
-            temp_r1->unk8 = 0x4000;
+
+    if (strc14C->unk8 <= 0x4000) {
+        strc14C->unk8 += 0x200;
+        if (strc14C->unk8 >= 0x4000) {
+            strc14C->unk8 = 0x4000;
             var_r7 += 1;
         }
     }
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16)((u16)temp_r1->unk4 >> 8);
-        temp_r1->unk4 = (u16)(temp_r1->unk4 + 0xFFFFFF00);
+        gBldRegs.bldY = (u16)((u16)strc14C->unk4 >> 8);
+        strc14C->unk4 -= Q(1);
     } else {
         var_r7 += 1;
     }
-    gWinRegs[2] = (((s32)temp_r1->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r1->unk8 >> 8);
+    gWinRegs[2] = (I(strc14C->unk10) * WIN_RANGE(1, 1)) + I(strc14C->unk8);
     if (var_r7 == 3) {
         gBldRegs.bldCnt = 0xF0;
-        gWinRegs[4] = 0x3017;
+        gWinRegs[WINREG_WININ] = WININ_WIN1_OBJ | WININ_WIN1_CLR | WININ_WIN0_BG0 | WININ_WIN0_BG1 | WININ_WIN0_BG2 | WININ_WIN0_OBJ;
         gBldRegs.bldAlpha = 0x1F;
         gBldRegs.bldY = 0;
-        temp_r1->unk6 = 0U;
-        temp_r1->unk4 = 0U;
-        temp_r1->unk2 = 0;
+        strc14C->unk6 = 0;
+        strc14C->unk4 = 0;
+        strc14C->unk2 = 0;
         gCurTask->main = Task_14C_80AAD6C;
     }
 }
 
-void Task_14C_80AAD6C(CreditsRelated248 *strc248)
+void Task_14C_80AAD6C(void)
 {
+    CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
     u16 temp_r0;
     u16 temp_r0_2;
-    u16 temp_r1;
 
-    temp_r1 = gCurTask->data;
-    sub_80ABBC8(temp_r1);
-    if ((u32)gBldRegs.bldY <= 0xF) {
-        temp_r0 = temp_r1->unk4 + 0x80;
-        temp_r1->unk4 = temp_r0;
-        gBldRegs.bldY = (u16)((u32)(temp_r0 << 0x10) >> 0x18);
+    sub_80ABBC8(strc14C);
+    if ((u32)gBldRegs.bldY <= 0xFU) {
+        strc14C->unk4 += 0x80;
+        gBldRegs.bldY = (strc14C->unk4 >> 8);
     } else {
-        *gBgPalette = sub_80C4C0C(0);
-        gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        *gBgPalette = sub_80C4C0C(0U);
+        gFlags |= 1;
     }
-    temp_r0_2 = temp_r1->unk2 + 1;
-    temp_r1->unk2 = temp_r0_2;
-    if ((s32)(s16)temp_r0_2 > 0x96) {
-        temp_r1->unk4 = 0x1000U;
-        temp_r1->unk2 = 0U;
+
+    if (++strc14C->unk2 > 0x96) {
+        strc14C->unk4 = 0x1000;
+        strc14C->unk2 = 0;
         gBldRegs.bldCnt = 0xD0;
         gWinRegs[4] = 0x3017;
         gBldRegs.bldAlpha = 0x1F;
         gBldRegs.bldY = 0x10;
-        temp_r1->unk6 = 0;
-        temp_r1->unk4 = 0x1000U;
-        *gBgPalette = sub_80C4C0C(0);
-        gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        strc14C->unk6 = 0;
+        strc14C->unk4 = 0x1000;
+        *gBgPalette = sub_80C4C0C(0U);
+        gFlags |= 1;
         gCurTask->main = Task_14C_80AAE50;
         return;
     }
-    gWinRegs[2] = (((s32)temp_r1->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r1->unk8 >> 8);
-    gBgScrollRegs[2][0] = (s16)((s32)temp_r1->unk14 >> 8);
-    gBgScrollRegs[2][1] = (s16)((s32)temp_r1->unk18 >> 8);
+    gWinRegs[2] = (((s32)strc14C->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc14C->unk8 >> 8);
+    gBgScrollRegs[2][0] = I(strc14C->unk14);
+    gBgScrollRegs[2][1] = I(strc14C->unk18);
 }
 
-void Task_14C_80AAE50(CreditsRelated248 *strc248)
+void Task_14C_80AAE50(void)
 {
+    CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
     u16 temp_r0;
-    u16 temp_r1;
 
-    temp_r1 = gCurTask->data;
-    sub_80ABB98(temp_r1);
-    if (sub_80ABBEC(temp_r1) == 1) {
-        temp_r0 = temp_r1->unk2 + 1;
-        temp_r1->unk2 = temp_r0;
-        if ((s32)(s16)temp_r0 > 0x3C) {
-            temp_r1->unk2 = 0U;
+    sub_80ABB98(strc14C);
+    if (sub_80ABBEC(strc14C) == 1) {
+        if (++strc14C->unk2 > 0x3C) {
+            strc14C->unk2 = 0;
             gCurTask->main = Task_14C_80AAEC0;
             return;
         }
     }
-    gWinRegs[2] = (((s32)temp_r1->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r1->unk8 >> 8);
-    gBgScrollRegs[2][0] = (s16)((s32)temp_r1->unk14 >> 8);
-    gBgScrollRegs[2][1] = (s16)((s32)temp_r1->unk18 >> 8);
+    gWinRegs[2] = (((s32)strc14C->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc14C->unk8 >> 8);
+    gBgScrollRegs[2][0] = I(strc14C->unk14);
+    gBgScrollRegs[2][1] = I(strc14C->unk18);
 }
 
-void Task_14C_80AAEC0(CreditsRelated248 *strc248)
+void sub_80AB0D8(CreditsRelated14C *strc14C);
+void Task_14C_80ABAF8(void);
+void Task_14C_80AAFB0(void);
+void Task_14C_80ABB38(void);
+void Task_14C_80AAEC0(void)
 {
+    CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
     u16 temp_r0;
     u16 temp_r0_2;
     u16 temp_r1;
-    u16 temp_r1_2;
 
-    temp_r1 = gCurTask->data;
-    sub_80ABB98(temp_r1);
-    sub_80AB0D8(temp_r1);
-    temp_r1_2 = gBldRegs.bldY;
-    if (temp_r1_2 != 0) {
-        temp_r0 = temp_r1->unk4 + 0xFFFFFF00;
-        temp_r1->unk4 = temp_r0;
-        gBldRegs.bldY = (u16)((u32)(temp_r0 << 0x10) >> 0x18);
-        goto block_4;
+    sub_80ABB98(strc14C);
+    sub_80AB0D8(strc14C);
+
+    if (gBldRegs.bldY != 0) {
+        strc14C->unk4 -= Q(1);
+        gBldRegs.bldY = (strc14C->unk4) >> 0x8;
+    } else {
+        gBldRegs.bldY = 0;
+        if (++strc14C->unk2 > 0x3C) {
+            strc14C->unk2 = 0;
+            strc14C->unk4 = 0;
+            gCurTask->main = Task_14C_80ABAF8;
+            return;
+        }
     }
-    gBldRegs.bldY = temp_r1_2;
-    temp_r0_2 = temp_r1->unk2 + 1;
-    temp_r1->unk2 = temp_r0_2;
-    if ((s32)(s16)temp_r0_2 > 0x3C) {
-        temp_r1->unk2 = temp_r1_2;
-        temp_r1->unk4 = temp_r1_2;
-        gCurTask->main = sub_80ABAF8;
-        return;
-    }
-block_4:
-    gWinRegs[2] = (((s32)temp_r1->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r1->unk8 >> 8);
-    gBgScrollRegs[2][0] = (s16)((s32)temp_r1->unk14 >> 8);
-    gBgScrollRegs[2][1] = (s16)((s32)temp_r1->unk18 >> 8);
+    gWinRegs[2] = (((s32)strc14C->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc14C->unk8 >> 8);
+    gBgScrollRegs[2][0] = I(strc14C->unk14);
+    gBgScrollRegs[2][1] = I(strc14C->unk18);
 }
 
-void sub_80AAF50(CreditsRelated248 *strc248)
+void Task_14C_80AAF50(void)
 {
-    u16 temp_r1;
-
-    temp_r1 = gCurTask->data;
-    sub_80ABB98(temp_r1);
-    sub_80AB0D8(temp_r1);
-    if ((u32)gBldRegs.bldY <= 0xF) {
-        gBldRegs.bldY = (u16)((u16)temp_r1->unk4 >> 8);
-        temp_r1->unk4 = (u16)(temp_r1->unk4 + 0x100);
+    CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
+    sub_80ABB98(strc14C);
+    sub_80AB0D8(strc14C);
+    if (gBldRegs.bldY < 0x10) {
+        gBldRegs.bldY = (strc14C->unk4 >> 8);
+        strc14C->unk4 += 0x100;
         return;
     }
     gWinRegs[4] = 0x17;
     gBldRegs.bldY = 0x10;
-    gCurTask->main = sub_80AAFB0;
+    gCurTask->main = Task_14C_80AAFB0;
 }
 
-void sub_80AAFB0(CreditsRelated248 *strc248)
+void Task_14C_80AAFB0(void)
 {
+    CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r0_4;
-    u16 temp_r1;
     u8 var_r0;
     u8 var_r0_2;
     u8 var_r3;
     u8 var_r5;
     u8 var_r7;
 
-    temp_r1 = gCurTask->data;
     var_r5 = 0;
     var_r7 = 0;
-    sub_80ABB98(temp_r1);
-    sub_80AB0D8(temp_r1);
-    temp_r0 = temp_r1->unk10;
-    if (temp_r0 <= 0x4FFF) {
-        temp_r0_2 = temp_r0 + 0x100;
-        temp_r1->unk10 = temp_r0_2;
-        if (temp_r0_2 > 0x4FFF) {
-            temp_r1->unk10 = 0x5000;
-            goto block_3;
+    sub_80ABB98(strc14C);
+    sub_80AB0D8(strc14C);
+
+    if (strc14C->unk10 < 0x5000) {
+        strc14C->unk10 += 0x100;
+        if (strc14C->unk10 >= 0x5000) {
+            strc14C->unk10 = 0x5000;
+            var_r5 = 1;
         }
     } else {
-    block_3:
         var_r5 = 1;
     }
-    temp_r0_3 = temp_r1->unk8;
-    if (temp_r0_3 > 0) {
-        temp_r0_4 = temp_r0_3 + 0xFFFFFE00;
-        temp_r1->unk8 = temp_r0_4;
-        if (temp_r0_4 <= 0) {
-            temp_r1->unk8 = 0;
-            goto block_7;
+
+    if (strc14C->unk8 > 0) {
+        strc14C->unk8 -= Q(2);
+        if (strc14C->unk8 <= 0) {
+            strc14C->unk8 = 0;
+            var_r5 += 1;
         }
     } else {
-    block_7:
         var_r5 += 1;
     }
-    gWinRegs[2] = (((s32)temp_r1->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r1->unk8 >> 8);
+    gWinRegs[2] = (((s32)strc14C->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc14C->unk8 >> 8);
     if (var_r5 == 2) {
-        if (((3 & LOADED_SAVE->unlockFlags) != 3) && ((CURRENT_GAME_MODE != 5) || (gStageData.unkC5 != 1))
+        if (((3 & gLoadedSaveGame.unlockFlags) != 3) && ((gStageData.gameMode != 5) || (gStageData.unkC5 != 1))
             && (gStageData.unkC5 != 1)) {
-            var_r0 = 0;
-            do {
-                var_r3 = 0;
-            loop_15:
-                if (4 & LOADED_SAVE->collectedMedals[0][var_r3 + (var_r0 * 4)]) {
-                    var_r7 += 1;
+            for (var_r0 = 0; var_r0 < 7; var_r0++) {
+                for (var_r3 = 0; var_r3 < 4; var_r3++) {
+                    if (4 & gLoadedSaveGame.collectedMedals[0][var_r3 + (var_r0 * 4)]) {
+                        var_r7 += 1;
+                    }
                 }
-                var_r3 += 1;
-                if ((u32)var_r3 <= 3) {
-                    goto loop_15;
-                }
-                var_r0 += 1;
-            } while ((u32)var_r0 <= 6);
-            if (!(1 & LOADED_SAVE->unlockFlags)) {
+            }
+
+            if (!(1 & gLoadedSaveGame.unlockFlags)) {
                 var_r0_2 = 1;
                 goto block_23;
             }
@@ -5973,32 +5946,36 @@ void sub_80AAFB0(CreditsRelated248 *strc248)
             goto block_24;
         }
     block_24:
-        gCurTask->main = sub_80ABB38;
+        gCurTask->main = Task_14C_80ABB38;
     }
 }
 
-void sub_80AB0D8(void *arg0)
+void sub_80AB0D8(CreditsRelated14C *strc14C)
 {
     Sprite *temp_r0;
     Sprite *temp_r1;
     s32 temp_r2;
 
-    temp_r1 = arg0 + 0x7C;
-    temp_r1->x = (s16)((s32)arg0->unk24 >> 8);
-    temp_r2 = (s32)arg0->unk28 >> 8;
-    temp_r1->y = (s16)temp_r2;
-    if (arg0->unk0 != 0) {
-        temp_r1->y = temp_r2 - 4;
+    temp_r1 = &strc14C->spr7C;
+    temp_r1->x = I(strc14C->unk24);
+    temp_r1->y = I(strc14C->unk28);
+    if (strc14C->language != 0) {
+        temp_r1->y -= 4;
     }
     DisplaySprite(temp_r1);
-    if (arg0->unk0 != 0) {
-        temp_r0 = arg0 + 0xA4;
-        temp_r0->x = (s16)((s32)arg0->unk24 >> 8);
-        temp_r0->y = ((s32)arg0->unk28 >> 8) + 0xA;
+
+    if (strc14C->language != JAPANESE) {
+        temp_r0 = &strc14C->sprA4;
+        temp_r0->x = (s16)((s32)strc14C->unk24 >> 8);
+        temp_r0->y = ((s32)strc14C->unk28 >> 8) + 0xA;
         DisplaySprite(temp_r0);
     }
 }
 
+#else
+// continue here
+
+#if 0
 void sub_80AB120(u8 param0)
 {
     u16 temp_r0;
@@ -6530,7 +6507,7 @@ void Task_48_C_80ABA94(CreditsRelated248 *strc248)
 
 void TaskDestructor_14C_80ABAF4(Task *arg0) { }
 
-void sub_80ABAF8(CreditsRelated248 *strc248)
+void Task_14C_80ABAF8(CreditsRelated248 *strc248)
 {
     u16 temp_r0;
     u16 temp_r1;
@@ -6542,11 +6519,11 @@ void sub_80ABAF8(CreditsRelated248 *strc248)
     temp_r1->unk2 = temp_r0;
     if ((s32)(s16)temp_r0 > 0xB4) {
         temp_r1->unk2 = 0U;
-        gCurTask->main = sub_80AAF50;
+        gCurTask->main = Task_14C_80AAF50;
     }
 }
 
-void sub_80ABB38(CreditsRelated248 *strc248)
+void Task_14C_80ABB38(CreditsRelated248 *strc248)
 {
     u16 temp_r0;
     u16 temp_r1;
