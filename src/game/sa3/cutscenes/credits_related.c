@@ -8,6 +8,7 @@
 #include "lib/m4a/m4a.h"
 #include "animation_commands_bg.h" // UpdateBgAnimationTiles
 #include "game/notification_text.h"
+#include "game/main_menu.h" // CreateMainMenu()
 #include "game/save.h" // LOADED_SAVE
 #include "game/stage.h" // gStageData
 #include "game/shared/stage/player.h" // NUM_SINGLE_PLAYER_CHARS
@@ -505,6 +506,11 @@ void sub_80ABD10(CreditsRelatedD4 *strcD4);
 void Task_D4_80AB1C4(void);
 void TaskDestructor_D4_80ABC1C(Task *t);
 void Task_D4_80AB770(void);
+
+void sub_80A9D78(CreditsRelated40_A *strc40_A);
+void Task_40_A_80AB84C(void);
+void sub_80AB88C(CreditsRelated40_A *strc40_A);
+bool32 sub_80A9CA0(CreditsRelated40_A *strc40_A);
 
 extern void sub_80260F0();
 extern s16 sub_8001E84(void);
@@ -6229,171 +6235,155 @@ void Task_D4_80AB4A4(void)
     gCurTask->main = Task_D4_80AB770;
 }
 
-#else
-// continue here
-
-#if 0
-void Task_D4_80AB5A8(CreditsRelated248 *strc248)
+// TODO: Match without goto!
+void Task_D4_80AB5A8(void)
 {
+    CreditsRelatedD4 *strcD4 = TASK_DATA(gCurTask);
+    CreditsRelatedD4 *temp_r1;
     Sprite *temp_r4;
-    u16 temp_r6;
     u8 temp_r0;
     u8 var_r0;
     u8 var_r3;
     u8 var_r6;
 
-    temp_r6 = gCurTask->data;
-    if (temp_r6->unk1 != 0) {
-        gDispCnt |= DISPCNT_WIN0_ON;
-        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
-        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+    if (strcD4->unk1 != 0) {
+        gDispCnt |= 0x2000;
+        gWinRegs[0] = 0xF0;
+        gWinRegs[2] = 0xA0;
         gWinRegs[4] |= 0x3F;
         gWinRegs[5] |= 0x1F;
         gBldRegs.bldCnt = 0x3FFF;
-        temp_r6->unk2 = 0U;
-        temp_r6->unk1 = 0U;
+        strcD4->unk2 = 0;
+        strcD4->unk1 = 0;
     }
-    sub_80ABD10(temp_r6);
-    sub_80ABC80(temp_r6);
-    sub_80ABCF4(temp_r6);
-    temp_r4 = temp_r6 + 0x2C;
-    temp_r4->x = (s16)((s32)temp_r6->unk8 >> 8);
-    temp_r4->y = (s16)((s32)temp_r6->unkC >> 8);
+    sub_80ABD10(strcD4);
+    sub_80ABC80(strcD4);
+    sub_80ABCF4(strcD4);
+    temp_r4 = &strcD4->spr2C;
+    temp_r4->x = (s16)((s32)strcD4->unk8 >> 8);
+    temp_r4->y = (s16)((s32)strcD4->unkC >> 8);
     UpdateSpriteAnimation(temp_r4);
     DisplaySprite(temp_r4);
-    if ((u32)gBldRegs.bldY <= 0xF) {
-        gBldRegs.bldY = (u16)((u16)temp_r6->unk2 >> 8);
-        temp_r6->unk2 = (u16)(temp_r6->unk2 + 0x100);
-        return;
-    }
-    gBldRegs.bldY = 0x10;
-    temp_r0 = temp_r6->unk0;
-    switch (temp_r0) { /* irregular */
-        case 1:
+    if (gBldRegs.bldY < 0x10) {
+        gBldRegs.bldY = (u16)((u16)strcD4->unk2 >> 8);
+        strcD4->unk2 += 0x100;
+    } else {
+        gBldRegs.bldY = 0x10;
+        temp_r0 = strcD4->unk0;
+        if (strcD4->unk0 == 1) {
             var_r6 = 0;
-            var_r0 = 0;
-            do {
-                var_r3 = 0;
-            loop_7:
-                if (4 & LOADED_SAVE->collectedMedals[0][var_r3 + (var_r0 * 4)]) {
-                    var_r6 += 1;
+            for (var_r0 = 0; var_r0 < 7; var_r0++) {
+                for (var_r3 = 0; var_r3 < 4; var_r3++) {
+                    if (4 & LOADED_SAVE->collectedMedals[0][var_r3 + (var_r0 * 4)]) {
+                        var_r6 += 1;
+                    }
                 }
-                var_r3 += 1;
-                if ((u32)var_r3 <= 3) {
-                    goto loop_7;
-                }
-                var_r0 += 1;
-            } while ((u32)var_r0 <= 6);
+            }
+
             LOADED_SAVE->unlockFlags |= 1;
             sub_8001E58();
             if (var_r6 == 0x1C) {
-                sub_80AB120(2);
-            block_20:
-                TaskDestroy(gCurTask);
-                return;
+                sub_80AB120(2U);
+                goto TaskDest;
             }
-            temp_r6->unk4 = 0;
-        block_16:
+            strcD4->unk4 = 0;
             gCurTask->main = Task_D4_80ABC20;
-            return;
-        case 2:
+        } else if (strcD4->unk0 == 2) {
             LOADED_SAVE->unlockFlags |= 2;
             sub_8001E58();
-            temp_r6->unk4 = 0;
-            goto block_16;
-        case 0:
-            TasksDestroyInPriorityRange(0, 0xFFFF);
+            strcD4->unk4 = 0;
+            gCurTask->main = Task_D4_80ABC20;
+            return;
+        } else if (strcD4->unk0 == 0) {
+            TasksDestroyInPriorityRange(0U, 0xFFFFU);
             gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
             gBgSpritesCount = 0;
             gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-            WarpToMap((s16)((s32)((gStageData.zone * 0xA0000) + 0x20000) >> 0x10), 4);
+            WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 4);
             return;
-        default:
-            CreateMainMenu(3, 1);
-            goto block_20;
+        } else {
+            CreateMainMenu(3, 1U);
+        TaskDest:
+            TaskDestroy(gCurTask);
+            return;
+        }
     }
 }
 
-void Task_D4_80AB770(CreditsRelated248 *strc248)
+void Task_D4_80AB770(void)
 {
-    Sprite *temp_r4_2;
-    u16 temp_r0_2;
-    u16 temp_r4;
-    u16 var_r0;
+    CreditsRelatedD4 *strcD4 = TASK_DATA(gCurTask);
+    Sprite *temp_r4;
+    s16 temp_r0_2;
+    s16 var_r0;
     u8 temp_r0;
 
-    temp_r4 = gCurTask->data;
-    sub_80ABD10(temp_r4);
-    sub_80ABC80(temp_r4);
-    sub_80ABCF4(temp_r4);
-    temp_r4_2 = temp_r4 + 0x2C;
-    temp_r4_2->x = (s16)((s32)temp_r4->unk8 >> 8);
-    temp_r4_2->y = (s16)((s32)temp_r4->unkC >> 8);
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
-    temp_r0 = temp_r4->unk0;
-    if (temp_r0 == 0) {
-        if ((s32)(s16)temp_r4->unk4 <= 0x77) {
-            var_r0 = temp_r4->unk4 + 1;
-        } else {
-            goto block_4;
+    sub_80ABD10(strcD4);
+    sub_80ABC80(strcD4);
+    sub_80ABCF4(strcD4);
+    temp_r4 = &strcD4->spr2C;
+    temp_r4->x = I(strcD4->unk8);
+    temp_r4->y = I(strcD4->unkC);
+    UpdateSpriteAnimation(temp_r4);
+    DisplaySprite(temp_r4);
+
+    if (strcD4->unk0 == 0 || strcD4->unk0 == 3) {
+        if (strcD4->unk0 == 0) {
+            if (strcD4->unk4 < 120) {
+                strcD4->unk4 += 1;
+            } else {
+                strcD4->unk4 = 120;
+            }
+        } else if (strcD4->unk0 == 3) {
+            strcD4->unk4 = 120;
         }
-        goto block_5;
-    }
-    if (temp_r0 == 3) {
-    block_4:
-        var_r0 = 0x78;
-    block_5:
-        temp_r4->unk4 = var_r0;
-        if (((s32)(s16)temp_r4->unk4 > 0x77) && (1 & gPressedKeys)) {
-            goto block_10;
+
+        if ((strcD4->unk4 >= 120) && (A_BUTTON & gPressedKeys)) {
+            gCurTask->main = Task_D4_80AB5A8;
         }
     } else {
-        temp_r0_2 = temp_r4->unk4 + 1;
-        temp_r4->unk4 = temp_r0_2;
-        if ((s32)(temp_r0_2 << 0x10) > 0x012C0000) {
-        block_10:
+        if (++strcD4->unk4 > 0x012C) {
             gCurTask->main = Task_D4_80AB5A8;
         }
     }
 }
 
-void TaskDestructor_40_A_80AB814(Task *arg0) { }
+void TaskDestructor_40_A_80AB814(Task *t) { }
 
-void Task_40_A_80AB818(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
+void Task_40_A_80AB818(void)
 {
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
-    sub_80AB88C(temp_r4);
-    if (sub_80A9CA0((void *)temp_r4) == 1) {
+    CreditsRelated40_A *strc40_A = TASK_DATA(gCurTask);
+    sub_80AB88C(strc40_A);
+    if (sub_80A9CA0(strc40_A) == 1) {
         gCurTask->main = Task_40_A_80AB84C;
     }
 }
 
-void Task_40_A_80AB84C(CreditsRelated248 *strc248)
+void Task_40_A_80AB84C(void)
 {
-    u16 temp_r4;
-
-    temp_r4 = gCurTask->data;
-    sub_80A9D78((void *)temp_r4);
-    sub_80AB88C(temp_r4);
-    if (((u32) * *temp_r4 > 0xE) && (gBldRegs.bldY == 0x10)) {
+    CreditsRelated40_A *strc40_A = TASK_DATA(gCurTask);
+    sub_80A9D78(strc40_A);
+    sub_80AB88C(strc40_A);
+    if ((*strc40_A->unk0 >= 15) && (gBldRegs.bldY == 0x10)) {
         TaskDestroy(gCurTask);
     }
 }
 
-void sub_80AB88C(void *arg0)
+void sub_80AB88C(CreditsRelated40_A *strc40_A)
 {
-    Sprite *temp_r4;
+    Sprite *s;
 
-    temp_r4 = arg0 + 0x18;
-    temp_r4->x = (s16)((s32)arg0->unk10 >> 8);
-    temp_r4->y = (s16)((s32)arg0->unk14 >> 8);
-    DisplaySprite(temp_r4);
-    UpdateSpriteAnimation(temp_r4);
+    s = &strc40_A->spr18;
+    s->x = (s16)((s32)strc40_A->unk10 >> 8);
+    s->y = (s16)((s32)strc40_A->unk14 >> 8);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s);
 }
 
+#else
+// continue here
+
+#if 0
 s32 sub_80AB8B0(void *arg0)
 {
     s32 temp_r0;
@@ -6414,7 +6404,7 @@ s32 sub_80AB8B0(void *arg0)
     return 0;
 }
 
-void TaskDestructor_40_B_80AB8F8(Task *arg0) { }
+void TaskDestructor_40_B_80AB8F8(Task *t) { }
 
 void Task_100_80AB8FC(CreditsRelated150 *arg7C, s32 argFC, CreditsRelated150 **argFD)
 {
