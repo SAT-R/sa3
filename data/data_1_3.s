@@ -1141,10 +1141,19 @@ strCredits_SonicTeam:       @ 0x080DA450
     
     .global strCredits_Producer
 strCredits_Producer:        @ 0x080DA478
-    .byte 0x08
+    .byte 8
     .ascii "PRODUCER\0"
-    .incbin "baserom_sa3.gba", 0x000DA482, 0x080DB804-0x080DA482
+    .space 0x18
+    .byte 0x0A, 0x00, 0xB4, 0x00, 0x01, 0x00
 
+    .global strCredits_YN
+strCredits_YN:
+    .incbin "baserom_sa3.gba", 0x000DA4A0, (124 * 0x28)
+
+    @ TODO: Number of Credits entries?
+    .global gUnknown_080DB800
+gUnknown_080DB800:
+    .int 127        @ ARRAY_COUNT(strCredits_CreatedBy)
     .global gUnknown_080DB804
 gUnknown_080DB804:
     .incbin "baserom_sa3.gba", 0x000DB804, 0x20
