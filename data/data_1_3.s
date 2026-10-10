@@ -880,12 +880,12 @@ gTilemapIdsConnectionStatus:
 gUnknown_080D9940:
     .incbin "baserom_sa3.gba", 0x000D9940, 0x40
 
-    .global gUnknown_080D9980
-gUnknown_080D9980:
+    .global sTileInfoOpeningEggman
+sTileInfoOpeningEggman:
     .incbin "baserom_sa3.gba", 0x000D9980, 0x28
 
-    .global gUnknown_080D99A8
-gUnknown_080D99A8:
+    .global sTileInfoOpeningCharacterNameTags
+sTileInfoOpeningCharacterNameTags:
     .incbin "baserom_sa3.gba", 0x000D99A8, 0x28
 
     .global gUnknown_080D99D0
