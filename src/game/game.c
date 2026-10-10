@@ -9,6 +9,7 @@
 #include "game/character_select.h"
 #include "game/main_menu.h"
 #include "game/save.h"
+#include "game/sa3/cutscenes/opening.h"
 #include "game/sa3/title_screen.h"
 #include "game/stage.h"
 #include "game/shared/stage/tilemap_table.h"
@@ -23,7 +24,6 @@ void sub_8027960(u16 param0); // either no param or unused
 void DemoPlay_Init(void);
 void CreateOptions(s16 param0);
 void sub_808ECB8(s16 param0);
-void CreateGameIntroState(u16 state);
 void sub_808ADF0(u8 param0);
 bool16 sub_8001E94(void);
 s32 sub_8001FD4(void);

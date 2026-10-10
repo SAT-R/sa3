@@ -1,6 +1,8 @@
 #include "global.h"
 #include "core.h"
 #include "core.h"
+#include "game/game.h"
+#include "game/stage.h"
 #include "constants/characters.h"
 
 typedef struct {
@@ -9,8 +11,23 @@ typedef struct {
     /* 0x50 */ SpriteTransform tf50;
     /* 0x50 */ SpriteTransform tf5C;
     /* 0x68 */ Background bg68;
-    /* 0x68 */ Background bgA8;
-    /* 0x68 */ Background bgE8;
+    /* 0x0A8 */ Background bgA8;
+    /* 0x0E8 */ Background bgE8;
+    /* 0x128 */ u16 unk128;
+    /* 0x12A */ u8 filler12A[0xA];
+    /* 0x134 */ s16 unk134;
+    /* 0x136 */ s16 unk136;
+    /* 0x138 */ s16 unk138;
+    /* 0x13A */ s16 unk13A;
+    /* 0x13C */ s16 unk13C;
+    /* 0x13E */ s16 unk13E;
+    /* 0x140 */ s16 unk140;
+    /* 0x142 */ s16 unk142;
+    /* 0x144 */ s16 unk144;
+    /* 0x146 */ s16 unk146;
+    /* 0x148 */ s16 unk148;
+    /* 0x14A */ s16 unk14A;
+    /* 0x14C */ u8 filler14C[0x24];
 } Opening170;
 
 typedef struct {
@@ -93,8 +110,6 @@ typedef struct {
     /* 0x10 */ s32 unk10;
     /* 0x14 */ Background bg;
 } Opening54;
-
-void CreateGameIntroState(u16 state);
 
 void Task_170_80A2774(void);
 void sub_80A217C(Opening170 *strc170);
@@ -207,39 +222,35 @@ extern ColorRaw Palette_unknown_424[16 * 16];
 extern const TileInfo2 sTileInfoOpeningEggman[5]; // TODO: 4 for Eggman's Hand + Button, 1 for Eggman's Nametag
 extern const TileInfo2 sTileInfoOpeningCharacterNameTags[NUM_CHARACTERS];
 
-#if 0
-void CreateGameIntroState(u16 state, Opening170 *strc170)
+void CreateGameIntroState(s16 state)
 {
-    u16 temp_ip;
-    u16 temp_r4;
-    u8 var_r0;
+    Opening170 *strc170 = TASK_DATA(TaskCreate(Task_170_GameIntroInit, sizeof(Opening170), 0x1000U, 0U, TaskDestructor_GameIntro));
 
-    temp_r4 = state;
-    temp_ip = TaskCreate(Task_170_GameIntroInit, 0x170U, 0x1000U, 0U, TaskDestructor_GameIntro)->data;
-    if ((u32)((u32)((temp_r4 << 0x10) + 0xFFFF0000) >> 0x10) <= 1U) {
-        var_r0 = 0;
+    if (state == 1 || state == 2) {
+        gStageData.unk7 = 0;
     } else {
-        var_r0 = 1;
+        gStageData.unk7 = 1;
     }
-    gStageData.unk7 = var_r0;
-    temp_ip->unk134 = 0xFF10;
-    temp_ip->unk136 = 0x8C;
-    temp_ip->unk138 = 0;
-    temp_ip->unk13A = 0;
-    temp_ip->unk13C = 0;
-    temp_ip->unk13E = 0;
-    temp_ip->unk140 = 0;
-    temp_ip->unk142 = 0xFFD0;
-    temp_ip->unk144 = 0x10;
-    temp_ip->unk146 = 0x10;
-    temp_ip->unk148 = 0;
-    temp_ip->unk14A = 0;
-    temp_ip->unk128 = temp_r4;
+    strc170->unk134 = -240;
+    strc170->unk136 = 0x8C;
+    strc170->unk138 = 0;
+    strc170->unk13A = 0;
+    strc170->unk13C = 0;
+    strc170->unk13E = 0;
+    strc170->unk140 = 0;
+    strc170->unk142 = -48;
+    strc170->unk144 = 0x10;
+    strc170->unk146 = 0x10;
+    strc170->unk148 = 0;
+    strc170->unk14A = 0;
+    strc170->unk128 = state;
     gBldRegs.bldCnt = 0xFF;
     gBldRegs.bldAlpha = 0;
     gBldRegs.bldY = 0x10;
 }
 
+#if 01
+#else
 void sub_80A217C(Opening170 *strc170)
 {
     Background *temp_r3;
