@@ -905,9 +905,9 @@ void Task_803A978(void)
             if (UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
-                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                PAUSE_GRAPHICS_QUEUE();
 
                 WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 6);
                 return;
@@ -937,9 +937,9 @@ void Task_803AA28(void)
             if (UpdateScreenFade(&cap->fade) != SCREEN_FADE_RUNNING) {
                 TasksDestroyAll();
 
-                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                PAUSE_BACKGROUNDS_QUEUE();
                 gBgSpritesCount = 0;
-                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                PAUSE_GRAPHICS_QUEUE();
 
                 WarpToMap(LEVEL_INDEX(gStageData.zone, 2), 6);
                 return;

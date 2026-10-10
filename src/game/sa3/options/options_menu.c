@@ -354,9 +354,9 @@ void Task_808B398(void)
     } else {
         sub_8001E58();
         TasksDestroyInPriorityRange(0U, 0xFFFFU);
-        gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+        PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
-        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+        PAUSE_GRAPHICS_QUEUE();
         LaunchChaoMenu(3, 1);
     }
 }

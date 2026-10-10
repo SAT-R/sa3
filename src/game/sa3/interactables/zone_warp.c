@@ -201,9 +201,9 @@ void Task_802DA3C(void)
 
     TasksDestroyAll();
 
-    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+    PAUSE_BACKGROUNDS_QUEUE();
     gBgSpritesCount = 0;
-    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+    PAUSE_GRAPHICS_QUEUE();
 
     StageIntro_ShowZoneName(gStageData.zone, 0, 0);
 }

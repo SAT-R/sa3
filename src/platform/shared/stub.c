@@ -176,7 +176,6 @@ void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
 void /* 0x080A209C */ CreateGameIntroState() { }
-void sub_80AB120(u8 param0) { }
 
 void sub_80C4EB0() { }
 void sub_80C59E8() { }
@@ -216,9 +215,6 @@ Strc_03001BF0 gUnknown_03001BF0 = {};
 PlayerSpriteInfo gUnknown_030010D0 = {};
 PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
-
-void CreatePreCreditsCutscene() { }
-void CreateCredRelatedStrc90() { }
 
 void sub_8081C80() { }
 
