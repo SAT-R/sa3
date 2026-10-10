@@ -676,7 +676,6 @@ extern const u8 gUnknown_080DB958[19][2];
 extern const u8 gUnknown_080DB97E[30];
 extern const TileInfo2 gUnknown_080DB950;
 
-
 extern ColorRaw Palette_unknown_307[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_308[16 * PALETTE_LEN_4BPP];
 extern ColorRaw Palette_unknown_318[16 * PALETTE_LEN_4BPP];
@@ -685,38 +684,6 @@ extern ColorRaw Palette_unknown_319[16 * PALETTE_LEN_4BPP];
 void Task_54_80AA49C(void);
 void Task_14C_80AAEC0(void);
 extern void LaunchGameIntro(void);
-
-#if M2C
-void Task_248_80A4DDC(CreditsRelated248 *strc248);
-void Task_248_80A4E38(CreditsRelated248 *strc248);
-void Task_248_80A4EDC(CreditsRelated248 *strc248);
-void Task_248_80A4F94(CreditsRelated248 *strc248);
-void Task_248_80A5050(CreditsRelated248 *strc248);
-void Task_248_80A50FC(CreditsRelated248 *strc248);
-void Task_248_80A51B4(CreditsRelated248 *strc248);
-void Task_248_80A52DC(CreditsRelated248 *strc248);
-void Task_150_80A6090(CreditsRelated150 *strc150);
-void Task_150_80A60F0(CreditsRelated150 *strc150);
-void Task_150_80A619C(CreditsRelated150 *strc150);
-void Task_150_80A6208(CreditsRelated150 *strc150);
-void Task_150_PreCreditsCutsceneTrueEndingInit(CreditsRelated248 *strc248);
-void Task_150_80A65C8(CreditsRelated150 *strc150);
-void Task_150_80A664C(CreditsRelated248 *strc248);
-void Task_150_80A6700(CreditsRelated248 *strc248);
-void Task_150_80A6768(CreditsRelated150 *strc150);
-void Task_150_80A690C(CreditsRelated150 *strc150);
-void Task_150_80A69E4(CreditsRelated150 *strc150);
-void Task_12C_80A70B8(CreditsRelated12C *strc12C);
-void Task_12C_80A714C(CreditsRelated12C *strc12C);
-void Task_248_80A7E24(CreditsRelated12C *strc12C);
-void CreatePreCreditsCutscene(u8 param0, CreditsRelated150 *strc150);
-void sub_80A8E54(CreditsRelatedC *strcC);
-void Task_C_80A8ED0(CreditsRelatedC *strcC);
-void Task_28_80A74F8(CreditsRelated28 *strc28);
-void Task_28_80A7578(CreditsRelated28 *strc28);
-void Task_28_80A7674(CreditsRelated28 *strc28);
-void Task_28_80A7738(CreditsRelated28 *strc28);
-#endif
 
 u8 *sub_80A45B4(u8 *param0, u8 *vram)
 {
