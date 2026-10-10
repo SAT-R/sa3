@@ -1,6 +1,6 @@
 #include "global.h"
 #include "core.h"
-#include "core.h"
+#include "game/code_1_3.h" // DmaIoData
 #include "game/game.h"
 #include "game/stage.h"
 #include "constants/animations.h"
@@ -16,7 +16,8 @@ typedef struct {
     /* 0x0A8 */ Background bgA8;
     /* 0x0E8 */ Background bgE8;
     /* 0x128 */ s16 unk128;
-    /* 0x12A */ u8 filler12A[0xA];
+    /* 0x12C */ DmaIoData *ewramData12C;
+    /* 0x130 */ s32 *ewramData130;
     /* 0x134 */ s16 unk134;
     /* 0x136 */ s16 unk136;
     /* 0x138 */ s16 unk138;
@@ -391,8 +392,9 @@ void sub_80A22E0(Opening170 *strc170)
 }
 #if 01
 #else
-void sub_80A23A4(Opening170 *strc170)
+void sub_80A23A4(void)
 {
+    Opening170 *strc170 = TASK_DATA(gCurTask);
     s16 temp_r1;
     s16 temp_r2;
     s16 var_r1;
@@ -405,29 +407,24 @@ void sub_80A23A4(Opening170 *strc170)
     void *var_r4;
 
     gHBlankCopySize = 0x10;
-    gHBlankCopyTarget = (void *)0x04000020;
-    var_r4 = strc170->unk12C;
+    gHBlankCopyTarget = &REG_BG2PA;
+    var_r4 = strc170->ewramData12C;
     gBgOffsetsHBlankPrimary = var_r4;
     gFlags |= 4;
     strc170->unk138 = (u16)((strc170->unk140 + strc170->unk138) & 0xFFF);
     strc170->unk13A = (u16)((strc170->unk142 + strc170->unk13A) & 0x7FF);
     strc170->unk148 = (u16)(strc170->unk144 + strc170->unk148);
     strc170->unk14A = (u16)(strc170->unk146 + strc170->unk14A);
-    var_r1 = 0;
-    do {
-        temp_r2 = var_r1;
-        if ((s32)(temp_r2 - strc170->unk136) >= 0) {
-            var_r0 = temp_r2 - (u16)strc170->unk136;
-        } else {
-            var_r0 = (u16)strc170->unk136 - temp_r2;
-        }
-        temp_r0_2 = var_r0;
+    for(var_r1 = 0; var_r1 < DISPLAY_HEIGHT; var_r1++)
+	{
+        temp_r0_2 = ABS(var_r1 - strc170->unk136);
         temp_r1 = (s16)temp_r0_2;
-        var_r3 = (*((temp_r1 * 4) + strc170->unk130) * temp_r1 * 2) + (strc170->unk13A * 0x10);
+        var_r3 = (strc170->ewramData1308[temp_r1] * temp_r1 * 2)
+			     + (strc170->unk13A * 0x10);
         if ((s32)var_r1 < (s32)strc170->unk136) {
             if ((s32)(var_r3 << 0x10) < 0) {
                 var_r0_2 = var_r3 + 0xFFFF8000;
-                goto block_9;
+                var_r3 = var_r0_2;
             }
         } else if ((s32)(var_r3 << 0x10) >= 0) {
             var_r0_2 = var_r3 + 0x8000;
@@ -435,13 +432,10 @@ void sub_80A23A4(Opening170 *strc170)
             var_r3 = var_r0_2;
         }
         temp_r2_2 = (s32)(temp_r0_2 << 0x10) >> 0xE;
-        var_r4->unk0 = (s16)((u32) * (temp_r2_2 + strc170->unk130) >> 2);
-        var_r4->unk8 = (s16)(((u32)(*(temp_r2_2 + strc170->unk130) * strc170->unk134) >> 2) + (strc170->unk138 * 0x10));
+        var_r4->unk0 = (s16)((u32) * (temp_r2_2 + strc170->ewramData130) >> 2);
+        var_r4->unk8 = (s16)(((u32)(*(temp_r2_2 + strc170->ewramData130) * strc170->unk134) >> 2) + (strc170->unk138 * 0x10));
         var_r4->unkC = var_r3;
-        temp_r0 = (var_r1 << 0x10) + 0x10000;
-        var_r4 += 0x10;
-        var_r1 = (s16)(temp_r0 >> 0x10);
-    } while ((s32)((s32)temp_r0 >> 0x10) <= 0x9F);
+    }
 }
 
 void Task_170_GameIntroInit(Opening170 *strc170)
@@ -470,8 +464,8 @@ void Task_170_GameIntroInit(Opening170 *strc170)
     gDispCnt = 0x42;
     sub_80A217C(strc170);
     sub_80A22E0(strc170);
-    temp_r0 = EwramMalloc(0xA00U);
-    strc170->unk12C = temp_r0;
+    temp_r0 = EwramMalloc(DISPLAY_HEIGHT * sizeof(DmaIoData));
+    strc170->ewramData12C = temp_r0;
     var_r4 = temp_r0;
     var_r5 = 0;
     do {
@@ -480,11 +474,11 @@ void Task_170_GameIntroInit(Opening170 *strc170)
         var_r4 += 0x10;
         var_r5 = temp_r0_2 >> 0x10;
     } while ((s32)((s32)temp_r0_2 >> 0x10) <= 0x9F);
-    strc170->unk130 = EwramMalloc(0x400U);
+    strc170->ewramData130 = EwramMalloc(0x100 * sizeof(*strc170->ewramData130));
     var_r5_2 = 0;
     do {
         temp_r4_2 = var_r5_2;
-        *((temp_r4_2 * 4) + strc170->unk130) = 0x100000 / (s32)((temp_r4_2 * 0x10) + 0x400);
+        *((temp_r4_2 * 4) + strc170->ewramData130) = 0x100000 / (s32)((temp_r4_2 * 0x10) + 0x400);
         temp_r4 = temp_r4_2 + 1;
         var_r5_2 = (s16)temp_r4;
     } while ((s32)(s16)temp_r4 <= 0xFF);
@@ -874,8 +868,8 @@ void TaskDestructor_GameIntro(Task *t)
     u16 temp_r4;
 
     temp_r4 = t->data;
-    EwramFree(temp_r4->unk12C);
-    EwramFree(temp_r4->unk130);
+    EwramFree(temp_r4->ewramData12C);
+    EwramFree(temp_r4->ewramData130);
     gFlags &= ~4;
 }
 
