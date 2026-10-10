@@ -1,8 +1,6 @@
 #ifndef GUARD_GAME_SA3_CUTSCENE_OPENING_H
 #define GUARD_GAME_SA3_CUTSCENE_OPENING_H
 
-
 void CreateGameIntroState(s16 state);
-
 
 #endif // GUARD_GAME_SA3_CUTSCENE_OPENING_H

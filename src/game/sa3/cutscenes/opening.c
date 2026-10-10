@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "game/code_1_3.h" // DmaIoData
 #include "game/game.h"
 #include "game/stage.h"
@@ -17,11 +18,11 @@ typedef struct {
     /* 0x0E8 */ Background bgE8;
     /* 0x128 */ s16 unk128;
     /* 0x12C */ DmaIoData *ewramData12C;
-    /* 0x130 */ s32 *ewramData130;
+    /* 0x130 */ u32 *ewramData130;
     /* 0x134 */ s16 unk134;
     /* 0x136 */ s16 unk136;
-    /* 0x138 */ s16 unk138;
-    /* 0x13A */ s16 unk13A;
+    /* 0x138 */ u16 unk138;
+    /* 0x13A */ u16 unk13A;
     /* 0x13C */ s16 unk13C;
     /* 0x13E */ s16 unk13E;
     /* 0x140 */ s16 unk140;
@@ -390,54 +391,50 @@ void sub_80A22E0(Opening170 *strc170)
         tf->y = s->y;
     }
 }
-#if 01
-#else
+
+// TODO: Fake-match!
 void sub_80A23A4(void)
 {
     Opening170 *strc170 = TASK_DATA(gCurTask);
     s16 temp_r1;
-    s16 temp_r2;
-    s16 var_r1;
-    s32 temp_r2_2;
-    u16 temp_r0_2;
-    u16 var_r0;
-    u16 var_r0_2;
+    s16 scanline;
     u16 var_r3;
-    u32 temp_r0;
-    void *var_r4;
+#ifndef NON_MATCHING
+    register DmaIoData *bgAffine asm("r4");
+#else
+    DmaIoData *bgAffine;
+#endif
 
-    gHBlankCopySize = 0x10;
-    gHBlankCopyTarget = &REG_BG2PA;
-    var_r4 = strc170->ewramData12C;
-    gBgOffsetsHBlankPrimary = var_r4;
-    gFlags |= 4;
-    strc170->unk138 = (u16)((strc170->unk140 + strc170->unk138) & 0xFFF);
-    strc170->unk13A = (u16)((strc170->unk142 + strc170->unk13A) & 0x7FF);
-    strc170->unk148 = (u16)(strc170->unk144 + strc170->unk148);
-    strc170->unk14A = (u16)(strc170->unk146 + strc170->unk14A);
-    for(var_r1 = 0; var_r1 < DISPLAY_HEIGHT; var_r1++)
-	{
-        temp_r0_2 = ABS(var_r1 - strc170->unk136);
-        temp_r1 = (s16)temp_r0_2;
-        var_r3 = (strc170->ewramData1308[temp_r1] * temp_r1 * 2)
-			     + (strc170->unk13A * 0x10);
-        if ((s32)var_r1 < (s32)strc170->unk136) {
-            if ((s32)(var_r3 << 0x10) < 0) {
-                var_r0_2 = var_r3 + 0xFFFF8000;
-                var_r3 = var_r0_2;
+    gHBlankCopySize = sizeof(*strc170->ewramData12C);
+    gHBlankCopyTarget = (void *)&REG_BG2PA;
+    gBgOffsetsHBlankPrimary = bgAffine = strc170->ewramData12C;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
+    strc170->unk138 += strc170->unk140;
+    strc170->unk138 &= 0xFFF;
+    strc170->unk13A += strc170->unk142;
+    strc170->unk13A &= 0x7FF;
+    strc170->unk148 += strc170->unk144;
+    strc170->unk14A += strc170->unk146;
+
+    for (scanline = 0; scanline < DISPLAY_HEIGHT; scanline++, bgAffine++) {
+        temp_r1 = ABS(scanline - strc170->unk136);
+        var_r3 = (strc170->ewramData130[temp_r1] * temp_r1 * 2) + (strc170->unk13A * 0x10);
+        if (scanline < strc170->unk136) {
+            if ((s16)var_r3 < 0) {
+                s32 temp_r3 = var_r3 - Q(128);
+                var_r3 = temp_r3;
             }
-        } else if ((s32)(var_r3 << 0x10) >= 0) {
-            var_r0_2 = var_r3 + 0x8000;
-        block_9:
-            var_r3 = var_r0_2;
+        } else if ((s16)var_r3 >= 0) {
+            var_r3 += Q(128);
         }
-        temp_r2_2 = (s32)(temp_r0_2 << 0x10) >> 0xE;
-        var_r4->unk0 = (s16)((u32) * (temp_r2_2 + strc170->ewramData130) >> 2);
-        var_r4->unk8 = (s16)(((u32)(*(temp_r2_2 + strc170->ewramData130) * strc170->unk134) >> 2) + (strc170->unk138 * 0x10));
-        var_r4->unkC = var_r3;
+        bgAffine->bg2pa = strc170->ewramData130[temp_r1] / 4;
+        bgAffine->bg2x_l = (((strc170->ewramData130[temp_r1] * strc170->unk134) >> 2) + (strc170->unk138 * 0x10));
+        bgAffine->bg2y_l = var_r3;
     }
 }
 
+#if 01
+#else
 void Task_170_GameIntroInit(Opening170 *strc170)
 {
     ? sp0;
