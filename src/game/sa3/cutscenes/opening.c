@@ -3,7 +3,9 @@
 #include "core.h"
 #include "game/game.h"
 #include "game/stage.h"
+#include "constants/animations.h"
 #include "constants/characters.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x00 */ Sprite spr0;
@@ -13,7 +15,7 @@ typedef struct {
     /* 0x68 */ Background bg68;
     /* 0x0A8 */ Background bgA8;
     /* 0x0E8 */ Background bgE8;
-    /* 0x128 */ u16 unk128;
+    /* 0x128 */ s16 unk128;
     /* 0x12A */ u8 filler12A[0xA];
     /* 0x134 */ s16 unk134;
     /* 0x136 */ s16 unk136;
@@ -249,139 +251,146 @@ void CreateGameIntroState(s16 state)
     gBldRegs.bldY = 0x10;
 }
 
-#if 01
-#else
 void sub_80A217C(Opening170 *strc170)
 {
-    Background *temp_r3;
-    s16 temp_r0;
-    u16 var_r0;
+    Background *bg2 = &strc170->bg68;
 
-    gDispCnt = 0x42;
-    gBgCntRegs->unk0 = 0x1F0C;
-    gBgCntRegs[1] = 0x1708;
-    gBgCntRegs[2] = 0x6B81;
+    gDispCnt = DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_2;
+    // TODO: BG0 and BG1 are unused in Mode 2... does the mode get changed later?
+    gBgCntRegs[0] = BGCNT_SCREENBASE(31) | BGCNT_CHARBASE(3) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(0);
+    gBgCntRegs[1] = BGCNT_SCREENBASE(23) | BGCNT_CHARBASE(2) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(0);
+    gBgCntRegs[2] = BGCNT_SCREENBASE(11) | BGCNT_CHARBASE(0) | BGCNT_AFF256x256 | BGCNT_WRAP | BGCNT_256COLOR | BGCNT_PRIORITY(1);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gBgScrollRegs[1][0] = 0x10;
-    gBgScrollRegs[1][1] = 0x74;
+    gBgScrollRegs[1][0] = 16;
+    gBgScrollRegs[1][1] = 116;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    strc170->bg68.graphics.dest = (void *)0x06000000;
-    strc170->bg68.graphics.anim = 0;
-    strc170->bg68.layoutVram = (u16 *)0x06005800;
-    strc170->bg68.unk18 = 0;
-    strc170->bg68.unk1A = 0;
-    strc170->bg68.tilemapId = 0x1A8;
-    strc170->bg68.unk1E = 0;
-    strc170->bg68.unk20 = 0;
-    strc170->bg68.unk22 = 0;
-    strc170->bg68.unk24 = 0;
-    strc170->bg68.targetTilesX = 0x20;
-    strc170->bg68.targetTilesY = 0x20;
-    strc170->bg68.paletteOffset = 0;
-    strc170->bg68.animFrameCounter = 0;
-    (&strc170->bg68.paletteOffset + 1)->unk1 = 0;
-    strc170->bg68.flags = 6;
-    strc170->bg68.scrollX = 0;
-    strc170->bg68.scrollY = 0;
-    DrawBackground(&strc170->bg68);
-    temp_r0 = strc170->unk128;
-    if ((temp_r0 == 3) || (temp_r0 == 5)) {
-        strc170->bgE8.graphics.dest = (void *)0x06008000;
-        strc170->bgE8.graphics.anim = 0;
-        strc170->bgE8.layoutVram = (u16 *)0x0600B800;
-        strc170->bgE8.unk18 = 0;
-        strc170->bgE8.unk1A = 0;
-        strc170->bgE8.tilemapId = 0x1A7;
-        strc170->bgE8.unk1E = 0;
-        strc170->bgE8.unk20 = 0;
-        strc170->bgE8.unk22 = 0;
-        strc170->bgE8.unk24 = 0;
-        strc170->bgE8.targetTilesX = 0x20;
-        strc170->bgE8.targetTilesY = 0x20;
-        strc170->bgE8.paletteOffset = 0;
-        strc170->bgE8.animFrameCounter = 0;
-        strc170->bgE8.animDelayCounter = 0;
-        strc170->bgE8.flags = 0x11;
-        strc170->bgE8.scrollX = 0;
-        strc170->bgE8.scrollY = 0;
-        DrawBackground(&strc170->bgE8);
+    {
+        bg2->graphics.dest = BG_CHAR_ADDR(0);
+        bg2->graphics.anim = 0;
+        bg2->layoutVram = BG_SCREEN_ADDR(11);
+        bg2->unk18 = 0;
+        bg2->unk1A = 0;
+        bg2->tilemapId = TM_UNKNOWN_424;
+        bg2->unk1E = 0;
+        bg2->unk20 = 0;
+        bg2->unk22 = 0;
+        bg2->unk24 = 0;
+        bg2->targetTilesX = 0x20;
+        bg2->targetTilesY = 0x20;
+        bg2->paletteOffset = 0;
+        bg2->animFrameCounter = 0;
+        bg2->animDelayCounter = 0;
+        bg2->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
+        bg2->scrollX = 0;
+        bg2->scrollY = 0;
+        DrawBackground(bg2);
     }
-    if ((u32)(u16)((u16)strc170->unk128 - 1) <= 1U) {
-        temp_r3 = &strc170->bgA8;
-        strc170->bgA8.graphics.dest = (void *)0x0600C000;
-        strc170->bgA8.graphics.anim = 0;
-        strc170->bgA8.layoutVram = (u16 *)0x0600F800;
-        strc170->bgA8.unk18 = 0;
-        strc170->bgA8.unk1A = 0;
+
+    if ((strc170->unk128 == 3) || (strc170->unk128 == 5)) {
+        Background *bg1 = &strc170->bgE8;
+        bg1->graphics.dest = BG_CHAR_ADDR(2);
+        bg1->graphics.anim = 0;
+        bg1->layoutVram = (u16 *)0x0600B800;
+        bg1->unk18 = 0;
+        bg1->unk1A = 0;
+        bg1->tilemapId = TM_UNKNOWN_423;
+        bg1->unk1E = 0;
+        bg1->unk20 = 0;
+        bg1->unk22 = 0;
+        bg1->unk24 = 0;
+        bg1->targetTilesX = 0x20;
+        bg1->targetTilesY = 0x20;
+        bg1->paletteOffset = 0;
+        bg1->animFrameCounter = 0;
+        bg1->animDelayCounter = 0;
+        bg1->flags = BACKGROUND_DISABLE_PALETTE_UPDATE | BACKGROUND_FLAGS_BG_ID(1);
+        bg1->scrollX = 0;
+        bg1->scrollY = 0;
+        DrawBackground(bg1);
+    }
+
+    if (strc170->unk128 == 1 || strc170->unk128 == 2) {
+        Background *bg0 = &strc170->bgA8;
+        bg0->graphics.dest = BG_CHAR_ADDR(3);
+        bg0->graphics.anim = 0;
+        bg0->layoutVram = BG_SCREEN_ADDR(31);
+        bg0->unk18 = 0;
+        bg0->unk1A = 0;
         if (strc170->unk128 == 1) {
-            var_r0 = 0x1A9;
+            bg0->tilemapId = TM_UNKNOWN_425;
         } else {
-            var_r0 = 0x1AA;
+            bg0->tilemapId = TM_UNKNOWN_426;
         }
-        strc170->bgA8.tilemapId = var_r0;
-        strc170->bgA8.unk1E = 0;
-        strc170->bgA8.unk20 = 0;
-        strc170->bgA8.unk22 = 0;
-        strc170->bgA8.unk24 = 0;
-        strc170->bgA8.targetTilesX = 0x20;
-        strc170->bgA8.targetTilesY = 0x20;
-        temp_r3->paletteOffset = 0;
-        temp_r3->animFrameCounter = 0;
-        (&temp_r3->paletteOffset + 1)->unk1 = 0;
-        strc170->bgA8.flags = 0;
-        strc170->bgA8.scrollX = 0;
-        strc170->bgA8.scrollY = 0;
-        DrawBackground(temp_r3);
+        bg0->unk1E = 0;
+        bg0->unk20 = 0;
+        bg0->unk22 = 0;
+        bg0->unk24 = 0;
+        bg0->targetTilesX = 0x20;
+        bg0->targetTilesY = 0x20;
+        bg0->paletteOffset = 0;
+        bg0->animFrameCounter = 0;
+        bg0->animDelayCounter = 0;
+        bg0->flags = BACKGROUND_FLAGS_BG_ID(0);
+        bg0->scrollX = 0;
+        bg0->scrollY = 0;
+        DrawBackground(bg0);
     }
 }
 
 void sub_80A22E0(Opening170 *strc170)
 {
-    SpriteTransform *temp_r6;
 
-    strc170->spr0.tiles = (u8 *)0x06010000;
-    strc170->spr0.frameFlags = 0x1020;
-    strc170->spr0.anim = 0xA1;
-    strc170->spr0.x = 0x82;
-    strc170->spr0.y = 0x8C;
-    strc170->spr0.oamFlags = 0x440;
-    strc170->spr0.qAnimDelay = 0;
-    strc170->spr0.prevAnim = 0xFFFF;
-    strc170->spr0.variant = 3;
-    strc170->spr0.prevVariant = 0xFF;
-    strc170->spr0.animSpeed = 0x10;
-    strc170->spr0.palId = 0;
-    strc170->spr0.hitboxes[0].index = -1;
-    strc170->tf50.rotation = 0;
-    strc170->tf50.qScaleX = -0xE0;
-    strc170->tf50.qScaleY = 0xE0;
-    strc170->tf50.x = (s16)(u16)strc170->spr0.x;
-    strc170->tf50.y = (s16)(u16)strc170->spr0.y;
-    temp_r6 = &strc170->tf50 + 0xC;
-    strc170->spr28.tiles = (u8 *)0x06010800;
-    strc170->spr28.frameFlags = 0x1021;
-    strc170->spr28.anim = 0x1E7;
-    strc170->spr28.x = 0x64;
-    strc170->spr28.y = 0x8C;
-    strc170->spr28.oamFlags = 0x400;
-    strc170->spr28.qAnimDelay = 0;
-    strc170->spr28.prevAnim = -1U;
-    strc170->spr28.variant = 4;
-    strc170->spr28.prevVariant = -1U;
-    strc170->spr28.animSpeed = 0x10;
-    strc170->spr28.palId = 1;
-    strc170->spr28.hitboxes[0].index = -1;
-    strc170->tf5C.rotation = 0;
-    temp_r6->qScaleX = -0x100;
-    temp_r6->qScaleY = 0x100;
-    temp_r6->x = (s16)(u16)strc170->spr28.x;
-    temp_r6->y = (s16)(u16)strc170->spr28.y;
+    SpriteTransform *tf = &strc170->tf50;
+    Sprite *s = &strc170->spr0;
+    {
+        s->tiles = OBJ_VRAM0;
+        s->frameFlags = 0x1020;
+        s->anim = (SONIC * 163 + CHAR_ANIM_PERSPECTIVE_RUN); // TODO: 163 : Number of anims per character
+        s->x = 130;
+        s->y = 140;
+        s->oamFlags = SPRITE_OAM_ORDER(17);
+        s->qAnimDelay = 0;
+        s->prevAnim = -1;
+        s->variant = 3;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        tf->rotation = 0;
+        tf->qScaleX = -Q(0.875);
+        tf->qScaleY = +Q(0.875);
+        tf->x = s->x;
+        tf->y = s->y;
+    }
+    {
+        s = &strc170->spr28;
+        tf = &strc170->tf5C;
+        s->tiles = OBJ_VRAM0 + (64 * TILE_SIZE_4BPP);
+        s->frameFlags = 0x1021;
+        s->anim = (TAILS * 163 + CHAR_ANIM_PERSPECTIVE_RUN); // TODO: 163 : Number of anims per character
+        s->x = 100;
+        s->y = 140;
+        s->oamFlags = SPRITE_OAM_ORDER(16);
+        s->qAnimDelay = 0;
+        s->prevAnim = -1;
+        s->variant = 4;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 1;
+        s->hitboxes[0].index = -1;
+        tf->rotation = 0;
+        tf->qScaleX = -Q(1);
+        tf->qScaleY = +Q(1);
+        tf->x = s->x;
+        tf->y = s->y;
+    }
 }
-
+#if 01
+#else
 void sub_80A23A4(Opening170 *strc170)
 {
     s16 temp_r1;
@@ -1002,7 +1011,7 @@ void Task_A0_80A2FF4(OpeningA0 *strcA0)
     gBldRegs.bldY = 0x10;
     strcA0->unk6 = 0x1000;
     strcA0->unk8 = 1;
-    gWinRegs[2] = (((s32)strcA0->unk14 >> 8) * 0x101) + ((s32)strcA0->unkC >> 8);
+    gWinRegs[2] = (((s32)strcA0->unk14 >> 8) * WIN_RANGE(1, 1)) + ((s32)strcA0->unkC >> 8);
     gBldRegs.bldAlpha = 0x1F;
     gBldRegs.bldY = 0x10;
     saved_reg_r6->unk8 = Task_A0_80A3074;
@@ -1029,7 +1038,7 @@ void Task_A0_80A3074(OpeningA0 *strcA0)
             }
         }
     }
-    gWinRegs[2] = (((s32)strcA0->unk14 >> 8) * 0x101) + ((s32)strcA0->unkC >> 8);
+    gWinRegs[2] = (((s32)strcA0->unk14 >> 8) * WIN_RANGE(1, 1)) + ((s32)strcA0->unkC >> 8);
     gBgScrollRegs[2][0] = (s16)((s32)strcA0->unk18 >> 8);
     gBgScrollRegs[2][1] = (s16)((s32)strcA0->unk1C >> 8);
     if (var_r4 != 0) {
@@ -1078,7 +1087,7 @@ void CreateIntroEggmanCutscene(u8 param0, OpeningEggman *opEggman)
     gBgSprites_Unknown2[2][2] = -1U;
     gBgSprites_Unknown2[2][3] = 0x40;
     sub_80A3354((OpeningEggman *)temp_r4);
-    gWinRegs[2] = (((s32)temp_r4->unk10 >> 8) * 0x101) + ((s32)temp_r4->unk8 >> 8);
+    gWinRegs[2] = (((s32)temp_r4->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)temp_r4->unk8 >> 8);
     if (temp_r4->unk0 != 0) {
         var_r0 = 0;
     } else {
@@ -1257,7 +1266,7 @@ void Task_OpEggman_80A3444(OpeningEggman *opEggman)
     } else {
         var_r6 += 1;
     }
-    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * 0x101) + ((s32)opEggman->unk8 >> 8);
+    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)opEggman->unk8 >> 8);
     if (var_r6 == 3) {
         gBldRegs.bldCnt = 0xF0;
         gWinRegs[4] = 0x3017;
@@ -1299,7 +1308,7 @@ void Task_OpEggman_80A3564(OpeningEggman *opEggman)
         gCurTask->main = Task_OpEggman_80A3664;
         return;
     }
-    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * 0x101) + ((s32)opEggman->unk8 >> 8);
+    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)opEggman->unk8 >> 8);
     gBgScrollRegs[2][0] = (s16)((s32)opEggman->unk14 >> 8);
     gBgScrollRegs[2][1] = (s16)((s32)opEggman->unk18 >> 8);
     if ((opEggman->initArg0 == 0) && (8 & gPressedKeys)) {
@@ -1333,7 +1342,7 @@ void Task_OpEggman_80A3664(OpeningEggman *opEggman)
     opEggman->unk4 = temp_r0_2;
     gBldRegs.bldY = (u16)((u32)(temp_r0_2 << 0x10) >> 0x18);
 block_6:
-    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * 0x101) + ((s32)opEggman->unk8 >> 8);
+    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)opEggman->unk8 >> 8);
     gBgScrollRegs[2][0] = (s16)((s32)opEggman->unk14 >> 8);
     gBgScrollRegs[2][1] = (s16)((s32)opEggman->unk18 >> 8);
     if ((opEggman->initArg0 == 0) && (8 & gPressedKeys)) {
@@ -1358,7 +1367,7 @@ void Task_OpEggman_80A3710(OpeningEggman *opEggman)
     temp_r0 = opEggman->unk4 + 0x100;
     opEggman->unk4 = temp_r0;
     gBldRegs.bldY = (u16)((u32)(temp_r0 << 0x10) >> 0x18);
-    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * 0x101) + ((s32)opEggman->unk8 >> 8);
+    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)opEggman->unk8 >> 8);
     gBgScrollRegs[2][0] = (s16)((s32)opEggman->unk14 >> 8);
     gBgScrollRegs[2][1] = (s16)((s32)opEggman->unk18 >> 8);
     if ((opEggman->initArg0 == 0) && (8 & gPressedKeys)) {
@@ -1380,7 +1389,7 @@ void Task_OpEggman_80A37B8(OpeningEggman *opEggman)
             return;
         }
     }
-    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * 0x101) + ((s32)opEggman->unk8 >> 8);
+    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)opEggman->unk8 >> 8);
     gBgScrollRegs[2][0] = (s16)((s32)opEggman->unk14 >> 8);
     gBgScrollRegs[2][1] = (s16)((s32)opEggman->unk18 >> 8);
     if ((opEggman->initArg0 == 0) && (8 & gPressedKeys)) {
@@ -1400,7 +1409,7 @@ void Task_OpEggman_80A3844(OpeningEggman *opEggman)
         return;
     }
     opEggman->unk2 = temp_r0 + 1;
-    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * 0x101) + ((s32)opEggman->unk8 >> 8);
+    gWinRegs[2] = (((s32)opEggman->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)opEggman->unk8 >> 8);
     gBgScrollRegs[2][0] = (s16)((s32)opEggman->unk14 >> 8);
     gBgScrollRegs[2][1] = (s16)((s32)opEggman->unk18 >> 8);
     if ((opEggman->initArg0 == 0) && (8 & gPressedKeys)) {
@@ -1472,7 +1481,7 @@ void Task_94_A_80A39FC(Opening94_A *strc94_A)
     gBldRegs.bldY = 0x10;
     strc94_A->unk4 = 0x1000;
     strc94_A->unk6 = 1;
-    gWinRegs[2] = (((s32)strc94_A->unk10 >> 8) * 0x101) + ((s32)strc94_A->unk8 >> 8);
+    gWinRegs[2] = (((s32)strc94_A->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc94_A->unk8 >> 8);
     gBldRegs.bldAlpha = 0x1F;
     gBldRegs.bldY = 0x10;
     gCurTask->main = Task_94_A_80A3A7C;
@@ -1482,7 +1491,7 @@ void Task_94_A_80A3A7C(Opening94_A *strc94_A)
 {
     u16 temp_r0;
 
-    gWinRegs[2] = (((s32)strc94_A->unk10 >> 8) * 0x101) + ((s32)strc94_A->unk8 >> 8);
+    gWinRegs[2] = (((s32)strc94_A->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc94_A->unk8 >> 8);
     temp_r0 = strc94_A->unk2 + 1;
     strc94_A->unk2 = temp_r0;
     if (temp_r0 == 4) {
@@ -1524,7 +1533,7 @@ void Task_94_A_80A3B64(Opening94_A *strc94_A)
     u16 temp_r4;
     u16 var_r1;
 
-    var_r1 = (((s32)strc94_A->unk10 >> 8) * 0x101) + ((s32)strc94_A->unk8 >> 8);
+    var_r1 = (((s32)strc94_A->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc94_A->unk8 >> 8);
     gWinRegs[2] = var_r1;
     temp_r4 = strc94_A->unk6;
     if (temp_r4 == 0) {
@@ -1614,7 +1623,7 @@ void Task_54_80A3D3C(Opening54 *strc54)
     gBldRegs.bldY = 0;
     strc54->unk4 = 0;
     strc54->unk6 = 1;
-    gWinRegs[2] = (((s32)strc54->unk10 >> 8) * 0x101) + ((s32)strc54->unk8 >> 8);
+    gWinRegs[2] = (((s32)strc54->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc54->unk8 >> 8);
     gCurTask->main = Task_54_80A3DAC;
 }
 
@@ -1622,7 +1631,7 @@ void Task_54_80A3DAC(Opening54 *strc54)
 {
     u16 temp_r0;
 
-    gWinRegs[2] = (((s32)strc54->unk10 >> 8) * 0x101) + ((s32)strc54->unk8 >> 8);
+    gWinRegs[2] = (((s32)strc54->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc54->unk8 >> 8);
     if ((u32)gBldRegs.bldY <= 0xEU) {
         temp_r0 = strc54->unk4 + 0x30;
         strc54->unk4 = temp_r0;
@@ -1744,7 +1753,7 @@ void CreateOpeningStrc94_B(u8 param0, Opening94_B *strc94_B)
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;
     gBgSprites_Unknown2[0][3] = 0x40;
-    gWinRegs[2] = (((s32)strc94_B->unk14 >> 8) * 0x101) + ((s32)strc94_B->unkC >> 8);
+    gWinRegs[2] = (((s32)strc94_B->unk14 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc94_B->unkC >> 8);
 }
 
 void sub_80A3FDC(Opening94_B *strc94_B)
@@ -1827,7 +1836,7 @@ void Task_94_B_80A40A0(Opening94_B *strc94_B)
             var_r6 += 1;
         }
     }
-    gWinRegs[2] = (((s32)strc94_B->unk14 >> 8) * 0x101) + ((s32)strc94_B->unkC >> 8);
+    gWinRegs[2] = (((s32)strc94_B->unk14 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc94_B->unkC >> 8);
     if (var_r6 == 2) {
         gBldRegs.bldCnt = 0x3FFF;
         gWinRegs[4] = 0x1011;
@@ -1843,7 +1852,7 @@ void Task_94_B_80A41AC(Opening94_B *strc94_B)
     u16 temp_r2;
 
     sub_80A4598(strc94_B);
-    gWinRegs[2] = (((s32)strc94_B->unk14 >> 8) * 0x101) + ((s32)strc94_B->unkC >> 8);
+    gWinRegs[2] = (((s32)strc94_B->unk14 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc94_B->unkC >> 8);
     sub_80A43E0(strc94_B);
     temp_r2 = strc94_B->unk4;
     if ((u32)temp_r2 > 0x2CU) {

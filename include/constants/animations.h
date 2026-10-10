@@ -21,6 +21,7 @@
 #define CHAR_ANIM_ATK_DOWN_B 107
 
 #define CHAR_ANIM_POLE_DANCE 133
+#define CHAR_ANIM_PERSPECTIVE_RUN 161 // Char running front-facing, sidewards-facing AND back-facing
 
 #define ANIM_CHEESE_BOSS_DEFEAT 825
 
