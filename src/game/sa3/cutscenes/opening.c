@@ -4,8 +4,11 @@
 #include "lib/m4a/m4a.h"
 #include "malloc_ewram.h"
 #include "game/code_1_3.h" // DmaIoData
+#include "code_0_1.h" // WarpToMap
 #include "game/game.h"
+#include "game/save.h"
 #include "game/stage.h"
+#include "game/special_stage.h" // sub_808ADF0
 #include "game/sa3/cutscenes/opening.h"
 #include "constants/animations.h"
 #include "constants/characters.h"
@@ -260,7 +263,7 @@ void sub_80A217C(Opening170 *strc170)
         Background *bg1 = &strc170->bgE8;
         bg1->graphics.dest = BG_CHAR_ADDR(2);
         bg1->graphics.anim = 0;
-        bg1->layoutVram = (u16 *)0x0600B800;
+        bg1->layoutVram = BG_SCREEN_ADDR(23);
         bg1->unk18 = 0;
         bg1->unk1A = 0;
         bg1->tilemapId = TM_UNKNOWN_423;
@@ -397,7 +400,6 @@ void sub_80A23A4(void)
     }
 }
 
-#if 01
 void Task_170_GameIntroInit(void)
 {
     s16 *var_r1;
@@ -526,7 +528,6 @@ void Task_170_80A2774(void)
     }
 }
 
-
 // (97.63%) https://decomp.me/scratch/zNbHl
 NONMATCH("asm/non_matching/game/sa3/cutscenes/opening__Task_170_80A27EC.inc", void Task_170_80A27EC(void))
 {
@@ -578,7 +579,6 @@ NONMATCH("asm/non_matching/game/sa3/cutscenes/opening__Task_170_80A27EC.inc", vo
 }
 END_NONMATCH
 
-#else
 // TODO: Fake-match!
 void sub_80A2978(s16 param0)
 {
@@ -699,7 +699,6 @@ void Task_170_80A2B54(void)
         var_r0 = (0x96 - temp_r2) * 2;
         gBldRegs.bldAlpha = ((0x10 - var_r0) << 8) | var_r0;
     } else if (temp_r0 <= 8) {
-        var_r0 = (s16)&gBldRegs;
         temp_r2_2 = temp_r2 * 2;
         gBldRegs.bldAlpha = (s16)(((0x10 - temp_r2_2) << 8) | temp_r2_2);
     } else {
@@ -886,9 +885,9 @@ void sub_80A2F0C(OpeningA0 *strcA0)
     gBgScrollRegs[2][1] = 0;
     {
         Background *bg2 = &strcA0->bg20;
-        bg2->graphics.dest = (void *)0x06008000;
+        bg2->graphics.dest = BG_CHAR_ADDR(2);
         bg2->graphics.anim = 0;
-        bg2->layoutVram = (u16 *)0x0600C000;
+        bg2->layoutVram = BG_SCREEN_ADDR(24);
         bg2->unk18 = 0;
         bg2->unk1A = 0;
         bg2->tilemapId = TM_UNKNOWN_301;
@@ -1078,9 +1077,9 @@ void sub_80A3354(OpeningEggman *opEggman)
     gBgScrollRegs[2][1] = I(opEggman->bg2ScrollY);
     {
         Background *bg2 = &opEggman->bg2C;
-        bg2->graphics.dest = (void *)0x06008000;
+        bg2->graphics.dest = BG_CHAR_ADDR(2);
         bg2->graphics.anim = 0;
-        bg2->layoutVram = (u16 *)0x0600C000;
+        bg2->layoutVram = BG_SCREEN_ADDR(24);
         bg2->unk18 = 0;
         bg2->unk1A = 0;
         bg2->tilemapId = TM_UNKNOWN_300;
@@ -1671,9 +1670,9 @@ void sub_80A3FDC(Opening94_B *strc94_B)
 
     {
         Background *bg0 = &strc94_B->bg54;
-        bg0->graphics.dest = (void *)0x06008000;
+        bg0->graphics.dest = BG_CHAR_ADDR(2);
         bg0->graphics.anim = 0;
-        bg0->layoutVram = (u16 *)0x0600C000;
+        bg0->layoutVram = BG_SCREEN_ADDR(24);
         bg0->unk18 = 0;
         bg0->unk1A = 0;
         bg0->tilemapId = TM_UNKNOWN_303;
@@ -1985,4 +1984,3 @@ void sub_80A4598(Opening94_B *strc94_B)
     s->y = I(strc94_B->unk24);
     DisplaySprite(s);
 }
-#endif

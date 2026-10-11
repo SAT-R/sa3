@@ -175,7 +175,6 @@ void sub_8087B80() { }
 void sub_8088440() { }
 void sub_80885CC() { }
 void sub_8088770() { }
-void /* 0x080A209C */ CreateGameIntroState() { }
 
 void sub_80C4EB0() { }
 void sub_80C59E8() { }

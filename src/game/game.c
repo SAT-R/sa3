@@ -91,12 +91,9 @@ void Task_8000284(void)
     // REG_KEYINPUT = KEYS_MASK ^ input, so we need to invert here to create the editor on SELECT.
     if (!(REG_KEYINPUT & SELECT_BUTTON)) {
         CreateAnimationEd();
-    } else {
-        CreateTitleScreen(TFM_FADEIN);
     }
-#else
-    CreateGameIntroState(1);
 #endif
+    CreateGameIntroState(1);
 
     TaskDestroy(gCurTask);
 }
