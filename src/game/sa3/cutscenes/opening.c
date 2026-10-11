@@ -528,8 +528,7 @@ void Task_170_80A2774(void)
     }
 }
 
-// (97.63%) https://decomp.me/scratch/zNbHl
-NONMATCH("asm/non_matching/game/sa3/cutscenes/opening__Task_170_80A27EC.inc", void Task_170_80A27EC(void))
+void Task_170_80A27EC(void)
 {
     Opening170 *strc170 = TASK_DATA(gCurTask);
     s16 i;
@@ -547,9 +546,9 @@ NONMATCH("asm/non_matching/game/sa3/cutscenes/opening__Task_170_80A27EC.inc", vo
         }
         for (i = 0; i < (s32)ARRAY_COUNT(strc170->palette); i++) {
             if (strc170->unk14C > (i * 4)) {
-                u16 chan = strc170->unk14C;
-                chan -= (i * 4);
-                strc170->palette[i] = (chan > COLOR_MASK) ? COLOR_MASK : chan;
+                s16 chan = strc170->unk14C - (i * 4);
+                s16 mask = COLOR_MASK;
+                strc170->palette[i] = (chan > mask) ? mask : chan;
             }
         }
 
@@ -577,7 +576,6 @@ NONMATCH("asm/non_matching/game/sa3/cutscenes/opening__Task_170_80A27EC.inc", vo
         }
     }
 }
-END_NONMATCH
 
 // TODO: Fake-match!
 void sub_80A2978(s16 param0)
