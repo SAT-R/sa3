@@ -18,6 +18,8 @@ typedef union Color {
     ColorRaw raw;
 } Color;
 
+#define COLOR_RAW_SIZE 2
+
 #define R_SHIFT    0
 #define G_SHIFT    5
 #define B_SHIFT    10
@@ -39,13 +41,15 @@ typedef union Color {
     ColorRaw raw;
 } Color;
 
+#define COLOR_RAW_SIZE 4
+
 // TODO: This should be correct on little endian platforms
-#define R_SHIFT    24
-#define G_SHIFT    16
-#define B_SHIFT    8
-#define A_SHIFT    0
-#define COLOR_MASK 0xFF
-#define ALPHA_MASK 0xFF
+#define R_SHIFT        24
+#define G_SHIFT        16
+#define B_SHIFT        8
+#define A_SHIFT        0
+#define COLOR_MASK     0xFF
+#define ALPHA_MASK     0xFF
 #endif
 
 #define R_MASK (COLOR_MASK << R_SHIFT)
