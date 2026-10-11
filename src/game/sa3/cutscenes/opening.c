@@ -39,7 +39,7 @@ typedef struct {
     /* 0x148 */ s16 unk148;
     /* 0x14A */ s16 unk14A;
     /* 0x14A */ s16 unk14C;
-    /* 0x14A */ ColorRaw palette[16];
+    /* 0x14A */ ColorRaw palette[PALETTE_LEN_4BPP];
 } Opening170;
 
 typedef struct {
@@ -553,7 +553,7 @@ NONMATCH("asm/non_matching/game/sa3/cutscenes/opening__Task_170_80A27EC.inc", vo
             }
         }
 
-        for (i = 0; i < 16; i++) {
+        for (i = 0; i < (s32)PALETTE_LEN_4BPP; i++) {
             s32 color = COLOR_MASK & strc170->palette[i];
             gBgPalette[0x50 + i] = sub_80C4C0C((color << R_SHIFT) | (color << G_SHIFT) | (color << B_SHIFT));
         }
