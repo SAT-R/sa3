@@ -11,6 +11,7 @@
 #include "game/stage.h"
 
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
@@ -103,7 +104,26 @@ extern void sub_80258D4(void);
 extern s16 sub_802610C();
 extern void CreateTimeRecordScreen(u8 param0);
 
-extern const u16 gUnknown_080D8CDC[0x12];
+const u16 gCharSelectSA3_Tilemaps[CSTMI_COUNT] = { // (comment for clang-format)
+    [CSTMI_BACKDROP] = TM_TXT_CHARSELECT_BACKDROP,
+    [CSTMI_UNUSED_1] = 0,
+    [CSTMI_UNUSED_2] = 0,
+    [CSTMI_UNUSED_3] = 0,
+    [CSTMI_UNUSED_4] = 0,
+    [CSTMI_AFFINE_NAMES + SONIC] = TM_AFF_CHARSELECT_NAME_SONIC,
+    [CSTMI_AFFINE_NAMES + CREAM] = TM_AFF_CHARSELECT_NAME_CREAM,
+    [CSTMI_AFFINE_NAMES + TAILS] = TM_AFF_CHARSELECT_NAME_TAILS,
+    [CSTMI_AFFINE_NAMES + KNUCKLES] = TM_AFF_CHARSELECT_NAME_KNUCKLES,
+    [CSTMI_AFFINE_NAMES + AMY] = TM_AFF_CHARSELECT_NAME_AMY,
+    [CSTMI_TXTMAP_NAMES + SONIC] = TM_TXT_CHARSELECT_NAME_SONIC,
+    [CSTMI_TXTMAP_NAMES + CREAM] = TM_TXT_CHARSELECT_NAME_CREAM,
+    [CSTMI_TXTMAP_NAMES + TAILS] = TM_TXT_CHARSELECT_NAME_TAILS,
+    [CSTMI_TXTMAP_NAMES + KNUCKLES] = TM_TXT_CHARSELECT_NAME_KNUCKLES,
+    [CSTMI_TXTMAP_NAMES + AMY] = TM_TXT_CHARSELECT_NAME_AMY,
+    [CSTMI_AFFINE_OK] = TM_AFF_CHARSELECT_OK,
+    [CSTMI_AFFINE_QMARKS] = TM_AFF_CHARSELECT_QMARKS,
+    [CSTMI_UNUSED_17] = 0
+};
 extern const TileInfo2 gUnknown_080D8D00[2];
 extern const TileInfo2 gUnknown_080D8D08[6 * 8];
 extern const TileInfo2 gUnknown_080D8E80[];
@@ -386,7 +406,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgA->layoutVram = BG_SCREEN_ADDR(14);
     bgA->unk18 = 0;
     bgA->unk1A = 0;
-    bgA->tilemapId = gUnknown_080D8CDC[0];
+    bgA->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_BACKDROP];
     bgA->unk1E = 0;
     bgA->unk20 = 0;
     bgA->unk22 = 0;
@@ -406,7 +426,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgB->layoutVram = BG_SCREEN_ADDR(3);
     bgB->unk18 = 0;
     bgB->unk1A = 0;
-    bgB->tilemapId = gUnknown_080D8CDC[11];
+    bgB->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + CREAM];
     bgB->unk1E = 0;
     bgB->unk20 = 0;
     bgB->unk22 = 0;
@@ -426,7 +446,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgC->layoutVram = BG_SCREEN_ADDR(27);
     bgC->unk18 = 0;
     bgC->unk1A = 0;
-    bgC->tilemapId = gUnknown_080D8CDC[cs->unk5 + 5];
+    bgC->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + cs->unk5];
     bgC->unk1E = 0;
     bgC->unk20 = 0;
     bgC->unk22 = 0;
@@ -1000,9 +1020,9 @@ void sub_80990B0(CharacterSelect *cs)
     bg->unk18 = 0;
     bg->unk1A = 0;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
-        bg->tilemapId = gUnknown_080D8CDC[16];
+        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
-        bg->tilemapId = gUnknown_080D8CDC[character + 5];
+        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
     }
     bg->unk1E = 0;
     bg->unk20 = 0;
@@ -1153,7 +1173,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     u8 temp_r0;
     u8 temp_r0_2;
     u8 temp_r0_3;
-    u8 temp_r5;
+    u8 character;
     u8 var_r1;
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
@@ -1177,10 +1197,10 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
 
     cs->unk4 = cs->unk3;
     cs->unk6 = cs->unk3;
-    temp_r5 = gUnknown_080D8F18[cs->unk6];
+    character = gUnknown_080D8F18[cs->unk6];
     cs->qUnk3C = Q(310);
     cs->qUnk40 = Q(80);
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
         if (FLAGS_20000 & gFlags) {
             CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
         } else {
@@ -1188,9 +1208,9 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
     } else if (FLAGS_20000 & gFlags) {
-        CopyObjPaletteMasked(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
+        CopyObjPaletteMasked(&gUnknown_08E2EE50[character][0], 0x70U, 0x10U);
     } else {
-        DmaCopy16(3, &gUnknown_08E2EE50[temp_r5], &gObjPalette[0x70], 32);
+        DmaCopy16(3, &gUnknown_08E2EE50[character], &gObjPalette[0x70], 32);
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
     gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
@@ -1201,10 +1221,10 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
-        bg->tilemapId = gUnknown_080D8CDC[16];
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
-        bg->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
+        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
     }
     bg->unk1E = 0;
     bg->unk20 = 0;
@@ -1364,7 +1384,7 @@ void Task_8099968(void)
     u8 temp_r0;
     u8 temp_r0_2;
     u8 temp_r0_3;
-    u8 temp_r5;
+    u8 character;
     u8 var_r1;
     CharacterSelect *cs = TASK_DATA(gCurTask);
     u8 var_r6 = 0;
@@ -1393,20 +1413,22 @@ void Task_8099968(void)
         cs->qUnk40 = Q(80);
         cs->unkB = 4;
         cs->qUnk4C = Q(320);
-        temp_r5 = gUnknown_080D8F18[cs->unk6];
+        character = gUnknown_080D8F18[cs->unk6];
 
-        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
+        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
             if (FLAGS_20000 & gFlags) {
                 CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
             } else {
                 DmaCopy16(3, &gUnknown_08E2EEF0[0], &gObjPalette[0x70], 32);
                 gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
             }
-        } else if (FLAGS_20000 & gFlags) {
-            CopyObjPaletteMasked(&gUnknown_08E2EE50[temp_r5][0], 0x70U, 0x10U);
         } else {
-            DmaCopy16(3, &gUnknown_08E2EE50[temp_r5], &gObjPalette[0x70], 32);
-            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+            if (FLAGS_20000 & gFlags) {
+                CopyObjPaletteMasked(&gUnknown_08E2EE50[character][0], 0x70U, 0x10U);
+            } else {
+                DmaCopy16(3, &gUnknown_08E2EE50[character], &gObjPalette[0x70], 32);
+                gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+            }
         }
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         cs->unkB = 14;
@@ -1417,10 +1439,10 @@ void Task_8099968(void)
         bg->layoutVram = BG_SCREEN_ADDR(27);
         bg->unk18 = 0;
         bg->unk1A = 0;
-        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
-            bg->tilemapId = gUnknown_080D8CDC[16];
+        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+            bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
         } else {
-            bg->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
+            bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
         }
         bg->unk1E = 0;
         bg->unk20 = 0;
@@ -1543,7 +1565,7 @@ void Task_8099C9C()
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gUnknown_080D8CDC[character + 10];
+    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + character];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -1864,8 +1886,8 @@ void sub_809A50C(CharacterSelect *cs)
     Background *bg;
     Background *bg1F4;
     u16 var_r0;
-    u8 temp_r4;
-    s32 tid;
+    u8 charPlayer;
+    s32 charPartner;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
 
@@ -1878,16 +1900,16 @@ void sub_809A50C(CharacterSelect *cs)
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     bg1F4 = &cs->bg1F4;
-    temp_r4 = gUnknown_080D8F18[cs->unk5];
+    charPlayer = gUnknown_080D8F18[cs->unk5];
     bg1F4->graphics.dest = BG_CHAR_ADDR(3);
     bg1F4->graphics.anim = 0;
     bg1F4->layoutVram = BG_SCREEN_ADDR(3);
     bg1F4->unk18 = 0;
     bg1F4->unk1A = 0;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r4])) {
-        bg1F4->tilemapId = gUnknown_080D8CDC[16];
+    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[charPlayer])) {
+        bg1F4->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
-        bg1F4->tilemapId = gUnknown_080D8CDC[temp_r4 + 0xA];
+        bg1F4->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + charPlayer];
     }
     bg1F4->unk1E = 0;
     bg1F4->unk20 = 0;
@@ -1904,13 +1926,13 @@ void sub_809A50C(CharacterSelect *cs)
     gBgScrollRegs[2][1] = 0;
 
     bg = &cs->bg234;
-    tid = gUnknown_080D8F18[cs->unk6];
+    charPartner = gUnknown_080D8F18[cs->unk6];
     bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gUnknown_080D8CDC[tid + 5];
+    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + charPartner];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -2053,6 +2075,7 @@ void sub_809A808(CharacterSelect *cs)
     }
 }
 
+UNUSED
 void sub_809A8D0(CharacterSelect *cs, u8 param1)
 {
     Background *bg;
@@ -2068,7 +2091,7 @@ void sub_809A8D0(CharacterSelect *cs, u8 param1)
     bg->layoutVram = BG_SCREEN_ADDR(3);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gUnknown_080D8CDC[param1 - 2];
+    bg->tilemapId = gCharSelectSA3_Tilemaps[param1 - 2];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -2113,7 +2136,7 @@ void sub_809A9A0(CharacterSelect *cs)
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gUnknown_080D8CDC[15];
+    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_OK];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -2162,7 +2185,7 @@ void Task_809AABC(void)
     Background *temp_r3;
     u8 var_r0_2;
     u32 temp_r2;
-    u8 temp_r5;
+    u8 character;
 
     sub_809ADF0(cs);
     sub_809AE50(cs);
@@ -2181,16 +2204,16 @@ void Task_809AABC(void)
         cs->qUnk3C = Q(DISPLAY_CENTER_X);
         cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         temp_r3 = &cs->bg234;
-        temp_r5 = gUnknown_080D8F18[cs->unk5];
+        character = gUnknown_080D8F18[cs->unk5];
         temp_r3->graphics.dest = BG_CHAR_ADDR(2);
         temp_r3->graphics.anim = 0;
         temp_r3->layoutVram = BG_SCREEN_ADDR(27);
         temp_r3->unk18 = 0;
         temp_r3->unk1A = 0;
-        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r5])) {
-            temp_r3->tilemapId = gUnknown_080D8CDC[16];
+        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+            temp_r3->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
         } else {
-            temp_r3->tilemapId = gUnknown_080D8CDC[temp_r5 + 5];
+            temp_r3->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
         }
         temp_r3->unk1E = 0;
         temp_r3->unk20 = 0;
@@ -2963,7 +2986,7 @@ void sub_809B5D0(CharacterSelect *cs)
 
     bg->graphics.dest = BG_CHAR_ADDR(3);
     bg->layoutVram = BG_SCREEN_ADDR(3);
-    bg->tilemapId = gUnknown_080D8CDC[character + 10];
+    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + character];
     bg->flags = 1;
     DrawBackground(bg);
     cs->unkB = 3;
@@ -2974,22 +2997,19 @@ void sub_809B5D0(CharacterSelect *cs)
 
 u32 sub_809B638(CharacterSelect *cs)
 {
-    u32 var_r5;
-    u8 temp_r0;
-
-    var_r5 = 0;
-    if (cs->qUnk3C == 0x14A00) {
-        var_r5 = 1;
+    u32 result = 0;
+    if (cs->qUnk3C == Q(330)) {
+        result = 1;
     } else {
         if (sub_809B1E4(cs) == 1) {
-            temp_r0 = cs->unk4;
-            cs->unk3 = temp_r0;
-            var_r5 = 1;
-            cs->qUnk3C = 0x14A00;
-            cs->unk5 = temp_r0;
+            cs->unk3 = cs->unk4;
+            result = 1;
+            cs->qUnk3C = Q(330);
+            cs->unk5 = cs->unk4;
         }
     }
-    return var_r5;
+
+    return result;
 }
 
 bool32 sub_809B668(CharacterSelect *cs)

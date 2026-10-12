@@ -4,7 +4,7 @@
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "code_z_1.h" // CopyObjPaletteMasked
-#include "game/character_select.h"
+#include "game/sa3/character_select.h"
 #include "game/sa3/title_screen.h"
 #include "game/save.h"
 #include "game/special_stage.h"

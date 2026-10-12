@@ -1,6 +1,8 @@
 #ifndef GUARD_SA3_CHARACTER_SELECT_H
 #define GUARD_SA3_CHARACTER_SELECT_H
 
+#include "constants/characters.h" // NUM_CHARACTERS
+
 // BUG: Note that resultVar in the CS_SIO_CHECK_*() macros gets checked,
 //      even though it is not set if (cs->createIndex == 1)!
 //      All the functions using this code don't initialize the variable in the original game.
@@ -129,6 +131,39 @@ typedef struct CharacterSelect {
     /* 0x1F4 */ Background bg1F4;
     /* 0x234 */ Background bg234;
 } CharacterSelect; /* 0x274 */
+
+// NOTE(Jace):
+// For this enum, make sure to only append new entries
+typedef enum {
+    /* 0x00 */ CSTMI_BACKDROP = 0,
+    /* 0x01 */ CSTMI_UNUSED_1,
+    /* 0x02 */ CSTMI_UNUSED_2,
+    /* 0x03 */ CSTMI_UNUSED_3,
+    /* 0x04 */ CSTMI_UNUSED_4,
+    // Tilemaps used for spinning character names
+    /* 0x05 */ CSTMI_AFFINE_NAMES,
+
+    //
+    // DO NOT PUT ANY ENTRIES HERE! (reserved space for character-names, if someone wants to add them)
+    //
+
+    // Tilemaps used for static, already-selected character names
+    /* 0x0A */ CSTMI_TXTMAP_NAMES = (CSTMI_AFFINE_NAMES + NUM_CHARACTERS),
+
+    //
+    // DO NOT PUT ANY ENTRIES HERE! (reserved space for character-names, if someone wants to add them)
+    //
+
+    /* 0x0F */ CSTMI_AFFINE_OK = (CSTMI_TXTMAP_NAMES + NUM_CHARACTERS), // 'OK' string
+    /* 0x10 */ CSTMI_AFFINE_QMARKS, // '???' string, for not-unlocked characters
+
+    CSTMI_UNUSED_17,
+    // Add new non-character entries HERE, or use UNUSED_x entries!
+
+    CSTMI_COUNT
+} ECharacterSelectTileMapIndex;
+
+extern const u16 gCharSelectSA3_Tilemaps[CSTMI_COUNT];
 
 // TODO: enum for CreateCharacterSelect() 'createIndex' param
 
