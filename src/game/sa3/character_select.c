@@ -2,7 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "malloc_vram.h"
-#include "game/character_select.h"
+#include "game/sa3/character_select.h"
 #include "game/main_menu.h"
 #include "code_0_1.h"
 #include "code_z_1.h" // CopyObjPaletteMasked
@@ -12,142 +12,10 @@
 
 #include "constants/songs.h"
 
-// BUG: Note that resultVar in the CS_SIO_CHECK_*() macros gets checked,
-//      even though it is not set if (cs->createIndex == 1)!
-//      All the functions using this code don't initialize the variable in the original game.
-#define CS_SIO_CHECK_A(resultVar, playerIndex)                                                                                             \
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_8024074(cs->unk4);                                                                                         \
-            } else {                                                                                                                       \
-                resultVar = sub_8023E04();                                                                                                 \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-#define CS_SIO_CHECK_B(resultVar, playerIndex)                                                                                             \
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {                                                                                \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_80240B4(cs->unk3);                                                                                         \
-            } else {                                                                                                                       \
-                resultVar = sub_80240F4();                                                                                                 \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-                                                                                                                                           \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-#define CS_SIO_CHECK_C(resultVar, playerIndex)                                                                                             \
-    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_8023E80();                                                                                                 \
-            } else {                                                                                                                       \
-                resultVar = sub_8024188(cs->unk4);                                                                                         \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-                                                                                                                                           \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-#define CS_SIO_CHECK_D(resultVar, playerIndex)                                                                                             \
-    if (cs->createIndex != 0 && cs->createIndex != 3) {                                                                                    \
-        if (cs->createIndex == 1) {                                                                                                        \
-            if (playerIndex == 0) {                                                                                                        \
-                resultVar = sub_8023EFC();                                                                                                 \
-            } else {                                                                                                                       \
-                resultVar = sub_80241AC(cs->unk4);                                                                                         \
-            }                                                                                                                              \
-            cs->unk9 |= 0x10 & resultVar;                                                                                                  \
-        }                                                                                                                                  \
-                                                                                                                                           \
-        if (resultVar < 0) {                                                                                                               \
-            sub_802613C();                                                                                                                 \
-            return;                                                                                                                        \
-        }                                                                                                                                  \
-    }
-
-// NOTE: The way they use the allocated tiles is a bit inconsistent...
-// TODO: Multiplayer indices...
-#define CS_CHARID_ACTIVE  0 // Character the player currently chooses (Player or CPU)
-#define CS_CHARID_CHOSEN  1 // Character the player chose as main character
-#define CS_CHARID_PLAYER  PLAYER_1 // Main Character (after choosing both)
-#define CS_CHARID_PARTNER PLAYER_2 // Partner Character (after choosing both)
-#define CS_CHARID_COUNT   2
-
-typedef struct CharacterSelect {
-    /* 0x00 */ u8 unk0;
-    /* 0x01 */ u8 unk1;
-    /* 0x02 */ u8 unk2;
-    /* 0x03 */ u8 unk3;
-    /* 0x04 */ u8 unk4;
-    /* 0x05 */ u8 unk5;
-    /* 0x06 */ u8 unk6;
-    /* 0x07 */ u8 createIndex;
-    /* 0x08 */ u8 unk8;
-    /* 0x09 */ u8 unk9;
-    /* 0x09 */ u8 language;
-    /* 0x0B */ u8 unkB;
-    /* 0x0C */ u8 unkC[2];
-    /* 0x0E */ u16 unkE;
-    /* 0x10 */ u16 qFadeBrightness;
-    /* 0x12 */ u16 unk12;
-    /* 0x14 */ u16 unk14;
-    /* 0x16 */ s16 qUnk16;
-    /* 0x18 */ s16 qUnk18;
-    /* 0x1C */ void *tilesCharacters[2];
-    /* 0x24 */ s32 qUnk24;
-    /* 0x28 */ s32 qUnk28;
-    /* 0x2C */ s32 qUnk2C;
-    /* 0x30 */ s32 qUnk30;
-    /* 0x34 */ s32 qUnk34;
-    /* 0x38 */ s32 qUnk38;
-    /* 0x3C */ s32 qUnk3C;
-    /* 0x40 */ s32 qUnk40;
-    /* 0x44 */ s32 qUnk44;
-    /* 0x48 */ s32 qUnk48;
-    /* 0x4C */ s32 qUnk4C;
-    /* 0x50 */ s32 qUnk50;
-    /* 0x54 */ s32 qUnk54;
-    /* 0x58 */ s32 qUnk58;
-    /* 0x5C */ s32 qUnk5C;
-    /* 0x60 */ s32 qUnk60;
-    /* 0x64 */ s32 qUnk64;
-    /* 0x68 */ s32 qUnk68;
-    /* 0x6C */ s32 qUnk6C;
-    /* 0x70 */ s32 qUnk70;
-    /* 0x74 */ Sprite spr74;
-    /* 0x9C */ Sprite spr9C;
-    /* 0xC4 */ Sprite sprC4;
-    /* 0xEC */ Sprite sprEC;
-    /* 0x114 */ Sprite spr114;
-    /* 0x13C */ Sprite spr13C;
-    /* 0x164 */ Sprite spr164;
-    /* 0x18C */ Sprite spr18C;
-    /* 0x1B4 */ Background bg1B4;
-    /* 0x1F4 */ Background bg1F4;
-    /* 0x234 */ Background bg234;
-} CharacterSelect; /* 0x274 */
-
 void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
-void sub_8097D90(CharacterSelect *cs);
-void sub_8097E5C(CharacterSelect *cs);
+void SetupPositions(CharacterSelect *cs);
+static void InitSprites(CharacterSelect *cs);
 void sub_80986AC(CharacterSelect *cs);
 bool32 sub_80988B0(CharacterSelect *cs);
 bool32 sub_8098A00(CharacterSelect *cs);
@@ -201,7 +69,6 @@ s16 sub_8024074(u8);
 s16 sub_80240B4(u8);
 s16 sub_80240F4();
 void sub_802613C(void);
-void CharSelect_InitBackgrounds(CharacterSelect *cs);
 void CreateNewGamesaveOpening(void);
 bool32 sub_809B1B4(CharacterSelect *cs);
 bool32 sub_809B25C(CharacterSelect *cs);
@@ -236,23 +103,25 @@ extern void sub_80258D4(void);
 extern s16 sub_802610C();
 extern void CreateTimeRecordScreen(u8 param0);
 
-extern u16 gUnknown_080D8CDC[];
+extern const u16 gUnknown_080D8CDC[0x12];
 extern const TileInfo2 gUnknown_080D8D00[2];
 extern const TileInfo2 gUnknown_080D8D08[6 * 8];
-extern TileInfo2 gUnknown_080D8E80[];
-extern TileInfo2 gUnknown_080D8EF8;
+extern const TileInfo2 gUnknown_080D8E80[];
+extern const TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F00;
-extern const TileInfo2 gUnknown_080D8F08[2];
+extern const TileInfo2 gUnknown_080D8F08;
+extern const TileInfo2 gUnknown_080D8F10; // Used in Multiplayer Char Select
 extern const u8 gUnknown_080D8F18[NUM_CHARACTERS];
 extern const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3];
 extern const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3];
-extern u8 gUnknown_080D946D[NUM_CHARACTERS];
-extern const u8 Tileset_DebugAscii[0x140];
-extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
-extern const u16 gUnknown_08E2EE50[10][16];
-extern const u16 gUnknown_08E2EEF0[16];
+extern const u8 gUnknown_080D946D[NUM_CHARACTERS];
 extern const u16 gAnnouncerSelect1st[NUM_CHARACTERS];
 extern const u16 gAnnouncerSelect2nd[NUM_CHARACTERS];
+extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
+
+extern const u8 Tileset_DebugAscii[0x140];
+extern const u16 gUnknown_08E2EE50[10][16];
+extern const u16 gUnknown_08E2EEF0[16];
 
 void CreateCharacterSelect(u8 createIndex)
 {
@@ -296,9 +165,9 @@ void CreateCharacterSelect(u8 createIndex)
         cs->unk8 = 0;
     }
 
-    sub_8097D90(cs);
+    SetupPositions(cs);
     CharSelect_InitBackgrounds(cs);
-    sub_8097E5C(cs);
+    InitSprites(cs);
 
     m4aMPlayAllStop();
     m4aSongNumStart(MUS_CHARACTER_SELECT);
@@ -311,7 +180,7 @@ void CreateCharacterSelect(u8 createIndex)
     gBldRegs.bldY = 0x10;
 }
 
-void sub_8097D90(CharacterSelect *cs)
+void SetupPositions(CharacterSelect *cs)
 {
     s32 playerIndex;
     s32 partnerIndex;
@@ -335,25 +204,25 @@ void sub_8097D90(CharacterSelect *cs)
     cs->unkE = 1;
     cs->qFadeBrightness = 0;
     cs->unk12 = 0;
-    cs->qUnk18 = Q(16);
-    cs->qUnk24 = Q(120);
-    cs->qUnk28 = Q(17);
-    cs->qUnk2C = Q(120);
+    cs->qBgCharNameScale = Q(16);
+    cs->qTxtSelectAPlayerX = Q(DISPLAY_CENTER_X);
+    cs->qTxtSelectAPlayerY = Q(17);
+    cs->qUnk2C = Q(DISPLAY_CENTER_X);
     cs->qUnk30 = Q(17);
     cs->qUnk44 = Q(0);
     cs->qUnk48 = Q(0);
-    cs->qUnk4C = Q(120);
-    cs->qUnk50 = Q(85);
+    cs->qUnk4C = Q(DISPLAY_CENTER_X);
+    cs->qUnk50 = Q(DISPLAY_CENTER_Y + 5);
     cs->qUnk54 = Q(201);
     cs->qUnk58 = Q(22);
-    cs->qUnk3C = Q(120);
-    cs->qUnk40 = Q(80);
-    cs->qUnk34 = Q(120);
-    cs->qUnk38 = Q(80);
-    cs->qUnk64 = Q(120);
-    cs->qUnk68 = Q(145);
-    cs->qUnk6C = Q(300);
-    cs->qUnk70 = Q(145);
+    cs->qUnk3C = Q(DISPLAY_CENTER_X);
+    cs->qUnk40 = Q(DISPLAY_CENTER_Y);
+    cs->qUnk34 = Q(DISPLAY_CENTER_X);
+    cs->qUnk38 = Q(DISPLAY_CENTER_Y);
+    cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(DISPLAY_CENTER_X);
+    cs->qNameTagPos[CS_CHARID_PLAYER].y = Q(DISPLAY_HEIGHT - 15);
+    cs->qNameTagPos[CS_CHARID_PARTNER].x = Q(DISPLAY_WIDTH + 60);
+    cs->qNameTagPos[CS_CHARID_PARTNER].y = Q(DISPLAY_HEIGHT - 15);
     cs->qUnk5C = 0;
     cs->qUnk60 = 0;
     cs->tilesCharacters[CS_CHARID_CHOSEN] = NULL;
@@ -366,8 +235,9 @@ void sub_8097D90(CharacterSelect *cs)
     cs->unkC[PLAYER_2] = gPlayers[partnerIndex].charFlags.character;
 }
 
-// (99.57%) https://decomp.me/scratch/KvZA5
-NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(CharacterSelect *cs))
+// TODO: Fake-match!
+// (100.00&) https://decomp.me/scratch/Y518W
+static void InitSprites(CharacterSelect *cs)
 {
     TileInfo2 *ti;
 #ifndef NON_MATCHING
@@ -376,7 +246,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     Sprite *s;
 #endif
     u16 language;
-    void *vram = OBJ_VRAM0;
+    u8 *vram = OBJ_VRAM0;
     s32 index, index2;
     s32 unk5;
 
@@ -386,8 +256,8 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s->anim = gUnknown_080D8D00[0].anim;
     s->variant = gUnknown_080D8D00[0].variant;
     s->prevVariant = -1;
-    s->x = (s16)((s32)cs->qUnk2C >> 8);
-    s->y = (s16)((s32)cs->qUnk30 >> 8);
+    s->x = ((s32)cs->qUnk2C >> 8);
+    s->y = ((s32)cs->qUnk30 >> 8);
     s->oamFlags = 0x40;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -399,11 +269,11 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s = &cs->spr9C;
     s->tiles = vram;
     vram += 0x640;
-    s->anim = gUnknown_080D8D08[cs->language].anim;
-    s->variant = gUnknown_080D8D08[cs->language].variant;
+    s->anim = gUnknown_080D8D08[cs->language * 8].anim;
+    s->variant = gUnknown_080D8D08[cs->language * 8].variant;
     s->prevVariant = -1;
-    s->x = I(cs->qUnk24);
-    s->y = I(cs->qUnk28);
+    s->x = I(cs->qTxtSelectAPlayerX);
+    s->y = I(cs->qTxtSelectAPlayerY);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -419,7 +289,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s->variant = 5;
     s->prevVariant = -1;
     s->x = DISPLAY_CENTER_X;
-    s->y = I(cs->qUnk68);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -431,8 +301,8 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s = &cs->spr74;
     cs->spr74.tiles = vram;
     vram += 0x200;
-    s->anim = gUnknown_080D8F08[0].anim;
-    s->variant = gUnknown_080D8F08[0].variant;
+    s->anim = gUnknown_080D8F08.anim;
+    s->variant = gUnknown_080D8F08.variant;
     s->prevVariant = -1;
     s->x = I(cs->qUnk5C);
     s->y = I(cs->qUnk60);
@@ -448,12 +318,12 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     language = (cs->language == 0) ? 0 : 1;
     index2 = (gUnknown_080D8F18[cs->unk5]);
     s->tiles = vram;
-    vram += 0x1C0;
-    s->anim = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].anim;
-    s->variant = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].variant;
+    vram += 14 * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D8E80[index2 += language * sizeof(TileInfo2)].anim;
+    s->variant = gUnknown_080D8E80[index2].variant;
     s->prevVariant = -1;
-    s->x = I(cs->qUnk64);
-    s->y = I(cs->qUnk68);
+    s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -466,12 +336,12 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     language = (cs->language == 0) ? 0 : 1;
     index2 = (gUnknown_080D8F18[cs->unk5]);
     s->tiles = vram;
-    vram += 0x1C0;
-    s->anim = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].anim;
-    s->variant = gUnknown_080D8E80[language * sizeof(TileInfo2) + index2].variant;
+    vram += 14 * TILE_SIZE_4BPP;
+    s->anim = gUnknown_080D8E80[index2 += language * sizeof(TileInfo2)].anim;
+    s->variant = gUnknown_080D8E80[index2].variant;
     s->prevVariant = -1;
-    s->x = I(cs->qUnk6C);
-    s->y = I(cs->qUnk70);
+    s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
     s->oamFlags = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -480,14 +350,14 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    s = &cs->spr114;
+    s = &cs->sprNameTagBack;
     s->tiles = vram;
     vram += 0x300;
     s->anim = gUnknown_080D8EF8.anim;
     s->variant = gUnknown_080D8EF8.variant;
     s->prevVariant = -1;
-    s->x = I(cs->qUnk64);
-    s->y = I(cs->qUnk68);
+    s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
     s->oamFlags = SPRITE_OAM_ORDER(1);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -498,7 +368,6 @@ NONMATCH("asm/non_matching/game/char_select__sub_8097E5C.inc", void sub_8097E5C(
 
     cs->tilesCharacters[CS_CHARID_ACTIVE] = vram;
 }
-END_NONMATCH
 
 void CharSelect_InitBackgrounds(CharacterSelect *cs)
 {
@@ -1145,7 +1014,7 @@ void sub_80990B0(CharacterSelect *cs)
     bg->flags = BACKGROUND_FLAG_4 | BACKGROUND_FLAGS_BG_ID(2);
     DrawBackground(bg);
 
-    cs->qUnk40 = 0x5000;
+    cs->qUnk40 = Q(DISPLAY_CENTER_Y);
     cs->unkB = 4;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
         if (FLAGS_20000 & gFlags) {
@@ -1968,8 +1837,8 @@ void Task_809A3BC(void)
     sub_809A644(cs);
     cs->qUnk34 = Q(90);
     cs->qUnk3C = Q(150);
-    cs->qUnk64 = Q(95);
-    cs->qUnk6C = 0x9100;
+    cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(95);
+    cs->qNameTagPos[CS_CHARID_PARTNER].x = 0x9100;
     cs->qUnk54 = Q(201);
     cs->qUnk58 = Q(22);
     cs->qUnk4C = Q(120);
@@ -2059,18 +1928,18 @@ void sub_809A644(CharacterSelect *cs)
     Sprite *s2;
     u8 temp_r2;
 
-    s = &cs->spr114;
+    s = &cs->sprNameTagBack;
     s->anim = gUnknown_080D8EF8.anim;
     s->variant = gUnknown_080D8EF8.variant;
     s->prevVariant = -1;
-    s->x = I(cs->qUnk64);
-    s->y = I(cs->qUnk68);
-    s->oamFlags = 0x40;
+    s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
+    s->oamFlags = SPRITE_OAM_ORDER(1);
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->animSpeed = 0x10;
     s->palId = 0;
-    s->frameFlags = 0x40000;
+    s->frameFlags = SPRITE_FLAG_MASK_18;
     UpdateSpriteAnimation(s);
 
     s2 = &cs->spr9C;
@@ -2168,12 +2037,12 @@ void sub_809A808(CharacterSelect *cs)
     UpdateSpriteAnimation(spr9C);
 
     {
-        Sprite *s = &cs->spr114;
+        Sprite *s = &cs->sprNameTagBack;
         s->anim = gUnknown_080D8F00.anim;
         s->variant = gUnknown_080D8F00.variant;
         s->prevVariant = -1;
-        s->x = I(cs->qUnk64);
-        s->y = I(cs->qUnk68);
+        s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+        s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
         s->oamFlags = 0x40;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -2212,15 +2081,15 @@ void sub_809A8D0(CharacterSelect *cs, u8 param1)
 
     if (param1 == 4 || param1 == 6 || param1 == 3) {
         if (gUnknown_080D8F18[cs->unk5] == 0) {
-            cs->qUnk18 = +Q(16);
+            cs->qBgCharNameScale = +Q(16);
         } else {
-            cs->qUnk18 = -Q(16);
+            cs->qBgCharNameScale = -Q(16);
         }
     } else if (param1 == 5) {
         if (gUnknown_080D8F18[cs->unk5] == 1) {
-            cs->qUnk18 = +Q(16);
+            cs->qBgCharNameScale = +Q(16);
         } else {
-            cs->qUnk18 = -Q(16);
+            cs->qBgCharNameScale = -Q(16);
         }
     }
 
@@ -2333,7 +2202,7 @@ void Task_809AABC(void)
         temp_r3->flags = 6;
         DrawBackground(temp_r3);
 
-        cs->qUnk70 = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
         gCurTask->main = Task_809AA28;
     } else if ((cs->createIndex == 1) && (sub_809AD08(cs) == 0)) {
         sub_802613C();
@@ -2480,34 +2349,34 @@ void sub_809AD74(CharacterSelect *cs)
 {
     s16 var_r0;
     s32 var_r1;
-    s32 r8, r7;
+    s32 xa, xb;
     u32 var_r0_2;
     u8 i;
 
     Sprite *s = &cs->spr74;
     u32 max = 2;
-    if (cs->unkB > 0xDU) {
-        var_r1 = 0xB4;
+    if (cs->unkB > 13) {
+        var_r1 = 180;
     } else {
-        var_r1 = 0x78;
+        var_r1 = 120;
     }
 
     i = 0;
-    r8 = -0x28 + var_r1;
-    r7 = +0x28 + var_r1;
+    xa = -40 + var_r1;
+    xb = +40 + var_r1;
 
     for (; i < max; i++) {
         if (i != 0) {
-            s->x = r8 - I(cs->qUnk5C);
+            s->x = xa - I(cs->qUnk5C);
         } else {
-            s->x = r7 + I(cs->qUnk5C);
+            s->x = xb + I(cs->qUnk5C);
         }
         s->y = I(cs->qUnk60);
 
         if (i != 0) {
-            s->frameFlags |= 0x400;
+            SPRITE_FLAG_SET(s, X_FLIP);
         } else {
-            s->frameFlags &= ~0x400;
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
         }
         DisplaySprite(s);
     }
@@ -2525,16 +2394,16 @@ void sub_809ADF0(CharacterSelect *cs)
         s->y = I(cs->qUnk30);
 
         if (i != 0) {
-            s->frameFlags &= ~0x400;
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
         } else {
-            s->frameFlags |= 0x400;
+            SPRITE_FLAG_SET(s, X_FLIP);
         }
         DisplaySprite(s);
     }
 
     s = &cs->spr9C;
-    s->x = I(cs->qUnk24);
-    s->y = I(cs->qUnk28);
+    s->x = I(cs->qTxtSelectAPlayerX);
+    s->y = I(cs->qTxtSelectAPlayerY);
     DisplaySprite(s);
 }
 
@@ -2547,14 +2416,14 @@ void sub_809AE50(CharacterSelect *cs)
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        s = &cs->spr114;
-        s->x = I(cs->qUnk64);
-        s->y = I(cs->qUnk68);
+        s = &cs->sprNameTagBack;
+        s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+        s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
         s->palId = 0;
         if (i != 0) {
-            s->frameFlags |= 0x400;
+            SPRITE_FLAG_SET(s, X_FLIP);
         } else {
-            s->frameFlags &= ~0X400;
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
         }
         DisplaySprite(s);
     }
@@ -2570,8 +2439,8 @@ void sub_809AE50(CharacterSelect *cs)
         s->anim = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].anim;
         s->variant = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].variant;
     }
-    s->x = (s16)((s32)cs->qUnk64 >> 8);
-    s->y = (s16)((s32)cs->qUnk68 >> 8);
+    s->x = (s16)((s32)cs->qNameTagPos[CS_CHARID_PLAYER].x >> 8);
+    s->y = (s16)((s32)cs->qNameTagPos[CS_CHARID_PLAYER].y >> 8);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
@@ -2589,14 +2458,14 @@ void sub_809AF08(CharacterSelect *cs)
     u8 i;
 
     for (i = 0; i < 2; i++) {
-        s = &cs->spr114;
-        s->x = I(cs->qUnk6C);
-        s->y = I(cs->qUnk70);
+        s = &cs->sprNameTagBack;
+        s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
+        s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
         s->palId = 1;
         if (i != 0) {
-            s->frameFlags |= 0x400;
+            SPRITE_FLAG_SET(s, X_FLIP);
         } else {
-            s->frameFlags &= ~0X400;
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
         }
         DisplaySprite(s);
     }
@@ -2613,8 +2482,8 @@ void sub_809AF08(CharacterSelect *cs)
         s->anim = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].anim;
         s->variant = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].variant;
     }
-    s->x = I(cs->qUnk6C);
-    s->y = I(cs->qUnk70);
+    s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
@@ -2633,17 +2502,16 @@ void sub_809AFC0(CharacterSelect *cs)
     temp_r1 = cs->unk5;
     temp_r2 = cs->unk6;
 
-    if (cs->language != 0) {
+    if (cs->language != JAPANESE) {
         temp_r7 = &gUnknown_080D8F95[((temp_r1 * 8) + temp_r2)];
     } else {
         temp_r7 = &gUnknown_080D8F1D[((temp_r1 * 8) + temp_r2)];
     }
 
     for (i = 0; i < 2; i++) {
-        s = &cs->spr114;
+        s = &cs->sprNameTagBack;
         s->x = DISPLAY_CENTER_X;
-        s->y = I(cs->qUnk68);
-
+        s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
         if (i != 0) {
             SPRITE_FLAG_SET(s, X_FLIP);
         } else {
@@ -2654,19 +2522,19 @@ void sub_809AFC0(CharacterSelect *cs)
 
     s = &cs->sprEC;
     s->x = (*temp_r7)[0];
-    s->y = I(cs->qUnk68);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &cs->spr18C;
     s->x = (*temp_r7)[1];
-    s->y = I(cs->qUnk68);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
     s = &cs->spr13C;
     s->x = (*temp_r7)[2];
-    s->y = I(cs->qUnk70);
+    s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
@@ -2706,23 +2574,19 @@ bool32 sub_809B13C(CharacterSelect *cs)
     return TRUE;
 }
 
-u32 sub_809B148(CharacterSelect *cs)
+bool32 sub_809B148(CharacterSelect *cs)
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 r2 = 120;
+    s32 r2 = DISPLAY_CENTER_X;
 
     if (cs->unk1 == 0) {
-        temp_r0 = cs->qUnk3C + 0xFFFFF200;
-        cs->qUnk3C = temp_r0;
-        if (temp_r0 <= Q(r2)) {
+        cs->qUnk3C -= Q(14);
+        if (cs->qUnk3C <= Q(r2)) {
             cs->qUnk3C = Q(r2);
             return 1U;
         }
     } else {
-        temp_r0_2 = cs->qUnk3C + 0xE00;
-        cs->qUnk3C = temp_r0_2;
-        if (temp_r0_2 >= Q(r2)) {
+        cs->qUnk3C += Q(14);
+        if (cs->qUnk3C >= Q(r2)) {
             cs->qUnk3C = Q(r2);
             return 1U;
         }
@@ -2736,15 +2600,15 @@ u32 sub_809B184(CharacterSelect *cs)
     s32 temp_r1;
     s32 temp_r1_2;
 
-    temp_r1 = cs->qUnk68;
+    temp_r1 = cs->qNameTagPos[CS_CHARID_PLAYER].y;
     if (temp_r1 <= 0x9100) {
-        cs->qUnk68 = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PLAYER].y = 0x9100;
         return 1U;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
-    cs->qUnk68 = temp_r1_2;
+    cs->qNameTagPos[CS_CHARID_PLAYER].y = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
-        cs->qUnk68 = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PLAYER].y = 0x9100;
     }
     return 0U;
 }
@@ -2754,15 +2618,15 @@ u32 sub_809B1B4(CharacterSelect *cs)
     s32 temp_r1;
     s32 temp_r1_2;
 
-    temp_r1 = cs->qUnk70;
+    temp_r1 = cs->qNameTagPos[CS_CHARID_PARTNER].y;
     if (temp_r1 <= 0x9100) {
-        cs->qUnk70 = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
         return 1U;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
-    cs->qUnk70 = temp_r1_2;
+    cs->qNameTagPos[CS_CHARID_PARTNER].y = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
-        cs->qUnk70 = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
     }
     return 0U;
 }
@@ -2788,34 +2652,30 @@ bool32 sub_809B1E4(CharacterSelect *cs)
 
 bool32 sub_809B234(CharacterSelect *cs)
 {
-    if (cs->qUnk68 < Q(180)) {
-        cs->qUnk68 += Q(6);
+    if (cs->qNameTagPos[CS_CHARID_PLAYER].y < Q(180)) {
+        cs->qNameTagPos[CS_CHARID_PLAYER].y += Q(6);
         return FALSE;
     } else {
-        cs->qUnk68 = Q(180);
+        cs->qNameTagPos[CS_CHARID_PLAYER].y = Q(180);
         return TRUE;
     }
 }
 
 bool32 sub_809B25C(CharacterSelect *cs)
 {
-    if (cs->qUnk70 < Q(180)) {
-        cs->qUnk70 += Q(6);
+    if (cs->qNameTagPos[CS_CHARID_PARTNER].y < Q(180)) {
+        cs->qNameTagPos[CS_CHARID_PARTNER].y += Q(6);
         return FALSE;
     } else {
-        cs->qUnk70 = Q(180);
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = Q(180);
         return TRUE;
     }
 }
 
 bool32 sub_809B284(CharacterSelect *cs)
 {
-    s32 temp_r2;
-    s32 var_r0;
-
-    temp_r2 = cs->qUnk5C;
-    if (temp_r2 <= 0x4FF) {
-        cs->qUnk5C = temp_r2 + 0x40;
+    if (cs->qUnk5C < Q(5)) {
+        cs->qUnk5C += Q(0.25);
     } else {
         cs->qUnk5C = 0;
     }
@@ -2826,17 +2686,17 @@ bool32 sub_809B284(CharacterSelect *cs)
 
 void sub_809B2AC(CharacterSelect *cs)
 {
-    s32 max = 120;
+    s32 center = DISPLAY_CENTER_X;
 
     if (cs->unk1 == 0) {
         cs->qUnk4C -= Q(14);
-        if (cs->qUnk4C <= Q(max)) {
-            cs->qUnk4C = Q(max);
+        if (cs->qUnk4C <= Q(center)) {
+            cs->qUnk4C = Q(center);
         }
     } else {
         cs->qUnk4C += Q(14);
-        if (cs->qUnk4C >= Q(max)) {
-            cs->qUnk4C = Q(max);
+        if (cs->qUnk4C >= Q(center)) {
+            cs->qUnk4C = Q(center);
         }
     }
 }
@@ -2906,19 +2766,19 @@ u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
 
     var_r3 = 0;
     if (param1 != 0) {
-        temp_r1 = cs->qUnk64;
+        temp_r1 = cs->qNameTagPos[CS_CHARID_PLAYER].x;
         if (temp_r1 <= 0x77FF) {
-            cs->qUnk64 = temp_r1 + 0x610;
+            cs->qNameTagPos[CS_CHARID_PLAYER].x = temp_r1 + 0x610;
             goto block_7;
         }
-        cs->qUnk64 = Q(120);
+        cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(120);
         goto block_9;
     }
-    temp_r0 = cs->qUnk64;
+    temp_r0 = cs->qNameTagPos[CS_CHARID_PLAYER].x;
     if (temp_r0 > Q(60)) {
-        cs->qUnk64 = temp_r0 + 0xFFFFF9F0;
+        cs->qNameTagPos[CS_CHARID_PLAYER].x = temp_r0 + 0xFFFFF9F0;
     } else {
-        cs->qUnk64 = Q(60);
+        cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(60);
         var_r3 = 1;
     }
 block_7:
@@ -2931,7 +2791,7 @@ block_9:
 
 bool32 sub_809B41C(CharacterSelect *cs)
 {
-    cs->qUnk6C = cs->qUnk3C;
+    cs->qNameTagPos[CS_CHARID_PARTNER].x = cs->qUnk3C;
     return TRUE;
 }
 
@@ -3003,10 +2863,10 @@ u32 sub_809B4BC(CharacterSelect *cs, u8 param1)
     s32 r4 = 3;
 
     if (param1 == 0) {
-        if (cs->qUnk64 < Q(95)) {
-            cs->qUnk64 += Q(r4);
+        if (cs->qNameTagPos[CS_CHARID_PLAYER].x < Q(95)) {
+            cs->qNameTagPos[CS_CHARID_PLAYER].x += Q(r4);
         } else {
-            cs->qUnk64 = Q(95);
+            cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(95);
             var_r3 = 1;
         }
 
@@ -3017,10 +2877,10 @@ u32 sub_809B4BC(CharacterSelect *cs, u8 param1)
             var_r3 += 1;
         }
     } else {
-        if (cs->qUnk64 > Q(60)) {
-            cs->qUnk64 -= Q(3);
+        if (cs->qNameTagPos[CS_CHARID_PLAYER].x > Q(60)) {
+            cs->qNameTagPos[CS_CHARID_PLAYER].x -= Q(3);
         } else {
-            cs->qUnk64 = Q(60);
+            cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(60);
             var_r3 = 1;
         }
 
@@ -3050,11 +2910,10 @@ u32 sub_809B548(CharacterSelect *cs, u8 param1)
     var_r3 = 0;
     r4 = 3;
     if (param1 == 0) {
-        temp_r0 = cs->qUnk6C;
-        if (temp_r0 > 0x9100) {
-            cs->qUnk6C = temp_r0 + 0xFFFFFD00;
+        if (cs->qNameTagPos[CS_CHARID_PARTNER].x > 0x9100) {
+            cs->qNameTagPos[CS_CHARID_PARTNER].x -= Q(3);
         } else {
-            cs->qUnk6C = 0x9100;
+            cs->qNameTagPos[CS_CHARID_PARTNER].x = 0x9100;
             var_r3 += 1;
         }
         if (cs->qUnk4C >= Q(201)) {
@@ -3073,10 +2932,10 @@ u32 sub_809B548(CharacterSelect *cs, u8 param1)
             cs->qUnk4C += Q(r4);
         }
     } else {
-        if (cs->qUnk6C < Q(180)) {
-            cs->qUnk6C = cs->qUnk6C + Q(r4);
+        if (cs->qNameTagPos[CS_CHARID_PARTNER].x < Q(180)) {
+            cs->qNameTagPos[CS_CHARID_PARTNER].x = cs->qNameTagPos[CS_CHARID_PARTNER].x + Q(r4);
         } else {
-            cs->qUnk6C = Q(180);
+            cs->qNameTagPos[CS_CHARID_PARTNER].x = Q(180);
             var_r3 += 1;
         }
 
@@ -3161,7 +3020,7 @@ void sub_809B69C(CharacterSelect *cs)
 void sub_809B6C0(CharacterSelect *cs)
 {
     SA2_LABEL(sub_8003EE4)
-    ((u16)cs->unk12 >> 6, (s32)((u16)cs->qUnk18 << 0x10) >> 0x14, 0x100, 0x40, 0x40, (s32)(cs->qUnk4C << 8) >> 0x10,
+    ((u16)cs->unk12 >> 6, (s32)((u16)cs->qBgCharNameScale << 0x10) >> 0x14, 0x100, 0x40, 0x40, (s32)(cs->qUnk4C << 8) >> 0x10,
      (s32)(cs->qUnk50 << 8) >> 0x10, gBgAffineRegs);
 }
 

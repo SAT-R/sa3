@@ -550,6 +550,8 @@ gUnknown_080D8C74:
 gUnknown_080D8CD4:
     .incbin "baserom_sa3.gba", 0x000D8CD4, 0x8
 
+@ --- Character Select ---
+
     .global gUnknown_080D8CDC
 gUnknown_080D8CDC:
     .incbin "baserom_sa3.gba", 0x000D8CDC, 0x24

@@ -120,7 +120,7 @@ _0809F88A:
 	adds r0, r4, #0
 	bl sub_809F964
 	adds r0, r4, #0
-	bl sub_809FBD0
+	bl CharSelect_InitBackgrounds_MP
 	bl m4aMPlayAllStop
 	movs r0, #3         @ MUS_CHARACTER_SELECT
 	bl m4aSongNumStart
@@ -433,8 +433,8 @@ _0809FBC4: .4byte gUnknown_080D8E80
 _0809FBC8: .4byte gUnknown_080D8EF8
 _0809FBCC: .4byte gUnknown_080D8F10
 
-	thumb_func_start sub_809FBD0
-sub_809FBD0: @ 0x0809FBD0
+	thumb_func_start CharSelect_InitBackgrounds_MP
+CharSelect_InitBackgrounds_MP: @ 0x0809FBD0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
