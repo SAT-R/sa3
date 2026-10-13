@@ -43,7 +43,7 @@ bool32 sub_809B638(CharacterSelect *cs);
 bool32 sub_809B668(CharacterSelect *cs);
 void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
-void Task_80983E8(void);
+static void Task_CharSelect_FadeIn(void);
 void Task_8098600(void);
 void Task_8098DE4(void);
 void Task_8098FF0(void);
@@ -77,7 +77,7 @@ bool32 sub_809B25C(CharacterSelect *cs);
 bool32 sub_809B41C(CharacterSelect *cs);
 void Task_8099758(void);
 void Task_80981A8(void);
-void sub_8098508(void);
+static void Task_CharSelect_FadeOut(void);
 void Task_809AABC(void);
 void Task_8099C9C(void);
 void Task_8099968(void);
@@ -691,16 +691,14 @@ void Task_80981A8(void)
             }
         }
     }
-    gCurTask->main = Task_80983E8;
+    gCurTask->main = Task_CharSelect_FadeIn;
 }
 
-void Task_80983E8(void)
+static void Task_CharSelect_FadeIn(void)
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 playerIndex = gStageData.playerIndex;
     s16 var_r0;
-    u8 playerIndex;
-
-    playerIndex = gStageData.playerIndex;
 
     if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
         if (playerIndex == 0) {
@@ -750,7 +748,7 @@ void Task_80983E8(void)
     }
 }
 
-void sub_8098508(void)
+static void Task_CharSelect_FadeOut(void)
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
@@ -1110,7 +1108,7 @@ void Task_8098DE4(void)
             m4aSongNumStart(SE_ABORT);
             cs->unk2 = 3;
             cs->unkB = 2;
-            gCurTask->main = sub_8098508;
+            gCurTask->main = Task_CharSelect_FadeOut;
             return;
         } else {
             if (DPAD_SIDEWAYS & gRepeatedKeys) {
@@ -1961,7 +1959,7 @@ void Task_809A1C4(void)
                     sub_8024130();
                     cs->unk2 = 2;
                     cs->unkB = 0x17;
-                    gCurTask->main = sub_8098508;
+                    gCurTask->main = Task_CharSelect_FadeOut;
                 } else {
                     sub_802613C();
                 }
@@ -1969,7 +1967,7 @@ void Task_809A1C4(void)
                 if (sub_8024130() != 0) {
                     cs->unk2 = 2;
                     cs->unkB = 0x17;
-                    gCurTask->main = sub_8098508;
+                    gCurTask->main = Task_CharSelect_FadeOut;
                 } else {
                     cs->unk14 = 0x79;
                 }
@@ -1985,13 +1983,13 @@ void Task_809A1C4(void)
             } else {
                 cs->unk2 = 2;
                 cs->unkB = 0x17;
-                gCurTask->main = sub_8098508;
+                gCurTask->main = Task_CharSelect_FadeOut;
             }
         }
-    } else if ((A_BUTTON & gPressedKeys) || (START_BUTTON & gPressedKeys) || (cs->unk14 > 0x78U)) {
+    } else if ((A_BUTTON & gPressedKeys) || (START_BUTTON & gPressedKeys) || (cs->unk14 > 120)) {
         cs->unk2 = 2;
         cs->unkB = 0x17;
-        gCurTask->main = sub_8098508;
+        gCurTask->main = Task_CharSelect_FadeOut;
     }
 }
 
@@ -2775,7 +2773,7 @@ void Task_CharacterSelectInit(void)
         sub_80258D4();
         gCurTask->main = Task_80981A8;
     } else {
-        gCurTask->main = Task_80983E8;
+        gCurTask->main = Task_CharSelect_FadeIn;
     }
 }
 
