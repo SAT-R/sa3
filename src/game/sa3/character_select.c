@@ -10,6 +10,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 
+#include "constants/animations.h"
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
 
@@ -104,7 +105,7 @@ extern void sub_80258D4(void);
 extern s16 sub_802610C();
 extern void CreateTimeRecordScreen(u8 param0);
 
-const u16 gCharSelectSA3_Tilemaps[CSTMI_COUNT] = { // (comment for clang-format)
+const u16 gCharSelect3_Tilemaps[CSTMI_COUNT] = { // (comment for clang-format)
     [CSTMI_BACKDROP] = TM_TXT_CHARSELECT_BACKDROP,
     [CSTMI_UNUSED_1] = 0,
     [CSTMI_UNUSED_2] = 0,
@@ -124,8 +125,57 @@ const u16 gCharSelectSA3_Tilemaps[CSTMI_COUNT] = { // (comment for clang-format)
     [CSTMI_AFFINE_QMARKS] = TM_AFF_CHARSELECT_QMARKS,
     [CSTMI_UNUSED_17] = 0
 };
-extern const TileInfo2 gUnknown_080D8D00[2];
-extern const TileInfo2 gUnknown_080D8D08[6 * 8];
+const TileInfo2 gTileInfo_CharSelect3_HeaderBackdrop[1]
+    = { { .anim = ANIM_CHARSELECT_HEADER_BACKDROP, .variant = 0, .numTiles = MAX_TILES_VARIANT(ANIM_CHARSELECT_HEADER_BACKDROP, 0) } };
+const TileInfo2 gTileInfo_CharSelect3_TeamDescriptions[47] = {
+    [(JAPANESE * 8) + 0] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_JP, 0, 40 }, //
+    [(JAPANESE * 8) + 1] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_JP, 1, 40 }, //
+    [(JAPANESE * 8) + 2] = { ANIM_CHARSELECT_TEAM_DESC_JP, 0, 14 }, //
+    [(JAPANESE * 8) + 3] = { ANIM_CHARSELECT_TEAM_DESC_JP, 1, 16 }, //
+    [(JAPANESE * 8) + 4] = { ANIM_CHARSELECT_TEAM_DESC_JP, 2, 16 }, //
+    [(JAPANESE * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_JP, 3, 16 }, //
+    [(JAPANESE * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_JP, 4, 20 }, //
+    [(JAPANESE * 8) + 7] = { 0, 0, 0 }, //
+    [(ENGLISH * 8) + 0] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_EN, 0, 48 }, //
+    [(ENGLISH * 8) + 1] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_EN, 1, 48 }, //
+    [(ENGLISH * 8) + 2] = { ANIM_CHARSELECT_TEAM_DESC_EN, 0, 6 }, //
+    [(ENGLISH * 8) + 3] = { ANIM_CHARSELECT_TEAM_DESC_EN, 1, 20 }, //
+    [(ENGLISH * 8) + 4] = { ANIM_CHARSELECT_TEAM_DESC_EN, 2, 24 }, //
+    [(ENGLISH * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_EN, 3, 20 }, //
+    [(ENGLISH * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_EN, 4, 24 }, //
+    [(ENGLISH * 8) + 7] = { 0, 0, 0 }, //
+    [(GERMAN * 8) + 0] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_DE, 0, 50 }, //
+    [(GERMAN * 8) + 1] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_DE, 1, 50 }, //
+    [(GERMAN * 8) + 2] = { ANIM_CHARSELECT_TEAM_DESC_EN, 0, 6 }, //
+    [(GERMAN * 8) + 3] = { ANIM_CHARSELECT_TEAM_DESC_DE, 0, 24 }, //
+    [(GERMAN * 8) + 4] = { ANIM_CHARSELECT_TEAM_DESC_DE, 1, 36 }, //
+    [(GERMAN * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_DE, 2, 20 }, //
+    [(GERMAN * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_DE, 3, 22 }, //
+    [(GERMAN * 8) + 7] = { 0, 0, 0 }, //
+    [(FRENCH * 8) + 0] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_FR, 0, 40 }, //
+    [(FRENCH * 8) + 1] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_FR, 1, 34 }, //
+    [(FRENCH * 8) + 2] = { ANIM_CHARSELECT_TEAM_DESC_EN, 0, 6 }, //
+    [(FRENCH * 8) + 3] = { ANIM_CHARSELECT_TEAM_DESC_FR, 0, 24 }, //
+    [(FRENCH * 8) + 4] = { ANIM_CHARSELECT_TEAM_DESC_FR, 1, 18 }, //
+    [(FRENCH * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_FR, 2, 22 }, //
+    [(FRENCH * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_FR, 3, 26 }, //
+    [(FRENCH * 8) + 7] = { 0, 0, 0 }, //
+    [(SPANISH * 8) + 0] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_ES, 0, 36 }, //
+    [(SPANISH * 8) + 1] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_ES, 1, 38 }, //
+    [(SPANISH * 8) + 2] = { ANIM_CHARSELECT_TEAM_DESC_EN, 0, 6 }, //
+    [(SPANISH * 8) + 3] = { ANIM_CHARSELECT_TEAM_DESC_ES, 0, 28 }, //
+    [(SPANISH * 8) + 4] = { ANIM_CHARSELECT_TEAM_DESC_ES, 1, 18 }, //
+    [(SPANISH * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_ES, 2, 24 }, //
+    [(SPANISH * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_ES, 3, 32 }, //
+    [(SPANISH * 8) + 7] = { 0, 0, 0 }, //
+    [(ITALIAN * 8) + 0] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_IT, 0, 34 }, //
+    [(ITALIAN * 8) + 1] = { ANIM_CHARSELECT_SELECT_A_CHARACTER_IT, 1, 34 }, //
+    [(ITALIAN * 8) + 2] = { ANIM_CHARSELECT_TEAM_DESC_EN, 0, 6 }, //
+    [(ITALIAN * 8) + 3] = { ANIM_CHARSELECT_TEAM_DESC_IT, 0, 20 }, //
+    [(ITALIAN * 8) + 4] = { ANIM_CHARSELECT_TEAM_DESC_IT, 1, 16 }, //
+    [(ITALIAN * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_IT, 2, 16 }, //
+    [(ITALIAN * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_IT, 3, 24 }, //
+};
 extern const TileInfo2 gUnknown_080D8E80[];
 extern const TileInfo2 gUnknown_080D8EF8;
 extern const TileInfo2 gUnknown_080D8F00;
@@ -273,8 +323,8 @@ static void InitSprites(CharacterSelect *cs)
     s = &cs->sprC4;
     s->tiles = vram;
     vram += 0x5A0;
-    s->anim = gUnknown_080D8D00[0].anim;
-    s->variant = gUnknown_080D8D00[0].variant;
+    s->anim = gTileInfo_CharSelect3_HeaderBackdrop[0].anim;
+    s->variant = gTileInfo_CharSelect3_HeaderBackdrop[0].variant;
     s->prevVariant = -1;
     s->x = ((s32)cs->qUnk2C >> 8);
     s->y = ((s32)cs->qUnk30 >> 8);
@@ -289,8 +339,8 @@ static void InitSprites(CharacterSelect *cs)
     s = &cs->spr9C;
     s->tiles = vram;
     vram += 0x640;
-    s->anim = gUnknown_080D8D08[cs->language * 8].anim;
-    s->variant = gUnknown_080D8D08[cs->language * 8].variant;
+    s->anim = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].anim;
+    s->variant = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].variant;
     s->prevVariant = -1;
     s->x = I(cs->qTxtSelectAPlayerX);
     s->y = I(cs->qTxtSelectAPlayerY);
@@ -304,7 +354,7 @@ static void InitSprites(CharacterSelect *cs)
 
     s = &cs->spr18C;
     s->tiles = vram;
-    vram += 0x80;
+    vram += 4 * TILE_SIZE_4BPP;
     s->anim = 0x574;
     s->variant = 5;
     s->prevVariant = -1;
@@ -406,7 +456,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgA->layoutVram = BG_SCREEN_ADDR(14);
     bgA->unk18 = 0;
     bgA->unk1A = 0;
-    bgA->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_BACKDROP];
+    bgA->tilemapId = gCharSelect3_Tilemaps[CSTMI_BACKDROP];
     bgA->unk1E = 0;
     bgA->unk20 = 0;
     bgA->unk22 = 0;
@@ -426,7 +476,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgB->layoutVram = BG_SCREEN_ADDR(3);
     bgB->unk18 = 0;
     bgB->unk1A = 0;
-    bgB->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + CREAM];
+    bgB->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + CREAM];
     bgB->unk1E = 0;
     bgB->unk20 = 0;
     bgB->unk22 = 0;
@@ -446,7 +496,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgC->layoutVram = BG_SCREEN_ADDR(27);
     bgC->unk18 = 0;
     bgC->unk1A = 0;
-    bgC->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + cs->unk5];
+    bgC->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + cs->unk5];
     bgC->unk1E = 0;
     bgC->unk20 = 0;
     bgC->unk22 = 0;
@@ -854,10 +904,20 @@ bool32 sub_8098CFC(CharacterSelect *cs)
     gPlayers[playerIndex].charFlags.character = cs->unkC[PLAYER_1];
     gPlayers[partnerIndex].charFlags.character = cs->unkC[PLAYER_2];
 
-    if ((cs->unk8 != 0) || (MultiSioStop(), MultiSioInit(0U), gMultiSioEnabled = 0, (cs->unk8 != 0))) {
+    if (cs->unk8 != 0) {
         sub_80003B8();
         WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
         return TRUE;
+    } else {
+        MultiSioStop();
+        MultiSioInit(0U);
+        gMultiSioEnabled = 0;
+
+        if (cs->unk8 != 0) {
+            sub_80003B8();
+            WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
+            return TRUE;
+        }
     }
 
     if (cs->createIndex == 0) {
@@ -1020,9 +1080,9 @@ void sub_80990B0(CharacterSelect *cs)
     bg->unk18 = 0;
     bg->unk1A = 0;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
-        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
-        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
     }
     bg->unk1E = 0;
     bg->unk20 = 0;
@@ -1148,8 +1208,8 @@ void Task_8099300()
     }
     s = &cs->spr9C;
     temp_r2 = cs->unkB - 11;
-    s->anim = gUnknown_080D8D08[temp_r2 + cs->language * 8].anim;
-    s->variant = gUnknown_080D8D08[temp_r2 + cs->language * 8].variant;
+    s->anim = gTileInfo_CharSelect3_TeamDescriptions[temp_r2 + cs->language * 8].anim;
+    s->variant = gTileInfo_CharSelect3_TeamDescriptions[temp_r2 + cs->language * 8].variant;
     UpdateSpriteAnimation(s);
 
     if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK
@@ -1222,9 +1282,9 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     bg->unk18 = 0;
     bg->unk1A = 0;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
-        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
-        bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
     }
     bg->unk1E = 0;
     bg->unk20 = 0;
@@ -1440,9 +1500,9 @@ void Task_8099968(void)
         bg->unk18 = 0;
         bg->unk1A = 0;
         if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
-            bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
+            bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
         } else {
-            bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
+            bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
         }
         bg->unk1E = 0;
         bg->unk20 = 0;
@@ -1565,7 +1625,7 @@ void Task_8099C9C()
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + character];
+    bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + character];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -1907,9 +1967,9 @@ void sub_809A50C(CharacterSelect *cs)
     bg1F4->unk18 = 0;
     bg1F4->unk1A = 0;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[charPlayer])) {
-        bg1F4->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
+        bg1F4->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
-        bg1F4->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + charPlayer];
+        bg1F4->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + charPlayer];
     }
     bg1F4->unk1E = 0;
     bg1F4->unk20 = 0;
@@ -1932,7 +1992,7 @@ void sub_809A50C(CharacterSelect *cs)
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + charPartner];
+    bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + charPartner];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -1966,8 +2026,8 @@ void sub_809A644(CharacterSelect *cs)
 
     s2 = &cs->spr9C;
     temp_r2 = cs->unkB - 13;
-    s2->anim = gUnknown_080D8D08[temp_r2 + (cs->language * 8)].anim;
-    s2->variant = gUnknown_080D8D08[temp_r2 + (cs->language * 8)].variant;
+    s2->anim = gTileInfo_CharSelect3_TeamDescriptions[temp_r2 + (cs->language * 8)].anim;
+    s2->variant = gTileInfo_CharSelect3_TeamDescriptions[temp_r2 + (cs->language * 8)].variant;
     UpdateSpriteAnimation(s2);
 }
 
@@ -2054,8 +2114,8 @@ void sub_809A808(CharacterSelect *cs)
     } else {
         var_r2 = 2;
     }
-    spr9C->anim = gUnknown_080D8D08[var_r2 + (cs->language * 8)].anim;
-    spr9C->variant = gUnknown_080D8D08[var_r2 + (cs->language * 8)].variant;
+    spr9C->anim = gTileInfo_CharSelect3_TeamDescriptions[var_r2 + (cs->language * 8)].anim;
+    spr9C->variant = gTileInfo_CharSelect3_TeamDescriptions[var_r2 + (cs->language * 8)].variant;
     UpdateSpriteAnimation(spr9C);
 
     {
@@ -2091,7 +2151,7 @@ void sub_809A8D0(CharacterSelect *cs, u8 param1)
     bg->layoutVram = BG_SCREEN_ADDR(3);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gCharSelectSA3_Tilemaps[param1 - 2];
+    bg->tilemapId = gCharSelect3_Tilemaps[param1 - 2];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -2136,7 +2196,7 @@ void sub_809A9A0(CharacterSelect *cs)
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_OK];
+    bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_OK];
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -2167,8 +2227,8 @@ void Task_809AA28(void)
 
     {
         Sprite *s = &cs->spr9C;
-        s->anim = gUnknown_080D8D08[cs->language * 8].anim;
-        s->variant = gUnknown_080D8D08[cs->language * 8].variant;
+        s->anim = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].anim;
+        s->variant = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].variant;
         UpdateSpriteAnimation(s);
     }
 
@@ -2211,9 +2271,9 @@ void Task_809AABC(void)
         temp_r3->unk18 = 0;
         temp_r3->unk1A = 0;
         if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
-            temp_r3->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_QMARKS];
+            temp_r3->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
         } else {
-            temp_r3->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_AFFINE_NAMES + character];
+            temp_r3->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
         }
         temp_r3->unk1E = 0;
         temp_r3->unk20 = 0;
@@ -2986,7 +3046,7 @@ void sub_809B5D0(CharacterSelect *cs)
 
     bg->graphics.dest = BG_CHAR_ADDR(3);
     bg->layoutVram = BG_SCREEN_ADDR(3);
-    bg->tilemapId = gCharSelectSA3_Tilemaps[CSTMI_TXTMAP_NAMES + character];
+    bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + character];
     bg->flags = 1;
     DrawBackground(bg);
     cs->unkB = 3;
@@ -3005,7 +3065,7 @@ u32 sub_809B638(CharacterSelect *cs)
             cs->unk3 = cs->unk4;
             result = 1;
             cs->qUnk3C = Q(330);
-            cs->unk5 = cs->unk4;
+            cs->unk5 = cs->unk3;
         }
     }
 

@@ -163,13 +163,12 @@ typedef enum {
     CSTMI_COUNT
 } ECharacterSelectTileMapIndex;
 
-extern const u16 gCharSelectSA3_Tilemaps[CSTMI_COUNT];
-
 // TODO: enum for CreateCharacterSelect() 'createIndex' param
 
 void CreateCharacterSelect(u8 createIndex);
 
-// Called in Single- and Multiplayer menu
+/* Used in Single- and Multiplayer menu */
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
-
+extern const u16 gCharSelect3_Tilemaps[CSTMI_COUNT];
+extern const TileInfo2 gTileInfo_CharSelect3_HeaderBackdrop[1];
 #endif // GUARD_SA3_CHARACTER_SELECT_H

@@ -10,7 +10,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/code_1_3.h"
 #include "game/game_over.h"
-#include "game/character_select.h"
+#include "game/sa3/character_select.h"
 #include "game/interactables/ice_launcher.h"
 #include "game/interactables/ramp.h"
 #include "game/parameters/player.h"

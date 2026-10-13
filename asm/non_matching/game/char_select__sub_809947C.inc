@@ -191,7 +191,7 @@ _080995CE:
 	ands r0, r1
 	cmp r0, #0
 	bne _08099638
-	ldr r0, _08099634 @ =gCharSelectSA3_Tilemaps
+	ldr r0, _08099634 @ =gCharSelect3_Tilemaps
 	ldrh r0, [r0, #0x20]
 	b _08099642
 	.align 2, 0
@@ -205,9 +205,9 @@ _08099624: .4byte 0x06008000
 _08099628: .4byte 0x0600D800
 _0809962C: .4byte gLoadedSaveGame
 _08099630: .4byte gUnknown_080D946D
-_08099634: .4byte gCharSelectSA3_Tilemaps
+_08099634: .4byte gCharSelect3_Tilemaps
 _08099638:
-	ldr r0, _08099674 @ =gCharSelectSA3_Tilemaps
+	ldr r0, _08099674 @ =gCharSelect3_Tilemaps
 	adds r1, r5, #5
 	lsls r1, r1, #1
 	adds r1, r1, r0
@@ -239,7 +239,7 @@ _0809966E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08099674: .4byte gCharSelectSA3_Tilemaps
+_08099674: .4byte gCharSelect3_Tilemaps
 _08099678: .4byte gCurTask
 _0809967C: .4byte Task_8099680
 

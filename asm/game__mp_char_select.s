@@ -152,7 +152,7 @@ sub_809F964: @ 0x0809F964
 	movs r1, #0xb4
 	lsls r1, r1, #3
 	adds r5, r5, r1
-	ldr r2, _0809FBAC @ =gUnknown_080D8D00
+	ldr r2, _0809FBAC @ =gTileInfo_CharSelect3_HeaderBackdrop
 	ldrh r1, [r2]
 	movs r3, #0
 	mov r8, r3
@@ -184,7 +184,7 @@ sub_809F964: @ 0x0809F964
 	movs r3, #0xc8
 	lsls r3, r3, #3
 	adds r5, r5, r3
-	ldr r2, _0809FBB0 @ =gUnknown_080D8D08
+	ldr r2, _0809FBB0 @ =gTileInfo_CharSelect3_TeamDescriptions
 	ldrb r1, [r7]
 	lsls r1, r1, #6
 	adds r1, r1, r2
@@ -423,8 +423,8 @@ sub_809F964: @ 0x0809F964
 	bx r0
 	.align 2, 0
 _0809FBA8: .4byte 0x06010000
-_0809FBAC: .4byte gUnknown_080D8D00
-_0809FBB0: .4byte gUnknown_080D8D08
+_0809FBAC: .4byte gTileInfo_CharSelect3_HeaderBackdrop
+_0809FBB0: .4byte gTileInfo_CharSelect3_TeamDescriptions
 _0809FBB4: .4byte 0x00000574
 _0809FBB8: .4byte gUnknown_080D8F08
 _0809FBBC: .4byte 0x0000FFC0
@@ -462,7 +462,7 @@ CharSelect_InitBackgrounds_MP: @ 0x0809FBD0
 	str r1, [r0, #0xc]
 	strh r4, [r0, #0x18]
 	strh r4, [r0, #0x1a]
-	ldr r2, _0809FCD4 @ =gCharSelectSA3_Tilemaps
+	ldr r2, _0809FCD4 @ =gCharSelect3_Tilemaps
 	mov sb, r2
 	ldrh r1, [r2]
 	strh r1, [r0, #0x1c]
@@ -558,7 +558,7 @@ _0809FCC4: .4byte 0x00004E07
 _0809FCC8: .4byte gBgScrollRegs
 _0809FCCC: .4byte 0x06004000
 _0809FCD0: .4byte 0x06007000
-_0809FCD4: .4byte gCharSelectSA3_Tilemaps
+_0809FCD4: .4byte gCharSelect3_Tilemaps
 _0809FCD8: .4byte 0x0000021E
 _0809FCDC: .4byte 0x0000030E
 _0809FCE0: .4byte 0x0600C000
@@ -1227,7 +1227,7 @@ _080A0244:
 	bne _080A02EC
 	ldr r1, _080A02D4 @ =0x030000B4
 	adds r0, r4, r1
-	ldr r2, _080A02D8 @ =gUnknown_080D8D08
+	ldr r2, _080A02D8 @ =gTileInfo_CharSelect3_TeamDescriptions
 	ldrb r1, [r5]
 	lsls r1, r1, #3
 	adds r1, #1
@@ -1291,7 +1291,7 @@ _080A0244:
 	b _080A033C
 	.align 2, 0
 _080A02D4: .4byte 0x030000B4
-_080A02D8: .4byte gUnknown_080D8D08
+_080A02D8: .4byte gTileInfo_CharSelect3_TeamDescriptions
 _080A02DC: .4byte 0x03000002
 _080A02E0: .4byte 0x03000003
 _080A02E4: .4byte 0x03000054
@@ -1851,7 +1851,7 @@ _080A070C:
 	str r2, [r0, #0xc]
 	strh r3, [r0, #0x18]
 	strh r3, [r0, #0x1a]
-	ldr r2, _080A07D4 @ =gCharSelectSA3_Tilemaps
+	ldr r2, _080A07D4 @ =gCharSelect3_Tilemaps
 	adds r1, #0xa
 	lsls r1, r1, #1
 	adds r1, r1, r2
@@ -1895,7 +1895,7 @@ _080A07C4: .4byte 0x03000274
 _080A07C8: .4byte gUnknown_080D8F18
 _080A07CC: .4byte 0x06008000
 _080A07D0: .4byte 0x0600D800
-_080A07D4: .4byte gCharSelectSA3_Tilemaps
+_080A07D4: .4byte gCharSelect3_Tilemaps
 _080A07D8: .4byte 0x0300029E
 _080A07DC: .4byte sub_80A07E0
 
@@ -2123,7 +2123,7 @@ _080A0970:
 	str r1, [r0, #0xc]
 	strh r2, [r0, #0x18]
 	strh r2, [r0, #0x1a]
-	ldr r1, _080A09FC @ =gCharSelectSA3_Tilemaps
+	ldr r1, _080A09FC @ =gCharSelect3_Tilemaps
 	ldrh r1, [r1, #0x1e]
 	strh r1, [r0, #0x1c]
 	strh r2, [r0, #0x1e]
@@ -2157,7 +2157,7 @@ _080A09EC: .4byte gBgScrollRegs
 _080A09F0: .4byte 0x03000274
 _080A09F4: .4byte 0x06008000
 _080A09F8: .4byte 0x0600D800
-_080A09FC: .4byte gCharSelectSA3_Tilemaps
+_080A09FC: .4byte gCharSelect3_Tilemaps
 _080A0A00: .4byte 0x0300029E
 _080A0A04: .4byte sub_80A0ADC
 
@@ -2255,7 +2255,7 @@ _080A0AA8:
 _080A0AAC:
 	movs r4, #2
 _080A0AAE:
-	ldr r1, _080A0AD8 @ =gUnknown_080D8D08
+	ldr r1, _080A0AD8 @ =gTileInfo_CharSelect3_TeamDescriptions
 	ldrb r0, [r6]
 	lsls r0, r0, #3
 	adds r0, r4, r0
@@ -2276,7 +2276,7 @@ _080A0AAE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A0AD8: .4byte gUnknown_080D8D08
+_080A0AD8: .4byte gTileInfo_CharSelect3_TeamDescriptions
 
 	thumb_func_start sub_80A0ADC
 sub_80A0ADC: @ 0x080A0ADC
@@ -2659,7 +2659,7 @@ sub_80A0DC8: @ 0x080A0DC8
 	str r1, [r0, #0xc]
 	strh r5, [r0, #0x18]
 	strh r5, [r0, #0x1a]
-	ldr r2, _080A0E54 @ =gCharSelectSA3_Tilemaps
+	ldr r2, _080A0E54 @ =gCharSelect3_Tilemaps
 	adds r1, r6, #5
 	lsls r1, r1, #1
 	adds r1, r1, r2
@@ -2706,7 +2706,7 @@ _080A0E28:
 _080A0E48: .4byte gUnknown_080D8F18
 _080A0E4C: .4byte 0x06008000
 _080A0E50: .4byte 0x0600D800
-_080A0E54: .4byte gCharSelectSA3_Tilemaps
+_080A0E54: .4byte gCharSelect3_Tilemaps
 _080A0E58: .4byte 0x0000029E
 _080A0E5C: .4byte gFlags
 _080A0E60: .4byte gUnknown_08E2EE50
@@ -2829,7 +2829,7 @@ _080A0F02:
 	str r2, [r0, #0xc]
 	strh r4, [r0, #0x18]
 	strh r4, [r0, #0x1a]
-	ldr r2, _080A1018 @ =gCharSelectSA3_Tilemaps
+	ldr r2, _080A1018 @ =gCharSelect3_Tilemaps
 	mov sb, r2
 	adds r1, #0xa
 	lsls r1, r1, #1
@@ -2909,7 +2909,7 @@ _080A1008: .4byte gBgScrollRegs
 _080A100C: .4byte gUnknown_080D8F18
 _080A1010: .4byte 0x0600C000
 _080A1014: .4byte 0x06001800
-_080A1018: .4byte gCharSelectSA3_Tilemaps
+_080A1018: .4byte gCharSelect3_Tilemaps
 _080A101C: .4byte 0x0000025E
 _080A1020: .4byte 0x00001B89
 _080A1024: .4byte 0x06008000

@@ -8,13 +8,7 @@
 
 @ --- Character Select ---
 
-    .global gUnknown_080D8D00
-gUnknown_080D8D00:
-    .incbin "baserom_sa3.gba", 0x000D8D00, 0x8
-
-    .global gUnknown_080D8D08
-gUnknown_080D8D08:
-    .incbin "baserom_sa3.gba", 0x000D8D08, 0x178
+.align 2 , 0
 
     .global gUnknown_080D8E80
 gUnknown_080D8E80:
