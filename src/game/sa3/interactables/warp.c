@@ -5,7 +5,7 @@
 #include "multi_sio_stuff.h" // sub_80275B8
 #include "game/game_over.h"
 #include "game/shared/entities_manager.h"
-#include "game/character_select.h"
+#include "game/sa3/character_select.h"
 #include "game/game.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"

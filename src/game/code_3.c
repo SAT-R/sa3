@@ -5,7 +5,7 @@
 #include "game/sa3/code_3.h"
 #include "game/save.h"
 #include "game/stage.h"
-#include "game/character_select.h"
+#include "game/sa3/character_select.h"
 #include "constants/songs.h"
 
 typedef struct {
