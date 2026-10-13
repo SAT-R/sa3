@@ -8,31 +8,6 @@
 
 @ --- Character Select ---
 
-.align 2 , 0
-
-    .global gUnknown_080D8E80
-gUnknown_080D8E80:
-    .incbin "baserom_sa3.gba", 0x000D8E80, 0x78
-
-    .global gUnknown_080D8EF8
-gUnknown_080D8EF8:
-    .incbin "baserom_sa3.gba", 0x000D8EF8, 0x8
-
-    .global gUnknown_080D8F00
-gUnknown_080D8F00:
-    .incbin "baserom_sa3.gba", 0x000D8F00, 0x8
-
-    .global gUnknown_080D8F08
-gUnknown_080D8F08:
-    .incbin "baserom_sa3.gba", 0x000D8F08, 0x8
-
-    .global gUnknown_080D8F10
-gUnknown_080D8F10:
-    .incbin "baserom_sa3.gba", 0x000D8F10, 0x8
-
-    .global gUnknown_080D8F18
-gUnknown_080D8F18:
-    .incbin "baserom_sa3.gba", 0x000D8F18, 0x5
 
     .global gUnknown_080D8F1D
 gUnknown_080D8F1D:

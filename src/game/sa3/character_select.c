@@ -176,12 +176,21 @@ const TileInfo2 gTileInfo_CharSelect3_TeamDescriptions[47] = {
     [(ITALIAN * 8) + 5] = { ANIM_CHARSELECT_TEAM_DESC_IT, 2, 16 }, //
     [(ITALIAN * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_IT, 3, 24 }, //
 };
-extern const TileInfo2 gUnknown_080D8E80[];
-extern const TileInfo2 gUnknown_080D8EF8;
-extern const TileInfo2 gUnknown_080D8F00;
-extern const TileInfo2 gUnknown_080D8F08;
-extern const TileInfo2 gUnknown_080D8F10; // Used in Multiplayer Char Select
-extern const u8 gUnknown_080D8F18[NUM_CHARACTERS];
+const TileInfo2 gTileInfo_CharSelect3_NameTagNames[] = {
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 0, 10 }, { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 4, 10 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 1, 10 }, { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 2, 12 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 3, 10 }, { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 5, 4 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 6, 10 }, { 0, 0, 0 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 0, 10 },    { ANIM_CHARSELECT_NAMETAG_NAMES, 4, 10 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 1, 10 },    { ANIM_CHARSELECT_NAMETAG_NAMES, 2, 14 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 3, 8 },     { ANIM_CHARSELECT_NAMETAG_NAMES, 5, 4 },
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 6, 10 },
+};
+const TileInfo2 gUnknown_080D8EF8[1] = { { ANIM_CHARSELECT_SINGLE_NAMETAG_BACKDROP, 0, 12 } };
+const TileInfo2 gUnknown_080D8F00[1] = { { ANIM_CHARSELECT_COMBINED_NAMETAG_BACKDROP, 0, 24 } };
+const TileInfo2 gUnknown_080D8F08[1] = { { ANIM_CHARSELECT_ARROW, 0, 16 } };
+const TileInfo2 gUnknown_080D8F10[1] = { { ANIM_CHARSELECT_CROSS, 0, 16 } };
+const u8 gUnknown_080D8F18[NUM_CHARACTERS] = {SONIC, TAILS, KNUCKLES, CREAM, AMY};
 extern const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3];
 extern const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3];
 extern const u8 gUnknown_080D946D[NUM_CHARACTERS];
@@ -371,8 +380,8 @@ static void InitSprites(CharacterSelect *cs)
     s = &cs->spr74;
     cs->spr74.tiles = vram;
     vram += 0x200;
-    s->anim = gUnknown_080D8F08.anim;
-    s->variant = gUnknown_080D8F08.variant;
+    s->anim = gUnknown_080D8F08[0].anim;
+    s->variant = gUnknown_080D8F08[0].variant;
     s->prevVariant = -1;
     s->x = I(cs->qUnk5C);
     s->y = I(cs->qUnk60);
@@ -389,8 +398,8 @@ static void InitSprites(CharacterSelect *cs)
     index2 = (gUnknown_080D8F18[cs->unk5]);
     s->tiles = vram;
     vram += 14 * TILE_SIZE_4BPP;
-    s->anim = gUnknown_080D8E80[index2 += language * sizeof(TileInfo2)].anim;
-    s->variant = gUnknown_080D8E80[index2].variant;
+    s->anim = gTileInfo_CharSelect3_NameTagNames[index2 += language * sizeof(TileInfo2)].anim;
+    s->variant = gTileInfo_CharSelect3_NameTagNames[index2].variant;
     s->prevVariant = -1;
     s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
     s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
@@ -407,8 +416,8 @@ static void InitSprites(CharacterSelect *cs)
     index2 = (gUnknown_080D8F18[cs->unk5]);
     s->tiles = vram;
     vram += 14 * TILE_SIZE_4BPP;
-    s->anim = gUnknown_080D8E80[index2 += language * sizeof(TileInfo2)].anim;
-    s->variant = gUnknown_080D8E80[index2].variant;
+    s->anim = gTileInfo_CharSelect3_NameTagNames[index2 += language * sizeof(TileInfo2)].anim;
+    s->variant = gTileInfo_CharSelect3_NameTagNames[index2].variant;
     s->prevVariant = -1;
     s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
     s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
@@ -423,8 +432,8 @@ static void InitSprites(CharacterSelect *cs)
     s = &cs->sprNameTagBack;
     s->tiles = vram;
     vram += 0x300;
-    s->anim = gUnknown_080D8EF8.anim;
-    s->variant = gUnknown_080D8EF8.variant;
+    s->anim = gUnknown_080D8EF8[0].anim;
+    s->variant = gUnknown_080D8EF8[0].variant;
     s->prevVariant = -1;
     s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
     s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
@@ -2011,8 +2020,8 @@ void sub_809A644(CharacterSelect *cs)
     u8 temp_r2;
 
     s = &cs->sprNameTagBack;
-    s->anim = gUnknown_080D8EF8.anim;
-    s->variant = gUnknown_080D8EF8.variant;
+    s->anim = gUnknown_080D8EF8[0].anim;
+    s->variant = gUnknown_080D8EF8[0].variant;
     s->prevVariant = -1;
     s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
     s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
@@ -2120,8 +2129,8 @@ void sub_809A808(CharacterSelect *cs)
 
     {
         Sprite *s = &cs->sprNameTagBack;
-        s->anim = gUnknown_080D8F00.anim;
-        s->variant = gUnknown_080D8F00.variant;
+        s->anim = gUnknown_080D8F00[0].anim;
+        s->variant = gUnknown_080D8F00[0].variant;
         s->prevVariant = -1;
         s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
         s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
@@ -2516,11 +2525,11 @@ void sub_809AE50(CharacterSelect *cs)
     temp_r2 = gUnknown_080D8F18[cs->unk5];
     s = &cs->sprEC;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
-        s->anim = gUnknown_080D8E80[6 + (temp_r3 * 8)].anim;
-        s->variant = gUnknown_080D8E80[6 + (temp_r3 * 8)].variant;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].variant;
     } else {
-        s->anim = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].anim;
-        s->variant = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].variant;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[temp_r2 + (temp_r3 * 8)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[temp_r2 + (temp_r3 * 8)].variant;
     }
     s->x = (s16)((s32)cs->qNameTagPos[CS_CHARID_PLAYER].x >> 8);
     s->y = (s16)((s32)cs->qNameTagPos[CS_CHARID_PLAYER].y >> 8);
@@ -2559,11 +2568,11 @@ void sub_809AF08(CharacterSelect *cs)
 
     s = &cs->spr13C;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
-        s->anim = gUnknown_080D8E80[6 + (temp_r3 * 8)].anim;
-        s->variant = gUnknown_080D8E80[6 + (temp_r3 * 8)].variant;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].variant;
     } else {
-        s->anim = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].anim;
-        s->variant = gUnknown_080D8E80[temp_r2 + (temp_r3 * 8)].variant;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[temp_r2 + (temp_r3 * 8)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[temp_r2 + (temp_r3 * 8)].variant;
     }
     s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
     s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);

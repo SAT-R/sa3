@@ -285,7 +285,7 @@ sub_809F964: @ 0x0809F964
 	lsls r3, r3, #1
 	mov sb, r3
 	add r5, sb
-	ldr r6, _0809FBC4 @ =gUnknown_080D8E80
+	ldr r6, _0809FBC4 @ =gTileInfo_CharSelect3_NameTagNames
 	lsls r2, r2, #3
 	adds r1, r1, r2
 	lsls r1, r1, #3
@@ -429,7 +429,7 @@ _0809FBB4: .4byte 0x00000574
 _0809FBB8: .4byte gUnknown_080D8F08
 _0809FBBC: .4byte 0x0000FFC0
 _0809FBC0: .4byte gUnknown_080D8F18
-_0809FBC4: .4byte gUnknown_080D8E80
+_0809FBC4: .4byte gTileInfo_CharSelect3_NameTagNames
 _0809FBC8: .4byte gUnknown_080D8EF8
 _0809FBCC: .4byte gUnknown_080D8F10
 
@@ -3098,7 +3098,7 @@ _080A1174:
 	movs r0, #0x82
 	lsls r0, r0, #1
 	adds r4, r5, r0
-	ldr r1, _080A11B4 @ =gUnknown_080D8E80
+	ldr r1, _080A11B4 @ =gTileInfo_CharSelect3_NameTagNames
 	lsls r0, r3, #3
 	adds r0, r2, r0
 	lsls r0, r0, #3
@@ -3122,7 +3122,7 @@ _080A1174:
 	bx r0
 	.align 2, 0
 _080A11B0: .4byte gUnknown_080D8F18
-_080A11B4: .4byte gUnknown_080D8E80
+_080A11B4: .4byte gTileInfo_CharSelect3_NameTagNames
 
 	thumb_func_start sub_80A11B8
 sub_80A11B8: @ 0x080A11B8
@@ -3171,7 +3171,7 @@ _080A11E8:
 	movs r2, #0xaa
 	lsls r2, r2, #1
 	adds r4, r5, r2
-	ldr r2, _080A1248 @ =gUnknown_080D8E80
+	ldr r2, _080A1248 @ =gTileInfo_CharSelect3_NameTagNames
 	lsls r0, r0, #3
 	ldrb r1, [r1]
 	adds r0, r0, r1
@@ -3197,7 +3197,7 @@ _080A11E8:
 	.align 2, 0
 _080A1240: .4byte 0xFFFFFBFF
 _080A1244: .4byte gUnknown_080D8F18
-_080A1248: .4byte gUnknown_080D8E80
+_080A1248: .4byte gTileInfo_CharSelect3_NameTagNames
 
 	thumb_func_start sub_80A124C
 sub_80A124C: @ 0x080A124C
