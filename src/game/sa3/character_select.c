@@ -177,26 +177,145 @@ const TileInfo2 gTileInfo_CharSelect3_TeamDescriptions[47] = {
     [(ITALIAN * 8) + 6] = { ANIM_CHARSELECT_TEAM_DESC_IT, 3, 24 }, //
 };
 const TileInfo2 gTileInfo_CharSelect3_NameTagNames[] = {
-    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 0, 10 }, { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 4, 10 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 1, 10 }, { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 2, 12 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 3, 10 }, { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 5, 4 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 6, 10 }, { 0, 0, 0 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES, 0, 10 },    { ANIM_CHARSELECT_NAMETAG_NAMES, 4, 10 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES, 1, 10 },    { ANIM_CHARSELECT_NAMETAG_NAMES, 2, 14 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES, 3, 8 },     { ANIM_CHARSELECT_NAMETAG_NAMES, 5, 4 },
-    { ANIM_CHARSELECT_NAMETAG_NAMES, 6, 10 },
+    //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 0, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 4, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 1, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 2, 12 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 3, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 5, 4 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES_JP, 6, 10 }, //
+    { 0, 0, 0 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 0, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 4, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 1, 10 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 2, 14 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 3, 8 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 5, 4 }, //
+    { ANIM_CHARSELECT_NAMETAG_NAMES, 6, 10 }, //
 };
 const TileInfo2 gUnknown_080D8EF8[1] = { { ANIM_CHARSELECT_SINGLE_NAMETAG_BACKDROP, 0, 12 } };
 const TileInfo2 gUnknown_080D8F00[1] = { { ANIM_CHARSELECT_COMBINED_NAMETAG_BACKDROP, 0, 24 } };
 const TileInfo2 gUnknown_080D8F08[1] = { { ANIM_CHARSELECT_ARROW, 0, 16 } };
 const TileInfo2 gUnknown_080D8F10[1] = { { ANIM_CHARSELECT_CROSS, 0, 16 } };
 const u8 gUnknown_080D8F18[NUM_CHARACTERS] = { SONIC, TAILS, KNUCKLES, CREAM, AMY };
-extern const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3];
-extern const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3];
+const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3] = { //
+	// SONIC
+    { 0x00, 0x00, 0x00 }, //
+	{ 0x57, 0x76, 0x95 }, //
+	{ 0x55, 0x74, 0x97 }, //
+	{ 0x58, 0x77, 0x96 }, //
+	{ 0x5C, 0x7B, 0x96 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// CREAM
+	{ 0x58, 0x78, 0x97 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x55, 0x75, 0x98 }, //
+	{ 0x58, 0x78, 0x97 }, //
+	{ 0x5C, 0x7C, 0x97 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// TAILS
+	{ 0x59, 0x7B, 0x9A }, //
+	{ 0x58, 0x7A, 0x97 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x59, 0x7B, 0x9A }, //
+	{ 0x5D, 0x7F, 0x9A }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// KNUCKLES
+	{ 0x58, 0x77, 0x96 }, //
+	{ 0x57, 0x76, 0x96 }, //
+	{ 0x55, 0x74, 0x97 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x5C, 0x7B, 0x96 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// AMY
+	{ 0x58, 0x73, 0x92 }, //
+	{ 0x57, 0x72, 0x92 }, //
+	{ 0x55, 0x70, 0x93 }, //
+	{ 0x59, 0x74, 0x93 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+};
+const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3] = {
+	// SONIC
+    { 0x00, 0x00, 0x00 }, //
+	{ 0x5C, 0x78, 0x95 }, //
+	{ 0x54, 0x6F, 0x94 }, //
+	{ 0x59, 0x75, 0x94 }, //
+	{ 0x5F, 0x7C, 0x94 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// CREAM
+	{ 0x5C, 0x77, 0x94 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x54, 0x6F, 0x94 }, //
+	{ 0x5A, 0x75, 0x94 }, //
+	{ 0x5F, 0x7A, 0x93 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// TAILS
+	{ 0x5B, 0x7F, 0x9C }, //
+	{ 0x5C, 0x80, 0x9D }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x5A, 0x7E, 0x9C }, //
+	{ 0x5F, 0x83, 0x9C }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// KNUCKLES
+	{ 0x5B, 0x79, 0x96 }, //
+	{ 0x5C, 0x7A, 0x97 }, //
+	{ 0x54, 0x72, 0x96 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x5F, 0x7D, 0x96 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	// AMY
+	{ 0x5B, 0x74, 0x91 }, //
+	{ 0x5B, 0x74, 0x91 }, //
+	{ 0x53, 0x6C, 0x91 }, //
+	{ 0x59, 0x72, 0x91 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+	{ 0x00, 0x00, 0x00 }, //
+};
+const u16 gAnnouncerSelect1st[NUM_CHARACTERS] = {
+	VOICE__ANNOUNCER__SONIC_LOW,
+	VOICE__ANNOUNCER__TAILS_LOW,
+	VOICE__ANNOUNCER__KNUCKLES_LOW,
+	VOICE__ANNOUNCER__CREAM_LOW,
+	VOICE__ANNOUNCER__AMY_LOW,
+};
+const u16 gAnnouncerSelect2nd[NUM_CHARACTERS] = {
+	VOICE__ANNOUNCER__SONIC_HIGH,
+	VOICE__ANNOUNCER__TAILS_HIGH,
+	VOICE__ANNOUNCER__KNUCKLES_HIGH,
+	VOICE__ANNOUNCER__CREAM_HIGH,
+	VOICE__ANNOUNCER__AMY_HIGH,
+};
+const u16 gCharacterSelectedVoices[NUM_CHARACTERS] = {
+	VOICE__SONIC__OKAY,
+	VOICE__TAILS__OKAY,
+	VOICE__KNUCKLES__LETS_GO,
+	VOICE__CREAM__HERE_WE_GO,
+	VOICE__AMY__WOOHOO,
+};
+
 extern const u8 gUnknown_080D946D[NUM_CHARACTERS];
-extern const u16 gAnnouncerSelect1st[NUM_CHARACTERS];
-extern const u16 gAnnouncerSelect2nd[NUM_CHARACTERS];
-extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
 
 extern const u8 Tileset_DebugAscii[0x140];
 extern const u16 gUnknown_08E2EE50[10][16];
