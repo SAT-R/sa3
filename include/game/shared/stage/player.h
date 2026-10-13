@@ -178,8 +178,8 @@ struct Player {
     struct {
         u8 unk28;
         u8 unk29;
-        u8 character : 4; // CHARACTER_SONIC, ..., CHARACTER_AMY | 0x2A
-        u8 padding1 : 4; // 0x2A
+        /* 0x2A */ u8 character : 4; // CHARACTER_SONIC, ..., CHARACTER_AMY | 0x2A
+        /* 0x2A */ u8 playerIndex : 4; // NOTE: Basically only set in Character Select and then completely unused. SA3 uses gStageData.playerIndex instead everywhere.
 
         u8 partnerIndex : 2; // Index of the partner in gPlayers[] | 0x2B
         u8 someIndex : 3;
