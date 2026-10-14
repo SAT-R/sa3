@@ -2031,7 +2031,7 @@ void Task_809A3BC(void)
     cs->qUnk34 = Q(90);
     cs->qUnk3C = Q(150);
     cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(95);
-    cs->qNameTagPos[CS_CHARID_PARTNER].x = 0x9100;
+    cs->qNameTagPos[CS_CHARID_PARTNER].x = Q(145);
     cs->qUnk54 = Q(201);
     cs->qUnk58 = Q(22);
     cs->qUnk4C = Q(120);
@@ -2396,7 +2396,7 @@ void Task_809AABC(void)
         temp_r3->flags = 6;
         DrawBackground(temp_r3);
 
-        cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = Q(145);
         gCurTask->main = Task_809AA28;
     } else if ((cs->createIndex == 1) && (sub_809AD08(cs) == 0)) {
         sub_802613C();
@@ -2770,18 +2770,18 @@ bool32 sub_809B13C(CharacterSelect *cs)
 
 bool32 sub_809B148(CharacterSelect *cs)
 {
-    s32 r2 = DISPLAY_CENTER_X;
+    s32 centerX = DISPLAY_CENTER_X;
 
     if (cs->unk1 == 0) {
         cs->qUnk3C -= Q(14);
-        if (cs->qUnk3C <= Q(r2)) {
-            cs->qUnk3C = Q(r2);
+        if (cs->qUnk3C <= Q(centerX)) {
+            cs->qUnk3C = Q(centerX);
             return 1;
         }
     } else {
         cs->qUnk3C += Q(14);
-        if (cs->qUnk3C >= Q(r2)) {
-            cs->qUnk3C = Q(r2);
+        if (cs->qUnk3C >= Q(centerX)) {
+            cs->qUnk3C = Q(centerX);
             return 1;
         }
     }
@@ -2791,19 +2791,16 @@ bool32 sub_809B148(CharacterSelect *cs)
 
 u32 sub_809B184(CharacterSelect *cs)
 {
-    s32 temp_r1;
-    s32 temp_r1_2;
-
-    temp_r1 = cs->qNameTagPos[CS_CHARID_PLAYER].y;
-    if (temp_r1 <= 0x9100) {
-        cs->qNameTagPos[CS_CHARID_PLAYER].y = 0x9100;
+    if (cs->qNameTagPos[CS_CHARID_PLAYER].y <= Q(145)) {
+        cs->qNameTagPos[CS_CHARID_PLAYER].y = Q(145);
         return 1;
     }
-    temp_r1_2 = temp_r1 + 0xFFFFFA00;
-    cs->qNameTagPos[CS_CHARID_PLAYER].y = temp_r1_2;
-    if (temp_r1_2 <= 0x90FF) {
-        cs->qNameTagPos[CS_CHARID_PLAYER].y = 0x9100;
+
+    cs->qNameTagPos[CS_CHARID_PLAYER].y -= Q(6);
+    if (cs->qNameTagPos[CS_CHARID_PLAYER].y < Q(145)) {
+        cs->qNameTagPos[CS_CHARID_PLAYER].y = Q(145);
     }
+
     return 0;
 }
 
@@ -2813,14 +2810,14 @@ u32 sub_809B1B4(CharacterSelect *cs)
     s32 temp_r1_2;
 
     temp_r1 = cs->qNameTagPos[CS_CHARID_PARTNER].y;
-    if (temp_r1 <= 0x9100) {
-        cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
+    if (temp_r1 <= Q(145)) {
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = Q(145);
         return 1;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
     cs->qNameTagPos[CS_CHARID_PARTNER].y = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
-        cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
+        cs->qNameTagPos[CS_CHARID_PARTNER].y = Q(145);
     }
     return 0;
 }
