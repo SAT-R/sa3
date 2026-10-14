@@ -684,7 +684,7 @@ void Task_TransitionToSelectedMode(void)
                 }
             } else {
                 CURRENT_GAME_MODE = GAME_MODE_MP_SINGLE_PACK;
-                sub_80003B8();
+                SetDefaultDisplaySettings();
                 sub_8000340(0);
             }
             break;
@@ -764,7 +764,7 @@ void Task_3F0_8087F18(void)
     temp_r0 = menu->highlitButton;
     switch (temp_r0) {
         case 0:
-            sub_80003B8();
+            SetDefaultDisplaySettings();
             WarpToMap((gStageData.zone * 0xA) + gStageData.act, 0);
             gStageData.difficulty = 0;
             return;
@@ -774,10 +774,10 @@ void Task_3F0_8087F18(void)
             break;
         case 2:
             if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
-                sub_80003B8();
+                SetDefaultDisplaySettings();
                 CreateTimeRecordScreen(3);
             } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-                sub_80003B8();
+                SetDefaultDisplaySettings();
                 CreateTimeRecordScreen(4);
             } else {
                 CreateTitleScreen(1U);

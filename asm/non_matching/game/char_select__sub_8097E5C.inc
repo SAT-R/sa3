@@ -135,7 +135,7 @@
 	rsbs r2, r1, #0
 	orrs r2, r1
 	lsrs r2, r2, #0x1f
-	ldr r1, _08098074 @ =gUnknown_080D8F18
+	ldr r1, _08098074 @ =gCharSelect_DisplayOrder
 	mov sl, r1
 	ldrb r1, [r7, #5]
 	add r1, sl
@@ -256,7 +256,7 @@ _08098064: .4byte gUnknown_080D8D08
 _08098068: .4byte 0x00000574
 _0809806C: .4byte gUnknown_080D8F08
 _08098070: .4byte 0x0000FFC0
-_08098074: .4byte gUnknown_080D8F18
+_08098074: .4byte gCharSelect_DisplayOrder
 _08098078: .4byte gUnknown_080D8E80
 _0809807C: .4byte gUnknown_080D8EF8
 

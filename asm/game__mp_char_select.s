@@ -275,7 +275,7 @@ sub_809F964: @ 0x0809F964
 	rsbs r2, r1, #0
 	orrs r2, r1
 	lsrs r2, r2, #0x1f
-	ldr r3, _0809FBC0 @ =gUnknown_080D8F18
+	ldr r3, _0809FBC0 @ =gCharSelect_DisplayOrder
 	mov sl, r3
 	ldrb r1, [r7, #1]
 	add r1, sl
@@ -428,7 +428,7 @@ _0809FBB0: .4byte gTileInfo_CharSelect3_TeamDescriptions
 _0809FBB4: .4byte 0x00000574
 _0809FBB8: .4byte gUnknown_080D8F08
 _0809FBBC: .4byte 0x0000FFC0
-_0809FBC0: .4byte gUnknown_080D8F18
+_0809FBC0: .4byte gCharSelect_DisplayOrder
 _0809FBC4: .4byte gTileInfo_CharSelect3_NameTagNames
 _0809FBC8: .4byte gUnknown_080D8EF8
 _0809FBCC: .4byte gUnknown_080D8F10
@@ -845,7 +845,7 @@ _0809FF1C:
 	movs r5, #0
 	ldr r0, _0809FF98 @ =gUnknown_030010AC
 	mov sb, r0
-	ldr r0, _0809FF9C @ =gUnknown_080D8F18
+	ldr r0, _0809FF9C @ =gCharSelect_DisplayOrder
 	mov r8, r0
 _0809FF50:
 	asrs r0, r7, #0x10
@@ -887,7 +887,7 @@ _0809FF7C:
 	b _080A006A
 	.align 2, 0
 _0809FF98: .4byte gUnknown_030010AC
-_0809FF9C: .4byte gUnknown_080D8F18
+_0809FF9C: .4byte gCharSelect_DisplayOrder
 _0809FFA0: .4byte gCurTask
 _0809FFA4: .4byte sub_80A021C
 _0809FFA8:
@@ -1592,7 +1592,7 @@ _080A0550:
 	lsls r6, r7, #0x10
 	ldr r0, _080A05A4 @ =gUnknown_030010AC
 	mov sb, r0
-	ldr r7, _080A05A8 @ =gUnknown_080D8F18
+	ldr r7, _080A05A8 @ =gCharSelect_DisplayOrder
 _080A055A:
 	asrs r0, r6, #0x10
 	cmp r0, r5
@@ -1632,7 +1632,7 @@ _080A057C:
 	b _080A0638
 	.align 2, 0
 _080A05A4: .4byte gUnknown_030010AC
-_080A05A8: .4byte gUnknown_080D8F18
+_080A05A8: .4byte gCharSelect_DisplayOrder
 _080A05AC: .4byte gCurTask
 _080A05B0: .4byte sub_80A06E8
 _080A05B4:
@@ -1840,7 +1840,7 @@ _080A070C:
 	strh r0, [r1, #4]
 	ldr r1, _080A07C4 @ =0x03000274
 	adds r0, r6, r1
-	ldr r2, _080A07C8 @ =gUnknown_080D8F18
+	ldr r2, _080A07C8 @ =gCharSelect_DisplayOrder
 	ldrb r1, [r5, #1]
 	adds r1, r1, r2
 	ldrb r1, [r1]
@@ -1892,7 +1892,7 @@ _080A07B8: .4byte gDispCnt
 _080A07BC: .4byte gBgCntRegs
 _080A07C0: .4byte 0x00001B09
 _080A07C4: .4byte 0x03000274
-_080A07C8: .4byte gUnknown_080D8F18
+_080A07C8: .4byte gCharSelect_DisplayOrder
 _080A07CC: .4byte 0x06008000
 _080A07D0: .4byte 0x0600D800
 _080A07D4: .4byte gCharSelect3_Tilemaps
@@ -2194,7 +2194,7 @@ sub_80A0A08: @ 0x080A0A08
 	bl UpdateSpriteAnimation
 	adds r7, r6, #0
 	adds r7, #0xb4
-	ldr r1, _080A0A7C @ =gUnknown_080D8F18
+	ldr r1, _080A0A7C @ =gCharSelect_DisplayOrder
 	ldrb r0, [r6, #2]
 	adds r0, r0, r1
 	ldrb r4, [r0]
@@ -2222,7 +2222,7 @@ _080A0A72:
 	b _080A0AAE
 	.align 2, 0
 _080A0A78: .4byte gUnknown_080D8F00
-_080A0A7C: .4byte gUnknown_080D8F18
+_080A0A7C: .4byte gCharSelect_DisplayOrder
 _080A0A80:
 	cmp r4, #3
 	beq _080A0A88
@@ -2380,7 +2380,7 @@ sub_80A0B9C: @ 0x080A0B9C
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
-	ldr r1, _080A0BCC @ =gUnknown_080D8F18
+	ldr r1, _080A0BCC @ =gCharSelect_DisplayOrder
 	ldrb r0, [r4, #2]
 	adds r0, r0, r1
 	ldrb r5, [r0]
@@ -2396,7 +2396,7 @@ sub_80A0B9C: @ 0x080A0B9C
 	b _080A0C44
 	.align 2, 0
 _080A0BC8: .4byte gCurTask
-_080A0BCC: .4byte gUnknown_080D8F18
+_080A0BCC: .4byte gCharSelect_DisplayOrder
 _080A0BD0: .4byte Task_80A14AC
 _080A0BD4:
 	adds r0, r4, #0
@@ -2645,7 +2645,7 @@ sub_80A0DC8: @ 0x080A0DC8
 	movs r1, #0x9d
 	lsls r1, r1, #2
 	adds r0, r4, r1
-	ldr r2, _080A0E48 @ =gUnknown_080D8F18
+	ldr r2, _080A0E48 @ =gCharSelect_DisplayOrder
 	ldrb r1, [r4, #1]
 	adds r1, r1, r2
 	ldrb r6, [r1]
@@ -2703,7 +2703,7 @@ _080A0E28:
 	bl CopyObjPaletteMasked
 	b _080A0E82
 	.align 2, 0
-_080A0E48: .4byte gUnknown_080D8F18
+_080A0E48: .4byte gCharSelect_DisplayOrder
 _080A0E4C: .4byte 0x06008000
 _080A0E50: .4byte 0x0600D800
 _080A0E54: .4byte gCharSelect3_Tilemaps
@@ -2750,7 +2750,7 @@ sub_80A0EA8: @ 0x080A0EA8
 	mov r5, r8
 	push {r5, r6, r7}
 	adds r7, r0, #0
-	ldr r0, _080A0EDC @ =gUnknown_080D8F18
+	ldr r0, _080A0EDC @ =gCharSelect_DisplayOrder
 	ldrb r1, [r7, #1]
 	adds r1, r1, r0
 	ldrb r1, [r1]
@@ -2769,7 +2769,7 @@ sub_80A0EA8: @ 0x080A0EA8
 	bl CopyObjPaletteMasked
 	b _080A0F02
 	.align 2, 0
-_080A0EDC: .4byte gUnknown_080D8F18
+_080A0EDC: .4byte gCharSelect_DisplayOrder
 _080A0EE0: .4byte gFlags
 _080A0EE4: .4byte gUnknown_08E2EE50
 _080A0EE8:
@@ -2817,7 +2817,7 @@ _080A0F02:
 	movs r2, #0x8d
 	lsls r2, r2, #2
 	adds r0, r7, r2
-	ldr r1, _080A100C @ =gUnknown_080D8F18
+	ldr r1, _080A100C @ =gCharSelect_DisplayOrder
 	mov r8, r1
 	ldrb r1, [r7, #2]
 	add r1, r8
@@ -2906,7 +2906,7 @@ _080A0FFC: .4byte gBgSprites_Unknown2
 _080A1000: .4byte gBgCntRegs
 _080A1004: .4byte 0x0000030E
 _080A1008: .4byte gBgScrollRegs
-_080A100C: .4byte gUnknown_080D8F18
+_080A100C: .4byte gCharSelect_DisplayOrder
 _080A1010: .4byte 0x0600C000
 _080A1014: .4byte 0x06001800
 _080A1018: .4byte gCharSelect3_Tilemaps
@@ -3083,14 +3083,14 @@ _080A1140:
 	ldrb r0, [r0]
 	cmp r0, #0xc
 	bls _080A1170
-	ldr r1, _080A116C @ =gUnknown_080D8F18
+	ldr r1, _080A116C @ =gCharSelect_DisplayOrder
 	ldrb r0, [r5, #2]
 	b _080A1174
 	.align 2, 0
 _080A1168: .4byte 0xFFFFFBFF
-_080A116C: .4byte gUnknown_080D8F18
+_080A116C: .4byte gCharSelect_DisplayOrder
 _080A1170:
-	ldr r1, _080A11B0 @ =gUnknown_080D8F18
+	ldr r1, _080A11B0 @ =gCharSelect_DisplayOrder
 	ldrb r0, [r5, #1]
 _080A1174:
 	adds r0, r0, r1
@@ -3121,7 +3121,7 @@ _080A1174:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A11B0: .4byte gUnknown_080D8F18
+_080A11B0: .4byte gCharSelect_DisplayOrder
 _080A11B4: .4byte gTileInfo_CharSelect3_NameTagNames
 
 	thumb_func_start sub_80A11B8
@@ -3165,7 +3165,7 @@ _080A11E8:
 	rsbs r0, r1, #0
 	orrs r0, r1
 	lsrs r0, r0, #0x1f
-	ldr r2, _080A1244 @ =gUnknown_080D8F18
+	ldr r2, _080A1244 @ =gCharSelect_DisplayOrder
 	ldrb r1, [r5, #1]
 	adds r1, r1, r2
 	movs r2, #0xaa
@@ -3196,7 +3196,7 @@ _080A11E8:
 	bx r0
 	.align 2, 0
 _080A1240: .4byte 0xFFFFFBFF
-_080A1244: .4byte gUnknown_080D8F18
+_080A1244: .4byte gCharSelect_DisplayOrder
 _080A1248: .4byte gTileInfo_CharSelect3_NameTagNames
 
 	thumb_func_start sub_80A124C

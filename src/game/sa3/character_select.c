@@ -198,7 +198,7 @@ const TileInfo2 gUnknown_080D8EF8[1] = { { ANIM_CHARSELECT_SINGLE_NAMETAG_BACKDR
 const TileInfo2 gUnknown_080D8F00[1] = { { ANIM_CHARSELECT_COMBINED_NAMETAG_BACKDROP, 0, 24 } };
 const TileInfo2 gUnknown_080D8F08[1] = { { ANIM_CHARSELECT_ARROW, 0, 16 } };
 const TileInfo2 gUnknown_080D8F10[1] = { { ANIM_CHARSELECT_CROSS, 0, 16 } };
-const u8 gUnknown_080D8F18[NUM_CHARACTERS] = { SONIC, TAILS, KNUCKLES, CREAM, AMY };
+const ECharacters gCharSelect_DisplayOrder[NUM_CHARACTERS] = { SONIC, TAILS, KNUCKLES, CREAM, AMY };
 const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3] = {
     //
     // SONIC
@@ -314,12 +314,11 @@ extern const u16 gUnknown_08E2EEF0[16];
 
 void CreateCharacterSelect(u8 createIndex)
 {
-    s32 sp4;
     struct Task *t;
     CharacterSelect *cs;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
-    t = TaskCreate(Task_CharacterSelectInit, sizeof(CharacterSelect), 0x100U, 0U, TaskDestructor_CharacterSelect);
+    t = TaskCreate(Task_CharacterSelectInit, sizeof(CharacterSelect), 0x100U, 0, TaskDestructor_CharacterSelect);
 
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2), 0x40);
 
@@ -343,9 +342,9 @@ void CreateCharacterSelect(u8 createIndex)
     if (createIndex == 4) {
         cs->unk8 = 1;
         if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
-            cs->createIndex = 0U;
+            cs->createIndex = 0;
         } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
-            cs->createIndex = 1U;
+            cs->createIndex = 1;
         } else if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
             cs->createIndex = 3U;
         }
@@ -382,8 +381,8 @@ void SetupPositions(CharacterSelect *cs)
     cs->language = LOADED_SAVE->language;
     cs->unk3 = 0;
     cs->unk4 = 0;
-    cs->unk5 = 0;
-    cs->unk6 = 2;
+    cs->listIndex[CS_CHARID_PLAYER] = 0;
+    cs->listIndex[CS_CHARID_PARTNER] = 2;
     cs->unkB = 0;
     cs->unkE = 0;
     cs->unk14 = 0;
@@ -457,7 +456,7 @@ static void InitSprites(CharacterSelect *cs)
 
     s = &cs->spr9C;
     s->tiles = vram;
-    vram += 0x640;
+    vram += 50 * TILE_SIZE_4BPP;
     s->anim = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].anim;
     s->variant = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].variant;
     s->prevVariant = -1;
@@ -474,7 +473,7 @@ static void InitSprites(CharacterSelect *cs)
     s = &cs->spr18C;
     s->tiles = vram;
     vram += 4 * TILE_SIZE_4BPP;
-    s->anim = 0x574;
+    s->anim = ANIM_CHARSELECT_NAMETAG_NAMES_JP;
     s->variant = 5;
     s->prevVariant = -1;
     s->x = DISPLAY_CENTER_X;
@@ -489,7 +488,7 @@ static void InitSprites(CharacterSelect *cs)
 
     s = &cs->spr74;
     cs->spr74.tiles = vram;
-    vram += 0x200;
+    vram += 16 * TILE_SIZE_4BPP;
     s->anim = gUnknown_080D8F08[0].anim;
     s->variant = gUnknown_080D8F08[0].variant;
     s->prevVariant = -1;
@@ -505,7 +504,7 @@ static void InitSprites(CharacterSelect *cs)
 
     s = &cs->sprEC;
     language = (cs->language == 0) ? 0 : 1;
-    index2 = (gUnknown_080D8F18[cs->unk5]);
+    index2 = (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]]);
     s->tiles = vram;
     vram += 14 * TILE_SIZE_4BPP;
     s->anim = gTileInfo_CharSelect3_NameTagNames[index2 += language * sizeof(TileInfo2)].anim;
@@ -523,7 +522,7 @@ static void InitSprites(CharacterSelect *cs)
 
     s = &cs->spr13C;
     language = (cs->language == 0) ? 0 : 1;
-    index2 = (gUnknown_080D8F18[cs->unk5]);
+    index2 = (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]]);
     s->tiles = vram;
     vram += 14 * TILE_SIZE_4BPP;
     s->anim = gTileInfo_CharSelect3_NameTagNames[index2 += language * sizeof(TileInfo2)].anim;
@@ -541,7 +540,7 @@ static void InitSprites(CharacterSelect *cs)
 
     s = &cs->sprNameTagBack;
     s->tiles = vram;
-    vram += 0x300;
+    vram += 24 * TILE_SIZE_4BPP;
     s->anim = gUnknown_080D8EF8[0].anim;
     s->variant = gUnknown_080D8EF8[0].variant;
     s->prevVariant = -1;
@@ -615,7 +614,7 @@ void CharSelect_InitBackgrounds(CharacterSelect *cs)
     bgC->layoutVram = BG_SCREEN_ADDR(27);
     bgC->unk18 = 0;
     bgC->unk1A = 0;
-    bgC->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + cs->unk5];
+    bgC->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + cs->listIndex[CS_CHARID_PLAYER]];
     bgC->unk1E = 0;
     bgC->unk20 = 0;
     bgC->unk22 = 0;
@@ -638,7 +637,7 @@ void Task_80981A8(void)
 
     playerIndex = gStageData.playerIndex;
     if (playerIndex == 0) {
-        var_r0 = sub_8024074(0U);
+        var_r0 = sub_8024074(0);
     } else {
         var_r0 = sub_8023E04();
     }
@@ -820,7 +819,7 @@ void Task_8098600(void)
 
         default:
             MultiSioStop();
-            MultiSioInit(0U);
+            MultiSioInit(0);
             gMultiSioEnabled = 0;
             CreateMainMenu(1, 0);
             break;
@@ -831,33 +830,32 @@ void Task_8098600(void)
 
 void sub_80986AC(CharacterSelect *cs)
 {
-    u8 var_r1;
-    u8 var_r6;
-
-    sub_80003B8();
+    SetDefaultDisplaySettings();
 
     if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
+        u8 charPlayer;
+        u8 charPartner;
         s16 playerIndex = gStageData.playerIndex;
         s16 partnerIndex = (playerIndex + 1);
         partnerIndex &= 1;
 
         if (playerIndex == PLAYER_1) {
-            var_r6 = gUnknown_080D8F18[cs->unk5];
-            var_r1 = gUnknown_080D8F18[cs->unk6];
+            charPlayer = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+            charPartner = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
         } else {
-            var_r6 = gUnknown_080D8F18[cs->unk6];
-            var_r1 = gUnknown_080D8F18[cs->unk5];
+            charPlayer = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
+            charPartner = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
         }
 
         gPlayers[playerIndex].callback = NULL;
         gPlayers[playerIndex].charFlags.partnerIndex = partnerIndex;
-        gPlayers[playerIndex].charFlags.character = var_r6;
+        gPlayers[playerIndex].charFlags.character = charPlayer;
         gPlayers[playerIndex].charFlags.someIndex = 1;
         gPlayers[partnerIndex].callback = NULL;
         gPlayers[partnerIndex].charFlags.someIndex = 3;
         gPlayers[partnerIndex].charFlags.playerIndex = partnerIndex;
         gPlayers[partnerIndex].charFlags.partnerIndex = playerIndex;
-        gPlayers[partnerIndex].charFlags.character = var_r1;
+        gPlayers[partnerIndex].charFlags.character = charPartner;
         gPlayers[PLAYER_3].callback = NULL;
         gPlayers[PLAYER_3].charFlags.someIndex = 0;
         gPlayers[PLAYER_4].callback = NULL;
@@ -866,11 +864,11 @@ void sub_80986AC(CharacterSelect *cs)
         gStageData.playerIndex = 0;
         gPlayers[PLAYER_1].callback = NULL;
         gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
-        gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gPlayers[PLAYER_1].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
         gPlayers[PLAYER_1].charFlags.someIndex = 1;
         gPlayers[PLAYER_2].callback = NULL;
         gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_1;
-        gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gPlayers[PLAYER_2].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
         gPlayers[PLAYER_2].charFlags.someIndex = 2;
         gPlayers[PLAYER_3].callback = NULL;
         gPlayers[PLAYER_3].charFlags.someIndex = 0;
@@ -878,7 +876,7 @@ void sub_80986AC(CharacterSelect *cs)
         gPlayers[PLAYER_4].charFlags.someIndex = 0;
     }
 
-    WarpToMap(COURSE_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
+    WarpToMap(COURSE_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0);
 }
 
 bool32 sub_80988B0(CharacterSelect *cs)
@@ -889,11 +887,11 @@ bool32 sub_80988B0(CharacterSelect *cs)
 
     gPlayers[PLAYER_1].callback = NULL;
     gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
-    gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+    gPlayers[PLAYER_1].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     gPlayers[PLAYER_1].charFlags.someIndex = 1;
     gPlayers[PLAYER_2].callback = NULL;
     gPlayers[PLAYER_2].charFlags.partnerIndex = PLAYER_1;
-    gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+    gPlayers[PLAYER_2].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     gPlayers[PLAYER_2].charFlags.someIndex = 2;
     gPlayers[PLAYER_3].callback = NULL;
     gPlayers[PLAYER_3].charFlags.someIndex = 0;
@@ -904,10 +902,10 @@ bool32 sub_80988B0(CharacterSelect *cs)
     //       Seems like there were multiple different pieces of removed debug data at that place?
     DmaCopy16(3, &Tileset_DebugAscii, OBJ_VRAM0 + 0x7EC0, sizeof(Tileset_DebugAscii));
 
-    sub_80003B8();
+    SetDefaultDisplaySettings();
 
     if ((1 & LOADED_SAVE->unk34)) {
-        WarpToMap(LEVEL_INDEX(LOADED_SAVE->continueZone, ACT_HUB), 0U);
+        WarpToMap(LEVEL_INDEX(LOADED_SAVE->continueZone, ACT_HUB), 0);
         return TRUE;
     } else {
         CreateNewGamesaveOpening();
@@ -922,18 +920,17 @@ bool32 sub_8098A00(CharacterSelect *cs)
     Player *partner;
     s16 playerIndex;
     s16 partnerIndex;
-    u8 character;
-    s32 var_r1;
-    u8 var_r6;
+    u8 charPlayer;
+    u8 charPartner;
 
     playerIndex = gStageData.playerIndex;
     partnerIndex = (playerIndex + 1) & 1;
     if (playerIndex == 0) {
-        var_r6 = gUnknown_080D8F18[cs->unk5];
-        character = gUnknown_080D8F18[cs->unk6];
+        charPlayer = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+        charPartner = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     } else {
-        var_r6 = gUnknown_080D8F18[cs->unk6];
-        character = gUnknown_080D8F18[cs->unk5];
+        charPlayer = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
+        charPartner = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     }
     sub_800214C();
     gStageData.difficulty = LOADED_SAVE->difficulty;
@@ -942,7 +939,7 @@ bool32 sub_8098A00(CharacterSelect *cs)
     player = &players[playerIndex];
     player->callback = NULL;
     player->charFlags.partnerIndex = partnerIndex;
-    player->charFlags.character = var_r6;
+    player->charFlags.character = charPlayer;
     player->charFlags.someIndex = 1;
 
     partner = &gPlayers[partnerIndex];
@@ -950,34 +947,29 @@ bool32 sub_8098A00(CharacterSelect *cs)
     partner->charFlags.someIndex = 3;
     partner->charFlags.playerIndex = partnerIndex;
     partner->charFlags.partnerIndex = playerIndex;
-    partner->charFlags.character = character;
+    partner->charFlags.character = charPartner;
 
     gPlayers[PLAYER_3].callback = NULL;
     gPlayers[PLAYER_3].charFlags.someIndex = 0;
     gPlayers[PLAYER_4].callback = NULL;
     gPlayers[PLAYER_4].charFlags.someIndex = 0;
-    sub_80003B8();
-    WarpToMap(LEVEL_INDEX(ZONE_1, ACT_HUB), 0U);
+    SetDefaultDisplaySettings();
+    WarpToMap(LEVEL_INDEX(ZONE_1, ACT_HUB), 0);
 
     return TRUE;
 }
 
 bool32 sub_8098B50(CharacterSelect *cs)
 {
-    u8 temp_r1;
-    u8 temp_r1_2;
-    u8 temp_r1_3;
-    u8 temp_r1_4;
-
     gStageData.playerIndex = PLAYER_1;
 
     gPlayers[PLAYER_1].callback = NULL;
     gPlayers[PLAYER_1].charFlags.partnerIndex = 1;
-    gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+    gPlayers[PLAYER_1].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     gPlayers[PLAYER_1].charFlags.someIndex = 1;
     gPlayers[PLAYER_2].callback = NULL;
     gPlayers[PLAYER_2].charFlags.partnerIndex = 0;
-    gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+    gPlayers[PLAYER_2].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     gPlayers[PLAYER_2].charFlags.someIndex = 2;
     gPlayers[PLAYER_3].callback = NULL;
     gPlayers[PLAYER_3].charFlags.someIndex = 0;
@@ -991,21 +983,21 @@ bool32 sub_8098B50(CharacterSelect *cs)
         // This looks like a macro, otherwise it wouldn't be identical to the above block...
         gPlayers[PLAYER_1].callback = NULL;
         gPlayers[PLAYER_1].charFlags.partnerIndex = 1;
-        gPlayers[PLAYER_1].charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gPlayers[PLAYER_1].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
         gPlayers[PLAYER_1].charFlags.someIndex = 1;
         gPlayers[PLAYER_2].callback = NULL;
         gPlayers[PLAYER_2].charFlags.partnerIndex = 0;
-        gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gPlayers[PLAYER_2].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
         gPlayers[PLAYER_2].charFlags.someIndex = 2;
         gPlayers[PLAYER_3].callback = NULL;
         gPlayers[PLAYER_3].charFlags.someIndex = 0;
         gPlayers[PLAYER_4].callback = NULL;
         gPlayers[PLAYER_4].charFlags.someIndex = 0;
 
-        sub_80003B8();
+        SetDefaultDisplaySettings();
         CreateTimeRecordScreen(1);
     } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-        sub_80003B8();
+        SetDefaultDisplaySettings();
         CreateTimeRecordScreen(2);
     }
 
@@ -1022,17 +1014,17 @@ bool32 sub_8098CFC(CharacterSelect *cs)
     gPlayers[partnerIndex].charFlags.character = cs->unkC[PLAYER_2];
 
     if (cs->unk8 != 0) {
-        sub_80003B8();
-        WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
+        SetDefaultDisplaySettings();
+        WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0);
         return TRUE;
     } else {
         MultiSioStop();
-        MultiSioInit(0U);
+        MultiSioInit(0);
         gMultiSioEnabled = 0;
 
         if (cs->unk8 != 0) {
-            sub_80003B8();
-            WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0U);
+            SetDefaultDisplaySettings();
+            WarpToMap(LEVEL_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0);
             return TRUE;
         }
     }
@@ -1043,7 +1035,7 @@ bool32 sub_8098CFC(CharacterSelect *cs)
         } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
             CreateMainMenu(1, 5U);
         } else {
-            CreateMainMenu(0, 0U);
+            CreateMainMenu(0, 0);
         }
     } else if (cs->createIndex == 1) {
         CreateMainMenu(1, 4U);
@@ -1107,9 +1099,9 @@ void Task_8098DE4(void)
                 sub_80992A8(cs);
                 gCurTask->main = Task_8098FF0;
             } else if (A_BUTTON & gPressedKeys) {
-                s32 unlockIndex = gUnknown_080D8F18[cs->unk5];
+                s32 unlockIndex = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
                 if (LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[unlockIndex]) {
-                    m4aSongNumStart(gCharacterSelectedVoices[cs->unk5]);
+                    m4aSongNumStart(gCharacterSelectedVoices[cs->listIndex[CS_CHARID_PLAYER]]);
                     sub_809B5D0(cs);
                     gCurTask->main = Task_8099300;
                 }
@@ -1190,7 +1182,7 @@ void Task_8098FF0()
 void sub_80990B0(CharacterSelect *cs)
 {
     Background *bg = &cs->bg234;
-    u8 character = gUnknown_080D8F18[cs->unk5];
+    u8 character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
     bg->layoutVram = BG_SCREEN_ADDR(27);
@@ -1318,8 +1310,9 @@ void Task_8099300()
             cs->unkB = 0xC;
             cs->qUnk34 = cs->qUnk3C;
             cs->qUnk38 = cs->qUnk40;
-            cs->unk5 = cs->unk3;
-            CreateSomeTask_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
+            cs->listIndex[CS_CHARID_PLAYER] = cs->unk3;
+            CreateSomeTask_809BF3C(&cs->listIndex[CS_CHARID_PLAYER], &cs->unkB, &cs->qUnk34, &cs->qUnk38,
+                                   cs->tilesCharacters[CS_CHARID_CHOSEN]);
             cs->qUnk4C = Q(300);
         }
     }
@@ -1331,10 +1324,10 @@ void Task_8099300()
 
     if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK
         || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-        gPlayers->charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gPlayers->charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
         gCurTask->main = Task_809947C;
     } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
-        gPlayers[gStageData.playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk5];
+        gPlayers[gStageData.playerIndex].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
         gCurTask->main = Task_809947C;
     }
 }
@@ -1365,7 +1358,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
 
     cs->unk3 = 0;
     for (var_r1 = 0; var_r1 < 4; var_r1++) {
-        if (cs->unk3 == cs->unk5) {
+        if (cs->unk3 == cs->listIndex[CS_CHARID_PLAYER]) {
             cs->unk3++;
         } else {
             break;
@@ -1373,8 +1366,8 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     }
 
     cs->unk4 = cs->unk3;
-    cs->unk6 = cs->unk3;
-    character = gUnknown_080D8F18[cs->unk6];
+    cs->listIndex[CS_CHARID_PARTNER] = cs->unk3;
+    character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     cs->qUnk3C = Q(310);
     cs->qUnk40 = Q(80);
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
@@ -1502,12 +1495,13 @@ void Task_8099758(void)
                 sub_8099C34(cs);
                 gCurTask->main = Task_8099968;
             } else if (A_BUTTON & gPressedKeys) {
-                s32 unlockIndex = gUnknown_080D8F18[cs->unk6];
+                s32 unlockIndex = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
                 if (LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[unlockIndex]) {
-                    m4aSongNumStart(gCharacterSelectedVoices[cs->unk6]);
+                    m4aSongNumStart(gCharacterSelectedVoices[cs->listIndex[CS_CHARID_PARTNER]]);
                     cs->unkB = 20;
 
-                    if (gUnknown_080D8F18[cs->unk5] == gUnknown_080D8F18[cs->unk6]) {
+                    if (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]]
+                        == gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]]) {
                         sub_802613C();
                         return;
                     }
@@ -1586,11 +1580,11 @@ void Task_8099968(void)
     if (var_r6 == 2) {
         cs->unk3 = cs->unk4;
         cs->qUnk3C = Q(330);
-        cs->unk6 = cs->unk3;
+        cs->listIndex[CS_CHARID_PARTNER] = cs->unk3;
         cs->qUnk40 = Q(80);
         cs->unkB = 4;
         cs->qUnk4C = Q(320);
-        character = gUnknown_080D8F18[cs->unk6];
+        character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
 
         if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
             if (FLAGS_20000 & gFlags) {
@@ -1654,7 +1648,7 @@ void Task_8099B78(void)
     playerIndex = gStageData.playerIndex;
     CS_SIO_CHECK_C(var_r0, playerIndex);
 
-    if (sub_809B32C(cs, 0U) == 1) {
+    if (sub_809B32C(cs, 0) == 1) {
         var_r5++;
     }
 
@@ -1685,7 +1679,7 @@ void sub_8099C34(CharacterSelect *cs)
             } else {
                 cs->unk4++;
             }
-        } while (cs->unk4 == cs->unk5);
+        } while (cs->unk4 == cs->listIndex[CS_CHARID_PLAYER]);
 
         cs->unk1 = 0;
         cs->unkB = 15;
@@ -1698,7 +1692,7 @@ void sub_8099C34(CharacterSelect *cs)
             } else {
                 cs->unk4--;
             }
-        } while (cs->unk4 == cs->unk5);
+        } while (cs->unk4 == cs->listIndex[CS_CHARID_PLAYER]);
 
         cs->unk1 = 1;
         cs->unkB = 16;
@@ -1736,7 +1730,7 @@ void Task_8099C9C()
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
     gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(1);
     bg = &cs->bg234;
-    character = gUnknown_080D8F18[cs->unk6];
+    character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
     bg->layoutVram = BG_SCREEN_ADDR(27);
@@ -1757,11 +1751,11 @@ void Task_8099C9C()
 
     if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK
         || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-        gPlayers[PLAYER_2].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gPlayers[PLAYER_2].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
         gCurTask->main = Task_8099EC8;
     } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         s16 playerIndex = (gStageData.playerIndex + 1) % 2u;
-        gPlayers[playerIndex].charFlags.character = gUnknown_080D8F18[cs->unk6];
+        gPlayers[playerIndex].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
         gCurTask->main = Task_8099EC8;
     }
 }
@@ -1935,11 +1929,11 @@ void Task_809A1C4(void)
     sub_809B69C(cs);
 
     if (cs->unk14 == 0) {
-        m4aSongNumStart(gAnnouncerSelect1st[cs->unk5]);
+        m4aSongNumStart(gAnnouncerSelect1st[cs->listIndex[CS_CHARID_PLAYER]]);
     } else if (cs->unk14 == 60) {
         m4aSongNumStart(VOICE__ANNOUNCER__AND);
     } else if (cs->unk14 == 90) {
-        m4aSongNumStart(gAnnouncerSelect2nd[cs->unk6]);
+        m4aSongNumStart(gAnnouncerSelect2nd[cs->listIndex[CS_CHARID_PARTNER]]);
     }
 
     cs->unk14++;
@@ -2030,7 +2024,7 @@ void Task_809A3BC(void)
     u8 temp_r4_2;
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
-    CreateSomeTask_809BF3C(&cs->unk5, &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
+    CreateSomeTask_809BF3C(&cs->listIndex[CS_CHARID_PLAYER], &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
     CreateSomeTask_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[CS_CHARID_ACTIVE]);
     cs->unkB = 0xE;
     sub_809A644(cs);
@@ -2041,14 +2035,14 @@ void Task_809A3BC(void)
     cs->qUnk54 = Q(201);
     cs->qUnk58 = Q(22);
     cs->qUnk4C = Q(120);
-    temp_r4 = gUnknown_080D8F18[cs->unk5];
+    temp_r4 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     if (0x20000 & gFlags) {
         CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r4], 0x60U, 0x10U);
     } else {
         DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-    temp_r4 = gUnknown_080D8F18[cs->unk6];
+    temp_r4 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     if (0x20000 & gFlags) {
         CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r4], 0x70U, 0x10U);
     } else {
@@ -2077,7 +2071,7 @@ void sub_809A50C(CharacterSelect *cs)
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     bg1F4 = &cs->bg1F4;
-    charPlayer = gUnknown_080D8F18[cs->unk5];
+    charPlayer = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     bg1F4->graphics.dest = BG_CHAR_ADDR(3);
     bg1F4->graphics.anim = 0;
     bg1F4->layoutVram = BG_SCREEN_ADDR(3);
@@ -2103,7 +2097,7 @@ void sub_809A50C(CharacterSelect *cs)
     gBgScrollRegs[2][1] = 0;
 
     bg = &cs->bg234;
-    charPartner = gUnknown_080D8F18[cs->unk6];
+    charPartner = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     bg->graphics.dest = BG_CHAR_ADDR(2);
     bg->graphics.anim = 0;
     bg->layoutVram = BG_SCREEN_ADDR(27);
@@ -2179,16 +2173,16 @@ void Task_809A6C0(void)
     sub_809B69C(cs);
     sub_809B6C0(cs);
 
-    if (sub_809B424(cs, 1U) == 1) {
+    if (sub_809B424(cs, 1) == 1) {
         var_r5++;
     }
-    if (sub_809B470(cs, 1U) == 1) {
+    if (sub_809B470(cs, 1) == 1) {
         var_r5++;
     }
-    if (sub_809B4BC(cs, 1U) == 1) {
+    if (sub_809B4BC(cs, 1) == 1) {
         var_r5++;
     }
-    if (sub_809B548(cs, 1U) == 1) {
+    if (sub_809B548(cs, 1) == 1) {
         var_r5++;
     }
 
@@ -2213,8 +2207,8 @@ void sub_809A808(CharacterSelect *cs)
     Sprite *temp_r0_2;
     Sprite *spr9C = &cs->spr9C;
     s32 var_r2;
-    u8 temp_r2 = gUnknown_080D8F18[cs->unk5];
-    u8 temp_r0 = gUnknown_080D8F18[cs->unk6];
+    u8 temp_r2 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+    u8 temp_r0 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
 
     if ((temp_r2 == 0) || (temp_r0 == 0)) {
         if ((temp_r2 == 2) || (temp_r0 == 2)) {
@@ -2280,13 +2274,13 @@ void sub_809A8D0(CharacterSelect *cs, u8 param1)
     DrawBackground(bg);
 
     if (param1 == 4 || param1 == 6 || param1 == 3) {
-        if (gUnknown_080D8F18[cs->unk5] == 0) {
+        if (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]] == 0) {
             cs->qBgCharNameScale = +Q(16);
         } else {
             cs->qBgCharNameScale = -Q(16);
         }
     } else if (param1 == 5) {
-        if (gUnknown_080D8F18[cs->unk5] == 1) {
+        if (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]] == 1) {
             cs->qBgCharNameScale = +Q(16);
         } else {
             cs->qBgCharNameScale = -Q(16);
@@ -2339,7 +2333,7 @@ void Task_809AA28(void)
         cs->unkB = 1;
         cs->qUnk3C = Q(DISPLAY_CENTER_X);
         cs->qUnk40 = Q(DISPLAY_CENTER_Y);
-        cs->unk3 = cs->unk5;
+        cs->unk3 = cs->listIndex[CS_CHARID_PLAYER];
     }
 
     {
@@ -2369,19 +2363,19 @@ void Task_809AABC(void)
     sub_809AF08(cs);
     sub_809B69C(cs);
     sub_809B6C0(cs);
-    sub_809B32C(cs, 1U);
+    sub_809B32C(cs, 1);
     sub_809B13C(cs);
-    sub_809B3C4(cs, 1U);
+    sub_809B3C4(cs, 1);
     sub_809B41C(cs);
 
-    if (sub_809AC44(cs, 1U) == 1) {
+    if (sub_809AC44(cs, 1) == 1) {
         cs->qUnk34 = Q(320);
-        cs->unk3 = cs->unk5;
+        cs->unk3 = cs->listIndex[CS_CHARID_PLAYER];
         cs->unkB = 0x1F;
         cs->qUnk3C = Q(DISPLAY_CENTER_X);
         cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         temp_r3 = &cs->bg234;
-        character = gUnknown_080D8F18[cs->unk5];
+        character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
         temp_r3->graphics.dest = BG_CHAR_ADDR(2);
         temp_r3->graphics.anim = 0;
         temp_r3->layoutVram = BG_SCREEN_ADDR(27);
@@ -2511,7 +2505,7 @@ bool32 sub_809AD08(CharacterSelect *cs)
     s32 var_r0;
     s32 var_r2 = 0x20;
 
-    if ((cs->createIndex == 1) && ((u32)gStageData.playerIndex > 1U)) {
+    if ((cs->createIndex == 1) && ((u32)gStageData.playerIndex > 1)) {
         var_r2 = 0x22;
     }
 
@@ -2529,20 +2523,20 @@ bool32 sub_809AD08(CharacterSelect *cs)
         cs->qUnk16++;
     }
 
-    if (cs->qUnk16 > 0x77U) {
+    if (cs->qUnk16 >= 120) {
         switch (var_r2) {
             case 32:
                 return 1;
             case 33:
-                return 0U;
+                return 0;
             case 34:
-                return 0U;
+                return 0;
         }
         cs->qUnk16 = 0;
-        return 1U;
+        return 1;
     }
 
-    return 1U;
+    return 1;
 }
 
 void sub_809AD74(CharacterSelect *cs)
@@ -2630,7 +2624,7 @@ void sub_809AE50(CharacterSelect *cs)
 
     temp_r1 = cs->language;
     temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
-    temp_r2 = gUnknown_080D8F18[cs->unk5];
+    temp_r2 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     s = &cs->sprEC;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
         s->anim = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].anim;
@@ -2672,7 +2666,7 @@ void sub_809AF08(CharacterSelect *cs)
 
     temp_r1 = cs->language;
     temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
-    temp_r2 = gUnknown_080D8F18[cs->unk6];
+    temp_r2 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
 
     s = &cs->spr13C;
     if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
@@ -2699,8 +2693,8 @@ void sub_809AFC0(CharacterSelect *cs)
     u8 i;
     const u8(*temp_r7)[3];
 
-    temp_r1 = cs->unk5;
-    temp_r2 = cs->unk6;
+    temp_r1 = cs->listIndex[CS_CHARID_PLAYER];
+    temp_r2 = cs->listIndex[CS_CHARID_PARTNER];
 
     if (cs->language != JAPANESE) {
         temp_r7 = &gUnknown_080D8F95[((temp_r1 * 8) + temp_r2)];
@@ -2782,17 +2776,17 @@ bool32 sub_809B148(CharacterSelect *cs)
         cs->qUnk3C -= Q(14);
         if (cs->qUnk3C <= Q(r2)) {
             cs->qUnk3C = Q(r2);
-            return 1U;
+            return 1;
         }
     } else {
         cs->qUnk3C += Q(14);
         if (cs->qUnk3C >= Q(r2)) {
             cs->qUnk3C = Q(r2);
-            return 1U;
+            return 1;
         }
     }
 
-    return 0U;
+    return 0;
 }
 
 u32 sub_809B184(CharacterSelect *cs)
@@ -2803,14 +2797,14 @@ u32 sub_809B184(CharacterSelect *cs)
     temp_r1 = cs->qNameTagPos[CS_CHARID_PLAYER].y;
     if (temp_r1 <= 0x9100) {
         cs->qNameTagPos[CS_CHARID_PLAYER].y = 0x9100;
-        return 1U;
+        return 1;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
     cs->qNameTagPos[CS_CHARID_PLAYER].y = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
         cs->qNameTagPos[CS_CHARID_PLAYER].y = 0x9100;
     }
-    return 0U;
+    return 0;
 }
 
 u32 sub_809B1B4(CharacterSelect *cs)
@@ -2821,14 +2815,14 @@ u32 sub_809B1B4(CharacterSelect *cs)
     temp_r1 = cs->qNameTagPos[CS_CHARID_PARTNER].y;
     if (temp_r1 <= 0x9100) {
         cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
-        return 1U;
+        return 1;
     }
     temp_r1_2 = temp_r1 + 0xFFFFFA00;
     cs->qNameTagPos[CS_CHARID_PARTNER].y = temp_r1_2;
     if (temp_r1_2 <= 0x90FF) {
         cs->qNameTagPos[CS_CHARID_PARTNER].y = 0x9100;
     }
-    return 0U;
+    return 0;
 }
 
 bool32 sub_809B1E4(CharacterSelect *cs)
@@ -2960,33 +2954,29 @@ bool32 sub_809B32C(CharacterSelect *cs, u8 param1)
 
 u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
 {
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 var_r3;
+    s32 var_r3 = 0;
 
-    var_r3 = 0;
     if (param1 != 0) {
-        temp_r1 = cs->qNameTagPos[CS_CHARID_PLAYER].x;
-        if (temp_r1 <= 0x77FF) {
-            cs->qNameTagPos[CS_CHARID_PLAYER].x = temp_r1 + 0x610;
+        if (cs->qNameTagPos[CS_CHARID_PLAYER].x < Q(120)) {
+            cs->qNameTagPos[CS_CHARID_PLAYER].x += Q(6.0625);
             goto block_7;
         }
         cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(120);
         goto block_9;
     }
-    temp_r0 = cs->qNameTagPos[CS_CHARID_PLAYER].x;
-    if (temp_r0 > Q(60)) {
-        cs->qNameTagPos[CS_CHARID_PLAYER].x = temp_r0 + 0xFFFFF9F0;
+
+    if (cs->qNameTagPos[CS_CHARID_PLAYER].x > Q(60)) {
+        cs->qNameTagPos[CS_CHARID_PLAYER].x -= Q(6.0625);
     } else {
         cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(60);
         var_r3 = 1;
     }
 block_7:
     if (var_r3 == 0) {
-        return 0U;
+        return 0;
     }
 block_9:
-    return 1U;
+    return 1;
 }
 
 bool32 sub_809B41C(CharacterSelect *cs)
@@ -2997,33 +2987,28 @@ bool32 sub_809B41C(CharacterSelect *cs)
 
 u32 sub_809B424(CharacterSelect *cs, u8 param1)
 {
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 var_r0;
-
-    if ((param1 << 0x18) == 0) {
-        temp_r1 = cs->qUnk34;
-        if (temp_r1 < Q(90)) {
+    if (param1 == 0) {
+        if (cs->qUnk34 < Q(90)) {
             s32 r0 = 3;
 #ifndef NON_MATCHING
             asm("" ::"r"(r0));
 #endif
             r0 = Q(r0);
-            var_r0 = temp_r1 + 0x300;
-            goto block_7;
+            cs->qUnk34 += Q(3);
+        } else {
+            cs->qUnk34 = Q(90);
+            return 1;
         }
-        cs->qUnk34 = Q(90);
-        return 1U;
+    } else {
+        if (cs->qUnk34 <= Q(60)) {
+            cs->qUnk34 = Q(60);
+            return 1;
+        } else {
+            cs->qUnk34 -= Q(3);
+        }
     }
-    temp_r0 = cs->qUnk34;
-    if (temp_r0 <= Q(60)) {
-        cs->qUnk34 = Q(60);
-        return 1U;
-    }
-    var_r0 = temp_r0 + 0xFFFFFD00;
-block_7:
-    cs->qUnk34 = var_r0;
-    return 0U;
+
+    return 0;
 }
 
 bool32 sub_809B470(CharacterSelect *cs, u8 param1)
@@ -3038,13 +3023,13 @@ bool32 sub_809B470(CharacterSelect *cs, u8 param1)
             cs->qUnk3C -= Q(3);
         } else {
             cs->qUnk3C = Q(150);
-            return 1U;
+            return 1;
         }
     } else {
         s32 r0;
         if (cs->qUnk3C >= Q(180)) {
             cs->qUnk3C = Q(180);
-            return 1U;
+            return 1;
         }
         r0 = 3;
 #ifndef NON_MATCHING
@@ -3054,7 +3039,7 @@ bool32 sub_809B470(CharacterSelect *cs, u8 param1)
         cs->qUnk3C += r0;
     }
 
-    return 0U;
+    return 0;
 }
 
 u32 sub_809B4BC(CharacterSelect *cs, u8 param1)
@@ -3093,27 +3078,22 @@ u32 sub_809B4BC(CharacterSelect *cs, u8 param1)
     }
 
     if (var_r3 == 2) {
-        return 1U;
+        return 1;
     } else {
-        return 0U;
+        return 0;
     }
 }
 
 u32 sub_809B548(CharacterSelect *cs, u8 param1)
 {
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 var_r0;
-    u8 var_r3;
-    s32 r4;
+    u8 var_r3 = 0;
+    s32 r4 = 3;
 
-    var_r3 = 0;
-    r4 = 3;
     if (param1 == 0) {
-        if (cs->qNameTagPos[CS_CHARID_PARTNER].x > 0x9100) {
+        if (cs->qNameTagPos[CS_CHARID_PARTNER].x > Q(145)) {
             cs->qNameTagPos[CS_CHARID_PARTNER].x -= Q(3);
         } else {
-            cs->qNameTagPos[CS_CHARID_PARTNER].x = 0x9100;
+            cs->qNameTagPos[CS_CHARID_PARTNER].x = Q(145);
             var_r3 += 1;
         }
         if (cs->qUnk4C >= Q(201)) {
@@ -3148,16 +3128,16 @@ u32 sub_809B548(CharacterSelect *cs, u8 param1)
     }
 
     if (var_r3 == 2) {
-        return 1U;
+        return 1;
     } else {
-        return 0U;
+        return 0;
     }
 }
 
 void sub_809B5D0(CharacterSelect *cs)
 {
     Background *bg = &cs->bg1F4;
-    s16 character = gUnknown_080D8F18[cs->unk5];
+    s16 character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
 
     gDispCnt |= DISPCNT_BG1_ON;
 
@@ -3182,7 +3162,7 @@ u32 sub_809B638(CharacterSelect *cs)
             cs->unk3 = cs->unk4;
             result = 1;
             cs->qUnk3C = Q(330);
-            cs->unk5 = cs->unk3;
+            cs->listIndex[CS_CHARID_PLAYER] = cs->unk3;
         }
     }
 
@@ -3200,7 +3180,7 @@ bool32 sub_809B668(CharacterSelect *cs)
             cs->unk3 = cs->unk4;
             result = TRUE;
             cs->qUnk3C = -Q(90);
-            cs->unk5 = cs->unk4;
+            cs->listIndex[CS_CHARID_PLAYER] = cs->unk4;
         }
     }
     return result;
@@ -3228,12 +3208,12 @@ bool32 sub_809B704(CharacterSelect *cs, s16 param1)
     s32 zero = 0;
 
     if ((cs->createIndex == 0) || (cs->createIndex == 3)) {
-        return 1U;
+        return 1;
     }
     if ((zero == param1) && (zero == cs->unkB)) {
         return 1;
     }
-    return 0U;
+    return 0;
 }
 
 u32 sub_809B730(CharacterSelect *cs)
@@ -3241,7 +3221,7 @@ u32 sub_809B730(CharacterSelect *cs)
     if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
         return (u32)(-(gMultiSioStatusFlags & 0x80)) >> 0x1F;
     }
-    return 1U;
+    return 1;
 }
 
 void TaskDestructor_CharacterSelect(Task *t)

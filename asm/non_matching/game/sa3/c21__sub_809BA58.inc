@@ -8,7 +8,7 @@
 	push {r5, r6, r7}
 	sub sp, #0x10
 	adds r6, r0, #0
-	ldr r1, _0809BAD0 @ =gUnknown_080D8F18
+	ldr r1, _0809BAD0 @ =gCharSelect_DisplayOrder
 	ldr r0, [r6]
 	ldrb r0, [r0]
 	adds r0, r0, r1
@@ -64,7 +64,7 @@ _0809BACA:
 	str r2, [sp, #8]
 	b _0809BB24
 	.align 2, 0
-_0809BAD0: .4byte gUnknown_080D8F18
+_0809BAD0: .4byte gCharSelect_DisplayOrder
 _0809BAD4: .4byte gStageData
 _0809BAD8: .4byte gPlayers
 _0809BADC:

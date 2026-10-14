@@ -17,7 +17,7 @@
 	ldrb r6, [r0, #6]
 	cmp r6, #0
 	bne _0808DA80
-	ldr r1, _0808DA7C @ =gUnknown_080D8F18
+	ldr r1, _0808DA7C @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r7, r0]
 	adds r0, r0, r1
@@ -27,9 +27,9 @@
 	.align 2, 0
 _0808DA74: .4byte gCurTask
 _0808DA78: .4byte gStageData
-_0808DA7C: .4byte gUnknown_080D8F18
+_0808DA7C: .4byte gCharSelect_DisplayOrder
 _0808DA80:
-	ldr r1, _0808DAD4 @ =gUnknown_080D8F18
+	ldr r1, _0808DAD4 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r7, r0]
 	adds r0, r0, r1
@@ -72,7 +72,7 @@ _0808DAA6:
 	bl sub_802613C
 	b _0808DC20
 	.align 2, 0
-_0808DAD4: .4byte gUnknown_080D8F18
+_0808DAD4: .4byte gCharSelect_DisplayOrder
 _0808DAD8: .4byte gMultiSioRecv
 _0808DADC:
 	cmp r2, #2
@@ -134,7 +134,7 @@ _0808DB50: .4byte gUnknown_03001060
 _0808DB54: .4byte gCurTask
 _0808DB58: .4byte Task_EC_808D7F0
 _0808DB5C:
-	ldr r1, _0808DB7C @ =gUnknown_080D8F18
+	ldr r1, _0808DB7C @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r4, r0]
 	adds r0, r0, r1
@@ -151,7 +151,7 @@ _0808DB5C:
 	adds r0, r0, r2
 	b _0808DBC2
 	.align 2, 0
-_0808DB7C: .4byte gUnknown_080D8F18
+_0808DB7C: .4byte gCharSelect_DisplayOrder
 _0808DB80: .4byte gCharacterSelectedVoices
 _0808DB84: .4byte gUnknown_080D6EE0
 _0808DB88:

@@ -3,6 +3,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
+#include "game/sa3/character_select.h"
 #include "game/screen_fade.h"
 #include "game/stage.h" // gStageData
 #include "animation_commands_bg.h" // RenderText
@@ -73,7 +74,6 @@ void Task_EC_808EF14(void);
 void nullsub_808EF98(void);
 void nullsub_808EF94(void);
 
-extern const u8 gUnknown_080D8F18[NUM_CHARACTERS];
 s16 sub_8024A4C(u8 arg0);
 s16 sub_8025908(u8 arg0);
 
@@ -613,9 +613,9 @@ void Task_EC_808D7F0(void)
     union MultiSioData *temp_r0;
     s16 playerIndex = gStageData.playerIndex;
     if (playerIndex == 0) {
-        var_r0 = sub_8025908(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8025908(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_8024A4C(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024A4C(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     if (var_r0 < 0) {
         sub_802613C();
@@ -631,17 +631,17 @@ void Task_EC_808D7F0(void)
     if ((UpdateScreenFade(fade) != 0) && (strcEC->unk16 != 0)) {
         if (A_BUTTON & gPressedKeys) {
             for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
-                if (gUnknown_03001060.unk4C[i] == gUnknown_080D8F18[strcEC->unk13]) {
+                if (gUnknown_03001060.unk4C[i] == gCharSelect_DisplayOrder[strcEC->unk13]) {
                     return;
                 }
             }
             if (i >= MULTI_SIO_PLAYERS_MAX) {
                 if (playerIndex == 0) {
-                    gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+                    gUnknown_03001060.unk4C[playerIndex] = gCharSelect_DisplayOrder[strcEC->unk13];
                     strcEC->unk17 = 0xC;
                     gCurTask->main = Task_EC_808DA44;
                 } else {
-                    gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+                    gUnknown_03001060.unk4C[playerIndex] = gCharSelect_DisplayOrder[strcEC->unk13];
                     strcEC->unk17 = 0xC;
                     gCurTask->main = Task_EC_808D988;
                 }
@@ -674,13 +674,13 @@ void Task_EC_808D988(void)
     s16 var_r0_2;
     u16 temp_r1;
     s16 temp_r5 = gStageData.playerIndex;
-    temp_r0 = sub_8024AC0(gUnknown_080D8F18[strcEC->unk13]);
+    temp_r0 = sub_8024AC0(gCharSelect_DisplayOrder[strcEC->unk13]);
     if (temp_r0 < 0) {
         sub_802613C();
         return;
     }
     if (temp_r0 == 1) {
-        gUnknown_03001060.unk4C[temp_r5] = gUnknown_080D8F18[strcEC->unk13];
+        gUnknown_03001060.unk4C[temp_r5] = gCharSelect_DisplayOrder[strcEC->unk13];
         gCurTask->main = Task_EC_808DA44;
     } else if (temp_r0 == 2) {
         strcEC->unk17 = 2;
@@ -714,9 +714,9 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808DA44.inc", void Task_EC_808DA
     u8 var_r1;
 
     if (temp_r6 == 0) {
-        var_r0 = sub_8024984(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024984(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_8024C68(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024C68(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     for (var_r2 = 0; var_r2 < 4; var_r2++) {
         strcEC->unkE[var_r2] = gMultiSioRecv[var_r2].pat3_0.unk4;
@@ -741,7 +741,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808DA44.inc", void Task_EC_808DA
                 gCurTask->main = Task_EC_808D7F0;
                 return;
             }
-            gUnknown_03001060.unk4C[1] = gUnknown_080D8F18[strcEC->unk13];
+            gUnknown_03001060.unk4C[1] = gCharSelect_DisplayOrder[strcEC->unk13];
             gUnknown_03001060.unk4C[0] = strcEC->unkE[0];
             var_r0_2 = &gCharacterSelectedVoices[gUnknown_080D6EE0[gUnknown_03001060.unk4C[1]]];
         } else {
@@ -779,9 +779,9 @@ void Task_EC_808DC38(void)
     s16 playerIndex = gStageData.playerIndex;
 
     if (playerIndex == 0) {
-        var_r0 = sub_8025948(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8025948(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_8024B84(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024B84(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
 
     if (var_r0 < 0) {
@@ -836,9 +836,9 @@ void Task_EC_808DD6C(void)
     s16 var_r3;
     s16 playerIndex = gStageData.playerIndex;
     if (playerIndex == 0) {
-        var_r0 = sub_80259F8(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_80259F8(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_8024F84(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024F84(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     if (var_r0 < 0) {
         sub_802613C();
@@ -847,16 +847,16 @@ void Task_EC_808DD6C(void)
 
     if (++strcEC->unkC > 0x3B) {
         if (playerIndex < 2) {
-            gPlayers[playerIndex].charFlags.character = gUnknown_080D8F18[strcEC->unk13];
+            gPlayers[playerIndex].charFlags.character = gCharSelect_DisplayOrder[strcEC->unk13];
             ;
         } else {
-            gPlayers[playerIndex % 2u].charFlags.character = gUnknown_080D8F18[strcEC->unk13];
+            gPlayers[playerIndex % 2u].charFlags.character = gCharSelect_DisplayOrder[strcEC->unk13];
             ;
         }
 
         for (var_r7 = 0; var_r7 < 5; var_r7++) {
             for (var_r3 = 0; var_r3 < 2; var_r3++) {
-                if (gUnknown_03001060.unk4C[var_r3] == gUnknown_080D8F18[var_r7]) {
+                if (gUnknown_03001060.unk4C[var_r3] == gCharSelect_DisplayOrder[var_r7]) {
                     break;
                 }
             }
@@ -889,16 +889,16 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808DEB8.inc", void Task_EC_808DE
     u8 playerIndex = gStageData.playerIndex;
     u8 var_r5 = 0;
     if (playerIndex == 0) {
-        var_r0 = sub_80259F8(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_80259F8(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_8024F84(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024F84(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     if (var_r0 < 0) {
         sub_802613C();
         return;
     }
     if ((playerIndex << 0x10) == 0) {
-        var_r6 = gUnknown_080D8F18[strcEC->unk13];
+        var_r6 = gCharSelect_DisplayOrder[strcEC->unk13];
     } else {
         var_r6 = gMultiSioRecv->raw[4];
     }
@@ -993,9 +993,9 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
     s16 playerIndex = gStageData.playerIndex;
     temp_r7 = gUnknown_03001060.unk7;
     if (playerIndex == 0) {
-        var_r0 = sub_80259F8(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_80259F8(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_8024F84(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024F84(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     if ((s32)(var_r0 << 0x10) < 0) {
         sub_802613C();
@@ -1021,7 +1021,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
     }
     if (1 & gPressedKeys) {
         for (var_r4_2 = 0; var_r4_2 < 4; var_r4_2++) {
-            if (gUnknown_03001060.unk4C[var_r4_2] == gUnknown_080D8F18[strcEC->unk13]) {
+            if (gUnknown_03001060.unk4C[var_r4_2] == gCharSelect_DisplayOrder[strcEC->unk13]) {
                 return;
             }
         }
@@ -1030,7 +1030,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             if ((u32)(u16)playerIndex <= 1U) {
                 playerIndex += 2;
             }
-            gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+            gUnknown_03001060.unk4C[playerIndex] = gCharSelect_DisplayOrder[strcEC->unk13];
             if (!(A_BUTTON & playerIndex)) {
                 strcEC->unk17 = 0x15;
                 gCurTask->main = Task_EC_808E430;
@@ -1041,7 +1041,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             if (((s32)playerIndex <= 1) && !(gUnknown_03001060.unk7 & (4 << playerIndex))) {
                 playerIndex += 2;
             }
-            gUnknown_03001060.unk4C[playerIndex] = gUnknown_080D8F18[strcEC->unk13];
+            gUnknown_03001060.unk4C[playerIndex] = gCharSelect_DisplayOrder[strcEC->unk13];
             return;
         }
     } else if (0x20 & gPressedKeys) {
@@ -1056,7 +1056,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             }
             strcEC->unk13 = var_r0_4;
             var_r4_3 = 0;
-            if (gUnknown_030010AC[var_r4_3] == gUnknown_080D8F18[strcEC->unk13]) {
+            if (gUnknown_030010AC[var_r4_3] == gCharSelect_DisplayOrder[strcEC->unk13]) {
                 continue;
             }
         loop_35:
@@ -1064,7 +1064,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             var_r4_3 = temp_r0_5 >> 0x10;
             temp_r0_6 = (s32)temp_r0_5 >> 0x10;
             if (temp_r0_6 <= 1) {
-                if (gUnknown_030010AC[temp_r0_6] == gUnknown_080D8F18[var_r0_4]) {
+                if (gUnknown_030010AC[temp_r0_6] == gCharSelect_DisplayOrder[var_r0_4]) {
                     var_r6_2 = 1;
                 } else {
                     goto loop_35;
@@ -1083,7 +1083,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             }
             var_r4_4 = 0;
             temp_r0_7 = strcEC->unk13;
-            if (gUnknown_030010AC == *(temp_r0_7 + &gUnknown_080D8F18)) {
+            if (gUnknown_030010AC == *(temp_r0_7 + &gCharSelect_DisplayOrder)) {
                 continue;
             }
         loop_47:
@@ -1091,7 +1091,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             var_r4_4 = temp_r0_8 >> 0x10;
             temp_r0_9 = (s32)temp_r0_8 >> 0x10;
             if (temp_r0_9 <= 1) {
-                if ((&gUnknown_030010AC)[temp_r0_9] == *(temp_r0_7 + &gUnknown_080D8F18)) {
+                if ((&gUnknown_030010AC)[temp_r0_9] == *(temp_r0_7 + &gCharSelect_DisplayOrder)) {
                     var_r6_3 = 1;
                 } else {
                     goto loop_47;
@@ -1114,7 +1114,7 @@ void Task_EC_808E2E8(void)
     s16 temp_r5 = gUnknown_03001060.unk7;
     s16 var_r6 = gStageData.playerIndex;
 
-    temp_sb = sub_8025024(gUnknown_080D8F18[strcEC->unk13]);
+    temp_sb = sub_8025024(gCharSelect_DisplayOrder[strcEC->unk13]);
     for (i = 0; i < 2; i++) {
         if ((4 << i) & temp_r5) {
             temp_r3 = &gMultiSioRecv[i + 2];
@@ -1189,9 +1189,9 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E430.inc", void Task_EC_808E4
     temp_r4 = gStageData.playerIndex;
     temp_r6 = gUnknown_03001060.unk7;
     if (temp_r4 == 0) {
-        var_r0 = sub_8024E1C(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024E1C(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_80250EC(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_80250EC(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     temp_r0 = (s16)var_r0;
     if ((s32)temp_r0 < 0) {
@@ -1280,9 +1280,9 @@ void sub_808E6B4(void)
     s16 var_r4 = gStageData.playerIndex;
     s16 temp_r6 = gUnknown_03001060.unk7;
     if (var_r4 == 0) {
-        var_r0 = sub_8024F1C(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_8024F1C(gCharSelect_DisplayOrder[strcEC->unk13]);
     } else {
-        var_r0 = sub_80251F8(gUnknown_080D8F18[strcEC->unk13]);
+        var_r0 = sub_80251F8(gCharSelect_DisplayOrder[strcEC->unk13]);
     }
     if (var_r0 < 0) {
         sub_802613C();

@@ -18,7 +18,7 @@
 	movs r5, #0
 	cmp r6, #0
 	bne _0808DEF8
-	ldr r1, _0808DEF4 @ =gUnknown_080D8F18
+	ldr r1, _0808DEF4 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r4, r0]
 	adds r0, r0, r1
@@ -28,9 +28,9 @@
 	.align 2, 0
 _0808DEEC: .4byte gCurTask
 _0808DEF0: .4byte gStageData
-_0808DEF4: .4byte gUnknown_080D8F18
+_0808DEF4: .4byte gCharSelect_DisplayOrder
 _0808DEF8:
-	ldr r1, _0808DF18 @ =gUnknown_080D8F18
+	ldr r1, _0808DF18 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r4, r0]
 	adds r0, r0, r1
@@ -46,20 +46,20 @@ _0808DF10:
 	bl sub_802613C
 	b _0808E050
 	.align 2, 0
-_0808DF18: .4byte gUnknown_080D8F18
+_0808DF18: .4byte gCharSelect_DisplayOrder
 _0808DF1C:
 	lsls r0, r6, #0x10
 	adds r7, r0, #0
 	cmp r7, #0
 	bne _0808DF34
-	ldr r1, _0808DF30 @ =gUnknown_080D8F18
+	ldr r1, _0808DF30 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r4, r0]
 	adds r0, r0, r1
 	ldrb r6, [r0]
 	b _0808DF38
 	.align 2, 0
-_0808DF30: .4byte gUnknown_080D8F18
+_0808DF30: .4byte gCharSelect_DisplayOrder
 _0808DF34:
 	ldr r0, _0808DF4C @ =gMultiSioRecv
 	ldrb r6, [r0, #4]

@@ -16,7 +16,7 @@
 	ldrb r7, [r0, #7]
 	cmp r6, #0
 	bne _0808E0A8
-	ldr r1, _0808E0A4 @ =gUnknown_080D8F18
+	ldr r1, _0808E0A4 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r5, r0]
 	adds r0, r0, r1
@@ -27,9 +27,9 @@
 _0808E098: .4byte gCurTask
 _0808E09C: .4byte gStageData
 _0808E0A0: .4byte gUnknown_03001060
-_0808E0A4: .4byte gUnknown_080D8F18
+_0808E0A4: .4byte gCharSelect_DisplayOrder
 _0808E0A8:
-	ldr r1, _0808E0C8 @ =gUnknown_080D8F18
+	ldr r1, _0808E0C8 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r5, r0]
 	adds r0, r0, r1
@@ -44,7 +44,7 @@ _0808E0B6:
 	bl sub_802613C
 	b _0808E2DC
 	.align 2, 0
-_0808E0C8: .4byte gUnknown_080D8F18
+_0808E0C8: .4byte gCharSelect_DisplayOrder
 _0808E0CC:
 	movs r4, #0
 	movs r0, #0xe
@@ -106,7 +106,7 @@ _0808E12A:
 	movs r4, #0
 	ldr r1, _0808E1A8 @ =gUnknown_03001060
 	mov ip, r1
-	ldr r2, _0808E1AC @ =gUnknown_080D8F18
+	ldr r2, _0808E1AC @ =gCharSelect_DisplayOrder
 	mov r8, r2
 	movs r3, #0x13
 	ldrsb r3, [r5, r3]
@@ -162,7 +162,7 @@ _0808E176:
 _0808E1A0: .4byte gMultiSioRecv
 _0808E1A4: .4byte gPressedKeys
 _0808E1A8: .4byte gUnknown_03001060
-_0808E1AC: .4byte gUnknown_080D8F18
+_0808E1AC: .4byte gCharSelect_DisplayOrder
 _0808E1B0: .4byte gCurTask
 _0808E1B4: .4byte Task_EC_808E430
 _0808E1B8:
@@ -211,7 +211,7 @@ _0808E200:
 	bl m4aSongNumStart
 	ldr r1, _0808E224 @ =gUnknown_030010AC
 	mov ip, r1
-	ldr r7, _0808E228 @ =gUnknown_080D8F18
+	ldr r7, _0808E228 @ =gCharSelect_DisplayOrder
 _0808E214:
 	movs r6, #0
 	ldrb r1, [r5, #0x13]
@@ -223,7 +223,7 @@ _0808E214:
 	b _0808E22E
 	.align 2, 0
 _0808E224: .4byte gUnknown_030010AC
-_0808E228: .4byte gUnknown_080D8F18
+_0808E228: .4byte gCharSelect_DisplayOrder
 _0808E22C:
 	movs r0, #4
 _0808E22E:
@@ -269,7 +269,7 @@ _0808E26C:
 	bl m4aSongNumStart
 	ldr r2, _0808E294 @ =gUnknown_030010AC
 	mov ip, r2
-	ldr r7, _0808E298 @ =gUnknown_080D8F18
+	ldr r7, _0808E298 @ =gCharSelect_DisplayOrder
 _0808E280:
 	movs r6, #0
 	ldrb r1, [r5, #0x13]
@@ -282,7 +282,7 @@ _0808E280:
 	b _0808E29E
 	.align 2, 0
 _0808E294: .4byte gUnknown_030010AC
-_0808E298: .4byte gUnknown_080D8F18
+_0808E298: .4byte gCharSelect_DisplayOrder
 _0808E29C:
 	strb r6, [r5, #0x13]
 _0808E29E:

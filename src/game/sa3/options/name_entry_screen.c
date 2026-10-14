@@ -580,11 +580,11 @@ void Task_80924DC(void)
 
     if (nes->initArg0 == 2) {
         CURRENT_GAME_MODE = GAME_MODE_MP_MULTI_PACK;
-        sub_80003B8();
+        SetDefaultDisplaySettings();
         CreateMultiPakConnectionCheck(0);
     } else if (nes->initArg0 == 3) {
         CURRENT_GAME_MODE = GAME_MODE_MP_SINGLE_PACK;
-        sub_80003B8();
+        SetDefaultDisplaySettings();
         sub_8000340(0);
     } else if (nes->initArg0 == 1) {
         LaunchOptionsMenu(8);

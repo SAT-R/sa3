@@ -177,7 +177,7 @@ void TaskDestructor_9C_80AE1B4(Task *t);
 void Task_80AE6D8(void);
 void Task_14_B_80AE760(void);
 extern void CreateGameIntroState(u16 state);
-extern void sub_8000804(u16 arg3);
+extern void sub_8000804(void);
 extern void sub_80C621C(void);
 
 AnimCmdResult sub_80AE850(NewGameOpening6C *strc6C);
@@ -1654,7 +1654,7 @@ void Task_14_B_80AE720(void)
 
     unkC = ++strc14->unkC;
     if (unkC >= 60) {
-        sub_8000804(unkC);
+        sub_8000804();
         sub_8001E58();
         gCurTask->main = Task_14_B_80AE760;
     }

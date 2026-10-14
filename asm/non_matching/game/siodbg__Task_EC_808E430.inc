@@ -16,7 +16,7 @@
 	ldrb r6, [r0, #7]
 	cmp r4, #0
 	bne _0808E470
-	ldr r1, _0808E46C @ =gUnknown_080D8F18
+	ldr r1, _0808E46C @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r5, r0]
 	adds r0, r0, r1
@@ -27,9 +27,9 @@
 _0808E460: .4byte gCurTask
 _0808E464: .4byte gStageData
 _0808E468: .4byte gUnknown_03001060
-_0808E46C: .4byte gUnknown_080D8F18
+_0808E46C: .4byte gCharSelect_DisplayOrder
 _0808E470:
-	ldr r1, _0808E490 @ =gUnknown_080D8F18
+	ldr r1, _0808E490 @ =gCharSelect_DisplayOrder
 	movs r0, #0x13
 	ldrsb r0, [r5, r0]
 	adds r0, r0, r1
@@ -45,7 +45,7 @@ _0808E47E:
 	bl sub_802613C
 	b _0808E6A4
 	.align 2, 0
-_0808E490: .4byte gUnknown_080D8F18
+_0808E490: .4byte gCharSelect_DisplayOrder
 _0808E494:
 	cmp r0, #1
 	beq _0808E49A

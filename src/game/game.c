@@ -16,11 +16,10 @@
 
 void sub_80001EC(void);
 void Task_8000284(void);
-void sub_8000390(void);
-void sub_80003B8(void);
+void LaunchLanguageOptions(void);
+void SetDefaultDisplaySettings(void);
 void CallCompleteSave(void);
 void sub_8001E84(void);
-void sub_8027960(u16 param0); // either no param or unused
 void DemoPlay_Init(void);
 void CreateOptions(s16 param0);
 void sub_808ECB8(s16 param0);
@@ -50,7 +49,7 @@ void sub_80001EC(void)
     void *vram;
     u16 tileSlots;
 
-    sub_80003B8();
+    SetDefaultDisplaySettings();
     gStageData.unk7 = 0;
     gStageData.levelTimer = 0;
     gStageData.timer = 0;
@@ -70,7 +69,7 @@ void sub_80001EC(void)
         sub_8001E84();
         TaskCreate(Task_8000284, 0U, 0x100U, 0U, NULL);
     } else {
-        sub_8000390();
+        LaunchLanguageOptions();
     }
 }
 
@@ -86,8 +85,8 @@ void Task_8000284(void)
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     gStageData.timer = 0;
-    sub_80003B8();
-#if 0 && (!PLATFORM_GBA || DEBUG)
+    SetDefaultDisplaySettings();
+#if (!PLATFORM_GBA || DEBUG)
     // REG_KEYINPUT = KEYS_MASK ^ input, so we need to invert here to create the editor on SELECT.
     if (!(REG_KEYINPUT & SELECT_BUTTON)) {
         CreateAnimationEd();
@@ -103,7 +102,7 @@ void Task_8000284(void)
 
 void LaunchGameIntro(void)
 {
-    sub_80003B8();
+    SetDefaultDisplaySettings();
     CreateGameIntroState(1);
 }
 
@@ -111,7 +110,7 @@ void LaunchDemoPlay(void) { DemoPlay_Init(); }
 
 void LaunchTitleScreen(void)
 {
-    sub_80003B8();
+    SetDefaultDisplaySettings();
     sub_808ADF0(1);
 }
 
@@ -119,32 +118,40 @@ void LaunchChaoMenu(s16 arg0, u8 arg1) { CreateMainMenu(arg0, arg1); }
 
 void sub_8000340(u16 arg0)
 {
-    sub_80003B8();
+    SetDefaultDisplaySettings();
     sub_808ECB8(arg0);
 }
 
 void LaunchOptionsMenu(u16 arg0)
 {
-    sub_80003B8();
+    SetDefaultDisplaySettings();
     CreateOptions(arg0);
 }
 
-void sub_8000378(void) { sub_80003B8(); }
+void sub_8000378(void) { SetDefaultDisplaySettings(); }
 
-void sub_8000384(void) { sub_80003B8(); }
+void sub_8000384(void) { SetDefaultDisplaySettings(); }
 
-void sub_8000390(void)
+void LaunchLanguageOptions(void)
 {
-    sub_80003B8();
+    SetDefaultDisplaySettings();
     Options_Language(0, OBJ_VRAM0, 0, 0);
 }
 
-void sub_80003AC(void) { sub_80003B8(); }
+void sub_80003AC(void) { SetDefaultDisplaySettings(); }
 
-void sub_80003B8(void)
+/*
+ * - Set Display Mode 0
+ * - Enable BG2, OBJ (as 1D map)
+ * - BG2-Screenbase-Address : BG_SCREEN_ADDR(30) (&BG_VRAM[0xF000])
+ * - BG2-Charbase-Address   : BG_CHAR_ADDR(0)    (&BG_VRAM[0])
+ * - Set gTilemapsRef to &gTilemaps (default)
+ * - Set gRefSpriteTables to &gSpriteTables (default)
+ */
+void SetDefaultDisplaySettings(void)
 {
-    gDispCnt = DISPCNT_BG2_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP;
-    gBgCntRegs[2] = BGCNT_SCREENBASE(30) | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1);
+    gDispCnt = DISPCNT_BG2_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
+    gBgCntRegs[2] = BGCNT_SCREENBASE(30) | BGCNT_CHARBASE(0) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(1);
     gTilemapsRef = (Tilemap **)&gTilemaps;
     gRefSpriteTables = &gSpriteTables;
     gBgPalette[1] = RGB16(31, 31, 31);
@@ -374,22 +381,20 @@ bool16 GetZoneAndActTypeFromStageID(s16 stageID, u8 *zone, u8 *actType)
     return FALSE;
 }
 
-void sub_8000804(u16 arg3)
+void sub_8000804(void)
 {
     s32 var_r4;
-    s8 var_r1_2;
-    u32 temp_r0_2;
-    u8 *var_r1;
+    s8 i;
     u8 *medal;
     VsRecords *records;
 
     switch (gStageData.unkB8) {
         case 0: {
-            var_r4 = 1 & gStageData.playerIndex;
+            var_r4 = gStageData.playerIndex & 1;
         } break;
 
         case 1: {
-            var_r4 = gStageData.unkB8 & ~gStageData.playerIndex;
+            var_r4 = ~gStageData.playerIndex & 1;
         } break;
 
         case 2: {
@@ -425,9 +430,9 @@ void sub_8000804(u16 arg3)
         }
     }
 
-    for (var_r1_2 = 3; var_r1_2 >= 0; var_r1_2--) {
-        if ((((s32)gUnknown_03001060.filler0[7] >> var_r1_2) & 1) && ((1 & gStageData.playerIndex) != (var_r1_2 & 1))) {
-            records = sub_8001C30(gUnknown_03001060.unkC[var_r1_2], gUnknown_03001060.unk1C[var_r1_2]);
+    for (i = 3; i >= 0; i--) {
+        if (GetBit(gUnknown_03001060.unk7, i) && ((gStageData.playerIndex & 1) != (i & 1))) {
+            records = sub_8001C30(gUnknown_03001060.unkC[i], gUnknown_03001060.unk1C[i]);
             switch (var_r4) {
                 case 0: {
                     if (records->losses < 99) {

@@ -1,7 +1,7 @@
 #ifndef GUARD_SA3_CHARACTER_SELECT_H
 #define GUARD_SA3_CHARACTER_SELECT_H
 
-#include "constants/characters.h" // NUM_CHARACTERS
+#include "constants/characters.h" // ECharacters (incl. NUM_CHARACTERS)
 
 // BUG: Note that resultVar in the CS_SIO_CHECK_*() macros gets checked,
 //      even though it is not set if (cs->createIndex == 1)!
@@ -87,8 +87,8 @@ typedef struct CharacterSelect {
     /* 0x02 */ u8 unk2;
     /* 0x03 */ u8 unk3;
     /* 0x04 */ u8 unk4;
-    /* 0x05 */ u8 unk5;
-    /* 0x06 */ u8 unk6;
+    /* 0x05 */ u8 listIndex[CS_CHARID_COUNT]; // The index, in order of *visual* appearance, in the menu. NOT the character index! Used to
+                                              // index gCharSelect_DisplayOrder[].
     /* 0x07 */ u8 createIndex;
     /* 0x08 */ u8 unk8;
     /* 0x09 */ u8 unk9;
@@ -99,7 +99,7 @@ typedef struct CharacterSelect {
     /* 0x10 */ u16 qFadeBrightness;
     /* 0x12 */ u16 unk12;
     /* 0x14 */ u16 unk14;
-    /* 0x16 */ s16 qUnk16;
+    /* 0x16 */ u16 qUnk16;
     /* 0x18 */ s16 qBgCharNameScale;
     /* 0x1C */ void *tilesCharacters[2];
     /* 0x24 */ s32 qTxtSelectAPlayerX;
@@ -171,4 +171,5 @@ void CreateCharacterSelect(u8 createIndex);
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
 extern const u16 gCharSelect3_Tilemaps[CSTMI_COUNT];
 extern const TileInfo2 gTileInfo_CharSelect3_HeaderBackdrop[1];
+extern const ECharacters gCharSelect_DisplayOrder[NUM_CHARACTERS];
 #endif // GUARD_SA3_CHARACTER_SELECT_H

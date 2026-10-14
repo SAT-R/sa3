@@ -78,7 +78,7 @@ _08099514:
 	ldrb r0, [r4, #3]
 	strb r0, [r4, #4]
 	strb r0, [r4, #6]
-	ldr r1, _08099550 @ =gUnknown_080D8F18
+	ldr r1, _08099550 @ =gCharSelect_DisplayOrder
 	ldrb r0, [r4, #6]
 	adds r0, r0, r1
 	ldrb r5, [r0]
@@ -106,7 +106,7 @@ _08099514:
 	ldr r0, _08099560 @ =gUnknown_08E2EEF0
 	b _080995A0
 	.align 2, 0
-_08099550: .4byte gUnknown_080D8F18
+_08099550: .4byte gCharSelect_DisplayOrder
 _08099554: .4byte gLoadedSaveGame
 _08099558: .4byte gUnknown_080D946D
 _0809955C: .4byte gFlags

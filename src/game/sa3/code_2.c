@@ -8,6 +8,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/game.h"
 #include "game/sa3/code_3.h"
+#include "game/sa3/character_select.h"
 #include "game/save.h"
 #include "game/special_stage.h"
 #include "game/stage.h"
@@ -288,7 +289,6 @@ extern const ColorRaw gUnknown_080D97F8[10 * PALETTE_LEN_4BPP];
 extern const ColorRaw gUnknown_080D9898[4 * PALETTE_LEN_4BPP];
 extern const TileInfo2 gUnknown_080D9738[48];
 extern const ColorRaw *gUnknown_08E2EF10[13];
-extern const u8 gUnknown_080D8F18[5];
 extern const TileInfo2 *gUnknown_080D93D4[];
 extern const TileInfo2 *gUnknown_080D93EC[];
 extern const TileInfo2 *gUnknown_080D9404[];
@@ -297,20 +297,20 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
 {
     const TileInfo2 *var_r0;
     s8 *var_r6;
-    u8 temp_r2;
+    ECharacters character;
     u8 var_r4;
     u8 var_r7;
     const TileInfo2 *temp_r8;
     const TileInfo2 *temp_r2_2;
     const TileInfo2 *temp_r2_3;
 
-    temp_r2 = gUnknown_080D8F18[*strc->unk0];
+    character = gCharSelect_DisplayOrder[*strc->unk0];
     if (*strc->unk4 > 0x15U) {
-        var_r7 = gUnknown_080D9438[temp_r2];
-        temp_r8 = gUnknown_080D93EC[temp_r2];
+        var_r7 = gUnknown_080D9438[character];
+        temp_r8 = gUnknown_080D93EC[character];
     } else {
-        var_r7 = gUnknown_080D9432[temp_r2];
-        temp_r8 = gUnknown_080D93D4[temp_r2];
+        var_r7 = gUnknown_080D9432[character];
+        temp_r8 = gUnknown_080D93D4[character];
     }
     var_r6 = strc->vramC;
     for (var_r4 = 0; var_r4 < var_r7; var_r4++) {
@@ -468,7 +468,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
     u8 var_r5;
     TileInfo2 *temp_r1_2;
     TileInfo2 *temp_r1_3;
-    u8 var_r8 = gUnknown_080D8F18[*strc->unk0];
+    u8 var_r8 = gCharSelect_DisplayOrder[*strc->unk0];
 
     u32 sp0 = 0;
     u32 sp4 = 0;
