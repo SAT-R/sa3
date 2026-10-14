@@ -276,7 +276,7 @@ extern const u8 gUnknown_080D9441[3];
 extern const u8 gUnknown_080D9444[3];
 extern const u8 gUnknown_080D9468[NUM_CHARACTERS];
 extern ColorRaw gUnknown_080D9448[1 * PALETTE_LEN_4BPP];
-extern const u8 gUnknown_080D946D[NUM_CHARACTERS];
+extern const u8 gPlayerUnlockedMasks[NUM_CHARACTERS];
 extern const TileInfo2 *gUnknown_080D9564[5];
 extern const u8 gUnknown_080D9618[5];
 extern const u8 gUnknown_080D961D[NUM_CHARACTERS];
@@ -644,7 +644,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
             DisplaySprite(s);
         }
         if (GAME_MODE_IS_SINGLE_PLAYER_OR_COOP(CURRENT_GAME_MODE)) {
-            if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8]) && ((u32)(u8)(*strc->unk4 - 0x19) > 2U)) {
+            if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[var_r8]) && ((u32)(u8)(*strc->unk4 - 0x19) > 2U)) {
                 if (FLAGS_20000 & gFlags) {
                     CopyObjPaletteMasked(gUnknown_080D9448, 0x50U, 0x10U);
                 } else {
@@ -658,7 +658,7 @@ NONMATCH("asm/non_matching/game/sa3/c21__sub_809BA58.inc", bool32 sub_809BA58(Co
     }
     {
         u8 gameMode = CURRENT_GAME_MODE;
-        if (((u32)gameMode <= 5U) && !(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[var_r8])) {
+        if (((u32)gameMode <= 5U) && !(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[var_r8])) {
             temp_r1_4 = *strc->unk4;
             if ((u32)(u8)(temp_r1_4 - 25) > 2U) {
                 if (((u32)temp_r1_4 > 19) && (gameMode == 5)) {

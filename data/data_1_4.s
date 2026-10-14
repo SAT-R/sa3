@@ -153,10 +153,12 @@ gUnknown_080D9448:
 gUnknown_080D9468:
     .incbin "baserom_sa3.gba", 0x000D9468, 0x5
 
-    .global gUnknown_080D946D
-gUnknown_080D946D:
-    .incbin "baserom_sa3.gba", 0x000D946D, 0x7
+	@ Indexed by Character-IDs
+    .global gPlayerUnlockedMasks
+gPlayerUnlockedMasks:
+    .incbin "baserom_sa3.gba", 0x000D946D, 0x5 @ { (1 << SONIC), (1 << CREAM), (1 << TAILS) , (1 << KNUCKLES), (1 << AMY) }
 
+	.align 2 , 0
     .global gUnknown_080D9474
 gUnknown_080D9474:
     .incbin "baserom_sa3.gba", 0x000D9474, 0x30

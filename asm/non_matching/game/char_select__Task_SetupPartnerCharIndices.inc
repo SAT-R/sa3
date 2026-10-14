@@ -89,7 +89,7 @@ _08099514:
 	lsls r0, r0, #7
 	str r0, [r4, #0x40]
 	ldr r1, _08099554 @ =gLoadedSaveGame
-	ldr r0, _08099558 @ =gUnknown_080D946D
+	ldr r0, _08099558 @ =gPlayerUnlockedMasks
 	adds r0, r5, r0
 	ldrb r1, [r1, #0x10]
 	ldrb r0, [r0]
@@ -108,7 +108,7 @@ _08099514:
 	.align 2, 0
 _08099550: .4byte gCharSelect_DisplayOrder
 _08099554: .4byte gLoadedSaveGame
-_08099558: .4byte gUnknown_080D946D
+_08099558: .4byte gPlayerUnlockedMasks
 _0809955C: .4byte gFlags
 _08099560: .4byte gUnknown_08E2EEF0
 _08099564:
@@ -184,7 +184,7 @@ _080995CE:
 	strh r1, [r2, #0x18]
 	strh r1, [r2, #0x1a]
 	ldr r1, _0809962C @ =gLoadedSaveGame
-	ldr r0, _08099630 @ =gUnknown_080D946D
+	ldr r0, _08099630 @ =gPlayerUnlockedMasks
 	adds r0, r5, r0
 	ldrb r1, [r1, #0x10]
 	ldrb r0, [r0]
@@ -204,7 +204,7 @@ _08099620: .4byte 0x00000157
 _08099624: .4byte 0x06008000
 _08099628: .4byte 0x0600D800
 _0809962C: .4byte gLoadedSaveGame
-_08099630: .4byte gUnknown_080D946D
+_08099630: .4byte gPlayerUnlockedMasks
 _08099634: .4byte gCharSelect3_Tilemaps
 _08099638:
 	ldr r0, _08099674 @ =gCharSelect3_Tilemaps

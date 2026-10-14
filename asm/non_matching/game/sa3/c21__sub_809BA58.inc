@@ -494,7 +494,7 @@ _0809BE00:
 	b _0809BF14
 _0809BE0A:
 	ldr r1, _0809BE48 @ =gLoadedSaveGame
-	ldr r0, _0809BE4C @ =gUnknown_080D946D
+	ldr r0, _0809BE4C @ =gPlayerUnlockedMasks
 	add r0, r8
 	ldrb r1, [r1, #0x10]
 	ldrb r0, [r0]
@@ -523,7 +523,7 @@ _0809BE0A:
 	.align 2, 0
 _0809BE44: .4byte gStageData
 _0809BE48: .4byte gLoadedSaveGame
-_0809BE4C: .4byte gUnknown_080D946D
+_0809BE4C: .4byte gPlayerUnlockedMasks
 _0809BE50: .4byte gFlags
 _0809BE54: .4byte gUnknown_080D9448
 _0809BE58:
@@ -544,7 +544,7 @@ _0809BE6E:
 	cmp r2, #5
 	bhi _0809BF14
 	ldr r1, _0809BEBC @ =gLoadedSaveGame
-	ldr r0, _0809BEC0 @ =gUnknown_080D946D
+	ldr r0, _0809BEC0 @ =gPlayerUnlockedMasks
 	add r0, r8
 	ldrb r1, [r1, #0x10]
 	ldrb r0, [r0]
@@ -573,7 +573,7 @@ _0809BEB0: .4byte gObjPalette + 0xA0
 _0809BEB4: .4byte 0x80000010
 _0809BEB8: .4byte gStageData
 _0809BEBC: .4byte gLoadedSaveGame
-_0809BEC0: .4byte gUnknown_080D946D
+_0809BEC0: .4byte gPlayerUnlockedMasks
 _0809BEC4:
 	ldr r4, _0809BEE8 @ =gFlags
 	ldr r3, [r4]

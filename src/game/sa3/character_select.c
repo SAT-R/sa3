@@ -49,7 +49,7 @@ void Task_8098DE4(void);
 void Task_8098FF0(void);
 void Task_8099200(void);
 void Task_8099300(void);
-void Task_809947C(void);
+void Task_SetupPartnerCharIndices(void);
 void Task_8099680(void);
 void Task_809A018(void);
 bool32 sub_809AC44(CharacterSelect *cs, u8 param1);
@@ -306,7 +306,7 @@ const u16 gCharacterSelectedVoices[NUM_CHARACTERS] = {
     VOICE__SONIC__OKAY, VOICE__TAILS__OKAY, VOICE__KNUCKLES__LETS_GO, VOICE__CREAM__HERE_WE_GO, VOICE__AMY__WOOHOO,
 };
 
-extern const u8 gUnknown_080D946D[NUM_CHARACTERS];
+extern const u8 gPlayerUnlockedMasks[NUM_CHARACTERS];
 
 extern const u8 Tileset_DebugAscii[0x140];
 extern const u16 gUnknown_08E2EE50[10][16];
@@ -1099,8 +1099,8 @@ void Task_8098DE4(void)
                 sub_80992A8(cs);
                 gCurTask->main = Task_8098FF0;
             } else if (A_BUTTON & gPressedKeys) {
-                s32 unlockIndex = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
-                if (LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[unlockIndex]) {
+                ECharacters character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+                if (LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character]) {
                     m4aSongNumStart(gCharacterSelectedVoices[cs->listIndex[CS_CHARID_PLAYER]]);
                     sub_809B5D0(cs);
                     gCurTask->main = Task_8099300;
@@ -1188,7 +1188,7 @@ void sub_80990B0(CharacterSelect *cs)
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
         bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
         bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
@@ -1205,7 +1205,7 @@ void sub_80990B0(CharacterSelect *cs)
 
     cs->qUnk40 = Q(DISPLAY_CENTER_Y);
     cs->unkB = 4;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
         if (FLAGS_20000 & gFlags) {
             CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x60U, 16);
         } else {
@@ -1325,26 +1325,25 @@ void Task_8099300()
     if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER || CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK
         || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
         gPlayers->charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
-        gCurTask->main = Task_809947C;
+        gCurTask->main = Task_SetupPartnerCharIndices;
     } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         gPlayers[gStageData.playerIndex].charFlags.character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
-        gCurTask->main = Task_809947C;
+        gCurTask->main = Task_SetupPartnerCharIndices;
     }
 }
 
 // (96.04%) https://decomp.me/scratch/f1JNY
-NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C())
+NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", void Task_SetupPartnerCharIndices())
 {
     Background *bg;
-    u16 *var_r0_2;
+#ifndef BUG_FIX
     s16 var_r0;
-    u16 var_r0_3;
-    u16 var_r2;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
+#else
+    // TODO: Maybe a different init value?
+    s16 var_r0 = 0;
+#endif
     u8 character;
-    u8 var_r1;
+    u8 i;
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
     s32 playerIndex = gStageData.playerIndex;
@@ -1357,7 +1356,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     sub_809B6C0(cs);
 
     cs->unk3 = 0;
-    for (var_r1 = 0; var_r1 < 4; var_r1++) {
+    for (i = 0; i < 4; i++) {
         if (cs->unk3 == cs->listIndex[CS_CHARID_PLAYER]) {
             cs->unk3++;
         } else {
@@ -1370,7 +1369,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     cs->qUnk3C = Q(310);
     cs->qUnk40 = Q(80);
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
         if (FLAGS_20000 & gFlags) {
             CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
         } else {
@@ -1391,7 +1390,7 @@ NONMATCH("asm/non_matching/game/char_select__sub_809947C.inc", void Task_809947C
     bg->layoutVram = BG_SCREEN_ADDR(27);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
         bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
         bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
@@ -1496,7 +1495,7 @@ void Task_8099758(void)
                 gCurTask->main = Task_8099968;
             } else if (A_BUTTON & gPressedKeys) {
                 s32 unlockIndex = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
-                if (LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[unlockIndex]) {
+                if (LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[unlockIndex]) {
                     m4aSongNumStart(gCharacterSelectedVoices[cs->listIndex[CS_CHARID_PARTNER]]);
                     cs->unkB = 20;
 
@@ -1544,7 +1543,7 @@ void Task_8099758(void)
     }
 }
 
-// NOTE: Similar to Task_809947C
+// NOTE: Similar to Task_SetupPartnerCharIndices
 void Task_8099968(void)
 {
     Background *bg;
@@ -1586,7 +1585,7 @@ void Task_8099968(void)
         cs->qUnk4C = Q(320);
         character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
 
-        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+        if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
             if (FLAGS_20000 & gFlags) {
                 CopyObjPaletteMasked(&gUnknown_08E2EEF0[0], 0x70U, 0x10U);
             } else {
@@ -1610,7 +1609,7 @@ void Task_8099968(void)
         bg->layoutVram = BG_SCREEN_ADDR(27);
         bg->unk18 = 0;
         bg->unk1A = 0;
-        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+        if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
             bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
         } else {
             bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
@@ -1674,7 +1673,7 @@ void sub_8099C34(CharacterSelect *cs)
 
     if (DPAD_RIGHT & gRepeatedKeys) {
         do {
-            if (cs->unk4 > 3U) {
+            if (cs->unk4 >= 4) {
                 cs->unk4 = 0;
             } else {
                 cs->unk4++;
@@ -1728,7 +1727,7 @@ void Task_8099C9C()
     gBgScrollRegs[2][1] = -22;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
-    gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_CHARBASE(2) | BGCNT_PRIORITY(1);
+    gBgCntRegs[2] = BGCNT_SCREENBASE(27) | BGCNT_CHARBASE(2) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(1);
     bg = &cs->bg234;
     character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
     bg->graphics.dest = BG_CHAR_ADDR(2);
@@ -2077,7 +2076,7 @@ void sub_809A50C(CharacterSelect *cs)
     bg1F4->layoutVram = BG_SCREEN_ADDR(3);
     bg1F4->unk18 = 0;
     bg1F4->unk1A = 0;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[charPlayer])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[charPlayer])) {
         bg1F4->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
     } else {
         bg1F4->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + charPlayer];
@@ -2381,7 +2380,7 @@ void Task_809AABC(void)
         temp_r3->layoutVram = BG_SCREEN_ADDR(27);
         temp_r3->unk18 = 0;
         temp_r3->unk1A = 0;
-        if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[character])) {
+        if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
             temp_r3->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_QMARKS];
         } else {
             temp_r3->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + character];
@@ -2626,7 +2625,7 @@ void sub_809AE50(CharacterSelect *cs)
     temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
     temp_r2 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
     s = &cs->sprEC;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[temp_r2])) {
         s->anim = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].anim;
         s->variant = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].variant;
     } else {
@@ -2642,13 +2641,10 @@ void sub_809AE50(CharacterSelect *cs)
 void sub_809AF08(CharacterSelect *cs)
 {
     Sprite *s;
-    Sprite *temp_r4_2;
-    TileInfo2 *temp_r0;
-    s32 var_r0_2;
     u32 temp_r3;
     u32 var_r0;
-    u8 temp_r1;
-    u8 temp_r2;
+    u8 lang;
+    ECharacters character;
     u8 i;
 
     for (i = 0; i < 2; i++) {
@@ -2664,17 +2660,17 @@ void sub_809AF08(CharacterSelect *cs)
         DisplaySprite(s);
     }
 
-    temp_r1 = cs->language;
-    temp_r3 = (u32)((0 - temp_r1) | temp_r1) >> 0x1F;
-    temp_r2 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
+    lang = cs->language;
+    temp_r3 = (u32)((0 - lang) | lang) >> 0x1F;
+    character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
 
     s = &cs->spr13C;
-    if (!(LOADED_SAVE->unlockedCharacters & gUnknown_080D946D[temp_r2])) {
+    if (!(LOADED_SAVE->unlockedCharacters & gPlayerUnlockedMasks[character])) {
         s->anim = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].anim;
         s->variant = gTileInfo_CharSelect3_NameTagNames[6 + (temp_r3 * 8)].variant;
     } else {
-        s->anim = gTileInfo_CharSelect3_NameTagNames[temp_r2 + (temp_r3 * 8)].anim;
-        s->variant = gTileInfo_CharSelect3_NameTagNames[temp_r2 + (temp_r3 * 8)].variant;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[character + (temp_r3 * 8)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[character + (temp_r3 * 8)].variant;
     }
     s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
     s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
