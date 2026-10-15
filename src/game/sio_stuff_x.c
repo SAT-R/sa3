@@ -1,15 +1,30 @@
 #include "global.h"
 #include "core.h"
+#include "multi_sio_stuff.h"
 #include "game/game.h"
 #include "game/save.h"
 #include "game/stage.h"
 
 // TODO: Merge with "./src/sio_stuff_x.c"
 
+// TODO: Improve names
+// TODO: Unsure whether this is the same as SA1/SA2, but it is used the same way.
+//       If it is the same, rename this module to mp_event_mgr.c (but it seems *very* different)
+//       Maybe all the extra stuff is just for the Story Coop Mode?
+#if (GAME == GAME_SA1)
+#define MPEVTMGR_RECV_MASK 0x1000
+#elif (GAME == GAME_SA2)
+#define MPEVTMGR_RECV_MASK 0x5000
+#elif (GAME == GAME_SA3)
+#define MPEVTMGR_RECV(v) (0x6C00 | (v))
+#endif
+
 void sub_8024314();
+void sub_8024324();
 s16 sub_802610C();
 
-s16 sub_8023A88() {
+s16 sub_8023A88()
+{
     s32 var_r0;
     s16 var_r1;
     s16 var_r1_2;
@@ -25,22 +40,20 @@ s16 sub_8023A88() {
         } else {
             union MultiSioData *send = &gMultiSioSend;
             send->patStuffX.unk2 = 0;
-            for(var_r1 = 0; var_r1 < 2; var_r1++)
-            {
+            for (var_r1 = 0; var_r1 < 2; var_r1++) {
                 if (CheckBit(gMultiSioStatusFlags, var_r1)) {
                     union MultiSioData *recv = &gMultiSioRecv[var_r1];
-                    if(recv->patStuffX.unk0 == 0x6C01) {
-                        recv->patStuffX.unk0 == 0x6C01;
+                    if (recv->patStuffX.unk0 == MPEVTMGR_RECV(1)) {
+                        recv->patStuffX.unk0 == MPEVTMGR_RECV(1);
                         send->patStuffX.unk2 |= 1 << var_r1;
                         send->patStuffX.unlockedCharacters = LOADED_SAVE->unlockedCharacters;
                         send->patStuffX.unlockedZones = LOADED_SAVE->unlockedZones;
                         send->patStuffX.saveGameUnk36 = LOADED_SAVE->unk36;
-    
-                        for(var_r1_2 = 0; var_r1_2 < (s32)ARRAY_COUNT(send->patStuffX.unk6); var_r1_2++)
-                        {
+
+                        for (var_r1_2 = 0; var_r1_2 < (s32)ARRAY_COUNT(send->patStuffX.unk6); var_r1_2++) {
                             send->patStuffX.unk6[var_r1_2] = LOADED_SAVE->unlockedStages[var_r1_2];
                         }
-    
+
                         send->patStuffX.unkD = 1;
                         send->patStuffX.difficulty = LOADED_SAVE->difficulty;
                         send->patStuffX.disableTimeLimit = LOADED_SAVE->disableTimeLimit;
@@ -57,46 +70,55 @@ s16 sub_8023A88() {
     return var_r0;
 }
 
-#if 0
-s16 sub_8023BB0(void) {
-    s16 temp_r0;
+// TODO: External func references this as s16, maybe it's the actual return type?
+//       That does not match, though... but this does seem pretty hacked in the first place...
+s32 sub_8023BB0(void)
+{
+    s32 temp_r0;
     s16 temp_r2;
     s16 var_r0;
     s16 var_r1;
     u16 temp_r0_2;
-    u8 temp_r4;
+    s32 temp_r4;
+    s32 r1;
+    s32 r3;
 
-    gStageData.playerIndex = (u8) (SIO_MULTI_CNT->id);
+    gStageData.playerIndex = SIO_MULTI_CNT->id;
     var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (gMultiSioStatusFlags & 0xC0C) {
-            return -4;
-        }
-        gUnknown_03001060.unk7 = gMultiSioSend.pat0.unk2;
-        temp_r4 = gMultiSioSend.pat0.unk2;
+    if (var_r0 < 0) {
+        return var_r0;
+    }
+    if (gMultiSioStatusFlags & 0xC0C) {
+        return -4;
+    }
+    {
+        union MultiSioData *send = &gMultiSioSend;
+        Struct_03001060 *tgt = &gUnknown_03001060;
+        temp_r4 = send->patStuffX.unk2;
+        tgt->unk7 = temp_r4;
+        temp_r4 <<= 24;
+        temp_r4 = ((u32)temp_r4) >> 24;
         sub_8024324();
-        temp_r0 = (s16) temp_r4;
+        temp_r4 <<= 16;
+        temp_r0 = (s32)temp_r4 >> 16;
         if (temp_r0 != 3) {
             return temp_r0;
         }
-        var_r1 = 0;
-loop_7:
-        temp_r2 = var_r1;
-        if (!((3 >> temp_r2) & 1) || (gMultiSioRecv[temp_r2].pat0.unk0 == 0x6C02)) {
-            temp_r0_2 = temp_r2 + 1;
-            var_r1 = (s16) temp_r0_2;
-            if ((s32) (s16) temp_r0_2 > 1) {
-                var_r0 = (s16) temp_r4 | 0x10;
-                /* Duplicate return node #11. Try simplifying control flow for better match */
-                return var_r0;
+
+        for (var_r1 = 0, r3 = 3; var_r1 < 2; var_r1++) {
+            if (GetBit(r3, var_r1)) {
+                union MultiSioData *recv = &gMultiSioRecv[var_r1];
+                if (recv->patStuffX.unk0 != MPEVTMGR_RECV(2)) {
+                    return r3;
+                }
             }
-            goto loop_7;
         }
-        return 3;
     }
-    return var_r0;
+    r1 = 0x10;
+    return r1 | (temp_r4 >> 16);
 }
 
+#if 0
 s16 sub_8023C5C(void) {
     s16 var_r0;
     u32 temp_r0;
@@ -114,27 +136,27 @@ s16 sub_8023C5C(void) {
             if (!(gMultiSioStatusFlags & 1)) {
                 goto block_5;
             }
-            if (((0xFF00 & gMultiSioRecv->pat0.unk0) != 0x6C00) && (gMultiSioRecv->pat0.unk0 != 0)) {
+            if (((0xFF00 & gMultiSioRecv->pat0.unk0) != MPEVTMGR_RECV(0)) && (gMultiSioRecv->pat0.unk0 != 0)) {
                 return -5;
             }
             gMultiSioSend.pat0.unk2 = gMultiSioRecv->pat0.unk2;
             var_r6 = gMultiSioRecv->pat0.unk2;
-            if (gMultiSioRecv->pat0.unk0 == 0x6C02) {
+            if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(2)) {
                 var_r6 |= 0x10;
-            } else if (gMultiSioRecv->pat0.unk0 == 0x6C01) {
-                gLoadedSaveGame.unlockedCharacters = gMultiSioRecv->pat0.unk3;
-                gLoadedSaveGame.unlockedZones = gMultiSioRecv->pat3_0.unk4;
-                gLoadedSaveGame.unk36 = gMultiSioRecv->pat3_0.filler5[0];
+            } else if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(1)) {
+                LOADED_SAVE->unlockedCharacters = gMultiSioRecv->pat0.unk3;
+                LOADED_SAVE->unlockedZones = gMultiSioRecv->pat3_0.unk4;
+                LOADED_SAVE->unk36 = gMultiSioRecv->pat3_0.filler5[0];
                 var_r2 = 0;
                 do {
-                    gLoadedSaveGame.unlockedStages[var_r2] = *(&gMultiSioRecv->pat1.unk6 + var_r2);
+                    LOADED_SAVE->unlockedStages[var_r2] = *(&gMultiSioRecv->pat1.unk6 + var_r2);
                     var_r2 += 1;
                 } while ((u32) var_r2 <= 6U);
                 gStageData.zone = 1;
-                gLoadedSaveGame.difficulty = gMultiSioRecv->pat0.unkE;
-                gLoadedSaveGame.disableTimeLimit = gMultiSioRecv->pat0.unkF;
-                gLoadedSaveGame.collectedEmeralds = gMultiSioRecv->pat4.unk10;
-                gLoadedSaveGame.unk34 = (u16) gMultiSioRecv->pat4.unk11;
+                LOADED_SAVE->difficulty = gMultiSioRecv->pat0.unkE;
+                LOADED_SAVE->disableTimeLimit = gMultiSioRecv->pat0.unkF;
+                LOADED_SAVE->collectedEmeralds = gMultiSioRecv->pat4.unk10;
+                LOADED_SAVE->unk34 = (u16) gMultiSioRecv->pat4.unk11;
             }
             sub_8024314();
             var_r0 = (s16) var_r6;
@@ -168,7 +190,7 @@ s16 sub_8023D60(void) {
             gUnknown_03001060.unk7 = temp_r0;
             var_r4 = temp_r0;
         }
-        if (gMultiSioRecv->pat0.unk0 == 0x6C03) {
+        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(3)) {
             var_r4 = (u8) (u16) ((s16) var_r4 | 0x10);
         }
         sub_8024324();
@@ -195,7 +217,7 @@ s16 sub_8023E04(void) {
         if ((u32) (u16) (gMultiSioRecv->pat0.unk0 + 0xFFFF93FD) <= 1U) {
             var_r4 = gMultiSioRecv->pat3_0.unk4 + 1;
         }
-        if (gMultiSioRecv->pat0.unk0 == 0x6C04) {
+        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(4)) {
             var_r4 = (s16) (u16) (var_r4 | 0x10);
         }
         sub_8024354(1U, 0xFFU);
@@ -222,7 +244,7 @@ s16 sub_8023E80(void) {
         if ((u32) (u16) (gMultiSioRecv[1].pat0.unk0 + 0xFFFF93F9) <= 1U) {
             var_r4 = gMultiSioRecv[1].pat3_0.unk4 + 1;
         }
-        if (gMultiSioRecv[1].pat0.unk0 == 0x6C08) {
+        if (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(8)) {
             var_r4 = (s16) (u16) (var_r4 | 0x10);
         }
         sub_8024394(0U, 0xFFU);
@@ -246,7 +268,7 @@ s16 sub_8023EFC(void) {
             return 0;
         }
         var_r4 = 0;
-        if ((gMultiSioRecv[1].pat0.unk0 == 0x6C08) || (gMultiSioRecv[1].pat0.unk0 == 0x6C0A)) {
+        if ((gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(8)) || (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(10))) {
             var_r4 = 0x10;
         }
         sub_80243C4(0U, 0xFFU);
@@ -274,7 +296,7 @@ s16 sub_8023F60(void) {
             var_r5 = gMultiSioRecv->pat5.filler3[1];
         }
         sub_80243E4(var_r5);
-        if (gMultiSioRecv->pat0.unk0 == 0x6C0C) {
+        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(12)) {
             var_r5 = (u8) (u16) ((s16) var_r5 | 0x1000);
         }
         var_r0 = (s16) var_r5;
@@ -297,7 +319,7 @@ s16 sub_8023FE0(void) {
             return 0;
         }
         var_r4 = 0;
-        if (gMultiSioRecv->pat0.unk0 == 0x6C0C) {
+        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(12)) {
             var_r4 = gMultiSioRecv->pat5.filler3[1] | 0x1000;
         }
         sub_80243F8(gMultiSioRecv->pat5.filler3[1]);
@@ -384,7 +406,7 @@ s16 sub_8024130(void) {
             return 0;
         }
         var_r4 = 0;
-        if (gMultiSioRecv[1].pat0.unk0 == 0x6C0A) {
+        if (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(10)) {
             var_r4 = 0x10;
         }
         sub_80243B4();
@@ -416,7 +438,7 @@ s16 sub_80241AC(u8 arg0) {
             return -4;
         }
         var_r4 = 0;
-        if ((gMultiSioRecv->pat0.unk0 == 0x6C08) || (gMultiSioRecv->pat0.unk0 == 0x6C0B)) {
+        if ((gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(8)) || (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(11))) {
             var_r4 = 0x10;
         }
         sub_80243C4(1U, arg0);
@@ -437,7 +459,7 @@ s16 sub_8024208(void) {
             return -4;
         }
         var_r4 = 0;
-        if (gMultiSioRecv->pat0.unk0 == 0x6C0A) {
+        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(10)) {
             var_r4 = 0x10;
         }
         sub_80243B4();
@@ -480,7 +502,7 @@ s16 sub_8024298(u8 arg0) {
             return 0;
         }
         sub_80243F8(arg0);
-        if (gMultiSioRecv[1].pat0.unk0 == 0x6C0C) {
+        if (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(12)) {
             var_r5 = (s16) (u16) ((s16) saved_reg_r5 | 0x1000);
         }
         var_r0 = var_r5;
@@ -496,15 +518,15 @@ void sub_8024304(void) {
 }
 
 void sub_8024314(void) {
-    gMultiSioSend.pat0.unk0 = 0x6C01;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(1);
 }
 
 void sub_8024324(void) {
-    gMultiSioSend.pat0.unk0 = 0x6C02;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(2);
 }
 
 void sub_8024334(void) {
-    gMultiSioSend.pat0.unk0 = 0x6C03;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(3);
     gMultiSioSend.pat3_0.unk4 = 0;
     gMultiSioSend.pat0.unk3 = 0;
     gMultiSioSend.pat3_0.filler5[0] = 0xFF;
@@ -515,7 +537,7 @@ void sub_8024354(u8 arg0, u8 arg1) {
     u8 temp_r1;
 
     temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = 0x6C03;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(3);
     gMultiSioSend.pat3_0.unk4 = temp_r1;
     gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
 }
@@ -524,7 +546,7 @@ void sub_8024374(u8 arg0, u8 arg1) {
     u8 temp_r1;
 
     temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = 0x6C04;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(4);
     gMultiSioSend.pat3_0.unk4 = temp_r1;
     gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
 }
@@ -533,31 +555,31 @@ void sub_8024394(u8 arg0, u8 arg1) {
     u8 temp_r1;
 
     temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = 0x6C07;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(7);
     gMultiSioSend.pat3_0.unk4 = temp_r1;
     gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
 }
 
 void sub_80243B4(void) {
-    gMultiSioSend.pat0.unk0 = 0x6C0A;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(10);
 }
 
 void sub_80243C4(u8 arg0, u8 arg1) {
     u8 temp_r1;
 
     temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = 0x6C08;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(8);
     gMultiSioSend.pat3_0.unk4 = temp_r1;
     gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
 }
 
 void sub_80243E4(u8 arg0) {
-    gMultiSioSend.pat0.unk0 = 0x6C0B;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(11);
     gMultiSioSend.pat5.filler3[1] = arg0;
 }
 
 void sub_80243F8(u8 arg0) {
-    gMultiSioSend.pat0.unk0 = 0x6C0C;
+    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(12);
     gMultiSioSend.pat5.filler3[1] = arg0;
 }
 
@@ -1659,13 +1681,13 @@ block_4:
 void MultiSio_SendPlayerName(void) {
     gMultiSioSend.pat0.unk0 = 0;
     gMultiSioSend.pat0.unk2 = 0;
-    gMultiSioSend.pat0.unk4 = gLoadedSaveGame.playerId;
-    gMultiSioSend.pat0.unk8[0] = gLoadedSaveGame.playerName[0];
-    gMultiSioSend.pat0.unk8[1] = gLoadedSaveGame.playerName[1];
-    gMultiSioSend.pat0.unk8[2] = gLoadedSaveGame.playerName[2];
-    gMultiSioSend.unkE = (u16) gLoadedSaveGame.playerName[3];
-    gMultiSioSend.unk10 = (u16) gLoadedSaveGame.playerName[4];
-    gMultiSioSend.unk12 = (u16) gLoadedSaveGame.playerName[5];
+    gMultiSioSend.pat0.unk4 = LOADED_SAVE->playerId;
+    gMultiSioSend.pat0.unk8[0] = LOADED_SAVE->playerName[0];
+    gMultiSioSend.pat0.unk8[1] = LOADED_SAVE->playerName[1];
+    gMultiSioSend.pat0.unk8[2] = LOADED_SAVE->playerName[2];
+    gMultiSioSend.unkE = (u16) LOADED_SAVE->playerName[3];
+    gMultiSioSend.unk10 = (u16) LOADED_SAVE->playerName[4];
+    gMultiSioSend.unk12 = (u16) LOADED_SAVE->playerName[5];
 }
 
 void sub_8025714(u8 arg0) {
@@ -2121,7 +2143,7 @@ void sub_8025EEC(void) {
     u16 temp_r6;
 
     gTilemapsRef = gTilemaps;
-    gStageData.language = gLoadedSaveGame.language;
+    gStageData.language = LOADED_SAVE->language;
     temp_r6 = TaskCreate(Task_90_8026080, 0x90U, 0x2000U, 0U, NULL)->data;
     temp_r6->unk8C = 0x12C;
     gDispCnt = 0x340;
@@ -3391,7 +3413,7 @@ void sub_8027960(void) {
         sub_802613C();
         return;
     }
-    temp_r5 = gLoadedSaveGame.language;
+    temp_r5 = LOADED_SAVE->language;
     temp_r2 = TaskCreate(Task_F4_80283CC, 0xF4U, 0x1000U, 0U, (void (*)(Task *)) temp_r7)->data;
     temp_r2->unkF0 = temp_r7;
     temp_r2->unkDC = 0;
@@ -3521,7 +3543,7 @@ void sub_8027D3C(void) {
     *gIntrTable = Sio32MultiLoadIntr;
     *(s16 *)0x04000208 = 1;
     if (temp_r4->unkDE == 4) {
-        if (gLoadedSaveGame.language != 0) {
+        if (LOADED_SAVE->language != 0) {
             Sio32MultiLoadInit(gMultiSioStatusFlags & 0x80, &gUnknown_08E5F6B0);
         } else {
             Sio32MultiLoadInit(gMultiSioStatusFlags & 0x80, &gUnknown_08E5C244);
@@ -3586,7 +3608,7 @@ void Task_F4_8027E70(void) {
     if (gMultiSioStatusFlags & 0x10) {
         temp_r3->unkDD = 1U;
     }
-    gMultiSioSend.pat2.unk0 = (u8) ((u32) (0 - gLoadedSaveGame.language) >> 0x1F);
+    gMultiSioSend.pat2.unk0 = (u8) ((u32) (0 - LOADED_SAVE->language) >> 0x1F);
     gMultiSioStatusFlags = MultiSioMain(&gMultiSioSend, gMultiSioRecv, (u32) temp_r3->unkDD);
     if (temp_r3->unkDF == 0) {
         MultiSioStart();
@@ -3642,7 +3664,7 @@ void sub_8027FD4(void *arg0) {
     memcpy(&sp0, &gUnknown_080CEF2C, 0x24);
     temp_r1 = arg0 + 0x8C;
     arg0->unk8C = 0x06010000;
-    temp_r4 = gLoadedSaveGame.language * 6;
+    temp_r4 = LOADED_SAVE->language * 6;
     temp_r1->anim = *(&sp0 + temp_r4);
     temp_r1->variant = (u8) *(&sp0 + 2 + temp_r4);
     temp_r1->prevVariant = 0xFF;
@@ -3701,7 +3723,7 @@ void sub_80280AC(void *arg0) {
     temp_r2_2->layoutVram = (u16 *)0x0600E000;
     temp_r2_2->unk18 = 0;
     temp_r2_2->unk1A = 0;
-    temp_r2_2->tilemapId = TM_UNKNOWN_375 + gLoadedSaveGame.language;
+    temp_r2_2->tilemapId = TM_UNKNOWN_375 + LOADED_SAVE->language;
     temp_r2_2->unk1E = 0;
     temp_r2_2->unk20 = 0;
     temp_r2_2->unk22 = 0;
@@ -3760,7 +3782,7 @@ void sub_8028160(void *arg0) {
     temp_r2_2->layoutVram = (u16 *)0x0600E000;
     temp_r2_2->unk18 = 0;
     temp_r2_2->unk1A = 0;
-    temp_r2_2->tilemapId = TM_NOTIFICATION_PLEASE_WAIT_JP + gLoadedSaveGame.language;
+    temp_r2_2->tilemapId = TM_NOTIFICATION_PLEASE_WAIT_JP + LOADED_SAVE->language;
     temp_r2_2->unk1E = 0;
     temp_r2_2->unk20 = 0;
     temp_r2_2->unk22 = 0;
@@ -3984,7 +4006,7 @@ void sub_8028708(void) {
     gFlags &= 0xFFFFBFFF;
     m4aSoundVSyncOn();
     sub_8028688();
-    gStageData.language = (u8) ((u32) (0 - gLoadedSaveGame.language) >> 0x1F);
+    gStageData.language = (u8) ((u32) (0 - LOADED_SAVE->language) >> 0x1F);
     sub_80287B8();
 }
 
