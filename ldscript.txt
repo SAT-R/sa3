@@ -31,6 +31,7 @@ SECTIONS {
         src/game/stage/stage_ui_singlepak.o(.text);
         src/game/sa3/chao_map.o(.text);
         src/game/sa3/stage_notifications.o(.text);
+        src/game/sio_stuff_x.o(.text);
         asm/sio_stuff_x.o(.text);
         src/sio_stuff_x.o(.text);
         src/game/sa3/multiplayer/singlepak/chao.o(.text);

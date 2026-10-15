@@ -184,6 +184,7 @@ union MultiSioData {
     struct MultiSioData_0_5 pat5;
     struct MultiSioData_3_0 pat3_0;
     struct MultiSioData_Unknown patU;
+    struct MultiSioData_Stuff_X patStuffX;
 
     u8 raw[MULTI_SIO_BLOCK_SIZE];
 }; /* TODO: size = MULTI_SIO_BLOCK_SIZE */

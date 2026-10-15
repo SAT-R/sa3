@@ -1,5 +1,13 @@
 #include "global.h"
 #include "core.h"
+#include "game/game.h"
+#include "game/save.h"
+#include "game/stage.h"
+
+// TODO: Merge with "./src/sio_stuff_x.c"
+
+void sub_8024314();
+s16 sub_802610C();
 
 s16 sub_8023A88() {
     s32 var_r0;
