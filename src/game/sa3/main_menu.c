@@ -668,7 +668,7 @@ void Task_TransitionToSelectedMode(void)
             if (menu->unkC == 0) {
                 CURRENT_GAME_MODE = GAME_MODE_SINGLE_PLAYER;
                 gStageData.playerIndex = PLAYER_1;
-                CreateCharacterSelect(0U);
+                CreateCharacterSelect(CSCI_STORY_SINGLE);
             } else {
                 CURRENT_GAME_MODE = GAME_MODE_MP_STORY_COOP;
                 sub_80A1A4C(0);
@@ -702,7 +702,7 @@ void Task_TransitionToSelectedMode(void)
             gStageData.buttonConfig.jump = LOADED_SAVE->buttonConfig.jump;
             gStageData.buttonConfig.attack = LOADED_SAVE->buttonConfig.attack;
             gStageData.buttonConfig.trick = LOADED_SAVE->buttonConfig.trick;
-            CreateCharacterSelect(0U);
+            CreateCharacterSelect(CSCI_STORY_SINGLE);
         } break;
         case 3:
             LaunchOptionsMenu(0);
@@ -770,7 +770,7 @@ void Task_3F0_8087F18(void)
             return;
         case 1:
             gStageData.playerIndex = 0;
-            CreateCharacterSelect(3U);
+            CreateCharacterSelect(CSCI_TIME_ATTACK_RESULTS);
             break;
         case 2:
             if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {

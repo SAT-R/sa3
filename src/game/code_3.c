@@ -224,7 +224,7 @@ void Task_80A1CE4(void)
     gBldRegs.bldY = 0x10;
 
     if (strc->unk3 == 2) {
-        CreateCharacterSelect(1U);
+        CreateCharacterSelect(CSCI_STORY_COOP);
     } else {
         if (strc->errorCode == 2) {
             CreateMainMenu(1, 0U);

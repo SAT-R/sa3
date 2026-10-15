@@ -19,10 +19,10 @@ void TaskDestructor_CharacterSelect(struct Task *t);
 void SetupPositions(CharacterSelect *cs);
 static void InitSprites(CharacterSelect *cs);
 void sub_80986AC(CharacterSelect *cs);
-bool32 sub_80988B0(CharacterSelect *cs);
-bool32 sub_8098A00(CharacterSelect *cs);
-bool32 sub_8098B50(CharacterSelect *cs);
-bool32 sub_8098CFC(CharacterSelect *cs);
+bool32 CharSelect_DestroyTransition_StorySingleplayer(CharacterSelect *cs);
+bool32 CharSelect_DestroyTransition_StoryMultiplayer(CharacterSelect *cs);
+bool32 CharSelect_DestroyTransition_TimeAttacks(CharacterSelect *cs);
+bool32 CharSelect_DestroyTransition_Cancel(CharacterSelect *cs);
 void sub_80990B0(CharacterSelect *cs);
 void sub_80992A8(CharacterSelect *cs);
 void sub_8099C34(CharacterSelect *cs);
@@ -44,7 +44,7 @@ bool32 sub_809B668(CharacterSelect *cs);
 void sub_809B69C(CharacterSelect *cs);
 void sub_809B6C0(CharacterSelect *cs);
 static void Task_CharSelect_FadeIn(void);
-void Task_8098600(void);
+void Task_CharSelect_Destroy(void);
 void Task_8098DE4(void);
 void Task_8098FF0(void);
 void Task_8099200(void);
@@ -312,7 +312,7 @@ extern const u8 Tileset_DebugAscii[0x140];
 extern const u16 gUnknown_08E2EE50[10][16];
 extern const u16 gUnknown_08E2EEF0[16];
 
-void CreateCharacterSelect(u8 createIndex)
+void CreateCharacterSelect(ECharSelectCreateIndex createIndex)
 {
     struct Task *t;
     CharacterSelect *cs;
@@ -339,14 +339,14 @@ void CreateCharacterSelect(u8 createIndex)
     gBgSprites_Unknown2[0][3] = 0x40;
 
     cs = TASK_DATA(t);
-    if (createIndex == 4) {
+    if (createIndex == CSCI_SONIC_FACTORY) {
         cs->unk8 = 1;
         if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
-            cs->createIndex = 0;
+            cs->createIndex = CSCI_STORY_SINGLE;
         } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
-            cs->createIndex = 1;
+            cs->createIndex = CSCI_STORY_COOP;
         } else if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-            cs->createIndex = 3U;
+            cs->createIndex = CSCI_TIME_ATTACK_RESULTS;
         }
     } else {
         cs->createIndex = createIndex;
@@ -648,7 +648,7 @@ void Task_80981A8(void)
         return;
     }
 
-    if (cs->createIndex == 1) {
+    if (cs->createIndex == CSCI_STORY_COOP) {
         gPlayers[PLAYER_1].charFlags.character = SONIC;
         gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_2;
         gPlayers[PLAYER_2].charFlags.character = TAILS;
@@ -662,7 +662,7 @@ void Task_80981A8(void)
                 gPlayers[pid].charFlags.playerIndex = pid;
             }
         }
-    } else if (cs->createIndex == 2) {
+    } else if (cs->createIndex == CSCI_2) {
         gPlayers[PLAYER_1].charFlags.character = SONIC;
         gPlayers[PLAYER_1].charFlags.partnerIndex = PLAYER_3;
         gPlayers[PLAYER_2].charFlags.character = SONIC;
@@ -690,7 +690,7 @@ static void Task_CharSelect_FadeIn(void)
     u8 playerIndex = gStageData.playerIndex;
     s16 var_r0;
 
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+    if ((cs->createIndex != CSCI_STORY_SINGLE) && (cs->createIndex != CSCI_TIME_ATTACK_RESULTS)) {
         if (playerIndex == 0) {
             var_r0 = sub_8024074(0);
         } else {
@@ -717,8 +717,8 @@ static void Task_CharSelect_FadeIn(void)
     }
     sub_809B13C(cs);
 
-    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && playerIndex == 0)
-        || (cs->createIndex == 2 && playerIndex <= 1)) {
+    if (cs->createIndex == CSCI_STORY_SINGLE || cs->createIndex == CSCI_TIME_ATTACK_RESULTS
+        || (cs->createIndex == CSCI_STORY_COOP && playerIndex == PLAYER_1) || (cs->createIndex == CSCI_2 && playerIndex <= PLAYER_2)) {
         sub_809B284(cs);
         sub_809AD74(cs);
     }
@@ -756,7 +756,7 @@ static void Task_CharSelect_FadeOut(void)
     sub_809ADF0(cs);
     sub_809B6C0(cs);
 
-    if (cs->unkB > 0x13U) {
+    if (cs->unkB > 19) {
         sub_809AFC0(cs);
     } else {
         sub_809AE50(cs);
@@ -781,12 +781,12 @@ static void Task_CharSelect_FadeOut(void)
         gBldRegs.bldY = 0x10;
         cs->qUnk3C = Q(310);
         cs->qUnk34 = Q(310);
-        cs->unkB = 0x1D;
-        gCurTask->main = Task_8098600;
+        cs->unkB = 29;
+        gCurTask->main = Task_CharSelect_Destroy;
     }
 }
 
-void Task_8098600(void)
+void Task_CharSelect_Destroy(void)
 {
     CharacterSelect *cs = TASK_DATA(gCurTask);
     s32 var_r0;
@@ -798,14 +798,14 @@ void Task_8098600(void)
                 return;
             }
             if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
-                var_r0 = sub_80988B0(cs);
+                var_r0 = CharSelect_DestroyTransition_StorySingleplayer(cs);
             } else if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
-                var_r0 = sub_8098A00(cs);
+                var_r0 = CharSelect_DestroyTransition_StoryMultiplayer(cs);
             } else if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK || CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-                var_r0 = sub_8098B50(cs);
+                var_r0 = CharSelect_DestroyTransition_TimeAttacks(cs);
             } else {
                 case 3:
-                    var_r0 = sub_8098CFC(cs);
+                    var_r0 = CharSelect_DestroyTransition_Cancel(cs);
             }
 
             if (var_r0 == 1) {
@@ -879,9 +879,9 @@ void sub_80986AC(CharacterSelect *cs)
     WarpToMap(COURSE_INDEX(ZONE_1, ACT_SONIC_FACTORY), 0);
 }
 
-bool32 sub_80988B0(CharacterSelect *cs)
+bool32 CharSelect_DestroyTransition_StorySingleplayer(CharacterSelect *cs)
 {
-    gStageData.playerIndex = 0;
+    gStageData.playerIndex = PLAYER_1;
     sub_800214C();
     gStageData.difficulty = LOADED_SAVE->difficulty;
 
@@ -904,7 +904,7 @@ bool32 sub_80988B0(CharacterSelect *cs)
 
     SetDefaultDisplaySettings();
 
-    if ((1 & LOADED_SAVE->unk34)) {
+    if (LOADED_SAVE->unk34 & 1) {
         WarpToMap(LEVEL_INDEX(LOADED_SAVE->continueZone, ACT_HUB), 0);
         return TRUE;
     } else {
@@ -913,7 +913,7 @@ bool32 sub_80988B0(CharacterSelect *cs)
     }
 }
 
-bool32 sub_8098A00(CharacterSelect *cs)
+bool32 CharSelect_DestroyTransition_StoryMultiplayer(CharacterSelect *cs)
 {
     Player *players;
     Player *player;
@@ -959,7 +959,7 @@ bool32 sub_8098A00(CharacterSelect *cs)
     return TRUE;
 }
 
-bool32 sub_8098B50(CharacterSelect *cs)
+bool32 CharSelect_DestroyTransition_TimeAttacks(CharacterSelect *cs)
 {
     gStageData.playerIndex = PLAYER_1;
 
@@ -1004,7 +1004,7 @@ bool32 sub_8098B50(CharacterSelect *cs)
     return FALSE;
 }
 
-bool32 sub_8098CFC(CharacterSelect *cs)
+bool32 CharSelect_DestroyTransition_Cancel(CharacterSelect *cs)
 {
     s32 playerIndex = gStageData.playerIndex;
     s32 partnerIndex = (playerIndex + 1) % 2u;
@@ -1029,18 +1029,18 @@ bool32 sub_8098CFC(CharacterSelect *cs)
         }
     }
 
-    if (cs->createIndex == 0) {
+    if (cs->createIndex == CSCI_STORY_SINGLE) {
         if (CURRENT_GAME_MODE == GAME_MODE_TIME_ATTACK) {
-            CreateMainMenu(0, 5U);
+            CreateMainMenu(0, 5);
         } else if (CURRENT_GAME_MODE == GAME_MODE_BOSS_TIME_ATTACK) {
-            CreateMainMenu(1, 5U);
+            CreateMainMenu(1, 5);
         } else {
             CreateMainMenu(0, 0);
         }
-    } else if (cs->createIndex == 1) {
-        CreateMainMenu(1, 4U);
-    } else if (cs->createIndex == 3) {
-        CreateMainMenu(0, 5U);
+    } else if (cs->createIndex == CSCI_STORY_COOP) {
+        CreateMainMenu(1, 4);
+    } else if (cs->createIndex == CSCI_TIME_ATTACK_RESULTS) {
+        CreateMainMenu(0, 5);
     }
 
     return FALSE;
@@ -1076,8 +1076,9 @@ void Task_8098DE4(void)
     sub_809B69C(cs);
     sub_809B6C0(cs);
 
-    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && playerIndex == 0)
-        || (((cs->createIndex == 2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2)))) {
+    if (cs->createIndex == CSCI_STORY_SINGLE || cs->createIndex == CSCI_TIME_ATTACK_RESULTS
+        || (cs->createIndex == CSCI_STORY_COOP && playerIndex == PLAYER_1)
+        || (((cs->createIndex == CSCI_2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2)))) {
         sub_809B284(cs);
         sub_809AD74(cs);
     }
@@ -1085,9 +1086,10 @@ void Task_8098DE4(void)
 
     CS_SIO_CHECK_A(var_r6, playerIndex);
 
-    if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (playerIndex == 0))
-        || ((cs->createIndex == 2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2))) {
-        if (((cs->createIndex == 0) || (cs->createIndex == 3)) && (B_BUTTON & gPressedKeys)) {
+    if (((cs->createIndex == CSCI_STORY_SINGLE) || (cs->createIndex == CSCI_TIME_ATTACK_RESULTS))
+        || ((cs->createIndex == CSCI_STORY_COOP) && (playerIndex == PLAYER_1))
+        || ((cs->createIndex == CSCI_2) && (playerIndex == PLAYER_1 || playerIndex == PLAYER_2))) {
+        if (((cs->createIndex == CSCI_STORY_SINGLE) || (cs->createIndex == CSCI_TIME_ATTACK_RESULTS)) && (B_BUTTON & gPressedKeys)) {
             m4aSongNumStart(SE_ABORT);
             cs->unk2 = 3;
             cs->unkB = 2;
@@ -1107,7 +1109,7 @@ void Task_8098DE4(void)
                 }
             }
         }
-    } else if (cs->createIndex == 1) {
+    } else if (cs->createIndex == CSCI_STORY_COOP) {
         temp_r2 = (s16)var_r6;
         if ((temp_r2 & 0x10) || (0x10 & cs->unk9)) {
             sub_809B5D0(cs);
@@ -1306,8 +1308,8 @@ void Task_8099300()
     if (cs->unkB < 13) {
         gDispCnt |= DISPCNT_BG1_ON;
 
-        if (cs->unkB < 13) {
-            cs->unkB = 0xC;
+        if (cs->unkB <= 12) {
+            cs->unkB = 12;
             cs->qUnk34 = cs->qUnk3C;
             cs->qUnk38 = cs->qUnk40;
             cs->listIndex[CS_CHARID_PLAYER] = cs->unk3;
@@ -1416,17 +1418,15 @@ void Task_8099680(void)
     // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
-    u8 var_r5;
 
-    u8 playerIndex;
-    u8 createIndex;
     CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+    u8 playerIndex = gStageData.playerIndex;
 
-    var_r5 = 0;
-    playerIndex = gStageData.playerIndex;
     CS_SIO_CHECK_C(var_r0, playerIndex);
 
-    cs->unkB = 0xC;
+    cs->unkB = 12;
+
     if (sub_809AC44(cs, 0) == 1) {
         var_r5++;
     }
@@ -1436,6 +1436,7 @@ void Task_8099680(void)
     if (sub_809B3C4(cs, 0) == 1) {
         var_r5++;
     }
+
     sub_809B41C(cs);
     sub_809B13C(cs);
     sub_809ADF0(cs);
@@ -1443,8 +1444,9 @@ void Task_8099680(void)
     sub_809AF08(cs);
     sub_809B69C(cs);
     sub_809B6C0(cs);
+
     if (var_r5 == 3) {
-        cs->unkB = 0xE;
+        cs->unkB = 14;
         gCurTask->main = Task_8099758;
     }
 }
@@ -1473,17 +1475,19 @@ void Task_8099758(void)
     sub_809B69C(cs);
     sub_809B6C0(cs);
 
-    if (cs->createIndex == 0 || cs->createIndex == 3 || (cs->createIndex == 1 && playerIndex == 1)
-        || (((cs->createIndex == 2) && (playerIndex == 2 || playerIndex == 3)))) {
+    if (cs->createIndex == CSCI_STORY_SINGLE || cs->createIndex == CSCI_TIME_ATTACK_RESULTS
+        || (cs->createIndex == CSCI_STORY_COOP && playerIndex == PLAYER_2)
+        || (((cs->createIndex == CSCI_2) && (playerIndex == PLAYER_3 || playerIndex == PLAYER_4)))) {
         sub_809B284(cs);
         sub_809AD74(cs);
     }
 
     CS_SIO_CHECK_C(var_r6, playerIndex);
 
-    if (((cs->createIndex == 0) || (cs->createIndex == 3)) || ((cs->createIndex == 1) && (playerIndex == 1))
-        || ((cs->createIndex == 2) && (playerIndex == 2 || playerIndex == 3))) {
-        if (((cs->createIndex == 0) || (cs->createIndex == 3)) && (B_BUTTON & gPressedKeys)) {
+    if (((cs->createIndex == CSCI_STORY_SINGLE) || (cs->createIndex == CSCI_TIME_ATTACK_RESULTS))
+        || ((cs->createIndex == CSCI_STORY_COOP) && (playerIndex == PLAYER_2))
+        || ((cs->createIndex == CSCI_2) && (playerIndex == PLAYER_3 || playerIndex == PLAYER_4))) {
+        if (((cs->createIndex == CSCI_STORY_SINGLE) || (cs->createIndex == CSCI_TIME_ATTACK_RESULTS)) && (B_BUTTON & gPressedKeys)) {
             m4aSongNumStart(SE_ABORT);
             cs->unkB = 19;
             gCurTask->main = Task_809AABC;
@@ -1509,7 +1513,7 @@ void Task_8099758(void)
                 }
             }
         }
-    } else if (cs->createIndex == 1) {
+    } else if (cs->createIndex == CSCI_STORY_COOP) {
         temp_r2 = (s16)var_r6;
         if ((temp_r2 & 0x10)) {
             cs->unkB = 20;
@@ -1636,15 +1640,10 @@ void Task_8099B78(void)
     // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
-    u8 var_r5;
-    u8 temp_r0;
-    s16 playerIndex;
     CharacterSelect *cs = TASK_DATA(gCurTask);
+    u8 var_r5 = 0;
+    s16 playerIndex = gStageData.playerIndex;
 
-    var_r5 = 0;
-    temp_r0 = cs->createIndex;
-
-    playerIndex = gStageData.playerIndex;
     CS_SIO_CHECK_C(var_r0, playerIndex);
 
     if (sub_809B32C(cs, 0) == 1) {
@@ -1662,7 +1661,7 @@ void Task_8099B78(void)
     sub_809B6C0(cs);
     if (var_r5 == 2) {
         cs->qUnk5C = 0;
-        cs->unkB = 0xE;
+        cs->unkB = 14;
         gCurTask->main = Task_8099758;
     }
 }
@@ -1795,8 +1794,6 @@ void Task_8099EC8(void)
     // TODO: Maybe a different init value?
     s16 var_r0 = 0;
 #endif
-    u8 temp_r0;
-    void *temp_r4;
 
     CharacterSelect *cs = TASK_DATA(gCurTask);
     u8 var_r5 = 0;
@@ -1837,7 +1834,7 @@ void Task_8099EC8(void)
         cs->qFadeBrightness += Q(1);
     } else if (var_r5 == 4) {
         gBldRegs.bldY = 0x10;
-        cs->unkB = 0x16;
+        cs->unkB = 22;
         sub_809A9A0(cs);
         sub_809A808(cs);
         cs->qUnk58 = 0xE00;
@@ -1882,7 +1879,7 @@ void Task_809A018()
     } else {
         cs->unkE = 1;
         gBldRegs.bldY = 0;
-        if (cs->createIndex == 1) {
+        if (cs->createIndex == CSCI_STORY_COOP) {
             gCurTask->main = Task_809A130;
         } else {
             gCurTask->main = Task_809A1C4;
@@ -1936,24 +1933,24 @@ void Task_809A1C4(void)
     }
 
     cs->unk14++;
-    if (cs->createIndex == 1) {
-        if (playerIndex == 0) {
+    if (cs->createIndex == CSCI_STORY_COOP) {
+        if (playerIndex == PLAYER_1) {
             if ((A_BUTTON & gPressedKeys) || (START_BUTTON & gPressedKeys)) {
                 if (sub_802610C() >= 0) {
                     sub_8024130();
                     cs->unk2 = 2;
-                    cs->unkB = 0x17;
+                    cs->unkB = 23;
                     gCurTask->main = Task_CharSelect_FadeOut;
                 } else {
                     sub_802613C();
                 }
-            } else if (cs->unk14 > 120) {
+            } else if (cs->unk14 >= 121) {
                 if (sub_8024130() != 0) {
                     cs->unk2 = 2;
-                    cs->unkB = 0x17;
+                    cs->unkB = 23;
                     gCurTask->main = Task_CharSelect_FadeOut;
                 } else {
-                    cs->unk14 = 0x79;
+                    cs->unk14 = 121;
                 }
             }
         } else {
@@ -1961,18 +1958,18 @@ void Task_809A1C4(void)
             if (temp_r0_2 < 0) {
                 sub_802613C();
             } else if (temp_r0_2 == 0) {
-                if (cs->unk14 > 120) {
-                    cs->unk14 = 0x79;
+                if (cs->unk14 >= 121) {
+                    cs->unk14 = 121;
                 }
             } else {
                 cs->unk2 = 2;
-                cs->unkB = 0x17;
+                cs->unkB = 23;
                 gCurTask->main = Task_CharSelect_FadeOut;
             }
         }
     } else if ((A_BUTTON & gPressedKeys) || (START_BUTTON & gPressedKeys) || (cs->unk14 > 120)) {
         cs->unk2 = 2;
-        cs->unkB = 0x17;
+        cs->unkB = 23;
         gCurTask->main = Task_CharSelect_FadeOut;
     }
 }
@@ -2003,14 +2000,14 @@ void Task_809A2E8(void)
         cs->unk14 = 0;
         cs->qUnk3C = Q(310);
         cs->qUnk34 = Q(310);
-        cs->unkB = 0x1D;
+        cs->unkB = 29;
         sub_809A50C(cs);
         gCurTask->main = Task_809A3BC;
     } else {
         gBldRegs.bldY = I(cs->qFadeBrightness);
         cs->qFadeBrightness += Q(1);
 
-        if ((cs->createIndex == 1) && !sub_809AD08(cs)) {
+        if ((cs->createIndex == CSCI_STORY_COOP) && !sub_809AD08(cs)) {
             sub_802613C();
         }
     }
@@ -2018,9 +2015,6 @@ void Task_809A2E8(void)
 
 void Task_809A3BC(void)
 {
-    u8 *temp_r5;
-    u8 temp_r4;
-    u8 temp_r4_2;
     CharacterSelect *cs = TASK_DATA(gCurTask);
 
     CreateSomeTask_809BF3C(&cs->listIndex[CS_CHARID_PLAYER], &cs->unkB, &cs->qUnk34, &cs->qUnk38, cs->tilesCharacters[CS_CHARID_CHOSEN]);
@@ -2034,19 +2028,23 @@ void Task_809A3BC(void)
     cs->qUnk54 = Q(201);
     cs->qUnk58 = Q(22);
     cs->qUnk4C = Q(120);
-    temp_r4 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
-    if (0x20000 & gFlags) {
-        CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r4], 0x60U, 0x10U);
-    } else {
-        DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[3 * (16 * sizeof(u16))], (16 * sizeof(u16)));
-        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
-    }
-    temp_r4 = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
-    if (0x20000 & gFlags) {
-        CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r4], 0x70U, 0x10U);
-    } else {
-        DmaCopy16(3, &gUnknown_08E2EE50[temp_r4][0], &gObjPalette[7 * 16], (16 * sizeof(u16)));
-        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+
+    {
+        ECharacters character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+        if (FLAGS_20000 & gFlags) {
+            CopyObjPaletteMasked(gUnknown_08E2EE50[character], 6 * PALETTE_LEN_4BPP, 0x10U);
+        } else {
+            DmaCopy16(3, &gUnknown_08E2EE50[character][0], &gObjPalette[6 * PALETTE_LEN_4BPP], (16 * sizeof(u16)));
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
+
+        character = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
+        if (FLAGS_20000 & gFlags) {
+            CopyObjPaletteMasked(gUnknown_08E2EE50[character], 7 * PALETTE_LEN_4BPP, 0x10U);
+        } else {
+            DmaCopy16(3, &gUnknown_08E2EE50[character][0], &gObjPalette[7 * PALETTE_LEN_4BPP], (16 * sizeof(u16)));
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
     }
     gCurTask->main = Task_809A6C0;
 }
@@ -2160,7 +2158,7 @@ void Task_809A6C0(void)
         cs->unkE = 0;
     }
 
-    if ((cs->createIndex == 1) && !sub_809AD08(cs)) {
+    if ((cs->createIndex == CSCI_STORY_COOP) && !sub_809AD08(cs)) {
         sub_802613C();
         return;
     }
@@ -2189,8 +2187,8 @@ void Task_809A6C0(void)
         gBldRegs.bldY = I(cs->qFadeBrightness);
         cs->qFadeBrightness -= Q(1);
     } else if (var_r5 == 4) {
-        cs->unkB = 0xE;
-        if (cs->createIndex == 1) {
+        cs->unkB = 14;
+        if (cs->createIndex == CSCI_STORY_COOP) {
             sub_809B700(cs);
         }
         if (sub_809B704(cs, 0xEU)) {
@@ -2370,7 +2368,7 @@ void Task_809AABC(void)
     if (sub_809AC44(cs, 1) == 1) {
         cs->qUnk34 = Q(320);
         cs->unk3 = cs->listIndex[CS_CHARID_PLAYER];
-        cs->unkB = 0x1F;
+        cs->unkB = 31;
         cs->qUnk3C = Q(DISPLAY_CENTER_X);
         cs->qUnk40 = Q(DISPLAY_CENTER_Y);
         temp_r3 = &cs->bg234;
@@ -2397,7 +2395,7 @@ void Task_809AABC(void)
 
         cs->qNameTagPos[CS_CHARID_PARTNER].y = Q(145);
         gCurTask->main = Task_809AA28;
-    } else if ((cs->createIndex == 1) && (sub_809AD08(cs) == 0)) {
+    } else if ((cs->createIndex == CSCI_STORY_COOP) && (sub_809AD08(cs) == 0)) {
         sub_802613C();
     } else {
         u32 pressedA = gPressedKeys & A_BUTTON;
@@ -2445,10 +2443,10 @@ void Task_809AABC(void)
 
 bool32 sub_809AC44(CharacterSelect *cs, u8 param1)
 {
-    u8 count;
     s32 qDelta;
 
-    count = 0;
+    u8 count = 0;
+
     if (param1 != 0) {
         qDelta = -Q(7.875);
 
@@ -2504,7 +2502,7 @@ bool32 sub_809AD08(CharacterSelect *cs)
     s32 var_r0;
     s32 var_r2 = 0x20;
 
-    if ((cs->createIndex == 1) && ((u32)gStageData.playerIndex > 1)) {
+    if ((cs->createIndex == CSCI_STORY_COOP) && ((u32)gStageData.playerIndex > 1)) {
         var_r2 = 0x22;
     }
 
@@ -2747,10 +2745,10 @@ void Task_CharacterSelectInit(void)
 
     cs->tilesCharacters[CS_CHARID_CHOSEN] = CreateSomeTask_809BF3C(&cs->unk3, &cs->unkB, &cs->qUnk3C, &cs->qUnk40, cs->tilesCharacters[0]);
 
-    if (cs->createIndex == 1) {
+    if (cs->createIndex == CSCI_STORY_COOP) {
         sub_8024068();
         gCurTask->main = Task_80981A8;
-    } else if (cs->createIndex == 2) {
+    } else if (cs->createIndex == CSCI_2) {
         sub_80258D4();
         gCurTask->main = Task_80981A8;
     } else {
@@ -3140,7 +3138,7 @@ void sub_809B5D0(CharacterSelect *cs)
     bg->flags = 1;
     DrawBackground(bg);
     cs->unkB = 3;
-    if (cs->createIndex == 1) {
+    if (cs->createIndex == CSCI_STORY_COOP) {
         sub_809B700(cs);
     }
 }
@@ -3200,7 +3198,7 @@ bool32 sub_809B704(CharacterSelect *cs, s16 param1)
 {
     s32 zero = 0;
 
-    if ((cs->createIndex == 0) || (cs->createIndex == 3)) {
+    if ((cs->createIndex == CSCI_STORY_SINGLE) || (cs->createIndex == CSCI_TIME_ATTACK_RESULTS)) {
         return 1;
     }
     if ((zero == param1) && (zero == cs->unkB)) {
@@ -3211,7 +3209,7 @@ bool32 sub_809B704(CharacterSelect *cs, s16 param1)
 
 u32 sub_809B730(CharacterSelect *cs)
 {
-    if ((cs->createIndex != 0) && (cs->createIndex != 3)) {
+    if ((cs->createIndex != CSCI_STORY_SINGLE) && (cs->createIndex != CSCI_TIME_ATTACK_RESULTS)) {
         return (u32)(-(gMultiSioStatusFlags & 0x80)) >> 0x1F;
     }
     return 1;

@@ -213,7 +213,7 @@ void sub_802E8A8(void)
 {
     switch (CURRENT_GAME_MODE) {
         case GAME_MODE_SINGLE_PLAYER: {
-            CreateCharacterSelect(4);
+            CreateCharacterSelect(CSCI_SONIC_FACTORY);
         } break;
 
         case GAME_MODE_MP_STORY_COOP: {

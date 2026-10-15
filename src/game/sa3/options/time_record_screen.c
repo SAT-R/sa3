@@ -794,17 +794,17 @@ void Task_80954A8(void)
         } else if (unk3 == 5) {
             CURRENT_GAME_MODE = GAME_MODE_TIME_ATTACK;
             gStageData.playerIndex = PLAYER_1;
-            CreateCharacterSelect(0U);
+            CreateCharacterSelect(CSCI_STORY_SINGLE);
         } else if (unk3 == 6) {
             CURRENT_GAME_MODE = GAME_MODE_BOSS_TIME_ATTACK;
             gStageData.playerIndex = PLAYER_1;
-            CreateCharacterSelect(0U);
+            CreateCharacterSelect(CSCI_STORY_SINGLE);
         } else if (unk3 == 7) {
             gStageData.playerIndex = PLAYER_1;
-            CreateCharacterSelect(3);
+            CreateCharacterSelect(CSCI_TIME_ATTACK_RESULTS);
         } else if (unk3 == 8) {
             gStageData.playerIndex = PLAYER_1;
-            CreateCharacterSelect(3);
+            CreateCharacterSelect(CSCI_TIME_ATTACK_RESULTS);
         } else {
             LaunchOptionsMenu(9);
         }

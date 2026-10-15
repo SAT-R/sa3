@@ -519,7 +519,7 @@ void Task_8004550(void)
     gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
-    CreateCharacterSelect(4U);
+    CreateCharacterSelect(CSCI_SONIC_FACTORY);
 }
 
 void Task_80045EC(void)

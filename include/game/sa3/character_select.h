@@ -81,6 +81,16 @@
 #define CS_CHARID_PARTNER PLAYER_2 // Partner Character (after choosing both)
 #define CS_CHARID_COUNT   2
 
+typedef enum {
+    CSCI_STORY_SINGLE,
+    CSCI_STORY_COOP,
+    CSCI_2,
+    CSCI_TIME_ATTACK_RESULTS, // Both after either Zone and Boss Time Attack
+    CSCI_SONIC_FACTORY,
+
+    CSCI_COUNT
+} ECharSelectCreateIndex;
+
 typedef struct CharacterSelect {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ u8 unk1;
@@ -165,7 +175,7 @@ typedef enum {
 
 // TODO: enum for CreateCharacterSelect() 'createIndex' param
 
-void CreateCharacterSelect(u8 createIndex);
+void CreateCharacterSelect(ECharSelectCreateIndex createIndex);
 
 /* Used in Single- and Multiplayer menu */
 void CharSelect_InitBackgrounds(CharacterSelect *cs);
