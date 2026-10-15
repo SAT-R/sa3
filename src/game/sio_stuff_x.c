@@ -1,8 +1,6 @@
 #include "global.h"
 #include "core.h"
 
-#if 0
-// (99.37%) https://decomp.me/scratch/bnWCz
 s16 sub_8023A88() {
     s32 var_r0;
     s16 var_r1;
@@ -21,22 +19,26 @@ s16 sub_8023A88() {
             send->patStuffX.unk2 = 0;
             for(var_r1 = 0; var_r1 < 2; var_r1++)
             {
-                if (CheckBit(gMultiSioStatusFlags, var_r1) && (gMultiSioRecv[var_r1].patStuffX.unk0 == 0x6C01)) {
-                    send->patStuffX.unk2 |= 1 << var_r1;
-                    send->patStuffX.unlockedCharacters = LOADED_SAVE->unlockedCharacters;
-                    send->patStuffX.unlockedZones = LOADED_SAVE->unlockedZones;
-                    send->patStuffX.saveGameUnk36 = LOADED_SAVE->unk36;
-
-                    for(var_r1_2 = 0; var_r1_2 < (s32)ARRAY_COUNT(send->patStuffX.unk6); var_r1_2++)
-                    {
-                        send->patStuffX.unk6[var_r1_2] = LOADED_SAVE->unlockedStages[var_r1_2];
+                if (CheckBit(gMultiSioStatusFlags, var_r1)) {
+                    union MultiSioData *recv = &gMultiSioRecv[var_r1];
+                    if(recv->patStuffX.unk0 == 0x6C01) {
+                        recv->patStuffX.unk0 == 0x6C01;
+                        send->patStuffX.unk2 |= 1 << var_r1;
+                        send->patStuffX.unlockedCharacters = LOADED_SAVE->unlockedCharacters;
+                        send->patStuffX.unlockedZones = LOADED_SAVE->unlockedZones;
+                        send->patStuffX.saveGameUnk36 = LOADED_SAVE->unk36;
+    
+                        for(var_r1_2 = 0; var_r1_2 < (s32)ARRAY_COUNT(send->patStuffX.unk6); var_r1_2++)
+                        {
+                            send->patStuffX.unk6[var_r1_2] = LOADED_SAVE->unlockedStages[var_r1_2];
+                        }
+    
+                        send->patStuffX.unkD = 1;
+                        send->patStuffX.difficulty = LOADED_SAVE->difficulty;
+                        send->patStuffX.disableTimeLimit = LOADED_SAVE->disableTimeLimit;
+                        send->patStuffX.collectedEmeralds = LOADED_SAVE->collectedEmeralds;
+                        send->patStuffX.saveGameUnk34 = LOADED_SAVE->unk34;
                     }
-
-                    send->patStuffX.unkD = 1;
-                    send->patStuffX.difficulty = LOADED_SAVE->difficulty;
-                    send->patStuffX.disableTimeLimit = LOADED_SAVE->disableTimeLimit;
-                    send->patStuffX.collectedEmeralds = LOADED_SAVE->collectedEmeralds;
-                    send->patStuffX.saveGameUnk34 = LOADED_SAVE->unk34;
                 }
             }
 
@@ -47,6 +49,7 @@ s16 sub_8023A88() {
     return var_r0;
 }
 
+#if 0
 s16 sub_8023BB0(void) {
     s16 temp_r0;
     s16 temp_r2;
