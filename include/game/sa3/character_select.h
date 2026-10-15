@@ -178,7 +178,6 @@ typedef enum {
 void CreateCharacterSelect(ECharSelectCreateIndex createIndex);
 
 /* Used in Single- and Multiplayer menu */
-void CharSelect_InitBackgrounds(CharacterSelect *cs);
 extern const u16 gCharSelect3_Tilemaps[CSTMI_COUNT];
 extern const TileInfo2 gTileInfo_CharSelect3_HeaderBackdrop[1];
 extern const ECharacters gCharSelect_DisplayOrder[NUM_CHARACTERS];

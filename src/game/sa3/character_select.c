@@ -14,6 +14,7 @@
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
 
+static void InitBackgrounds(CharacterSelect *cs);
 void Task_CharacterSelectInit(void);
 void TaskDestructor_CharacterSelect(struct Task *t);
 void SetupPositions(CharacterSelect *cs);
@@ -354,7 +355,7 @@ void CreateCharacterSelect(ECharSelectCreateIndex createIndex)
     }
 
     SetupPositions(cs);
-    CharSelect_InitBackgrounds(cs);
+    InitBackgrounds(cs);
     InitSprites(cs);
 
     m4aMPlayAllStop();
@@ -557,7 +558,7 @@ static void InitSprites(CharacterSelect *cs)
     cs->tilesCharacters[CS_CHARID_ACTIVE] = vram;
 }
 
-void CharSelect_InitBackgrounds(CharacterSelect *cs)
+static void InitBackgrounds(CharacterSelect *cs)
 {
     Background *bgA;
     Background *bgB;

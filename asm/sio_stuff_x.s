@@ -4788,7 +4788,7 @@ sub_8025EEC: @ 0x08025EEC
 	movs r4, #0
 	mov r2, sb
 	strb r0, [r2]
-	ldr r0, _08026030 @ =sub_8026080
+	ldr r0, _08026030 @ =Task_90_8026080
 	movs r2, #0x80
 	lsls r2, r2, #6
 	str r4, [sp]
@@ -4918,7 +4918,7 @@ _08026020: .4byte gTilemaps
 _08026024: .4byte gStageData
 _08026028: .4byte gLoadedSaveGame
 _0802602C: .4byte 0x00000366
-_08026030: .4byte sub_8026080
+_08026030: .4byte Task_90_8026080
 _08026034: .4byte 0x0300008C
 _08026038: .4byte gDispCnt
 _0802603C: .4byte gBgCntRegs
@@ -4939,8 +4939,8 @@ _08026074: .4byte 0xFFFFBFFF
 _08026078: .4byte 0xFFFF7FFF
 _0802607C: .4byte gMultiSioEnabled
 
-	thumb_func_start sub_8026080
-sub_8026080: @ 0x08026080
+	thumb_func_start Task_90_8026080
+Task_90_8026080: @ 0x08026080
 	push {r4, r5, r6, lr}
 	ldr r6, _080260E0 @ =gCurTask
 	ldr r0, [r6]
@@ -4982,7 +4982,7 @@ _080260B8:
 	adds r0, r4, #0
 	bl ScreenFadeUpdateValues
 	ldr r1, [r6]
-	ldr r0, _080260EC @ =sub_802618C
+	ldr r0, _080260EC @ =Task_90_802618C
 	str r0, [r1, #8]
 _080260D8:
 	pop {r4, r5, r6}
@@ -4992,7 +4992,7 @@ _080260D8:
 _080260E0: .4byte gCurTask
 _080260E4: .4byte 0x0300008C
 _080260E8: .4byte gPressedKeys
-_080260EC: .4byte sub_802618C
+_080260EC: .4byte Task_90_802618C
 
 	thumb_func_start sub_80260F0
 sub_80260F0: @ 0x080260F0
@@ -5077,8 +5077,8 @@ Task_8026178: @ 0x08026178
 	.align 2, 0
 _08026188: .4byte sub_8025EEC
 
-	thumb_func_start sub_802618C
-sub_802618C: @ 0x0802618C
+	thumb_func_start Task_90_802618C
+Task_90_802618C: @ 0x0802618C
 	push {lr}
 	ldr r0, _080261AC @ =gCurTask
 	ldr r0, [r0]
