@@ -14,6 +14,7 @@
 #include "input_recorder.h"
 #include "data/sprite_data.h"
 #include "animation_commands.h"
+#include "constants/zones.h" // NUM_COURSE_ZONES
 
 #define VRAM_HEAP_TILE_SIZE         TILE_SIZE_4BPP
 #define VRAM_HEAP_SEGMENT_SIZE      (4 * VRAM_HEAP_TILE_SIZE)
@@ -167,7 +168,7 @@ struct MultiSioData_Stuff_X {
     u8 unlockedCharacters;
     u8 unlockedZones;
     u8 saveGameUnk36;
-    u8 unk6[7];
+    u8 unlockedStages[NUM_COURSE_ZONES];
     u8 unkD;
     u8 difficulty;
     u8 disableTimeLimit;
