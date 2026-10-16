@@ -8,7 +8,7 @@
 // TODO: Merge with "./src/sio_stuff_x.c"
 
 // TODO: Improve names
-// TODO: Unsure whether this is the same as SA1/SA2, but it is used the same way.
+// TODO: Unsure whether this is the same as SA1/SA2, but it is used the same way, kinda.
 //       If it is the same, rename this module to mp_event_mgr.c (but it seems *very* different)
 //       Maybe all the extra stuff is just for the Story Coop Mode?
 #if (GAME == GAME_SA1)
@@ -23,6 +23,7 @@ void sub_8024314();
 void sub_8024324();
 s16 sub_802610C();
 
+// Used in the Coop Multiplayer Connection-Waitscreen
 s16 sub_8023A88()
 {
     s32 var_r0;
@@ -44,7 +45,6 @@ s16 sub_8023A88()
                 if (CheckBit(gMultiSioStatusFlags, var_r1)) {
                     union MultiSioData *recv = &gMultiSioRecv[var_r1];
                     if (recv->patStuffX.unk0 == MPEVTMGR_RECV(1)) {
-                        recv->patStuffX.unk0 == MPEVTMGR_RECV(1);
                         send->patStuffX.unk2 |= 1 << var_r1;
                         send->patStuffX.unlockedCharacters = LOADED_SAVE->unlockedCharacters;
                         send->patStuffX.unlockedZones = LOADED_SAVE->unlockedZones;
@@ -70,6 +70,7 @@ s16 sub_8023A88()
     return var_r0;
 }
 
+// Used in the Coop Multiplayer Connection-Waitscreen, upon successful connection.
 // TODO: External func references this as s16, maybe it's the actual return type?
 //       That does not match, though... but this does seem pretty hacked in the first place...
 s32 sub_8023BB0(void)
@@ -118,57 +119,59 @@ s32 sub_8023BB0(void)
     return r1 | (temp_r4 >> 16);
 }
 
-#if 0
-s16 sub_8023C5C(void) {
+s16 sub_8023C5C(void)
+{
     s16 var_r0;
-    u32 temp_r0;
-    u8 var_r2;
-    u8 var_r6;
+    u8 i;
+    u8 result;
 
-    temp_r0 = SIO_MULTI_CNT->id;
-    gStageData.playerIndex = (u8) temp_r0;
-    if (temp_r0 != 0) {
+    gStageData.playerIndex = SIO_MULTI_CNT->id;
+    if (gStageData.playerIndex == 0) {
+        return 0;
+    } else {
         var_r0 = sub_802610C();
-        if ((s32) var_r0 >= 0) {
+        if (var_r0 < 0) {
+            return var_r0;
+        } else {
             if (0xC0C & gMultiSioStatusFlags) {
                 return -4;
             }
             if (!(gMultiSioStatusFlags & 1)) {
-                goto block_5;
+                return 0;
             }
-            if (((0xFF00 & gMultiSioRecv->pat0.unk0) != MPEVTMGR_RECV(0)) && (gMultiSioRecv->pat0.unk0 != 0)) {
-                return -5;
+            {
+                union MultiSioData *send = &gMultiSioSend;
+                union MultiSioData *recv = &gMultiSioRecv[0];
+                if (((0xFF00 & recv->patStuffX.unk0) != MPEVTMGR_RECV(0)) && (recv->patStuffX.unk0 != 0)) {
+                    return -5;
+                }
+                result = send->patStuffX.unk2 = recv->patStuffX.unk2;
+                if (recv->patStuffX.unk0 == MPEVTMGR_RECV(2)) {
+                    result |= 0x10;
+                } else if (recv->patStuffX.unk0 == MPEVTMGR_RECV(1)) {
+                    LOADED_SAVE->unlockedCharacters = recv->patStuffX.unlockedCharacters;
+                    LOADED_SAVE->unlockedZones = recv->patStuffX.unlockedZones;
+                    LOADED_SAVE->unk36 = recv->patStuffX.saveGameUnk36;
+                    for (i = 0; i < 7; i++) {
+                        LOADED_SAVE->unlockedStages[i] = recv->patStuffX.unk6[i];
+                    }
+
+                    gStageData.zone = 1;
+                    LOADED_SAVE->difficulty = recv->patStuffX.difficulty;
+                    LOADED_SAVE->disableTimeLimit = recv->patStuffX.disableTimeLimit;
+                    LOADED_SAVE->collectedEmeralds = recv->patStuffX.collectedEmeralds;
+                    LOADED_SAVE->unk34 = recv->patStuffX.saveGameUnk34;
+                }
+
+                sub_8024314();
             }
-            gMultiSioSend.pat0.unk2 = gMultiSioRecv->pat0.unk2;
-            var_r6 = gMultiSioRecv->pat0.unk2;
-            if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(2)) {
-                var_r6 |= 0x10;
-            } else if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(1)) {
-                LOADED_SAVE->unlockedCharacters = gMultiSioRecv->pat0.unk3;
-                LOADED_SAVE->unlockedZones = gMultiSioRecv->pat3_0.unk4;
-                LOADED_SAVE->unk36 = gMultiSioRecv->pat3_0.filler5[0];
-                var_r2 = 0;
-                do {
-                    LOADED_SAVE->unlockedStages[var_r2] = *(&gMultiSioRecv->pat1.unk6 + var_r2);
-                    var_r2 += 1;
-                } while ((u32) var_r2 <= 6U);
-                gStageData.zone = 1;
-                LOADED_SAVE->difficulty = gMultiSioRecv->pat0.unkE;
-                LOADED_SAVE->disableTimeLimit = gMultiSioRecv->pat0.unkF;
-                LOADED_SAVE->collectedEmeralds = gMultiSioRecv->pat4.unk10;
-                LOADED_SAVE->unk34 = (u16) gMultiSioRecv->pat4.unk11;
-            }
-            sub_8024314();
-            var_r0 = (s16) var_r6;
-            /* Duplicate return node #16. Try simplifying control flow for better match */
-            return var_r0;
         }
-        return var_r0;
     }
-block_5:
-    return 0;
+
+    return result;
 }
 
+#if 0
 s16 sub_8023D60(void) {
     s16 var_r0;
     u8 temp_r0;
