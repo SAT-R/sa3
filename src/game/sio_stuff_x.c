@@ -21,6 +21,14 @@
 
 void sub_8024314();
 void sub_8024324();
+void sub_8024354(u8 arg0, u8 arg1);
+void sub_8024394(u8 arg0, u8 arg1);
+void sub_80243C4(u8 arg0, u8 arg1);
+void sub_80243E4(u8 unlockedStagesZone2);
+void sub_80243F8(u8 unlockedStagesZone2);
+void sub_8024304(void);
+void sub_8024334(void);
+s16 sub_8025D58(void);
 s16 sub_802610C();
 
 // Used in the Coop Multiplayer Connection-Waitscreen
@@ -196,8 +204,8 @@ s16 sub_8023D60(void)
             union MultiSioData *recv = &gMultiSioRecv[0];
             s16 unk0;
             var_r4 = 0;
-            unk0 = recv->patStuffX.unk0 - 27650;
-            if (unk0 <= 1U) {
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(2) || recv->patStuffX.unk0 == MPEVTMGR_RECV(3)) {
                 s32 r0;
                 u32 unk2;
                 Struct_03001060 *unk3001060 = &gUnknown_03001060;
@@ -220,165 +228,185 @@ s16 sub_8023D60(void)
     return var_r4;
 }
 
-#if 0
-s16 sub_8023E04(void) {
-    s16 var_r0;
-    s16 var_r4;
+s16 sub_8023E04(void)
+{
 
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        s16 result;
+
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 1)) {
             return 0;
         }
-        var_r4 = 0;
-        if ((u32) (u16) (gMultiSioRecv->pat0.unk0 + 0xFFFF93FD) <= 1U) {
-            var_r4 = gMultiSioRecv->pat3_0.unk4 + 1;
+        {
+            union MultiSioData *recv = &gMultiSioRecv[0];
+            result = 0;
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(3) || recv->patStuffX.unk0 == MPEVTMGR_RECV(4)) {
+                result = recv->patStuffX.unlockedZones + 1;
+            }
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(4)) {
+                result |= 0x10;
+            }
+            sub_8024354(1, 0xFF);
         }
-        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(4)) {
-            var_r4 = (s16) (u16) (var_r4 | 0x10);
-        }
-        sub_8024354(1U, 0xFFU);
-        var_r0 = var_r4;
-        /* Duplicate return node #10. Try simplifying control flow for better match */
-        return var_r0;
+
+        return result;
     }
-    return var_r0;
 }
 
-s16 sub_8023E80(void) {
-    s16 var_r0;
-    s16 var_r4;
+s16 sub_8023E80(void)
+{
 
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        s16 result;
+
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 2)) {
             return 0;
         }
-        var_r4 = 0;
-        if ((u32) (u16) (gMultiSioRecv[1].pat0.unk0 + 0xFFFF93F9) <= 1U) {
-            var_r4 = gMultiSioRecv[1].pat3_0.unk4 + 1;
+        {
+            union MultiSioData *recv = &gMultiSioRecv[1];
+            result = 0;
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(7) || recv->patStuffX.unk0 == MPEVTMGR_RECV(8)) {
+                result = recv->patStuffX.unlockedZones + 1;
+            }
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(8)) {
+                result |= 0x10;
+            }
+            sub_8024394(0, 0xFF);
         }
-        if (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(8)) {
-            var_r4 = (s16) (u16) (var_r4 | 0x10);
-        }
-        sub_8024394(0U, 0xFFU);
-        var_r0 = var_r4;
-        /* Duplicate return node #10. Try simplifying control flow for better match */
-        return var_r0;
+
+        return result;
     }
-    return var_r0;
 }
 
-s16 sub_8023EFC(void) {
-    s16 var_r0;
-    s16 var_r4;
+s16 sub_8023EFC(void)
+{
 
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        s16 result;
+
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 2)) {
             return 0;
         }
-        var_r4 = 0;
-        if ((gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(8)) || (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(10))) {
-            var_r4 = 0x10;
+        {
+            union MultiSioData *recv = &gMultiSioRecv[1];
+            result = 0;
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(8) || recv->patStuffX.unk0 == MPEVTMGR_RECV(10)) {
+                result = 0x10;
+            }
+            sub_80243C4(0, 0xFF);
         }
-        sub_80243C4(0U, 0xFFU);
-        var_r0 = var_r4;
-        /* Duplicate return node #9. Try simplifying control flow for better match */
-        return var_r0;
+
+        return result;
     }
-    return var_r0;
 }
 
-s16 sub_8023F60(void) {
-    s16 var_r0;
-    u8 var_r5;
+s16 sub_8023F60(void)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        s16 result;
 
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 1)) {
             return 0;
         }
-        var_r5 = 0;
-        if ((u32) (u16) (gMultiSioRecv->pat0.unk0 + 0xFFFF93F5) <= 1U) {
-            var_r5 = gMultiSioRecv->pat5.filler3[1];
+        {
+            union MultiSioData *recv = &gMultiSioRecv[0];
+            result = 0;
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(11) || recv->patStuffX.unk0 == MPEVTMGR_RECV(12)) {
+                result = recv->patStuffX.unlockedStages[ZONE_2];
+            }
+            sub_80243E4(result);
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(12)) {
+                result |= 0x1000;
+            }
         }
-        sub_80243E4(var_r5);
-        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(12)) {
-            var_r5 = (u8) (u16) ((s16) var_r5 | 0x1000);
-        }
-        var_r0 = (s16) var_r5;
-        /* Duplicate return node #10. Try simplifying control flow for better match */
-        return var_r0;
+
+        return result;
     }
-    return var_r0;
 }
 
-s16 sub_8023FE0(void) {
-    s16 var_r0;
-    s16 var_r4;
+s16 sub_8023FE0(void)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        s16 result;
 
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 1)) {
             return 0;
         }
-        var_r4 = 0;
-        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(12)) {
-            var_r4 = gMultiSioRecv->pat5.filler3[1] | 0x1000;
+        {
+            union MultiSioData *recv = &gMultiSioRecv[0];
+            result = 0;
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(12)) {
+                result |= recv->patStuffX.unlockedStages[1];
+                result |= 0x1000;
+            }
+            sub_80243F8(recv->patStuffX.unlockedStages[1]);
         }
-        sub_80243F8(gMultiSioRecv->pat5.filler3[1]);
-        var_r0 = var_r4;
-        /* Duplicate return node #8. Try simplifying control flow for better match */
-        return var_r0;
+
+        return result;
     }
-    return var_r0;
 }
 
-s16 sub_8024040(void) {
-    u16 temp_r4;
+s16 sub_8024040(void)
+{
+    s16 playerIndex = sub_8025D58();
 
-    temp_r4 = sub_8025D58();
     sub_8024304();
     gUnknown_03001060.unk7 = 0;
-    return (s16) temp_r4;
+
+    return playerIndex;
 }
 
-void sub_8024068(void) {
-    sub_8024334();
-}
+void sub_8024068(void) { sub_8024334(); }
 
-s16 sub_8024074(u8 arg0) {
-    s16 var_r0;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (!(gMultiSioStatusFlags & 0xC0C)) {
-            sub_8024354(0U, arg0);
-            return 0;
-        }
-        var_r0 = -4;
-        /* Duplicate return node #4. Try simplifying control flow for better match */
+s16 sub_8024074(u8 arg0)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
         return var_r0;
+    } else if (0xC0C & gMultiSioStatusFlags) {
+        return -4;
+    } else {
+        sub_8024354(0, arg0);
+        return 0;
     }
-    return var_r0;
 }
 
+#if 0
 s16 sub_80240B4(u8 arg0) {
     s16 var_r0;
 
