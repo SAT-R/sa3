@@ -176,6 +176,20 @@ struct MultiSioData_Stuff_X {
     u8 saveGameUnk34;
 };
 
+// NOTE: VERY TEMP!!!
+struct MultiSioData_Stuff_X2 {
+    u16 unk0;
+    u8 unk2;
+    u8 unlockedCharacters;
+    u8 unlockedZones;
+    u8 unk5[7];
+    u8 unkD;
+    u8 difficulty;
+    u8 disableTimeLimit;
+    u8 collectedEmeralds;
+    u8 saveGameUnk34;
+};
+
 union MultiSioData {
     struct MultiSioData_0_0 pat0;
     struct MultiSioData_0_1 pat1;
@@ -186,6 +200,7 @@ union MultiSioData {
     struct MultiSioData_3_0 pat3_0;
     struct MultiSioData_Unknown patU;
     struct MultiSioData_Stuff_X patStuffX;
+    struct MultiSioData_Stuff_X2 patStuffX2;
 
     u8 raw[MULTI_SIO_BLOCK_SIZE];
 }; /* TODO: size = MULTI_SIO_BLOCK_SIZE */

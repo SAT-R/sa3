@@ -22,12 +22,14 @@
 void sub_8024314();
 void sub_8024324();
 void sub_8024354(u8 arg0, u8 arg1);
+void sub_8024374(u8 arg0, u8 arg1);
 void sub_8024394(u8 arg0, u8 arg1);
 void sub_80243C4(u8 arg0, u8 arg1);
 void sub_80243E4(u8 unlockedStagesZone2);
 void sub_80243F8(u8 unlockedStagesZone2);
 void sub_8024304(void);
 void sub_8024334(void);
+void sub_80243B4(void);
 s16 sub_8025D58(void);
 s16 sub_802610C();
 
@@ -406,143 +408,148 @@ s16 sub_8024074(u8 arg0)
     }
 }
 
-#if 0
-s16 sub_80240B4(u8 arg0) {
-    s16 var_r0;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (!(gMultiSioStatusFlags & 0xC0C)) {
-            sub_8024374(0U, arg0);
-            return 0;
-        }
-        var_r0 = -4;
-        /* Duplicate return node #4. Try simplifying control flow for better match */
+s16 sub_80240B4(u8 arg0)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
         return var_r0;
+    } else if (0xC0C & gMultiSioStatusFlags) {
+        return -4;
+    } else {
+        sub_8024374(0, arg0);
+        return 0;
     }
-    return var_r0;
 }
 
-s16 sub_80240F4(void) {
-    s16 var_r0;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (0xC0C & gMultiSioStatusFlags) {
-            return -4;
-        }
-        if (gMultiSioStatusFlags & 1) {
-            sub_8024374(1U, 0xFFU);
-        }
-        var_r0 = 0;
-        /* Duplicate return node #6. Try simplifying control flow for better match */
+s16 sub_80240F4(void)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
         return var_r0;
+    } else if (0xC0C & gMultiSioStatusFlags) {
+        return -4;
+    } else if (gMultiSioStatusFlags & 1) {
+        sub_8024374(1, 0xFF);
     }
-    return var_r0;
+    return 0;
 }
 
-s16 sub_8024130(void) {
+s16 sub_8024130(void)
+{
     s16 var_r0;
     s16 var_r4;
 
     var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 2)) {
             return 0;
         }
-        var_r4 = 0;
-        if (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(10)) {
-            var_r4 = 0x10;
+
+        {
+            union MultiSioData *recv = &gMultiSioRecv[1];
+            var_r4 = 0;
+            if (recv->patStuffX.unk0 == 0x6C0A) {
+                var_r4 = 0x10;
+            }
+            sub_80243B4();
+
+            return var_r4;
         }
-        sub_80243B4();
-        var_r0 = var_r4;
-        /* Duplicate return node #8. Try simplifying control flow for better match */
+    }
+}
+
+s16 sub_8024188(u8 arg0)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
         return var_r0;
+    } else {
+        sub_8024394(1, arg0);
+        return 0;
     }
-    return var_r0;
 }
 
-s16 sub_8024188(u8 arg0) {
-    s16 var_r0;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        sub_8024394(1U, arg0);
-        var_r0 = 0;
-    }
-    return var_r0;
-}
-
-s16 sub_80241AC(u8 arg0) {
-    s16 var_r0;
-    s16 var_r4;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (gMultiSioStatusFlags & 0xC0C) {
-            return -4;
-        }
-        var_r4 = 0;
-        if ((gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(8)) || (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(11))) {
-            var_r4 = 0x10;
-        }
-        sub_80243C4(1U, arg0);
-        var_r0 = var_r4;
-        /* Duplicate return node #7. Try simplifying control flow for better match */
+s16 sub_80241AC(u8 arg0)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
         return var_r0;
-    }
-    return var_r0;
-}
+    } else {
+        s16 result;
 
-s16 sub_8024208(void) {
-    s16 var_r0;
-    s16 var_r4;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (gMultiSioStatusFlags & 0xC0C) {
-            return -4;
-        }
-        var_r4 = 0;
-        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(10)) {
-            var_r4 = 0x10;
-        }
-        sub_80243B4();
-        var_r0 = var_r4;
-        /* Duplicate return node #6. Try simplifying control flow for better match */
-        return var_r0;
-    }
-    return var_r0;
-}
-
-s16 sub_8024254(u8 arg0) {
-    s16 var_r0;
-
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
-        if (gMultiSioStatusFlags & 2) {
-            sub_80243E4(arg0);
+
+        result = 0;
+        {
+            union MultiSioData *recv = &gMultiSioRecv[0];
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(8) || recv->patStuffX.unk0 == MPEVTMGR_RECV(11)) {
+                result |= 0x10;
+            }
+            sub_80243C4(1, arg0);
         }
-        var_r0 = 0;
-        /* Duplicate return node #6. Try simplifying control flow for better match */
-        return var_r0;
+
+        return result;
     }
-    return var_r0;
 }
 
-s16 sub_8024298(u8 arg0) {
-    s16 var_r0;
-    s16 var_r5;
+s16 sub_8024208(void)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        s16 result;
 
-    var_r5 = saved_reg_r5;
-    var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+        if (0xC0C & gMultiSioStatusFlags) {
+            return -4;
+        }
+
+        result = 0;
+        {
+            union MultiSioData *recv = &gMultiSioRecv[0];
+
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(10)) {
+                result |= 0x10;
+            }
+            sub_80243B4();
+        }
+
+        return result;
+    }
+}
+
+s16 sub_8024254(u8 arg0)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else if (0xC0C & gMultiSioStatusFlags) {
+        return -4;
+    } else if (gMultiSioStatusFlags & 2) {
+        sub_80243E4(arg0);
+    }
+    return 0;
+}
+
+s16 sub_8024298(u8 arg0)
+{
+    s16 var_r0 = sub_802610C();
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+#ifndef BUG_FIX
+        s16 var_r5;
+#else
+        s16 var_r5 = 0;
+#endif
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
@@ -550,87 +557,117 @@ s16 sub_8024298(u8 arg0) {
             return 0;
         }
         sub_80243F8(arg0);
-        if (gMultiSioRecv[1].pat0.unk0 == MPEVTMGR_RECV(12)) {
-            var_r5 = (s16) (u16) ((s16) saved_reg_r5 | 0x1000);
+        {
+            union MultiSioData *recv = &gMultiSioRecv[1];
+            if (recv->patStuffX.unk0 == 0x6C0C) {
+                var_r5 |= 0x1000;
+            }
         }
-        var_r0 = var_r5;
-        /* Duplicate return node #8. Try simplifying control flow for better match */
-        return var_r0;
+
+        return var_r5;
     }
-    return var_r0;
 }
 
-void sub_8024304(void) {
-    gMultiSioSend.pat0.unk0 = 0;
-    gMultiSioSend.pat0.unk2 = 0;
+void sub_8024304(void)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = 0;
+    send->patStuffX.unk2 = 0;
 }
 
-void sub_8024314(void) {
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(1);
+void sub_8024314(void)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(1);
 }
 
-void sub_8024324(void) {
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(2);
+void sub_8024324(void)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(2);
 }
 
-void sub_8024334(void) {
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(3);
-    gMultiSioSend.pat3_0.unk4 = 0;
-    gMultiSioSend.pat0.unk3 = 0;
-    gMultiSioSend.pat3_0.filler5[0] = 0xFF;
-    gMultiSioSend.pat5.filler3[0] = -1U;
+void sub_8024334(void)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(3);
+    send->patStuffX.unlockedZones = 0;
+    send->patStuffX.unlockedCharacters = 0;
+    send->patStuffX.saveGameUnk36 = 0xFF;
+    send->patStuffX.unlockedStages[0] = 0xFF;
 }
 
-void sub_8024354(u8 arg0, u8 arg1) {
-    u8 temp_r1;
-
-    temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(3);
-    gMultiSioSend.pat3_0.unk4 = temp_r1;
-    gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
+// TODO: VERY fake-matched!!!
+void sub_8024354(u8 arg0, u8 arg1)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    u8 *dest;
+    send->patStuffX2.unk0 = MPEVTMGR_RECV(3);
+    send->patStuffX2.unlockedZones = arg1;
+    dest = (u8 *)&send->patStuffX2;
+    dest += arg0;
+    dest[5] = arg1;
 }
 
-void sub_8024374(u8 arg0, u8 arg1) {
-    u8 temp_r1;
+// TODO: VERY fake-matched!!!
+void sub_8024374(u8 arg0, u8 arg1)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    u8 *dest;
 
-    temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(4);
-    gMultiSioSend.pat3_0.unk4 = temp_r1;
-    gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
+    send->patStuffX2.unk0 = MPEVTMGR_RECV(4);
+    send->patStuffX2.unlockedZones = arg1;
+    dest = (u8 *)&send->patStuffX2;
+    dest += arg0;
+    dest[5] = arg1;
 }
 
-void sub_8024394(u8 arg0, u8 arg1) {
-    u8 temp_r1;
-
-    temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(7);
-    gMultiSioSend.pat3_0.unk4 = temp_r1;
-    gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
+// TODO: VERY fake-matched!!!
+void sub_8024394(u8 arg0, u8 arg1)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    u8 *dest;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(7);
+    send->patStuffX.unlockedZones = arg1;
+    dest = (u8 *)&send->patStuffX2;
+    dest += arg0;
+    dest[5] = arg1;
 }
 
-void sub_80243B4(void) {
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(10);
+void sub_80243B4(void)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(10);
 }
 
-void sub_80243C4(u8 arg0, u8 arg1) {
-    u8 temp_r1;
+// TODO: VERY fake-matched!!!
+void sub_80243C4(u8 arg0, u8 arg1)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    u8 *dest;
 
-    temp_r1 = arg1;
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(8);
-    gMultiSioSend.pat3_0.unk4 = temp_r1;
-    gMultiSioSend.pat3_0.filler5[arg0] = temp_r1;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(8);
+    send->patStuffX.unlockedZones = arg1;
+    dest = (u8 *)&send->patStuffX2;
+    dest += arg0;
+    dest[5] = arg1;
 }
 
-void sub_80243E4(u8 arg0) {
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(11);
-    gMultiSioSend.pat5.filler3[1] = arg0;
+void sub_80243E4(u8 arg0)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(11);
+    send->patStuffX.unlockedStages[1] = arg0;
 }
 
-void sub_80243F8(u8 arg0) {
-    gMultiSioSend.pat0.unk0 = MPEVTMGR_RECV(12);
-    gMultiSioSend.pat5.filler3[1] = arg0;
+void sub_80243F8(u8 arg0)
+{
+    union MultiSioData *send = &gMultiSioSend;
+    send->patStuffX.unk0 = MPEVTMGR_RECV(12);
+    send->patStuffX.unlockedStages[1] = arg0;
 }
 
+#if 0
 u8 sub_802440C(? arg3) {
     s16 temp_r0_4;
     s16 temp_r3;
