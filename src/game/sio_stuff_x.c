@@ -28,7 +28,7 @@ s16 sub_8023A88()
 {
     s32 var_r0;
     s16 var_r1;
-    s16 var_r1_2;
+    s16 zoneId;
 
     gStageData.playerIndex = SIO_MULTI_CNT->id;
     if (gStageData.playerIndex != 0) {
@@ -50,8 +50,8 @@ s16 sub_8023A88()
                         send->patStuffX.unlockedZones = LOADED_SAVE->unlockedZones;
                         send->patStuffX.saveGameUnk36 = LOADED_SAVE->unk36;
 
-                        for (var_r1_2 = 0; var_r1_2 < (s32)ARRAY_COUNT(send->patStuffX.unk6); var_r1_2++) {
-                            send->patStuffX.unk6[var_r1_2] = LOADED_SAVE->unlockedStages[var_r1_2];
+                        for (zoneId = 0; zoneId < (s32)ARRAY_COUNT(send->patStuffX.unlockedStages); zoneId++) {
+                            send->patStuffX.unlockedStages[zoneId] = LOADED_SAVE->unlockedStages[zoneId];
                         }
 
                         send->patStuffX.unkD = 1;
@@ -152,8 +152,9 @@ s16 sub_8023C5C(void)
                     LOADED_SAVE->unlockedCharacters = recv->patStuffX.unlockedCharacters;
                     LOADED_SAVE->unlockedZones = recv->patStuffX.unlockedZones;
                     LOADED_SAVE->unk36 = recv->patStuffX.saveGameUnk36;
-                    for (i = 0; i < 7; i++) {
-                        LOADED_SAVE->unlockedStages[i] = recv->patStuffX.unk6[i];
+
+                    for (i = 0; i < NUM_COURSE_ZONES; i++) {
+                        LOADED_SAVE->unlockedStages[i] = recv->patStuffX.unlockedStages[i];
                     }
 
                     gStageData.zone = 1;
@@ -171,39 +172,55 @@ s16 sub_8023C5C(void)
     return result;
 }
 
-#if 0
-s16 sub_8023D60(void) {
+// TODO: Fake-match!
+s16 sub_8023D60(void)
+{
     s16 var_r0;
     u8 temp_r0;
-    u8 var_r4;
+    s16 var_r4;
 
-    gStageData.playerIndex = (u8) (SIO_MULTI_CNT->id);
+    gStageData.playerIndex = (u8)(SIO_MULTI_CNT->id);
     var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
         if (0xC0C & gMultiSioStatusFlags) {
             return -4;
         }
         if (!(gMultiSioStatusFlags & 1)) {
             return 0;
         }
-        var_r4 = 0;
-        if ((u32) (u16) (gMultiSioRecv->pat0.unk0 + 0xFFFF93FE) <= 1U) {
-            gMultiSioSend.pat0.unk2 = gMultiSioRecv->pat0.unk2;
-            temp_r0 = 0xFF & gMultiSioRecv->pat0.unk2;
-            gUnknown_03001060.unk7 = temp_r0;
-            var_r4 = temp_r0;
+
+        {
+            union MultiSioData *send = &gMultiSioSend;
+            union MultiSioData *recv = &gMultiSioRecv[0];
+            s16 unk0;
+            var_r4 = 0;
+            unk0 = recv->patStuffX.unk0 - 27650;
+            if (unk0 <= 1U) {
+                s32 r0;
+                u32 unk2;
+                Struct_03001060 *unk3001060 = &gUnknown_03001060;
+                send->patStuffX.unk2 = unk2 = gMultiSioRecv->patStuffX.unk2;
+
+#ifndef NON_MATCHING
+                asm("mov %0, #0xFF" : "=r"(r0));
+#else
+                r0 = 0xFF;
+#endif
+                var_r4 = unk3001060->unk7 = r0 & unk2;
+            }
+            if (recv->patStuffX.unk0 == MPEVTMGR_RECV(3)) {
+                var_r4 |= 0x10;
+            }
+            sub_8024324();
         }
-        if (gMultiSioRecv->pat0.unk0 == MPEVTMGR_RECV(3)) {
-            var_r4 = (u8) (u16) ((s16) var_r4 | 0x10);
-        }
-        sub_8024324();
-        var_r0 = (s16) var_r4;
-        /* Duplicate return node #10. Try simplifying control flow for better match */
-        return var_r0;
     }
-    return var_r0;
+
+    return var_r4;
 }
 
+#if 0
 s16 sub_8023E04(void) {
     s16 var_r0;
     s16 var_r4;
