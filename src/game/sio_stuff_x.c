@@ -719,34 +719,30 @@ void sub_80243F8(u8 arg0)
 }
 
 #if 0
-u8 sub_802440C(void) {
-    s16 temp_r0_4;
-    s16 temp_r3;
+s16 sub_802440C(void) {
     s16 var_r0;
     s16 var_r1;
     s16 var_r1_2;
-    s32 temp_r4;
-    u16 temp_r0_3;
-    u32 temp_r0;
-    u32 temp_r0_2;
     union MultiSioData *temp_r2;
-    gStageData.playerIndex = SIO_MULTI_CNT->id;
+    u32 playerIndex = gStageData.playerIndex = SIO_MULTI_CNT->id;
 
-    if (temp_r0 != 0) {
+    if (playerIndex != 0) {
         return 0U;
     }
     var_r0 = sub_802610C();
     if (var_r0 < 0) {
         return var_r0;
     } else {
-        gMultiSioSend.pat0.unk2 = (u8) temp_r0;
-        for(var_r1 = 0; var_r1 < 4; var_r1++)
+        register union MultiSioData *send asm("r7") = &gMultiSioSend;
+        send->patStuffX.playerIndex = (u8) playerIndex;
+        for(var_r1 = 0; var_r1 < (s32)ARRAY_COUNT(gMultiplayerUserNames); var_r1++)
         {
+            u32 *ptr300106C = gUnknown_0300106C;
             if (CheckBit(gMultiSioStatusFlags, var_r1)) {
                 temp_r2 = &gMultiSioRecv[var_r1];
                 if (temp_r2->pat0.unk0 == 0x6601) {
-                    gMultiSioSend.pat0.unk2 |= 1 << var_r1;
-                    gUnknown_0300106C[var_r1] = temp_r2->patStuffX3.unk4; // NOTE: Might be an individual ID?
+                    send->patStuffX.playerIndex |= 1 << var_r1;
+                    ptr300106C[var_r1] = temp_r2->patStuffX3.unk4; // NOTE: Might be an individual ID?
                     for(var_r1_2 = 0; var_r1_2 < 6; var_r1_2++)
                     {
                         gMultiplayerUserNames[var_r1][var_r1_2] = temp_r2->patStuffX3.userName[var_r1_2];
@@ -756,7 +752,7 @@ u8 sub_802440C(void) {
         }
 
         sub_8025BA0();
-        return (s16) gMultiSioSend.pat0.unk2;
+        return send->patStuffX.playerIndex;
     }
 }
 
@@ -780,21 +776,22 @@ u8 sub_80244E4(void) {
         if ((temp_r0 != 3) && (temp_r0 != 7) && (temp_r0 != 0xF)) {
             return temp_r0;
         }
-        var_r1 = 0;
-        temp_r3 = (s16) temp_r0;
+        for(var_r1 = 0; var_r1 < 4; var_r1++)
+        {
 loop_7:
-        temp_r2 = var_r1;
-        if (!((temp_r3 >> temp_r2) & 1) || (gMultiSioRecv[temp_r2].pat0.unk0 == 0x6602)) {
-            temp_r0_2 = temp_r2 + 1;
-            var_r1 = (s16) temp_r0_2;
-            if ((s32) (s16) temp_r0_2 > 3) {
-                var_r0 = (s16) temp_r0 | 0x10;
-                /* Duplicate return node #11. Try simplifying control flow for better match */
-                return (u8) var_r0;
+            temp_r2 = var_r1;
+            if (!((temp_r0 >> temp_r2) & 1) || (gMultiSioRecv[temp_r2].pat0.unk0 == 0x6602)) {
+                temp_r0_2 = temp_r2 + 1;
+                var_r1 = (s16) temp_r0_2;
+                if ((s32) (s16) temp_r0_2 > 3) {
+                    var_r0 = (s16) temp_r0 | 0x10;
+                    /* Duplicate return node #11. Try simplifying control flow for better match */
+                    return (u8) var_r0;
+                }
+                goto loop_7;
             }
-            goto loop_7;
         }
-        return temp_r3;
+        return temp_r0;
     }
 }
 
@@ -807,11 +804,12 @@ s16 sub_8024584(void) {
     u16 temp_r0_4;
     u32 temp_r0_2;
     u32 temp_r0_3;
-    u8 var_r4;
     union MultiSioData *temp_r2;
 
     gStageData.playerIndex = SIO_MULTI_CNT->id;
-    if (gStageData.playerIndex != 0) {
+    if (gStageData.playerIndex == 0) {
+        return 0;
+    } else {
         temp_r0 = sub_802610C();
         if ((s32) temp_r0 < 0) {
             return temp_r0;
@@ -836,24 +834,27 @@ s16 sub_8024584(void) {
             var_r1 = (s16) (temp_r0_3 >> 0x10);
         } while ((s32) ((s32) temp_r0_3 >> 0x10) <= 3);
         if (!(gMultiSioStatusFlags & 1)) {
-            goto block_10;
+            return 0;;
         }
-        var_r4 = 0;
-        if (((0xFF00 & gMultiSioRecv->pat0.unk0) != 0x6600) && (gMultiSioRecv->pat0.unk0 != 0)) {
-            return -5;
+        {
+            union MultiSioData *send = &gMultiSioSend;
+            union MultiSioData *recv = &gMultiSioRecv[0];
+            s16 var_r4 = 0;
+            if (((0xFF00 & recv->pat0.unk0) != 0x6600) && (recv->pat0.unk0 != 0)) {
+                return -5;
+            }
+            if (recv->pat0.unk0 == 0x6601 || recv->pat0.unk0 == 0x6602) {
+                send->pat0.unk2 = recv->pat0.unk2;
+                var_r4 = recv->pat0.unk2;
+            }
+            if (recv->pat0.unk0 == 0x6602) {
+                var_r4 |= 0x10;
+            }
+            
+            sub_8025BA0();
+            return var_r4;
         }
-        if ((u32) (u16) (gMultiSioRecv->pat0.unk0 + 0xFFFF99FF) <= 1U) {
-            gMultiSioSend.pat0.unk2 = gMultiSioRecv->pat0.unk2;
-            var_r4 = gMultiSioRecv->pat0.unk2;
-        }
-        if (gMultiSioRecv->pat0.unk0 == 0x6602) {
-            var_r4 = (u8) (u16) ((s16) var_r4 | 0x10);
-        }
-        sub_8025BA0();
-        return (s16) var_r4;
     }
-block_10:
-    return 0;
 }
 
 s16 sub_80246B4(void) {
@@ -904,7 +905,7 @@ s16 sub_80246B4(void) {
             var_r4 = temp_r0_4;
         }
         if (gMultiSioRecv->pat0.unk0 == 0x6603) {
-            var_r4 = (u8) (u16) ((s16) var_r4 | 0x10);
+            var_r4 |= 0x10;
         }
         sub_8025BB0();
         return var_r4;
@@ -1450,7 +1451,7 @@ s16 sub_80250EC(u8 arg0) {
     s16 var_r6;
     u16 var_r1_2;
     u32 temp_r0;
-    u32 var_r2;
+    u8 var_r2;
     u8 temp_r5;
     union MultiSioData *var_r1;
     union MultiSioData *var_r1_3;
@@ -1467,7 +1468,7 @@ s16 sub_80250EC(u8 arg0) {
             var_r2 = temp_r0;
         }
         if (gMultiSioStatusFlags & 1) {
-            if ((u32) (u8) (var_r2 - 2) <= 1U) {
+            if (var_r2 == 2 || var_r2 == 3) {
                 if (var_r2 == 3) {
                     var_r1 = &gMultiSioRecv[2];
                     if ((temp_r0 <= 1U) && !(temp_r5 & (4 << temp_r0))) {
@@ -1527,9 +1528,11 @@ s16 sub_80251F8(u16 arg0) {
     temp_r0 = gStageData.playerIndex = SIO_MULTI_CNT->id;
     var_r5 = temp_r0;
     var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
-        if (var_r5 <= 1U) {
-            var_r5 = (u32) (u8) (var_r5 + 2);
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
+        if (var_r5 < 2) {
+            var_r5 += 2;
         }
         sp0 = arg0 << 0x18;
         if ((gMultiSioStatusFlags & 1) && ((u32) (u16) (gMultiSioRecv->pat0.unk0 + 0xFFFF99F9) <= 1U)) {
@@ -1549,9 +1552,8 @@ s16 sub_80251F8(u16 arg0) {
             }
         }
         sub_8025C8C((u8) (sp0 >> 0x18));
-        var_r0 = var_sl;
+        return var_sl;
     }
-    return var_r0;
 }
 
 s16 sub_80252E8(void) {
@@ -1564,21 +1566,20 @@ s16 sub_80252E8(void) {
     var_r4 = 0;
     gStageData.playerIndex = SIO_MULTI_CNT->id;
     var_r0 = sub_802610C();
-    if ((s32) var_r0 >= 0) {
+    if (var_r0 < 0) {
+        return var_r0;
+    } else {
         if ((gMultiSioStatusFlags & 1) && (gMultiSioRecv->pat0.unk0 == 0x660A)) {
-            var_r1 = 0;
-            do {
-                temp_r0_2 = var_r1;
-                gUnknown_030010AC[temp_r0_2] = (&gMultiSioRecv->pat0.unkF)[temp_r0_2];
-                temp_r0 = temp_r0_2 + 1;
-                var_r1 = (s16) temp_r0;
-            } while ((s32) (s16) temp_r0 <= 3);
+            for(var_r1 = 0; var_r1 < 4; var_r1++)
+            {
+                gUnknown_030010AC[var_r1] = (&gMultiSioRecv->pat0.unkF)[var_r1];
+            }
+
             var_r4 = 1;
         }
         sub_8025CD8();
-        var_r0 = var_r4;
+        return var_r4;
     }
-    return var_r0;
 }
 
 s16 sub_8025360(void) {
