@@ -3,6 +3,7 @@
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
+#include "constants/songs.h"
 
 typedef struct {
     u8 unk0;
@@ -252,7 +253,7 @@ void Task_Options_Language_Init(void)
     sub_8090314(lang);
 
     if ((gBgScrollRegs[1][0] == 0) && (9 & gPressedKeys)) {
-        m4aSongNumStart(0x6AU);
+        m4aSongNumStart(SE_SELECT);
 
         if (lang->initArg2 == NULL) {
             LOADED_SAVE->language = (u8)(u16)lang->highlitButton;
@@ -272,7 +273,7 @@ void Task_Options_Language_Init(void)
 
     lang->unk4C.x = 0 - gBgScrollRegs[1][0];
     if ((gBgScrollRegs[1][0] == 0) && (*lang->initArg3 != 0) && (0xC0 & gRepeatedKeys)) {
-        m4aSongNumStart(0x6CU);
+        m4aSongNumStart(SE_DPAD_SELECT);
         if (0x40 & gRepeatedKeys) {
             if (lang->highlitButton == 0) {
                 lang->highlitButton = 5;

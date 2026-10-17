@@ -708,7 +708,7 @@ void Task_TransitionToSelectedMode(void)
             LaunchOptionsMenu(0);
             break;
         case 4:
-            CreateTitleScreen(1U);
+            CreateTitleScreen(1);
             break;
         case 10:
             TasksDestroyAll();
@@ -723,7 +723,7 @@ void Task_TransitionToSelectedMode(void)
             sub_80B1AF4(0, 0, 0);
             break;
         case 11:
-            sub_80AB120(3U);
+            sub_80AB120(3);
             break;
     }
     if (menu->highlitButton != 0xA) {
@@ -780,14 +780,14 @@ void Task_3F0_8087F18(void)
                 SetDefaultDisplaySettings();
                 CreateTimeRecordScreen(4);
             } else {
-                CreateTitleScreen(1U);
+                CreateTitleScreen(1);
             }
             break;
         case 3:
-            CreateTitleScreen(1U);
+            CreateTitleScreen(1);
             break;
         case 4:
-            CreateTitleScreen(1U);
+            CreateTitleScreen(1);
             break;
     }
     TaskDestroy(gCurTask);

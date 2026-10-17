@@ -680,7 +680,7 @@ block_4:
     if (!(2 & gPressedKeys)) {
         goto block_6;
     }
-    m4aSongNumStart(0x6BU);
+    m4aSongNumStart(SE_ABORT);
     sub_8092D1C(nes);
 block_6:
     if (!(0x200 & gPressedKeys)) {
@@ -707,7 +707,7 @@ block_10:
     if (!(1 & gPressedKeys)) {
         goto block_32;
     }
-    m4aSongNumStart(0x6AU);
+    m4aSongNumStart(SE_SELECT);
     temp_r0 = (s16)nes->unkE;
     if (temp_r0 == 1) {
         goto block_26;
@@ -781,7 +781,7 @@ block_32:
     }
     return;
 block_34:
-    m4aSongNumStart(0x6CU);
+    m4aSongNumStart(SE_DPAD_SELECT);
     if (!(0x40 & gRepeatedKeys)) {
         goto block_39;
     }
@@ -1051,7 +1051,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__Task_8092AC8.inc", void Task_80
             sub_80935E4(nes);
         }
         if (8 & gPressedKeys) {
-            m4aSongNumStart(0x6AU);
+            m4aSongNumStart(SE_SELECT);
             nes->unk3 = 0;
             nes->unkE = 0;
             gCurTask->main = Task_8092690;
@@ -1188,11 +1188,11 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_8092F60.inc", u32 sub_8092F
     u8 var_r3_2;
 
     if (0x40 & gRepeatedKeys) {
-        sub_80932E0(nes, 0U);
+        sub_80932E0(nes, 0);
         goto block_32;
     }
     if (0x80 & gRepeatedKeys) {
-        sub_80932E0(nes, 1U);
+        sub_80932E0(nes, 1);
         goto block_32;
     }
     if (0x20 & gRepeatedKeys) {
@@ -1315,7 +1315,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_80930B8.inc", u32 sub_80930
         if (var_r3 == 0xE) {
 
         } else {
-            sub_80932E0(nes, 1U);
+            sub_80932E0(nes, 1);
         }
     } else if (0x80 & gRepeatedKeys) {
         nes->unk12 += 0x60;
@@ -1338,7 +1338,7 @@ NONMATCH("asm/non_matching/game/sa3/options/nes__sub_80930B8.inc", u32 sub_80930
         if (var_r3_2 == 0xE) {
 
         } else {
-            sub_80932E0(nes, 0U);
+            sub_80932E0(nes, 0);
         }
     } else if (0x20 & gRepeatedKeys) {
         nes->unk3C = 0x1A;
@@ -1649,7 +1649,7 @@ void Task_8093710(void)
     sub_80933B0(arg0);
     sub_80934B0(arg0);
 
-    if (sub_80934F0(arg0, 1U) == 1) {
+    if (sub_80934F0(arg0, 1) == 1) {
         var_r5 = 1;
     }
 

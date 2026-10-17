@@ -278,8 +278,8 @@ Task *CreateEggPinball(u8 *bossPhase, s32 worldX, s32 worldY)
     tf->x = 0;
     tf->y = 0;
     tf->rotation = 0;
-    CreateEggPinballOuterPlatform(0x558, 0x125, boss, 0U);
-    CreateEggPinballOuterPlatform(0x648, 0x125, boss, 1U);
+    CreateEggPinballOuterPlatform(1368, 293, boss, 0);
+    CreateEggPinballOuterPlatform(1608, 293, boss, 1);
     SetFixedRandomIfTimeAttackMode();
     return t;
 }
@@ -449,7 +449,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073BE0.inc", void Task
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = Task_Boss_8074C94;
             } else {
-                sub_8027674(1U, 0U);
+                sub_8027674(1U, 0);
                 sub_8074E4C(boss);
                 gCurTask->main = Task_Boss_8073CE4;
             }
@@ -571,7 +571,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073F4C.inc", void Task
         boss->unk44 -= 1;
 
         if (boss->unk44 == 240) {
-            CreateScreenShake(0x800U, 8U, 0U, -1U, 0x91U);
+            CreateScreenShake(0x800U, 8U, 0U, -1U, 0x91);
             m4aSongNumStart(SE_545);
         }
         temp_r1 = boss->unk44;
@@ -783,7 +783,7 @@ void Task_Ball_807442C(void)
         var_r3 = 1;
     }
     if (var_r3 != 0) {
-        m4aSongNumStart(0x232U);
+        m4aSongNumStart(SE_562);
     }
     if ((s32)ball->unk8 > 0x15FFF) {
         TaskDestroy(gCurTask);
@@ -887,7 +887,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__sub_807467C.inc", void sub_807467
     if (inPlayer->charFlags.anim0 == 0xD4) {
         Player_800DB30(inPlayer);
     }
-    m4aSongNumStart(0x233U);
+    m4aSongNumStart(SE_563);
     return;
     {
     block_22:
@@ -898,15 +898,15 @@ END_NONMATCH
 
 // (96.04%) https://decomp.me/scratch/L1LLD
 NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballOuterPlatform.inc",
-         void CreateEggPinballOuterPlatform(s32 param0, s32 param1, EggPinball *boss, u8 param3))
+         void CreateEggPinballOuterPlatform(s32 posX, s32 posY, EggPinball *boss, u8 param3))
 {
     Task *t = TaskCreate(Task_Platform_OuterPlat, sizeof(EggPinballPlatform), 0x2000U, 0U, TaskDestructor_EggPinballOuterPlatform);
     EggPinballPlatform *platform = TASK_DATA(t);
     Sprite *s = &platform->s;
     s32 x, y;
     platform->boss = boss;
-    platform->unkC = Q(param0);
-    platform->unk10 = Q(param1);
+    platform->unkC = Q(posX);
+    platform->unk10 = Q(posY);
     x = platform->unkC;
     y = platform->unk10;
     platform->unk4 = x;
@@ -958,7 +958,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Platform_OuterPlat.inc", voi
 
     for (var_r5 = 0; var_r5 < 2; var_r5++) {
         p = platform->players[var_r5];
-        temp_r0 = sub_8020950(sp8, I(platform->unkC), I(platform->unk10), p, 0U);
+        temp_r0 = sub_8020950(sp8, I(platform->unkC), I(platform->unk10), p, 0);
         if (0x10000 & temp_r0) {
             p->qWorldY += Q_8_8(temp_r0);
             SetBit(platform->unk20, var_r5);
@@ -1065,8 +1065,8 @@ void sub_Boss_8074AF0(EggPinball *boss)
         s->variant = 2;
         s->prevVariant = -1;
 
-        sub_8078DB0(ANIM_PALETTE_BOSS_6_A, 0, 0xB4, 0U);
-        sub_8078DB0(ANIM_PALETTE_BOSS_6_B, 0, 0xB4, 0U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_6_A, 0, 0xB4, 0);
+        sub_8078DB0(ANIM_PALETTE_BOSS_6_B, 0, 0xB4, 0);
 
         if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == PLAYER_1) {

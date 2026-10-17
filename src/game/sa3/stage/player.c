@@ -15161,7 +15161,7 @@ void sub_80170A0(Player *p)
     strc = TASK_DATA(TaskCreate(Task_8018238_30, sizeof(Strc_PlayerStrc30), 0x3100U, 0U, TaskDestructor_8019318));
     strc->p = p;
     s = &strc->s;
-    s->tiles = VramMalloc(0x14U);
+    s->tiles = VramMalloc(0x14);
     s->frameFlags = 0x1000;
     if (!(p->moveState & 1)) {
         s->frameFlags |= 0x400;
@@ -15191,7 +15191,7 @@ void sub_8017134(Player *p)
 
     strc = TASK_DATA(TaskCreate(Task_801952C_2C, sizeof(Strc_PlayerStrc2C), 0x3100U, 0U, TaskDestructor_801932C));
     s = &strc->s;
-    s->tiles = VramMalloc(4U);
+    s->tiles = VramMalloc(4);
     s->frameFlags = 0x1000;
     s->anim = 0x534;
     s->x = 0;
@@ -15342,7 +15342,7 @@ void sub_80173F0(Player *p)
     void **temp_r7;
 
     strc = TASK_DATA(TaskCreate(Task_801839C_E0, sizeof(Strc_PlayerUnkE0), 0x3100U, 0U, TaskDestructor_8019318));
-    vram = VramMalloc(0xDU);
+    vram = VramMalloc(0xD);
     strc->vram = vram;
     strc->unk7C = I(p->qWorldX);
     strc->unk7E = I(p->qWorldY);
@@ -15596,11 +15596,11 @@ void sub_8017914(Player *p)
     temp_r0->p = p;
     s = &temp_r0->s;
     if (gStageData.zone == 6) {
-        s->tiles = VramMalloc(0xFU);
+        s->tiles = VramMalloc(0xF);
         s->anim = 0x3E8;
         s->variant = 0;
     } else {
-        s->tiles = VramMalloc(0xFU);
+        s->tiles = VramMalloc(0xF);
         s->anim = 0x3CA;
         s->variant = 0;
     }
@@ -15634,7 +15634,7 @@ void sub_80179BC(Player *p)
             temp_r1_2 = TASK_DATA(p->unkDC);
             temp_r1_2->p = p;
             s = &temp_r1_2->s;
-            s->tiles = VramMalloc(8U);
+            s->tiles = VramMalloc(8);
             s->frameFlags = 0x1000;
             if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
                 s->frameFlags |= 0x800;
@@ -15692,7 +15692,7 @@ void sub_8017AF4(Player *p)
 
     strc = TASK_DATA(TaskCreate(Task_801952C_2C, sizeof(Strc_PlayerStrc2C), 0x3100U, 0U, TaskDestructor_8019428));
     s = &strc->s;
-    s->tiles = VramMalloc(4U);
+    s->tiles = VramMalloc(4);
     s->frameFlags = 0x1000;
     s->anim = ANIM_SMALL_DUST_PARTICLE;
     s->x = 0;
@@ -15811,7 +15811,7 @@ void Player_8017D18(Player *p)
     strc->p = p;
     strc->unk4 = 0;
 
-    strc->vram = VramMalloc(0x10U);
+    strc->vram = VramMalloc(0x10);
     tiles = strc->vram;
 
     for (i = 0; i < 4; i++) {
@@ -15846,7 +15846,7 @@ void sub_8017DB4(Player *p)
     strc->p = p;
     strc->unk4 = 0;
 
-    strc->vram = VramMalloc(0x10U);
+    strc->vram = VramMalloc(0x10);
     tiles = strc->vram;
 
     for (i = 0; i < 4; i++) {
@@ -15882,7 +15882,7 @@ void Player_8017E50(Player *p)
     strc->unk4 = 0;
     strc->unk6 = p->moveState & 1;
 
-    strc->vram = VramMalloc(0x10U);
+    strc->vram = VramMalloc(0x10);
     tiles = strc->vram;
 
     for (i = 0; i < 4; i++) {
@@ -15918,7 +15918,7 @@ void sub_8017EF4(Player *p)
     strc->unk4 = 0;
     strc->unk6 = p->moveState & 1;
 
-    strc->vram = VramMalloc(0x10U);
+    strc->vram = VramMalloc(0x10);
     tiles = strc->vram;
 
     for (i = 0; i < 4; i++) {
@@ -15953,7 +15953,7 @@ void sub_8017F98(Player *p)
     strc->p = p;
     strc->unk4 = 0;
 
-    strc->vram = VramMalloc(0x10U);
+    strc->vram = VramMalloc(0x10);
     tiles = strc->vram;
 
     for (i = 0; i < 4; i++) {
@@ -15989,7 +15989,7 @@ void sub_8018034(Player *p)
     strc->unk4 = 0;
     strc->unk6 = p->moveState & 1;
 
-    strc->vram = VramMalloc(0x10U);
+    strc->vram = VramMalloc(0x10);
     tiles = strc->vram;
 
     for (i = 0; i < 4; i++) {

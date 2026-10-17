@@ -518,8 +518,8 @@ void sub_806EFE8(EggCube *boss)
                 boss->unk12 = 1;
                 sub_806F2B8(boss);
                 boss->unk12 = 0;
-                sub_806FAFC(boss, 1U);
-                m4aSongNumStart(0x22EU);
+                sub_806FAFC(boss, 1);
+                m4aSongNumStart(SE_558);
             }
             break;
     }
@@ -658,8 +658,8 @@ void Task_EggCube_806F3A0(void)
                 boss->vramCC = NULL;
             }
             boss->vram34 = VramMalloc(158);
-            m4aSongNumStart(0x221U);
-            CreateScreenShake(0x800U, 8U, 0U, -1U, 0x91U);
+            m4aSongNumStart(SE_545);
+            CreateScreenShake(0x800U, 8U, 0U, -1U, 0x91);
             boss->unk20 = 0xB4;
             boss->unk2C = 200;
             break;
@@ -674,7 +674,7 @@ void Task_EggCube_806F3A0(void)
                 sub_8079758(6, temp_r1, (gCamera.maxY + 16), 0x500, 0x300U, 0x14U, -0xA, boss->vram34);
             }
             if (!(gStageData.timer & 0x3F)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
             if (--boss->unk20 == 0) {
                 boss->unk20 = 0x3C;
@@ -759,7 +759,7 @@ u32 sub_806F5F0(Player *p)
         boss->spr70.hitboxes[0].b.right = +30;
         boss->spr70.hitboxes[0].b.bottom = 0;
         temp_r5 = &boss->spr70;
-        temp_r0 = sub_8020950(temp_r5, I(boss->qWorldX), I(boss->qWorldY), p, 0U);
+        temp_r0 = sub_8020950(temp_r5, I(boss->qWorldX), I(boss->qWorldY), p, 0);
 
         if (0x10000 & temp_r0) {
             if (((u16)boss->unk30 == 1) && (boss->unk12 == 0)) {
@@ -801,7 +801,7 @@ u32 sub_806F5F0(Player *p)
         }
         if (boss->unk24 || boss->unk12 || boss->unk13) {
             if (boss->unk12 != 0) {
-                temp_r0 = sub_8020950(s, (s32)boss->unk98 >> 8, (s32)boss->unk9C >> 8, p, 0U);
+                temp_r0 = sub_8020950(s, (s32)boss->unk98 >> 8, (s32)boss->unk9C >> 8, p, 0);
                 if (0x10000 & temp_r0) {
                     s = (Sprite *)&p->spriteInfoBody->s;
                     p->qWorldY = ((p->qWorldY + (s16)((temp_r0 + 1) << 8)) & 0xFFFFFF00) - 1;
@@ -1259,17 +1259,17 @@ void sub_8070208(EggCube *boss)
         case 0:
             break;
         case 100:
-            sub_806FAFC(boss, 1U);
+            sub_806FAFC(boss, 1);
             // fallthrough
         case 101:
-            sub_8071968(boss, 2U);
+            sub_8071968(boss, 2);
             boss->unk26 = 30;
             boss->unk24 = 110;
 
             break;
         case 110:
             if (--boss->unk26 == 0) {
-                sub_8071968(boss, 0U);
+                sub_8071968(boss, 0);
                 boss->unk22 = 0;
                 boss->unk24 = 120;
                 PlayVoiceEggmanHit();
@@ -1297,7 +1297,7 @@ void sub_8070208(EggCube *boss)
         case 200:
             boss->unk26 = 60;
             boss->unk24 = 210;
-            sub_806FAFC(boss, 2U);
+            sub_806FAFC(boss, 2);
             break;
         case 210:
             if (--boss->unk26 == 0) {
@@ -1317,7 +1317,7 @@ void sub_8070208(EggCube *boss)
             boss->unk22 -= 0x10;
 
             if (boss->unk22 == 0) {
-                sub_806FAFC(boss, 0U);
+                sub_806FAFC(boss, 0);
                 if (boss->unk10 != 1) {
                     boss->unk10 = 1;
                     boss->unk8 = -8;
@@ -1573,7 +1573,7 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
                 boss->unkB0 = 0;
                 boss->unkB4 = -Q(4);
                 strc14->unk6 = 0x64;
-                m4aSongNumStart(0x22AU);
+                m4aSongNumStart(SE_554);
             }
             break;
         case 0x64:
@@ -1618,8 +1618,8 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
                 s->oamFlags = 0x2C0;
                 s->prevVariant = -1;
                 s->frameFlags = 0x1400;
-                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
-                m4aSongNumStart(0x22BU);
+                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91);
+                m4aSongNumStart(SE_555);
                 strc14->unk8 = 0x22;
                 strc14->unk6 = 0x190;
             }
@@ -1653,7 +1653,7 @@ void sub_80707A0(EggCube14 *strc14, EggCube *boss)
                 boss->unkAC = boss->unkBC;
                 strc14->unkA = 0;
                 strc14->unk6 = 0x1F4;
-                m4aSongNumStart(0x74U);
+                m4aSongNumStart(SE_JUMP);
             }
             break;
         case 0x1F4:
@@ -1759,8 +1759,8 @@ void sub_8070B08(EggCube14 *strc14, EggCube *boss)
                 boss->unkAC = 0xAE00;
                 boss->unkB0 = -0x100;
                 boss->unkB4 = -0x300;
-                m4aSongNumStart(0x22CU);
-                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+                m4aSongNumStart(SE_556);
+                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91);
                 strc14->unk6 = 0xD2;
             }
             temp_r1_7 = (u16)boss->unk28;
@@ -1780,8 +1780,8 @@ void sub_8070B08(EggCube14 *strc14, EggCube *boss)
             boss->unkAC = 0xAE00;
             boss->unkB0 = -0x100;
             boss->unkB4 = -0x200;
-            m4aSongNumStart(0x22CU);
-            CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+            m4aSongNumStart(SE_556);
+            CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91);
             strc14->unk6 = 0xDC;
             break;
         case 0xDC: {
@@ -1792,8 +1792,8 @@ void sub_8070B08(EggCube14 *strc14, EggCube *boss)
                 boss->unkAC = 0xAE00;
                 boss->unkB0 = 0;
                 boss->unkB4 = 0;
-                m4aSongNumStart(0x22CU);
-                CreateScreenShake(0x800U, 0x80U, 0U, -1U, 0x91U);
+                m4aSongNumStart(SE_556);
+                CreateScreenShake(0x800U, 0x80U, 0U, -1U, 0x91);
                 strc14->unk8 = 0x3C;
                 strc14->unk6 = 0xE6;
             }
@@ -1809,7 +1809,7 @@ void sub_8070B08(EggCube14 *strc14, EggCube *boss)
                 } else {
                     strc14->unk6 = 0x15E;
                 }
-                m4aSongNumStart(0x22DU);
+                m4aSongNumStart(SE_557);
             }
         } break;
         case 0x12C:
@@ -1837,7 +1837,7 @@ void sub_8070B08(EggCube14 *strc14, EggCube *boss)
                     strc14->unk8 = 0x3C;
                     strc14->unk6 = 0x190;
                 } else {
-                    m4aSongNumStart(0x22DU);
+                    m4aSongNumStart(SE_557);
                 }
             }
 
@@ -1870,7 +1870,7 @@ void sub_8070B08(EggCube14 *strc14, EggCube *boss)
                     strc14->unk8 = 0x3C;
                     strc14->unk6 = 0x190;
                 } else {
-                    m4aSongNumStart(0x22DU);
+                    m4aSongNumStart(SE_557);
                 }
             }
             if ((0x7F & strc14->unkA) == 0) {
@@ -2111,7 +2111,7 @@ void sub_8071410(EggCube *boss)
     u32 oldUnk19 = boss->unk19;
 
     if (oldUnk19 == 0) {
-        sub_8078DB0(0x4D5, 0, 0x40, 0U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_4_A, 0, 0x40, 0);
         boss->unk19 = 0x40;
         boss->unk24 = 0x64;
         sub_806F2B8(boss);
@@ -2151,7 +2151,7 @@ void sub_80714C0(EggCube *boss, u8 arg1)
     s32 zero;
 
     if (boss->unk19 == 0) {
-        sub_8078DB0(1237, 0, 0x40, 0U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_4_A, 0, 0x40, 0);
         boss->unk19 = 0x40;
         boss->unk24 = 0x64;
         boss->unk18 = arg1;
@@ -2432,7 +2432,7 @@ void sub_8071968(EggCube *boss, u8 param1)
     s->prevVariant = -1;
 }
 
-void sub_80719B4(EggCube *boss) { boss->vramCC = VramMalloc(0x54U); }
+void sub_80719B4(EggCube *boss) { boss->vramCC = VramMalloc(0x54); }
 
 void sub_80719C8(EggCube *boss)
 {

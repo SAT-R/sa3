@@ -442,7 +442,7 @@ void Task_Chaser_8071E94(void)
             if (gStageData.playerIndex != 0) {
                 gCurTask->main = Task_Chaser_8073420;
             } else {
-                sub_8027674(1U, 0U);
+                sub_8027674(1U, 0);
                 sub_8072D04(boss);
                 gCurTask->main = Task_Chaser_80733CC;
             }
@@ -519,7 +519,7 @@ void Task_Chaser_80720E4(void)
             if (I(boss->qWorldY) > 0x596) {
                 boss->unkA = Q(0xFA);
                 boss->unk30 = 0x14;
-                CreateScreenShake(0x800U, 4U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 4U, 0U, -1U, 0x91);
             }
             if (1 & boss->unk14) {
                 temp_r7 = PseudoRandom32() % SIN_PERIOD;
@@ -1039,18 +1039,18 @@ void sub_8072DA4(EggChaserBoss *boss)
         }
         if (gStageData.difficulty == 0) {
             if (boss->unk12 == 4) {
-                sub_80299D4(0x33U);
+                sub_80299D4(0x33);
             }
         } else if (boss->unk12 == 3) {
-            sub_80299D4(0x33U);
+            sub_80299D4(0x33);
         }
         m4aSongNumStart(SE_235);
         PlayVoiceEggmanHit();
         boss->unk13 = 0x7A;
         sprEggman->variant = 2;
         sprEggman->prevVariant = -1;
-        sub_8078DB0(0x4DD, 0, 0x7A, 0U);
-        sub_8078DB0(0x4DE, 0, 0x7A, 0U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_5_A, 0, 0x7A, 0);
+        sub_8078DB0(ANIM_PALETTE_BOSS_5_B, 0, 0x7A, 0);
         if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
             if (gStageData.playerIndex == 0) {
                 if (boss->unk12 != 0) {

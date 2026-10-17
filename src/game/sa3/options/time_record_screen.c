@@ -5,6 +5,7 @@
 #include "game/stage.h"
 #include "game/sa3/character_select.h"
 #include "code_0_1.h"
+#include "constants/songs.h"
 #include "constants/tilemaps.h"
 
 typedef struct {
@@ -876,7 +877,7 @@ void Task_8095764(void)
     sub_8096428(trs);
     sub_8096554(trs);
     if (2 & gPressedKeys) {
-        m4aSongNumStart(0x6BU);
+        m4aSongNumStart(SE_ABORT);
         trs->unk1 = 1;
         trs->unk28 = 1;
         gCurTask->main = Task_80956E4;
@@ -884,7 +885,7 @@ void Task_8095764(void)
     }
     temp_r2 = 1 & gPressedKeys;
     if (temp_r2 != 0) {
-        m4aSongNumStart(0x6AU);
+        m4aSongNumStart(SE_SELECT);
         trs->unk1 = 4;
         gCurTask->main = Task_809624C;
         return;
@@ -894,13 +895,13 @@ void Task_8095764(void)
             trs->unk4 = temp_r2;
             trs->unk24 = (u16)temp_r2;
             trs->unk64 = 0x2000;
-            m4aSongNumStart(0x6CU);
+            m4aSongNumStart(SE_DPAD_SELECT);
         }
         if ((0x80 & gPressedKeys) && ((s16)trs->unk24 == 0)) {
             trs->unk4 = 0x20;
             trs->unk24 = 1;
             trs->unk64 = -0x800;
-            m4aSongNumStart(0x6CU);
+            m4aSongNumStart(SE_DPAD_SELECT);
         }
         trs->unk60 = 0x7800;
     }
@@ -1001,7 +1002,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused)
     temp_r8 = trs->unk1E;
     temp_r7 = trs->unk1F;
     if (2 & gPressedKeys) {
-        m4aSongNumStart(0x6BU);
+        m4aSongNumStart(SE_ABORT);
         trs->unk28 = 1;
         if (trs->unk3 == 1) {
             trs->unk3 = 5;
@@ -1030,7 +1031,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused)
         }
     } else {
         if ((trs->unk3 != 0) && (1 & gPressedKeys)) {
-            m4aSongNumStart(0x6AU);
+            m4aSongNumStart(SE_SELECT);
             trs->unk28 = 1;
             gCurTask->main = Task_80954A8;
             return;
@@ -1050,7 +1051,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused)
                 var_r6 = 1;
             }
             if (var_r6 != 0) {
-                m4aSongNumStart(0x6CU);
+                m4aSongNumStart(SE_DPAD_SELECT);
                 trs->unk28 = 2;
 
                 sub_8095980_subinline(trs);
@@ -1062,7 +1063,7 @@ void sub_8095980(TimeRecordScreen *trs, s32 unused)
         if (!(DPAD_SIDEWAYS & gRepeatedKeys)) {
             return;
         }
-        m4aSongNumStart(0x6CU);
+        m4aSongNumStart(SE_DPAD_SELECT);
         if (0x10 & gRepeatedKeys) {
             if (trs->unk24 == 0) {
                 if (++trs->unk1E > 2) {

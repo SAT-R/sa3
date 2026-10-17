@@ -821,7 +821,7 @@ void Task_808BD90(void)
         return;
     }
     if (0xC0 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
+        m4aSongNumStart(SE_DPAD_SELECT);
 
         if (0x40 & gRepeatedKeys) {
             if (options->unk8 == 0) {
@@ -1122,7 +1122,7 @@ s32 sub_808C424(OptionsMenu *options)
             return 1;
         }
         if (0x30 & gRepeatedKeys) {
-            m4aSongNumStart(0x6CU);
+            m4aSongNumStart(SE_DPAD_SELECT);
 
             if (0x10 & gRepeatedKeys) {
                 if (options->unk14[options->unk8] == 0) {
@@ -1155,7 +1155,7 @@ s32 sub_808C514(OptionsMenu *options)
             LOADED_SAVE->language = options->unk14[options->unk8];
             options->unkA = options->unk14[options->unk8];
             options->lang0 = LOADED_SAVE->language;
-            sub_808B664(options, 1U);
+            sub_808B664(options, 1);
         }
         options->unk6 = 0;
     } else {
@@ -1202,7 +1202,7 @@ s32 sub_808C5D4(OptionsMenu *options)
         }
         if (gBgScrollRegs[1][0] == 0) {
             if (0xC0 & gRepeatedKeys) {
-                m4aSongNumStart(0x6CU);
+                m4aSongNumStart(SE_DPAD_SELECT);
 
                 if (0x40 & gRepeatedKeys) {
                     if (options->unk14[options->unk8] == 0) {
@@ -1220,7 +1220,7 @@ s32 sub_808C5D4(OptionsMenu *options)
                 }
             }
             if ((gBgScrollRegs[1][0] == 0) && (0x30 & gRepeatedKeys)) {
-                m4aSongNumStart(0x6CU);
+                m4aSongNumStart(SE_DPAD_SELECT);
                 options->unk3 = 1;
             }
         }

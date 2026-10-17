@@ -359,7 +359,7 @@ Task *CreateEggGravity(u8 *bossPhase, s32 worldX, s32 worldY)
     sub_8077918(boss);
     boss->vram48 = VramMalloc(116);
     boss->vram4C = VramMalloc(30);
-    vram = VramMalloc(0x41U);
+    vram = VramMalloc(0x41);
     s = &boss->sprCockpit;
     s->tiles = vram;
     s->anim = ANIM_BOSS_7_COCKPIT;
@@ -448,7 +448,7 @@ void Task_D8_8075064(void)
         gCamera.maxY = 0x2D8;
         boss->unk30 = 0;
         if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
-            sub_80299D4(0x34U);
+            sub_80299D4(0x34);
             gCurTask->main = Task_D8_8075204;
             if ((partner->qWorldY >= 0x28A00) && (partner->charFlags.someIndex == 2)) {
                 partner->qSpeedGround = 0;
@@ -550,9 +550,9 @@ void Task_D8_8075324(void)
         if (CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) {
 
         } else if (gStageData.playerIndex == 0) {
-            sub_8027674(3U, 0U);
+            sub_8027674(3U, 0);
         } else {
-            sub_8027674(4U, 0U);
+            sub_8027674(4U, 0);
         }
     } else {
         if ((boss->unk24 == 0) || (--boss->unk24 == 0)) {
@@ -707,8 +707,8 @@ void Task_D8_8075674(void)
             }
 
             if (var_r2 != 0) {
-                sub_8078DB0(0x4EE, 0, 0x3A, 0U);
-                sub_8078DB0(0x4EF, 0, 0x3A, 0U);
+                sub_8078DB0(ANIM_PALETTE_BOSS_7_A, 0, 0x3A, 0);
+                sub_8078DB0(ANIM_PALETTE_BOSS_7_B, 0, 0x3A, 0);
                 boss->unk32 = 0;
                 boss->unk2B = 0xB;
                 gemerlAnchor->anim = gUnknown_080D592C[boss->unk23].anim;
@@ -727,10 +727,10 @@ void Task_D8_8075674(void)
                 }
                 if (gStageData.difficulty == 0) {
                     if (boss->lives == 4) {
-                        sub_80299D4(0x35U);
+                        sub_80299D4(0x35);
                     }
                 } else if (boss->lives == 3) {
-                    sub_80299D4(0x35U);
+                    sub_80299D4(0x35);
                 }
                 m4aSongNumStart(SE_235);
                 PlayVoiceEggmanHit();
@@ -901,7 +901,7 @@ void Task_D8_8075C40(void)
                 boss->unk32 = -0x600;
             }
             sub_8077A04(boss->taskStrc100, 1);
-            m4aSongNumStart(0x234U);
+            m4aSongNumStart(SE_564);
             boss->unk2B = 0xA;
         } break;
 
@@ -1495,10 +1495,10 @@ Task *sub_8076A54(EggGravity *boss)
     strc100->unkBC = 0;
 
     sprCC = &strc100->sprCC;
-    sprCC->tiles = VramMalloc(4U);
-    sprCC->anim = 0x4EA;
+    sprCC->tiles = VramMalloc(MAX_TILES(ANIM_BOSS_7_RAIL_CHAIN));
+    sprCC->anim = ANIM_BOSS_7_RAIL_CHAIN;
     sprCC->variant = 0;
-    sprCC->oamFlags = 0x5C0;
+    sprCC->oamFlags = SPRITE_OAM_ORDER(23);
     sprCC->animCursor = 0;
     sprCC->qAnimDelay = 0;
     sprCC->prevVariant = -1;
