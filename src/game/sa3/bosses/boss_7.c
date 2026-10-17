@@ -13,6 +13,7 @@
 #include "game/shared/stage/screen_shake.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "game/sa3/bosses/eggman_escape.h"
+#include "game/save.h" // DIFFICULTY_NORMAL
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
@@ -677,16 +678,16 @@ void Task_D8_8075674(void)
     boss->unk30 = (u16)(boss->unk30 + 1);
     sub_8077874(boss, boss->players[0]);
     sub_8077874(boss, boss->players[1]);
-    temp_r0 = boss->unk2B;
-    switch ((u32)temp_r0) { /* irregular */
+
+    switch (boss->unk2B) {
         case 0:
             boss->unk26 = 3;
             gemerlAnchor->anim = gUnknown_080D592C[4].anim;
             gemerlAnchor->variant = gUnknown_080D592C[4].pattern;
-            gemerlAnchor->prevAnim = 0xFFFF;
+            gemerlAnchor->prevAnim = -1;
             gemerlAnchor->prevVariant = -1;
             if (boss->unk23 != 0) {
-                boss->unk32 = 0x600;
+                boss->unk32 = +0x600;
             } else {
                 boss->unk32 = -0x600;
                 gemerlAnchor->frameFlags |= 0x800;
@@ -696,13 +697,13 @@ void Task_D8_8075674(void)
             boss->unk2B = 0xA;
             break;
         case 10:
-            boss->unk3C = (s32)(boss->unk3C + boss->unk32);
+            boss->unk3C += boss->unk32;
             var_r2 = 0;
             if (boss->unk23 != 0) {
                 if (I(boss->qUnk4) > 0x2C8) {
                     var_r2 = 1;
                 }
-            } else if (I(boss->qUnk4) <= 0x1C7) {
+            } else if (I(boss->qUnk4) < 456) {
                 var_r2 = 1;
             }
 
@@ -713,19 +714,19 @@ void Task_D8_8075674(void)
                 boss->unk2B = 0xB;
                 gemerlAnchor->anim = gUnknown_080D592C[boss->unk23].anim;
                 gemerlAnchor->variant = gUnknown_080D592C[boss->unk23].pattern;
-                gemerlAnchor->prevAnim = 0xFFFF;
+                gemerlAnchor->prevAnim = -1;
                 gemerlAnchor->prevVariant = -1;
                 if (boss->unk23 != 0) {
                     sub_8077954(boss, 8);
                 } else {
-                    gemerlAnchor->frameFlags &= 0xFFFFF7FF;
+                    SPRITE_FLAG_CLEAR(gemerlAnchor, Y_FLIP);
                     sub_8077954(boss, 5);
                 }
-                temp_r0_2 = boss->lives;
-                if (temp_r0_2 != 0) {
-                    boss->lives = temp_r0_2 - 1;
+
+                if (boss->lives != 0) {
+                    boss->lives--;
                 }
-                if (gStageData.difficulty == 0) {
+                if (gStageData.difficulty == DIFFICULTY_NORMAL) {
                     if (boss->lives == 4) {
                         sub_80299D4(0x35);
                     }
@@ -739,25 +740,22 @@ void Task_D8_8075674(void)
         case 11:
             var_r2_2 = 0;
             if (boss->unk23 != 0) {
-                boss->unk32 = (s16)((u16)boss->unk32 - 0x40);
-                temp_r0_3 = boss->unk3C + boss->unk32;
-                boss->unk3C = temp_r0_3;
-                if (temp_r0_3 < 0) {
+                boss->unk32 -= 0x40;
+                boss->unk3C += boss->unk32;
+                if (boss->unk3C < 0) {
                     boss->unk3C = 0;
-                    goto block_31;
+                    var_r2_2 = 1;
                 }
-                goto block_30;
+            } else {
+                boss->unk32 += 0x40;
+                boss->unk3C += boss->unk32;
+                if (boss->unk3C > 0) {
+                    boss->unk3C = 0;
+                    var_r2_2 = 1;
+                }
             }
-            boss->unk32 = (s16)((u16)boss->unk32 + 0x40);
-            temp_r0_4 = boss->unk3C + boss->unk32;
-            boss->unk3C = temp_r0_4;
-            if (temp_r0_4 > 0) {
-                boss->unk3C = 0;
-                var_r2_2 = 1;
-            }
-        block_30:
+
             if (var_r2_2 != 0) {
-            block_31:
                 boss->unk32 = 0;
                 boss->unk2B = 0x14;
                 if (boss->unk23 != 0) {
@@ -833,12 +831,12 @@ void Task_D8_80759B4(void)
                     boss->unk23 = 0;
                     spr80->anim = gUnknown_080D5904[2].anim;
                     spr80->variant = gUnknown_080D5904[2].pattern;
-                    spr80->prevAnim = 0xFFFF;
-                    spr80->prevVariant |= 0xFF;
+                    spr80->prevAnim = -1;
+                    spr80->prevVariant = -1;
                     sprCockpit->anim = sBoss7AnimsCockpit[2].anim;
                     sprCockpit->variant = (u8)sBoss7AnimsCockpit[2].pattern;
                     sprCockpit->prevAnim = -1;
-                    sprCockpit->prevVariant |= 0xFF;
+                    sprCockpit->prevVariant = -1;
                     gemerlAnchor->anim = gUnknown_080D592C[2].anim;
                     gemerlAnchor->variant = gUnknown_080D592C[2].pattern;
                     gemerlAnchor->prevAnim = -1;
@@ -847,12 +845,12 @@ void Task_D8_80759B4(void)
                     boss->unk23 = 1;
                     spr80->anim = gUnknown_080D5904[3].anim;
                     spr80->variant = gUnknown_080D5904[3].pattern;
-                    spr80->prevAnim = 0xFFFF;
-                    spr80->prevVariant |= 0xFF;
+                    spr80->prevAnim = -1;
+                    spr80->prevVariant = -1;
                     sprCockpit->anim = sBoss7AnimsCockpit[3].anim;
                     sprCockpit->variant = sBoss7AnimsCockpit[3].pattern;
                     sprCockpit->prevAnim = -1;
-                    sprCockpit->prevVariant |= 0xFF;
+                    sprCockpit->prevVariant = -1;
                     gemerlAnchor->anim = gUnknown_080D592C[3].anim;
                     gemerlAnchor->variant = gUnknown_080D592C[3].pattern;
                     gemerlAnchor->prevAnim = -1;
@@ -862,12 +860,12 @@ void Task_D8_80759B4(void)
                 boss->unk29 = 4;
                 spr80->anim = gUnknown_080D5904[boss->unk23].anim;
                 spr80->variant = gUnknown_080D5904[boss->unk23].pattern;
-                spr80->prevAnim = 0xFFFF;
-                spr80->prevVariant |= 0xFF;
+                spr80->prevAnim = -1;
+                spr80->prevVariant = -1;
                 sprCockpit->anim = sBoss7AnimsCockpit[boss->unk23].anim;
                 sprCockpit->variant = sBoss7AnimsCockpit[boss->unk23].pattern;
                 sprCockpit->prevAnim = -1;
-                sprCockpit->prevVariant |= 0xFF;
+                sprCockpit->prevVariant = -1;
                 gemerlAnchor->anim = gUnknown_080D592C[boss->unk23].anim;
                 gemerlAnchor->variant = gUnknown_080D592C[boss->unk23].pattern;
                 gemerlAnchor->prevAnim = -1;
@@ -966,16 +964,16 @@ void Task_D8_8075DA4(void)
         gCurTask->main = Task_D8_8075324;
         spr80->anim = gUnknown_080D5904[boss->unk23].anim;
         spr80->variant = gUnknown_080D5904[boss->unk23].pattern;
-        spr80->prevAnim = 0xFFFF;
-        spr80->prevVariant |= 0xFF;
+        spr80->prevAnim = -1;
+        spr80->prevVariant = -1;
         sprCockpit->anim = sBoss7AnimsCockpit[boss->unk23].anim;
         sprCockpit->variant = sBoss7AnimsCockpit[boss->unk23].pattern;
         sprCockpit->prevAnim = -1;
-        sprCockpit->prevVariant |= 0xFF;
+        sprCockpit->prevVariant = -1;
         sprGemerlAnchor->anim = gUnknown_080D592C[boss->unk23].anim;
         sprGemerlAnchor->variant = gUnknown_080D592C[boss->unk23].pattern;
         sprGemerlAnchor->prevAnim = -1;
-        sprGemerlAnchor->prevVariant |= 0xFF;
+        sprGemerlAnchor->prevVariant = -1;
         if ((u32)((u32)PseudoRandom32() % 10000) < 3000) {
             boss->unk22 ^= 1;
             boss->qUnk8 = -boss->qUnk8;
@@ -996,29 +994,28 @@ void Task_D8_8075EE8(void)
     Sprite *sprCockpit = &boss->sprCockpit;
     Sprite *sprGemerlAnchor = &boss->sprGemerlAnchor;
 
-    switch (boss->unk2B) { /* irregular */
+    switch (boss->unk2B) {
         case 0x0:
             boss->unk2C = 0xCU;
             boss->unk2B = 0xA;
-            var_r2 = 0;
-            do {
-                temp_r1 = boss->players[var_r2];
-                temp_r1->moveState |= 0x08000000;
-                var_r2 += 1;
-            } while ((u32)var_r2 <= 1U);
+
+            for (var_r2 = 0; var_r2 < 2; var_r2++) {
+                boss->players[var_r2]->moveState |= MOVESTATE_IGNORE_INPUT;
+            }
+
             CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
             if (boss->unk23 != 0) {
                 boss->unk23 = 0;
                 spr80->anim = gUnknown_080D5904[2].anim;
-                spr80->variant = (u8)gUnknown_080D5904[2].pattern;
-                spr80->prevAnim = 0xFFFF;
+                spr80->variant = gUnknown_080D5904[2].pattern;
+                spr80->prevAnim = -1;
                 spr80->prevVariant = -1;
                 sprCockpit->anim = sBoss7AnimsCockpit[2].anim;
-                sprCockpit->variant = (u8)sBoss7AnimsCockpit[2].pattern;
+                sprCockpit->variant = sBoss7AnimsCockpit[2].pattern;
                 sprCockpit->prevAnim = -1;
                 sprCockpit->prevVariant = -1;
                 sprGemerlAnchor->anim = gUnknown_080D592C[2].anim;
-                sprGemerlAnchor->variant = (u8)gUnknown_080D592C[2].pattern;
+                sprGemerlAnchor->variant = gUnknown_080D592C[2].pattern;
                 sprGemerlAnchor->prevAnim = -1;
                 sprGemerlAnchor->prevVariant = -1;
             }
@@ -1184,11 +1181,11 @@ void sub_8076328(EggGravity *boss)
     s->y = ((temp_r4 + ((s32)boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
-    boss->qUnk4 = (temp_r4 + ((s32)boss->unk3C >> 8)) << 8;
+    boss->qUnk4 = Q(temp_r4 + I(boss->unk3C));
 
     s = &boss->spr80;
     s->x = temp_r0 - gCamera.x;
-    s->y = ((temp_r4 + ((s32)boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
+    s->y = ((temp_r4 + I(boss->unk3C)) - gCamera.y) + I(boss->unk44);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
@@ -1211,9 +1208,9 @@ void sub_8076420(EggGravity *boss)
     if (!(boss->players[gStageData.playerIndex]->moveState & 0x100)) {
         Player *players;
         s32 x0 = sprGemerlAnchor->x;
-        s32 x = (gCamera.x + x0) << 8;
+        s32 x = Q(gCamera.x + x0);
         s32 y0 = sprGemerlAnchor->y;
-        s32 y = (gCamera.y + y0) << 8;
+        s32 y = Q(gCamera.y + y0);
         sub_8004D68(x, y);
         players = gPlayers;
         p = &players[gStageData.playerIndex];
