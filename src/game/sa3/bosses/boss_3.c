@@ -174,8 +174,8 @@ Task *CreateEggFoot(u8 *bossPhase, s32 worldX, s32 worldY)
     boss->unk20 = 0;
     boss->unk24[0] = 0;
     boss->unk24[1] = 0;
-    boss->vram38 = VramMalloc(0x7CU);
-    boss->vram3C = VramMalloc(0x74U);
+    boss->vram38 = VramMalloc(0x7C);
+    boss->vram3C = VramMalloc(0x74);
     sub_806D404(boss);
     SetFixedRandomIfTimeAttackMode();
 
@@ -231,7 +231,7 @@ void sub_806D2F8(void)
             if (gStageData.playerIndex != PLAYER_1) {
                 gCurTask->main = sub_806E9C0;
             } else {
-                sub_8027674(1U, 0U);
+                sub_8027674(1U, 0);
                 sub_806EAA0(boss);
                 gCurTask->main = Task_806E9F0;
             }
@@ -490,7 +490,7 @@ bool8 sub_806D840(EggFoot *arg0, u8 playerIndex)
 
         if (sub_8020E3C(s, I(qX), I(qY), 0, p) == 1) {
             result = 1;
-            temp_r0_2 = sub_8020874(s, I(qX), I(qY), 0, p, 1, 0U);
+            temp_r0_2 = sub_8020874(s, I(qX), I(qY), 0, p, 1, 0);
             if (0x20000 & temp_r0_2) {
                 p->qWorldY += Q(4) + Q_8_8(temp_r0_2);
                 if (p->qWorldY >= Q(177)) {
@@ -544,9 +544,9 @@ void sub_806DA20(EggFoot *boss)
         }
         m4aSongNumStart(SE_235);
         PlayVoiceEggmanHit();
-        sub_806D808(boss, 2U);
-        sub_8078DB0(ANIM_PALETTE_BOSS_3_A, 0, 0x7A, 0U);
-        sub_8078DB0(ANIM_PALETTE_BOSS_3_B, 0, 0x7A, 0U);
+        sub_806D808(boss, 2);
+        sub_8078DB0(ANIM_PALETTE_BOSS_3_A, 0, 0x7A, 0);
+        sub_8078DB0(ANIM_PALETTE_BOSS_3_B, 0, 0x7A, 0);
         boss->unk32 = 0x7A;
 
         if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
@@ -702,7 +702,7 @@ void sub_806DD34(EggFoot *boss)
             }
 
             if (check_range_inline(boss) == 1) {
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->unk14 = -0x200;
                 boss->unk36 = 0x3C;
                 boss->unk34 = 100;
@@ -1043,10 +1043,10 @@ void sub_806E330(EggFoot *boss)
             }
 
             if (check_range_inline(boss) == 1) {
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->unk14 = -0x200;
                 boss->unk34 = 0x203;
-                m4aSongNumStart(0x227U);
+                m4aSongNumStart(SE_551);
             }
             break;
         case 0x203:
@@ -1102,11 +1102,11 @@ void sub_806E330(EggFoot *boss)
             }
 
             if (check_range_2_inline(boss) == 1) {
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->unk14 = -0x200;
                 boss->unk34 = 0x271;
                 boss->unk20 = 0xA;
-                m4aSongNumStart(0x227U);
+                m4aSongNumStart(SE_551);
             }
             break;
         case 0x271:
@@ -1150,7 +1150,7 @@ void sub_806E330(EggFoot *boss)
     }
     if (boss->unk32 != 0) {
         if (--boss->unk32 == 0) {
-            sub_806D808(boss, 0U);
+            sub_806D808(boss, 0);
         }
     }
     sub_806D568(boss);

@@ -219,7 +219,7 @@ Task *CreateEggCube(u8 *bossPhase, s32 worldX, s32 worldY)
     boss->unk1D = 0;
     boss->unk1E = 0;
     boss->unk32 = 0;
-    sub_8071904(boss, 0U);
+    sub_8071904(boss, 0);
 
     vram = VramMalloc(100);
     boss->vram38 = vram;
@@ -343,20 +343,20 @@ void Task_EggCube_806EDE8(void)
 
     switch (boss->unk2C) {
         case 60:
-            sub_8071968(boss, 1U);
+            sub_8071968(boss, 1);
             m4aSongNumStart(SE_558);
-            sub_806FAFC(boss, 1U);
+            sub_806FAFC(boss, 1);
             boss->unk18 = 1;
             sub_806F2B8(boss);
             break;
 
         case 240:
-            sub_8071968(boss, 0U);
+            sub_8071968(boss, 0);
             UpdateSpriteAnimation(&boss->sprD0);
             break;
 
         case 300:
-            sub_806FAFC(boss, 2U);
+            sub_806FAFC(boss, 2);
             break;
 
         case 400:
@@ -364,8 +364,8 @@ void Task_EggCube_806EDE8(void)
             boss->unk18 = 1;
             boss->unk12 = 0;
             boss->unk13 = 0;
-            sub_806FAFC(boss, 0U);
-            sub_8071904(boss, 1U);
+            sub_806FAFC(boss, 0);
+            sub_8071904(boss, 1);
             sub_807A4A8();
             gCurTask->main = Task_EggCube_806EEB8;
             break;
@@ -431,9 +431,9 @@ void Task_EggCube_806EEB8(void)
         }
         boss->unk20 = gUnknown_080D5880[index];
         boss->unk1B ^= 1;
-        SpawnGuardEnemy(boss, 0U);
-        SpawnGuardEnemy(boss, 1U);
-        SpawnGuardEnemy(boss, 2U);
+        SpawnGuardEnemy(boss, 0);
+        SpawnGuardEnemy(boss, 1);
+        SpawnGuardEnemy(boss, 2);
     }
     sub_806FA0C(boss);
 }

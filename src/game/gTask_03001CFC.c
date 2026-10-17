@@ -287,7 +287,7 @@ void sub_802B1A0(Strc_3001CFC *arg0, Strc_3001CFC_sub *sub, s32 arg2, s32 arg3)
                 block_18:
                     CreateCollectRingEffect((s16)arg2, (s16)arg3);
                     if ((pid == 0) || ((p->charFlags.someIndex == 2)) || (p->charFlags.someIndex == 5)) {
-                        AddRings(1U);
+                        AddRings(1);
                     }
                     sub->unkC = 1;
                     return;

@@ -324,8 +324,9 @@
 #define ANIM_PALETTE_BOSS_1_COCKPIT_HIT 1210
 #define ANIM_PALETTE_BOSS_1_MACHINE_HIT 1211
 
-#define ANIM_BOSS_2_EGGMAN 1213
-
+#define ANIM_BOSS_2_EGGMAN                1213
+#define ANIM_PALETTE_BOSS_2_A             1214
+#define ANIM_PALETTE_BOSS_2_B             1215
 #define ANIM_BOSS_3_COCKPIT               1216
 #define ANIM_BOSS_3_DISC                  1217
 #define ANIM_BOSS_3_SCREW                 1218

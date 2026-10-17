@@ -43,17 +43,6 @@ u8 sGBPInterruptState = 0;
 
 void Stop() { }
 
-s16 sub_8023E04() { return 0; }
-bool32 sub_8023E80(void) { return FALSE; }
-u16 sub_8023EFC(void) { return 0; }
-void sub_8024068(void) { }
-s16 sub_8024074(u8 param0) { return 0; }
-s16 sub_80240B4() { return 0; }
-s16 sub_80240F4() { return 0; }
-s16 sub_8024130(void) { }
-bool32 sub_8024188(u8 param0) { return FALSE; }
-u16 sub_80241AC(u8 param0) { return 0; }
-s16 sub_8024208(void) { return 0; }
 void sub_80258D4(void) { }
 s16 sub_802610C() { return 0; }
 void sub_802613C() { }
@@ -65,13 +54,9 @@ void sub_80276F4() { }
 void sub_802789C() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void sub_8027538() { }
-
+s16 sub_8025D58(void) { return 0; }
 void CreateCharacterSelectMultiplayer() { }
 void MultiSio_SendPlayerName() { }
-void sub_8023A88() { }
-void sub_8023BB0() { }
-void sub_8023C5C() { }
-void sub_8024040() { }
 void sub_802440C() { }
 void sub_8024584() { }
 void sub_80244E4() { }
@@ -88,7 +73,6 @@ void sub_8024B84() { }
 void sub_8024E1C() { }
 void sub_8024F84() { }
 void sub_8025024() { }
-void sub_8023D60() { }
 void sub_80250EC() { }
 void sub_8024F1C() { }
 void sub_80251F8() { }

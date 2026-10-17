@@ -95,7 +95,7 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     itembox->p = NULL;
 
     s = &itembox->s;
-    s->tiles = VramMalloc(0x10U);
+    s->tiles = VramMalloc(0x10);
     s->anim = ANIM_ITEM_BOX;
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(24);
@@ -109,7 +109,7 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 
     s = &itembox->s2;
-    s->tiles = VramMalloc(4U);
+    s->tiles = VramMalloc(4);
     s->oamFlags = SPRITE_OAM_ORDER(24);
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -258,7 +258,7 @@ void sub_802C618(ItemBox *itembox)
     for (i = 0; i < NUM_SINGLE_PLAYER_CHARS; i++) {
         p = GET_SP_PLAYER_V0(i);
         CpuFill16(0, &itembox->s.hitboxes[0].b, sizeof(itembox->s.hitboxes[0].b));
-        sub_8020950(&itembox->s, itembox->world.x, itembox->world.y, p, 0U);
+        sub_8020950(&itembox->s, itembox->world.x, itembox->world.y, p, 0);
     }
 
     boxPlayer = itembox->p;
@@ -440,7 +440,7 @@ void sub_802C7B0(ItemBox *itembox)
                             break;
                         }
                     }
-                    sub_802773C(1 & var_r6, 5U);
+                    sub_802773C(1 & var_r6, 5);
                     for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
                         if ((var_r1_2 & 1) == (1 & var_r6)) {
                             sub_8017A58(&gPlayers[var_r1_2]);
@@ -456,7 +456,7 @@ void sub_802C7B0(ItemBox *itembox)
                         break;
                     }
                 }
-                sub_802773C(~var_r6 & 1, 5U);
+                sub_802773C(~var_r6 & 1, 5);
                 for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
                     if ((var_r1_2 & 1) != (var_r6 & 1)) {
                         sub_8017A58(&gPlayers[var_r1_2]);
@@ -536,7 +536,7 @@ bool32 sub_802CE4C(ItemBox *itembox)
                     || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0xC9)
                     || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10A)
                     || (gPlayers[p->charFlags.partnerIndex].charFlags.anim0 == 0x10B))) {
-                if (Itembox_CollisionPlayer(&itembox->s, itembox->world, 0, p, 1U) != 0) {
+                if (Itembox_CollisionPlayer(&itembox->s, itembox->world, 0, p, 1) != 0) {
                     itembox->p = &gPlayers[p->charFlags.partnerIndex];
                     itembox->unk8 = 1;
                     return 1;
@@ -552,8 +552,8 @@ bool32 sub_802CE4C(ItemBox *itembox)
                 }
             }
 
-            if (Itembox_CollisionPlayer(&itembox->s, itembox->world, 0, p, 1U) != 0) {
-                coll = sub_8020950(sprItembox, itembox->world.x, itembox->world.y, p, 0U);
+            if (Itembox_CollisionPlayer(&itembox->s, itembox->world, 0, p, 1) != 0) {
+                coll = sub_8020950(sprItembox, itembox->world.x, itembox->world.y, p, 0);
                 if ((0x10000 & coll)
                     && (p->charFlags.anim0 == 0xE2 || p->charFlags.anim0 == 0xE3 || p->charFlags.anim0 == 0xF7 || p->charFlags.anim0 == 10
                         || p->charFlags.anim0 == 11)) {
@@ -660,7 +660,7 @@ bool32 sub_802CE4C(ItemBox *itembox)
         Cheese *cheese = TASK_DATA(gStageData.taskCheese);
         playerCheese = cheese->player;
         if (((playerCheese->charFlags.someIndex == 1) || (playerCheese->charFlags.someIndex == 4))
-            && (Itembox_CollisionCheese(&itembox->s, itembox->world.x, itembox->world.y, 0U) != 0)) {
+            && (Itembox_CollisionCheese(&itembox->s, itembox->world.x, itembox->world.y, 0) != 0)) {
             itembox->unk8 = 2;
             itembox->p = playerCheese;
             colliding = 1;

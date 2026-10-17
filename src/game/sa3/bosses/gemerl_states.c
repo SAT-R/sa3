@@ -598,7 +598,7 @@ bool32 Gemerl_State_28(Gemerl *gemerl)
 
     if (--gemerl->unk18 == 0) {
         sub_8068A38(gemerl, var, 0);
-        sub_8068A38(gemerl, 0, 1U);
+        sub_8068A38(gemerl, 0, 1);
         gemerl->callback = state->callback;
 
         if (gemerl->unk20) {
@@ -684,7 +684,7 @@ bool32 Gemerl_State_29(Gemerl *gemerl)
 
     if (var_sb == 1) {
         Gemerl_SwitchState(gemerl, 30);
-        sub_8068A38(gemerl, 0, 0U);
+        sub_8068A38(gemerl, 0, 0);
         sub_8068ACC(gemerl);
 
         for (pid = 0; pid < NUM_SINGLE_PLAYER_CHARS; pid++) {
@@ -1472,8 +1472,8 @@ bool32 Gemerl_State_3(Gemerl *gemerl)
     if (--gemerl->unk18 == 0) {
         m4aSongNumStart(SE_547);
         Gemerl_SwitchState(gemerl, 5);
-        sub_8068A38(gemerl, (s16)temp_r5, 0U);
-        sub_8068A38(gemerl, 0, 1U);
+        sub_8068A38(gemerl, (s16)temp_r5, 0);
+        sub_8068A38(gemerl, 0, 1);
         sub_8068AD8(gemerl);
     } else if (sub_8067B94(gemerl, 1) != 0) {
         sub_8068AAC(gemerl);
@@ -1622,7 +1622,7 @@ bool32 Gemerl_State_18(Gemerl *gemerl)
 
     if (--gemerl->unk18 == 0) {
         gemerl->qSomeY -= Q(8);
-        sub_8068A38(gemerl, val, 1U);
+        sub_8068A38(gemerl, val, 1);
         Gemerl_SwitchState(gemerl, 0x13);
         m4aSongNumStart(SE_537);
     }
@@ -1658,8 +1658,8 @@ bool32 Gemerl_State_22(Gemerl *gemerl)
         } else {
             Gemerl_SwitchState(gemerl, 7);
         }
-        sub_8068A38(gemerl, 0, 0U);
-        sub_8068A38(gemerl, 0, 1U);
+        sub_8068A38(gemerl, 0, 0);
+        sub_8068A38(gemerl, 0, 1);
         m4aSongNumStop(SE_231);
     }
     return 0U;
@@ -1789,7 +1789,7 @@ bool32 Gemerl_State_32(Gemerl *gemerl)
 
     if (--gemerl->unk18 == 0) {
         gemerl->qSomeY -= Q(8);
-        sub_8068A38(gemerl, temp_r0, 1U);
+        sub_8068A38(gemerl, temp_r0, 1);
         Gemerl_SwitchState(gemerl, 0x21);
         m4aSongNumStart(SE_537);
     }
@@ -1805,8 +1805,8 @@ bool32 Gemerl_State_37(Gemerl *gemerl)
     s16 var = -gUnknown_080D56F0[gemerl->unk20][1];
     if (sub_8068984(gemerl, var) == 1) {
         Gemerl_SwitchState(gemerl, 0x26);
-        sub_8068A38(gemerl, 0, 0U);
-        sub_8068A38(gemerl, 0, 1U);
+        sub_8068A38(gemerl, 0, 0);
+        sub_8068A38(gemerl, 0, 1);
     }
     if (sub_8067B94(gemerl, 1) != 0) {
         sub_8068AAC(gemerl);
@@ -1826,8 +1826,8 @@ bool32 Gemerl_State_41(Gemerl *gemerl)
     s32 var = -gUnknown_080D56F0[gemerl->unk20][1];
     sub_8068A6C(gemerl, 0, var);
     if ((s32)gemerl->unk16 < -Q(2.5)) {
-        sub_8068A38(gemerl, 0, 0U);
-        sub_8068A38(gemerl, 0, 1U);
+        sub_8068A38(gemerl, 0, 0);
+        sub_8068A38(gemerl, 0, 1);
         Gemerl_SwitchState(gemerl, 0x2A);
         gemerl->qSomeY += 0x800;
     }

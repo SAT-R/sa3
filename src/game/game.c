@@ -60,7 +60,7 @@ void sub_80001EC(void)
     tileSlots = 1616 / VRAM_TILE_SLOTS_PER_SEGMENT;
     *maxTileSlots = tileSlots;
     gVramHeapStartAddr = vram;
-    sub_8001DDC(0U);
+    sub_8001DDC(0);
 
     if (gFlags & 0x100) {
         CallCompleteSave();

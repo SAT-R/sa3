@@ -254,7 +254,7 @@ void sub_806AAA4(EggWheeler *boss)
     SpriteTransform *tf;
     void *temp_r8_2;
 
-    u8 *vram = VramMalloc(0x84U);
+    u8 *vram = VramMalloc(0x84);
     s = &boss->sprBody;
     s->tiles = (void *)(BG_VRAM + 0x4040);
     s->anim = gUnknown_080D5780[0].anim;
@@ -1101,10 +1101,10 @@ bool32 sub_806B844(EggWheeler *boss)
         }
         if (gStageData.difficulty == 0) {
             if ((u8)boss->lives == 4) {
-                sub_80299D4(0x33U);
+                sub_80299D4(0x33);
             }
         } else if ((u8)boss->lives == 3) {
-            sub_80299D4(0x33U);
+            sub_80299D4(0x33);
         }
         if ((u8)boss->lives == 1) {
             boss->unk30 = 0xFFFF;
@@ -1116,8 +1116,8 @@ bool32 sub_806B844(EggWheeler *boss)
         boss->sprEggman.prevVariant = -1;
 
         boss->unk23 = 0x7A;
-        sub_8078DB0(0x4BE, 0, 0x7A, 1U);
-        sub_8078DB0(0x4BF, 0, 0x7A, 0U);
+        sub_8078DB0(ANIM_PALETTE_BOSS_2_A, 0, 0x7A, 1);
+        sub_8078DB0(ANIM_PALETTE_BOSS_2_B, 0, 0x7A, 0);
     } else {
         if (boss->unk21 == 0) {
             for (sp0 = 0; sp0 < NUM_SINGLE_PLAYER_CHARS; sp0++) {
@@ -1173,7 +1173,7 @@ bool32 sub_806B844(EggWheeler *boss)
                 gCurTask->main = sub_806C12C;
                 return FALSE;
             } else {
-                sub_8027674(1U, 0U);
+                sub_8027674(1, 0);
             }
         }
 
@@ -1686,11 +1686,11 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C5D4.inc", void sub_806C5D
     if ((s32)(temp_r2_2 - 30) < (s32)gCamera.x) {
         boss->unk38 = +ABS(boss->unk38);
         boss->unk0 += Q(temp_sb);
-        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51);
     } else if ((s32)(temp_r2_2 + 0x1E) > (s32)(gCamera.x + 0xF0)) {
         boss->unk38 = -ABS(boss->unk38);
         boss->unk0 += Q(-temp_sb);
-        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51);
     }
 
     boss->unk38 += boss->unk40;
@@ -1724,7 +1724,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C6FC.inc", u32 sub_806C6FC
         if (boss->unk2A < 4) {
             boss->unk2A++;
         }
-        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
         return 1U;
     }
     boss->unk44 += ((s8)(u8)boss->unk24 * 4);
@@ -1775,7 +1775,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B
     if (boss->unk17 == 0) {
         boss->unk2A = 0;
         boss->unk18 = 0;
-        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51U);
+        CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x51);
         sub_80789EC((Sprite *)&boss->sprExplosion, &boss->unk48, &boss->unk16);
         gDispCnt &= 0xFBFF;
         gCurTask->main = sub_806C8BC;
@@ -1811,7 +1811,7 @@ void sub_806C8BC(void)
         UpdateSpriteAnimation(&boss->sprExplosion);
         return;
     }
-    m4aSongNumStart(0x221U);
+    m4aSongNumStart(SE_545);
     gCurTask->main = sub_806C970;
 }
 

@@ -353,7 +353,7 @@ void Task_808B398(void)
         }
     } else {
         sub_8001E58();
-        TasksDestroyInPriorityRange(0U, 0xFFFFU);
+        TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
         gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
@@ -635,7 +635,7 @@ void Task_808B9B4(void)
         UpdateSpriteAnimation(s);
     }
 
-    sub_808B664(options, 0U);
+    sub_808B664(options, 0);
     if (options->initArg0 != 0) {
         Options_LoadSelectedMenu(options);
     }
@@ -1426,7 +1426,7 @@ void Task_808CA9C(void)
     options->unk14[3] = LOADED_SAVE->language;
     options->unkA = 1;
     sub_8001E58();
-    CreateOptions(0U);
+    CreateOptions(0);
     gWinRegs[WINREG_WININ] = 0;
     TaskDestroy(gCurTask);
 }
@@ -1543,7 +1543,7 @@ void sub_808CD88(OptionsMenu *options)
     DisplaySprite(s);
 }
 
-void sub_808CDF4() { CreateOptions(0U); }
+void sub_808CDF4() { CreateOptions(0); }
 
 void Task_808CE00(void)
 {

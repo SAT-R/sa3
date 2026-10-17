@@ -39,7 +39,7 @@ void sub_80C492C(MaskingColors *arg0);
 extern void sub_8001D58(VoidFn voidFn, u16 color);
 
 extern TileInfo2 gUnknown_080D6858[2 * 4];
-extern TileInfo2 gUnknown_080D6898[6];
+extern TileInfo2 gTileInfo_PressStart[6];
 extern TileInfo2 gUnknown_080D68C8;
 extern u16 gUnknown_080D68D0[8]; // TODO: Could be a Tilemap-ID enum, instead of u16, with -fshort-enums compiler flag!
 extern u16 gUnknown_080D68E0[0x11];
@@ -125,9 +125,9 @@ void sub_808A3D8(TitleScreenSA3 *title)
     {
         Sprite *s = &title->spr28;
         s->tiles = title->vram20;
-        title->vram20 += gUnknown_080D6898[title->language].numTiles * TILE_SIZE_4BPP;
-        s->anim = gUnknown_080D6898[title->language].anim;
-        s->variant = gUnknown_080D6898[title->language].variant;
+        title->vram20 += gTileInfo_PressStart[title->language].numTiles * TILE_SIZE_4BPP;
+        s->anim = gTileInfo_PressStart[title->language].anim;
+        s->variant = gTileInfo_PressStart[title->language].variant;
         s->prevVariant = -1;
         s->x = I(title->unk12);
         s->y = I(title->unk14);

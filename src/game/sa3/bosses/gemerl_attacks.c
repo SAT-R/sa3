@@ -700,7 +700,7 @@ void sub_807B5E4(void)
     }
     strc10C->unk4 += strc10C->unk16;
     strc10C->unk8 += strc10C->unk18;
-    sub_807B664(strc10C, 0U);
+    sub_807B664(strc10C, 0);
     if (++strc10C->unk1A == 0x20) {
         *strc10C->unk1C = 0;
         TaskDestroy(gCurTask);
@@ -719,7 +719,7 @@ bool32 sub_807B664(GemerlAttacks *strc10C, u32 param1)
     if (temp_r0 <= 0) {
         strc10C->unk8 = ((strc10C->unk8 + ((temp_r0 + 1) << 8)) & 0xFFFFFF00) - 1;
         if (param1 != 0) {
-            CreateScreenShake(0x200U, 0x40U, 0U, -1U, 0x91U);
+            CreateScreenShake(0x200U, 0x40U, 0U, -1U, 0x91);
         }
         var_r5 = 1;
     }

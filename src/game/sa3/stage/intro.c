@@ -773,7 +773,7 @@ void sub_8057848(void)
     gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gWinRegs[WINREG_WININ] = 0x3F10;
     gWinRegs[WINREG_WINOUT] = 0x3F;
-    gBgPalette[0] = sub_80C4C0C(0x7FFFU);
+    gBgPalette[0] = sub_80C4C0C(0x7FFF);
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
     gBldRegs.bldCnt = 0x3FEF;
     gBldRegs.bldY = (strc170->unkC >> 4);

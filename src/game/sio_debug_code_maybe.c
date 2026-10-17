@@ -129,7 +129,7 @@ extern u8 Tileset_DebugAscii[]; // NOTE: Not the actual pointer. Like SA1/SA2 th
 
 extern const u16 gTilemapIdsConnectionStatus[];
 
-extern TileInfo2 gUnknown_080D6898[6];
+extern TileInfo2 gTileInfo_PressStart[6];
 extern TileInfo2 gUnknown_080D68C8;
 extern TileInfo2 gUnknown_080D6EE8[3];
 
@@ -514,7 +514,7 @@ void sub_808D648(SDC_EC *arg0, s8 arg1)
 
     if (arg1 > 0) {
         s = &arg0->sprC4;
-        arg0->sprC4.tiles = OBJ_VRAM0 + (gUnknown_080D6898[arg0->unk18].numTiles << 5);
+        arg0->sprC4.tiles = OBJ_VRAM0 + (gTileInfo_PressStart[arg0->unk18].numTiles << 5);
         s->anim = gUnknown_080D6EE8[arg1 - 1].anim;
         s->variant = gUnknown_080D6EE8[arg1 - 1].variant;
         s->prevVariant = -1;
@@ -536,8 +536,8 @@ void sub_808D6BC(SDC_EC *arg0)
 {
     Sprite *s = &arg0->spr9C;
     s->tiles = (u8 *)OBJ_VRAM0;
-    s->anim = gUnknown_080D6898[arg0->unk18].anim;
-    s->variant = gUnknown_080D6898[arg0->unk18].variant;
+    s->anim = gTileInfo_PressStart[arg0->unk18].anim;
+    s->variant = gTileInfo_PressStart[arg0->unk18].variant;
     s->prevVariant = -1;
     s->x = 120;
     s->y = 0x8C;
@@ -1082,8 +1082,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
                 strcEC->unk13 = 0;
             }
             var_r4_4 = 0;
-            temp_r0_7 = strcEC->unk13;
-            if (gUnknown_030010AC == *(temp_r0_7 + &gCharSelect_DisplayOrder)) {
+            if (gUnknown_030010AC[var_r4_4] == gCharSelect_DisplayOrder[strcEC->unk13]) {
                 continue;
             }
         loop_47:
@@ -1091,7 +1090,7 @@ NONMATCH("asm/non_matching/game/siodbg__Task_EC_808E068.inc", void Task_EC_808E0
             var_r4_4 = temp_r0_8 >> 0x10;
             temp_r0_9 = (s32)temp_r0_8 >> 0x10;
             if (temp_r0_9 <= 1) {
-                if ((&gUnknown_030010AC)[temp_r0_9] == *(temp_r0_7 + &gCharSelect_DisplayOrder)) {
+                if (gUnknown_030010AC[var_r4_4] == gCharSelect_DisplayOrder[strcEC->unk13]) {
                     var_r6_3 = 1;
                 } else {
                     goto loop_47;

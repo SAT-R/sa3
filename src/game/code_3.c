@@ -41,10 +41,10 @@ s16 sub_802440C(void);
 s16 sub_80244E4(void);
 s16 sub_8024584(void);
 
-extern TileInfo2 gUnknown_080D6898[6];
+extern TileInfo2 gTileInfo_PressStart[NUM_LANGUAGES];
 extern u16 gTilemapIdsConnectionStatus[(NUM_LANGUAGES + 1) * 4];
 
-extern void sub_8024040(void);
+extern s16 sub_8024040(void);
 extern void sub_80258D4(void);
 extern void sub_80260F0(void);
 extern void sub_802613C(void);
@@ -117,16 +117,16 @@ void sub_80A1B68(StrcCode3 *strc)
     Sprite *s;
     u8 *vram = (u8 *)OBJ_VRAM0;
 
-    // BUG: This will overflow, in all cases, with gUnknown_080D6898's entries.
+    // BUG: This will overflow, in all cases, with gTileInfo_PressStart's entries.
     //      That is why numtiles_t was added, to increase numTiles size to 32bit.
-    numtiles_t numTiles = gUnknown_080D6898[strc->language].numTiles * TILE_SIZE_4BPP;
+    numtiles_t numTiles = gTileInfo_PressStart[strc->language].numTiles * TILE_SIZE_4BPP;
 
     CpuFastFill(0, vram, numTiles);
 
     s = &strc->spr94;
     s->tiles = vram;
-    s->anim = gUnknown_080D6898[strc->language].anim;
-    s->variant = gUnknown_080D6898[strc->language].variant;
+    s->anim = gTileInfo_PressStart[strc->language].anim;
+    s->variant = gTileInfo_PressStart[strc->language].variant;
     s->prevVariant = -1;
     s->x = 120;
     s->y = 140;
@@ -303,7 +303,7 @@ void Task_80A1DC8(void)
 void Task_80A1F10(void)
 {
     StrcCode3 *strc = TASK_DATA(gCurTask);
-    s16 var_r0;
+    s16 var_r0 = 0;
 
     if (strc->errorCode == 0) {
         if (gStageData.playerIndex == PLAYER_1) {

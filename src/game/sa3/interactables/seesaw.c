@@ -10,6 +10,7 @@
 #include "game/stage.h"
 
 #include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct Seesaw {
     /* 0x00 */ SpriteBase base;
@@ -301,7 +302,7 @@ void sub_80368E4(u8 arg0)
                                 p->qSpeedAirY = ((s32)(0 - (ABS(var_r0) << 10)) >> 5) - Q(5);
                                 p->charFlags.unk2C_04 = 1;
                                 SetPlayerCallback(p, Player_8006F98);
-                                Player_PlaySong(p, 0x250U);
+                                Player_PlaySong(p, SE_WAGGLE_COIL);
                             }
                         } else {
                         block_38:
@@ -319,7 +320,7 @@ void sub_80368E4(u8 arg0)
         }
     }
 
-    sub_8036BC4(arg0, 1U);
+    sub_8036BC4(arg0, 1);
 }
 
 u32 sub_8036BC4(u8 arg0, u8 arg1)

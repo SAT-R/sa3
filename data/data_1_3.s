@@ -128,8 +128,8 @@ gUnknown_080D6828:
 gUnknown_080D6858:
     .incbin "baserom_sa3.gba", 0x000D6858, 0x40
 
-    .global gUnknown_080D6898
-gUnknown_080D6898:
+    .global gTileInfo_PressStart
+gTileInfo_PressStart:
     .incbin "baserom_sa3.gba", 0x000D6898, 0x30
 
     .global gUnknown_080D68C8

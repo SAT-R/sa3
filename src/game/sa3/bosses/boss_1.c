@@ -284,7 +284,7 @@ bool32 sub_8068D90(Player *p)
     Sprite *s = &boss->sprGroundPlate;
 
     if (sub_802C0D4(p) == 0) {
-        coll = sub_8020950(s, I(boss->unkE8), I(boss->unkEC), p, 0U);
+        coll = sub_8020950(s, I(boss->unkE8), I(boss->unkEC), p, 0);
         if (0x10000 & coll) {
             p->qWorldY += Q_8_8(coll);
             result = TRUE;
@@ -858,7 +858,7 @@ void sub_8069814(EggHammerTankIII *boss)
 
         case UNK2C_STATE_P:
             boss->delay = DELAY_STATE_Q_0;
-            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
             m4aSongNumStart(SE_549);
             boss->unk2C = UNK2C_STATE_Q;
             break;
@@ -914,7 +914,7 @@ void sub_8069814(EggHammerTankIII *boss)
             if (boss->qExpansion <= Q(56)) {
                 boss->qExpansion = Q(56);
                 boss->delay = DELAY_STATE_V;
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 m4aSongNumStart(SE_549);
                 boss->unk2C = UNK2C_STATE_V;
             }
@@ -1003,7 +1003,7 @@ void sub_8069DEC(EggHammerTankIII *boss)
                 boss->unk60 = -0x100;
             }
             boss->unk64 = -0x600;
-            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+            CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
             boss->unk10 = 10;
             boss->unk2C = UNK2C_STATE_K;
             break;
@@ -1056,7 +1056,7 @@ void sub_8069DEC(EggHammerTankIII *boss)
             }
             if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->unk64 = -0x400;
                 boss->unk2C = UNK2C_STATE_L;
             }
@@ -1088,7 +1088,7 @@ void sub_8069DEC(EggHammerTankIII *boss)
             };
             if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->unk64 = -0x300;
                 boss->unk2C = UNK2C_STATE_M;
             }
@@ -1122,7 +1122,7 @@ void sub_8069DEC(EggHammerTankIII *boss)
 
             if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->unk64 = -0x200;
                 boss->unk2C = UNK2C_STATE_N;
             }
@@ -1157,7 +1157,7 @@ void sub_8069DEC(EggHammerTankIII *boss)
 
             if (boss->unk5C >= 0x9E00) {
                 boss->unk5C = 0x9E00;
-                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91U);
+                CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
                 boss->delay = DELAY_STATE_O;
                 boss->unk2C = UNK2C_STATE_O;
                 boss->unk13 = 0;

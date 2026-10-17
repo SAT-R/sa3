@@ -143,7 +143,7 @@ void ChaoMap_InitSprites(ChaoMap *chaomap)
     s2 = &chaomap->spritesC8[0];
     for (i = 0; i < 6; i++, s2 = ++s) {
         s = s2;
-        s->tiles = VramMalloc(0x10U);
+        s->tiles = VramMalloc(0x10);
         s->frameFlags = 0x2000;
         s->anim = sChaoIATilesInfo[i][0];
         s->x = 0;
