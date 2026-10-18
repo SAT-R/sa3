@@ -2,16 +2,12 @@
 s32 CreateSomeTask_809BF3C(s32, s32, s32, s32, s32); /* extern */
 ? sub_802613C();                                    /* extern */
 ? sub_809BFE8(s32);                                 /* extern */
-void CharSelect_InitBackgrounds_MP(CharacterSelectMP *arg0); /* static */
-void TaskDestructor_80A13B0(Task *);                /* static */
-void Task_809FCFC();                                /* static */
 void Task_809FEB0(? arg3);                          /* static */
 void Task_80A13B4(? arg3);                          /* static */
 void Task_80A13F4(? arg3);                          /* static */
 void Task_80A1430(? arg3);                          /* static */
 void Task_80A14AC(? arg3);                          /* static */
 void Task_CallDestroy_80A1498(? arg3);              /* static */
-void sub_809F964(CharacterSelectMP *arg0);          /* static */
 void sub_80A0080(? arg3);                           /* static */
 void sub_80A010C(? arg3);                           /* static */
 void sub_80A021C(? arg3);                           /* static */
@@ -78,204 +74,193 @@ extern ? gUnknown_08E2EE50;
 #include "lib/m4a/m4a.h"
 #include "game/sa3/character_select.h"
 #include "game/save.h" // LOADED_SAVE
+#include "constants/songs.h"
 
 void Task_809FCFC(void);
 void TaskDestructor_80A13B0(Task *t);
 void sub_809F964(CharacterSelectMP *cs);
 void CharSelect_InitBackgrounds_MP(CharacterSelectMP *cs);
 
-#if 0
-// Probably VERY similar to the Singleplayer Character Select
+// TODO: Fake-match!
 void CreateCharacterSelectMultiplayer(SDC_EC *strcEC)
 {
-    u8 *temp_r0;
-    u8 *temp_r0_2;
-    u8 var_r2;
     CharacterSelectMP *cs;
+    u8 i;
 
     gDispCnt = 0x1541;
     cs = TASK_DATA(TaskCreate(Task_809FCFC, sizeof(CharacterSelectMP), 0x100U, 0U, TaskDestructor_80A13B0));
     cs->language = LOADED_SAVE->language;
 
-    for (var_r2 = 0; var_r2 < 4; var_r2++) {
-        cs->unk1C[var_r2] = &strcEC->unkE[var_r2];
+    for (i = 0; i < 4; i++) {
+        cs->unk1C[i] = &strcEC->unkE[i];
     }
 
-    temp_r0 = &strcEC->unk12;
-    cs->unk30 = temp_r0;
-    temp_r0_2 = temp_r0 + 2;
-    cs->unk2C = temp_r0_2;
-    cs->unk18 = temp_r0_2 + 3;
+    cs->unk30 = &strcEC->unk12;
+    cs->unk2C = &strcEC->unk14;
+    cs->unk18 = &strcEC->unk17;
     cs->unk3 = strcEC->unk17;
     cs->unk14 = &strcEC->unk16;
     strcEC->unk16 = 1;
     cs->unk1 = strcEC->unk12;
-    cs->unk6 = 1;
+    {
+#ifndef NON_MATCHING
+        register s32 r0 asm("r0");
+        asm("mov %0, #1" : "=r"(r0));
+#else
+        s32 r0 = 1;
+#endif
+        cs->unk6 = r0;
+    }
     cs->unk8 = 0;
     cs->unk4 = 0;
     cs->unkA = 0;
-    cs->unkC = 0x1000;
-    cs->qUnk4C = Q(0x78);
-    cs->qUnk50 = Q(0x50);
-    cs->qUnk54 = Q(0x78);
-    cs->qUnk58 = Q(0x50);
-    cs->qUnk34 = Q(0x78);
-    cs->qUnk38 = Q(0x11);
-    cs->qUnk3C = Q(0x78);
-    cs->qUnk40 = Q(0x11);
+    cs->qBgCharNameScale = Q(16);
+    cs->qUnk4C = Q(DISPLAY_CENTER_X);
+    cs->qUnk50 = Q(DISPLAY_CENTER_Y);
+    cs->qUnk54 = Q(DISPLAY_CENTER_X);
+    cs->qUnk58 = Q(DISPLAY_CENTER_Y);
+    cs->qUnk34 = Q(DISPLAY_CENTER_X);
+    cs->qUnk38 = Q(17);
+    cs->qUnk3C = Q(DISPLAY_CENTER_X);
+    cs->qUnk40 = Q(17);
     cs->qUnk44 = Q(0);
     cs->qUnk48 = Q(0);
-    cs->tilesCharacters[0] = NULL;
-    cs->tilesCharacters[1] = NULL;
-    cs->qUnk6C = Q(0x78);
-    cs->qUnk70 = Q(0x55);
-    cs->qUnk74 = Q(0xC9);
-    cs->qUnk78 = Q(0x16);
-    cs->qUnk5C = Q(0x78);
-    cs->qUnk60 = Q(0x91);
-    cs->qUnk64 = Q(0x12C);
-    cs->qUnk68 = Q(0x91);
-    cs->spr8C.tiles = OBJ_VRAM0;
+    cs->qUnk7C = Q(0);
+    cs->qUnk80 = Q(0);
+    cs->qUnk6C = Q(DISPLAY_CENTER_X);
+    cs->qUnk70 = Q(DISPLAY_CENTER_Y + 5);
+    cs->qUnk74 = Q(201);
+    cs->qUnk78 = Q(22);
+    cs->qUnk5C = Q(DISPLAY_CENTER_X);
+    cs->qUnk60 = Q(DISPLAY_HEIGHT - 15);
+    cs->qUnk64 = Q(DISPLAY_WIDTH + 60);
+    cs->qUnk68 = Q(DISPLAY_HEIGHT - 15);
+    cs->tilesCharacters[CS_CHARID_ACTIVE] = OBJ_VRAM0;
     sub_809F964(cs);
     CharSelect_InitBackgrounds_MP(cs);
     m4aMPlayAllStop();
-    m4aSongNumStart(3U);
+    m4aSongNumStart(MUS_CHARACTER_SELECT);
 }
 
-void sub_809F964(CharacterSelectMP *arg0) {
-    Sprite *temp_r0;
-    Sprite *temp_r0_2;
-    Sprite *temp_r0_3;
-    Sprite *temp_r0_4;
-    Sprite *temp_r0_5;
-    Sprite *temp_r0_6;
-    Sprite *temp_r0_7;
-    Sprite *temp_r0_8;
+#if 0
+void sub_809F964(CharacterSelectMP *cs) {
     u8 temp_r1;
     u8 temp_r1_3;
     void *temp_r1_2;
     void *temp_r1_4;
 
-    temp_r0 = arg0 + 0xDC;
-    arg0->sprDC.frameFlags = 0x06010000;
-    temp_r0->anim = gTileInfo_CharSelect3_HeaderBackdrop->anim;
-    temp_r0->variant = gTileInfo_CharSelect3_HeaderBackdrop->variant;
-    temp_r0->prevVariant = 0xFF;
-    temp_r0->x = (s16) ((s32) arg0->unk3C >> 8);
-    temp_r0->y = (s16) ((s32) arg0->unk40 >> 8);
-    temp_r0->oamFlags = 0x40;
-    temp_r0->animCursor = 0;
-    temp_r0->qAnimDelay = 0;
-    temp_r0->animSpeed = 0x10;
-    temp_r0->palId = 0;
-    temp_r0->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0);
-    temp_r0_2 = arg0 + 0xB4;
-    arg0->sprB4.frameFlags = 0x060105A0;
-    temp_r0_2->anim = *((arg0->language << 6) + &gTileInfo_CharSelect3_TeamDescriptions);
-    temp_r0_2->variant = ((arg0->language << 6) + &gTileInfo_CharSelect3_TeamDescriptions)->unk2;
-    temp_r0_2->prevVariant = -1U;
-    temp_r0_2->x = (s16) ((s32) arg0->unk34 >> 8);
-    temp_r0_2->y = (s16) ((s32) arg0->unk38 >> 8);
-    temp_r0_2->oamFlags = 0;
-    temp_r0_2->animCursor = 0;
-    temp_r0_2->qAnimDelay = 0;
-    temp_r0_2->animSpeed = 0x10;
-    temp_r0_2->palId = 0;
-    temp_r0_2->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_2);
-    temp_r0_3 = arg0 + 0x1A4;
-    arg0->spr1A4.frameFlags = 0x06010BE0;
-    temp_r0_3->anim = 0x574;
-    temp_r0_3->variant = 5;
-    temp_r0_3->prevVariant = -1U;
-    temp_r0_3->x = 0x78;
-    temp_r0_3->y = (s16) ((s32) arg0->qUnk60 >> 8);
-    temp_r0_3->oamFlags = 0;
-    temp_r0_3->animCursor = 0;
-    temp_r0_3->qAnimDelay = 0;
-    temp_r0_3->animSpeed = 0x10;
-    temp_r0_3->palId = 0;
-    temp_r0_3->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_3);
-    temp_r0_4 = arg0 + 0x8C;
-    arg0->spr8C.frameFlags = 0x06010C60;
-    temp_r0_4->anim = gUnknown_080D8F08.unk0;
-    temp_r0_4->variant = gUnknown_080D8F08.unk2;
-    temp_r0_4->prevVariant = -1U;
-    temp_r0_4->x = (s16) ((s32) arg0->unk44 >> 8);
-    temp_r0_4->y = (s16) ((s32) arg0->unk48 >> 8);
-    temp_r0_4->oamFlags = -0x40;
-    temp_r0_4->animCursor = 0;
-    temp_r0_4->qAnimDelay = 0;
-    temp_r0_4->animSpeed = 0x10;
-    temp_r0_4->palId = 0;
-    temp_r0_4->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_4);
-    temp_r0_5 = arg0 + 0x104;
-    temp_r1 = arg0->language;
-    arg0->spr104.frameFlags = 0x06010E60;
-    temp_r1_2 = ((*(arg0->unk1 + gCharSelect_DisplayOrder) + (((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) * 8)) * 8) + &gTileInfo_CharSelect3_NameTagNames;
-    temp_r0_5->anim = temp_r1_2->unk0;
-    temp_r0_5->variant = temp_r1_2->unk2;
-    temp_r0_5->prevVariant = -1U;
-    temp_r0_5->x = (s16) ((s32) arg0->qUnk5C >> 8);
-    temp_r0_5->y = (s16) ((s32) arg0->qUnk60 >> 8);
-    temp_r0_5->oamFlags = 0;
-    temp_r0_5->animCursor = 0;
-    temp_r0_5->qAnimDelay = 0;
-    temp_r0_5->animSpeed = 0x10;
-    temp_r0_5->palId = 0;
-    temp_r0_5->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_5);
-    temp_r0_6 = arg0 + 0x154;
-    temp_r1_3 = arg0->language;
-    arg0->spr154.frameFlags = 0x06011020;
-    temp_r1_4 = ((*(arg0->unk1 + gCharSelect_DisplayOrder) + (((u32) ((0 - temp_r1_3) | temp_r1_3) >> 0x1F) * 8)) * 8) + &gTileInfo_CharSelect3_NameTagNames;
-    temp_r0_6->anim = temp_r1_4->unk0;
-    temp_r0_6->variant = temp_r1_4->unk2;
-    temp_r0_6->prevVariant = -1U;
-    temp_r0_6->x = (s16) ((s32) arg0->qUnk64 >> 8);
-    temp_r0_6->y = (s16) ((s32) arg0->qUnk68 >> 8);
-    temp_r0_6->oamFlags = 0;
-    temp_r0_6->animCursor = 0;
-    temp_r0_6->qAnimDelay = 0;
-    temp_r0_6->animSpeed = 0x10;
-    temp_r0_6->palId = 0;
-    temp_r0_6->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_6);
-    temp_r0_7 = arg0 + 0x12C;
-    arg0->spr12C.frameFlags = 0x060111E0;
-    temp_r0_7->anim = gUnknown_080D8EF8.unk0;
-    temp_r0_7->variant = gUnknown_080D8EF8.unk2;
-    temp_r0_7->prevVariant = -1U;
-    temp_r0_7->x = (s16) ((s32) arg0->qUnk5C >> 8);
-    temp_r0_7->y = (s16) ((s32) arg0->qUnk60 >> 8);
-    temp_r0_7->oamFlags = 0x40;
-    temp_r0_7->animCursor = 0;
-    temp_r0_7->qAnimDelay = 0;
-    temp_r0_7->animSpeed = 0x10;
-    temp_r0_7->palId = 0;
-    temp_r0_7->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_7);
-    temp_r0_8 = arg0 + 0x1CC;
-    arg0->spr1CC.frameFlags = 0x060114E0;
-    temp_r0_8->anim = gUnknown_080D8F10.unk0;
-    temp_r0_8->variant = gUnknown_080D8F10.unk2;
-    temp_r0_8->prevVariant = -1U;
-    temp_r0_8->x = (s16) ((s32) arg0->qUnk4C >> 8);
-    temp_r0_8->y = (s16) ((s32) arg0->qUnk50 >> 8);
-    temp_r0_8->oamFlags = 0;
-    temp_r0_8->animCursor = 0;
-    temp_r0_8->qAnimDelay = 0;
-    temp_r0_8->animSpeed = 0x10;
-    temp_r0_8->palId = 0;
-    temp_r0_8->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0_8);
-    arg0->spr8C.tiles = (u8 *)0x060116E0;
+    cs->sprDC.tiles = (u8 *)0x06010000;
+    cs->sprDC.anim = gTileInfo_CharSelect3_HeaderBackdrop->anim;
+    cs->sprDC.variant = gTileInfo_CharSelect3_HeaderBackdrop->variant;
+    cs->sprDC.prevVariant = 0xFF;
+    cs->sprDC.x = (s16) ((s32) cs->qUnk3C >> 8);
+    cs->sprDC.y = (s16) ((s32) cs->qUnk40 >> 8);
+    cs->sprDC.oamFlags = 0x40;
+    cs->sprDC.animCursor = 0;
+    cs->sprDC.qAnimDelay = 0;
+    cs->sprDC.animSpeed = 0x10;
+    cs->sprDC.palId = 0;
+    cs->sprDC.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->sprDC);
+    cs->sprB4.tiles = (u8 *)0x060105A0;
+    cs->sprB4.anim = *((cs->language << 6) + &gTileInfo_CharSelect3_TeamDescriptions);
+    cs->sprB4.variant = ((cs->language << 6) + &gTileInfo_CharSelect3_TeamDescriptions)->unk2;
+    cs->sprB4.prevVariant = -1U;
+    cs->sprB4.x = (s16) ((s32) cs->qUnk34 >> 8);
+    cs->sprB4.y = (s16) ((s32) cs->qUnk38 >> 8);
+    cs->sprB4.oamFlags = 0;
+    cs->sprB4.animCursor = 0;
+    cs->sprB4.qAnimDelay = 0;
+    cs->sprB4.animSpeed = 0x10;
+    cs->sprB4.palId = 0;
+    cs->sprB4.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->sprB4);
+    cs->spr1A4.tiles = (u8 *)0x06010BE0;
+    cs->spr1A4.anim = 0x574;
+    cs->spr1A4.variant = 5;
+    cs->spr1A4.prevVariant = -1U;
+    cs->spr1A4.x = 0x78;
+    cs->spr1A4.y = (s16) ((s32) cs->qUnk60 >> 8);
+    cs->spr1A4.oamFlags = 0;
+    cs->spr1A4.animCursor = 0;
+    cs->spr1A4.qAnimDelay = 0;
+    cs->spr1A4.animSpeed = 0x10;
+    cs->spr1A4.palId = 0;
+    cs->spr1A4.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->spr1A4);
+    cs->spr8C.tiles = (u8 *)0x06010C60;
+    cs->spr8C.anim = gUnknown_080D8F08.unk0;
+    cs->spr8C.variant = gUnknown_080D8F08.unk2;
+    cs->spr8C.prevVariant = -1U;
+    cs->spr8C.x = (s16) ((s32) cs->qUnk44 >> 8);
+    cs->spr8C.y = (s16) ((s32) cs->qUnk48 >> 8);
+    cs->spr8C.oamFlags = -0x40;
+    cs->spr8C.animCursor = 0;
+    cs->spr8C.qAnimDelay = 0;
+    cs->spr8C.animSpeed = 0x10;
+    cs->spr8C.palId = 0;
+    cs->spr8C.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->spr8C);
+    temp_r1 = cs->language;
+    cs->spr104.tiles = (u8 *)0x06010E60;
+    temp_r1_2 = ((*(cs->unk1 + gCharSelect_DisplayOrder) + (((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) * 8)) * 8) + &gTileInfo_CharSelect3_NameTagNames;
+    cs->spr104.anim = temp_r1_2->unk0;
+    cs->spr104.variant = temp_r1_2->unk2;
+    cs->spr104.prevVariant = -1U;
+    cs->spr104.x = (s16) ((s32) cs->qUnk5C >> 8);
+    cs->spr104.y = (s16) ((s32) cs->qUnk60 >> 8);
+    cs->spr104.oamFlags = 0;
+    cs->spr104.animCursor = 0;
+    cs->spr104.qAnimDelay = 0;
+    cs->spr104.animSpeed = 0x10;
+    cs->spr104.palId = 0;
+    cs->spr104.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->spr104);
+    temp_r1_3 = cs->language;
+    cs->spr154.tiles = (u8 *)0x06011020;
+    temp_r1_4 = ((*(cs->unk1 + gCharSelect_DisplayOrder) + (((u32) ((0 - temp_r1_3) | temp_r1_3) >> 0x1F) * 8)) * 8) + &gTileInfo_CharSelect3_NameTagNames;
+    cs->spr154.anim = temp_r1_4->unk0;
+    cs->spr154.variant = temp_r1_4->unk2;
+    cs->spr154.prevVariant = -1U;
+    cs->spr154.x = (s16) ((s32) cs->qUnk64 >> 8);
+    cs->spr154.y = (s16) ((s32) cs->qUnk68 >> 8);
+    cs->spr154.oamFlags = 0;
+    cs->spr154.animCursor = 0;
+    cs->spr154.qAnimDelay = 0;
+    cs->spr154.animSpeed = 0x10;
+    cs->spr154.palId = 0;
+    cs->spr154.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->spr154);
+    cs->spr12C.tiles = (u8 *)0x060111E0;
+    cs->spr12C.anim = gUnknown_080D8EF8.unk0;
+    cs->spr12C.variant = gUnknown_080D8EF8.unk2;
+    cs->spr12C.prevVariant = -1U;
+    cs->spr12C.x = (s16) ((s32) cs->qUnk5C >> 8);
+    cs->spr12C.y = (s16) ((s32) cs->qUnk60 >> 8);
+    cs->spr12C.oamFlags = 0x40;
+    cs->spr12C.animCursor = 0;
+    cs->spr12C.qAnimDelay = 0;
+    cs->spr12C.animSpeed = 0x10;
+    cs->spr12C.palId = 0;
+    cs->spr12C.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->spr12C);
+    cs->spr1CC.tiles = (u8 *)0x060114E0;
+    cs->spr1CC.anim = gUnknown_080D8F10.unk0;
+    cs->spr1CC.variant = gUnknown_080D8F10.unk2;
+    cs->spr1CC.prevVariant = -1U;
+    cs->spr1CC.x = (s16) ((s32) cs->qUnk4C >> 8);
+    cs->spr1CC.y = (s16) ((s32) cs->qUnk50 >> 8);
+    cs->spr1CC.oamFlags = 0;
+    cs->spr1CC.animCursor = 0;
+    cs->spr1CC.qAnimDelay = 0;
+    cs->spr1CC.animSpeed = 0x10;
+    cs->spr1CC.palId = 0;
+    cs->spr1CC.frameFlags = 0;
+    UpdateSpriteAnimation(&cs->spr1CC);
+    cs->tilesCharacters[0] = (u8 *)0x060116E0;
 }
 
-void CharSelect_InitBackgrounds_MP(CharacterSelectMP *arg0) {
+void CharSelect_InitBackgrounds_MP(void *arg0) {
     Background *temp_r0;
     Background *temp_r0_2;
     Background *temp_r0_3;
@@ -1453,7 +1438,7 @@ void sub_80A137C(void *arg0) {
     gBgScrollRegs[2][1] = 0 - ((s32) arg0->unk70 >> 8);
 }
 
-void TaskDestructor_80A13B0(Task *arg0) {
+void TaskDestructor_80A13B0(void) {
 
 }
 

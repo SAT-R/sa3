@@ -115,7 +115,7 @@ typedef struct CharacterSelect {
     /* 0x14 */ u16 unk14;
     /* 0x16 */ u16 qUnk16;
     /* 0x18 */ s16 qBgCharNameScale;
-    /* 0x1C */ void *tilesCharacters[2];
+    /* 0x1C */ void *tilesCharacters[CS_CHARID_COUNT];
     /* 0x24 */ s32 qTxtSelectAPlayerX;
     /* 0x28 */ s32 qTxtSelectAPlayerY;
     /* 0x2C */ s32 qUnk2C;
@@ -155,8 +155,8 @@ typedef struct CharacterSelectMP {
     /* 0x006 */ u16 unk6;
     /* 0x008 */ u16 unk8;
     /* 0x00A */ u16 unkA;
-    /* 0x00C */ u16 unkC;
-     /* 0x00E */ u8 fillerE[0x2 + 4];
+    /* 0x00C */ u16 qBgCharNameScale;
+    /* 0x00E */ u8 fillerE[0x2 + 4];
     /* 0x014 */ u8 *unk14; // &(SDC_EC*)->unk16
     /* 0x018 */ u8 *unk18; // &(SDC_EC*)->???
     /* 0x01C */ void *unk1C[4];
@@ -180,9 +180,9 @@ typedef struct CharacterSelectMP {
     /* 0x070 */ s32 qUnk70;
     /* 0x070 */ s32 qUnk74;
     /* 0x078 */ s32 qUnk78;
-    /* 0x07C */ s32 qUnk7C;
-    /* 0x080 */ s32 qUnk80;
-    /* 0x084 */ u8 *tilesCharacters[2];
+    /* 0x07C */ s32 qUnk7C; // TODO: Are these *actually* Q()?
+    /* 0x080 */ s32 qUnk80; // TODO: Are these *actually* Q()?
+    /* 0x084 */ u8 *tilesCharacters[CS_CHARID_COUNT];
     /* 0x08C */ Sprite spr8C;
     /* 0x0B4 */ Sprite sprB4;
     /* 0x0DC */ Sprite sprDC;
