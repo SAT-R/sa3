@@ -5,9 +5,8 @@
 .syntax unified
 .arm
 
-@ Probably VERY similar to the Singleplayer Character Select
-@ Called as follows in Task_EC_808D718();
-@ extern void CreateCharacterSelectMultiplayer(SDC_EC *strcEC);
+.if 0
+.else
 	thumb_func_start CreateCharacterSelectMultiplayer
 CreateCharacterSelectMultiplayer: @ 0x0809F850
 	push {r4, r5, lr}
@@ -4362,3 +4361,4 @@ sub_80A1A28: @ 0x080A1A28
 	bl DisplaySprite
 	pop {r0}
 	bx r0
+.endif

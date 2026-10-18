@@ -71,20 +71,36 @@ extern ? gUnknown_080D8F10;
 extern ? gUnknown_080D8F1D;
 extern ? gUnknown_080D8F95;
 extern ? gUnknown_08E2EE50;
+#endif
 
-void CreateCharacterSelectMultiplayer(SDC_EC *strcEC, CharacterSelectMP *cs) {
+#include "global.h"
+#include "core.h"
+#include "lib/m4a/m4a.h"
+#include "game/sa3/character_select.h"
+#include "game/save.h" // LOADED_SAVE
+
+void Task_809FCFC(void);
+void TaskDestructor_80A13B0(Task *t);
+void sub_809F964(CharacterSelectMP *cs);
+void CharSelect_InitBackgrounds_MP(CharacterSelectMP *cs);
+
+#if 0
+// Probably VERY similar to the Singleplayer Character Select
+void CreateCharacterSelectMultiplayer(SDC_EC *strcEC)
+{
     u8 *temp_r0;
     u8 *temp_r0_2;
     u8 var_r2;
+    CharacterSelectMP *cs;
 
     gDispCnt = 0x1541;
-    TaskCreate(Task_809FCFC, 0x2B4U, 0x100U, 0U, TaskDestructor_80A13B0);
-    cs->language = gLoadedSaveGame.language;
-    var_r2 = 0;
-    do {
-        cs->unk1C[var_r2] = (s32) &strcEC->unkE[var_r2];
-        var_r2 += 1;
-    } while ((u32) var_r2 <= 3U);
+    cs = TASK_DATA(TaskCreate(Task_809FCFC, sizeof(CharacterSelectMP), 0x100U, 0U, TaskDestructor_80A13B0));
+    cs->language = LOADED_SAVE->language;
+
+    for (var_r2 = 0; var_r2 < 4; var_r2++) {
+        cs->unk1C[var_r2] = &strcEC->unkE[var_r2];
+    }
+
     temp_r0 = &strcEC->unk12;
     cs->unk30 = temp_r0;
     temp_r0_2 = temp_r0 + 2;
@@ -99,27 +115,27 @@ void CreateCharacterSelectMultiplayer(SDC_EC *strcEC, CharacterSelectMP *cs) {
     cs->unk4 = 0;
     cs->unkA = 0;
     cs->unkC = 0x1000;
-    cs->qUnk4C = 0x7800;
-    cs->qUnk50 = 0x5000;
-    cs->qUnk54 = 0x7800;
-    cs->qUnk58 = 0x5000;
-    cs->unk34 = 0x7800;
-    cs->unk38 = 0x1100;
-    cs->unk3C = 0x7800;
-    cs->unk40 = 0x1100;
-    cs->unk44 = 0;
-    cs->unk48 = 0;
+    cs->qUnk4C = Q(0x78);
+    cs->qUnk50 = Q(0x50);
+    cs->qUnk54 = Q(0x78);
+    cs->qUnk58 = Q(0x50);
+    cs->qUnk34 = Q(0x78);
+    cs->qUnk38 = Q(0x11);
+    cs->qUnk3C = Q(0x78);
+    cs->qUnk40 = Q(0x11);
+    cs->qUnk44 = Q(0);
+    cs->qUnk48 = Q(0);
     cs->tilesCharacters[0] = NULL;
     cs->tilesCharacters[1] = NULL;
-    cs->qUnk6C = 0x7800;
-    cs->qUnk70 = 0x5500;
-    cs->qUnk78 = 0xC900;
-    cs->qUnk80 = 0x1600;
-    cs->qUnk5C = 0x7800;
-    cs->qUnk60 = 0x9100;
-    cs->qUnk64 = 0x12C00;
-    cs->qUnk68 = 0x9100;
-    cs->spr8C.tiles = (u8 *)0x06010000;
+    cs->qUnk6C = Q(0x78);
+    cs->qUnk70 = Q(0x55);
+    cs->qUnk74 = Q(0xC9);
+    cs->qUnk78 = Q(0x16);
+    cs->qUnk5C = Q(0x78);
+    cs->qUnk60 = Q(0x91);
+    cs->qUnk64 = Q(0x12C);
+    cs->qUnk68 = Q(0x91);
+    cs->spr8C.tiles = OBJ_VRAM0;
     sub_809F964(cs);
     CharSelect_InitBackgrounds_MP(cs);
     m4aMPlayAllStop();

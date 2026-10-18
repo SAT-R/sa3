@@ -156,12 +156,18 @@ typedef struct CharacterSelectMP {
     /* 0x008 */ u16 unk8;
     /* 0x00A */ u16 unkA;
     /* 0x00C */ u16 unkC;
-    /* 0x00E */ u8 fillerE[0x2 + 4];
+     /* 0x00E */ u8 fillerE[0x2 + 4];
     /* 0x014 */ u8 *unk14; // &(SDC_EC*)->unk16
     /* 0x018 */ u8 *unk18; // &(SDC_EC*)->???
-    /* 0x01C */ s32 unk1C[4];
+    /* 0x01C */ void *unk1C[4];
     /* 0x02C */ void *unk2C;
-    /* 0x030 */ u8 filler30[0x1C];
+    /* 0x04C */ void *unk30;
+    /* 0x04C */ s32 qUnk34;
+    /* 0x04C */ s32 qUnk38;
+    /* 0x04C */ s32 qUnk3C;
+    /* 0x04C */ s32 qUnk40;
+    /* 0x04C */ s32 qUnk44;
+    /* 0x04C */ s32 qUnk48;
     /* 0x04C */ s32 qUnk4C;
     /* 0x050 */ s32 qUnk50;
     /* 0x054 */ s32 qUnk54;
@@ -172,7 +178,9 @@ typedef struct CharacterSelectMP {
     /* 0x068 */ s32 qUnk68;
     /* 0x06C */ s32 qUnk6C;
     /* 0x070 */ s32 qUnk70;
+    /* 0x070 */ s32 qUnk74;
     /* 0x078 */ s32 qUnk78;
+    /* 0x07C */ s32 qUnk7C;
     /* 0x080 */ s32 qUnk80;
     /* 0x084 */ u8 *tilesCharacters[2];
     /* 0x08C */ Sprite spr8C;
