@@ -314,21 +314,21 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
     }
     var_r6 = strc->vramC;
     for (var_r4 = 0; var_r4 < var_r7; var_r4++) {
-        Sprite *temp_r0 = &strc->spr18[var_r4];
-        temp_r0->tiles = (u8 *)var_r6;
+        Sprite *s = &strc->spr18[var_r4];
+        s->tiles = (u8 *)var_r6;
         var_r6 += temp_r8[var_r4].numTiles * TILE_SIZE_4BPP;
-        temp_r0->anim = temp_r8[var_r4].anim;
-        temp_r0->variant = temp_r8[var_r4].variant;
-        temp_r0->prevVariant = -1;
-        temp_r0->x = I(*strc->unk10);
-        temp_r0->y = I(*strc->unk14);
-        temp_r0->oamFlags = 0x40;
-        temp_r0->animCursor = 0;
-        temp_r0->qAnimDelay = 0;
-        temp_r0->animSpeed = 0x10;
-        temp_r0->palId = 0;
-        temp_r0->frameFlags = 0;
-        UpdateSpriteAnimation(temp_r0);
+        s->anim = temp_r8[var_r4].anim;
+        s->variant = temp_r8[var_r4].variant;
+        s->prevVariant = -1;
+        s->x = I(*strc->unk10);
+        s->y = I(*strc->unk14);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
     }
     if ((u32)*strc->unk4 > 0x15U) {
         var_r7 = gUnknown_080D9438[5];
@@ -339,22 +339,22 @@ void LoadCharacterSelectSprites(Code_2_0__270 *strc)
     }
 
     for (var_r4 = 0; var_r4 < var_r7; var_r4++) {
-        Sprite *temp_r0 = &strc->spr1A8[var_r4];
-        temp_r0->tiles = (u8 *)var_r6;
+        Sprite *s = &strc->spr1A8[var_r4];
+        s->tiles = (u8 *)var_r6;
         temp_r2_3 = &var_r0[var_r4];
         var_r6 += temp_r2_3->numTiles * TILE_SIZE_4BPP;
-        temp_r0->anim = temp_r2_3->anim;
-        temp_r0->variant = temp_r2_3->variant;
-        temp_r0->prevVariant = -1;
-        temp_r0->x = I(*strc->unk10);
-        temp_r0->y = I(*strc->unk14);
-        temp_r0->oamFlags = 0x40;
-        temp_r0->animCursor = 0;
-        temp_r0->qAnimDelay = (s16)0;
-        temp_r0->animSpeed = 0x10;
-        temp_r0->palId = 0;
-        temp_r0->frameFlags = (u32)0;
-        UpdateSpriteAnimation(temp_r0);
+        s->anim = temp_r2_3->anim;
+        s->variant = temp_r2_3->variant;
+        s->prevVariant = -1;
+        s->x = I(*strc->unk10);
+        s->y = I(*strc->unk14);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = (s16)0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = (u32)0;
+        UpdateSpriteAnimation(s);
     }
     strc->vramC += 0xD40;
 }

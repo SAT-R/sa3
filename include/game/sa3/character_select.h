@@ -2,6 +2,9 @@
 #define GUARD_SA3_CHARACTER_SELECT_H
 
 #include "constants/characters.h" // ECharacters (incl. NUM_CHARACTERS)
+#include "game/screen_fade.h"
+//#include "background.h"
+#include "sprite.h"
 
 // BUG: Note that resultVar in the CS_SIO_CHECK_*() macros gets checked,
 //      even though it is not set if (cs->createIndex == 1)!
@@ -91,6 +94,7 @@ typedef enum {
     CSCI_COUNT
 } ECharSelectCreateIndex;
 
+// TODO: Try merging CharacterSelect and CharacterSelectMP!
 typedef struct CharacterSelect {
     /* 0x00 */ u8 unk0;
     /* 0x01 */ u8 unk1;
@@ -142,6 +146,67 @@ typedef struct CharacterSelect {
     /* 0x234 */ Background bg234;
 } CharacterSelect; /* 0x274 */
 
+typedef struct CharacterSelectMP {
+    /* 0x000 */ u8 language;
+    /* 0x001 */ u8 unk1;
+    /* 0x002 */ u8 unk2;
+    /* 0x003 */ u8 unk3;
+    /* 0x004 */ u16 unk4;
+    /* 0x006 */ u16 unk6;
+    /* 0x008 */ u16 unk8;
+    /* 0x00A */ u16 unkA;
+    /* 0x00C */ u16 unkC;
+    /* 0x00E */ u8 fillerE[0x2 + 4];
+    /* 0x014 */ u8 *unk14; // &(SDC_EC*)->unk16
+    /* 0x018 */ u8 *unk18; // &(SDC_EC*)->???
+    /* 0x01C */ s32 unk1C[4];
+    /* 0x02C */ void *unk2C;
+    /* 0x030 */ u8 filler30[0x1C];
+    /* 0x04C */ s32 qUnk4C;
+    /* 0x050 */ s32 qUnk50;
+    /* 0x054 */ s32 qUnk54;
+    /* 0x058 */ s32 qUnk58;
+    /* 0x05C */ s32 qUnk5C;
+    /* 0x060 */ s32 qUnk60;
+    /* 0x064 */ s32 qUnk64;
+    /* 0x068 */ s32 qUnk68;
+    /* 0x06C */ s32 qUnk6C;
+    /* 0x070 */ s32 qUnk70;
+    /* 0x078 */ s32 qUnk78;
+    /* 0x080 */ s32 qUnk80;
+    /* 0x084 */ u8 *tilesCharacters[2];
+    /* 0x08C */ Sprite spr8C;
+    /* 0x0B4 */ Sprite sprB4;
+    /* 0x0DC */ Sprite sprDC;
+    /* 0x104 */ Sprite spr104;
+    /* 0x12C */ Sprite spr12C;
+    /* 0x154 */ Sprite spr154;
+    /* 0x17C */ Sprite spr17C; // unused?
+    /* 0x1A4 */ Sprite spr1A4;
+    /* 0x1CC */ Sprite spr1CC;
+    /* 0x1F4 */ Background bg1F4;
+    /* 0x234 */ Background bg234;
+    /* 0x274 */ Background bg274;
+} CharacterSelectMP; /* 0x2B4 */
+
+typedef struct {
+    /* 0x00 */ ScreenFade fade;
+    /* 0x12 */ s16 unkC;
+    /* 0x0E */ s8 unkE[4];
+    /* 0x12 */ u8 unk12;
+    /* 0x13 */ s8 unk13;
+    /* 0x14 */ s8 unk14;
+    /* 0x15 */ u8 unk15;
+    /* 0x16 */ u8 unk16;
+    /* 0x17 */ u8 unk17;
+    /* 0x18 */ u8 unk18;
+    /* 0x19 */ u8 unk19;
+    /* 0x1C */ Background bg1C;
+    /* 0x5C */ Background bg5C;
+    /* 0x9C */ Sprite spr9C;
+    /* 0xC4 */ Sprite sprC4;
+} SDC_EC; /* 0xEC */
+
 // NOTE(Jace):
 // For this enum, make sure to only append new entries
 typedef enum {
@@ -176,6 +241,7 @@ typedef enum {
 // TODO: enum for CreateCharacterSelect() 'createIndex' param
 
 void CreateCharacterSelect(ECharSelectCreateIndex createIndex);
+void CreateCharacterSelectMultiplayer(SDC_EC *strcEC);
 
 /* Used in Single- and Multiplayer menu */
 extern const u16 gCharSelect3_Tilemaps[CSTMI_COUNT];

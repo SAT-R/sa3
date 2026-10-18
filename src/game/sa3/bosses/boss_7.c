@@ -1178,7 +1178,7 @@ void sub_8076328(EggGravity *boss)
     }
     temp_r4 = I(strc100->qUnkC4.y + strc100->unk4[var_r1]);
     s->x = temp_r0 - gCamera.x;
-    s->y = ((temp_r4 + ((s32)boss->unk3C >> 8)) - gCamera.y) + I(boss->unk44);
+    s->y = ((temp_r4 + I(boss->unk3C)) - gCamera.y) + I(boss->unk44);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
     boss->qUnk4 = Q(temp_r4 + I(boss->unk3C));
@@ -1191,7 +1191,7 @@ void sub_8076328(EggGravity *boss)
 
     s = &boss->sprGemerlAnchor;
     s->x = temp_r0 - gCamera.x;
-    s->y = (temp_r4 - gCamera.y) + ((s32)boss->unk44 >> 8);
+    s->y = (temp_r4 - gCamera.y) + I(boss->unk44);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
