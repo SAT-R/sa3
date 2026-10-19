@@ -292,6 +292,75 @@ static void CharSelectMP_InitSprites(CharacterSelectMP *cs)
     cs->tilesCharacters[0] = vram;
 }
 
+void CharSelectMP_InitBackgrounds(CharacterSelectMP *cs)
+{
+    gBgCntRegs[0] = BGCNT_CHARBASE(1) | BGCNT_SCREENBASE(14) | BGCNT_TXT512x256 | BGCNT_16COLOR | BGCNT_PRIORITY(3);
+    gBgScrollRegs[0][0] = 0;
+    gBgScrollRegs[0][1] = 0;
+    {
+        Background *bg = &cs->bg1F4;
+        bg->graphics.dest = BG_CHAR_ADDR(1);
+        bg->graphics.anim = 0;
+        bg->layoutVram = BG_SCREEN_ADDR(14);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_BACKDROP];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 360 / TILE_WIDTH;
+        bg->targetTilesY = 160 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 0;
+        DrawBackground(bg);
+    }
+
+    gBgCntRegs[1] = BGCNT_CHARBASE(3) | BGCNT_SCREENBASE(3) | BGCNT_TXT256x256 | BGCNT_16COLOR | BGCNT_PRIORITY(2);
+    gBgScrollRegs[1][0] = 0;
+    gBgScrollRegs[1][1] = 0;
+    {
+        Background *bg = &cs->bg234;
+        bg->graphics.dest = BG_CHAR_ADDR(3);
+        bg->graphics.anim = 0;
+        bg->layoutVram = BG_SCREEN_ADDR(3);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + CSLI_TAILS];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 128 / TILE_WIDTH;
+        bg->targetTilesY = 128 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 1;
+        DrawBackground(bg);
+    }
+
+    gBgCntRegs[2] = BGCNT_CHARBASE(2) | BGCNT_SCREENBASE(27) | BGCNT_AFF128x128 | BGCNT_256COLOR | BGCNT_PRIORITY(1);
+    gBgScrollRegs[2][0] = 0;
+    gBgScrollRegs[2][1] = 0;
+    {
+        Background *bg = &cs->bg274;
+        bg->graphics.dest = BG_CHAR_ADDR(2);
+        bg->graphics.anim = 0;
+        bg->layoutVram = BG_SCREEN_ADDR(27);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = gCharSelect3_Tilemaps[CSTMI_AFFINE_NAMES + cs->listIndex[CS_CHARID_PLAYER]];
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 128 / TILE_WIDTH;
+        bg->targetTilesY = 128 / TILE_WIDTH;
+        bg->paletteOffset = 0;
+        bg->flags = 6;
+        DrawBackground(bg);
+    }
+}
+
 #if 0
 void CharSelectMP_InitBackgrounds(void *arg0) {
     Background *temp_r0;

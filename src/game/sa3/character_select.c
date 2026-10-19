@@ -199,7 +199,9 @@ const TileInfo2 gUnknown_080D8EF8[1] = { { ANIM_CHARSELECT_SINGLE_NAMETAG_BACKDR
 const TileInfo2 gUnknown_080D8F00[1] = { { ANIM_CHARSELECT_COMBINED_NAMETAG_BACKDROP, 0, 24 } };
 const TileInfo2 gUnknown_080D8F08[1] = { { ANIM_CHARSELECT_ARROW, 0, 16 } };
 const TileInfo2 gUnknown_080D8F10[1] = { { ANIM_CHARSELECT_CROSS, 0, 16 } };
-const ECharacters gCharSelect_DisplayOrder[NUM_CHARACTERS] = { SONIC, TAILS, KNUCKLES, CREAM, AMY };
+const ECharacters gCharSelect_DisplayOrder[CSLI_COUNT] = {
+    [CSLI_SONIC] = SONIC, [CSLI_TAILS] = TAILS, [CSLI_KNUCKLES] = KNUCKLES, [CSLI_CREAM] = CREAM, [CSLI_AMY] = AMY,
+};
 const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3] = {
     //
     // SONIC

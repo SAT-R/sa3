@@ -85,6 +85,15 @@
 #define CS_CHARID_COUNT   2
 
 typedef enum {
+    CSLI_SONIC,
+    CSLI_TAILS,
+    CSLI_KNUCKLES,
+    CSLI_CREAM,
+    CSLI_AMY,
+
+    CSLI_COUNT = NUM_CHARACTERS,
+} ECharSelectListIndex;
+typedef enum {
     CSCI_STORY_SINGLE,
     CSCI_STORY_COOP,
     CSCI_2,
@@ -237,7 +246,7 @@ typedef enum {
     /* 0x0F */ CSTMI_AFFINE_OK = (CSTMI_TXTMAP_NAMES + NUM_CHARACTERS), // 'OK' string
     /* 0x10 */ CSTMI_AFFINE_QMARKS, // '???' string, for not-unlocked characters
 
-    CSTMI_UNUSED_17,
+    CSTMI_UNUSED_17, // TODO: Not unused. Used in MP Char Select!
     // Add new non-character entries HERE, or use UNUSED_x entries!
 
     CSTMI_COUNT
