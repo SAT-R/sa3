@@ -170,7 +170,7 @@ typedef struct CharacterSelectMP {
     /* 0x018 */ u8 *unk18; // &(SDC_EC*)->???
     /* 0x01C */ void *unk1C[4];
     /* 0x02C */ void *unk2C;
-    /* 0x04C */ void *unk30;
+    /* 0x04C */ s8 *unk30;
     /* 0x04C */ s32 qUnk34;
     /* 0x04C */ s32 qUnk38;
     /* 0x04C */ s32 qUnk3C;
