@@ -8,26 +8,33 @@
 
 void CharSelectMP_InitBackgrounds(CharacterSelectMP *cs);
 static void CharSelectMP_InitSprites(CharacterSelectMP *cs);
+
 void Task_809FCFC(void);
 void Task_809FEB0(void);
+void sub_80A0080(void);
+void sub_80A010C(void);
+void sub_80A021C(void);
 void sub_80A0DC8(CharacterSelectMP *cs);
 void sub_80A1030(CharacterSelectMP *cs);
 void sub_80A10B0(CharacterSelectMP *cs);
 void sub_80A1110(CharacterSelectMP *cs);
 void sub_80A11B8(CharacterSelectMP *cs);
+void TaskDestructor_80A13B0(Task *t);
+void Task_80A13F4(void);
+void Task_80A1430(void);
+void Task_80A14AC(void);
 s32 sub_80A14E4(CharacterSelectMP *cs);
 s32 sub_80A1540(CharacterSelectMP *cs);
+s32 sub_80A1598(CharacterSelectMP *cs);
+s32 sub_80A15E8(CharacterSelectMP *cs);
+s32 sub_80A1694(CharacterSelectMP *cs);
+s32 sub_80A1740(CharacterSelectMP *cs, s32 param1);
+s32 sub_80A1888(CharacterSelectMP *cs);
 void sub_80A18B8(CharacterSelectMP *cs);
 void sub_80A18E0(CharacterSelectMP *cs);
 void sub_80A19C0(CharacterSelectMP *cs);
+void sub_80A1A04(CharacterSelectMP *cs);
 void sub_80A1A28(CharacterSelectMP *cs);
-
-void TaskDestructor_80A13B0(Task *t);
-void Task_80A13F4(void);
-void Task_80A14AC(void);
-void sub_80A021C(void);
-void sub_80A0080(void);
-void sub_80A010C(void);
 
 extern void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
 
@@ -457,103 +464,89 @@ void Task_809FEB0(void)
     }
 }
 
-#if 0
-void sub_80A0080(? arg3) {
-    s8 temp_r0;
-    u16 temp_r1;
-    u8 *temp_r1_2;
-    void (*var_r0)(?);
+void sub_80A0080(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    if (*temp_r1->unk18 == 0x22) {
+    if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
     }
-    sub_80A19C0(temp_r1);
-    sub_80A10B0(temp_r1);
-    sub_80A1110(temp_r1);
-    if (sub_80A15E8(temp_r1) == 1) {
-        temp_r0 = sub_80A1888(temp_r1);
-        if (temp_r0 == 1) {
-            *temp_r1->unk14 = temp_r0;
-            var_r0 = Task_809FEB0;
-            goto block_7;
+
+    sub_80A19C0(cs);
+    sub_80A10B0(cs);
+    sub_80A1110(cs);
+
+    if ((sub_80A15E8(cs) == 1) && (sub_80A1888(cs) == 1)) {
+        *cs->unk14 = 1;
+        gCurTask->main = Task_809FEB0;
+    } else {
+        if (*cs->unk18 == 0x23) {
+            *cs->unk18 = 0x1D;
+            cs->unk3 = *cs->unk18;
+            cs->qUnk54 = cs->qUnk4C = Q(0x136);
+            gCurTask->main = Task_80A13F4;
         }
-    }
-    temp_r1_2 = temp_r1->unk18;
-    if (*temp_r1_2 == 0x23) {
-        *temp_r1_2 = 0x1D;
-        temp_r1->unk3 = (u8) *temp_r1->unk18;
-        temp_r1->unk4C = 0x13600;
-        temp_r1->unk54 = 0x13600;
-        var_r0 = Task_80A13F4;
-block_7:
-        gCurTask->main = var_r0;
     }
 }
 
-void sub_80A010C(? arg3) {
-    s8 temp_r0;
-    u16 temp_r1;
-    u8 *temp_r1_2;
-    void (*var_r0)(?);
+void sub_80A010C(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    if (*temp_r1->unk18 == 0x22) {
+    if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
     }
-    sub_80A19C0(temp_r1);
-    sub_80A10B0(temp_r1);
-    sub_80A1110(temp_r1);
-    if (sub_80A1598(temp_r1) == 1) {
-        temp_r0 = sub_80A1888(temp_r1);
-        if (temp_r0 == 1) {
-            *temp_r1->unk14 = temp_r0;
-            var_r0 = Task_809FEB0;
-            goto block_7;
-        }
-    }
-    temp_r1_2 = temp_r1->unk18;
-    if (*temp_r1_2 == 0x23) {
-        *temp_r1_2 = 0x1D;
-        temp_r1->unk3 = (u8) *temp_r1->unk18;
-        temp_r1->unk4C = 0x13600;
-        temp_r1->unk54 = 0x13600;
-        var_r0 = Task_80A13F4;
-block_7:
-        gCurTask->main = var_r0;
+
+    sub_80A19C0(cs);
+    sub_80A10B0(cs);
+    sub_80A1110(cs);
+
+    if ((sub_80A1598(cs) == 1) && (sub_80A1888(cs) == 1)) {
+        *cs->unk14 = 1;
+        gCurTask->main = Task_809FEB0;
+    } else if (*cs->unk18 == 0x23) {
+        *cs->unk18 = 0x1D;
+        cs->unk3 = *cs->unk18;
+        cs->qUnk4C = Q(0x136);
+        cs->qUnk54 = Q(0x136);
+        gCurTask->main = Task_80A13F4;
     }
 }
 
-void sub_80A0198(void) {
-    u16 temp_r1;
-    u8 var_r5;
+void sub_80A0198(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
+    u8 r5 = 0;
 
-    temp_r1 = gCurTask->data;
-    var_r5 = 0;
-    if (*temp_r1->unk18 == 0x22) {
+    if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
     }
-    sub_80A19C0(temp_r1);
-    sub_80A1A04(temp_r1);
-    sub_80A10B0(temp_r1);
-    sub_80A1110(temp_r1);
-    sub_80A11B8(temp_r1);
-    if (sub_80A1694(temp_r1) == 1) {
-        var_r5 = 1;
+
+    sub_80A19C0(cs);
+    sub_80A1A04(cs);
+    sub_80A10B0(cs);
+    sub_80A1110(cs);
+    sub_80A11B8(cs);
+
+    if (sub_80A1694(cs) == 1) {
+        r5 += 1;
     }
-    if (sub_80A1740(temp_r1, 0x78) == 1) {
-        var_r5 += 1;
+
+    if (sub_80A1740(cs, 0x78) == 1) {
+        r5 += 1;
     }
-    if (var_r5 == 2) {
-        temp_r1->unk3 = 0x1D;
-        temp_r1->unk54 = 0x13600;
+
+    if (r5 == 2) {
+        cs->unk3 = 0x1D;
+        cs->qUnk54 = Q(0x136);
         gCurTask->main = Task_80A1430;
     }
 }
 
+#if 0
 void sub_80A021C(? arg3) {
     Sprite *temp_r0_2;
     u16 temp_r4;
