@@ -148,8 +148,8 @@ typedef struct CharacterSelect {
 
 typedef struct CharacterSelectMP {
     /* 0x000 */ u8 language;
-    /* 0x001 */ u8 unk1;
-    /* 0x002 */ u8 unk2;
+    /* 0x001 */ u8 listIndex[CS_CHARID_COUNT]; // The index, in order of *visual* appearance, in the menu. NOT the character index! Used to
+                                               // index gCharSelect_DisplayOrder[].
     /* 0x003 */ u8 unk3;
     /* 0x004 */ u16 unk4;
     /* 0x006 */ u16 unk6;
@@ -172,10 +172,7 @@ typedef struct CharacterSelectMP {
     /* 0x050 */ s32 qUnk50;
     /* 0x054 */ s32 qUnk54;
     /* 0x058 */ s32 qUnk58;
-    /* 0x05C */ s32 qUnk5C;
-    /* 0x060 */ s32 qUnk60;
-    /* 0x064 */ s32 qUnk64;
-    /* 0x068 */ s32 qUnk68;
+    /* 0x05C */ Vec2_32 qNameTagPos[CS_CHARID_COUNT];
     /* 0x06C */ s32 qUnk6C;
     /* 0x070 */ s32 qUnk70;
     /* 0x070 */ s32 qUnk74;
@@ -254,5 +251,10 @@ void CreateCharacterSelectMultiplayer(SDC_EC *strcEC);
 /* Used in Single- and Multiplayer menu */
 extern const u16 gCharSelect3_Tilemaps[CSTMI_COUNT];
 extern const TileInfo2 gTileInfo_CharSelect3_HeaderBackdrop[1];
+extern const TileInfo2 gTileInfo_CharSelect3_TeamDescriptions[47];
+extern const TileInfo2 gTileInfo_CharSelect3_NameTagNames[];
+extern const TileInfo2 gUnknown_080D8EF8[1];
+extern const TileInfo2 gUnknown_080D8F08[1];
+extern const TileInfo2 gUnknown_080D8F10[1];
 extern const ECharacters gCharSelect_DisplayOrder[NUM_CHARACTERS];
 #endif // GUARD_SA3_CHARACTER_SELECT_H
