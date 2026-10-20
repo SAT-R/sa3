@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "game/shared/stage/player.h"
+#include "game/save.h" // DIFFICULTY_NORMAL
 #include "game/stage.h" // gStageData
 
 typedef struct {
@@ -70,16 +71,12 @@ void TaskDestructor_HyperEggRobo(Task *t);
 
 void CreateHyperEggRobo(u8 *arg0)
 {
-    u8 var_r0;
-    u8 var_r1;
-    u8 var_r1_2;
-    struct Task *t;
-    HyperEggRobo *boss;
+    struct Task *t = TaskCreate(Task_358_HyperEggRoboInit, sizeof(HyperEggRobo), 0x2100U, 0U, TaskDestructor_HyperEggRobo);
+    HyperEggRobo *boss = TASK_DATA(t);
+    u8 i;
 
-    t = TaskCreate(Task_358_HyperEggRoboInit, sizeof(HyperEggRobo), 0x2100U, 0U, TaskDestructor_HyperEggRobo);
-    boss = TASK_DATA(t);
     gStageData.taskBoss = t;
-    if (gStageData.difficulty == 0) {
+    if (gStageData.difficulty == DIFFICULTY_NORMAL) {
         boss->lives = 8;
     } else {
         boss->lives = 6;
@@ -89,32 +86,35 @@ void CreateHyperEggRobo(u8 *arg0)
     boss->unk16 = 0;
     boss->unk8 = 1;
     boss->unkC = 0;
-    boss->players[0] = gPlayers;
+    boss->players[0] = &gPlayers[PLAYER_1];
     boss->players[1] = &gPlayers[gPlayers[PLAYER_1].charFlags.partnerIndex];
     boss->spr250.tiles = NULL;
     boss->spr228.tiles = NULL;
 
-    for (var_r1 = 0; var_r1 < 4; var_r1++) {
-        boss->spr7C[var_r1].tiles = NULL;
+    for (i = 0; i < ARRAY_COUNT(boss->spr7C); i++) {
+        boss->spr7C[i].tiles = NULL;
     }
 
     boss->vram18 = 0;
 
-    for (var_r1_2 = 0; var_r1_2 < 3; var_r1_2++) {
-        boss->spr2C8[var_r1_2].tiles = NULL;
+    for (i = 0; i < ARRAY_COUNT(boss->spr2C8); i++) {
+        boss->spr2C8[i].tiles = NULL;
     }
 
     boss->spr278.tiles = 0;
     boss->spr2A0.tiles = 0;
+
     gDispCnt &= ~DISPCNT_BG0_ON;
+
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    gBgCntRegs[0] = 0x9B0E;
+    gBgCntRegs[0] = BGCNT_SCREENBASE(27) | BGCNT_CHARBASE(3) | BGCNT_TXT256x512 | BGCNT_16COLOR | BGCNT_PRIORITY(2);
     gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;
     gBgSprites_Unknown2[0][3] = 0x20;
+
     sub_358_807C074(boss);
 }
 
