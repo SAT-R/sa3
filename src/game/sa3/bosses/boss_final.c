@@ -1,15 +1,23 @@
 #include "global.h"
 #include "core.h"
 #include "game/shared/stage/player.h"
+#include "game/stage.h" // gStageData
 
 typedef struct {
     /* 0x000 */ u8 lives;
-    /* 0x001 */ u8 filler1[0xF];
+    /* 0x004 */ u8 *initArg0;
+    /* 0x008 */ u16 unk8;
+    /* 0x00A */ u8 fillerA[0x2];
+    /* 0x00C */ u16 unkC;
+    /* 0x00E */ u8 fillerE[0x2];
     /* 0x010 */ u8 unk10;
     /* 0x011 */ u8 unk11;
     /* 0x012 */ u8 unk12;
     /* 0x013 */ u8 unk13;
-    /* 0x014 */ u8 filler14[0xC];
+    /* 0x014 */ u16 unk14;
+    /* 0x016 */ u16 unk16;
+    /* 0x018 */ u8 *vram18;
+    /* 0x018 */ u8 filler1C[0x4];
     /* 0x020 */ Player *players[2]; //[NUM_SINGLE_PLAYER_CHARS];
     /* 0x028 */ u8 filler28[0x54];
     /* 0x07C */ Sprite spr7C[4];
@@ -19,12 +27,13 @@ typedef struct {
     /* 0x1E8 */ Background bg1E8;
     /* 0x228 */ Sprite spr228;
     /* 0x250 */ Sprite spr250;
-    /* 0x278 */ u8 filler278[0x50];
+    /* 0x250 */ Sprite spr278;
+    /* 0x2A0 */ Sprite spr2A0;
     /* 0x2C8 */ Sprite spr2C8[3];
     /* 0x340 */ u8 filler340[0x18];
 } HyperEggRobo; /* 0x358 */
 
-void CreateHyperEggRobo(u8 *arg0, HyperEggRobo *boss);
+void CreateHyperEggRobo(u8 *arg0);
 void Task_358_807B808(void);
 void Task_358_807B9B8(void);
 void Task_358_807BC04(void);
@@ -56,46 +65,52 @@ typedef void (*FinalBossFunc)(HyperEggRobo *boss, u8 param1);
 extern const FinalBossFunc gUnknown_08E2ED18[12];
 #endif
 
-#if 0
-void CreateHyperEggRobo(u8 *arg0, HyperEggRobo *boss) {
+void Task_358_HyperEggRoboInit(void);
+void TaskDestructor_HyperEggRobo(Task *t);
+
+void CreateHyperEggRobo(u8 *arg0)
+{
     u8 var_r0;
     u8 var_r1;
     u8 var_r1_2;
+    struct Task *t;
+    HyperEggRobo *boss;
 
-    gStageData.taskBoss = TaskCreate(Task_358_HyperEggRoboInit, 0x358U, 0x2100U, 0U, TaskDestructor_HyperEggRobo);
+    t = TaskCreate(Task_358_HyperEggRoboInit, sizeof(HyperEggRobo), 0x2100U, 0U, TaskDestructor_HyperEggRobo);
+    boss = TASK_DATA(t);
+    gStageData.taskBoss = t;
     if (gStageData.difficulty == 0) {
-        var_r0 = 8;
+        boss->lives = 8;
     } else {
-        var_r0 = 6;
+        boss->lives = 6;
     }
-    boss->lives = var_r0;
-    boss->unk4 = arg0;
+    boss->initArg0 = arg0;
     boss->unk14 = 1;
     boss->unk16 = 0;
     boss->unk8 = 1;
     boss->unkC = 0;
     boss->players[0] = gPlayers;
-    boss->players[1] = &gPlayers[(u32) (gPlayers->unk2B << 0x1E) >> 0x1E];
+    boss->players[1] = &gPlayers[gPlayers[PLAYER_1].charFlags.partnerIndex];
     boss->spr250.tiles = NULL;
     boss->spr228.tiles = NULL;
-    var_r1 = 0;
-    do {
+
+    for (var_r1 = 0; var_r1 < 4; var_r1++) {
         boss->spr7C[var_r1].tiles = NULL;
-        var_r1 += 1;
-    } while ((u32) var_r1 <= 3U);
-    boss->unk18 = 0;
-    var_r1_2 = 0;
-    do {
+    }
+
+    boss->vram18 = 0;
+
+    for (var_r1_2 = 0; var_r1_2 < 3; var_r1_2++) {
         boss->spr2C8[var_r1_2].tiles = NULL;
-        var_r1_2 += 1;
-    } while ((u32) var_r1_2 <= 2U);
-    boss->unk278 = 0;
-    boss->unk2A0 = 0;
-    gDispCnt &= 0xFEFF;
+    }
+
+    boss->spr278.tiles = 0;
+    boss->spr2A0.tiles = 0;
+    gDispCnt &= ~DISPCNT_BG0_ON;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
-    *gBgCntRegs = 0x9B0E;
-    *gBgSprites_Unknown1 = 0;
+    gBgCntRegs[0] = 0x9B0E;
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;
@@ -103,6 +118,7 @@ void CreateHyperEggRobo(u8 *arg0, HyperEggRobo *boss) {
     sub_358_807C074(boss);
 }
 
+#if 0
 void Task_358_807B808(HyperEggRobo *boss) {
     ? sp0;
     Player *temp_r5;
@@ -3813,7 +3829,7 @@ void sub_807FB7C(u8 arg0) {
     void (*var_r4)(Player *);
 
     temp_r3 = arg0;
-    temp_r6 = &gPlayers[(u32) (gPlayers->unk2B << 0x1E) >> 0x1E];
+    temp_r6 = &gPlayers[(u32) gPlayers[PLAYER_1].charFlags.partnerIndex];
     if (gPlayers->moveState & 0x100) {
         return;
     }
@@ -3945,7 +3961,7 @@ void Task_ExtraChaosEmeraldsInit(void) {
     u16 temp_r5;
 
     temp_r5 = gCurTask->data;
-    temp_r4 = &gPlayers[(u32) (gPlayers->unk2B << 0x1E) >> 0x1E];
+    temp_r4 = &gPlayers[(u32) gPlayers[PLAYER_1].charFlags.partnerIndex];
     temp_r5->unk16 = 0U;
     temp_r5->unk14 = 0U;
     *((temp_r5->unk0 * 4) + &gUnknown_08E2ED48)(temp_r5);
@@ -3971,7 +3987,7 @@ void sub_807FEB4(void *arg0) {
     u16 temp_r2_3;
     u16 var_r0;
 
-    temp_r2 = &gPlayers[(u32) (gPlayers->unk2B << 0x1E) >> 0x1E];
+    temp_r2 = &gPlayers[(u32) gPlayers[PLAYER_1].charFlags.partnerIndex];
     temp_r1 = arg0->unk12;
     switch (temp_r1) {                              /* irregular */
         return;
