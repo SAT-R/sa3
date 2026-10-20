@@ -312,8 +312,8 @@ const u16 gCharacterSelectedVoices[NUM_CHARACTERS] = {
 extern const u8 gPlayerUnlockedMasks[NUM_CHARACTERS];
 
 extern const u8 Tileset_DebugAscii[0x140];
-extern const u16 gUnknown_08E2EE50[10][16];
-extern const u16 gUnknown_08E2EEF0[16];
+extern const ColorRaw gUnknown_08E2EE50[10][16];
+extern const ColorRaw gUnknown_08E2EEF0[16];
 
 void CreateCharacterSelect(ECharSelectCreateIndex createIndex)
 {

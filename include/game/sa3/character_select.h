@@ -164,10 +164,10 @@ typedef struct CharacterSelectMP {
     /* 0x006 */ u16 unk6;
     /* 0x008 */ u16 unk8;
     /* 0x00A */ u16 unkA;
-    /* 0x00C */ u16 qBgCharNameScale;
+    /* 0x00C */ s16 qBgCharNameScale;
     /* 0x00E */ u8 fillerE[0x2 + 4];
     /* 0x014 */ u8 *unk14; // &(SDC_EC*)->unk16
-    /* 0x018 */ u8 *unk18; // &(SDC_EC*)->???
+    /* 0x018 */ u8 *unk18; // TODO: Might be volatile pointer?
     /* 0x01C */ void *unk1C[4];
     /* 0x02C */ void *unk2C;
     /* 0x04C */ s8 *unk30;
@@ -263,6 +263,7 @@ extern const TileInfo2 gTileInfo_CharSelect3_HeaderBackdrop[1];
 extern const TileInfo2 gTileInfo_CharSelect3_TeamDescriptions[47];
 extern const TileInfo2 gTileInfo_CharSelect3_NameTagNames[];
 extern const TileInfo2 gUnknown_080D8EF8[1];
+extern const TileInfo2 gUnknown_080D8F00[1];
 extern const TileInfo2 gUnknown_080D8F08[1];
 extern const TileInfo2 gUnknown_080D8F10[1];
 extern const ECharacters gCharSelect_DisplayOrder[NUM_CHARACTERS];

@@ -1,6 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
+#include "code_z_1.h" // CopyObjPaletteMasked
 #include "lib/m4a/m4a.h"
+#include "multi_sio_stuff.h" // gUnknown_03001060
 #include "game/sa3/character_select.h"
 #include "game/save.h" // LOADED_SAVE
 #include "game/stage.h"
@@ -49,7 +52,7 @@ s32 sub_80A163C(CharacterSelectMP *cs);
 s32 sub_80A1668(CharacterSelectMP *cs);
 s32 sub_80A1694(CharacterSelectMP *cs);
 s32 sub_80A16EC(CharacterSelectMP *cs);
-s32 sub_80A1740(CharacterSelectMP *cs, s32 param1);
+s32 sub_80A1740(CharacterSelectMP *cs, u8 param1);
 s32 sub_80A1768(CharacterSelectMP *cs);
 s32 sub_80A1798(CharacterSelectMP *cs);
 s32 sub_80A17FC(CharacterSelectMP *cs);
@@ -57,8 +60,8 @@ s32 sub_80A1908(CharacterSelectMP *cs);
 s32 sub_80A182C(CharacterSelectMP *cs);
 s32 sub_80A185C(CharacterSelectMP *cs);
 s32 sub_80A1888(CharacterSelectMP *cs);
-void sub_80A18B8(CharacterSelectMP *cs);
-void sub_80A18E0(CharacterSelectMP *cs);
+s32 sub_80A18B8(CharacterSelectMP *cs);
+s32 sub_80A18E0(CharacterSelectMP *cs);
 s32 sub_80A1938(CharacterSelectMP *cs);
 s32 sub_80A1968(CharacterSelectMP *cs);
 void sub_80A19C0(CharacterSelectMP *cs);
@@ -68,10 +71,22 @@ void sub_80A137C(CharacterSelectMP *cs);
 void sub_80A10B0(CharacterSelectMP *cs);
 void sub_80A1110(CharacterSelectMP *cs);
 void sub_80A11B8(CharacterSelectMP *cs);
+void sub_80A124C(CharacterSelectMP *cs);
+
+extern void sub_809BFE8(u8 arg0);
 
 extern void *CreateSomeTask_809BF3C(void *param0, void *param1, void *param2, void *param3, void *tiles);
+extern void sub_802613C(void);
 
 extern u8 gUnknown_030010AC[4];
+extern const u8 gUnknown_080D8F95[NUM_CHARACTERS * 8][3];
+extern const u8 gUnknown_080D8F1D[NUM_CHARACTERS * 8][3];
+extern const u16 gAnnouncerSelect1st[NUM_CHARACTERS];
+extern const u16 gAnnouncerSelect2nd[NUM_CHARACTERS];
+extern const u16 gCharacterSelectedVoices[NUM_CHARACTERS];
+extern const u8 gCharacterSelectOrderLUT[NUM_CHARACTERS];
+extern const ColorRaw gUnknown_08E2EE50[10][16];
+extern const ColorRaw gUnknown_08E2EEF0[16];
 
 // TODO: Fake-match!
 void CreateCharacterSelectMultiplayer(SDC_EC *strcEC)
@@ -970,31 +985,32 @@ void Task_80A094C(void)
     }
 }
 
-#if 0
-void sub_80A0A08(CharacterSelectMP *cs) {
-    Sprite *temp_r0;
+void sub_80A0A08(CharacterSelectMP *cs)
+{
+    Sprite *s;
     Sprite *temp_r7;
-    s32 var_r4;
+    s32 var_r4 = 0;
     u8 temp_r4;
     u8 temp_r5;
 
-    temp_r0 = cs + 0x12C;
-    temp_r0->anim = gUnknown_080D8F00.unk0;
-    temp_r0->variant = gUnknown_080D8F00.unk2;
-    temp_r0->prevVariant = 0xFF;
-    temp_r0->x = (s16) ((s32) cs->qNameTagPos[0].x >> 8);
-    temp_r0->y = (s16) ((s32) cs->qNameTagPos[0].y >> 8);
-    temp_r0->oamFlags = 0x40;
-    temp_r0->animCursor = 0;
-    temp_r0->qAnimDelay = 0;
-    temp_r0->animSpeed = 0x10;
-    temp_r0->palId = 0;
-    temp_r0->frameFlags = 0;
-    UpdateSpriteAnimation(temp_r0);
-    temp_r7 = cs + 0xB4;
-    temp_r4 = *(cs->listIndex[1] + gCharSelect_DisplayOrder);
-    temp_r5 = *(cs->listIndex[0] + gCharSelect_DisplayOrder);
-    if (((u32) temp_r4 > 4U) || ((u32) temp_r5 > 4U)) {
+    s = &cs->spr12C;
+    s->anim = gUnknown_080D8F00[0].anim;
+    s->variant = gUnknown_080D8F00[0].variant;
+    s->prevVariant = 0xFF;
+    s->x = (s16)((s32)cs->qNameTagPos[0].x >> 8);
+    s->y = I(cs->qNameTagPos[0].y);
+    s->oamFlags = 0x40;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    temp_r7 = &cs->sprB4;
+    temp_r4 = gCharSelect_DisplayOrder[cs->listIndex[1]];
+    temp_r5 = gCharSelect_DisplayOrder[cs->listIndex[0]];
+    if (((u32)temp_r4 > 4U) || ((u32)temp_r5 > 4U)) {
         sub_802613C();
     }
     if ((temp_r4 == 0) || (temp_r5 == 0)) {
@@ -1010,7 +1026,7 @@ void sub_80A0A08(CharacterSelectMP *cs) {
     } else if (((temp_r4 == 4) && (temp_r5 == 1)) || ((temp_r4 == 1) && (temp_r5 == 4))) {
         var_r4 = 5;
     } else {
-block_19:
+    block_19:
         var_r4 = 2;
     }
     temp_r7->anim = gTileInfo_CharSelect3_TeamDescriptions[var_r4 + (cs->language * 8)].anim;
@@ -1018,7 +1034,9 @@ block_19:
     UpdateSpriteAnimation(temp_r7);
 }
 
-void Task_80A0ADC(CharacterSelectMP *cs) {
+void Task_80A0ADC(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
     if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
@@ -1038,48 +1056,46 @@ void Task_80A0ADC(CharacterSelectMP *cs) {
         cs->unk6 = 0;
     }
     if (gBldRegs.bldY != 0) {
-        gBldRegs.bldY = (u16) ((u16) cs->unk8 >> 8);
-        cs->unk8 += 0xFFFFFF00;
+        gBldRegs.bldY = (u16)((u16)cs->unk8 >> 8);
+        cs->unk8 -= Q(1);
         return;
     }
     cs->unk6 = 1;
-    gBldRegs.bldY = gBldRegs.bldY;
+    gBldRegs.bldY = 0;
     gCurTask->main = Task_80A0B9C;
 }
 
-void Task_80A0B9C(CharacterSelectMP *cs) {
+void Task_80A0B9C(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
     u16 temp_r0;
-    u8 temp_r5;
-    u8 temp_r6;
+    u16 temp_r0_2;
+    u8 charPartner = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
+    u8 charPlayer = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
 
-    temp_r5 = *(gCurTask.unk2 + gCharSelect_DisplayOrder);
-    temp_r6 = *(gCurTask.unk1 + gCharSelect_DisplayOrder);
-    if (*gCurTask.unk18 == 0x22) {
-        gCurTask.unk0->main = Task_80A14AC;
+    if (*cs->unk18 == 0x22) {
+        gCurTask->main = Task_80A14AC;
         return;
     }
-    sub_80A19C0((CharacterSelectMP *) &gCurTask);
-    sub_80A10B0((CharacterSelectMP *) &gCurTask);
-    sub_80A124C((CharacterSelectMP *) &gCurTask);
-    switch (gCurTask.unk4) {                        /* irregular */
-    case 0x0:
-        m4aSongNumStart(*((*(temp_r5 + &gCharacterSelectOrderLUT) * 2) + &gAnnouncerSelect1st));
-        break;
-    case 0x3C:
-        m4aSongNumStart(0x1FFU);
-        break;
-    case 0x5A:
-        m4aSongNumStart(*((*(temp_r6 + &gCharacterSelectOrderLUT) * 2) + &gAnnouncerSelect2nd));
-        break;
+    sub_80A19C0(cs);
+    sub_80A10B0(cs);
+    sub_80A124C(cs);
+    if (cs->unk4 == 0) {
+        m4aSongNumStart(gAnnouncerSelect1st[gCharacterSelectOrderLUT[charPartner]]);
+    } else if (cs->unk4 == 60) {
+        m4aSongNumStart(VOICE__ANNOUNCER__AND);
+    } else if (cs->unk4 == 90) {
+        m4aSongNumStart(gAnnouncerSelect2nd[gCharacterSelectOrderLUT[charPlayer]]);
     }
-    temp_r0 = gCurTask.unk4 + 1;
-    gCurTask.unk4 = temp_r0;
-    if ((u32) temp_r0 > 0x77U) {
-        gCurTask.unk0->main = Task_80A0C5C;
+
+    if (++cs->unk4 >= 120) {
+        gCurTask->main = Task_80A0C5C;
     }
 }
 
-void Task_80A0C5C(CharacterSelectMP *cs) {
+void Task_80A0C5C(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
     if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
@@ -1097,8 +1113,8 @@ void Task_80A0C5C(CharacterSelectMP *cs) {
         cs->unk6 = 0;
         cs->unk8 = 0;
     }
-    if ((u32) gBldRegs.bldY <= 0xFU) {
-        gBldRegs.bldY = (u16) ((u16) cs->unk8 >> 8);
+    if ((u32)gBldRegs.bldY <= 0xFU) {
+        gBldRegs.bldY = (u16)((u16)cs->unk8 >> 8);
         cs->unk8 += 0x100;
         return;
     }
@@ -1111,352 +1127,358 @@ void Task_80A0C5C(CharacterSelectMP *cs) {
     gCurTask->main = Task_80A13B4;
 }
 
-void Task_80A0D20(CharacterSelectMP *cs) {
-    Player *temp_r1;
-    u8 var_r4;
+void Task_80A0D20(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
+    u8 i;
 
     if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
     }
-    var_r4 = 0;
-    do {
-        temp_r1 = &gPlayers[var_r4];
-        temp_r1->unk2A = (u8) ((-0x10 & temp_r1->unk2A) | (0xF & gUnknown_030010AC[var_r4]));
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 3U);
-    TasksDestroyInPriorityRange(0U, 0xFFFFU);
-    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+
+    for (i = 0; i < NUM_MULTI_PLAYER_CHARS; i++) {
+        // NOTE(Jace): This is so stupid, but I cannot match it otherwise...
+        Player *p = gPlayers;
+        p += i;
+        p->charFlags.character = gUnknown_030010AC[i];
+    }
+
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
     gBgSpritesCount = 0;
-    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+    PAUSE_GRAPHICS_QUEUE();
     sub_809BFE8(0);
 }
 
-void sub_80A0DC8(CharacterSelectMP *cs) {
-    s32 var_r5;
-    u8 temp_r6;
+void sub_80A0DC8(CharacterSelectMP *cs)
+{
+    Background *bg2 = &cs->bg274;
+    u8 temp_r6 = gCharSelect_DisplayOrder[cs->listIndex[0]];
+    s32 var_r5 = 0;
 
-    temp_r6 = *(cs->listIndex[0] + gCharSelect_DisplayOrder);
-    cs->bg274.graphics.dest = (void *)0x06008000;
-    cs->bg274.graphics.anim = 0;
-    cs->bg274.layoutVram = (u16 *)0x0600D800;
-    cs->bg274.unk18 = 0;
-    cs->bg274.unk1A = 0;
-    cs->bg274.tilemapId = gCharSelect3_Tilemaps[temp_r6 + 5];
-    cs->bg274.unk1E = 0;
-    cs->bg274.unk20 = 0;
-    cs->bg274.unk22 = 0;
-    cs->bg274.unk24 = 0;
-    cs->bg274.targetTilesX = 0x10;
-    cs->bg274.targetTilesY = 0x10;
-    cs->bg274.paletteOffset = 0;
-    cs->bg274.flags = 6;
-    DrawBackground(&cs->bg274);
+    bg2->graphics.dest = BG_CHAR_ADDR(2);
+    bg2->graphics.anim = 0;
+    bg2->layoutVram = BG_SCREEN_ADDR(27);
+    bg2->unk18 = 0;
+    bg2->unk1A = 0;
+    bg2->tilemapId = gCharSelect3_Tilemaps[temp_r6 + 5];
+    bg2->unk1E = 0;
+    bg2->unk20 = 0;
+    bg2->unk22 = 0;
+    bg2->unk24 = 0;
+    bg2->targetTilesX = 0x10;
+    bg2->targetTilesY = 0x10;
+    bg2->paletteOffset = 0;
+    bg2->flags = 6;
+    DrawBackground(bg2);
     cs->qUnk50 = 0x5000;
-    var_r5 = 7;
-    if ((u32) *cs->unk18 <= 0xBU) {
+    if ((u32)*cs->unk18 <= 0xBU) {
         var_r5 = 6;
-    }
-    if (0x20000 & gFlags) {
-        CopyObjPaletteMasked((temp_r6 << 5) + &gUnknown_08E2EE50, var_r5 * 0x10, 0x10U);
     } else {
-        (void *)0x040000D4->unk0 = (void *) ((temp_r6 << 5) + &gUnknown_08E2EE50);
-        (void *)0x040000D4->unk4 = (void *) ((var_r5 << 5) + gObjPalette);
-        (void *)0x040000D4->unk8 = 0x80000010;
-        gFlags |= 2;
+        var_r5 = 7;
     }
-    gFlags |= 2;
+    if (gFlags & FLAGS_20000) {
+        CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r6], var_r5 * PALETTE_LEN_4BPP, PALETTE_LEN_4BPP);
+    } else {
+        DmaCopy16(3, &gUnknown_08E2EE50[temp_r6], &gObjPalette[var_r5 * PALETTE_LEN_4BPP], PALETTE_LEN_4BPP * sizeof(ColorRaw));
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+    }
+    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
 }
 
-void sub_80A0EA8(CharacterSelectMP *cs) {
-    Background *temp_r0;
-    Background *temp_r0_2;
+void sub_80A0EA8(CharacterSelectMP *cs)
+{
     u8 temp_r1;
 
-    temp_r1 = *(cs->listIndex[0] + gCharSelect_DisplayOrder);
+    temp_r1 = gCharSelect_DisplayOrder[cs->listIndex[0]];
     if (0x20000 & gFlags) {
-        CopyObjPaletteMasked((temp_r1 << 5) + &gUnknown_08E2EE50, 0x70U, 0x10U);
+        CopyObjPaletteMasked(gUnknown_08E2EE50[temp_r1], 0x70U, 16);
     } else {
-        (void *)0x040000D4->unk0 = (void *) ((temp_r1 << 5) + &gUnknown_08E2EE50);
-        (void *)0x040000D4->unk4 = &gObjPalette[0x70];
-        (void *)0x040000D4->unk8 = 0x80000010;
-        gFlags |= 2;
+        DmaCopy16(3, gUnknown_08E2EE50[temp_r1], &gObjPalette[0x70], 16 * sizeof(ColorRaw));
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
-    gFlags |= 2;
-    gDispCnt = 0x1741;
+    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+    gDispCnt = DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
     gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = 0xFF;
     gBgSprites_Unknown2[1][3] = 0x40;
-    gBgCntRegs[1] = 0x30E;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(3) | BGCNT_CHARBASE(3) | BGCNT_16COLOR | BGCNT_TXT256x256 | BGCNT_PRIORITY(2);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    temp_r0 = cs + 0x234;
-    temp_r0->graphics.dest = (void *)0x0600C000;
-    temp_r0->graphics.anim = 0;
-    temp_r0->layoutVram = (u16 *)0x06001800;
-    temp_r0->unk18 = 0;
-    temp_r0->unk1A = 0;
-    temp_r0->tilemapId = gCharSelect3_Tilemaps[*(cs->listIndex[1] + gCharSelect_DisplayOrder) + 0xA];
-    temp_r0->unk1E = 0;
-    temp_r0->unk20 = 0;
-    temp_r0->unk22 = 0;
-    temp_r0->unk24 = 0;
-    temp_r0->targetTilesX = 0x10;
-    temp_r0->targetTilesY = 0x10;
-    cs->bg234.paletteOffset = 0;
-    temp_r0->flags = 1;
-    DrawBackground(temp_r0);
+
+    {
+        Background *bg1 = &cs->bg234;
+        u8 index = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PARTNER]];
+        bg1->graphics.dest = BG_CHAR_ADDR(3);
+        bg1->graphics.anim = 0;
+        bg1->layoutVram = BG_SCREEN_ADDR(3);
+        bg1->unk18 = 0;
+        bg1->unk1A = 0;
+        bg1->tilemapId = gCharSelect3_Tilemaps[CSTMI_TXTMAP_NAMES + index];
+        bg1->unk1E = 0;
+        bg1->unk20 = 0;
+        bg1->unk22 = 0;
+        bg1->unk24 = 0;
+        bg1->targetTilesX = 0x10;
+        bg1->targetTilesY = 0x10;
+        bg1->paletteOffset = 0;
+        bg1->flags = 1;
+        DrawBackground(bg1);
+    }
     gBgCntRegs[2] = 0x1B89;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    temp_r0_2 = cs + 0x274;
-    temp_r0_2->graphics.dest = (void *)0x06008000;
-    temp_r0_2->graphics.anim = 0;
-    temp_r0_2->layoutVram = (u16 *)0x0600D800;
-    temp_r0_2->unk18 = 0;
-    temp_r0_2->unk1A = 0;
-    temp_r0_2->tilemapId = gCharSelect3_Tilemaps[*(cs->listIndex[0] + gCharSelect_DisplayOrder) + 5];
-    temp_r0_2->unk1E = 0;
-    temp_r0_2->unk20 = 0;
-    temp_r0_2->unk22 = 0;
-    temp_r0_2->unk24 = 0;
-    temp_r0_2->targetTilesX = 0x10;
-    temp_r0_2->targetTilesY = 0x10;
-    cs->bg274.paletteOffset = 0;
-    temp_r0_2->flags = 6;
-    DrawBackground(temp_r0_2);
+    {
+        Background *bg2 = &cs->bg274;
+        u8 index = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+        bg2->graphics.dest = BG_CHAR_ADDR(2);
+        bg2->graphics.anim = 0;
+        bg2->layoutVram = BG_SCREEN_ADDR(27);
+        bg2->unk18 = 0;
+        bg2->unk1A = 0;
+        bg2->tilemapId = gCharSelect3_Tilemaps[5 + index];
+        bg2->unk1E = 0;
+        bg2->unk20 = 0;
+        bg2->unk22 = 0;
+        bg2->unk24 = 0;
+        bg2->targetTilesX = 0x10;
+        bg2->targetTilesY = 0x10;
+        bg2->paletteOffset = 0;
+        bg2->flags = 6;
+        DrawBackground(bg2);
+    }
 }
 
-void sub_80A1030(CharacterSelectMP *cs) {
+void sub_80A1030(CharacterSelectMP *cs)
+{
     s16 var_r0;
-    s32 var_r1;
     u32 var_r0_2;
     u8 var_r6;
+    Sprite *s = &cs->spr8C;
+    u32 max = 2;
+    s32 var_r1 = (*cs->unk18 > 0xDU) ? 0xB4 : 0x78;
+    s32 r7, r8;
 
-    var_r1 = 0x78;
-    if ((u32) *cs->unk18 > 0xDU) {
-        var_r1 = 0xB4;
+    for (var_r6 = 0, r8 = -40 + var_r1, r7 = +40 + var_r1; var_r6 < max; var_r6++) {
+        if (var_r6 != 0) {
+            s->x = r8 - I(cs->qUnk44);
+            s->y = I(cs->qUnk48);
+        } else {
+            s->x = r7 + I(cs->qUnk44);
+            s->y = I(cs->qUnk48);
+        }
+        if (var_r6 != 0) {
+            s->frameFlags |= 0x400;
+        } else {
+            s->frameFlags &= ~0x400;
+        }
+        DisplaySprite(s);
     }
-    var_r6 = 0;
-    do {
-        if (var_r6 != 0) {
-            var_r0 = (var_r1 - 0x28) - ((s32) cs->qUnk44 >> 8);
-        } else {
-            var_r0 = var_r1 + 0x28 + ((s32) cs->qUnk44 >> 8);
-        }
-        cs->spr8C.x = var_r0;
-        cs->spr8C.y = (s16) ((s32) cs->qUnk48 >> 8);
-        if (var_r6 != 0) {
-            var_r0_2 = cs->spr8C.frameFlags | 0x400;
-        } else {
-            var_r0_2 = cs->spr8C.frameFlags & 0xFFFFFBFF;
-        }
-        cs->spr8C.frameFlags = var_r0_2;
-        DisplaySprite(&cs->spr8C);
-        var_r6 += 1;
-    } while ((u32) var_r6 < 2U);
 }
 
-void sub_80A10B0(CharacterSelectMP *cs) {
+void sub_80A10B0(CharacterSelectMP *cs)
+{
     u32 var_r0;
     u8 var_r6;
+    Sprite *s;
 
-    var_r6 = 0;
-    do {
-        cs->sprDC.x = (s16) ((s32) cs->qUnk3C >> 8);
-        cs->sprDC.y = (s16) ((s32) cs->qUnk40 >> 8);
+    for (var_r6 = 0; var_r6 < 2; var_r6++) {
+        s = &cs->sprDC;
+        s->x = (s16)((s32)cs->qUnk3C >> 8);
+        s->y = (s16)((s32)cs->qUnk40 >> 8);
         if (var_r6 != 0) {
-            var_r0 = cs->sprDC.frameFlags & 0xFFFFFBFF;
+            s->frameFlags &= ~0x400;
         } else {
-            var_r0 = cs->sprDC.frameFlags | 0x400;
+            s->frameFlags |= 0x400;
         }
-        cs->sprDC.frameFlags = var_r0;
-        DisplaySprite(&cs->sprDC);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    cs->sprB4.x = (s16) ((s32) cs->qUnk34 >> 8);
-    cs->sprB4.y = (s16) ((s32) cs->qUnk38 >> 8);
-    DisplaySprite(&cs->sprB4);
+        DisplaySprite(s);
+    }
+
+    {
+        s = &cs->sprB4;
+        s->x = (s16)((s32)cs->qUnk34 >> 8);
+        s->y = (s16)((s32)cs->qUnk38 >> 8);
+        DisplaySprite(s);
+    }
 }
 
-void sub_80A1110(CharacterSelectMP *cs) {
+void sub_80A1110(CharacterSelectMP *cs)
+{
     Sprite *temp_r4;
-    TileInfo2 *temp_r0;
+    const TileInfo2 *temp_r0;
     u32 var_r0;
-    u8 temp_r1;
+    u8 language;
     u8 var_r0_2;
     u8 var_r6;
 
-    var_r6 = 0;
-    do {
-        cs->spr12C.x = (s16) ((s32) cs->qNameTagPos[0].x >> 8);
-        cs->spr12C.y = (s16) ((s32) cs->qNameTagPos[0].y >> 8);
-        cs->spr12C.palId = 0;
+    for (var_r6 = 0; var_r6 < 2; var_r6++) {
+        Sprite *s = &cs->spr12C;
+        s->x = (s16)((s32)cs->qNameTagPos[0].x >> 8);
+        s->y = I(cs->qNameTagPos[0].y);
+        s->palId = 0;
         if (var_r6 != 0) {
-            var_r0 = cs->spr12C.frameFlags | 0x400;
+            s->frameFlags |= 0x400;
         } else {
-            var_r0 = cs->spr12C.frameFlags & 0xFFFFFBFF;
+            s->frameFlags &= ~0x400;
         }
-        cs->spr12C.frameFlags = var_r0;
-        DisplaySprite(&cs->spr12C);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    temp_r1 = cs->language;
-    if ((u32) *cs->unk18 > 0xCU) {
-        var_r0_2 = cs->listIndex[1];
+        DisplaySprite(s);
+    }
+
+    language = (cs->language == 0) ? 0 : 1;
+    if ((u32)*cs->unk18 > 0xCU) {
+        var_r0_2 = gCharSelect_DisplayOrder[cs->listIndex[1]];
     } else {
-        var_r0_2 = cs->listIndex[0];
+        var_r0_2 = gCharSelect_DisplayOrder[cs->listIndex[0]];
     }
     temp_r4 = &cs->spr104;
-    temp_r0 = &gTileInfo_CharSelect3_NameTagNames[*(var_r0_2 + gCharSelect_DisplayOrder) + (((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) * 8)];
-    cs->spr104.anim = temp_r0->anim;
-    cs->spr104.variant = temp_r0->variant;
-    cs->spr104.x = (s16) ((s32) cs->qNameTagPos[0].x >> 8);
-    cs->spr104.y = (s16) ((s32) cs->qNameTagPos[0].y >> 8);
+    temp_r4->anim = gTileInfo_CharSelect3_NameTagNames[var_r0_2 + (language * 8)].anim;
+    temp_r4->variant = gTileInfo_CharSelect3_NameTagNames[var_r0_2 + (language * 8)].variant;
+    temp_r4->x = (s16)((s32)cs->qNameTagPos[0].x >> 8);
+    temp_r4->y = I(cs->qNameTagPos[0].y);
     UpdateSpriteAnimation(temp_r4);
     DisplaySprite(temp_r4);
 }
 
-void sub_80A11B8(CharacterSelectMP *cs) {
-    Sprite *temp_r4;
+void sub_80A11B8(CharacterSelectMP *cs)
+{
     TileInfo2 *temp_r0;
     u32 var_r0;
     u8 temp_r1;
     u8 var_r6;
+    u8 language;
 
-    var_r6 = 0;
-    do {
-        cs->spr12C.x = (s16) ((s32) cs->qNameTagPos[1].x >> 8);
-        cs->spr12C.y = (s16) ((s32) cs->qNameTagPos[1].y >> 8);
-        cs->spr12C.palId = 1;
+    u8 var_r0_2;
+
+    for (var_r6 = 0; var_r6 < 2; var_r6++) {
+        Sprite *s = &cs->spr12C;
+        s->x = (s16)((s32)cs->qNameTagPos[1].x >> 8);
+        s->y = I(cs->qNameTagPos[1].y);
+        s->palId = 1;
         if (var_r6 != 0) {
-            var_r0 = cs->spr12C.frameFlags | 0x400;
+            s->frameFlags |= 0x400;
         } else {
-            var_r0 = cs->spr12C.frameFlags & 0xFFFFFBFF;
+            s->frameFlags &= ~0x400;
         }
-        cs->spr12C.frameFlags = var_r0;
-        DisplaySprite(&cs->spr12C);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
+        DisplaySprite(s);
+    }
+
+    language = (cs->language == 0) ? 0 : 1;
+    var_r0_2 = gCharSelect_DisplayOrder[cs->listIndex[0]];
     temp_r1 = cs->language;
-    temp_r4 = &cs->spr154;
-    temp_r0 = &gTileInfo_CharSelect3_NameTagNames[(((u32) ((0 - temp_r1) | temp_r1) >> 0x1F) * 8) + *(cs->listIndex[0] + gCharSelect_DisplayOrder)];
-    cs->spr154.anim = temp_r0->anim;
-    cs->spr154.variant = temp_r0->variant;
-    cs->spr154.x = (s16) ((s32) cs->qNameTagPos[1].x >> 8);
-    cs->spr154.y = (s16) ((s32) cs->qNameTagPos[1].y >> 8);
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+
+    {
+        Sprite *s = &cs->spr154;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[var_r0_2 + (language * 8)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[var_r0_2 + (language * 8)].variant;
+        s->x = (s16)((s32)cs->qNameTagPos[1].x >> 8);
+        s->y = I(cs->qNameTagPos[1].y);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
 }
 
-void sub_80A124C(CharacterSelectMP *cs) {
-    ? *var_r0_2;
+void sub_80A124C(CharacterSelectMP *cs)
+{
     Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
-    Sprite *temp_r4_4;
-    s32 var_r1;
-    u32 var_r0_3;
-    u8 var_r0;
     u8 var_r6;
-    void *temp_r7;
+    const u8 *temp_r7;
+    u8 listIndexPlayer = cs->listIndex[CS_CHARID_PLAYER];
+    u8 listIndexPartner = cs->listIndex[CS_CHARID_PARTNER];
 
-    if (((u32) cs->listIndex[1] > 4U) || ((u32) cs->listIndex[0] > 4U)) {
-        if ((u32) gStageData.playerIndex > 1U) {
-            cs->listIndex[1] = gUnknown_03001060.unk4C[1 & gStageData.playerIndex];
-            var_r0 = gStageData.playerIndex;
+    if ((listIndexPartner > 4U) || (listIndexPlayer > 4U)) {
+        if (gStageData.playerIndex > 1U) {
+            cs->listIndex[1] = gUnknown_03001060.unk4C[(gStageData.playerIndex & 1) + 0];
+            cs->listIndex[0] = gUnknown_03001060.unk4C[gStageData.playerIndex];
         } else {
             cs->listIndex[1] = gUnknown_03001060.unk4C[gStageData.playerIndex];
-            var_r0 = (1 & gStageData.playerIndex) + 2;
+            cs->listIndex[0] = gUnknown_03001060.unk4C[(gStageData.playerIndex & 1) + 2];
         }
-        cs->listIndex[0] = *(var_r0 + gUnknown_03001060.unk4C);
     }
     if (cs->language != 0) {
-        var_r1 = ((cs->listIndex[1] * 8) + cs->listIndex[0]) * 3;
-        var_r0_2 = &gUnknown_080D8F95;
+        temp_r7 = gUnknown_080D8F95[(cs->listIndex[1] * 8) + cs->listIndex[0]];
     } else {
-        var_r1 = ((cs->listIndex[1] * 8) + cs->listIndex[0]) * 3;
-        var_r0_2 = &gUnknown_080D8F1D;
+        temp_r7 = gUnknown_080D8F1D[(cs->listIndex[1] * 8) + cs->listIndex[0]];
     }
-    temp_r7 = var_r1 + var_r0_2;
-    if ((temp_r7->unk0 == 0) || (temp_r7->unk1 == 0) || (temp_r7->unk2 == 0)) {
+    if ((temp_r7[0] == 0) || (temp_r7[1] == 0) || (temp_r7[2] == 0)) {
         sub_802613C();
     }
-    var_r6 = 0;
-    temp_r4 = cs + 0x12C;
-    do {
+    for (var_r6 = 0; var_r6 < 2; var_r6++) {
+        temp_r4 = &cs->spr12C;
         temp_r4->x = 0x78;
-        temp_r4->y = (s16) ((s32) cs->qNameTagPos[0].y >> 8);
+        temp_r4->y = I(cs->qNameTagPos[0].y);
         if (var_r6 != 0) {
-            var_r0_3 = temp_r4->frameFlags | 0x400;
+            temp_r4->frameFlags |= 0x400;
         } else {
-            var_r0_3 = temp_r4->frameFlags & 0xFFFFFBFF;
+            temp_r4->frameFlags &= ~0x400;
         }
-        temp_r4->frameFlags = var_r0_3;
         DisplaySprite(temp_r4);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 1U);
-    temp_r4_2 = cs + 0x104;
-    temp_r4_2->x = (s16) temp_r7->unk0;
-    temp_r4_2->y = (s16) ((s32) cs->qNameTagPos[0].y >> 8);
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
-    temp_r4_3 = cs + 0x1A4;
-    temp_r4_3->x = (s16) temp_r7->unk1;
-    temp_r4_3->y = (s16) ((s32) cs->qNameTagPos[0].y >> 8);
-    UpdateSpriteAnimation(temp_r4_3);
-    DisplaySprite(temp_r4_3);
-    temp_r4_4 = cs + 0x154;
-    temp_r4_4->x = (s16) temp_r7->unk2;
-    temp_r4_4->y = (s16) ((s32) cs->qNameTagPos[1].y >> 8);
-    UpdateSpriteAnimation(temp_r4_4);
-    DisplaySprite(temp_r4_4);
-}
-
-void sub_80A137C(CharacterSelectMP *cs) {
-    gBgScrollRegs[1][0] = (s16) ((s32) cs->qUnk74 >> 8);
-    gBgScrollRegs[1][1] = 0 - ((s32) cs->qUnk78 >> 8);
-    gBgScrollRegs[0][0] = (s16) ((s32) cs->qUnk7C >> 8);
-    gBgScrollRegs[0][1] = (s16) ((s32) cs->qUnk80 >> 8);
-    gBgScrollRegs[2][0] = (s16) ((s32) cs->qUnk6C >> 8);
-    gBgScrollRegs[2][1] = 0 - ((s32) cs->qUnk70 >> 8);
-}
-
-void TaskDestructor_80A13B0(Task *t) {
-
-}
-
-void Task_80A13B4(CharacterSelectMP *cs) {
-    u8 *temp_r3;
-
-    temp_r3 = cs->unk18;
-    if (*temp_r3 == 0x22) {
-        gCurTask->main = Task_80A14AC;
-        return;
     }
-    if (cs->unk3 == 0x25) {
-        *temp_r3 = 0x26;
+
+    {
+        Sprite *s = &cs->spr104;
+        s->x = (s16)temp_r7[0];
+        s->y = I(cs->qNameTagPos[0].y);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+    {
+        Sprite *s = &cs->spr1A4;
+        s->x = (s16)temp_r7[1];
+        s->y = I(cs->qNameTagPos[0].y);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+    {
+        Sprite *s = &cs->spr154;
+        s->x = (s16)temp_r7[2];
+        s->y = I(cs->qNameTagPos[1].y);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void sub_80A137C(CharacterSelectMP *cs)
+{
+    gBgScrollRegs[1][0] = +I(cs->qUnk74);
+    gBgScrollRegs[1][1] = -I(cs->qUnk78);
+    gBgScrollRegs[0][0] = +I(cs->qUnk7C);
+    gBgScrollRegs[0][1] = +I(cs->qUnk80);
+    gBgScrollRegs[2][0] = +I(cs->qUnk6C);
+    gBgScrollRegs[2][1] = -I(cs->qUnk70);
+}
+
+void TaskDestructor_80A13B0(Task *t) { }
+
+void Task_80A13B4(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
+
+    if (*cs->unk18 == 0x22) {
+        gCurTask->main = Task_80A14AC;
+    } else if (cs->unk3 == 0x25) {
+        *cs->unk18 = 0x26;
         gCurTask->main = Task_80A0D20;
     }
 }
 
-void Task_80A13F4(CharacterSelectMP *cs) {
-    u8 *temp_r3;
+void Task_80A13F4(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
 
-    temp_r3 = cs->unk18;
-    if (*temp_r3 == 0x22) {
+    if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
-        return;
-    }
-    if (cs->unk3 == 0x25) {
-        *temp_r3 = 0x26;
+    } else if (cs->unk3 == 0x25) {
+        *cs->unk18 = 0x26;
         TaskDestroy(gCurTask);
     }
 }
 
-void Task_80A1430(CharacterSelectMP *cs) {
+void Task_80A1430(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
     if (*cs->unk18 == 0x22) {
         gCurTask->main = Task_80A14AC;
         return;
@@ -1473,44 +1495,55 @@ void Task_80A1430(CharacterSelectMP *cs) {
     gCurTask->main = Task_809FEB0;
 }
 
-void Task_CallDestroy_80A1498(void) {
-    TaskDestroy(gCurTask);
-}
+void Task_CallDestroy_80A1498(void) { TaskDestroy(gCurTask); }
 
-void Task_80A14AC(CharacterSelectMP *cs) {
-    cs->qUnk4C = 0x13600;
-    cs->qUnk54 = 0x13600;
+void Task_80A14AC(void)
+{
+    CharacterSelectMP *cs = TASK_DATA(gCurTask);
+    cs->qUnk4C = Q(0x136);
+    cs->qUnk54 = Q(0x136);
     cs->unk3 = 0x1D;
     *cs->unk18 = 0x1D;
     cs->unk4 = 0;
     gCurTask->main = Task_CallDestroy_80A1498;
 }
 
-s32 sub_80A14E4(CharacterSelectMP *cs) {
-    s32 temp_r0;
+s32 sub_80A14E4(CharacterSelectMP *cs)
+{
     s32 temp_r0_2;
-    s32 temp_r0_3;
     s32 temp_r0_4;
     u8 var_r2;
 
     var_r2 = 0;
-    temp_r0 = cs->qUnk4C;
-    if ((temp_r0 > 0x12BFF) || (temp_r0_2 = temp_r0 + 0xE00, cs->qUnk4C = temp_r0_2, (temp_r0_2 > 0x12BFF))) {
-        cs->qUnk4C = 0x12C00;
-        var_r2 = 1;
+    if (cs->qUnk4C >= Q(300)) {
+        cs->qUnk4C = Q(300);
+        var_r2 += 1;
+    } else {
+        cs->qUnk4C += Q(14);
+        if (cs->qUnk4C >= Q(300)) {
+            cs->qUnk4C = Q(300);
+            var_r2 += 1;
+        }
     }
-    temp_r0_3 = cs->qUnk6C;
-    if ((temp_r0_3 > 0x149FF) || (temp_r0_4 = temp_r0_3 + 0xE00, cs->qUnk6C = temp_r0_4, (temp_r0_4 > 0x149FF))) {
-        cs->qUnk6C = -0x3C00;
+
+    if (cs->qUnk6C < Q(330)) {
+        cs->qUnk6C += Q(14);
+    }
+
+    if (cs->qUnk6C >= Q(330)) {
+        cs->qUnk6C = -Q(60);
         var_r2 += 1;
     }
-    if (var_r2 != 2) {
+
+    if (var_r2 == 2) {
+        return 1;
+    } else {
         return 0;
     }
-    return 1;
 }
 
-s32 sub_80A1540(CharacterSelectMP *cs) {
+s32 sub_80A1540(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
@@ -1518,71 +1551,109 @@ s32 sub_80A1540(CharacterSelectMP *cs) {
     u8 var_r3;
 
     var_r3 = 0;
-    temp_r0 = cs->qUnk4C;
-    if ((temp_r0 <= 0xFFFFC400) || (temp_r0_2 = temp_r0 + 0xFFFFF200, cs->qUnk4C = temp_r0_2, (temp_r0_2 <= 0xFFFFC400))) {
+    if ((cs->qUnk4C <= -Q(60)) || (temp_r0_2 = cs->qUnk4C + -Q(14), cs->qUnk4C = temp_r0_2, (temp_r0_2 <= -Q(60)))) {
         cs->qUnk4C = -0x3C00;
-        var_r3 = 1;
-    }
-    temp_r0_3 = cs->qUnk6C;
-    if ((temp_r0_3 <= 0xFFFFA600) || (temp_r0_4 = temp_r0_3 + 0xFFFFF200, cs->qUnk6C = temp_r0_4, (temp_r0_4 <= 0xFFFFA600))) {
-        cs->qUnk6C = 0x12C00;
         var_r3 += 1;
     }
-    if (var_r3 != 2) {
-        return 0;
+    temp_r0_3 = cs->qUnk6C;
+    if ((temp_r0_3 <= -Q(90)) || (temp_r0_4 = temp_r0_3 + -Q(14), cs->qUnk6C = temp_r0_4, (temp_r0_4 <= -Q(90)))) {
+        cs->qUnk6C = Q(300);
+        var_r3 += 1;
     }
-    return 1;
+    if (var_r3 == 2) {
+        return 1;
+    }
+    return 0;
 }
 
-s32 sub_80A1598(CharacterSelectMP *cs) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    u8 var_r3;
+// TODO: Fake-match!
+s32 sub_80A1598(CharacterSelectMP *cs)
+{
+    u8 var_r3 = 0;
+    s32 max;
 
-    var_r3 = 0;
-    temp_r0 = cs->qUnk4C;
-    if ((temp_r0 <= 0x7800) || (temp_r0_2 = temp_r0 + 0xFFFFF200, cs->qUnk4C = temp_r0_2, (temp_r0_2 <= 0x7800))) {
+    if (cs->qUnk4C <= 0x7800) {
         cs->qUnk4C = 0x7800;
-        var_r3 = 1;
-    }
-    temp_r0_3 = cs->qUnk6C;
-    if ((temp_r0_3 <= 0x7800) || (temp_r0_4 = temp_r0_3 + 0xFFFFF200, cs->qUnk6C = temp_r0_4, (temp_r0_4 <= 0x7800))) {
-        cs->qUnk6C = 0x7800;
         var_r3 += 1;
+    } else {
+        cs->qUnk4C -= Q(14);
+        if (cs->qUnk4C <= 0x7800) {
+            cs->qUnk4C = 0x7800;
+            var_r3 += 1;
+        }
     }
-    if (var_r3 != 2) {
-        return 0;
+    {
+#ifndef NON_MATCHING
+        register s32 r0 asm("r0");
+        asm("mov %0, #120" : "=r"(r0));
+#else
+        s32 r0 = 120;
+#endif
+        max = Q(r0);
+        r0 = cs->qUnk6C;
+        if (r0 > max) {
+            cs->qUnk6C -= Q(14);
+            if (cs->qUnk6C <= max) {
+                cs->qUnk6C = max;
+                var_r3 += 1;
+            }
+        } else {
+            cs->qUnk6C = max;
+            var_r3 += 1;
+        }
+        if (var_r3 == 2) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
-    return 1;
 }
 
-s32 sub_80A15E8(CharacterSelectMP *cs) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    u8 var_r3;
+// TODO: Fake-match!
+s32 sub_80A15E8(CharacterSelectMP *cs)
+{
+    u8 var_r3 = 0;
 
-    var_r3 = 0;
-    temp_r0 = cs->qUnk4C;
-    if ((temp_r0 > 0x77FF) || (temp_r0_2 = temp_r0 + 0xE00, cs->qUnk4C = temp_r0_2, (temp_r0_2 > 0x77FF))) {
+    if (cs->qUnk4C >= 0x7800) {
         cs->qUnk4C = 0x7800;
-        var_r3 = 1;
-    }
-    temp_r0_3 = cs->qUnk6C;
-    if ((temp_r0_3 >= 0x7800) || (temp_r0_4 = temp_r0_3 + 0xE00, cs->qUnk6C = temp_r0_4, (temp_r0_4 >= 0x7800))) {
-        cs->qUnk6C = 0x7800;
         var_r3 += 1;
+    } else {
+        cs->qUnk4C += 0xE00;
+        if (cs->qUnk4C >= 0x7800) {
+            cs->qUnk4C = 0x7800;
+            var_r3 += 1;
+        }
     }
-    if (var_r3 != 2) {
-        return 0;
+
+    {
+#ifndef NON_MATCHING
+        s32 r0;
+        s32 max;
+        asm("mov %0, #120" : "=r"(r0));
+#else
+        s32 r0 = 120;
+        s32 max;
+#endif
+        max = Q(r0);
+        if (cs->qUnk6C < max) {
+            cs->qUnk6C += 0xE00;
+            if (cs->qUnk6C >= max) {
+                cs->qUnk6C = max;
+                var_r3 += 1;
+            }
+        } else {
+            cs->qUnk6C = max;
+            var_r3 += 1;
+        }
     }
-    return 1;
+    if (var_r3 == 2) {
+        return 1;
+    }
+    return 0;
 }
 
-s32 sub_80A163C(CharacterSelectMP *cs) {
+s32 sub_80A163C(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
 
@@ -1594,7 +1665,8 @@ s32 sub_80A163C(CharacterSelectMP *cs) {
     return 0;
 }
 
-s32 sub_80A1668(CharacterSelectMP *cs) {
+s32 sub_80A1668(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
 
@@ -1606,31 +1678,36 @@ s32 sub_80A1668(CharacterSelectMP *cs) {
     return 0;
 }
 
-s32 sub_80A1694(CharacterSelectMP *cs) {
+s32 sub_80A1694(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r0_4;
-    u8 var_r2;
+    u8 var_r2 = 0;
 
-    var_r2 = 0;
-    temp_r0 = cs->qUnk4C;
-    if ((temp_r0 > 0x12BFF) || (temp_r0_2 = temp_r0 + 0x8C0, cs->qUnk4C = temp_r0_2, (temp_r0_2 > 0x12BFF))) {
-        cs->qUnk4C = 0x12C00;
-        var_r2 = 1;
+    if (cs->qUnk4C >= Q(300)) {
+        cs->qUnk4C = Q(300);
+        var_r2 += 1;
+    } else {
+        cs->qUnk4C += 0x8C0;
+        if (cs->qUnk4C >= Q(300)) {
+            cs->qUnk4C = Q(300);
+            var_r2 += 1;
+        }
     }
-    temp_r0_3 = cs->qUnk6C;
-    if ((temp_r0_3 > 0x12BFF) || (temp_r0_4 = temp_r0_3 + 0x840, cs->qUnk6C = temp_r0_4, (temp_r0_4 > 0x12BFF))) {
-        cs->qUnk6C = 0x12C00;
+    if ((cs->qUnk6C >= Q(300)) || (temp_r0_4 = cs->qUnk6C + 0x840, cs->qUnk6C = temp_r0_4, (temp_r0_4 >= Q(300)))) {
+        cs->qUnk6C = Q(300);
         var_r2 += 1;
     }
-    if (var_r2 != 2) {
-        return 0;
+    if (var_r2 == 2) {
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
-s32 sub_80A16EC(CharacterSelectMP *cs) {
+s32 sub_80A16EC(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
@@ -1648,27 +1725,25 @@ s32 sub_80A16EC(CharacterSelectMP *cs) {
         cs->qUnk6C = 0xB400;
         var_r3 += 1;
     }
-    if (var_r3 != 2) {
-        return 0;
-    }
-    return 1;
-}
-
-s32 sub_80A1740(CharacterSelectMP *cs, s32 param1) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    u16 temp_r1;
-
-    temp_r1 = param1 << 8;
-    temp_r0 = cs->qUnk54;
-    if ((temp_r0 >= (s32) temp_r1) || (temp_r0_2 = temp_r0 + 0x300, cs->qUnk54 = temp_r0_2, (temp_r0_2 > (s32) temp_r1))) {
-        cs->qUnk54 = (s32) temp_r1;
+    if (var_r3 == 2) {
         return 1;
     }
     return 0;
 }
 
-s32 sub_80A1768(CharacterSelectMP *cs) {
+s32 sub_80A1740(CharacterSelectMP *cs, u8 param1)
+{
+    s32 temp_r0_2;
+
+    if ((cs->qUnk54 >= Q(param1)) || (temp_r0_2 = cs->qUnk54 + 0x300, cs->qUnk54 = temp_r0_2, (temp_r0_2 > Q(param1)))) {
+        cs->qUnk54 = Q(param1);
+        return 1;
+    }
+    return 0;
+}
+
+s32 sub_80A1768(CharacterSelectMP *cs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
 
@@ -1680,7 +1755,8 @@ s32 sub_80A1768(CharacterSelectMP *cs) {
     return 0;
 }
 
-s32 sub_80A1798(CharacterSelectMP *cs) {
+s32 sub_80A1798(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
@@ -1689,7 +1765,7 @@ s32 sub_80A1798(CharacterSelectMP *cs) {
 
     var_r3 = 0;
     temp_r0 = cs->qUnk74;
-    if ((temp_r0 > 0x104FF) || (temp_r0_2 = temp_r0 + 0x600, cs->qUnk74 = temp_r0_2, (temp_r0_2 > 0x104FF))) {
+    if ((temp_r0 >= 0x10500) || (temp_r0_2 = temp_r0 + 0x600, cs->qUnk74 = temp_r0_2, (temp_r0_2 >= 0x10500))) {
         cs->qUnk74 = 0x10500;
         var_r3 = 1;
     }
@@ -1699,20 +1775,21 @@ s32 sub_80A1798(CharacterSelectMP *cs) {
         cs->qUnk7C = temp_r0_3;
         if (temp_r0_3 > 0x7800) {
             cs->qUnk7C = 0x7800;
-            goto block_7;
+            var_r3 += 1;
         }
     } else {
         cs->qUnk7C = 0x7800;
-block_7:
         var_r3 += 1;
     }
-    if (var_r3 != 2) {
+    if (var_r3 == 2) {
+        return 1;
+    } else {
         return 0;
     }
-    return 1;
 }
 
-s32 sub_80A17FC(CharacterSelectMP *cs) {
+s32 sub_80A17FC(CharacterSelectMP *cs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
 
@@ -1724,138 +1801,149 @@ s32 sub_80A17FC(CharacterSelectMP *cs) {
     return 0;
 }
 
-s32 sub_80A182C(CharacterSelectMP *cs) {
-    s32 temp_r0;
-    s32 temp_r2;
-
-    temp_r2 = cs->qUnk6C;
-    if ((temp_r2 > 0xC8FF) || (temp_r0 = temp_r2 + 0x300, cs->qUnk6C = temp_r0, (temp_r0 > 0xC8FF))) {
-        cs->qUnk6C = 0xC900;
+// TODO: Fake-match!
+s32 sub_80A182C(CharacterSelectMP *cs)
+{
+    if (cs->qUnk6C >= Q(201)) {
+        cs->qUnk6C = Q(201);
         return 1;
+    } else {
+        s32 three = 3;
+#ifndef NON_MATCHING
+        asm("" ::"r"(three));
+#endif
+        cs->qUnk6C += Q(three);
+        if (cs->qUnk6C < Q(201)) {
+            return 0;
+        } else {
+            cs->qUnk6C = Q(201);
+            return 1;
+        }
     }
-    return 0;
 }
 
-s32 sub_80A185C(CharacterSelectMP *cs) {
+s32 sub_80A185C(CharacterSelectMP *cs)
+{
     s32 temp_r0;
     s32 temp_r0_2;
 
     temp_r0 = cs->qUnk74;
-    if ((temp_r0 <= 0xC900) || (temp_r0_2 = temp_r0 + 0xFFFFFD00, cs->qUnk74 = temp_r0_2, (temp_r0_2 <= 0xC900))) {
-        cs->qUnk74 = 0xC900;
+    if ((temp_r0 <= Q(201)) || (temp_r0_2 = temp_r0 - Q(3), cs->qUnk74 = temp_r0_2, (temp_r0_2 <= Q(201)))) {
+        cs->qUnk74 = Q(201);
         return 1;
     }
     return 0;
 }
 
-s32 sub_80A1888(CharacterSelectMP *cs) {
-    s32 temp_r1;
-    s32 temp_r1_2;
-
-    temp_r1 = cs->qNameTagPos[0].y;
-    if (temp_r1 <= 0x9100) {
-        cs->qNameTagPos[0].y = 0x9100;
+s32 sub_80A1888(CharacterSelectMP *cs)
+{
+    if (cs->qNameTagPos[0].y <= Q(145)) {
+        cs->qNameTagPos[0].y = Q(145);
         return 1;
-    }
-    temp_r1_2 = temp_r1 + 0xFFFFFA00;
-    cs->qNameTagPos[0].y = temp_r1_2;
-    if (temp_r1_2 <= 0x90FF) {
-        cs->qNameTagPos[0].y = 0x9100;
-    }
-    return 0;
-}
-
-void sub_80A18B8(CharacterSelectMP *cs) {
-    s32 temp_r2;
-
-    temp_r2 = cs->qNameTagPos[0].y;
-    if (temp_r2 > 0xB3FF) {
-        cs->qNameTagPos[0].y = 0xB400;
-        return;
-    }
-    cs->qNameTagPos[0].y = temp_r2 + 0x600;
-}
-
-void sub_80A18E0(CharacterSelectMP *cs) {
-    s32 temp_r2;
-    s32 var_r0;
-
-    temp_r2 = cs->qUnk44;
-    if (temp_r2 <= 0x4FF) {
-        var_r0 = temp_r2 + 0x40;
     } else {
-        var_r0 = 0;
+        cs->qNameTagPos[0].y -= Q(6);
+        if (cs->qNameTagPos[0].y < Q(145)) {
+            cs->qNameTagPos[0].y = Q(145);
+        }
     }
-    cs->qUnk44 = var_r0;
-    cs->qUnk48 = 0x5A00;
+    return 0;
 }
 
-s32 sub_80A1908(CharacterSelectMP *cs) {
+s32 sub_80A18B8(CharacterSelectMP *cs)
+{
+    if (cs->qNameTagPos[0].y < Q(180)) {
+        cs->qNameTagPos[0].y += Q(6);
+        return 0;
+    } else {
+        cs->qNameTagPos[0].y = Q(180);
+        return 1;
+    }
+}
+
+s32 sub_80A18E0(CharacterSelectMP *cs)
+{
+    if (cs->qUnk44 < Q(5)) {
+        cs->qUnk44 += Q(0.25);
+    } else {
+        cs->qUnk44 = Q(0);
+    }
+    cs->qUnk48 = Q(90);
+
+    return 1;
+}
+
+s32 sub_80A1908(CharacterSelectMP *cs)
+{
     s32 temp_r1;
     s32 temp_r1_2;
 
     temp_r1 = cs->qNameTagPos[1].y;
-    if ((temp_r1 <= 0x9100) || (temp_r1_2 = temp_r1 + 0xFFFFFA00, cs->qNameTagPos[1].y = temp_r1_2, (temp_r1_2 <= 0x90FF))) {
-        cs->qNameTagPos[1].y = 0x9100;
+    if ((temp_r1 <= Q(145)) || (temp_r1_2 = temp_r1 - Q(6), cs->qNameTagPos[1].y = temp_r1_2, (temp_r1_2 < Q(145)))) {
+        cs->qNameTagPos[1].y = Q(145);
         return 1;
     }
     return 0;
 }
 
-s32 sub_80A1938(CharacterSelectMP *cs) {
-    s32 temp_r0;
+s32 sub_80A1938(CharacterSelectMP *cs)
+{
     s32 temp_r0_2;
 
-    temp_r0 = cs->qNameTagPos[1].y;
-    if ((temp_r0 > 0xB3FF) || (temp_r0_2 = temp_r0 + 0x600, cs->qNameTagPos[1].y = temp_r0_2, (temp_r0_2 > 0xB3FF))) {
+    if ((cs->qNameTagPos[1].y > 0xB3FF)
+        || (temp_r0_2 = cs->qNameTagPos[1].y + 0x600, cs->qNameTagPos[1].y = temp_r0_2, (temp_r0_2 > 0xB3FF))) {
         cs->qNameTagPos[1].y = 0xB400;
         return 1;
     }
     return 0;
 }
 
-s32 sub_80A1968(CharacterSelectMP *cs) {
-    s32 temp_r0;
+s32 sub_80A1968(CharacterSelectMP *cs)
+{
     s32 temp_r0_2;
-    s32 temp_r0_3;
     s32 temp_r0_4;
-    u8 var_r3;
+    u8 var_r3 = 0;
 
-    var_r3 = 0;
-    temp_r0 = cs->qNameTagPos[0].x;
-    if ((temp_r0 > 0x77FF) || (temp_r0_2 = temp_r0 + 0x300, cs->qNameTagPos[0].x = temp_r0_2, (temp_r0_2 > 0x77FF))) {
+    if ((cs->qNameTagPos[0].x >= 0x7800)
+        || (temp_r0_2 = cs->qNameTagPos[0].x + 0x300, cs->qNameTagPos[0].x = temp_r0_2, (temp_r0_2 >= 0x7800))) {
         cs->qNameTagPos[0].x = 0x7800;
-        var_r3 = 1;
+        var_r3 += 1;
     }
-    temp_r0_3 = cs->qNameTagPos[1].x;
-    if ((temp_r0_3 <= 0x7800) || (temp_r0_4 = temp_r0_3 + 0xFFFFFD00, cs->qNameTagPos[1].x = temp_r0_4, (temp_r0_4 <= 0x7800))) {
+    if ((cs->qNameTagPos[1].x <= 0x7800)
+        || (temp_r0_4 = cs->qNameTagPos[1].x + 0xFFFFFD00, cs->qNameTagPos[1].x = temp_r0_4, (temp_r0_4 <= 0x7800))) {
         cs->qNameTagPos[1].x = 0x7800;
         var_r3 += 1;
     }
-    if (var_r3 != 2) {
+    if (var_r3 == 2) {
+        return 1;
+    } else {
         return 0;
     }
-    return 1;
 }
 
-void sub_80A19C0(CharacterSelectMP *cs) {
-    u16 temp_r0;
-
-    temp_r0 = cs->unkA + 0xC0;
-    cs->unkA = temp_r0;
-    sa2__sub_8003EE4((u16) ((u32) (temp_r0 << 0x10) >> 0x16), (s16) ((s32) (cs->qBgCharNameScale << 0x10) >> 0x14), 0x100, 0x40, 0x40, (s16) ((s32) (cs->qUnk6C << 8) >> 0x10), (s16) ((s32) (cs->qUnk70 << 8) >> 0x10), gBgAffineRegs);
+void sub_80A19C0(CharacterSelectMP *cs)
+{
+    cs->unkA += 0xC0;
+    sa2__sub_8003EE4(cs->unkA >> 6, cs->qBgCharNameScale >> 4, 0x100, 0x40, 0x40, I(cs->qUnk6C), I(cs->qUnk70), gBgAffineRegs);
 }
 
-void sub_80A1A04(CharacterSelectMP *cs) {
-    gBgScrollRegs[1][0] = (s16) ((s32) cs->qUnk74 >> 8);
-    gBgScrollRegs[1][1] = 0 - ((s32) cs->qUnk78 >> 8);
-    gBgScrollRegs[0][0] = (s16) ((s32) cs->qUnk7C >> 8);
-    gBgScrollRegs[0][1] = (s16) ((s32) cs->qUnk80 >> 8);
+void sub_80A1A04(CharacterSelectMP *cs)
+{
+    gBgScrollRegs[1][0] = +I(cs->qUnk74);
+    gBgScrollRegs[1][1] = -I(cs->qUnk78);
+    gBgScrollRegs[0][0] = +I(cs->qUnk7C);
+    gBgScrollRegs[0][1] = +I(cs->qUnk80);
 }
 
-void sub_80A1A28(CharacterSelectMP *cs) {
-    cs->spr1CC.x = (s16) ((s32) cs->qUnk4C >> 8);
-    cs->spr1CC.y = (s16) ((s32) cs->qUnk50 >> 8);
-    DisplaySprite(&cs->spr1CC);
-}
+void sub_80A1A28(CharacterSelectMP *cs)
+{
+    Sprite *s = &cs->spr1CC;
+#ifndef NON_MATCHING
+    register s32 screenX asm("r0") = *(volatile u8 *)cs->unk18;
+    screenX = I(cs->qUnk4C);
+#else
+    s32 screenX = I(cs->qUnk4C);
 #endif
+    s->x = screenX;
+    s->y = I(cs->qUnk50);
+    DisplaySprite(s);
+}
