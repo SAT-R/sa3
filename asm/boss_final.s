@@ -13,7 +13,7 @@ CreateHyperEggRobo: @ 0x0807B6C8
 	push {r7}
 	sub sp, #4
 	adds r4, r0, #0
-	ldr r0, _0807B704 @ =Task_HyperEggRoboInit
+	ldr r0, _0807B704 @ =Task_358_HyperEggRoboInit
 	movs r1, #0xd6
 	lsls r1, r1, #2     @ 0x358
 	movs r2, #0x84
@@ -37,7 +37,7 @@ CreateHyperEggRobo: @ 0x0807B6C8
 	movs r0, #8
 	b _0807B712
 	.align 2, 0
-_0807B704: .4byte Task_HyperEggRoboInit
+_0807B704: .4byte Task_358_HyperEggRoboInit
 _0807B708: .4byte TaskDestructor_HyperEggRobo
 _0807B70C: .4byte gStageData
 _0807B710:
@@ -160,8 +160,8 @@ _0807B7FC: .4byte gBgSprites_Unknown2
 _0807B800: .4byte 0x0000FEFF
 _0807B804: .4byte 0x00009B0E
 
-	thumb_func_start Task_807B808
-Task_807B808: @ 0x0807B808
+	thumb_func_start Task_358_807B808
+Task_358_807B808: @ 0x0807B808
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -177,7 +177,7 @@ Task_807B808: @ 0x0807B808
 	ldr r5, [r4, #0x20]
 	ldr r6, [r4, #0x24]
 	adds r0, r4, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r4, #0
 	bl sub_80816C0
 	mov r1, sp
@@ -346,7 +346,7 @@ _0807B95E:
 	adds r0, r4, #0
 	bl sub_807D6C4
 	adds r0, r4, #0
-	bl sub_807CBC8
+	bl sub_358_807CBC8
 	mov r0, r8
 	strb r0, [r4, #0x10]
 	strb r0, [r4, #0x12]
@@ -355,12 +355,12 @@ _0807B95E:
 	strh r7, [r4, #0xc]
 	mov r2, sb
 	ldr r1, [r2]
-	ldr r0, _0807B998 @ =sub_807B9B8
+	ldr r0, _0807B998 @ =Task_358_807B9B8
 	str r0, [r1, #8]
 	b _0807B9A8
 	.align 2, 0
 _0807B994: .4byte gCamera
-_0807B998: .4byte sub_807B9B8
+_0807B998: .4byte Task_358_807B9B8
 _0807B99C:
 	strh r7, [r5, #0x1c]
 	strh r7, [r5, #0x18]
@@ -377,8 +377,8 @@ _0807B9A8:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_807B9B8
-sub_807B9B8: @ 0x0807B9B8
+	thumb_func_start Task_358_807B9B8
+Task_358_807B9B8: @ 0x0807B9B8
 	push {r4, lr}
 	sub sp, #4
 	ldr r3, _0807B9E8 @ =gCurTask
@@ -651,19 +651,19 @@ _0807BBC2:
 	strh r1, [r4, #0xc]
 	strb r2, [r4, #1]
 	ldr r1, [r3]
-	ldr r0, _0807BC00 @ =sub_807BC04
+	ldr r0, _0807BC00 @ =Task_358_807BC04
 	str r0, [r1, #8]
 _0807BBD4:
 	adds r0, r4, #0
-	bl sub_807BD88
+	bl sub_358_807BD88
 	adds r0, r4, #0
-	bl sub_807BFEC
+	bl sub_358_807BFEC
 	adds r0, r4, #0
 	bl sub_807DB60
 	adds r0, r4, #0
 	bl sub_807D81C
 	adds r0, r4, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r4, #0
 	bl sub_80816C0
 	add sp, #4
@@ -671,10 +671,10 @@ _0807BBD4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807BC00: .4byte sub_807BC04
+_0807BC00: .4byte Task_358_807BC04
 
-	thumb_func_start sub_807BC04
-sub_807BC04: @ 0x0807BC04
+	thumb_func_start Task_358_807BC04
+Task_358_807BC04: @ 0x0807BC04
 	push {r4, r5, lr}
 	ldr r0, _0807BC84 @ =gCurTask
 	ldr r0, [r0]
@@ -692,15 +692,15 @@ sub_807BC04: @ 0x0807BC04
 	adds r0, r4, #0
 	bl sub_807ED8C
 	adds r0, r4, #0
-	bl sub_807BD88
+	bl sub_358_807BD88
 	adds r0, r4, #0
 	bl sub_807DB60
 	adds r0, r4, #0
 	bl sub_807D81C
 	adds r0, r4, #0
-	bl sub_807BFEC
+	bl sub_358_807BFEC
 	adds r0, r4, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r4, #0
 	bl sub_80816C0
 	ldr r0, _0807BC8C @ =gStageData
@@ -849,8 +849,8 @@ _0807BD7C: .4byte 0x0600D800
 _0807BD80: .4byte 0x000001D3
 _0807BD84: .4byte 0x00000212
 
-	thumb_func_start sub_807BD88
-sub_807BD88: @ 0x0807BD88
+	thumb_func_start sub_358_807BD88
+sub_358_807BD88: @ 0x0807BD88
 	push {r4, r5, r6, lr}
 	mov ip, r0
 	movs r3, #0x97
@@ -1162,8 +1162,8 @@ _0807BFE0: .4byte 0x000004F2
 _0807BFE4: .4byte gCamera
 _0807BFE8: .4byte 0x000004F3
 
-	thumb_func_start sub_807BFEC
-sub_807BFEC: @ 0x0807BFEC
+	thumb_func_start sub_358_807BFEC
+sub_358_807BFEC: @ 0x0807BFEC
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1336,8 +1336,8 @@ _0807C140: .4byte gCamera
 _0807C144: .4byte 0x000003BF
 _0807C148: .4byte 0x0000061F
 
-	thumb_func_start sub_807C14C
-sub_807C14C: @ 0x0807C14C
+	thumb_func_start sub_358_807C14C
+sub_358_807C14C: @ 0x0807C14C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -2733,8 +2733,8 @@ _0807CBC2:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_807CBC8
-sub_807CBC8: @ 0x0807CBC8
+	thumb_func_start sub_358_807CBC8
+sub_358_807CBC8: @ 0x0807CBC8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -8288,7 +8288,7 @@ sub_807F568: @ 0x0807F568
 	movs r1, #0
 	strh r1, [r0]
 	adds r0, r7, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	movs r4, #0
 	ldr r5, _0807F624 @ =gCamera
 _0807F58C:
@@ -8605,7 +8605,7 @@ _0807F7DA:
 	movs r0, #0
 	bl sub_808178C
 	movs r0, #0
-	bl sub_80808E8
+	bl CreateAltarEmeraldPostBossCutscene
 	movs r0, #2
 	bl sub_807FB7C
 	ldr r0, _0807F808 @ =gCamera
@@ -8695,7 +8695,7 @@ _0807F898:
 	movs r0, #1
 	bl sub_807FB7C
 	movs r0, #1
-	bl sub_80808E8
+	bl CreateAltarEmeraldPostBossCutscene
 	str r0, [r7, #0x28]
 	movs r0, #1
 	bl sub_808178C
@@ -10881,8 +10881,9 @@ _080808CE:
 _080808E0: .4byte 0x000003FF
 _080808E4: .4byte gCamera
 
-	thumb_func_start sub_80808E8
-sub_80808E8: @ 0x080808E8
+@ Called after Defeating Altar Emerald Boss
+	thumb_func_start CreateAltarEmeraldPostBossCutscene
+CreateAltarEmeraldPostBossCutscene: @ 0x080808E8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -10897,7 +10898,7 @@ sub_80808E8: @ 0x080808E8
 	lsls r1, r1, #1     @ 0x11C
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r3, _080809A0 @ =TaskDestructor_8081C4C
+	ldr r3, _080809A0 @ =TaskDestructor_AltarEmeraldPostBossCutscene
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -10975,7 +10976,7 @@ _0808096A:
 	b _080809C0
 	.align 2, 0
 _0808099C: .4byte Task_11C_8080AD4
-_080809A0: .4byte TaskDestructor_8081C4C
+_080809A0: .4byte TaskDestructor_AltarEmeraldPostBossCutscene
 _080809A4: .4byte 0x03000068
 _080809A8: .4byte gCamera
 _080809AC:
@@ -12878,7 +12879,7 @@ sub_808178C: @ 0x0808178C
 	lsrs r5, r5, #0x18
 	ldr r0, _080817D8 @ =Task_ExtraChaosEmeraldsInit
 	movs r1, #0xe0
-	lsls r1, r1, #1
+	lsls r1, r1, #1 @ 0x1C0
 	movs r2, #0x88
 	lsls r2, r2, #6
 	ldr r3, _080817DC @ =TaskDestructor_ExtraChaosEmeralds
@@ -13020,7 +13021,7 @@ sub_8081898: @ 0x08081898
 	adds r5, r1, r0
 	ldr r4, [r5, #0x20]
 	adds r0, r5, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r5, #0
 	bl sub_80816C0
 	ldr r0, [r4, #0x10]
@@ -13038,14 +13039,14 @@ sub_8081898: @ 0x08081898
 	adds r0, r5, #0
 	bl sub_807D6C4
 	adds r0, r5, #0
-	bl sub_807CBC8
+	bl sub_358_807CBC8
 	movs r1, #0
 	strb r1, [r5, #0x10]
 	movs r0, #1
 	strh r0, [r5, #8]
 	strh r1, [r5, #0xc]
 	ldr r1, [r6]
-	ldr r0, _08081900 @ =sub_807B9B8
+	ldr r0, _08081900 @ =Task_358_807B9B8
 	str r0, [r1, #8]
 _080818EC:
 	pop {r4, r5, r6}
@@ -13055,10 +13056,10 @@ _080818EC:
 _080818F4: .4byte gCurTask
 _080818F8: .4byte 0x0000066C
 _080818FC: .4byte gCamera
-_08081900: .4byte sub_807B9B8
+_08081900: .4byte Task_358_807B9B8
 
-	thumb_func_start Task_HyperEggRoboInit
-Task_HyperEggRoboInit: @ 0x08081904
+	thumb_func_start Task_358_HyperEggRoboInit
+Task_358_HyperEggRoboInit: @ 0x08081904
 	push {r4, r5, lr}
 	ldr r5, _08081930 @ =gCurTask
 	ldr r0, [r5]
@@ -13067,7 +13068,7 @@ Task_HyperEggRoboInit: @ 0x08081904
 	lsls r0, r0, #0x12
 	adds r4, r4, r0
 	adds r0, r4, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r4, #0
 	bl sub_80816C0
 	ldr r0, [r4, #4]
@@ -13085,13 +13086,13 @@ _08081934:
 	cmp r0, #0
 	beq _08081948
 	ldr r1, [r5]
-	ldr r0, _08081944 @ =Task_8081958
+	ldr r0, _08081944 @ =Task_358_8081958
 	b _0808194C
 	.align 2, 0
-_08081944: .4byte Task_8081958
+_08081944: .4byte Task_358_8081958
 _08081948:
 	ldr r1, [r5]
-	ldr r0, _08081954 @ =Task_807B808
+	ldr r0, _08081954 @ =Task_358_807B808
 _0808194C:
 	str r0, [r1, #8]
 _0808194E:
@@ -13099,10 +13100,10 @@ _0808194E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08081954: .4byte Task_807B808
+_08081954: .4byte Task_358_807B808
 
-	thumb_func_start Task_8081958
-Task_8081958: @ 0x08081958
+	thumb_func_start Task_358_8081958
+Task_358_8081958: @ 0x08081958
 	push {r4, r5, lr}
 	ldr r5, _08081978 @ =gCurTask
 	ldr r2, [r5]
@@ -13121,7 +13122,7 @@ Task_8081958: @ 0x08081958
 _08081978: .4byte gCurTask
 _0808197C:
 	adds r0, r4, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r4, #0
 	bl sub_80816C0
 	ldr r0, [r4, #4]
@@ -13139,17 +13140,17 @@ _0808197C:
 	movs r0, #0xb
 	bl sub_807FB7C
 	ldr r1, [r5]
-	ldr r0, _080819B8 @ =Task_80819BC
+	ldr r0, _080819B8 @ =Task_358_80819BC
 	str r0, [r1, #8]
 _080819B2:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080819B8: .4byte Task_80819BC
+_080819B8: .4byte Task_358_80819BC
 
-	thumb_func_start Task_80819BC
-Task_80819BC: @ 0x080819BC
+	thumb_func_start Task_358_80819BC
+Task_358_80819BC: @ 0x080819BC
 	push {r4, r5, lr}
 	ldr r5, _080819DC @ =gCurTask
 	ldr r2, [r5]
@@ -13168,7 +13169,7 @@ Task_80819BC: @ 0x080819BC
 _080819DC: .4byte gCurTask
 _080819E0:
 	adds r0, r4, #0
-	bl sub_807C14C
+	bl sub_358_807C14C
 	adds r0, r4, #0
 	bl sub_80816C0
 	ldr r0, [r4, #4]
@@ -13181,14 +13182,14 @@ _080819E0:
 	strh r0, [r4, #0xc]
 	bl SetFixedRandomIfTimeAttackMode
 	ldr r1, [r5]
-	ldr r0, _08081A0C @ =Task_807B808
+	ldr r0, _08081A0C @ =Task_358_807B808
 	str r0, [r1, #8]
 _08081A06:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08081A0C: .4byte Task_807B808
+_08081A0C: .4byte Task_358_807B808
 
 	thumb_func_start sub_8081A10
 sub_8081A10: @ 0x08081A10
@@ -13526,8 +13527,8 @@ _08081C42:
 	.align 2, 0
 _08081C48: .4byte gStageData
 
-	thumb_func_start TaskDestructor_8081C4C
-TaskDestructor_8081C4C: @ 0x08081C4C
+	thumb_func_start TaskDestructor_AltarEmeraldPostBossCutscene
+TaskDestructor_AltarEmeraldPostBossCutscene: @ 0x08081C4C
 	push {r4, lr}
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
