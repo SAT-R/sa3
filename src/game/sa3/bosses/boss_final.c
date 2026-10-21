@@ -4,10 +4,13 @@
 #include "game/sa3/bosses/eggman_escape.h" // sub_807A4A8
 #include "game/shared/stage/music_manager.h" // sub_80299D4
 #include "game/shared/stage/player.h"
+#include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/save.h" // DIFFICULTY_NORMAL
 #include "game/stage.h" // gStageData
+#include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 typedef struct {
     /* 0x000 */ u8 lives;
@@ -28,10 +31,12 @@ typedef struct {
     /* 0x020 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x028 */ u8 filler28[0x54];
     /* 0x07C */ Sprite spr7C[4];
-    /* 0x11C */ u8 filler11C[4];
-    /* 0x120 */ s32 unk120;
-    /* 0x120 */ s32 unk124;
-    /* 0x11C */ u8 filler128[0x1C];
+    /* 0x11C */ Vec2_32 qWorld;
+    /* 0x124 */ s32 unk124;
+    /* 0x128 */ s32 unk128;
+    /* 0x12C */ u16 unk12C;
+    /* 0x12E */ u16 unk12E;
+    /* 0x130 */ u8 filler130[0x14];
     /* 0x144 */ Vec2_32 pos144[2][5];
     /* 0x194 */ u8 filler194[0x54];
     /* 0x1E8 */ Background bg1E8;
@@ -62,6 +67,7 @@ void sub_807DE20(HyperEggRobo *boss, u8 param1);
 void sub_358_807CBC8(HyperEggRobo *boss);
 void sub_358_807D6C4(HyperEggRobo *boss);
 void sub_807DB60(HyperEggRobo *boss);
+void sub_807ED8C(HyperEggRobo *boss);
 void sub_807FB7C(u8);
 void sub_80816C0(HyperEggRobo *boss);
 void UpdateHandAnimation(HyperEggRobo *boss, u8 param1, u8 param2);
@@ -77,10 +83,12 @@ void Task_358_807BC04(HyperEggRobo *boss);
 u8 sub_807C244(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4, HyperEggRobo *boss);
 u8 sub_807C374(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4, HyperEggRobo *boss);
 void sub_807C48C(HyperEggRobo *boss);
-
-typedef void (*FinalBossFunc)(HyperEggRobo *boss, u8 param1);
-extern const FinalBossFunc gUnknown_08E2ED18[12];
 #endif
+
+typedef void (*FinalBossFunc0)(HyperEggRobo *boss);
+typedef void (*FinalBossFunc1)(HyperEggRobo *boss, u8 param1);
+extern const FinalBossFunc0 gUnknown_08E2ED00[6];
+extern const FinalBossFunc1 gUnknown_08E2ED18[12];
 
 void Task_358_HyperEggRoboInit(void);
 void TaskDestructor_HyperEggRobo(Task *t);
@@ -257,7 +265,7 @@ void Task_358_807B9B8(void)
         case 1:
             boss->unk8 -= 1;
             if (boss->unk8 == 0) {
-                m4aSongNumStart(0x237U);
+                m4aSongNumStart(SE_567);
                 boss->unk8 = 0x78;
                 boss->unkC = 0xAU;
                 gDispCnt |= 0x100;
@@ -272,14 +280,14 @@ void Task_358_807B9B8(void)
             }
             break;
         case 12:
-            if (I(boss->unk120) < 0xB8) {
+            if (I(boss->qWorld.y) < 0xB8) {
                 sub_807FB7C(0xDCU);
                 boss->unkC = 0xBU;
             }
             /* fallthrough */
         case 11:
-            boss->unk120 -= 0x80;
-            if (boss->unk120 > 0x9800) {
+            boss->qWorld.y -= 0x80;
+            if (boss->qWorld.y > 0x9800) {
 
             } else {
                 boss->unk8 = 0x3CU;
@@ -298,7 +306,7 @@ void Task_358_807B9B8(void)
             if (boss->pos144[0][0].x > 0x613FF) {
                 boss->unk8 = 0x1EU;
                 boss->unkC = 0x1EU;
-                m4aSongNumStop(0x237U);
+                m4aSongNumStop(SE_567);
                 sub_8081A74(boss, 0, 1U);
             }
             break;
@@ -351,12 +359,11 @@ void Task_358_807B9B8(void)
     sub_80816C0(boss);
 }
 
-#if 0
-void Task_358_807BC04(HyperEggRobo *boss) {
-    Player *temp_r4;
-    void (*temp_r1)(Player *);
+void Task_358_807BC04(void)
+{
+    HyperEggRobo *boss = TASK_DATA(gCurTask);
 
-    *((boss->filler1[0] * 4) + &gUnknown_08E2ED00)(boss);
+    gUnknown_08E2ED00[boss->unk1](boss);
     sub_807ED8C(boss);
     sub_358_807BD88(boss);
     sub_807DB60(boss);
@@ -364,47 +371,53 @@ void Task_358_807BC04(HyperEggRobo *boss) {
     sub_358_807BFEC(boss);
     sub_358_807C14C(boss);
     sub_80816C0(boss);
-    temp_r4 = &gPlayers[gStageData.playerIndex];
-    if ((s32) ((s32) temp_r4->qWorldY >> 8) > 0xD9) {
-        if (!(temp_r4->moveState & 0x100)) {
-            sub_807FB7C(0xA0U);
-            SetPlayerCallback(temp_r4, Player_HitWithoutRingsUpdate);
-            return;
-        }
-        temp_r1 = temp_r4->callback;
-        if ((temp_r1 != Player_HitWithoutRingsUpdate) && (temp_r1 != Player_800913C) && (temp_r1 != Player_800DF9C)) {
-            sub_807FB7C(0xA0U);
-            SetPlayerCallback(temp_r4, Player_HitWithoutRingsUpdate);
+
+    {
+        Player *p = &gPlayers[gStageData.playerIndex];
+        if (I(p->qWorldY) >= 218) {
+            if (!(p->moveState & MOVESTATE_DEAD)) {
+                sub_807FB7C(0xA0U);
+                SetPlayerCallback(p, Player_HitWithoutRingsUpdate);
+            } else if ((p->callback != Player_HitWithoutRingsUpdate) && (p->callback != Player_800913C)
+                       && (p->callback != Player_800DF9C)) {
+                sub_807FB7C(0xA0U);
+                SetPlayerCallback(p, Player_HitWithoutRingsUpdate);
+            }
         }
     }
 }
 
-void sub_358_807BCCC(HyperEggRobo *boss) {
+void sub_358_807BCCC(HyperEggRobo *boss)
+{
+    Background *bgCockpit = &boss->bg1E8;
+
     boss->unk124 = 0;
     boss->unk128 = 0;
     boss->unk12C = 1;
     boss->unk12E = 0;
-    boss->unk11C = 0x67800;
-    boss->unk120 = 0x16000;
-    gBgScrollRegs[0][0] = 0x80 - (((s32) boss->unk11C >> 8) - gCamera.x);
-    gBgScrollRegs[0][1] = 0x80 - ((0x16000 >> 8) - gCamera.y);
-    boss->bg1E8.graphics.dest = (void *)0x0600C000;
-    boss->bg1E8.graphics.anim = 0;
-    boss->bg1E8.layoutVram = (u16 *)0x0600D800;
-    boss->bg1E8.unk18 = 0;
-    boss->bg1E8.unk1A = 0;
-    boss->bg1E8.tilemapId = 0x1D3;
-    boss->bg1E8.unk1E = 0;
-    boss->bg1E8.unk20 = 0;
-    boss->bg1E8.unk22 = 0;
-    boss->bg1E8.unk24 = 0;
-    boss->bg1E8.targetTilesX = 0x20;
-    boss->bg1E8.targetTilesY = 0x20;
-    boss->bg1E8.paletteOffset = 0;
-    boss->bg1E8.flags = 0;
-    DrawBackground(&boss->bg1E8);
+    boss->qWorld.x = Q(1656);
+    boss->qWorld.y = Q(352);
+
+    gBgScrollRegs[0][0] = 128 - (I(boss->qWorld.x) - gCamera.x);
+    gBgScrollRegs[0][1] = 128 - (I(boss->qWorld.y) - gCamera.y);
+    bgCockpit->graphics.dest = BG_CHAR_ADDR(3);
+    bgCockpit->graphics.anim = 0;
+    bgCockpit->layoutVram = BG_SCREEN_ADDR(27);
+    bgCockpit->unk18 = 0;
+    bgCockpit->unk1A = 0;
+    bgCockpit->tilemapId = TM_HYPER_EGGROBO;
+    bgCockpit->unk1E = 0;
+    bgCockpit->unk20 = 0;
+    bgCockpit->unk22 = 0;
+    bgCockpit->unk24 = 0;
+    bgCockpit->targetTilesX = 256 / TILE_WIDTH;
+    bgCockpit->targetTilesY = 256 / TILE_WIDTH;
+    bgCockpit->paletteOffset = 0;
+    bgCockpit->flags = 0;
+    DrawBackground(bgCockpit);
 }
 
+#if 0
 void sub_358_807BD88(HyperEggRobo *boss) {
     s16 var_r0;
     s32 temp_r0_2;
@@ -1336,7 +1349,7 @@ block_8:
         temp_r0_5 = arg0 + ((var_ip * 0x28) + 0x2C8);
         temp_r0_5->unkC = 0x4F0;
         temp_r0_5->unk1A = 0;
-        m4aSongNumStart(0x238U);
+        m4aSongNumStart(SE_568);
         temp_r0_6 = arg0->unk10 + 1;
         arg0->unk10 = temp_r0_6;
         if ((u32) temp_r0_6 > 2U) {
