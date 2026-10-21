@@ -634,6 +634,10 @@
 #define ANIM_BOSS_7_RAIL_CHAIN_WIDTH                16
 #define ANIM_BOSS_7_RAIL_CHAIN_HEIGHT               16
 
+// 1266
+#define ANIM_BOSS_FINAL_GLASS_WIDTH                 32
+#define ANIM_BOSS_FINAL_GLASS_HEIGHT                32
+
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
 #define ANIM_GEMERL_IDLE_HEIGHT                     64
