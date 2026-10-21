@@ -1,14 +1,17 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "game/sa3/bosses/eggman_escape.h" // sub_807A4A8
 #include "game/shared/stage/music_manager.h" // sub_80299D4
 #include "game/shared/stage/player.h"
+#include "game/shared/stage/screen_shake.h"
 #include "game/save.h" // DIFFICULTY_NORMAL
 #include "game/stage.h" // gStageData
 #include "constants/songs.h"
 
 typedef struct {
     /* 0x000 */ u8 lives;
+    /* 0x000 */ u8 unk1;
     /* 0x004 */ u8 *initArg0;
     /* 0x008 */ u16 unk8;
     /* 0x00A */ u8 fillerA[0x2];
@@ -25,9 +28,12 @@ typedef struct {
     /* 0x020 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x028 */ u8 filler28[0x54];
     /* 0x07C */ Sprite spr7C[4];
-    /* 0x11C */ u8 filler11C[0x28];
-    /* 0x228 */ Sprite spr144[2];
-    /* 0x11C */ u8 filler194[0x54];
+    /* 0x11C */ u8 filler11C[4];
+    /* 0x120 */ s32 unk120;
+    /* 0x120 */ s32 unk124;
+    /* 0x11C */ u8 filler128[0x1C];
+    /* 0x144 */ Vec2_32 pos144[2][5];
+    /* 0x194 */ u8 filler194[0x54];
     /* 0x1E8 */ Background bg1E8;
     /* 0x228 */ Sprite spr228;
     /* 0x250 */ Sprite spr250;
@@ -51,11 +57,15 @@ void sub_358_807C074(HyperEggRobo *boss);
 void sub_358_807C14C(HyperEggRobo *boss);
 u8 sub_807C244(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4);
 u8 sub_807C374(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4);
+void sub_807D81C(HyperEggRobo *boss);
 void sub_807DE20(HyperEggRobo *boss, u8 param1);
 void sub_358_807CBC8(HyperEggRobo *boss);
 void sub_358_807D6C4(HyperEggRobo *boss);
+void sub_807DB60(HyperEggRobo *boss);
 void sub_807FB7C(u8);
 void sub_80816C0(HyperEggRobo *boss);
+void UpdateHandAnimation(HyperEggRobo *boss, u8 param1, u8 param2);
+void sub_8081A74(HyperEggRobo *boss, u8 param1, u8 param2);
 
 // TEMP
 
@@ -67,7 +77,6 @@ void Task_358_807BC04(HyperEggRobo *boss);
 u8 sub_807C244(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4, HyperEggRobo *boss);
 u8 sub_807C374(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4, HyperEggRobo *boss);
 void sub_807C48C(HyperEggRobo *boss);
-void sub_807DB60(HyperEggRobo *boss);
 
 typedef void (*FinalBossFunc)(HyperEggRobo *boss, u8 param1);
 extern const FinalBossFunc gUnknown_08E2ED18[12];
@@ -227,8 +236,9 @@ void Task_358_807B808(void)
     }
 }
 
-#if 0
-void Task_358_807B9B8(HyperEggRobo *boss) {
+void Task_358_807B9B8(void)
+{
+    HyperEggRobo *boss = TASK_DATA(gCurTask);
     s32 temp_r1;
     u16 temp_r0;
     u16 temp_r0_2;
@@ -239,112 +249,99 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
     u16 temp_r0_7;
     u16 temp_r0_8;
 
-    temp_r0 = boss->unkC;
-    switch (temp_r0) {                              /* irregular */
-    case 0x14:
-        temp_r0_2 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_2;
-        if ((temp_r0_2 << 0x10) == 0) {
-            boss->unkC = 0x15;
-        }
-        break;
-    case 0x1F:
-        temp_r0_3 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_3;
-        if ((temp_r0_3 << 0x10) == 0) {
-            boss->unk8 = 0x24;
-            boss->unkC = 0x20;
-            UpdateHandAnimation(boss, 0U, 5U);
-            UpdateHandAnimation(boss, 1U, 5U);
-        }
-        break;
-    case 0x1E:
-        temp_r0_4 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_4;
-        if ((temp_r0_4 << 0x10) == 0) {
-            boss->unk8 = 0x24;
-            boss->unkC = 0x1FU;
-            sub_8081A74(boss, 0, 0U);
-            UpdateHandAnimation(boss, 0U, 4U);
-            UpdateHandAnimation(boss, 1U, 4U);
-        }
-        break;
-    case 0x64:
-        temp_r0_5 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_5;
-        if ((temp_r0_5 << 0x10) == 0) {
-            boss->unkC = 0xC8;
-        }
-        break;
-    case 0x20:
-        temp_r0_6 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_6;
-        if ((temp_r0_6 << 0x10) == 0) {
-            sub_807FB7C(0xFAU);
-            sub_807FB7C(0x14U);
-            boss->unk8 = 0x1EU;
-            boss->unkC = 0x64;
-        }
-        break;
-    case 0xC8:
-        boss->unk8 = 1;
-        boss->unkC = 0;
-        boss->filler1[0] = 0;
-        gCurTask->main = Task_358_807BC04;
-        break;
-    case 0x0:
-        boss->unk8 = 0x3CU;
-        boss->unkC = 1;
-        break;
-    case 0x1:
-        temp_r0_7 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_7;
-        if ((temp_r0_7 << 0x10) != 0) {
-
-        } else {
-            m4aSongNumStart(0x237U);
-            boss->unk8 = 0x78;
-            boss->unkC = 0xAU;
-            gDispCnt |= 0x100;
-            CreateScreenShake(0x800U, 4U, 0U, -1U, 0xD3U);
-            sub_807FB7C(0xD2U);
-        }
-        break;
-    case 0xA:
-        temp_r0_8 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_8;
-        if ((temp_r0_8 << 0x10) != 0) {
-
-        } else {
-            boss->unkC = 0xCU;
-        }
-        break;
-    case 0xC:
-        if ((s32) ((s32) boss->unk120 >> 8) <= 0xB7) {
-            sub_807FB7C(0xDCU);
-            boss->unkC = 0xBU;
-        }
-        /* fallthrough */
-    case 0xB:
-        temp_r1 = boss->unk120 - 0x80;
-        boss->unk120 = temp_r1;
-        if (temp_r1 > 0x9800) {
-
-        } else {
+    switch (boss->unkC) {
+        case 0:
             boss->unk8 = 0x3CU;
-            boss->unkC = 0x14;
-        }
-        break;
-    case 0x15:
-        boss->spr144[0].tiles += 0x100;
-        boss->spr144[1].tiles += 0xFFFFFF00;
-        if ((s32) boss->spr144[0].tiles > 0x613FF) {
-            boss->unk8 = 0x1EU;
-            boss->unkC = 0x1EU;
-            m4aSongNumStop(0x237U);
-            sub_8081A74(boss, 0, 1U);
-        }
-        break;
+            boss->unkC = 1;
+            break;
+        case 1:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                m4aSongNumStart(0x237U);
+                boss->unk8 = 0x78;
+                boss->unkC = 0xAU;
+                gDispCnt |= 0x100;
+                CreateScreenShake(0x800U, 4U, 0U, -1U, 0xD3U);
+                sub_807FB7C(0xD2U);
+            }
+            break;
+        case 10:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                boss->unkC = 0xCU;
+            }
+            break;
+        case 12:
+            if (I(boss->unk120) < 0xB8) {
+                sub_807FB7C(0xDCU);
+                boss->unkC = 0xBU;
+            }
+            /* fallthrough */
+        case 11:
+            boss->unk120 -= 0x80;
+            if (boss->unk120 > 0x9800) {
+
+            } else {
+                boss->unk8 = 0x3CU;
+                boss->unkC = 0x14;
+            }
+            break;
+        case 20:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                boss->unkC = 21;
+            }
+            break;
+        case 21:
+            boss->pos144[0][0].x += Q(1);
+            boss->pos144[1][0].x -= Q(1);
+            if (boss->pos144[0][0].x > 0x613FF) {
+                boss->unk8 = 0x1EU;
+                boss->unkC = 0x1EU;
+                m4aSongNumStop(0x237U);
+                sub_8081A74(boss, 0, 1U);
+            }
+            break;
+        case 30:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                boss->unk8 = 0x24;
+                boss->unkC = 0x1FU;
+                sub_8081A74(boss, 0, 0U);
+                UpdateHandAnimation(boss, 0U, 4U);
+                UpdateHandAnimation(boss, 1U, 4U);
+            }
+            break;
+        case 31:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                boss->unk8 = 0x24;
+                boss->unkC = 0x20;
+                UpdateHandAnimation(boss, 0U, 5U);
+                UpdateHandAnimation(boss, 1U, 5U);
+            }
+            break;
+        case 32:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                sub_807FB7C(0xFAU);
+                sub_807FB7C(0x14U);
+                boss->unk8 = 0x1EU;
+                boss->unkC = 100;
+            }
+            break;
+        case 100:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                boss->unkC = 200;
+            }
+            break;
+        case 200:
+            boss->unk8 = 1;
+            boss->unkC = 0;
+            boss->unk1 = 0;
+            gCurTask->main = Task_358_807BC04;
+            break;
     }
     sub_358_807BD88(boss);
     sub_358_807BFEC(boss);
@@ -354,6 +351,7 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
     sub_80816C0(boss);
 }
 
+#if 0
 void Task_358_807BC04(HyperEggRobo *boss) {
     Player *temp_r4;
     void (*temp_r1)(Player *);
