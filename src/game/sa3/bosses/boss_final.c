@@ -1,8 +1,11 @@
 #include "global.h"
 #include "core.h"
+#include "game/sa3/bosses/eggman_escape.h" // sub_807A4A8
+#include "game/shared/stage/music_manager.h" // sub_80299D4
 #include "game/shared/stage/player.h"
 #include "game/save.h" // DIFFICULTY_NORMAL
 #include "game/stage.h" // gStageData
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x000 */ u8 lives;
@@ -19,7 +22,7 @@ typedef struct {
     /* 0x016 */ u16 unk16;
     /* 0x018 */ u8 *vram18;
     /* 0x018 */ u8 filler1C[0x4];
-    /* 0x020 */ Player *players[2]; //[NUM_SINGLE_PLAYER_CHARS];
+    /* 0x020 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
     /* 0x028 */ u8 filler28[0x54];
     /* 0x07C */ Sprite spr7C[4];
     /* 0x11C */ u8 filler11C[0x28];
@@ -49,10 +52,14 @@ void sub_358_807C14C(HyperEggRobo *boss);
 u8 sub_807C244(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4);
 u8 sub_807C374(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4);
 void sub_807DE20(HyperEggRobo *boss, u8 param1);
+void sub_358_807CBC8(HyperEggRobo *boss);
+void sub_358_807D6C4(HyperEggRobo *boss);
+void sub_807FB7C(u8);
+void sub_80816C0(HyperEggRobo *boss);
 
 // TEMP
 
-#if M2C
+#if 0 // M2C
 void CreateHyperEggRobo(u8 *arg0, HyperEggRobo *boss);
 void Task_358_807B808(HyperEggRobo *boss);
 void Task_358_807B9B8(HyperEggRobo *boss);
@@ -118,103 +125,109 @@ void CreateHyperEggRobo(u8 *arg0)
     sub_358_807C074(boss);
 }
 
-#if 0
-void Task_358_807B808(HyperEggRobo *boss) {
-    ? sp0;
-    Player *temp_r5;
-    Player *temp_r6;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u16 temp_r0_4;
-    u16 temp_r1;
-    u16 temp_r1_2;
+// TODO: Fake-match!
+void Task_358_807B808(void)
+{
+    HyperEggRobo *boss = TASK_DATA(gCurTask);
+    u16 sp0[NUM_SINGLE_PLAYER_CHARS];
+    u16 inputMask;
+    u32 prevKeyInput;
     u16 temp_r1_3;
+    Player *player = boss->players[PLAYER_1];
+    Player *partner = boss->players[PLAYER_2];
 
-    temp_r5 = boss->players[0];
-    temp_r6 = boss->players[1];
     sub_358_807C14C(boss);
     sub_80816C0(boss);
-    sp0.unk2 = 0U;
-    sp0.unk0 = 0U;
-    temp_r1 = boss->unkC;
-    switch (temp_r1) {                              /* irregular */
-    case 0xC8:
-        gCamera.minY = 0x10;
-        sub_358_807BCCC(boss);
-        sub_358_807BEF0(boss);
-        sub_358_807D6C4(boss);
-        sub_358_807CBC8(boss);
-        boss->unk10 = 0;
-        boss->unk12 = 0;
-        boss->unk8 = 1U;
-        boss->unkC = 0U;
-        gCurTask->main = (void (*)()) Task_358_807B9B8;
-        return;
-    case 0x3E8:
-        temp_r5->qSpeedGround = 0;
-        temp_r5->qSpeedAirX = 0;
-        temp_r6->qSpeedGround = 0;
-        temp_r6->qSpeedAirX = 0;
-        sub_807A4A8();
-        return;
-    case 0x0:
-        sub_807FB7C(0xCU);
-        sub_807FB7C(0U);
-        sub_807FB7C(0xAU);
-        sub_807FB7C(0xBU);
-        boss->unk8 = 5U;
-        boss->unkC = 0xAU;
-        return;
-    case 0xA:
-        temp_r0 = boss->unk8 - 1;
-        boss->unk8 = temp_r0;
-        if ((temp_r0 << 0x10) != 0) {
-            return;
-        }
-        sub_80299D4(0x36U);
-        boss->unkC = 0x64U;
-        return;
-    case 0x64:
-        if ((s32) ((s32) temp_r5->qWorldX >> 8) > 0x68C) {
-            temp_r5->qWorldX = 0x68D00;
-            temp_r5->qSpeedGround = 0;
-            temp_r5->qSpeedAirX = 0;
-        } else {
-            sp0.unk0 = 0x10U;
-        }
-        if ((s32) ((s32) temp_r6->qWorldX >> 8) > 0x664) {
-            temp_r6->qWorldX = 0x66500;
-            temp_r6->qSpeedGround = 0;
-            temp_r6->qSpeedAirX = 0;
-        } else {
-            sp0.unk2 = (u16) (0x10 | sp0.unk2);
-        }
-        temp_r1_2 = temp_r5->keyInput;
-        temp_r0_2 = sp0.unk0;
-        temp_r5->keyInput = temp_r0_2;
-        temp_r5->keyInput2 = (temp_r1_2 ^ temp_r0_2) & temp_r0_2;
-        temp_r1_3 = temp_r6->keyInput;
-        temp_r0_3 = sp0.unk2;
-        temp_r6->keyInput = temp_r0_3;
-        temp_r6->keyInput2 = (temp_r1_3 ^ temp_r0_3) & temp_r0_3;
-        if (((s32) ((s32) temp_r5->qWorldX >> 8) > 0x68C) && ((s32) ((s32) temp_r5->qWorldY >> 8) > 0xB2) && ((s32) ((s32) temp_r6->qWorldX >> 8) > 0x664) && ((s32) ((s32) temp_r6->qWorldY >> 8) > 0xB2)) {
-            boss->unk8 = 0x1EU;
-            boss->unkC = 0x6EU;
-            return;
-        }
-        break;
-    case 0x6E:
-        temp_r0_4 = boss->unk8 - 1;
-        boss->unk8 = temp_r0_4;
-        if ((temp_r0_4 << 0x10) == 0) {
-            boss->unkC = 0xC8U;
-            return;
-        }
-        break;
+
+    sp0[0] = sp0[1] = 0;
+
+    switch (boss->unkC) {
+        case 0x0:
+            sub_807FB7C(12);
+            sub_807FB7C(0);
+            sub_807FB7C(10);
+            sub_807FB7C(11);
+            boss->unk8 = 5;
+            boss->unkC = 10;
+            break;
+        case 10:
+            if (--boss->unk8 != 0) {
+                return;
+            }
+            sub_80299D4(MUS_VS__FINAL_BOSS);
+            boss->unkC = 100;
+            break;
+        case 100:
+            if (I(player->qWorldX) >= 1677) {
+                player->qWorldX = Q(1677);
+                player->qSpeedGround = 0;
+                player->qSpeedAirX = 0;
+            } else {
+                sp0[0] |= DPAD_RIGHT;
+            }
+            if (I(partner->qWorldX) >= 1637) {
+                partner->qWorldX = Q(1637);
+                partner->qSpeedGround = 0;
+                partner->qSpeedAirX = 0;
+            } else {
+                sp0[1] |= DPAD_RIGHT;
+            }
+            prevKeyInput = player->keyInput;
+            inputMask = sp0[0];
+            player->keyInput = inputMask;
+#ifndef NON_MATCHING
+            asm("eor %0, %1, %2" : "=r"(prevKeyInput) : "r"(prevKeyInput), "r"(inputMask));
+#else
+            prevKeyInput ^= inputMask;
+#endif
+            prevKeyInput &= inputMask;
+            player->keyInput2 = prevKeyInput;
+            prevKeyInput = partner->keyInput;
+            inputMask = sp0[1];
+            partner->keyInput = inputMask;
+#ifndef NON_MATCHING
+            asm("eor %0, %1, %2" : "=r"(prevKeyInput) : "r"(prevKeyInput), "r"(inputMask));
+#else
+            prevKeyInput ^= inputMask;
+#endif
+            prevKeyInput &= inputMask;
+            partner->keyInput2 = prevKeyInput;
+            if ((I(player->qWorldX) > 0x68C) && (I(player->qWorldY) > 0xB2) && (I(partner->qWorldX) > 0x664)
+                && (I(partner->qWorldY) > 0xB2)) {
+                boss->unk8 = 0x1EU;
+                boss->unkC = 110;
+                return;
+            }
+            break;
+        case 110:
+            if (--boss->unk8 == 0) {
+                boss->unkC = 200;
+                return;
+            }
+            break;
+        case 200:
+            gCamera.minY = 0x10;
+            sub_358_807BCCC(boss);
+            sub_358_807BEF0(boss);
+            sub_358_807D6C4(boss);
+            sub_358_807CBC8(boss);
+            boss->unk10 = 0;
+            boss->unk12 = 0;
+            boss->unk8 = 1;
+            boss->unkC = 0;
+            gCurTask->main = Task_358_807B9B8;
+            break;
+        case 1000:
+            player->qSpeedGround = 0;
+            player->qSpeedAirX = 0;
+            partner->qSpeedGround = 0;
+            partner->qSpeedAirX = 0;
+            sub_807A4A8();
+            break;
     }
 }
 
+#if 0
 void Task_358_807B9B8(HyperEggRobo *boss) {
     s32 temp_r1;
     u16 temp_r0;
@@ -232,15 +245,15 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
         temp_r0_2 = boss->unk8 - 1;
         boss->unk8 = temp_r0_2;
         if ((temp_r0_2 << 0x10) == 0) {
-            boss->unkC = 0x15U;
+            boss->unkC = 0x15;
         }
         break;
     case 0x1F:
         temp_r0_3 = boss->unk8 - 1;
         boss->unk8 = temp_r0_3;
         if ((temp_r0_3 << 0x10) == 0) {
-            boss->unk8 = 0x24U;
-            boss->unkC = 0x20U;
+            boss->unk8 = 0x24;
+            boss->unkC = 0x20;
             UpdateHandAnimation(boss, 0U, 5U);
             UpdateHandAnimation(boss, 1U, 5U);
         }
@@ -249,7 +262,7 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
         temp_r0_4 = boss->unk8 - 1;
         boss->unk8 = temp_r0_4;
         if ((temp_r0_4 << 0x10) == 0) {
-            boss->unk8 = 0x24U;
+            boss->unk8 = 0x24;
             boss->unkC = 0x1FU;
             sub_8081A74(boss, 0, 0U);
             UpdateHandAnimation(boss, 0U, 4U);
@@ -260,7 +273,7 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
         temp_r0_5 = boss->unk8 - 1;
         boss->unk8 = temp_r0_5;
         if ((temp_r0_5 << 0x10) == 0) {
-            boss->unkC = 0xC8U;
+            boss->unkC = 0xC8;
         }
         break;
     case 0x20:
@@ -270,18 +283,18 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
             sub_807FB7C(0xFAU);
             sub_807FB7C(0x14U);
             boss->unk8 = 0x1EU;
-            boss->unkC = 0x64U;
+            boss->unkC = 0x64;
         }
         break;
     case 0xC8:
-        boss->unk8 = 1U;
-        boss->unkC = 0U;
+        boss->unk8 = 1;
+        boss->unkC = 0;
         boss->filler1[0] = 0;
-        gCurTask->main = (void (*)()) Task_358_807BC04;
+        gCurTask->main = Task_358_807BC04;
         break;
     case 0x0:
         boss->unk8 = 0x3CU;
-        boss->unkC = 1U;
+        boss->unkC = 1;
         break;
     case 0x1:
         temp_r0_7 = boss->unk8 - 1;
@@ -290,7 +303,7 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
 
         } else {
             m4aSongNumStart(0x237U);
-            boss->unk8 = 0x78U;
+            boss->unk8 = 0x78;
             boss->unkC = 0xAU;
             gDispCnt |= 0x100;
             CreateScreenShake(0x800U, 4U, 0U, -1U, 0xD3U);
@@ -319,7 +332,7 @@ void Task_358_807B9B8(HyperEggRobo *boss) {
 
         } else {
             boss->unk8 = 0x3CU;
-            boss->unkC = 0x14U;
+            boss->unkC = 0x14;
         }
         break;
     case 0x15:
@@ -474,7 +487,7 @@ void sub_358_807BEF0(HyperEggRobo *boss) {
     boss->spr228.oamFlags = 0x580;
     boss->spr228.animCursor = 0;
     boss->spr228.qAnimDelay = 0;
-    boss->spr228.prevVariant = -1U;
+    boss->spr228.prevVariant = -1;
     boss->spr228.animSpeed = 0x10;
     boss->spr228.palId = 0;
     boss->spr228.hitboxes[0].index = -1;
@@ -568,7 +581,7 @@ void sub_358_807C14C(HyperEggRobo *boss) {
         if ((boss->lives == 0) && ((temp_r0_2 = var_r8 * 0x14, temp_r3 = boss + temp_r0_2, temp_r2 = temp_r3->unk3E, (temp_r2 == 0x64)) || (temp_r2 == 0x6E))) {
             temp_r2_2 = &boss->filler28[0x10];
             *(temp_r2_2 + temp_r0_2) = 0xFFFFFC00;
-            temp_r3->unk3E = 0xC8U;
+            temp_r3->unk3E = 0xC8;
             var_r1 = temp_r2_2;
         }
         temp_r0_3 = var_r8 * 0x14;
@@ -584,7 +597,7 @@ void sub_358_807C14C(HyperEggRobo *boss) {
         case 0x64:
             if (temp_r1 > 0xF3FF) {
                 *temp_r4 = 0xF400;
-                temp_r3_2->unk3C = 0x78U;
+                temp_r3_2->unk3C = 0x78;
                 var_r0 = 0x6E;
 block_16:
                 temp_r3_2->unk3E = var_r0;
@@ -852,7 +865,7 @@ void sub_807C670(void *arg0) {
     memcpy(&sp0, &gUnknown_080D5CA0, 4);
     temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
     gPseudoRandom = temp_r0;
-    temp_r0_2 = (u32) temp_r0 % 10000U;
+    temp_r0_2 = (u32) temp_r0 % 10000;
     if (gStageData.difficulty == 0) {
         if ((u32) arg0->unk0 <= 4U) {
             goto block_7;
@@ -919,8 +932,8 @@ void sub_807C728(HyperEggRobo *arg0) {
         temp_r0_2 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
         gPseudoRandom = temp_r0_2;
         arg0->filler1[1] = temp_r0_2 & 1;
-        arg0->unkA = 0x258U;
-        arg0->unk8 = 1U;
+        arg0->unkA = 0x258;
+        arg0->unk8 = 1;
         arg0->unkC = 0xAU;
         sub_807DB00(arg0, 0U, 1);
         sub_807DB00(arg0, 1U, 1);
@@ -949,7 +962,7 @@ block_16:
                 var_r3_2 += 1;
             } while ((u32) var_r3_2 <= 2U);
             arg0->unk8 = 0x3CU;
-            arg0->unkC = 0x3E8U;
+            arg0->unkC = 0x3E8;
         } else {
             temp_r0_4 = arg0->unk8 - 1;
             arg0->unk8 = temp_r0_4;
@@ -958,7 +971,7 @@ block_16:
                     sub_807CDF0(arg0);
                     arg0->unk8 = 0x3CU;
                 } else {
-                    arg0->unk8 = 1U;
+                    arg0->unk8 = 1;
                 }
             }
         }
@@ -978,7 +991,7 @@ void sub_807C8AC(HyperEggRobo *arg0) {
     case 0x0:
         sub_807DB00(arg0, 0U, 2);
         sub_807DB00(arg0, 1U, 2);
-        arg0->unk8 = 0xF0U;
+        arg0->unk8 = 0xF0;
         arg0->filler1[0xD] = 1;
         arg0->unkC = 0xAU;
         return;
@@ -986,7 +999,7 @@ void sub_807C8AC(HyperEggRobo *arg0) {
         temp_r0 = arg0->unk8 - 1;
         arg0->unk8 = temp_r0;
         if ((temp_r0 << 0x10) == 0) {
-            arg0->unkC = 0x14U;
+            arg0->unkC = 0x14;
             return;
         }
         return;
@@ -996,22 +1009,22 @@ void sub_807C8AC(HyperEggRobo *arg0) {
         arg0->filler1[2] = ((u32) ((u32) temp_r0_2 % 10000U) >> 2) & 3;
         arg0->filler1[1] = 1;
         sub_807D8B4(arg0, 1U, arg0->filler1[2]);
-        arg0->unkC = 0x64U;
+        arg0->unkC = 0x64;
         return;
     case 0x64:
         if ((sub_807D9B4(arg0, 0U) << 0x18) != 0) {
             arg0->filler1[0xD] += 1;
-            arg0->unkC = 0xC8U;
+            arg0->unkC = 0xC8;
             return;
         }
         break;
     case 0xC8:
         sub_807D8B4(arg0, 0x14U, 0U);
-        arg0->unkC = 0x1F4U;
+        arg0->unkC = 0x1F4;
         return;
     case 0x1F4:
         if ((sub_807D9B4(arg0, 1U) << 0x18) != 0) {
-            arg0->unkC = 0x3E8U;
+            arg0->unkC = 0x3E8;
             return;
         }
         break;
@@ -1037,7 +1050,7 @@ void sub_807C9C0(HyperEggRobo *arg0) {
         return;
     case 0xA:
         if ((sub_807D9B4(arg0, 0U) << 0x18) != 0) {
-            arg0->unkC = 0x3E8U;
+            arg0->unkC = 0x3E8;
             return;
         }
         return;
@@ -1061,7 +1074,7 @@ void sub_807CA38(HyperEggRobo *arg0) {
     case 0x0:
         sub_807DB00(arg0, 0U, 4);
         sub_807DB00(arg0, 1U, 4);
-        arg0->unk8 = 1U;
+        arg0->unk8 = 1;
         arg0->filler1[0xD] = 0;
         arg0->unkC = 0xAU;
         return;
@@ -1069,7 +1082,7 @@ void sub_807CA38(HyperEggRobo *arg0) {
         if ((sub_807D9B4(arg0, 2U) << 0x18) != 0) {
 block_28:
             arg0->unk8 = 0x1EU;
-            arg0->unkC = 0x64U;
+            arg0->unkC = 0x64;
             return;
         }
         return;
@@ -1107,7 +1120,7 @@ block_28:
     case 0x1F4:
         if ((sub_807D9B4(arg0, 0U) << 0x18) != 0) {
 block_33:
-            arg0->unkC = 0x3E8U;
+            arg0->unkC = 0x3E8;
             return;
         }
         break;
@@ -1136,7 +1149,7 @@ void sub_807CB78(HyperEggRobo *arg0) {
         temp_r0_2 = arg0->unk8 - 1;
         arg0->unk8 = temp_r0_2;
         if ((temp_r0_2 << 0x10) == 0) {
-            arg0->unkC = 0x14U;
+            arg0->unkC = 0x14;
             sub_807DB00(arg0, 0U, 0xA);
             sub_807DB00(arg0, 1U, 0xA);
             return;
@@ -1144,8 +1157,8 @@ void sub_807CB78(HyperEggRobo *arg0) {
     case 0x14:
         return;
     case 0x64:
-        arg0->unk8 = 1U;
-        arg0->unkC = 0U;
+        arg0->unk8 = 1;
+        arg0->unkC = 0;
         arg0->filler1[0] = 0;
         break;
     }
@@ -1277,7 +1290,7 @@ loop_1:
     if (temp_r4 != 0) {
 
     } else {
-        temp_r2->unk1AC = 1U;
+        temp_r2->unk1AC = 1;
         temp_r2->unk1A8 = temp_r4;
         temp_r2->unk1AE = 0x1E;
         *(arg0 + 0x194 + temp_r6) = arg0->unk11C;
@@ -1770,7 +1783,7 @@ void sub_358_807D6C4(HyperEggRobo *arg0) {
     arg0->unk2B4 = 0x500;
     arg0->unk2AE = 0;
     arg0->unk2B6 = 0;
-    arg0->filler278[0x43] = -1U;
+    arg0->filler278[0x43] = -1;
     arg0->filler278[0x44] = 0x10;
     arg0->filler278[0x47] = 0;
     arg0->unk2C0 = -1;
@@ -2072,7 +2085,7 @@ block_26:
         temp_r3_2 = 0x7F & temp_r4->unk19;
         temp_r1 = temp_r3_2 * 0x1C;
         if ((arg0 + temp_r1)->unk1AC == 0) {
-            temp_r4->unk19 = 0U;
+            temp_r4->unk19 = 0;
             temp_r4->unk14 = 0x3CU;
             var_r0 = 0x14;
             goto block_26;
@@ -2104,7 +2117,7 @@ block_26:
         }
         if (var_r8 != 0) {
             m4aSongNumStart(0x238U);
-            temp_r4->unk19 = 0U;
+            temp_r4->unk19 = 0;
             temp_r4->unk14 = 0x3CU;
             var_r0 = 0x14;
             goto block_26;
@@ -2445,7 +2458,7 @@ void sub_807E214(void *arg0, u8 arg1, ? arg3) {
         if (((s32) temp_r4->unk4 > 0xAFFF) && ((s32) temp_r4->unkC >= 0)) {
             temp_r4->unk4 = 0xB000;
             temp_r4->unk14 = 0x1EU;
-            temp_r4->unk16 = 0x140U;
+            temp_r4->unk16 = 0x140;
             if (temp_r6 != 0) {
                 m4aSongNumStart(0x23CU);
                 sp0 = (Player *)0x91;
@@ -2456,8 +2469,8 @@ void sub_807E214(void *arg0, u8 arg1, ? arg3) {
         return;
     case 0x12C:
         temp_r4->unkC = -0x800;
-        temp_r4->unk1B = 4U;
-        temp_r4->unk16 = 0x136U;
+        temp_r4->unk1B = 4;
+        temp_r4->unk16 = 0x136;
         return;
     case 0x140:
         temp_r0_2 = temp_r4->unk14 - 1;
@@ -2483,12 +2496,12 @@ void sub_807E214(void *arg0, u8 arg1, ? arg3) {
                         }
                     }
                 }
-                temp_r4->unk16 = 0x1F4U;
+                temp_r4->unk16 = 0x1F4;
                 temp_r4->unk13 = 1;
                 return;
             }
             temp_r4->unkC = -0xA00;
-            temp_r4->unk16 = 0x136U;
+            temp_r4->unk16 = 0x136;
             return;
         }
         break;
@@ -2517,9 +2530,9 @@ block_85:
     case 0x0:
         temp_r4->unk8 = 0;
         temp_r4->unkC = 0;
-        temp_r4->unk1B = 0U;
+        temp_r4->unk1B = 0;
         temp_r4->unk1C = 0;
-        temp_r4->unk14 = 0x79U;
+        temp_r4->unk14 = 0x79;
         var_r0_2 = 0xA;
         goto block_85;
     case 0xA:
@@ -2546,7 +2559,7 @@ block_26:
                 var_r0_4 = 0xFFFFFC00;
             }
             temp_r4->unk8 = var_r0_4;
-            temp_r4->unk16 = 0x64U;
+            temp_r4->unk16 = 0x64;
             temp_r4->unk13 = 0;
             return;
         }
@@ -2581,7 +2594,7 @@ block_41:
         if (var_r7 == 0) {
             return;
         }
-        temp_r4->unk16 = 0xC8U;
+        temp_r4->unk16 = 0xC8;
         if (temp_r6 == 0) {
             return;
         }
@@ -2597,7 +2610,7 @@ block_41:
             sp0 = temp_r5_2;
             sp4 = (s32) temp_r0_6;
             if (sub_8020700(&sp8, (s32) arg0->unk11C >> 8, (s32) temp_r4->unk4 >> 8, 0, M2C_ERROR(/* Unable to find stack arg 0x0 in block */), M2C_ERROR(/* Unable to find stack arg 0x4 in block */)) != 0) {
-                temp_r4->unk1B = 1U;
+                temp_r4->unk1B = 1;
                 sub_807FB7C(0xA0U);
                 sub_8081A10(temp_r5_2);
                 temp_r5_2->qWorldX = arg0->unk11C;
@@ -2665,7 +2678,7 @@ void sub_807E54C(s32 arg0, u8 arg1) {
             return;
         }
         m4aSongNumStart(0x23DU);
-        temp_r5->unk16 = 0xD2U;
+        temp_r5->unk16 = 0xD2;
         return;
     case 0x14:                                      /* switch 1 */
         temp_r0_2 = temp_r5->unk14 - 1;
@@ -2673,8 +2686,8 @@ void sub_807E54C(s32 arg0, u8 arg1) {
         if ((temp_r0_2 << 0x10) != 0) {
             return;
         }
-        temp_r5->unk14 = 0U;
-        temp_r5->unk16 = 0x64U;
+        temp_r5->unk14 = 0;
+        temp_r5->unk16 = 0x64;
         return;
     case 0x64:                                      /* switch 1 */
         if (temp_r6 == 0) {
@@ -2782,7 +2795,7 @@ block_93:
         if ((temp_r0_5 << 0x10) != 0) {
             return;
         }
-        temp_r5->unk16 = 0xE6U;
+        temp_r5->unk16 = 0xE6;
         temp_r5->unk13 = 0;
         return;
     case 0x12C:                                     /* switch 1 */
@@ -2813,7 +2826,7 @@ block_102:
             goto block_102;
         }
         temp_r5->unk13 = 1;
-        temp_r5->unk16 = 0x136U;
+        temp_r5->unk16 = 0x136;
         return;
     case 0x136:                                     /* switch 1 */
         temp_r2_4 = temp_r5->unk0 + temp_r5->unk8;
@@ -2821,7 +2834,7 @@ block_102:
         temp_r5->unk4 = (s32) (temp_r5->unk4 + temp_r5->unkC);
         if (temp_r6 == 0) {
             if (temp_r2_4 <= 0x61400) {
-                temp_r5->unk16 = 0x3E8U;
+                temp_r5->unk16 = 0x3E8;
             }
             temp_r0_6 = temp_r3->unk0;
             if (temp_r0_6 != 0) {
@@ -2830,7 +2843,7 @@ block_102:
             }
         } else {
             if (temp_r2_4 > 0x6DBFF) {
-                temp_r5->unk16 = 0x3E8U;
+                temp_r5->unk16 = 0x3E8;
             }
             if (temp_r3->unk0 != 0) {
 block_112:
@@ -2868,7 +2881,7 @@ block_30:
         sa2__sub_8085A9C(&sp0, 8);
         temp_r5->unk8 = (s32) (sp0.unk0 * 2);
         temp_r5->unkC = (s32) (sp0.unk2 * 2);
-        temp_r5->unk10 = 0x300U;
+        temp_r5->unk10 = 0x300;
         temp_r5->unk16 = 0xAU;
         return;
     case 0xA:                                       /* switch 1 */
@@ -2878,7 +2891,7 @@ block_30:
         if (temp_r0_8 <= 0x6000) {
             temp_r5->unk13 = 0;
             temp_r5->unk14 = temp_r2;
-            temp_r5->unk16 = 0x14U;
+            temp_r5->unk16 = 0x14;
         }
         if (temp_r6 == 0) {
             if (temp_r3->unk0 == 0x100) {
@@ -2982,7 +2995,7 @@ block_21:
             temp_r0_3 = (*temp_r3 - 8) & 0x3FF;
             *temp_r3 = temp_r0_3;
             if (temp_r0_3 == 0x300) {
-                temp_r5->unk16 = 0x64U;
+                temp_r5->unk16 = 0x64;
                 arg0->unkC = 0xA;
                 return;
             }
@@ -3164,7 +3177,7 @@ void sub_807ED8C(HyperEggRobo *arg0, ? arg3) {
         if ((temp_r0 << 0x10) != 0) {
             return;
         }
-        arg0->unk14 = 0xB4U;
+        arg0->unk14 = 0xB4;
         arg0->unk16 = 0xDCU;
         m4aSongNumStart(0x221U);
         gMusicManagerState.unk6 = 0x140;
@@ -3175,7 +3188,7 @@ void sub_807ED8C(HyperEggRobo *arg0, ? arg3) {
             temp_r7 = 0x3FF & temp_r0_2;
             temp_r0_3 = (0x196225 * temp_r0_2) + 0x3C6EF35F;
             gPseudoRandom = temp_r0_3;
-            temp_r0_4 = (u32) temp_r0_3 % 48U;
+            temp_r0_4 = (u32) temp_r0_3 % 48;
             sub_8079758(7U, (s16) ((s32) ((arg0->unk11C + ((u32) (temp_r0_4 * gSineTable[temp_r7 + 0x100]) >> 6)) << 8) >> 0x10), (s16) (((s32) (arg0->unk120 + ((u32) (temp_r0_4 * gSineTable[temp_r7]) >> 6)) >> 8) - 0x30), 0x300, (u16) temp_r7, 0x1EU, 0, arg0->unk18);
         }
         temp_r0_5 = arg0->unk14 + 1;
@@ -3186,7 +3199,7 @@ void sub_807ED8C(HyperEggRobo *arg0, ? arg3) {
         if (arg0->unk12E != 0) {
             return;
         }
-        arg0->unk16 = 0xD2U;
+        arg0->unk16 = 0xD2;
         arg0->unk14 = 0x3CU;
         sub_807FB7C(0xAU);
         return;
@@ -3201,7 +3214,7 @@ void sub_807ED8C(HyperEggRobo *arg0, ? arg3) {
             temp_r7_2 = (0xFF & temp_r1_2) + 0x280;
             temp_r0_6 = (0x196225 * temp_r1_2) + 0x3C6EF35F;
             gPseudoRandom = temp_r0_6;
-            temp_r0_7 = (u32) temp_r0_6 % 48U;
+            temp_r0_7 = (u32) temp_r0_6 % 48;
             sub_8079758(7U, (s16) ((s32) ((arg0->unk11C + ((u32) (temp_r0_7 * gSineTable[temp_r7_2 + 0x100]) >> 6)) << 8) >> 0x10), (s16) (((s32) (arg0->unk120 + ((u32) (temp_r0_7 * gSineTable[temp_r7_2]) >> 6)) >> 8) - 0x60), ((temp_r0_7 & 3) << 8) | 0x400, (u16) temp_r7_2, 0x1EU, 0, arg0->unk18);
         }
         if (!(0x3F & arg0->unk14)) {
@@ -3220,7 +3233,7 @@ void sub_807ED8C(HyperEggRobo *arg0, ? arg3) {
         arg0->unk14 = temp_r0_9;
         if ((temp_r0_9 << 0x10) == 0) {
             arg0->unk14 = 0x3CU;
-            arg0->unk16 = 0x3E8U;
+            arg0->unk16 = 0x3E8;
             return;
         }
         return;
@@ -3278,7 +3291,7 @@ void sub_807ED8C(HyperEggRobo *arg0, ? arg3) {
         }
 block_35:
         sub_8081C08(arg0);
-        arg0->unk16 = 0x64U;
+        arg0->unk16 = 0x64;
         return;
     case 0x64:
         temp_r0_13 = arg0->unk14 - 1;
@@ -3290,7 +3303,7 @@ block_35:
 loop_39:
         temp_r2 = &gPlayers[var_r3];
         if ((temp_r2->moveState & 0x100) && ((temp_r1_4 = 0x1C & temp_r2->unk2B, (temp_r1_4 == 4)) || (temp_r1_4 == 0xC))) {
-            arg0->unk14 = 4U;
+            arg0->unk14 = 4;
             return;
         }
         var_r3 += 1;
@@ -3314,7 +3327,7 @@ loop_39:
             m4aSongNumStart(0x221U);
             sub_807FB7C(0x96U);
             sub_807FB7C(0U);
-            arg0->unk16 = 0xC8U;
+            arg0->unk16 = 0xC8;
             return;
         }
         goto loop_39;
@@ -3445,10 +3458,10 @@ void sub_807F434(HyperEggRobo *arg0) {
     arg0->unk16 = 1;
     if (gStageData.difficulty == 0) {
         if (temp_r1 == 4) {
-            sub_80299D4(0x37U);
+            sub_80299D4(MUS_VS__FINAL_BOSS_PINCH);
         }
     } else if (temp_r1 == 3) {
-        sub_80299D4(0x37U);
+        sub_80299D4(MUS_VS__FINAL_BOSS_PINCH);
     }
     m4aSongNumStart(0xEBU);
     PlayVoiceEggmanHit();
@@ -3474,7 +3487,7 @@ void sub_807F4F0(void *arg0) {
     temp_r1 = 0x7F & arg0->unk2;
     temp_r2 = arg0->unk3 | (arg0->unk4 << 8);
     if (temp_r1 == 1) {
-        temp_r4->unk0 = 0U;
+        temp_r4->unk0 = 0;
         gStageData.levelTimer = temp_r2;
         temp_r4->unk14 = 0x3C;
         temp_r2_2 = temp_r4 + 0x228;
@@ -3560,9 +3573,9 @@ void sub_807F568(void) {
             return;
         }
         gCamera.minX = gCamera.maxX - 0xF0;
-        temp_r1->unk8 = 0xC8U;
+        temp_r1->unk8 = 0xC8;
         m4aSongNumStart(0x3CU);
-        temp_r1->unkC = 0x7E4U;
+        temp_r1->unkC = 0x7E4;
         return;
     case 0x3E9:
         temp_r0_3 = gBldRegs.bldY - 1;
@@ -3574,18 +3587,18 @@ void sub_807F568(void) {
         gBldRegs.bldCnt = temp_r0_4;
         gBldRegs.bldAlpha = temp_r0_4;
         gBldRegs.bldY = temp_r0_4;
-        temp_r1->unk8 = 0x4B0U;
-        temp_r1->unkC = 0x3F2U;
+        temp_r1->unk8 = 0x4B0;
+        temp_r1->unkC = 0x3F2;
         return;
     case 0xA:
-        temp_r1->unkC = 0x64U;
+        temp_r1->unkC = 0x64;
         return;
     case 0x64:
         if (MetExtraBossEnableConditions() != 0) {
-            temp_r1->unkC = 0x7D0U;
+            temp_r1->unkC = 0x7D0;
             return;
         }
-        temp_r1->unkC = 0x3E8U;
+        temp_r1->unkC = 0x3E8;
         return;
     case 0x3E8:
         sub_807FB7C(1U);
@@ -3593,8 +3606,8 @@ void sub_807F568(void) {
         CreateAltarEmeraldPostBossCutscene(0U);
         sub_807FB7C(2U);
         gCamera.maxX += 0x258;
-        temp_r1->unk8 = 0x4B0U;
-        temp_r1->unkC = 0x3E9U;
+        temp_r1->unk8 = 0x4B0;
+        temp_r1->unkC = 0x3E9;
         return;
         return;
     case 0x3F2:
@@ -3609,7 +3622,7 @@ void sub_807F568(void) {
         temp_r6 = &gPlayers[gStageData.playerIndex];
         SetPlayerCallback(temp_r6, Player_8005E80);
         SetPlayerCallback(&gPlayers[(u32) (temp_r6->unk2B << 0x1E) >> 0x1E], Player_8005E80);
-        temp_r1->unkC = 0x406U;
+        temp_r1->unkC = 0x406;
         return;
     case 0x7D0:
         sub_807FB7C(1U);
@@ -3618,9 +3631,9 @@ void sub_807F568(void) {
         sub_807FB7C(2U);
         gCamera.maxX += 0x1E0;
         gCamera.minY = gCamera.y;
-        temp_r1->unk8 = 0x2E0U;
+        temp_r1->unk8 = 0x2E0;
         m4aMPlayAllStop();
-        temp_r1->unkC = 0x7D1U;
+        temp_r1->unkC = 0x7D1;
         return;
     case 0x7D1:
         temp_r0_6 = gBldRegs.bldY - 1;
@@ -3632,7 +3645,7 @@ void sub_807F568(void) {
         gBldRegs.bldCnt = temp_r0_7;
         gBldRegs.bldAlpha = temp_r0_7;
         gBldRegs.bldY = temp_r0_7;
-        temp_r1->unk8 = 0x2E0U;
+        temp_r1->unk8 = 0x2E0;
         temp_r1->unkC = 0x7DAU;
         return;
     case 0x802:
@@ -3642,11 +3655,11 @@ void sub_807F568(void) {
             temp_r0_9 = gBldRegs.bldY + 1;
             gBldRegs.bldY = temp_r0_9;
             if (temp_r0_9 == 0x10) {
-                temp_r1->unk8 = 0x78U;
+                temp_r1->unk8 = 0x78;
                 temp_r1->unkC = 0x80CU;
                 return;
             }
-            temp_r1->unk8 = 4U;
+            temp_r1->unk8 = 4;
             return;
         }
         return;
@@ -3654,10 +3667,10 @@ void sub_807F568(void) {
         temp_r0_10 = temp_r1->unkA + 0x20;
         temp_r1->unkA = temp_r0_10;
         if ((s32) (s16) temp_r0_10 > 0xFF) {
-            temp_r1->unk8 = 0x78U;
-            temp_r1->unkA = 2U;
-            temp_r1->unkE = 0U;
-            temp_r1->unkC = 0x7F3U;
+            temp_r1->unk8 = 0x78;
+            temp_r1->unkA = 2;
+            temp_r1->unkE = 0;
+            temp_r1->unkC = 0x7F3;
         }
         var_r0 = gSineTable[(s16) temp_r1->unkA];
         if ((s32) var_r0 < 0) {
@@ -3705,12 +3718,12 @@ block_113:
         temp_r0_14 = (s16) temp_r0_13;
         if (temp_r0_14 == 0) {
             temp_r1->unkA = (u16) temp_r0_14;
-            temp_r1->unkC = 0x7F8U;
+            temp_r1->unkC = 0x7F8;
         } else {
             temp_r0_15 = temp_r1->unkA - 1;
             temp_r1->unkA = temp_r0_15;
             if ((temp_r0_15 << 0x10) == 0) {
-                temp_r1->unkA = 2U;
+                temp_r1->unkA = 2;
                 temp_r0_16 = temp_r1->unkE ^ 1;
                 temp_r1->unkE = temp_r0_16;
                 if (temp_r0_16 == 0) {
@@ -3724,9 +3737,9 @@ block_113:
         temp_r0_17 = temp_r1->unkA + 8;
         temp_r1->unkA = temp_r0_17;
         if ((s32) (s16) temp_r0_17 > 0xFF) {
-            temp_r1->unk8 = 4U;
+            temp_r1->unk8 = 4;
             m4aSongNumStop(0x29BU);
-            temp_r1->unkC = 0x802U;
+            temp_r1->unkC = 0x802;
         }
         var_r0_3 = gSineTable[(s16) temp_r1->unkA] * 0x58;
         if (var_r0_3 < 0) {
@@ -3754,7 +3767,7 @@ block_113:
         if ((temp_r0_20 << 0x10) == 0) {
             sub_8081DF4(temp_r1->unk28);
             m4aSongNumStart(0x23FU);
-            temp_r1->unkC = 0x816U;
+            temp_r1->unkC = 0x816;
             return;
         }
         break;
@@ -3770,7 +3783,7 @@ block_113:
             gBldRegs.bldAlpha = temp_r3_3;
             gBldRegs.bldY = temp_r3_3;
             temp_r1->unk8 = 0x78AU;
-            temp_r1->unkC = 0x820U;
+            temp_r1->unkC = 0x820;
             return;
         }
         break;
@@ -3962,8 +3975,8 @@ void Task_ExtraChaosEmeraldsInit(void) {
 
     temp_r5 = gCurTask->data;
     temp_r4 = &gPlayers[(u32) gPlayers[PLAYER_1].charFlags.partnerIndex];
-    temp_r5->unk16 = 0U;
-    temp_r5->unk14 = 0U;
+    temp_r5->unk16 = 0;
+    temp_r5->unk14 = 0;
     *((temp_r5->unk0 * 4) + &gUnknown_08E2ED48)(temp_r5);
     temp_r1 = gPlayers->keyInput;
     temp_r0 = temp_r5->unk14;
@@ -4013,7 +4026,7 @@ block_45:
         }
         break;
     case 0x0:
-        arg0->unk10 = 0x172U;
+        arg0->unk10 = 0x172;
         var_r0 = 0xA;
         goto block_45;
     case 0xA:
@@ -4022,7 +4035,7 @@ block_45:
         if ((temp_r0 << 0x10) != 0) {
             return;
         }
-        arg0->unk10 = 0xB4U;
+        arg0->unk10 = 0xB4;
         var_r0 = 0x64;
         goto block_45;
     case 0x64:
@@ -4048,7 +4061,7 @@ block_45:
             gPlayers->qSpeedAirX = 0;
             gPlayers->qSpeedAirY = 0;
             Player_8005380(gPlayers);
-            arg0->unk12 = 0x136U;
+            arg0->unk12 = 0x136;
             return;
         }
         break;
@@ -4056,8 +4069,8 @@ block_45:
         temp_r0_3 = arg0->unk10 - 1;
         arg0->unk10 = temp_r0_3;
         if ((temp_r0_3 << 0x10) == 0) {
-            arg0->unk10 = 0x14U;
-            arg0->unk12 = 0x140U;
+            arg0->unk10 = 0x14;
+            arg0->unk12 = 0x140;
         }
         if (((s32) ((s32) temp_r2->qWorldX >> 8) > 0x897) && (temp_r2->qSpeedAirX != 0)) {
             temp_r2->qSpeedGround = 0;
@@ -4122,7 +4135,7 @@ void sub_808007C(void *arg0) {
         gBldRegs.bldCnt = 0x3FBF;
         gBldRegs.bldAlpha = 8;
         gBldRegs.bldY = (u16) temp_r2;
-        arg0->unk10 = 1U;
+        arg0->unk10 = 1;
         var_r0 = 0xC8;
 block_123:
         arg0->unk12 = var_r0;
@@ -4164,7 +4177,7 @@ block_123:
             return;
         }
         arg0->unk14 = (u16) (0x80 | arg0->unk14);
-        arg0->unk10 = 0x1A4U;
+        arg0->unk10 = 0x1A4;
         var_r0 = 0x1F4;
         goto block_123;
     case 0xAA:
@@ -4183,7 +4196,7 @@ block_123:
         if ((s32) (temp_r1_2 >> 8) > (s32) (gCamera.y + 0x64)) {
             return;
         }
-        arg0->unk10 = 1U;
+        arg0->unk10 = 1;
         var_r0 = 0xB4;
         goto block_123;
     case 0xB4:
@@ -4193,7 +4206,7 @@ block_123:
             return;
         }
         gPlayers->charFlags.anim0 = 0x128;
-        arg0->unk10 = 0x78U;
+        arg0->unk10 = 0x78;
         var_r0 = 0xBE;
         goto block_123;
     case 0xFA:
@@ -4213,7 +4226,7 @@ block_123:
             gBldRegs.bldCnt = temp_r0_8;
             gBldRegs.bldAlpha = temp_r0_8;
             gBldRegs.bldY = temp_r0_8;
-            arg0->unk10 = 0x78U;
+            arg0->unk10 = 0x78;
             var_r0 = 0x258;
             goto block_123;
         }
@@ -4224,7 +4237,7 @@ block_123:
         if ((temp_r0_9 << 0x10) != 0) {
             return;
         }
-        arg0->unk10 = 4U;
+        arg0->unk10 = 4;
         temp_r0_10 = gBldRegs.bldY + 1;
         gBldRegs.bldY = temp_r0_10;
         if (temp_r0_10 == 0x10) {
@@ -4277,7 +4290,7 @@ block_123:
         sub_807FB7C(0x64U);
         gPlayers->qWorldX = (gCamera.x + 0x78) << 8;
         arg0->unk10 = 0x3CU;
-        arg0->unk12 = 0x212U;
+        arg0->unk12 = 0x212;
         m4aSongNumStart(0x73U);
         return;
     case 0x1F4:
@@ -4287,7 +4300,7 @@ block_123:
             return;
         }
         SetPlayerCallback(gPlayers, Player_8008CD0);
-        arg0->unk10 = 0xB4U;
+        arg0->unk10 = 0xB4;
         var_r0 = 0x1FE;
         goto block_123;
     case 0x1FE:
@@ -4297,7 +4310,7 @@ block_123:
         if (temp_r1_4 != 0) {
             return;
         }
-        arg0->unk12 = 0x208U;
+        arg0->unk12 = 0x208;
         gPlayers->framesInvulnerable = temp_r1_4;
         return;
     case 0x258:
@@ -4305,7 +4318,7 @@ block_123:
         arg0->unk10 = temp_r0_16;
         if ((temp_r0_16 << 0x10) == 0) {
             gPlayers->moveState |= 1;
-            arg0->unk10 = 0x78U;
+            arg0->unk10 = 0x78;
             var_r0 = 0xE6;
             goto block_123;
         }
@@ -4317,13 +4330,13 @@ block_123:
             return;
         }
         gPlayers->charFlags.anim0 = 0x126;
-        arg0->unk10 = 0x1E0U;
+        arg0->unk10 = 0x1E0;
         arg0->unk12 = 0xAAU;
         arg0->unkC = 0x64;
         m4aSongNumStart(0x3DU);
         return;
     case 0x0:
-        arg0->unk10 = 0x181U;
+        arg0->unk10 = 0x181;
         var_r0 = 0xA;
         goto block_123;
     case 0xA:
@@ -4332,7 +4345,7 @@ block_123:
         if ((temp_r0_18 << 0x10) != 0) {
             return;
         }
-        arg0->unk10 = 0x87U;
+        arg0->unk10 = 0x87;
         var_r0 = 0x64;
         goto block_123;
     case 0x64:
@@ -4355,8 +4368,8 @@ block_123:
         gPlayers->qSpeedAirX = 0;
         gPlayers->qSpeedAirY = 0;
         Player_8005380(gPlayers);
-        arg0->unk10 = 0xD6U;
-        arg0->unk12 = 0x78U;
+        arg0->unk10 = 0xD6;
+        arg0->unk12 = 0x78;
         sub_807FB7C(0xC8U);
         return;
     }
@@ -4454,11 +4467,11 @@ void sub_8080548(void *arg0) {
                 *(arg0 + 0x28 + (var_r5 * 0x14)) = var_r0 >> 3;
                 var_r5 += 1;
             } while ((u32) var_r5 <= 6U);
-            arg0->unkC = 0x28U;
+            arg0->unkC = 0x28;
         }
         break;
     case 0x64:
-        arg0->unk2 = 0U;
+        arg0->unk2 = 0;
         arg0->unk8 = 0x7800;
         arg0->unk4 = 0x1E000;
         arg0->unk24 = (s32) ((gCamera.x + 0x78) << 8);
@@ -4481,7 +4494,7 @@ void sub_8080548(void *arg0) {
             var_r7 = (var_r7 + 0x92) & 0x3FF;
             var_r5_2 += 1;
         } while ((u32) var_r5_2 <= 6U);
-        arg0->unk1 = 1U;
+        arg0->unk1 = 1;
         arg0->unkC = 0x6EU;
         break;
     case 0x28:
@@ -4495,8 +4508,8 @@ void sub_8080548(void *arg0) {
         if (gBldRegs.bldY != 0x10) {
 
         } else {
-            arg0->unk1 = 0U;
-            arg0->unkC = 0x3E8U;
+            arg0->unk1 = 0;
+            arg0->unkC = 0x3E8;
         }
         break;
     case 0x6E:
@@ -4545,8 +4558,8 @@ void sub_8080548(void *arg0) {
             *(temp_r2_2 + (arg0 + 0x28)) = *(temp_r1_3 + &gUnknown_080D5CD8);
             var_r5_5 += 1;
         } while ((u32) var_r5_5 <= 6U);
-        arg0->unk1 = 1U;
-        arg0->unkC = 0x14U;
+        arg0->unk1 = 1;
+        arg0->unkC = 0x14;
         break;
     case 0x14:
         var_r5_6 = 0;
@@ -4570,7 +4583,7 @@ void sub_8080548(void *arg0) {
         if (var_r6 != 7) {
 
         } else {
-            arg0->unkE = 0xB4U;
+            arg0->unkE = 0xB4;
             arg0->unkC = 0x1EU;
         }
         break;
@@ -4620,7 +4633,7 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0) {
     temp_r2->unk0 = arg0;
     temp_r2->unk4 = 1;
     temp_r2->unk6 = 0;
-    temp_r2->unk2 = 0U;
+    temp_r2->unk2 = 0;
     temp_r2->unkC = NULL;
     temp_r2->unk10 = NULL;
     var_r4 = 0;
@@ -4688,8 +4701,8 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0) {
     temp_r6->unk1B = -1;
     temp_r6->unk1C = 0x10;
     temp_r6->unk1F = 9;
-    temp_r6->unk10 = 0U;
-    temp_r6->unk12 = 0U;
+    temp_r6->unk10 = 0;
+    temp_r6->unk12 = 0;
     temp_r6->unk8 = 0x1000;
     temp_r1_6 = temp_r2 + 0x110;
     temp_r2->unk110 = (u16) temp_r2->unk2;
@@ -4820,7 +4833,7 @@ void sub_8080BD0(void *arg0) {
 
             } else {
                 temp_r5->unkC = 0x80;
-                temp_r5->unk18 = 0x64U;
+                temp_r5->unk18 = 0x64;
                 m4aSongNumStart(0x221U);
             }
             break;
@@ -4830,7 +4843,7 @@ void sub_8080BD0(void *arg0) {
             if ((s32) (temp_r0_3 >> 8) > 0x6E) {
 
             } else {
-                temp_r5->unk14 = 0x28U;
+                temp_r5->unk14 = 0x28;
                 var_r0 = 0x1E;
                 goto block_148;
             }
@@ -4877,11 +4890,11 @@ block_114:
             arg0->unk14 = temp_r0_7;
             temp_r1_3 = temp_r0_7 >> 8;
             if (temp_r1_3 > 0x923) {
-                temp_r5->unk16 = 0U;
-                temp_r5->unk14 = 0x20U;
+                temp_r5->unk16 = 0;
+                temp_r5->unk14 = 0x20;
                 temp_r5->unk8 = (s32) arg0->unk14;
                 temp_r5->unkC = (s32) temp_r5->unk4;
-                temp_r5->unk18 = 0x32U;
+                temp_r5->unk18 = 0x32;
                 m4aSongNumStart(0x27CU);
             } else if (temp_r1_3 <= 0x833) {
 
@@ -4995,7 +5008,7 @@ block_114:
     } else {
         switch (temp_r1) {                          /* switch 4; irregular */
         case 0x46A:                                 /* switch 4 */
-            temp_r5->unk14 = 0x4E2U;
+            temp_r5->unk14 = 0x4E2;
             var_r0 = 0x474;
 block_148:
             temp_r5->unk18 = var_r0;
@@ -5011,14 +5024,14 @@ block_148:
             temp_r3->unk14 = 0x2C0;
             temp_r7->unk8 = (s32) (temp_r7->unk8 | 0x3E);
             temp_r3->unk8 = (s32) (temp_r3->unk8 | 0x3F);
-            arg0->unk2 = 0x380U;
+            arg0->unk2 = 0x380;
             var_r0 = 0x424;
             goto block_148;
         case 0x42E:                                 /* switch 4 */
             temp_r7->unkC = 0x4F8;
             temp_r7->unk1A = 8;
             temp_r7->unk1B = 0xFF;
-            temp_r5->unk18 = 0x424U;
+            temp_r5->unk18 = 0x424;
             break;
         case 0x456:                                 /* switch 4 */
             arg0->unk14 = (s32) (arg0->unk14 + temp_r5->unk8);
@@ -5037,7 +5050,7 @@ block_148:
         case 0x44C:                                 /* switch 4 */
             temp_r5->unk8 = 0;
             temp_r5->unkC = 0x800;
-            temp_r5->unk18 = 0x456U;
+            temp_r5->unk18 = 0x456;
             break;
         case 0x460:                                 /* switch 4 */
             temp_r0_16 = temp_r5->unkC + 0x2A;
@@ -5090,7 +5103,7 @@ block_141:
                     if ((temp_r0_20 << 0x10) == 0) {
                         temp_r5->unk8 = 0x400;
                         temp_r5->unkC = -0x400;
-                        temp_r5->unk18 = 0x4A6U;
+                        temp_r5->unk18 = 0x4A6;
                         m4aSongNumStart(0x70U);
                     }
                     break;
@@ -5188,7 +5201,7 @@ block_136:
         if ((s32) (temp_r0_4 >> 8) > 0x8E) {
             return;
         }
-        temp_r4->unk14 = 0x28U;
+        temp_r4->unk14 = 0x28;
         var_r0 = 0x1E;
         goto block_136;
     case 0x1E:
@@ -5200,7 +5213,7 @@ block_136:
         }
         temp_r4->unk8 = 0x180;
         temp_r4->unkC = (s32) temp_r1_2;
-        temp_r4->unk18 = 0x28U;
+        temp_r4->unk18 = 0x28;
 block_108:
         temp_r3->unkC = 0x50A;
         temp_r3->unk1A = 0;
@@ -5222,7 +5235,7 @@ block_108:
         if ((temp_r0_7 << 0x10) != 0) {
             return;
         }
-        temp_r4->unk14 = 0x96U;
+        temp_r4->unk14 = 0x96;
         temp_r4->unk18 = 0x5AU;
         temp_r3->unkC = 0x50B;
         temp_r3->unk1A = 2;
@@ -5238,7 +5251,7 @@ block_108:
         temp_r3->unkC = 0x50B;
         temp_r3->unk1A = 1;
         temp_r3->unk1B = 0xFF;
-        temp_r4->unk14 = 0x14U;
+        temp_r4->unk14 = 0x14;
         var_r0 = 0x46;
         goto block_136;
     case 0x46:
@@ -5248,7 +5261,7 @@ block_108:
             return;
         }
         temp_r4->unk14 = 0x3CU;
-        temp_r4->unk18 = 0x50U;
+        temp_r4->unk18 = 0x50;
         var_r0_2 = 0x506;
 block_120:
         temp_r3->unkC = var_r0_2;
@@ -5277,19 +5290,19 @@ block_120:
         temp_r3->unk1A = 0;
         temp_r3->unk1B = 0xFF;
         temp_r3->unk8 = (s32) (temp_r3->unk8 | 0x400);
-        temp_r4->unk18 = 0x64U;
+        temp_r4->unk18 = 0x64;
         m4aSongNumStart(0x74U);
         return;
     case 0x3E8:
         temp_r4->unk14 = 0x4BU;
-        temp_r4->unk18 = 0x3F2U;
+        temp_r4->unk18 = 0x3F2;
         return;
     case 0x42E:
         temp_r1_3 = temp_r4->unk14 - 1;
         temp_r4->unk14 = temp_r1_3;
         if ((temp_r1_3 << 0x10) == 0) {
             temp_r4->unk14 = 0xAU;
-            temp_r4->unk18 = 0x433U;
+            temp_r4->unk18 = 0x433;
             temp_r3->unkC = 0x50B;
             temp_r3->unk1A = 0;
             temp_r3->unk1B = 0xFF;
@@ -5324,7 +5337,7 @@ block_120:
         if ((s32) (temp_r0_13 >> 8) > 0x8E) {
             return;
         }
-        temp_r4->unk14 = 0x28U;
+        temp_r4->unk14 = 0x28;
         var_r0 = 0x406;
         goto block_136;
     case 0x406:
@@ -5336,7 +5349,7 @@ block_120:
         }
         temp_r4->unk8 = 0x180;
         temp_r4->unkC = (s32) temp_r1_5;
-        temp_r4->unk18 = 0x410U;
+        temp_r4->unk18 = 0x410;
         goto block_108;
     case 0x41A:
         temp_r0_15 = temp_r4->unk4 + temp_r4->unkC;
@@ -5347,7 +5360,7 @@ block_120:
         temp_r3->unkC = 0x50B;
         temp_r3->unk1A = 1;
         temp_r3->unk1B = 0xFF;
-        temp_r4->unk14 = 0x14U;
+        temp_r4->unk14 = 0x14;
         var_r0 = 0x424;
         goto block_136;
     case 0x424:
@@ -5356,7 +5369,7 @@ block_120:
         if ((temp_r0_16 << 0x10) != 0) {
             return;
         }
-        temp_r4->unk14 = 0xB4U;
+        temp_r4->unk14 = 0xB4;
         temp_r4->unk18 = 0x42EU;
         var_r0_2 = 0x509;
         goto block_120;
@@ -5367,7 +5380,7 @@ block_120:
             temp_r3->unkC = 0x5CA;
             temp_r3->unk1A = 0;
             temp_r3->unk1B = 0xFF;
-            temp_r4->unk14 = 0xB4U;
+            temp_r4->unk14 = 0xB4;
             var_r0 = 0x44C;
             goto block_136;
         }
@@ -5390,8 +5403,8 @@ block_120:
             temp_r3->unk1B = 0xFF;
             temp_r4->unk8 = 0;
             temp_r4->unkC = 0;
-            temp_r4->unk14 = 0x78U;
-            temp_r4->unk18 = 0x442U;
+            temp_r4->unk14 = 0x78;
+            temp_r4->unk18 = 0x442;
             m4aSongNumStop(0x223U);
             return;
         }
@@ -5411,7 +5424,7 @@ block_120:
             temp_r3->unk1A = 1;
             temp_r3->unk1B = 0xFF;
             temp_r4->unkC = -0x80;
-            temp_r4->unk18 = 0x456U;
+            temp_r4->unk18 = 0x456;
             return;
         }
         break;
@@ -5568,7 +5581,7 @@ void sub_8081898(void) {
         temp_r1->unk10 = 0;
         temp_r1->unk8 = 1;
         temp_r1->unkC = 0;
-        gCurTask->main = (void (*)()) Task_358_807B9B8;
+        gCurTask->main = Task_358_807B9B8;
     }
 }
 
@@ -5623,7 +5636,7 @@ void Task_358_80819BC(void) {
         temp_r1->unk8 = 5;
         temp_r1->unkC = 0xA;
         SetFixedRandomIfTimeAttackMode();
-        gCurTask->main = (void (*)()) Task_358_807B808;
+        gCurTask->main = Task_358_807B808;
     }
 }
 
