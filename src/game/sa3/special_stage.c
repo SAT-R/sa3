@@ -588,38 +588,33 @@ void sub_80B292C(SpStage2A4 *strc2A4)
     strc2A4->unk289 = 1;
 }
 
-// (99.78%) https://decomp.me/scratch/sRoAg
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B29B4.inc", void sub_80B29B4(SpStage2A4 *strc2A4, u8 param1))
+void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex)
 {
-    s16 sp18[6];
-    s32 sp24;
-    s32 sp28;
-    s16 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r6;
-    u8 var_r7;
-    s32 var_sb;
-    TileInfo_16_2 *temp_r5;
-    SpStgContext *unk0 = strc2A4->unk0;
+    s16 sp18[5];
+    s16 targetRingCount;
+    u8 i;
+    u8 var_sb;
+    TileInfo_16_2 *tileInfo;
+    SpStgContext *ctx = strc2A4->unk0;
 
-    temp_r4 = gUnknown_080DBE82[unk0->unk8C7][param1];
-    sp18[0] = 0xA;
-    sp18[4] = 0xB;
-    sp18[1] = (s16)Div((s32)temp_r4, 0x64);
-    sp18[2] = (s16)(Div((s32)temp_r4, 0xA) - (sp18[1] * 0xA));
-    sp18[3] = (s16)Mod((s32)temp_r4, 0xA);
+    targetRingCount = gUnknown_080DBE82[ctx->unk8C7][spStageHalfIndex];
+    sp18[0] = 0xA; // GET
+    sp18[4] = 0xB; // RINGS
+    sp18[1] = Div(targetRingCount, 100); // Digit of hundreds
+    sp18[2] = (Div(targetRingCount, 10) - (sp18[1] * 10)); // Digit of tens
+    sp18[3] = Mod(targetRingCount, 10); // Lowest digit
     if (sp18[1] != 0) {
         var_sb = 0;
     } else {
         var_sb = 1;
     }
-    for (var_r7 = 0; var_r7 < 5; var_r7++) {
-        temp_r5 = &gUnknown_080DBEF8[sp18[var_r7]];
-        sub_80B6BB8(&strc2A4->sprites194[var_r7], 1, temp_r5->numTiles, temp_r5->anim, 0U, gUnknown_080DBF94[var_sb][var_r7],
-                    gUnknown_080DBFCC[var_r7], 1, temp_r5->variant, 0U);
-        strc2A4->sprites194[var_r7].animSpeed = 0x10;
+    for (i = 0; i < ARRAY_COUNT(sp18); i++) {
+        tileInfo = &gUnknown_080DBEF8[sp18[i]];
+        sub_80B6BB8(&strc2A4->sprites194[i], 1, tileInfo->numTiles, tileInfo->anim, 0, gUnknown_080DBF94[var_sb][i], gUnknown_080DBFCC[i],
+                    1, tileInfo->variant, 0);
+        strc2A4->sprites194[i].animSpeed = SPRITE_ANIM_SPEED(1.0);
     }
-    if ((s8)(u8)strc2A4->unk28A != 0) {
+    if (strc2A4->unk28A != 0) {
         strc2A4->unk290[0] = 0;
         strc2A4->unk290[1] = 0;
         strc2A4->unk290[2] = 0;
@@ -628,9 +623,8 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B29B4.inc", void sub_80B29B4(Sp
         strc2A4->unk290[1] = 0x6C80;
         strc2A4->unk290[2] = 0x6580;
     }
-    strc2A4->unk28A += ++var_sb;
+    strc2A4->unk28A += var_sb + 1;
 }
-END_NONMATCH
 
 void sub_80B2B38(SpStage2A4 *strc2A4)
 {
