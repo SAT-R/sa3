@@ -184,8 +184,8 @@ gUnknown_08E2ED18:
 
     .global gUnknown_08E2ED48
 gUnknown_08E2ED48:
-    mPtr sub_807FEB4
-    mPtr sub_808007C
+    mPtr sub_1C0_807FEB4
+    mPtr sub_1C0_808007C
 
     .global gUnknown_08E2ED50
 gUnknown_08E2ED50:

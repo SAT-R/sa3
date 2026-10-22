@@ -126,18 +126,6 @@ extern void AddLives(u16 count);
 #define GAME_OVER_SCREEN_DURATION TIME(0, 7)
 #define TIME_OVER_SCREEN_DURATION TIME(0, 5)
 
-typedef struct MusicManagerState {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-    u8 unk4;
-    u8 unk5;
-    u16 fadeoutSpeed;
-} MusicManagerState; /* size: 8 */
-
-extern MusicManagerState gMusicManagerState;
-
 void sub_8002414(void)
 {
     GameOver *strc;

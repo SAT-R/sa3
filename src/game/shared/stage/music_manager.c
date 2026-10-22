@@ -32,20 +32,6 @@ void MusManager_Fadeout(u16 fadeoutSpeed);
 void MusManager_TempoSettings(void);
 #endif
 
-// SA12: game/globals.h
-typedef struct MusicManagerState {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-    u8 unk4;
-    u8 unk5;
-    u16 fadeoutSpeed;
-#if (GAME == GAME_SA3)
-    u16 song;
-#endif
-} MusicManagerState; /* size: 0xC */
-
 MusicManagerState ALIGNED(8) gMusicManagerState = { 0 };
 
 #if 0

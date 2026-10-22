@@ -236,18 +236,6 @@ typedef struct Strc_03001BF0 {
 
 extern Strc_03001BF0 gUnknown_03001BF0;
 
-typedef struct MusicManagerState {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-    u8 unk4;
-    u8 unk5;
-    u16 fadeoutSpeed;
-} MusicManagerState; /* size: 8 */
-
-extern MusicManagerState gMusicManagerState; // TODO: <- gMusicManagerState
-
 extern u16 gMedalTimes[][2];
 extern u8 gUnknown_080CF468[];
 extern s16 gUnknown_080CF470[][2];
