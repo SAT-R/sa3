@@ -301,7 +301,7 @@ void sub_80B24AC(SpStage2A4 *strc2A4);
 void sub_2A4_80B2640(void);
 void sub_2A4_80B26FC(void);
 void sub_80B28AC(SpStage2A4 *strc2A4);
-void sub_80B29B4(SpStage2A4 *strc2A4, u8 param1);
+void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex);
 void sub_80B2B38(SpStage2A4 *strc2A4);
 void sub_80B2C98(SpStage2A4 *strc2A4, u8 param1);
 void sub_80B2D0C(SpStage2A4 *strc2A4);
