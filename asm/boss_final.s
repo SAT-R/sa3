@@ -6502,7 +6502,7 @@ _0807F1A0:
 _0807F1F8:
 	ldr r0, _0807F220 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0807F224 @ =sub_807F568
+	ldr r0, _0807F224 @ =Task_358_807F568
 	str r0, [r1, #8]
 _0807F200:
 	add sp, #0x10
@@ -6518,7 +6518,7 @@ _0807F214: .4byte 0xFFFFFEFF
 _0807F218: .4byte Player_8005380
 _0807F21C: .4byte 0x00000177
 _0807F220: .4byte gCurTask
-_0807F224: .4byte sub_807F568
+_0807F224: .4byte Task_358_807F568
 
 	thumb_func_start sub_807F228
 sub_807F228: @ 0x0807F228
@@ -6944,8 +6944,8 @@ _0807F560:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_807F568
-sub_807F568: @ 0x0807F568
+	thumb_func_start Task_358_807F568
+Task_358_807F568: @ 0x0807F568
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -8101,8 +8101,8 @@ _0807FE36:
 	.align 2, 0
 _0807FE44: .4byte Player_8005380
 
-	thumb_func_start Task_ExtraChaosEmeraldsInit
-Task_ExtraChaosEmeraldsInit: @ 0x0807FE48
+	thumb_func_start Task_1C0_ExtraChaosEmeraldsInit
+Task_1C0_ExtraChaosEmeraldsInit: @ 0x0807FE48
 	push {r4, r5, r6, lr}
 	ldr r0, _0807FEA8 @ =gCurTask
 	ldr r0, [r0]
@@ -8145,7 +8145,7 @@ Task_ExtraChaosEmeraldsInit: @ 0x0807FE48
 	ands r1, r0
 	strh r1, [r4, #0x20]
 	adds r0, r5, #0
-	bl sub_8080548
+	bl sub_1C0_8080548
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -8154,8 +8154,8 @@ _0807FEA8: .4byte gCurTask
 _0807FEAC: .4byte gPlayers
 _0807FEB0: .4byte gUnknown_08E2ED48
 
-	thumb_func_start sub_807FEB4
-sub_807FEB4: @ 0x0807FEB4
+	thumb_func_start sub_1C0_807FEB4
+sub_1C0_807FEB4: @ 0x0807FEB4
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r3, _0807FEEC @ =gPlayers
@@ -8398,8 +8398,8 @@ _08080076:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_808007C
-sub_808007C: @ 0x0808007C
+	thumb_func_start sub_1C0_808007C
+sub_1C0_808007C: @ 0x0808007C
 	push {r4, r5, r6, r7, lr}
 	adds r4, r0, #0
 	ldr r5, _080800B4 @ =gPlayers
@@ -9066,8 +9066,8 @@ _080804CC:
 	.align 2, 0
 _08080544: .4byte sBossExtraAnimsChaosEmeralds
 
-	thumb_func_start sub_8080548
-sub_8080548: @ 0x08080548
+	thumb_func_start sub_1C0_8080548
+sub_1C0_8080548: @ 0x08080548
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -11549,7 +11549,7 @@ sub_808178C: @ 0x0808178C
 	adds r5, r0, #0
 	lsls r5, r5, #0x18
 	lsrs r5, r5, #0x18
-	ldr r0, _080817D8 @ =Task_ExtraChaosEmeraldsInit
+	ldr r0, _080817D8 @ =Task_1C0_ExtraChaosEmeraldsInit
 	movs r1, #0xe0
 	lsls r1, r1, #1 @ 0x1C0
 	movs r2, #0x88
@@ -11580,7 +11580,7 @@ sub_808178C: @ 0x0808178C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080817D8: .4byte Task_ExtraChaosEmeraldsInit
+_080817D8: .4byte Task_1C0_ExtraChaosEmeraldsInit
 _080817DC: .4byte TaskDestructor_ExtraChaosEmeralds
 
 	thumb_func_start TaskDestructor_HyperEggRobo
