@@ -184,11 +184,7 @@ sBossExtraAnimsChaosEmeralds:
 
     .global gUnknown_080D5CD4
 gUnknown_080D5CD4:
-    .incbin "baserom_sa3.gba", 0x000D5CD4, 0x4
-
-    .global gUnknown_080D5CD8
-gUnknown_080D5CD8:
-    .incbin "baserom_sa3.gba", 0x000D5CD8, 0x34
+    .incbin "baserom_sa3.gba", 0x000D5CD4, 0x38
 
     .global gUnknown_080D5D0C
 gUnknown_080D5D0C:
