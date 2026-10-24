@@ -900,44 +900,31 @@ void sub_807C48C(Sprite *sprColliding)
     }
 }
 
-#if 01
-#else
-
 void sub_807C518(HyperEggRobo *arg0, u8 arg1)
 {
-    Player *temp_r4;
-    Sprite *temp_r1_2;
-    Sprite *temp_r6;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1;
-    s32 temp_r2;
-    u8 var_r7;
-    HyberEggRoboStrc144 *temp_r0;
+    HyberEggRoboStrc144 *strc144 = &arg0->pos144[arg1];
+    Sprite *s = &arg0->spr278[arg1];
+    u8 i;
 
-    temp_r1 = arg1 * 0x28;
-    temp_r0 = &arg0->pos144[arg1];
-    temp_r6 = &arg0->spr278[arg1];
-    var_r7 = 0;
-    do {
-        temp_r4 = arg0->players[var_r7];
-        if (sub_802C080(temp_r4) == 0) {
-            if (temp_r4->qWorldY > (s32)(temp_r0->qWorld.y + Q(temp_r6->hitboxes[0].b.bottom))) {
-                if (temp_r4->moveState & 0x20) {
-                    if ((temp_r4->sprColliding == &arg0->sprPlatforms[0]) || ((temp_r4->sprColliding == &arg0->sprPlatforms[1]))
-                        || ((temp_r4->sprColliding == &arg0->sprPlatforms[2])) || (temp_r4->sprColliding == &arg0->sprPlatforms[3])) {
-                        sub_8020CE0(temp_r6, I(temp_r0->qWorld.x), I(temp_r0->qWorld.y), 0, temp_r4);
+    for (i = 0; i < ARRAY_COUNT(arg0->players); i++) {
+        Player *p = arg0->players[i];
+        if (sub_802C080(p) == 0) {
+            if (p->qWorldY > (strc144->qWorld.y + Q(s->hitboxes[0].b.bottom))) {
+                if (p->moveState & MOVESTATE_COLLIDING_ENT) {
+                    if ((p->sprColliding == &arg0->sprPlatforms[0]) || ((p->sprColliding == &arg0->sprPlatforms[1]))
+                        || ((p->sprColliding == &arg0->sprPlatforms[2])) || (p->sprColliding == &arg0->sprPlatforms[3])) {
+                        sub_8020CE0(s, I(strc144->qWorld.x), I(strc144->qWorld.y), 0, p);
                     }
                 } else {
-                    sub_8020CE0(temp_r6, I(temp_r0->qWorld.x), I(temp_r0->qWorld.y), 0, temp_r4);
+                    sub_8020CE0(s, I(strc144->qWorld.x), I(strc144->qWorld.y), 0, p);
                 }
             }
         }
-        var_r7 += 1;
-    } while ((u32)var_r7 <= 1U);
+    }
 }
 
+#if 01
+#else
 void sub_807C5D0(void)
 {
     HyperEggRobo *boss = TASK_DATA(gCurTask);
