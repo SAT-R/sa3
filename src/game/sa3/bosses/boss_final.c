@@ -63,7 +63,7 @@ typedef struct {
     /* 0x002 */ u8 unk2;
     /* 0x002 */ u8 unk3;
     /* 0x004 */ u8 *initArg0;
-    /* 0x008 */ u16 unk8;
+    /* 0x008 */ s16 unk8;
     /* 0x002 */ u16 unkA;
     /* 0x00C */ u16 unkC;
     /* 0x00E */ u8 unkE;
@@ -164,7 +164,7 @@ void sub_358_807BFEC(HyperEggRobo *boss);
 void sub_358_807C074(HyperEggRobo *boss);
 void sub_358_807C14C(HyperEggRobo *boss);
 void sub_807DB00(HyperEggRobo *boss, u8 arg1, u8 arg2);
-bool32 sub_807CD4C(HyperEggRobo *boss);
+bool8 sub_807CD4C(HyperEggRobo *boss);
 void sub_807CFAC(HyperEggRobo *boss);
 void sub_807CCA8(HyperEggRobo *boss);
 void sub_807CDF0(HyperEggRobo *boss);
@@ -923,22 +923,16 @@ void sub_807C518(HyperEggRobo *arg0, u8 arg1)
     }
 }
 
-#if 01
-#else
 void sub_807C5D0(void)
 {
     HyperEggRobo *boss = TASK_DATA(gCurTask);
-    Player *p;
-    Sprite *temp_r1_2;
-    u32 temp_r0;
-    u8 var_r6;
+    u8 i;
 
-    var_r6 = 0;
-    do {
-        p = boss->players[var_r6];
+    for (i = 0; i < 2; i++) {
+        Player *p = boss->players[i];
         if ((p->charFlags.someIndex == 1) || (p->charFlags.someIndex == 2) || (p->charFlags.someIndex == 4)) {
             if (!sub_802C0D4(p)) {
-                if (0x20 & p->moveState) {
+                if (p->moveState & MOVESTATE_COLLIDING_ENT) {
                     if (p->sprColliding != &boss->sprPlatforms[0]) {
                         if (p->sprColliding != &boss->sprPlatforms[1]) {
                             if ((p->sprColliding != &boss->sprPlatforms[2]) && (p->sprColliding != &boss->sprPlatforms[3])) {
@@ -946,7 +940,7 @@ void sub_807C5D0(void)
                                 p->moveState |= 4;
                                 p->sprColliding = NULL;
                                 sub_8016F28(p);
-                                p->charFlags.someIndex &= ~1;
+                                p->charFlags.unk2C_04 = 0;
                                 Player_8005380(p);
                             }
                         }
@@ -954,45 +948,40 @@ void sub_807C5D0(void)
                 }
             }
         }
-        var_r6 += 1;
-    } while ((u32)var_r6 <= 1U);
+    }
 }
 
 void sub_807C670(HyperEggRobo *boss)
 {
     u8 sp0[4];
-    s32 temp_r0;
     u32 temp_r0_2;
     u8 var_r0;
-    s32 var_r5 = 0;
+    bool32 var_r5 = 0;
     memcpy(sp0, &gUnknown_080D5CA0, sizeof(sp0));
 
-    temp_r0_2 = (u32)PseudoRandom32() % 10000U;
-    if (gStageData.difficulty == 0) {
-        if ((u32)boss->lives <= 4U) {
-            goto block_7;
+    temp_r0_2 = (u32)PseudoRandom32();
+    temp_r0_2 %= 10000U;
+    if (gStageData.difficulty == DIFFICULTY_NORMAL) {
+        if (boss->lives <= 4) {
+            var_r5 = 1;
         }
-        goto block_5;
-    }
-    if ((u32)boss->lives <= 3U) {
+    } else if (boss->lives <= 3) {
         var_r5 = 1;
     }
-block_5:
+
     if (var_r5 == 0) {
         boss->unk1 = sp0[boss->unk12];
         boss->unk12 = (boss->unk12 + 1) & 3;
     } else {
-    block_7:
         if (temp_r0_2 < 0x9C4) {
-            var_r0 = 1;
+            boss->unk1 = 1;
         } else if (temp_r0_2 < 0x1388) {
-            var_r0 = 2;
+            boss->unk1 = 2;
         } else if (temp_r0_2 < 0x1D4C) {
-            var_r0 = 3;
+            boss->unk1 = 3;
         } else {
-            var_r0 = 4;
+            boss->unk1 = 4;
         }
-        boss->unk1 = var_r0;
     }
     boss->unk8 = 1;
     boss->unkC = 0;
@@ -1000,23 +989,15 @@ block_5:
 
 void sub_807C728(HyperEggRobo *boss)
 {
-    s32 temp_r0_2;
-    s32 temp_r1_2;
-    s32 var_r2;
-    u16 temp_r0;
-    u16 temp_r0_3;
-    u16 temp_r0_4;
-    u8 var_r3;
-    u8 var_r3_2;
-    void *temp_r1_3;
+    s32 var_r2 = 0;
+    u8 i;
 
-    var_r2 = 0;
     switch (boss->unkC) {
         case 0:
-            for (var_r3 = 0; var_r3 < ARRAY_COUNT(boss->unk194); var_r3++) {
-                boss->unk194[var_r3].unk14 = 0;
-                boss->unk194[var_r3].qWorld.x = boss->qWorld.x;
-                boss->unk194[var_r3].qWorld.y = boss->qWorld.y - Q(32);
+            for (i = 0; i < ARRAY_COUNT(boss->unk194); i++) {
+                boss->unk194[i].unk18 = 0;
+                boss->unk194[i].qWorld.x = boss->qWorld.x;
+                boss->unk194[i].qWorld.y = boss->qWorld.y - Q(32);
             }
 
             boss->unk2 = PseudoRandom32() & 1;
@@ -1028,30 +1009,23 @@ void sub_807C728(HyperEggRobo *boss)
             break;
         case 10:
             if (boss->unk2 == 0) {
-                temp_r0_3 = boss->unkA - 1;
-                boss->unkA = temp_r0_3;
-                if ((temp_r0_3 << 0x10) == 0) {
-                    goto block_16;
+                if (--boss->unkA == 0) {
+                    var_r2 = 1;
                 }
-                goto block_15;
-            }
-            if (boss->unk16 != 0) {
+            } else if (boss->unk16 != 0) {
                 var_r2 = 1;
             }
-        block_15:
+
             if (var_r2 != 0) {
-            block_16:
-                for (var_r3_2 = 0; var_r3_2 < 3; var_r3_2++) {
-                    if (boss->unk194[var_r3_2].unk18 == 1) {
-                        boss->unk194[var_r3_2].unk14 = 239;
+                for (i = 0; i < ARRAY_COUNT(boss->unk194); i++) {
+                    if (boss->unk194[i].unk18 == 1) {
+                        boss->unk194[i].unk14 = 239;
                     }
                 }
                 boss->unk8 = 0x3C;
                 boss->unkC = 0x3E8;
             } else {
-                temp_r0_4 = boss->unk8 - 1;
-                boss->unk8 = temp_r0_4;
-                if ((temp_r0_4 << 0x10) == 0) {
+                if (--boss->unk8 == 0) {
                     if (!sub_807CD4C(boss)) {
                         sub_807CDF0(boss);
                         boss->unk8 = 0x3C;
@@ -1076,51 +1050,43 @@ void sub_807C728(HyperEggRobo *boss)
 
 void sub_807C8AC(HyperEggRobo *boss)
 {
-    s32 temp_r0_2;
-    u16 temp_r0;
-    u16 temp_r1;
-
-    temp_r1 = boss->unkC;
-    switch (temp_r1) { /* irregular */
-        case 0x0:
+    switch (boss->unkC) {
+        case 0:
             sub_807DB00(boss, 0U, 2);
             sub_807DB00(boss, 1U, 2);
             boss->unk8 = 0xF0;
             boss->unkE = 1;
-            boss->unkC = 0xA;
-            return;
-        case 0xA:
-            temp_r0 = boss->unk8 - 1;
-            boss->unk8 = temp_r0;
-            if ((temp_r0 << 0x10) == 0) {
-                boss->unkC = 0x14;
-                return;
+            boss->unkC = 10;
+            break;
+        case 10:
+            if (--boss->unk8 == 0) {
+                boss->unkC = 20;
             }
-            return;
-        case 0x14:
+            break;
+        case 20:
             boss->unk3 = ((u32)((u32)PseudoRandom32() % 10000U) >> 2) & 3;
             boss->unk2 = 1;
             sub_807D8B4(boss, 1U, boss->unk3);
-            boss->unkC = 0x64;
-            return;
-        case 0x64:
+            boss->unkC = 100;
+            break;
+        case 100:
             if ((sub_807D9B4(boss, 0U) << 0x18) != 0) {
                 boss->unkE += 1;
-                boss->unkC = 0xC8;
+                boss->unkC = 200;
                 return;
             }
             break;
-        case 0xC8:
+        case 200:
             sub_807D8B4(boss, 0x14U, 0U);
-            boss->unkC = 0x1F4;
+            boss->unkC = 500;
             return;
-        case 0x1F4:
+        case 500:
             if ((sub_807D9B4(boss, 1U) << 0x18) != 0) {
-                boss->unkC = 0x3E8;
+                boss->unkC = 1000;
                 return;
             }
             break;
-        case 0x3E8:
+        case 1000:
             sub_807DB00(boss, 0U, 5);
             sub_807DB00(boss, 1U, 5);
             sub_8081BBC(boss);
@@ -1156,12 +1122,6 @@ void sub_807C9C0(HyperEggRobo *boss)
 
 void sub_807CA38(HyperEggRobo *boss)
 {
-    u16 temp_r0;
-    u16 temp_r0_3;
-    u16 temp_r1;
-    u8 temp_r0_2;
-    u8 var_r0;
-
     switch (boss->unkC) {
         case 0x0:
             sub_807DB00(boss, 0U, 4);
@@ -1197,24 +1157,22 @@ void sub_807CA38(HyperEggRobo *boss)
         case 110:
             if ((sub_807D9B4(boss, 2U) << 0x18) != 0) {
                 if (++boss->unkE <= 2U) {
-                    goto block_28;
+                    boss->unk8 = 0x1E;
+                    boss->unkC = 0x64;
+                } else {
+                    boss->unkC = 0x1FE;
+                    boss->unk8 = 0x3C;
                 }
-                boss->unkC = 0x1FE;
-                boss->unk8 = 0x3C;
             }
             break;
         case 500:
             if ((sub_807D9B4(boss, 0U) << 0x18) != 0) {
-            block_33:
-                boss->unkC = 0x3E8;
-                return;
+                boss->unkC = 1000;
             }
             break;
         case 510:
-            temp_r0_3 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) == 0) {
-                goto block_33;
+            if (--boss->unk8 == 0) {
+                boss->unkC = 1000;
             }
             break;
         case 1000:
@@ -1227,10 +1185,9 @@ void sub_807CA38(HyperEggRobo *boss)
 
 void sub_807CB78(HyperEggRobo *boss)
 {
-    u16 temp_r0;
-    u16 temp_r0_2;
-
     switch (boss->unkC) {
+        case 0:
+            break;
         case 10:
             if (--boss->unk8 == 0) {
                 boss->unkC = 0x14;
@@ -1250,98 +1207,84 @@ void sub_807CB78(HyperEggRobo *boss)
 
 void sub_358_807CBC8(HyperEggRobo *boss)
 {
-    u8 *sp0;
-    Sprite *temp_r0_2;
-    s32 *temp_r2;
-    s32 *temp_r3;
-    s32 temp_r4;
-    u8 *temp_r0;
-    u8 var_r6;
-    void *temp_r1;
+    Sprite *s;
+    u8 i;
 
-    temp_r0 = VramMalloc(0x74U);
-    boss->vram18 = temp_r0;
-    sp0 = temp_r0;
-    var_r6 = 0;
-    do {
-        temp_r0_2 = &boss->spr2C8[var_r6];
-        temp_r0_2->tiles = sp0;
-        temp_r0_2->anim = 0x4F0;
-        temp_r0_2->variant = 0;
-        temp_r0_2->oamFlags = 0x500;
-        temp_r0_2->animCursor = 0;
-        temp_r0_2->qAnimDelay = 0;
-        temp_r0_2->prevVariant = 0xFF;
-        temp_r0_2->animSpeed = 0x10;
-        temp_r0_2->palId = 0;
-        temp_r0_2->hitboxes[0].index = -1;
-        temp_r0_2->frameFlags = 0x1000;
-        boss->unk194[var_r6].qWorld.x = 0x67800;
-        boss->unk194[var_r6].qWorld.y = 0x16000;
-        temp_r0_2->x = ((s32)*temp_r2 >> 8) - gCamera.x;
-        temp_r0_2->y = ((s32)*temp_r3 >> 8) - gCamera.y;
-        UpdateSpriteAnimation(temp_r0_2);
-        temp_r1 = boss + temp_r4;
-        boss->unk194[var_r6].unk18 = 0;
-        boss->unk194[var_r6].unk1A = 1;
-        sp0 += 0x480;
-        var_r6 += 1;
-    } while ((u32)var_r6 <= 2U);
+    u8 *vram = boss->vram18 = VramMalloc(0x74U);
+    for (i = 0; i < 3; i++) {
+        s = &boss->spr2C8[i];
+        s->tiles = vram;
+        s->anim = ANIM_BOSS_FINAL_PROJ;
+        s->variant = 0;
+        s->oamFlags = SPRITE_OAM_ORDER(20);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x1000;
+        boss->unk194[i].qWorld.x = Q(0x678);
+        boss->unk194[i].qWorld.y = Q(0x160);
+        s->x = I(boss->unk194[i].qWorld.x) - gCamera.x;
+        s->y = I(boss->unk194[i].qWorld.y) - gCamera.y;
+        UpdateSpriteAnimation(s);
+        boss->unk194[i].unk18 = 0;
+        boss->unk194[i].unk1A = 1;
+        vram += 0x480;
+    }
 }
 
 void sub_807CCA8(HyperEggRobo *boss)
 {
-    Sprite *temp_r5;
-    u16 *temp_r4;
-    u8 var_r7;
+    Sprite *s;
+    u8 i;
 
-    for (var_r7 = 0; var_r7 < 3; var_r7++) {
-        if (boss->unk194[var_r7].unk18 != 0) {
-            temp_r5 = &boss->spr2C8[var_r7];
-            temp_r5->x = I(boss->unk194[var_r7].qWorld.x) - gCamera.x;
-            temp_r5->y = I(boss->unk194[var_r7].qWorld.y) - gCamera.y;
+    for (i = 0; i < ARRAY_COUNT(boss->unk194); i++) {
+        if (boss->unk194[i].unk18 != 0) {
+            s = &boss->spr2C8[i];
+            s->x = I(boss->unk194[i].qWorld.x) - gCamera.x;
+            s->y = I(boss->unk194[i].qWorld.y) - gCamera.y;
 
-            if (boss->unk194[var_r7].unk1A != 0) {
-                if (1 & boss->unk194[var_r7].unk1A) {
-                    UpdateSpriteAnimation(temp_r5);
-                    DisplaySprite(temp_r5);
+            if (boss->unk194[i].unk1A != 0) {
+                if (boss->unk194[i].unk1A & 1) {
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
                 }
-                boss->unk194[var_r7].unk1A -= 1;
+                boss->unk194[i].unk1A -= 1;
             } else {
-                UpdateSpriteAnimation(temp_r5);
-                DisplaySprite(temp_r5);
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
             }
         }
     }
 }
 
-u32 sub_807CD4C(HyperEggRobo *boss)
+bool8 sub_807CD4C(HyperEggRobo *boss)
 {
-    s32 temp_r1;
-    s32 temp_r2;
-    u32 var_r7;
-    u8 var_r5;
+    u8 i;
+    bool8 result = FALSE;
 
-    var_r7 = 0;
     if ((boss->unk194[0].unk18 != 0) && (boss->unk194[1].unk18 != 0) && (boss->unk194[2].unk18 != 0)) {
-        return 0U;
+        return result;
     }
-    var_r5 = 0;
-loop_6:
-    if ((boss->unk194[var_r5].unk18 == 0)
-        || (temp_r2 = boss->unk194[var_r5].qWorld.x - boss->qWorld.x,
-            temp_r1 = (*(&boss->unk194[0].qWorld.y + (var_r5 * 0x1C)) + 0x2000) - boss->qWorld.y,
-            ((u32)Sqrt((temp_r2 * temp_r2) + (temp_r1 * temp_r1)) > 0x17FFU))) {
-        var_r5 += 1;
-        if ((u32)var_r5 <= 2U) {
-            goto loop_6;
+
+    for (i = 0; i < ARRAY_COUNT(boss->unk194); i++) {
+        if (boss->unk194[i].unk18 != 0) {
+            s32 x = boss->unk194[i].qWorld.x - boss->qWorld.x;
+            s32 y = boss->unk194[i].qWorld.y + Q(32);
+            y -= boss->qWorld.y;
+            if (Sqrt(SQUARE(x) + SQUARE(y)) < Q(24)) {
+                result = TRUE;
+                break;
+            }
         }
-    } else {
-        var_r7 = 1;
     }
-    return var_r7;
+    return result;
 }
 
+#if 01
+#else
 void sub_807CDF0(HyperEggRobo *boss)
 {
     Sprite *temp_r0_4;
