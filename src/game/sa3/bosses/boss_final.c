@@ -49,11 +49,11 @@ typedef struct {
     /* 0x00 */ Vec2_32 qWorld;
     /* 0x14 */ s32 unk8;
     /* 0x14 */ s32 unkC;
-    /* 0x14 */ s32 unk10;
-    /* 0x14 */ u16 unk14;
-    /* 0x14 */ u16 unk16;
-    /* 0x14 */ u16 unk18;
-    /* 0x14 */ s16 unk1A;
+    /* 0x10 */ s32 unk10;
+    /* 0x14 */ s16 unk14;
+    /* 0x16 */ u16 unk16;
+    /* 0x18 */ u16 unk18;
+    /* 0x1A */ s16 unk1A;
 } HyberEggRoboStrc194; /* 0x1C */
 
 typedef struct {
@@ -1289,8 +1289,7 @@ void sub_807CDF0(HyperEggRobo *boss)
     u32 temp_r0_3;
     u8 i;
 
-    for(i = 0; i < ARRAY_COUNT(boss->unk194); i++)
-    {
+    for (i = 0; i < ARRAY_COUNT(boss->unk194); i++) {
         if (boss->unk194[i].unk18 == 0) {
             boss->unk194[i].unk18 = 1;
             boss->unk194[i].unk14 = 0;
@@ -1316,7 +1315,7 @@ void sub_807CDF0(HyperEggRobo *boss)
                     boss->unk194[i].unk16 = temp_r0_2 + 0x80;
                     break;
             }
-    
+
             boss->unk194[i].unk10 = gUnknown_080D5C50[boss->unk10];
             boss->unk194[i].unk8 = (COS(boss->unk194[i].unk16) * boss->unk194[i].unk10) / 0x4000;
             boss->unk194[i].unkC = (SIN(boss->unk194[i].unk16) * boss->unk194[i].unk10) / 0x4000;
@@ -1339,124 +1338,88 @@ void sub_807CDF0(HyperEggRobo *boss)
 void sub_807CFAC(HyperEggRobo *boss)
 {
     s32 sp0;
-    s32 sp4;
+    u8 sp4;
     s32 sp8;
-    s32 spC;
-    Sprite *sp10;
-    s32 sp14;
-    s32 sp18;
+    Sprite *s;
     HyberEggRoboStrc194 *temp_r0_4;
-    Player *temp_r4_2;
-    Player *temp_r4_3;
-    Player *temp_r4_4;
-    Player *temp_r4_5;
-    Player *temp_r4_6;
-    s16 temp_r0_3;
-    s16 temp_r0_7;
-    s32 *temp_r6;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r3;
     s32 temp_r3_2;
-    s32 temp_r4;
-    s32 temp_sb;
-    u16 temp_r0_2;
-    u16 temp_r0_6;
-    u16 temp_r5;
-    u32 temp_r1;
-    u8 temp_r0;
-    u8 temp_r0_9;
-    void *temp_r0_5;
-    void *temp_r0_8;
 
     for (sp4 = 0; sp4 < 3; sp4++) {
-        sp10 = &boss->spr2C8[sp4];
-        temp_r4 = sp4 * 0x1C;
-        temp_r5 = boss->unk194[sp4].unk18;
-        sp14 = sp4 * 8;
-        if (temp_r5 != 1) {
-            switch ((s32)temp_r5) { /* irregular */
-                case 0x64:
-                    boss->unk194[sp4].unk14 = 0x1E;
-                    boss->unk194[sp4].unk18 = 0x6E;
-                    boss->unk194[sp4].unk1A = 0;
-                    m4aSongNumStart(0x239U);
-                    sp10->anim = 0x4F6;
-                    sp10->variant = 0;
-                    for (sp8 = 0; sp8 < 2; sp8++) {
-                        temp_r4_2 = boss->players[sp8];
-                        if ((temp_r4_2->moveState & 0x20) && (temp_r4_2->sprColliding == sp10)) {
-                            temp_r4_2->moveState &= ~0x20;
-                            temp_r4_2->sprColliding = NULL;
+        s = &boss->spr2C8[sp4];
+        switch (boss->unk194[sp4].unk18) {
+            case 0:
+                break;
+            case 1: {
+                boss->unk194[sp4].qWorld.x += boss->unk194[sp4].unk8;
+                boss->unk194[sp4].qWorld.y += boss->unk194[sp4].unkC;
+                sub_807D41C(boss, sp4);
+                temp_r3_2 = boss->unk194[sp4].qWorld.x - boss->unk194[sp4].qWorld.x;
+                sub_807D37C(boss, &boss->unk194[sp4]);
+                if (boss->unk194[sp4].unk1A == 0) {
+                    sp0 = boss->unk194[sp4].qWorld.y - boss->unk194[sp4].qWorld.y;
+                    sp8 = sub_807C244(s, boss->unk194[sp4].qWorld.x, boss->unk194[sp4].qWorld.y, temp_r3_2, sp0);
+                    if (sub_802C080(boss->players[0]) == 0) {
+                        if (boss->unk194[sp4].unk18 & sp8) {
+                            if (((s32)(boss->unk194[sp4].qWorld.y >> 8) <= 32) && (boss->players[0]->framesInvulnerable == 0)
+                                && (boss->lives != 0)) {
+                                Call__Player_8014550(boss->players[0]);
+                            }
+                        } else if ((boss->players[0]->qWorldY > boss->unk194[sp4].qWorld.y + Q(s->hitboxes[0].b.bottom))
+                                   && (boss->lives != 0)) {
+                            sub_8020CE0(s, I(boss->unk194[sp4].qWorld.x), I(boss->unk194[sp4].qWorld.y), 0, boss->players[0]);
                         }
                     }
-                    break;
-                case 0x6E:
-                    temp_r0_2 = boss->unk194[sp4].unk14 - 1;
-                    boss->unk194[sp4].unk14 = temp_r0_2;
-                    temp_r0_3 = (s16)temp_r0_2;
-                    if (temp_r0_3 == 0) {
-                        boss->unk194[sp4].unk18 = (u16)temp_r0_3;
-                    }
-                    break;
-            }
-        } else {
-            temp_r0_4 = &boss->unk194[sp4];
-            temp_r0_4->qWorld.x = temp_r0_4->qWorld.x + *(&boss->unk194[0].unk8 + temp_r4);
-            boss->unk194[sp4].qWorld.y += *(&boss->unk194[0].unkC + temp_r4);
-            sp18 = temp_r0_4->qWorld.x;
-            sub_807D41C(boss, sp4);
-            temp_r3_2 = temp_r0_4->qWorld.x - temp_r0_4->qWorld.x;
-            spC = boss->unk194[sp4].qWorld.y + Q(sp10->hitboxes[0].b.bottom);
-            sp18 = temp_r3_2;
-            sub_807D37C(boss, &boss->unk194[sp4]);
-            if (boss->unk194[sp4].unk1A == 0) {
-                sp0 = boss->unk194[sp4].qWorld.y - boss->unk194[sp4].qWorld.y;
-                sp8 = (s32)sub_807C244(sp10, temp_r0_4->qWorld.x, boss->unk194[sp4].qWorld.y, temp_r3_2, sp0);
-                if (sub_802C080(boss->players[0]) == 0) {
-                    if (temp_r5 & sp8) {
-                        if (((s32)(boss->unk194[sp4].qWorld.y >> 8) <= 32) && (boss->players[0]->framesInvulnerable == 0)
-                            && (boss->lives != 0)) {
-                            Call__Player_8014550(boss->players[0]);
-                        }
-                    } else if ((boss->players[0]->qWorldY > spC) && (boss->lives != 0)) {
-                        sub_8020CE0(sp10, I(temp_r0_4->qWorld.x), I(boss->unk194[sp4].qWorld.y), 0, boss->players[0]);
+                    if ((sub_802C080(boss->players[1]) == 0) && !(2 & sp8)
+                        && (boss->players[1]->qWorldY > boss->unk194[sp4].qWorld.y + Q(s->hitboxes[0].b.bottom)) && (boss->lives != 0)) {
+                        sub_8020CE0(s, I(boss->unk194[sp4].qWorld.x), I(boss->unk194[sp4].qWorld.y), 0, boss->players[1]);
                     }
                 }
-                temp_r4_4 = boss->players[1];
-                if ((sub_802C080(temp_r4_4) == 0) && !(2 & sp8) && ((s32)temp_r4_4->qWorldY > spC) && (boss->lives != 0)) {
-                    temp_r2 = sp14 - sp4;
-                    //                sp0 = temp_r4_4;
-                    //                sub_8020CE0(sp10, (s32) *(boss->unk194 + (temp_r2 * 4)) >> 8, (s32)
-                    //                (&boss->unk194[0].qWorld.y)[temp_r2] >> 8, 0, M2C_ERROR(/* Unable to find stack arg 0x0 in block */));
-                }
-            }
 
-            if (boss->unk194[sp14 - sp4].unk14 != 0) {
-                boss->unk194[sp14 - sp4].unk14 += 1;
-                if ((boss->unk194[sp14 - sp4].unk14 != 0xB4) && (boss->unk194[sp14 - sp4].unk14 == 0xF0)) {
-                    if (1 & sp8) {
-                        temp_r4_5 = boss->players[0];
-                        if (sub_802C080(temp_r4_5) == 0) {
-                            Call__Player_8014550(temp_r4_5);
+                if (boss->unk194[sp4].unk14 != 0) {
+                    boss->unk194[sp4].unk14 += 1;
+                    if ((boss->unk194[sp4].unk14 != 0xB4) && (boss->unk194[sp4].unk14 == 0xF0)) {
+                        if (1 & sp8) {
+                            if (sub_802C080(boss->players[0]) == 0) {
+                                Call__Player_8014550(boss->players[0]);
+                            }
                         }
-                    }
-                    if (2 & sp8) {
-                        temp_r4_6 = boss->players[1];
-                        if (sub_802C080(temp_r4_6) == 0) {
-                            Call__Player_8014550(temp_r4_6);
+                        if (2 & sp8) {
+                            if (sub_802C080(boss->players[1]) == 0) {
+                                Call__Player_8014550(boss->players[1]);
+                            }
                         }
+                        boss->unk194[sp4].unk18 = 0x64;
                     }
-                    boss->unk194[sp14 - sp4].unk18 = 0x64;
                 }
-            }
-            if (sp8 != 0) {
-                if (boss->unk194[sp14 - sp4].unk14 == 0) {
-                    boss->unk194[sp14 - sp4].unk14 = 1;
+                if (sp8 != 0) {
+                    if (boss->unk194[sp4].unk14 == 0) {
+                        boss->unk194[sp4].unk14 = 1;
+                    }
+                } else {
+                    boss->unk194[sp4].unk14 = sp8;
                 }
-            } else {
-                boss->unk194[sp14 - sp4].unk14 = 0; //(u16) sp0.unk8;
-            }
+            } break;
+
+            case 100: {
+                boss->unk194[sp4].unk14 = 0x1E;
+                boss->unk194[sp4].unk18 = 0x6E;
+                boss->unk194[sp4].unk1A = 0;
+                m4aSongNumStart(0x239U);
+                s->anim = 0x4F6;
+                s->variant = 0;
+                for (sp8 = 0; sp8 < ARRAY_COUNT(boss->players); sp8++) {
+                    if ((boss->players[sp8]->moveState & 0x20) && (boss->players[sp8]->sprColliding == s)) {
+                        boss->players[sp8]->moveState &= ~0x20;
+                        boss->players[sp8]->sprColliding = NULL;
+                    }
+                }
+            } break;
+
+            case 110: {
+                if (--boss->unk194[sp4].unk14 == 0) {
+                    boss->unk194[sp4].unk18 = 0;
+                }
+            } break;
         }
     }
 }
