@@ -49,8 +49,7 @@ typedef struct {
     /* 0x00 */ Vec2_32 qWorld;
     /* 0x14 */ s32 unk8;
     /* 0x14 */ s32 unkC;
-    /* 0x14 */ u16 unk10; // TODO: type
-    /* 0x14 */ u16 unk12; // TODO: type
+    /* 0x14 */ s32 unk10;
     /* 0x14 */ u16 unk14;
     /* 0x14 */ u16 unk16;
     /* 0x14 */ u16 unk18;
@@ -246,7 +245,7 @@ extern const u8 gUnknown_080D5C48[8];
 extern const u16 gUnknown_080D5C70[4];
 extern const u8 gUnknown_080D5CA0[4];
 extern Vec2_32 gUnknown_080D5CD4[7]; // TODO: Maybe Chaos Emerald starting positions?
-extern const u16 gUnknown_080D5C50[8][2]; // TODO: Type!
+extern const s32 gUnknown_080D5C50[5]; // NOTE: Apparently only 0-2 are used.
 extern u8 gUnknown_080D5CA4[4];
 extern u16 sBossExtraAnimsChaosEmeralds[7][3];
 extern const u16 sBossFinalAnimsHands[2][6][2];
@@ -1262,8 +1261,8 @@ void sub_807CCA8(HyperEggRobo *boss)
 
 bool8 sub_807CD4C(HyperEggRobo *boss)
 {
-    u8 i;
     bool8 result = FALSE;
+    u8 i;
 
     if ((boss->unk194[0].unk18 != 0) && (boss->unk194[1].unk18 != 0) && (boss->unk194[2].unk18 != 0)) {
         return result;
@@ -1283,81 +1282,60 @@ bool8 sub_807CD4C(HyperEggRobo *boss)
     return result;
 }
 
-#if 01
-#else
 void sub_807CDF0(HyperEggRobo *boss)
 {
-    Sprite *temp_r0_4;
-    s16 var_r1;
-    s32 *temp_r6;
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r2_2;
-    s32 var_r0_2;
-    s32 var_r0_3;
+    Sprite *s;
     u16 temp_r0_2;
-    u16 temp_r2;
-    u16 temp_r4;
     u32 temp_r0_3;
-    u8 temp_r0_5;
-    u8 temp_r0_6;
-    u8 var_ip;
+    u8 i;
 
-    var_ip = 0;
-loop_1:
-    temp_r4 = boss->unk194[var_ip].unk18;
-    if (temp_r4 != 0) {
+    for(i = 0; i < ARRAY_COUNT(boss->unk194); i++)
+    {
+        if (boss->unk194[i].unk18 == 0) {
+            boss->unk194[i].unk18 = 1;
+            boss->unk194[i].unk14 = 0;
+            boss->unk194[i].unk1A = 30;
+            boss->unk194[i].qWorld.x = boss->qWorld.x;
+            boss->unk194[i].qWorld.y = boss->qWorld.y;
+            boss->unk194[i].qWorld.y -= Q(32);
+            temp_r0_2 = (u32)PseudoRandom32() & 0x3FF;
+            temp_r0_3 = temp_r0_2 >> 7;
+            switch (temp_r0_3) {
+                case 0:
+                case 3:
+                case 4:
+                case 7:
+                    boss->unk194[i].unk16 = temp_r0_2;
+                    break;
+                case 1:
+                case 5:
+                    boss->unk194[i].unk16 = temp_r0_2 - 0x80;
+                    break;
+                case 2:
+                case 6:
+                    boss->unk194[i].unk16 = temp_r0_2 + 0x80;
+                    break;
+            }
+    
+            boss->unk194[i].unk10 = gUnknown_080D5C50[boss->unk10];
+            boss->unk194[i].unk8 = (COS(boss->unk194[i].unk16) * boss->unk194[i].unk10) / 0x4000;
+            boss->unk194[i].unkC = (SIN(boss->unk194[i].unk16) * boss->unk194[i].unk10) / 0x4000;
+            s = &boss->spr2C8[i];
+            s->anim = ANIM_BOSS_FINAL_PROJ;
+            s->variant = 0;
+            m4aSongNumStart(SE_568);
 
-    } else {
-        boss->unk194[var_ip].unk18 = 1;
-        boss->unk194[var_ip].unk14 = temp_r4;
-        boss->unk194[var_ip].unk1A = 0x1E;
-        boss->unk194[var_ip].qWorld.x = boss->qWorld.x;
-        *(&boss->unk194[0].qWorld.y + (var_ip * 0x1C)) = boss->qWorld.y + 0xFFFFE000;
-        temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0;
-        temp_r0_2 = temp_r0 & 0x3FF;
-        temp_r2 = temp_r0_2;
-        temp_r0_3 = (u32)(temp_r0_2 << 0x10) >> 0x17;
-        switch (temp_r0_3) {
-            case 0:
-            case 3:
-            case 4:
-            case 7:
-                boss->unk194[var_ip].unk16 = temp_r2;
-                break;
-            case 1:
-            case 5:
-                var_r1 = temp_r2 - 0x80;
-                boss->unk194[var_ip].unk16 = temp_r2 - 0x80;
-                break;
-            case 2:
-            case 6:
-                boss->unk194[var_ip].unk16 = temp_r2 + 0x80;
-                break;
+            if (++boss->unk10 >= 3) {
+                boss->unk10 = 0;
+            }
+
+            i = ARRAY_COUNT(boss->unk194);
         }
-
-        boss->unk194[var_ip].unk10 = gUnknown_080D5C50[boss->unk10][0];
-        boss->unk194[var_ip].unk8 = (COS(boss->unk194[var_ip].unk16) * boss->unk194[var_ip].unk10) / 0x4000;
-        boss->unk194[var_ip].unkC = (SIN(boss->unk194[var_ip].unk16) * boss->unk194[var_ip].unk10) / 0x4000;
-        temp_r0_4 = &boss->spr2C8[var_ip];
-        temp_r0_4->anim = 0x4F0;
-        temp_r0_4->variant = 0;
-        m4aSongNumStart(0x238U);
-        temp_r0_5 = boss->unk10 + 1;
-        boss->unk10 = temp_r0_5;
-        if ((u32)temp_r0_5 > 2U) {
-            boss->unk10 = 0;
-        }
-        var_ip = 3;
-    }
-    temp_r0_6 = var_ip + 1;
-    var_ip = temp_r0_6;
-    if ((u32)temp_r0_6 <= 2U) {
-        goto loop_1;
     }
 }
 
+#if 01
+#else
 void sub_807CFAC(HyperEggRobo *boss)
 {
     s32 sp0;
