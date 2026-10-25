@@ -154,7 +154,7 @@ void CreateHyperEggRobo(u8 *arg0);
 void Task_358_807B808(void);
 void Task_358_807B9B8(void);
 void Task_358_807BC04(void);
-void sub_807C48C(Sprite *sprColliding);
+void sub_807C48C(Sprite *sprColliding, s32 qWorldX, s32 qWorldY);
 void sub_358_807BCCC(HyperEggRobo *boss);
 void sub_358_807BD88(HyperEggRobo *boss);
 void sub_807BE58(HyperEggRobo *boss, u8 param1);
@@ -180,7 +180,7 @@ void sub_807DA34(HyperEggRobo *boss, u8 param1);
 void sub_807DB60(HyperEggRobo *boss);
 void sub_807DCD8(HyperEggRobo *boss, u8 param1);
 void sub_807ED8C(HyperEggRobo *boss);
-s32 sub_807F228(HyperEggRobo *arg0);
+u8 sub_807F228(HyperEggRobo *arg0);
 void sub_807F434(HyperEggRobo *boss);
 void sub_807FB7C(u8);
 void sub_80816C0(HyperEggRobo *boss);
@@ -234,7 +234,7 @@ void Task_358_807B9B8(HyperEggRobo *boss);
 void Task_358_807BC04(HyperEggRobo *boss);
 u8 sub_807C244(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4, HyperEggRobo *boss);
 u8 sub_807C374(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4, HyperEggRobo *boss);
-void sub_807C48C(Sprite *sprColliding);
+void sub_807C48C(Sprite *sprColliding, s32 qWorldX, s32 qWorldY);
 void Task_1C0_ExtraChaosEmeraldsInit(AltarEmeraldCutsceneSuperSonic *emeraldsCut);
 #endif
 
@@ -876,7 +876,7 @@ u8 sub_807C374(Sprite *s, s32 qX, s32 qY, s32 arg3, s32 qArg4)
     return result;
 }
 
-void sub_807C48C(Sprite *sprColliding)
+void sub_807C48C(Sprite *sprColliding, s32 qWorldX, s32 qWorldY)
 {
     HyperEggRobo *boss = TASK_DATA(gCurTask);
     Player *p;
@@ -1797,12 +1797,8 @@ void sub_807DA34(HyperEggRobo *boss, u8 param1)
 
 void sub_807DB00(HyperEggRobo *boss, u8 arg1, u8 arg2)
 {
-    s32 temp_r3;
-    void *temp_r0;
-
-    temp_r3 = arg1 * 0x28;
-    boss->pos144[arg1].qWorld.x = 0;
-    boss->pos144[arg1].qWorld.y = 0;
+    boss->pos144[arg1].qUnk8.x = 0;
+    boss->pos144[arg1].qUnk8.y = 0;
     boss->pos144[arg1].unk14 = 1;
     boss->pos144[arg1].unk16 = 0;
     boss->pos144[arg1].unk18 = arg2;
@@ -1816,47 +1812,40 @@ void sub_807DB60(HyperEggRobo *boss)
     u8 i;
     s32 spC;
     s32 sp10;
-    HyberEggRoboStrc144 *temp_r6;
-    Sprite *temp_r1;
-    Sprite *temp_r7;
-    Sprite *temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
+    HyberEggRoboStrc144 *strc144;
+    Sprite *s;
     s32 temp_r6_2;
     s32 temp_sl;
     HyperEggRobo *boss2;
-    u8 temp_r0;
-    u8 temp_r0_5;
     u8 var_sb;
 
-    for (i = 0; i < 2; i++) {
-    loop_1:
+    for (i = 0; i < ARRAY_COUNT(boss->pos144); i++) {
         boss->unk11 = 0;
-        temp_r6 = &boss->pos144[i];
-        gUnknown_08E2ED18[temp_r6->unk18](boss, i);
-        if ((gUnknown_08E2ED18[temp_r6->unk18] == sub_807E214) && (temp_r6->unk1B != 0)
+        strc144 = &boss->pos144[i];
+        gUnknown_08E2ED18[strc144->unk18](boss, i);
+        if ((gUnknown_08E2ED18[strc144->unk18] == sub_807E214) && (strc144->unk1B != 0)
             && (boss->players[0]->callback != PlayerCB_80819BC)) {
-            temp_r6->unk1B = 0;
+            strc144->unk1B = 0;
         }
 
-        if ((temp_r6->unk13 != 0) && (boss->lives != 0)) {
+        if ((strc144->unk13 != 0) && (boss->lives != 0)) {
             if (boss->unk11 != 0) {
                 sub_807C518(boss, (u8)i);
             } else {
-                temp_r7 = &boss->spr278[i];
-                temp_sl = temp_r6->qWorld.x;
-                temp_r6_2 = temp_r6->qWorld.y;
+                s = &boss->spr278[i];
+                temp_sl = strc144->qWorld.x;
+                temp_r6_2 = strc144->qWorld.y;
                 boss2 = TASK_DATA(gCurTask);
-                for (var_sb = 0; var_sb < 2; var_sb++) {
+                for (var_sb = 0; var_sb < ARRAY_COUNT(boss2->players); var_sb++) {
                     Player *p = boss2->players[var_sb];
                     if (sub_802C080(p) == 0) {
-                        if (p->moveState & 0x20) {
+                        if (p->moveState & MOVESTATE_COLLIDING_ENT) {
                             if ((p->sprColliding == &boss2->sprPlatforms[0]) || (p->sprColliding == &boss2->sprPlatforms[1])
                                 || (p->sprColliding == &boss2->sprPlatforms[2]) || (p->sprColliding == &boss2->sprPlatforms[3])) {
-                                sub_8020CE0(temp_r7, temp_sl >> 8, temp_r6_2 >> 8, 0, p);
+                                sub_8020CE0(s, temp_sl >> 8, temp_r6_2 >> 8, 0, p);
                             }
                         } else {
-                            sub_8020CE0(temp_r7, temp_sl >> 8, temp_r6_2 >> 8, 0, p);
+                            sub_8020CE0(s, temp_sl >> 8, temp_r6_2 >> 8, 0, p);
                         }
                     }
                 }
@@ -1882,18 +1871,16 @@ void sub_807DCD8(HyperEggRobo *boss, u8 param1)
     s32 var_r1;
     s32 var_r1_2;
     s32 var_r8;
-    u16 temp_r0;
     u8 temp_r3;
 
     temp_r4 = &boss->pos144[param1];
     var_r8 = 0;
-    temp_r0 = temp_r4->unk16;
-    switch (temp_r0) { /* irregular */
+    switch (temp_r4->unk16) {
         case 0:
             if (param1 == 0) {
-                var_r1 = temp_r4->qWorld.x + 0x3200;
+                var_r1 = temp_r4->qWorld.x + Q(50);
             } else {
-                var_r1 = temp_r4->qWorld.x + 0xFFFFCE00;
+                var_r1 = temp_r4->qWorld.x - Q(50);
             }
             temp_r3 = sub_807D610(boss, var_r1, param1);
             if (temp_r3 != 0) {
@@ -1983,7 +1970,7 @@ void sub_807DE20(HyperEggRobo *boss, u8 param1)
     var_sl = 0;
     switch (temp_r5->unk16) {
         case 0: {
-            temp_r5->qUnk8.y = -0x200;
+            temp_r5->qUnk8.y = -Q(2);
             temp_r5->unk1A = 0;
             temp_r5->unk16 = 10;
         } break;
@@ -1993,52 +1980,44 @@ void sub_807DE20(HyperEggRobo *boss, u8 param1)
                     temp_r2->rotation = (temp_r2->rotation + 0x10) & 0x3FF;
                 }
             } else {
-                temp_r1_5 = temp_r2->rotation;
-                if (temp_r1_5 != 0x300) {
-                    var_r0_5 = temp_r1_5 - 0x10;
-                block_42:
-                    temp_r2->rotation = var_r0_5 & 0x3FF;
+                if (temp_r2->rotation != 0x300) {
+                    temp_r2->rotation = (temp_r2->rotation - 0x10) & 0x3FF;
                 }
             }
-            temp_r0_11 = temp_r5->qWorld.y + temp_r5->qUnk8.y;
-            temp_r5->qWorld.y = temp_r0_11;
-            if (temp_r0_11 > (s32)(boss->qWorld.y + 0xFFFFC000)) {
+            temp_r5->qWorld.y += temp_r5->qUnk8.y;
+            if (temp_r5->qWorld.y > (s32)(boss->qWorld.y - Q(32))) {
                 return;
             }
             if (param1 == 0) {
-                var_r0_6 = 0x200;
+                temp_r5->qUnk8.x = +Q(2);
             } else {
-                var_r0_6 = -0x200;
+                temp_r5->qUnk8.x = -Q(2);
             }
-            temp_r5->qUnk8.x = var_r0_6;
             temp_r5->unk16 = 20;
         } break;
         case 20: {
-            temp_r1_6 = temp_r5->qUnk8.x;
-            temp_r2_3 = temp_r5->qWorld.x + temp_r1_6;
-            temp_r5->qWorld.x = temp_r2_3;
+            temp_r5->qWorld.x += temp_r5->qUnk8.x;
             if (param1 == 0) {
-                if (temp_r1_6 >= 0) {
-                    if (temp_r2_3 > 0x667FF) {
-                        var_r0_7 = 0x66800;
-                        goto block_59;
+                if (temp_r5->qUnk8.x >= 0) {
+                    if (temp_r5->qWorld.x >= 0x66800) {
+                        temp_r5->qWorld.x = 0x66800;
+                        temp_r5->qUnk8.x = -temp_r5->qUnk8.x;
                     }
                 } else {
-                    var_r0_7 = 0x61400;
-                    goto block_58;
+                    if (temp_r5->qWorld.x <= 0x61400) {
+                        temp_r5->qWorld.x = 0x61400;
+                        temp_r5->qUnk8.x = -temp_r5->qUnk8.x;
+                    }
                 }
-            } else if (temp_r1_6 >= 0) {
-                if (temp_r2_3 > 0x6DBFF) {
-                    var_r0_7 = 0x6DC00;
-                    goto block_59;
+            } else if (temp_r5->qUnk8.x >= 0) {
+                if (temp_r5->qWorld.x >= 0x6DC00) {
+                    temp_r5->qWorld.x = 0x6DC00;
+                    temp_r5->qUnk8.x = -temp_r5->qUnk8.x;
                 }
             } else {
-                var_r0_7 = 0x68800;
-            block_58:
-                if (temp_r2_3 <= var_r0_7) {
-                block_59:
-                    temp_r5->qWorld.x = var_r0_7;
-                    temp_r5->qUnk8.x = 0 - temp_r1_6;
+                if (temp_r5->qWorld.x <= 0x68800) {
+                    temp_r5->qWorld.x = 0x68800;
+                    temp_r5->qUnk8.x = -temp_r5->qUnk8.x;
                 }
             }
             temp_r2_4 = temp_r5->unk1A;
@@ -2060,115 +2039,96 @@ void sub_807DE20(HyperEggRobo *boss, u8 param1)
             temp_r5->qUnk8.y = 0x600;
         } break;
         case 30: {
-            temp_r0_6 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0_6;
-            if ((temp_r0_6 << 0x10) != 0) {
-                return;
+            if (--temp_r5->unk14 == 0) {
+                temp_r5->unk16 = 100;
             }
-            temp_r5->unk16 = 100;
         } break;
         case 100: {
             temp_r4_2 = temp_r5->qWorld.y;
-            temp_r0_4 = temp_r4_2 + temp_r5->qUnk8.y;
-            temp_r5->qWorld.y = temp_r0_4;
+            temp_r5->qWorld.y += temp_r5->qUnk8.y;
+            temp_r4_2 -= temp_r5->qUnk8.y;
             sub_807F334(temp_r0_2, temp_r2, 1U, param1);
-            sub_807C244(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, 0, temp_r4_2 - temp_r0_4);
+            sub_807C244(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, 0, temp_r4_2);
             boss->unk11 = 1;
-            temp_r1 = 0x7F & temp_r5->unk1A;
-            temp_r2_2 = temp_r1 * 0x14;
-            temp_r3_2 = &boss->unk2C[0].unkC + temp_r2_2;
-            if ((s32)*temp_r3_2 <= 0) {
-                temp_r1_2 = *(&boss->pos144[0].qWorld.y + (param1 * 0x28)) - *(&boss->unk2C[0].qWorld.y + temp_r2_2);
-                var_r0_2 = temp_r1_2;
-                if (temp_r1_2 < 0) {
-                    var_r0_2 = 0 - temp_r1_2;
-                }
-                if ((s32)(var_r0_2 >> 8) <= 0x13) {
-                    *temp_r3_2 = *(&boss->pos144[0].qUnk8.y + (param1 * 0x28));
+            temp_r1 = temp_r5->unk1A & 0x7F;
+            if (boss->unk2C[temp_r1].unkC <= 0) {
+                var_r0_2 = ABS((boss->pos144[param1].qWorld.y) - (boss->unk2C[temp_r1].qWorld.y));
+                if (I(var_r0_2) < 20) {
+                    boss->unk2C[temp_r1].unkC = boss->pos144[param1].qUnk8.y;
                     boss->unk2C[temp_r1].unk12 = 100;
-                    m4aSongNumStart(0x23AU);
+                    m4aSongNumStart(SE_570);
                 }
             }
             if ((s32)temp_r5->qWorld.y <= 0xF3FF) {
                 return;
             }
-            temp_r5->qUnk8.y = -0x180;
-            temp_r0_5 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-            gPseudoRandom = temp_r0_5;
-            temp_r5->unk14 = gUnknown_080D5C70[temp_r0_5 & 3];
+            temp_r5->qUnk8.y = -Q(1.5);
+            temp_r0_5 = PseudoRandom32() & 3;
+            temp_r5->unk14 = gUnknown_080D5C70[temp_r0_5];
             temp_r5->unk16 = 110;
         } break;
         case 110: {
             sub_807F334(temp_r0_2, temp_r2, 1U, param1);
-            temp_r0_7 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0_7;
-            if ((temp_r0_7 << 0x10) != 0) {
-                return;
+            if (--temp_r5->unk14 == 0) {
+                temp_r5->unk16 = 120;
+                temp_r5->unk13 = 1;
             }
-            temp_r5->unk16 = 120;
-            temp_r5->unk13 = 1;
         } break;
         case 120: {
             temp_r4 = temp_r5->qWorld.y;
             temp_r0_3 = temp_r4 + temp_r5->qUnk8.y;
             temp_r5->qWorld.y = temp_r0_3;
+            temp_r4 -= temp_r5->qWorld.y;
             sub_807F334(temp_r0_2, temp_r2, 1U, param1);
-            sub_807C244(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, 0, temp_r4 - temp_r0_3);
+            sub_807C244(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, 0, temp_r4);
             boss->unk11 = 1;
-            if ((s32)temp_r5->qWorld.y > (s32)(boss->qWorld.y + 0xFFFFC000)) {
+            if (temp_r5->qWorld.y > (boss->qWorld.y - Q(64))) {
                 return;
             }
-            sub_807C48C(temp_r0_2);
+            sub_807C48C(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y);
             temp_r5->unk13 = 0;
             temp_r5->unk16 = 200;
         } break;
         case 200:
             if (param1 == 0) {
-                temp_r0_9 = (temp_r2->rotation - 0x10) & 0x3FF;
-                temp_r2->rotation = temp_r0_9;
-                if (temp_r0_9 == 0x100) {
-                    goto block_90;
+                temp_r2->rotation = (temp_r2->rotation - 0x10) & 0x3FF;
+                if (temp_r2->rotation == 0x100) {
+                    var_sl = 1;
                 }
-                goto block_89;
+            } else {
+                temp_r2->rotation = (temp_r2->rotation + 0x10) & 0x3FF;
+                if (temp_r2->rotation == 0x300) {
+                    var_sl = 1;
+                }
             }
-            temp_r0_10 = (temp_r2->rotation + 0x10) & 0x3FF;
-            temp_r2->rotation = temp_r0_10;
-            if (temp_r0_10 == 0x300) {
-                var_sl = 1;
-            }
-        block_89:
+
             if (var_sl != 0) {
-            block_90:
                 temp_r5->unk14 = 0x1E;
                 temp_r5->unk16 = 210;
                 break;
             }
             break;
         case 210: {
-            temp_r0_8 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0_8;
-            if ((temp_r0_8 << 0x10) == 0) {
-                var_r0 = 0x3E8;
-                temp_r5->unk16 = var_r0;
+            if (--temp_r5->unk14 == 0) {
+                temp_r5->unk16 = 1000;
             }
         } break;
         case 300: {
             if (param1 == 0) {
-                temp_r5->qUnk8.x = -0x200;
+                temp_r5->qUnk8.x = -Q(2);
             } else {
-                temp_r5->qUnk8.x = +0x200;
+                temp_r5->qUnk8.x = +Q(2);
             }
             temp_r5->unk16 = 310;
         } break;
         case 310: {
-            temp_r1_3 = temp_r5->qWorld.x + temp_r5->qUnk8.x;
-            temp_r5->qWorld.x = temp_r1_3;
+            temp_r5->qWorld.x += temp_r5->qUnk8.x;
             if (param1 == 0) {
-                if (temp_r1_3 <= 0x61400) {
+                if (temp_r5->qWorld.x <= 0x61400) {
                     temp_r5->qWorld.x = 0x61400;
                     temp_r5->unk16 = 320;
                 }
-            } else if (temp_r1_3 > 0x6DBFF) {
+            } else if (temp_r5->qWorld.x >= 0x6DC00) {
                 temp_r5->qWorld.x = 0x6DC00;
                 temp_r5->unk16 = 320;
             }
@@ -2220,64 +2180,146 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
 
     temp_r4 = &boss->pos144[param1];
     var_r7 = 0;
-    temp_r1 = temp_r4->unk16;
-    switch (temp_r1) { /* irregular */
-        case 0xC8:
+    switch (temp_r4->unk16) {
+        case 0: {
+            temp_r4->qUnk8.x = 0;
+            temp_r4->qUnk8.y = 0;
+            temp_r4->unk1B = 0;
+            temp_r4->unk1C = 0;
+            temp_r4->unk14 = 0x79;
+            temp_r4->unk16 = 10;
+        } break;
+
+        case 10: {
+            temp_r4->qUnk8.y += temp_r4->unk1C;
+            if (temp_r4->qUnk8.y < 0) {
+                var_r0_3 = -0x200;
+                if (temp_r4->qUnk8.y <= 0xFFFFFE00) {
+                    goto block_26;
+                }
+            } else if (temp_r1_5 > 0x1FF) {
+                var_r0_3 = 0x200;
+            block_26:
+                temp_r4->qUnk8.y = var_r0_3;
+            }
+            temp_r4->qWorld.y += temp_r4->qUnk8.y;
+            if (--temp_r4->unk14 == 0) {
+                if (param1 == 0) {
+                    temp_r4->qUnk8.x = +Q(4);
+                } else {
+                    temp_r4->qUnk8.x = -Q(4);
+                }
+                temp_r4->unk16 = 0x64U;
+                temp_r4->unk13 = 0;
+                return;
+            }
+            if ((temp_r4->unk14 % 10) == 0) {
+                if (temp_r4->qWorld.y > boss->players[0]->qWorldY - Q(16)) {
+                    temp_r4->unk1C = -0x40;
+                } else {
+                    temp_r4->unk1C = +0x40;
+                }
+            }
+        } break;
+
+        case 100: {
+            temp_r3 = temp_r4->qWorld.x;
+            temp_r1_6 = temp_r3 + temp_r4->qUnk8.x;
+            temp_r4->qWorld.x = temp_r1_6;
+            if (param1 == 0) {
+                if (temp_r1_6 >= 0x66800) {
+                    temp_r4->qWorld.x = 0x66800;
+                    var_r7 = 1;
+                }
+            } else {
+                var_r0_5 = 0x68800;
+                if (temp_r1_6 <= 0x68800) {
+                    temp_r4->qWorld.x = 0x68800;
+                    var_r7 = 1;
+                }
+                //                p = NULL;
+            }
+            temp_r3 -= temp_r4->qWorld.x;
+            sub_807C244(&boss->spr278[param1], temp_r4->qWorld.x, temp_r4->qWorld.y, temp_r3, 0);
+            if (var_r7 == 0) {
+                return;
+            }
+            temp_r4->unk16 = 0xC8U;
             if (param1 == 0) {
                 return;
             }
-            //        temp_r1_2 = temp_r4 - 0x28;
+            sub_807C5D0();
+            sp8.hitboxes[0].index = 0;
+            sp8.hitboxes[0].b.left = -16;
+            sp8.hitboxes[0].b.top = -16;
+            sp8.hitboxes[0].b.right = 16;
+            sp8.hitboxes[0].b.bottom = 30;
+            temp_r5_2 = boss->players[0];
+            if (temp_r5_2->framesInvulnerable == 0) {
+                p = temp_r5_2;
+                if (sub_8020700(&sp8, I(boss->qWorld.x), I(temp_r4->qWorld.y), 0, 0, 0) != 0) {
+                    temp_r4->unk1B = 1;
+                    sub_807FB7C(0xA0U);
+                    sub_8081A10(temp_r5_2);
+                    temp_r5_2->qWorldX = boss->qWorld.x;
+                    temp_r5_2->qWorldY = temp_r4->qWorld.y;
+                }
+            }
+            m4aSongNumStart(SE_571);
+        } break;
+
+        case 200: {
+            if (param1 == 0) {
+                return;
+            }
+
+            temp_r1_2 = temp_r4 - 1;
             if (temp_r1_2->unk16 != 0xC8) {
                 return;
             }
             if (temp_r4->unk1B != 0) {
-                var_r0 = 0x12C;
+                temp_r1_2->unk16 = temp_r4->unk16 = 0x12C;
             } else {
-                var_r0 = 0x1F4;
+                temp_r1_2->unk16 = temp_r4->unk16 = 0x1F4;
             }
-            temp_r4->unk16 = var_r0;
-            temp_r1_2->unk16 = var_r0;
             temp_r4->qUnk8.x = -temp_r4->qUnk8.x;
             temp_r1_2->qUnk8.x = -temp_r1_2->qUnk8.x;
-            return;
-        case 0x136:
-            temp_r0 = temp_r4->qUnk8.y;
-            temp_r1_3 = temp_r4->qWorld.y + temp_r0;
-            temp_r4->qWorld.y = temp_r1_3;
-            temp_r4->qUnk8.y = temp_r0 + 0x80;
+        } break;
+
+        case 300: {
+            temp_r4->qUnk8.y = -0x800;
+            temp_r4->unk1B = 4;
+            temp_r4->unk16 = 0x136U;
+        } break;
+
+        case 310: {
+            temp_r4->qWorld.y += temp_r4->qUnk8.y;
+            temp_r4->qUnk8.y += 0x80;
             if ((param1 != 0) && (temp_r4->unk1B != 0)) {
-                boss->players[0]->qWorldY = temp_r1_3;
+                boss->players[0]->qWorldY = temp_r4->qWorld.y;
             }
-            if (((s32)temp_r4->qWorld.y > 0xAFFF) && ((s32)temp_r4->qUnk8.y >= 0)) {
+            if ((temp_r4->qWorld.y >= 0xB000) && (temp_r4->qUnk8.y >= 0)) {
                 temp_r4->qWorld.y = 0xB000;
                 temp_r4->unk14 = 0x1E;
                 temp_r4->unk16 = 0x140U;
                 if (param1 != 0) {
-                    m4aSongNumStart(0x23CU);
+                    m4aSongNumStart(SE_572);
                     CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
-                    return;
                 }
             }
-            return;
-        case 0x12C:
-            temp_r4->qUnk8.y = -0x800;
-            temp_r4->unk1B = 4;
-            temp_r4->unk16 = 0x136U;
-            return;
-        case 0x140:
-            temp_r0_2 = (u16)temp_r4->unk14 - 1;
-            temp_r4->unk14 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) == 0) {
-                temp_r0_3 = temp_r4->unk1B;
-                if (temp_r0_3 != 0) {
-                    temp_r4->unk1B = temp_r0_3 - 1;
+        } break;
+
+        case 320: {
+            if (--temp_r4->unk14 == 0) {
+                if (temp_r4->unk1B != 0) {
+                    temp_r4->unk1B--;
                 }
-                temp_r0_4 = temp_r4->unk1B;
-                if ((u32)temp_r0_4 <= 1U) {
+
+                if (temp_r4->unk1B <= 1U) {
                     if (param1 != 0) {
                         temp_r5 = boss->players[0];
-                        if (temp_r0_4 != 0) {
-                            if (((s32)temp_r5->framesInvulnerable > 0) || ((s32)temp_r5->framesInvincible > 0)) {
+                        if (temp_r4->unk1B != 0) {
+                            if ((temp_r5->framesInvulnerable > 0) || (temp_r5->framesInvincible > 0)) {
                                 temp_r5->qCamOffsetY = 0;
                                 temp_r5->moveState &= ~0x20;
                                 temp_r5->sprColliding = NULL;
@@ -2294,129 +2336,33 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
                 }
                 temp_r4->qUnk8.y = -0xA00;
                 temp_r4->unk16 = 0x136U;
-                return;
             }
-            break;
-        case 0x1F4:
-            temp_r1_4 = temp_r4->qWorld.x + temp_r4->qUnk8.x;
-            temp_r4->qWorld.x = temp_r1_4;
+        } break;
+
+        case 500: {
+            temp_r4->qWorld.x += temp_r4->qUnk8.x;
             if (param1 == 0) {
-                if (temp_r1_4 <= 0x61400) {
+                if (temp_r4->qWorld.x <= 0x61400) {
                     temp_r4->qWorld.x = 0x61400;
-                    goto block_84;
-                }
-                goto block_83;
-            }
-            if (temp_r1_4 > 0x6DBFF) {
-                temp_r4->qWorld.x = 0x6DC00;
-                var_r7 = 1;
-            }
-        block_83:
-            if (var_r7 != 0) {
-            block_84:
-                var_r0_2 = 0x3E8;
-            block_85:
-                temp_r4->unk16 = var_r0_2;
-            }
-            break;
-        case 0x0:
-            temp_r4->qUnk8.x = 0;
-            temp_r4->qUnk8.y = 0;
-            temp_r4->unk1B = 0;
-            temp_r4->unk1C = 0;
-            temp_r4->unk14 = 0x79;
-            var_r0_2 = 0xA;
-            goto block_85;
-        case 0xA:
-            temp_r1_5 = temp_r4->qUnk8.y + temp_r4->unk1C;
-            temp_r4->qUnk8.y = temp_r1_5;
-            if (temp_r1_5 < 0) {
-                var_r0_3 = -0x200;
-                if (temp_r1_5 <= 0xFFFFFE00) {
-                    goto block_26;
-                }
-            } else if (temp_r1_5 > 0x1FF) {
-                var_r0_3 = 0x200;
-            block_26:
-                temp_r4->qUnk8.y = var_r0_3;
-            }
-            temp_r7 = temp_r4->qWorld.y + temp_r4->qUnk8.y;
-            temp_r4->qWorld.y = temp_r7;
-            temp_r0_5 = (u16)temp_r4->unk14 - 1;
-            temp_r4->unk14 = temp_r0_5;
-            if ((temp_r0_5 << 0x10) == 0) {
-                if (param1 == 0) {
-                    var_r0_4 = 0x400;
-                } else {
-                    var_r0_4 = -0x400;
-                }
-                temp_r4->qUnk8.x = var_r0_4;
-                temp_r4->unk16 = 0x64U;
-                temp_r4->unk13 = 0;
-                return;
-            }
-            if ((((s16)temp_r4->unk14 % 10) << 0x10) != 0) {
-                return;
-            }
-            if (temp_r7 > (s32)(boss->players[0]->qWorldY + 0xFFFFF000)) {
-                temp_r4->unk1C = -0x40;
-                return;
-            }
-            temp_r4->unk1C = 0x40;
-            return;
-        case 0x64:
-            temp_r3 = temp_r4->qWorld.x;
-            temp_r1_6 = temp_r3 + temp_r4->qUnk8.x;
-            temp_r4->qWorld.x = temp_r1_6;
-            if (param1 == 0) {
-                if (temp_r1_6 > 0x667FF) {
-                    var_r0_5 = 0x66800;
-                    goto block_41;
+                    var_r7 = 1;
                 }
             } else {
-                var_r0_5 = 0x68800;
-                if (temp_r1_6 <= 0x68800) {
-                block_41:
-                    temp_r4->qWorld.x = var_r0_5;
+                if (temp_r4->qWorld.x >= 0x6DC00) {
+                    temp_r4->qWorld.x = 0x6DC00;
                     var_r7 = 1;
                 }
             }
-            p = NULL;
-            sub_807C244(&boss->spr278[param1], temp_r4->qWorld.x, temp_r4->qWorld.y, temp_r3 * 0, 0);
-            if (var_r7 == 0) {
-                return;
+
+            if (var_r7 != 0) {
+                temp_r4->unk16 = 0x3E8;
             }
-            temp_r4->unk16 = 0xC8U;
-            if (param1 == 0) {
-                return;
-            }
-            sub_807C5D0();
-            sp8.hitboxes[0].index = 0;
-            sp8.hitboxes[0].b.left = -0x10;
-            sp8.hitboxes[0].b.top = -0x10;
-            //        p->unk2E = 0x10;
-            //        p->unk2F = 0x1E;
-            temp_r5_2 = boss->players[0];
-            temp_r0_6 = temp_r5_2->framesInvulnerable;
-            if (temp_r0_6 == 0) {
-                p = temp_r5_2;
-                sp4 = (s32)temp_r0_6;
-                if (sub_8020700(&sp8, I(boss->qWorld.x), I(temp_r4->qWorld.y), 0, 0, 0) != 0) {
-                    temp_r4->unk1B = 1;
-                    sub_807FB7C(0xA0U);
-                    sub_8081A10(temp_r5_2);
-                    temp_r5_2->qWorldX = boss->qWorld.x;
-                    temp_r5_2->qWorldY = temp_r4->qWorld.y;
-                }
-            }
-            m4aSongNumStart(0x23BU);
-            return;
+        } break;
     }
 }
 
 void sub_807E54C(HyperEggRobo *boss, u8 param1)
 {
-    u16 sp0[3];
+    s16 sp0[3];
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
     Sprite *var_r2_2;
@@ -2453,24 +2399,66 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
     u16 temp_r2;
     u16 temp_r3_2;
     u16 temp_r3_3;
-    u8 temp_r6;
-
-    temp_r6 = param1;
-    temp_r5 = &boss->pos144[temp_r6];
-    temp_r3 = &boss->tf340[temp_r6];
+    temp_r5 = &boss->pos144[param1];
+    temp_r3 = &boss->tf340[param1];
     var_r4 = 0;
     temp_r2 = temp_r5->unk16;
     switch (temp_r2) {
-        case 0xC8: /* switch 1 */
-            temp_r0 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0;
-            if ((temp_r0 << 0x10) != 0) {
+        case 0x0:
+            switch (param1) {
+                case 0:
+                    var_r2_2 = &boss->spr278[0];
+                    var_r2_2->anim = sBossFinalAnimsHands[0][1][0];
+                    var_r2_2->variant = sBossFinalAnimsHands[0][1][1];
+                    break;
+                case 1:
+                    var_r2_2 = &boss->spr278[1];
+                    var_r2_2->anim = sBossFinalAnimsHands[0][2][0];
+                    var_r2_2->variant = sBossFinalAnimsHands[0][2][1];
+                    break;
+            }
+            if (param1 == 0) {
+                var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
+                var_r1_2 = 0x630;
+            } else {
+                var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
+                var_r1_2 = 0x6C0;
+            }
+            temp_r0_7 = (sp0[0] & 0xFFFF0000) | (u16)(var_r1_2 - var_r0_14);
+            sp0[0] = temp_r0_7;
+            sp0[1] = (u16)temp_r0_7 | ((0x60 - ((s32)temp_r5->qWorld.y >> 8)) << 0x10);
+            sp0[2] &= 0xFFFF0000;
+            sa2__sub_8085A9C((void *)&sp0, 8U);
+            temp_r5->qUnk8.x = sp0[0] * 2;
+            temp_r5->qUnk8.y = sp0[1] * 2;
+            temp_r5->unk10 = 0x300U;
+            temp_r5->unk16 = 0xAU;
+            break;
+        case 10: /* switch 1 */
+            temp_r5->qWorld.x += temp_r5->qUnk8.x;
+            temp_r0_8 = temp_r5->qWorld.y + temp_r5->qUnk8.y;
+            temp_r5->qWorld.y = temp_r0_8;
+            if (temp_r0_8 <= 0x6000) {
+                temp_r5->unk13 = 0;
+                temp_r5->unk14 = (s16)temp_r2;
+                temp_r5->unk16 = 0x14U;
+            }
+            if (param1 == 0) {
+                if (temp_r3->rotation == 0x100) {
+                    return;
+                }
+                var_r0_12 = temp_r3->rotation + 0x10;
+                temp_r3->rotation = var_r0_12 & 0x3FF;
+                break;
+            }
+            temp_r1_3 = temp_r3->rotation;
+            if (temp_r1_3 == 0x300) {
                 return;
             }
-            m4aSongNumStart(0x23DU);
-            temp_r5->unk16 = 0xD2U;
-            return;
-        case 0x14: /* switch 1 */
+            var_r0_12 = temp_r1_3 - 0x10;
+            temp_r3->rotation = var_r0_12 & 0x3FF;
+            break;
+        case 20: /* switch 1 */
             temp_r0_2 = (u16)temp_r5->unk14 - 1;
             temp_r5->unk14 = temp_r0_2;
             if ((temp_r0_2 << 0x10) != 0) {
@@ -2479,8 +2467,8 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             temp_r5->unk14 = 0;
             temp_r5->unk16 = 0x64U;
             return;
-        case 0x64: /* switch 1 */
-            if (temp_r6 == 0) {
+        case 100:
+            if (param1 == 0) {
                 temp_r3_2 = temp_r5->unk10;
                 var_r0 = gSineTable[temp_r3_2 + 0x100] * 0x18;
                 if (var_r0 < 0) {
@@ -2515,37 +2503,17 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             }
         block_93:
             temp_r5->unk16 = 0x6EU;
-            return;
-        case 0xE6: /* switch 1 */
-            temp_r1 = temp_r5->unk20;
-            if (temp_r1 > 0) {
-                temp_r0_4 = temp_r5->unk1C;
-                temp_r5->unk20 = (s32)(temp_r1 - temp_r0_4);
-                temp_r2_2 = 0 - temp_r0_4;
-                var_r0_6 = temp_r2_2 * temp_r5->qUnk8.x;
-                if (var_r0_6 < 0) {
-                    var_r0_6 += 0xFF;
-                }
-                temp_r5->qWorld.x += var_r0_6 >> 8;
-                var_r0_7 = temp_r2_2 * temp_r5->qUnk8.y;
-                if (var_r0_7 < 0) {
-                    var_r0_7 += 0xFF;
-                }
-                temp_r5->qWorld.y += var_r0_7 >> 8;
-            } else {
-                var_r4 = 1;
+            break;
+        case 200: /* switch 1 */
+            temp_r0 = (u16)temp_r5->unk14 - 1;
+            temp_r5->unk14 = temp_r0;
+            if ((temp_r0 << 0x10) != 0) {
+                return;
             }
-            if ((s32)temp_r3->qScaleX > 0x100) {
-                temp_r3->qScaleX = (u16)temp_r3->qScaleX - 0x10;
-                temp_r3->qScaleY = (u16)temp_r3->qScaleY - 0x10;
-            } else {
-                var_r4 |= 2;
-            }
-            if (var_r4 == 3) {
-                goto block_93;
-            }
-            return;
-        case 0xD2: /* switch 1 */
+            m4aSongNumStart(0x23DU);
+            temp_r5->unk16 = 210;
+            break;
+        case 210:
             temp_r1_2 = temp_r5->unk20;
             if (temp_r1_2 < (s32)temp_r5->unk24) {
                 temp_r2_3 = temp_r5->unk1C;
@@ -2570,7 +2538,7 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                 var_r4 |= 2;
             }
             if ((s32)temp_r3->qScaleX > 0x180) {
-                sub_807F334(&boss->spr278[temp_r6], temp_r3, 2U, temp_r6);
+                sub_807F334(&boss->spr278[param1], temp_r3, 2U, param1);
                 temp_r5->unk13 = 1;
             }
             if (var_r4 != 3) {
@@ -2578,18 +2546,38 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             }
             temp_r5->unk14 = 0xA;
             temp_r5->unk16 = 0xDCU;
-            return;
-        case 0xDC: /* switch 1 */
-            temp_r0_5 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0_5;
-            if ((temp_r0_5 << 0x10) != 0) {
+            break;
+
+        case 0xDC: {
+            if (--temp_r5->unk14 != 0) {
                 return;
             }
-            temp_r5->unk16 = 0xE6U;
+            temp_r5->unk16 = 230;
             temp_r5->unk13 = 0;
-            return;
-        case 0x12C: /* switch 1 */
-            if (temp_r6 == 0) {
+        } break;
+
+        case 230:
+            if (temp_r5->unk20 > 0) {
+                temp_r5->unk20 -= temp_r5->unk1C;
+                temp_r2_2 = -temp_r5->unk1C;
+                temp_r5->qWorld.x += (temp_r2_2 * temp_r5->qUnk8.x) / 0x100;
+                temp_r5->qWorld.y += (temp_r2_2 * temp_r5->qUnk8.y) / 0x100;
+            } else {
+                var_r4 = 1;
+            }
+            if (temp_r3->qScaleX > 0x100) {
+                temp_r3->qScaleX -= 0x10;
+                temp_r3->qScaleY -= 0x10;
+            } else {
+                var_r4 |= 2;
+            }
+            if (var_r4 == 3) {
+                temp_r5->unk16 = 0x6EU;
+            }
+            break;
+
+        case 300:
+            if (param1 == 0) {
                 var_r0_10 = (s32)temp_r5->qWorld.x >> 8;
                 var_r1 = 0x614;
             } else {
@@ -2597,13 +2585,13 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                 var_r1 = 0x6DC;
             }
             sp0[0] = (s16)(var_r1 - var_r0_10);
-            sp0[1] = (s16)(0x98 - ((s32)temp_r5->qWorld.y >> 8));
+            sp0[1] = (s16)(0x98 - I(temp_r5->qWorld.y));
             sp0[2] = 0;
             sa2__sub_8085A9C((UNK_8085D14 *)&sp0, 8U);
             temp_r5->qUnk8.x = sp0[0] * 2;
             temp_r5->qUnk8.y = sp0[1] * 2;
-            switch (temp_r6) { /* switch 3; irregular */
-                case 0: /* switch 3 */
+            switch (param1) {
+                case 0:
                     var_r2 = &boss->spr278[0];
                     var_r2->anim = sBossFinalAnimsHands[1][0][0];
                     var_r2->variant = sBossFinalAnimsHands[1][0][1];
@@ -2615,86 +2603,28 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                     break;
             }
             temp_r5->unk13 = 1;
-            temp_r5->unk16 = 0x136U;
-            return;
-        case 0x136: /* switch 1 */
-            temp_r2_4 = temp_r5->qWorld.x + temp_r5->qUnk8.x;
-            temp_r5->qWorld.x = temp_r2_4;
+            temp_r5->unk16 = 310;
+            break;
+
+        case 310: {
+            temp_r5->qWorld.x += temp_r5->qUnk8.x;
             temp_r5->qWorld.y += temp_r5->qUnk8.y;
-            if (temp_r6 == 0) {
-                if (temp_r2_4 <= 0x61400) {
-                    temp_r5->unk16 = 0x3E8U;
-                }
-                temp_r0_6 = temp_r3->rotation;
-                if (temp_r0_6 != 0) {
-                    var_r0_12 = temp_r0_6 - 0x10;
-                    temp_r3->rotation = var_r0_12 & 0x3FF;
-                }
-            } else {
-                if (temp_r2_4 > 0x6DBFF) {
+            if (param1 == 0) {
+                if (temp_r5->qWorld.x <= 0x61400) {
                     temp_r5->unk16 = 0x3E8U;
                 }
                 if (temp_r3->rotation != 0) {
-                block_112:
-                    var_r0_12 = temp_r3->rotation + 0x10;
-                    temp_r3->rotation = var_r0_12 & 0x3FF;
+                    temp_r3->rotation = (temp_r3->rotation - 0x10) & 0x3FF;
                 }
-            }
-            break;
-        case 0x0: /* switch 1 */
-            switch (temp_r6) {
-                case 0:
-                    var_r2_2 = &boss->spr278[0];
-                    var_r2_2->anim = sBossFinalAnimsHands[0][1][0];
-                    var_r2_2->variant = sBossFinalAnimsHands[0][1][1];
-                    break;
-                case 1:
-                    var_r2_2 = &boss->spr278[1];
-                    var_r2_2->anim = sBossFinalAnimsHands[0][2][0];
-                    var_r2_2->variant = sBossFinalAnimsHands[0][2][1];
-                    break;
-            }
-            if (temp_r6 == 0) {
-                var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
-                var_r1_2 = 0x630;
             } else {
-                var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
-                var_r1_2 = 0x6C0;
-            }
-            temp_r0_7 = (sp0[0] & 0xFFFF0000) | (u16)(var_r1_2 - var_r0_14);
-            sp0[0] = temp_r0_7;
-            sp0[1] = (u16)temp_r0_7 | ((0x60 - ((s32)temp_r5->qWorld.y >> 8)) << 0x10);
-            sp0[2] &= 0xFFFF0000;
-            sa2__sub_8085A9C((void *)&sp0, 8U);
-            temp_r5->qUnk8.x = sp0[0] * 2;
-            temp_r5->qUnk8.y = sp0[1] * 2;
-            temp_r5->unk10 = 0x300U;
-            temp_r5->unk16 = 0xAU;
-            return;
-        case 0xA: /* switch 1 */
-            temp_r5->qWorld.x += temp_r5->qUnk8.x;
-            temp_r0_8 = temp_r5->qWorld.y + temp_r5->qUnk8.y;
-            temp_r5->qWorld.y = temp_r0_8;
-            if (temp_r0_8 <= 0x6000) {
-                temp_r5->unk13 = 0;
-                temp_r5->unk14 = (s16)temp_r2;
-                temp_r5->unk16 = 0x14U;
-            }
-            if (temp_r6 == 0) {
-                if (temp_r3->rotation == 0x100) {
-                    return;
+                if (temp_r5->qWorld.x >= 0x6DC00) {
+                    temp_r5->unk16 = 0x3E8U;
                 }
-                var_r0_12 = temp_r3->rotation + 0x10;
-                temp_r3->rotation = var_r0_12 & 0x3FF;
-                break;
+                if (temp_r3->rotation != 0) {
+                    temp_r3->rotation = (temp_r3->rotation + 0x10) & 0x3FF;
+                }
             }
-            temp_r1_3 = temp_r3->rotation;
-            if (temp_r1_3 == 0x300) {
-                return;
-            }
-            var_r0_12 = temp_r1_3 - 0x10;
-            temp_r3->rotation = var_r0_12 & 0x3FF;
-            break;
+        } break;
     }
 }
 
@@ -2703,7 +2633,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
     s32 sp0[3];
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
-    SpriteTransform *temp_r3;
+    SpriteTransform *tf;
     s32 temp_r0_2;
     s32 temp_r3_2;
     s32 var_r0;
@@ -2715,13 +2645,11 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
     u8 temp_r2;
     void *temp_r1;
 
-    temp_r2 = param1;
-    temp_r5 = &boss->pos144[temp_r2];
-    temp_r3 = &boss->tf340[temp_r2];
-    temp_r0 = temp_r5->unk16;
-    switch ((u32)temp_r0) { /* switch 1; irregular */
+    temp_r5 = &boss->pos144[param1];
+    tf = &boss->tf340[param1];
+    switch (temp_r5->unk16) { /* switch 1; irregular */
         case 0:
-            if (temp_r2 == 0) {
+            if (param1 == 0) {
                 var_r1 = (s32)boss->qCockpitWorldPos.x >> 8;
                 var_r0 = ((s32)temp_r5->qWorld.x >> 8) + 0x20;
             } else {
@@ -2743,7 +2671,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             temp_r3_2 = temp_r5->qWorld.x + temp_r5->qUnk8.x;
             temp_r5->qWorld.x = temp_r3_2;
             temp_r5->qWorld.y += temp_r5->qUnk8.y;
-            if (temp_r2 == 0) {
+            if (param1 == 0) {
                 if ((s32)(boss->qCockpitWorldPos.x + 0xFFFFE000) <= temp_r3_2) {
                     temp_r5->unk16 = 0x14;
                 }
@@ -2752,7 +2680,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             }
             break;
         case 20:
-            if (temp_r2 != 0) {
+            if (param1 != 0) {
                 temp_r1 = temp_r5 - 0x28;
                 //            if ((temp_r5->unk16 == 0x14) && (temp_r1->unk16 == 0x14))
                 {
@@ -2762,7 +2690,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             }
             break;
         case 30:
-            switch (temp_r2) {
+            switch (param1) {
                 case 0: /* switch 2 */
                     var_r2 = &boss->spr278[0];
                     var_r2->anim = sBossFinalAnimsHands[1][2][0];
@@ -2778,17 +2706,17 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             temp_r5->unk16 = var_r0_2;
             break;
         case 31:
-            if (temp_r2 == 0) {
-                temp_r0_3 = (temp_r3->rotation - 8) & 0x3FF;
-                temp_r3->rotation = temp_r0_3;
+            if (param1 == 0) {
+                temp_r0_3 = (tf->rotation - 8) & 0x3FF;
+                tf->rotation = temp_r0_3;
                 if (temp_r0_3 == 0x300) {
                     temp_r5->unk16 = 0x64U;
                     boss->unkC = 0xA;
                     return;
                 }
             } else {
-                temp_r0_4 = (temp_r3->rotation + 8) & 0x3FF;
-                temp_r3->rotation = temp_r0_4;
+                temp_r0_4 = (tf->rotation + 8) & 0x3FF;
+                tf->rotation = temp_r0_4;
                 if (temp_r0_4 == 0x100) {
                     temp_r5->unk16 = 100;
                 }
@@ -2844,10 +2772,8 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
                     var_r2->variant = sBossFinalAnimsHands[1][5][1];
                     break;
             }
-            var_r0_3 = 0xA;
-        block_26:
-            temp_r5->unk16 = var_r0_3;
-            return;
+            temp_r5->unk16 = 10;
+            break;
         case 10:
             if (temp_r6 == 0) {
                 var_r0_4 = temp_r2->rotation + 8;
@@ -2856,8 +2782,8 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
             }
             temp_r2->rotation = var_r0_4 & 0x3FF;
             if (temp_r2->rotation == 0) {
-                var_r0_3 = 0x14;
-                goto block_26;
+                temp_r5->unk16 = 20;
+                break;
             }
             break;
         case 20:
@@ -2866,13 +2792,13 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
             temp_r5->qWorld.y += temp_r5->qUnk8.y;
             if (temp_r6 == 0) {
                 if (temp_r2_2 <= 0x61400) {
-                    temp_r5->unk16 = 0x1EU;
+                    temp_r5->unk16 = 30;
                     boss->unkC = 0x64;
-                    return;
                 }
-            } else if (temp_r2_2 > 0x6DBFF) {
-                var_r0_3 = 0x1E;
-                goto block_26;
+            } else {
+                if (temp_r2_2 >= 0x6DC00) {
+                    temp_r5->unk16 = 30;
+                }
             }
             break;
     }
@@ -2890,32 +2816,27 @@ void sub_807ECFC(HyperEggRobo *boss, u8 param1)
 
     temp_r4 = &boss->pos144[param1];
     temp_r1 = temp_r4->unk16;
-    switch (temp_r1) { /* irregular */
-        case 0:
-            temp_r4->qUnk8.x = (s32)temp_r1;
-            temp_r4->qUnk8.y = -0x300;
-            temp_r4->unk14 = (s16)temp_r1;
-            var_r0 = 0xA;
-        block_8:
-            temp_r4->unk16 = var_r0;
-            return;
-        case 10:
+    switch (temp_r4->unk16) { /* irregular */
+        case 0: {
+            temp_r4->qUnk8.x = +Q(0);
+            temp_r4->qUnk8.y = -Q(3);
+            temp_r4->unk14 = 0;
+            temp_r4->unk16 = 10;
+        } break;
+
+        case 10: {
             temp_r3 = temp_r4->qWorld.x + temp_r4->qUnk8.x;
             temp_r4->qWorld.x = temp_r3;
-            temp_r0 = temp_r4->qUnk8.y;
-            temp_r2 = temp_r4->qWorld.y + temp_r0;
-            temp_r4->qWorld.y = temp_r2;
-            temp_r4->qUnk8.y = temp_r0 + 0x40;
-            temp_r0_2 = (u16)temp_r4->unk14 + 1;
-            temp_r4->unk14 = temp_r0_2;
-            if (temp_r0_2 & 1) {
-                sub_8079758(7U, (s16)((s32)(temp_r3 << 8) >> 0x10), (s16)((s32)(temp_r2 << 8) >> 0x10), 0x300, 0U, 0x1EU, 0, boss->vram18);
+            temp_r4->qWorld.y += temp_r4->qUnk8.y;
+            temp_r4->qUnk8.y += 0x40;
+            temp_r4->unk14++;
+            if (temp_r4->unk14 & 1) {
+                sub_8079758(7U, I(temp_r3), I(temp_r4->qWorld.y), 0x300, 0U, 0x1EU, 0, boss->vram18);
             }
-            if ((s32)((s32)temp_r4->qWorld.y >> 8) > 0x12C00) {
-                var_r0 = 0x3E8;
-                goto block_8;
+            if (I(temp_r4->qWorld.y) > 0x12C00) {
+                temp_r4->unk16 = 0x3E8;
             }
-            break;
+        } break;
     }
 }
 
@@ -2938,45 +2859,90 @@ void sub_807ED8C(HyperEggRobo *boss)
     u16 temp_r0_13;
     u16 temp_r0_5;
     u16 temp_r0_9;
-    u16 temp_r1;
     u16 temp_r3;
     u32 temp_r0_4;
     u32 temp_r0_7;
-    u8 temp_r0_11;
     u8 temp_r0_14;
     u8 var_r1;
     u8 var_r1_2;
     u8 var_r1_3;
     u8 var_r3;
 
-    temp_r1 = boss->unk16;
-    switch (temp_r1) {
-        case 0xD2:
-            var_r1 = 0;
-            do {
-                gPlayers[var_r1].idleAndCamCounter = 0x168;
-                var_r1 += 1;
-            } while ((u32)var_r1 <= 3U);
-            temp_r0 = boss->unk14 - 1;
-            boss->unk14 = temp_r0;
-            if ((temp_r0 << 0x10) != 0) {
+    switch (boss->unk16) {
+        case 0x0:
+            if (boss->unk1 > 4) {
                 return;
             }
-            boss->unk14 = 0xB4;
-            boss->unk16 = 0xDC;
-            m4aSongNumStart(0x221U);
-            gMusicManagerState.fadeoutSpeed = Q(1.25);
-            return;
-        case 0xC8:
+            if (boss->unk1 < 1) {
+                return;
+            }
+            if (sub_807F228(boss) == 0) {
+                return;
+            }
+            sub_807F434(boss);
+            break;
+        case 0x1: {
+            if (--boss->unk14 == 0) {
+                sub_807BE58(boss, 1U);
+                if (boss->lives != 0) {
+                    boss->spr228.anim = gUnknown_080D5C38[0][0];
+                    boss->spr228.variant = gUnknown_080D5C38[0][1];
+                    boss->unk16 = (u16)0;
+                    return;
+                }
+                if (gStageData.gameMode == 5) {
+                    if (gStageData.playerIndex != 0) {
+                        boss->unk16 = 0x6E;
+                        return;
+                    }
+                    sub_8027674(1U, gStageData.levelTimer);
+                }
+
+                sub_8081C08(boss);
+                boss->unk16 = 0x64;
+            }
+        } break;
+        case 100:
+            if (--boss->unk14 == 0) {
+                for (var_r3 = 0; var_r3 < 2; var_r3++) {
+                    temp_r2 = &gPlayers[var_r3];
+                    if ((temp_r2->moveState & 0x100) && (((temp_r2->charFlags.someIndex == 1)) || (temp_r2->charFlags.someIndex == 3))) {
+                        boss->unk14 = 4;
+                        return;
+                    }
+                }
+                gStageData.unk4 = 4;
+                sub_807BE58(boss, 0xAU);
+                CreateScreenShake(0x800U, 4U, 0U, -1U, 0xD3U);
+
+                if (boss->lives != 0) {
+                    var_r1_3 = boss->lives - 1;
+                } else {
+                    var_r1_3 = 0;
+                }
+                boss->unk8 = gUnknown_080D5C48[var_r1_3];
+                boss->unkC = 0;
+                boss->unk1 = 5;
+                sub_807DB00(boss, 0U, 0xBU);
+                sub_807DB00(boss, 1U, 0xBU);
+                boss->spr228.anim = gUnknown_080D5C38[6][0];
+                boss->spr228.variant = gUnknown_080D5C38[6][1];
+                m4aSongNumStart(0x221U);
+                sub_807FB7C(0x96U);
+                sub_807FB7C(0U);
+                boss->unk16 = 200;
+            }
+            break;
+
+        case 200:
             if (1 & boss->unk14) {
-                temp_r0_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
+                temp_r0_2 = PseudoRandom32();
                 temp_r7 = 0x3FF & temp_r0_2;
-                temp_r0_3 = (0x196225 * temp_r0_2) + 0x3C6EF35F;
-                gPseudoRandom = temp_r0_3;
+                temp_r0_3 = PseudoRandom32();
                 temp_r0_4 = (u32)temp_r0_3 % 48U;
-                sub_8079758(7U, (s16)((s32)((boss->qWorld.x + ((u32)(temp_r0_4 * gSineTable[temp_r7 + 0x100]) >> 6)) << 8) >> 0x10),
-                            (s16)(((s32)(boss->qWorld.y + ((u32)(temp_r0_4 * gSineTable[temp_r7]) >> 6)) >> 8) - 0x30), 0x300, (u16)temp_r7,
-                            0x1EU, 0, boss->vram18);
+                sub_8079758(7U, (s16)((s32)((boss->qWorld.x + ((u32)(temp_r0_4 * COS(temp_r7)) >> 6)) << 8) >> 0x10),
+                            (s16)(((s32)(boss->qWorld.y + ((u32)(temp_r0_4 * SIN(temp_r7)) >> 6)) >> 8) - 0x30), 0x300, (u16)temp_r7, 0x1EU,
+                            0, boss->vram18);
             }
             temp_r0_5 = boss->unk14 + 1;
             boss->unk14 = temp_r0_5;
@@ -2989,7 +2955,19 @@ void sub_807ED8C(HyperEggRobo *boss)
             boss->unk16 = 0xD2;
             boss->unk14 = 0x3C;
             sub_807FB7C(0xAU);
-            return;
+            break;
+        case 0xD2:
+            for (var_r1 = 0; var_r1 < 4; var_r1++) {
+                gPlayers[var_r1].idleAndCamCounter = 0x168;
+            }
+
+            if (--boss->unk14 == 0) {
+                boss->unk14 = 0xB4;
+                boss->unk16 = 0xDC;
+                m4aSongNumStart(0x221U);
+                gMusicManagerState.fadeoutSpeed = Q(1.25);
+            }
+            break;
         case 0xDC:
             var_r1_2 = 0;
             do {
@@ -3043,82 +3021,10 @@ void sub_807ED8C(HyperEggRobo *boss)
                 gCurTask->main = Task_358_807F568;
             }
             break;
-        case 0x0:
-            temp_r0_11 = boss->unk1;
-            if ((s32)temp_r0_11 > 4) {
-                return;
-            }
-            if ((s32)temp_r0_11 < 1) {
-                return;
-            }
-            if ((sub_807F228(boss) << 0x18) == 0) {
-                return;
-            }
-            sub_807F434(boss);
-            return;
-        case 0x1: {
-            if (--boss->unk14 == 0) {
-                sub_807BE58(boss, 1U);
-                if (boss->lives != 0) {
-                    boss->spr228.anim = gUnknown_080D5C38[0][0];
-                    boss->spr228.variant = gUnknown_080D5C38[0][1];
-                    boss->unk16 = (u16)0;
-                    return;
-                }
-                if (gStageData.gameMode == 5) {
-                    if (gStageData.playerIndex != 0) {
-                        boss->unk16 = 0x6E;
-                        return;
-                    }
-                    sub_8027674(1U, gStageData.levelTimer);
-                }
-
-                sub_8081C08(boss);
-                boss->unk16 = 0x64;
-            }
-        } break;
-        case 0x64:
-            temp_r0_13 = boss->unk14 - 1;
-            boss->unk14 = temp_r0_13;
-            if ((temp_r0_13 << 0x10) != 0) {
-                return;
-            }
-            var_r3 = 0;
-        loop_39:
-            temp_r2 = &gPlayers[var_r3];
-            if ((temp_r2->moveState & 0x100) && (((temp_r2->charFlags.someIndex == 1)) || (temp_r2->charFlags.someIndex == 3))) {
-                boss->unk14 = 4;
-                return;
-            }
-            var_r3 += 1;
-            if ((u32)var_r3 > 1U) {
-                gStageData.unk4 = 4;
-                sub_807BE58(boss, 0xAU);
-                CreateScreenShake(0x800U, 4U, 0U, -1U, 0xD3U);
-
-                if (boss->lives != 0) {
-                    var_r1_3 = boss->lives - 1;
-                } else {
-                    var_r1_3 = 0;
-                }
-                boss->unk8 = gUnknown_080D5C48[var_r1_3];
-                boss->unkC = 0;
-                boss->unk1 = 5;
-                sub_807DB00(boss, 0U, 0xBU);
-                sub_807DB00(boss, 1U, 0xBU);
-                boss->spr228.anim = gUnknown_080D5C38[6][0];
-                boss->spr228.variant = gUnknown_080D5C38[6][1];
-                m4aSongNumStart(0x221U);
-                sub_807FB7C(0x96U);
-                sub_807FB7C(0U);
-                boss->unk16 = 0xC8;
-                return;
-            }
-            goto loop_39;
     }
 }
 
-s32 sub_807F228(HyperEggRobo *arg0)
+u8 sub_807F228(HyperEggRobo *arg0)
 {
     Player *p;
     Player *temp_r4;

@@ -294,6 +294,8 @@
 #define SE_568                  0x238 // TODO: only Final Boss related?
 #define SE_569                  0x239
 #define SE_570                  0x23A
+#define SE_571                  0x23B
+#define SE_572                  0x23C
 
 #define SE_EXTRA_BOSS_578      0x23F
 #define SE_576                 0x240
