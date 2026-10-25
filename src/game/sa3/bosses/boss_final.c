@@ -1333,97 +1333,107 @@ void sub_807CDF0(HyperEggRobo *boss)
     }
 }
 
-#if 01
-#else
 void sub_807CFAC(HyperEggRobo *boss)
 {
-    s32 sp0;
-    u8 sp4;
-    s32 sp8;
+    u8 i;
+    u8 sp8;
+    s32 qBottomY;
     Sprite *s;
-    HyberEggRoboStrc194 *temp_r0_4;
-    s32 temp_r3_2;
+    s32 qWorldDX, qWorldDY;
+    Player *player, *partner;
 
-    for (sp4 = 0; sp4 < 3; sp4++) {
-        s = &boss->spr2C8[sp4];
-        switch (boss->unk194[sp4].unk18) {
-            case 0:
-                break;
+    for (i = 0; i < 3; i++) {
+        s = &boss->spr2C8[i];
+        switch (boss->unk194[i].unk18) {
+            case 0: {
+            } break;
+
             case 1: {
-                boss->unk194[sp4].qWorld.x += boss->unk194[sp4].unk8;
-                boss->unk194[sp4].qWorld.y += boss->unk194[sp4].unkC;
-                sub_807D41C(boss, sp4);
-                temp_r3_2 = boss->unk194[sp4].qWorld.x - boss->unk194[sp4].qWorld.x;
-                sub_807D37C(boss, &boss->unk194[sp4]);
-                if (boss->unk194[sp4].unk1A == 0) {
-                    sp0 = boss->unk194[sp4].qWorld.y - boss->unk194[sp4].qWorld.y;
-                    sp8 = sub_807C244(s, boss->unk194[sp4].qWorld.x, boss->unk194[sp4].qWorld.y, temp_r3_2, sp0);
-                    if (sub_802C080(boss->players[0]) == 0) {
-                        if (boss->unk194[sp4].unk18 & sp8) {
-                            if (((s32)(boss->unk194[sp4].qWorld.y >> 8) <= 32) && (boss->players[0]->framesInvulnerable == 0)
-                                && (boss->lives != 0)) {
-                                Call__Player_8014550(boss->players[0]);
+                qWorldDX = boss->unk194[i].qWorld.x;
+                qWorldDY = boss->unk194[i].qWorld.y;
+                boss->unk194[i].qWorld.x += boss->unk194[i].unk8;
+                boss->unk194[i].qWorld.y += boss->unk194[i].unkC;
+                sub_807D41C(boss, i);
+                qWorldDX -= boss->unk194[i].qWorld.x;
+                qWorldDY -= boss->unk194[i].qWorld.y;
+                qBottomY = boss->unk194[i].qWorld.y + Q(s->hitboxes[0].b.bottom);
+                sub_807D37C(boss, &boss->unk194[i]);
+                if (boss->unk194[i].unk1A == 0) {
+                    sp8 = sub_807C244(s, boss->unk194[i].qWorld.x, boss->unk194[i].qWorld.y, qWorldDX, qWorldDY);
+                    player = boss->players[0];
+                    if (sub_802C080(player) == 0) {
+                        if (1 & sp8) {
+                            if (((s32)(boss->unk194[i].qWorld.y >> 8) <= 32) && (player->framesInvulnerable == 0) && (boss->lives != 0)) {
+                                Call__Player_8014550(player);
                             }
-                        } else if ((boss->players[0]->qWorldY > boss->unk194[sp4].qWorld.y + Q(s->hitboxes[0].b.bottom))
-                                   && (boss->lives != 0)) {
-                            sub_8020CE0(s, I(boss->unk194[sp4].qWorld.x), I(boss->unk194[sp4].qWorld.y), 0, boss->players[0]);
+                        } else if ((player->qWorldY > qBottomY) && (boss->lives != 0)) {
+                            sub_8020CE0(s, I(boss->unk194[i].qWorld.x), I(boss->unk194[i].qWorld.y), 0, player);
                         }
                     }
-                    if ((sub_802C080(boss->players[1]) == 0) && !(2 & sp8)
-                        && (boss->players[1]->qWorldY > boss->unk194[sp4].qWorld.y + Q(s->hitboxes[0].b.bottom)) && (boss->lives != 0)) {
-                        sub_8020CE0(s, I(boss->unk194[sp4].qWorld.x), I(boss->unk194[sp4].qWorld.y), 0, boss->players[1]);
+                    {
+                        partner = boss->players[1];
+                        if ((sub_802C080(partner) == 0) && !(2 & sp8) && (partner->qWorldY > qBottomY) && (boss->lives != 0)) {
+                            sub_8020CE0(s, I(boss->unk194[i].qWorld.x), I(boss->unk194[i].qWorld.y), 0, partner);
+                        }
                     }
                 }
 
-                if (boss->unk194[sp4].unk14 != 0) {
-                    boss->unk194[sp4].unk14 += 1;
-                    if ((boss->unk194[sp4].unk14 != 0xB4) && (boss->unk194[sp4].unk14 == 0xF0)) {
-                        if (1 & sp8) {
-                            if (sub_802C080(boss->players[0]) == 0) {
-                                Call__Player_8014550(boss->players[0]);
+                if (boss->unk194[i].unk14 != 0) {
+                    boss->unk194[i].unk14 += 1;
+                    if (boss->unk194[i].unk14 != 0xB4) {
+                        if (boss->unk194[i].unk14 == 0xF0) {
+                            if (1 & sp8) {
+                                player = boss->players[0];
+                                if (sub_802C080(player) == 0) {
+                                    Call__Player_8014550(player);
+                                }
                             }
-                        }
-                        if (2 & sp8) {
-                            if (sub_802C080(boss->players[1]) == 0) {
-                                Call__Player_8014550(boss->players[1]);
+                            if (2 & sp8) {
+                                partner = boss->players[1];
+                                if (sub_802C080(partner) == 0) {
+                                    Call__Player_8014550(partner);
+                                }
                             }
+                            boss->unk194[i].unk18 = 0x64;
                         }
-                        boss->unk194[sp4].unk18 = 0x64;
                     }
                 }
                 if (sp8 != 0) {
-                    if (boss->unk194[sp4].unk14 == 0) {
-                        boss->unk194[sp4].unk14 = 1;
+                    if (boss->unk194[i].unk14 == 0) {
+                        boss->unk194[i].unk14 = 1;
                     }
                 } else {
-                    boss->unk194[sp4].unk14 = sp8;
+                    boss->unk194[i].unk14 = sp8;
                 }
             } break;
 
             case 100: {
-                boss->unk194[sp4].unk14 = 0x1E;
-                boss->unk194[sp4].unk18 = 0x6E;
-                boss->unk194[sp4].unk1A = 0;
-                m4aSongNumStart(0x239U);
-                s->anim = 0x4F6;
+                boss->unk194[i].unk14 = 0x1E;
+                boss->unk194[i].unk18 = 0x6E;
+                boss->unk194[i].unk1A = 0;
+                m4aSongNumStart(SE_569);
+                s->anim = ANIM_BOSS_FINAL_EXPLOSION;
                 s->variant = 0;
                 for (sp8 = 0; sp8 < ARRAY_COUNT(boss->players); sp8++) {
-                    if ((boss->players[sp8]->moveState & 0x20) && (boss->players[sp8]->sprColliding == s)) {
-                        boss->players[sp8]->moveState &= ~0x20;
-                        boss->players[sp8]->sprColliding = NULL;
+                    player = boss->players[sp8];
+                    if ((player->moveState & MOVESTATE_COLLIDING_ENT) && (player->sprColliding == s)) {
+                        player->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                        player->sprColliding = NULL;
                     }
                 }
             } break;
 
             case 110: {
-                if (--boss->unk194[sp4].unk14 == 0) {
-                    boss->unk194[sp4].unk18 = 0;
+                if (--boss->unk194[i].unk14 == 0) {
+                    boss->unk194[i].unk18 = 0;
                 }
             } break;
         }
     }
 }
 
+#if 01
+#else
 void sub_807D2A4(HyberEggRoboStrc194 *strc194, u8 param1)
 {
     s32 temp_r1_2;
