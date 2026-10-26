@@ -71,7 +71,7 @@ typedef struct {
     /* 0x011 */ u8 unk11;
     /* 0x012 */ u8 unk12;
     /* 0x013 */ u8 unk13;
-    /* 0x014 */ u16 unk14;
+    /* 0x014 */ s16 unk14;
     /* 0x016 */ u16 unk16;
     /* 0x018 */ u8 *vram18;
     /* 0x018 */ u8 filler1C[0x4];
@@ -2406,16 +2406,14 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
     switch (temp_r2) {
         case 0x0:
             switch (param1) {
-                case 0:
-                    var_r2_2 = &boss->spr278[0];
-                    var_r2_2->anim = sBossFinalAnimsHands[0][1][0];
-                    var_r2_2->variant = sBossFinalAnimsHands[0][1][1];
-                    break;
-                case 1:
-                    var_r2_2 = &boss->spr278[1];
-                    var_r2_2->anim = sBossFinalAnimsHands[0][2][0];
-                    var_r2_2->variant = sBossFinalAnimsHands[0][2][1];
-                    break;
+                case 0: {
+                    boss->spr278[0].anim = sBossFinalAnimsHands[0][1][0];
+                    boss->spr278[0].variant = sBossFinalAnimsHands[0][1][1];
+                } break;
+                case 1: {
+                    boss->spr278[1].anim = sBossFinalAnimsHands[0][2][0];
+                    boss->spr278[1].variant = sBossFinalAnimsHands[0][2][1];
+                } break;
             }
             if (param1 == 0) {
                 var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
@@ -2470,35 +2468,22 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
         case 100:
             if (param1 == 0) {
                 temp_r3_2 = temp_r5->unk10;
-                var_r0 = gSineTable[temp_r3_2 + 0x100] * 0x18;
-                if (var_r0 < 0) {
-                    var_r0 += 0x3F;
-                }
-                var_r0_2 = gSineTable[temp_r3_2] * 0x18;
-                if (var_r0_2 < 0) {
-                    var_r0_2 += 0x3F;
-                }
-                temp_r5->qWorld.x = (var_r0 >> 6) + 0x63000;
-                temp_r5->qWorld.y = (var_r0_2 >> 6) + 0x7800;
+                var_r0 = (COS(temp_r3_2) * 24) / 0x40;
+                var_r0_2 = (SIN(temp_r3_2) * 24) / 0x40;
+                temp_r5->qWorld.x = (0x63000 + var_r0);
+                temp_r5->qWorld.y = (0x7800 + var_r0_2);
                 var_r0_3 = temp_r5->unk10 - 0x10;
             } else {
                 temp_r3_3 = temp_r5->unk10;
-                var_r0_4 = gSineTable[temp_r3_3 + 0x100] * 0x18;
-                if (var_r0_4 < 0) {
-                    var_r0_4 += 0x3F;
-                }
-                var_r0_5 = gSineTable[temp_r3_3] * 0x18;
-                if (var_r0_5 < 0) {
-                    var_r0_5 += 0x3F;
-                }
-                temp_r5->qWorld.x = (var_r0_4 >> 6) + 0x6C000;
-                temp_r5->qWorld.y = (var_r0_5 >> 6) + 0x7800;
+                var_r0_4 = (COS(temp_r3_3) * 24) / 0x40;
+                var_r0_5 = (SIN(temp_r3_3) * 24) / 0x40;
+                temp_r5->qWorld.x = (var_r0_4) + 0x6C000;
+                temp_r5->qWorld.y = (var_r0_5) + 0x7800;
                 var_r0_3 = temp_r5->unk10 + 0x10;
             }
             temp_r5->unk10 = (u16)(var_r0_3 & 0x3FF);
-            temp_r0_3 = (u16)temp_r5->unk14 + 0x10;
-            temp_r5->unk14 = temp_r0_3;
-            if ((s32)(temp_r0_3 << 0x10) <= 0x07FF0000) {
+            temp_r5->unk14 += 0x10;
+            if (temp_r5->unk14 <= 0x07FFu) {
                 return;
             }
         block_93:
@@ -2518,22 +2503,14 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             if (temp_r1_2 < (s32)temp_r5->unk24) {
                 temp_r2_3 = temp_r5->unk1C;
                 temp_r5->unk20 = (s32)(temp_r1_2 + temp_r2_3);
-                var_r0_8 = temp_r2_3 * temp_r5->qUnk8.x;
-                if (var_r0_8 < 0) {
-                    var_r0_8 += 0xFF;
-                }
-                temp_r5->qWorld.x += var_r0_8 >> 8;
-                var_r0_9 = temp_r2_3 * temp_r5->qUnk8.y;
-                if (var_r0_9 < 0) {
-                    var_r0_9 += 0xFF;
-                }
-                temp_r5->qWorld.y += var_r0_9 >> 8;
+                temp_r5->qWorld.x += (temp_r2_3 * temp_r5->qUnk8.x) / 0x100;
+                temp_r5->qWorld.y += (temp_r2_3 * temp_r5->qUnk8.y) / 0x100;
             } else {
                 var_r4 = 1;
             }
-            if ((s32)temp_r3->qScaleX <= 0x1FF) {
-                temp_r3->qScaleX = (u16)temp_r3->qScaleX + 0x10;
-                temp_r3->qScaleY = (u16)temp_r3->qScaleY + 0x10;
+            if (temp_r3->qScaleX <= 0x1FF) {
+                temp_r3->qScaleX += 0x10;
+                temp_r3->qScaleY += 0x10;
             } else {
                 var_r4 |= 2;
             }
@@ -2545,10 +2522,10 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                 return;
             }
             temp_r5->unk14 = 0xA;
-            temp_r5->unk16 = 0xDCU;
+            temp_r5->unk16 = 220;
             break;
 
-        case 0xDC: {
+        case 220: {
             if (--temp_r5->unk14 != 0) {
                 return;
             }
@@ -2638,12 +2615,9 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
     s32 temp_r3_2;
     s32 var_r0;
     s32 var_r1;
-    u16 temp_r0;
     u16 temp_r0_3;
     u16 temp_r0_4;
-    u16 var_r0_2;
-    u8 temp_r2;
-    void *temp_r1;
+    HyberEggRoboStrc144 *temp_r1;
 
     temp_r5 = &boss->pos144[param1];
     tf = &boss->tf340[param1];
@@ -2663,9 +2637,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             sa2__sub_8085A9C((void *)sp0, 8U);
             temp_r5->qUnk8.x = sp0[0] * 2;
             temp_r5->qUnk8.y = sp0[1] * 2;
-            var_r0_2 = 0xA;
-        block_28:
-            temp_r5->unk16 = var_r0_2;
+            temp_r5->unk16 = 10;
             break;
         case 10:
             temp_r3_2 = temp_r5->qWorld.x + temp_r5->qUnk8.x;
@@ -2681,11 +2653,10 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             break;
         case 20:
             if (param1 != 0) {
-                temp_r1 = temp_r5 - 0x28;
-                //            if ((temp_r5->unk16 == 0x14) && (temp_r1->unk16 == 0x14))
-                {
-                    //              temp_r5->unk16 = 0x1EU;
-                    //            temp_r1->unk16 = 0x1EU;
+                temp_r1 = temp_r5 - 1;
+                if ((temp_r5->unk16 == 0x14) && (temp_r1->unk16 == 0x14)) {
+                    temp_r5->unk16 = 0x1EU;
+                    temp_r1->unk16 = 0x1EU;
                 }
             }
             break;
@@ -2702,8 +2673,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
                     var_r2->variant = sBossFinalAnimsHands[1][0][1];
                     break;
             }
-            var_r0_2 = 0x1F;
-            temp_r5->unk16 = var_r0_2;
+            temp_r5->unk16 = 0x1F;
             break;
         case 31:
             if (param1 == 0) {
@@ -2740,13 +2710,12 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
     u16 var_r0_3;
     u8 temp_r6;
 
-    temp_r6 = param1;
-    temp_r5 = &boss->pos144[temp_r6];
-    temp_r2 = &boss->tf340[temp_r6];
+    temp_r5 = &boss->pos144[param1];
+    temp_r2 = &boss->tf340[param1];
     temp_r0 = temp_r5->unk16;
     switch (temp_r0) {
         case 0:
-            if (temp_r6 == 0) {
+            if (param1 == 0) {
                 var_r0 = (s32)temp_r5->qWorld.x >> 8;
                 var_r1 = 0x614;
             } else {
@@ -2760,7 +2729,7 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
             sa2__sub_8085A9C((UNK_8085D14 *)&sp0, 8U);
             temp_r5->qUnk8.x = sp0[0] * 2;
             temp_r5->qUnk8.y = sp0[1] * 2;
-            switch (temp_r6) {
+            switch (param1) {
                 case 0: /* switch 2 */
                     var_r2 = boss->spr278;
                     var_r2->anim = sBossFinalAnimsHands[0][5][0];
@@ -2775,12 +2744,11 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
             temp_r5->unk16 = 10;
             break;
         case 10:
-            if (temp_r6 == 0) {
-                var_r0_4 = temp_r2->rotation + 8;
+            if (param1 == 0) {
+                temp_r2->rotation = (temp_r2->rotation + 8) & 0x3FF;
             } else {
-                var_r0_4 = temp_r2->rotation - 8;
+                temp_r2->rotation = (temp_r2->rotation - 8) & 0x3FF;
             }
-            temp_r2->rotation = var_r0_4 & 0x3FF;
             if (temp_r2->rotation == 0) {
                 temp_r5->unk16 = 20;
                 break;
@@ -2790,7 +2758,7 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
             temp_r2_2 = temp_r5->qWorld.x + temp_r5->qUnk8.x;
             temp_r5->qWorld.x = temp_r2_2;
             temp_r5->qWorld.y += temp_r5->qUnk8.y;
-            if (temp_r6 == 0) {
+            if (param1 == 0) {
                 if (temp_r2_2 <= 0x61400) {
                     temp_r5->unk16 = 30;
                     boss->unkC = 0x64;
@@ -2815,8 +2783,7 @@ void sub_807ECFC(HyperEggRobo *boss, u8 param1)
     u16 var_r0;
 
     temp_r4 = &boss->pos144[param1];
-    temp_r1 = temp_r4->unk16;
-    switch (temp_r4->unk16) { /* irregular */
+    switch (temp_r4->unk16) {
         case 0: {
             temp_r4->qUnk8.x = +Q(0);
             temp_r4->qUnk8.y = -Q(3);
@@ -2987,30 +2954,25 @@ void sub_807ED8C(HyperEggRobo *boss)
             if (!(0x3F & boss->unk14)) {
                 m4aSongNumStart(0x221U);
             }
-            temp_r0_8 = (s16)boss->unk14;
-            temp_r3 = boss->unk14;
-            if (temp_r0_8 == 0x3C) {
+
+            if (boss->unk14 == 0x3C) {
                 gBldRegs.bldCnt = 0x3FBF;
                 gBldRegs.bldAlpha = 8;
                 gBldRegs.bldY = 0;
-            } else if (((s32)temp_r0_8 <= 0x3B) && (1 & temp_r3) && (gBldRegs.bldY != 0x10)) {
+            } else if ((boss->unk14 <= 0x3B) && (1 & boss->unk14) && (gBldRegs.bldY != 0x10)) {
                 gBldRegs.bldY += 1;
             }
-            temp_r0_9 = temp_r3 - 1;
-            boss->unk14 = temp_r0_9;
-            if ((temp_r0_9 << 0x10) == 0) {
+
+            if (--boss->unk14 == 0) {
                 boss->unk14 = 0x3C;
                 boss->unk16 = 0x3E8;
                 return;
             }
             return;
         case 0x3E8:
-            temp_r0_10 = boss->unk14 - 1;
-            boss->unk14 = temp_r0_10;
-            temp_r1_3 = (s16)temp_r0_10;
-            if (temp_r1_3 == 0) {
+            if (--boss->unk14 == 0) {
                 boss->unk8 = 1;
-                boss->unkC = (u16)temp_r1_3;
+                boss->unkC = 0;
                 if (gStageData.gameMode == 0) {
                     gPlayers[1].moveState &= 0xFFFFFEFF;
                     SetPlayerCallback(&gPlayers[1], Player_8005380);
@@ -3026,158 +2988,126 @@ void sub_807ED8C(HyperEggRobo *boss)
 
 u8 sub_807F228(HyperEggRobo *arg0)
 {
-    Player *p;
-    Player *temp_r4;
-    Sprite *temp_r0;
-    s32 var_sl;
     u8 var_r7;
+    s32 var_sl = 0;
+    Sprite *s = &arg0->spr250;
 
-    var_sl = 0;
-    temp_r0 = &arg0->spr250;
     sub_8004D68(arg0->qCockpitWorldPos.x, arg0->qCockpitWorldPos.y);
-    p = &gPlayers[gStageData.playerIndex];
-    if (((p->charFlags.character == CREAM) || (gPlayers[p->charFlags.partnerIndex].charFlags.character == 1))
-        && (IsCollidingWithCheese(temp_r0) == 1)) {
+    if (((gPlayers[gStageData.playerIndex].charFlags.character == CREAM)
+         || (gPlayers[gPlayers[gStageData.playerIndex].charFlags.partnerIndex].charFlags.character == 1))
+        && (IsCollidingWithCheese(s) == 1)) {
         var_sl = 1;
     }
-    var_r7 = 0;
-    do {
-        temp_r4 = &gPlayers[var_r7];
-        if ((sub_802C080(temp_r4) == 0) && (temp_r0->hitboxes[0].index != -1)) {
-            if (sub_8020E3C(temp_r0, (s32)arg0->qCockpitWorldPos.x >> 8, (s32)arg0->qCockpitWorldPos.y >> 8, 0, temp_r4) == 1) {
+
+    for (var_r7 = 0; var_r7 < 2; var_r7++) {
+        Player *p = &gPlayers[var_r7];
+        if ((sub_802C080(p) == 0) && (s->hitboxes[0].index != -1)) {
+            if (sub_8020E3C(s, I(arg0->qCockpitWorldPos.x), I(arg0->qCockpitWorldPos.y), 0, p) == 1) {
                 var_sl = 1;
-                sub_80044CC(temp_r4);
+                sub_80044CC(p);
             } else {
-                sub_8020CE0(temp_r0, (s32)arg0->qCockpitWorldPos.x >> 8, (s32)arg0->qCockpitWorldPos.y >> 8, 0, temp_r4);
+                sub_8020CE0(s, I(arg0->qCockpitWorldPos.x), I(arg0->qCockpitWorldPos.y), 0, p);
             }
         }
-        var_r7 += 1;
-    } while ((u32)var_r7 <= 1U);
+    }
+
     return var_sl;
 }
 
 void sub_807F334(Sprite *s, SpriteTransform *tf, u8 param2, u8 param3)
 {
-    Rect8 *temp_r1;
-    Rect8 *temp_r1_2;
-    Rect8 *temp_r1_3;
-    Rect8 *temp_r1_4;
-    Rect8 *var_r4;
-    s8 *var_r1;
-    s8 *var_r1_2;
-    s8 *var_r2;
-    s8 *var_r3;
-    s8 var_r0;
-    s8 var_r0_2;
-    s8 var_r0_3;
-    u8 temp_r2;
-    u8 temp_r3;
-
-    temp_r2 = param2;
-    temp_r3 = param3;
-    switch (temp_r2) { /* irregular */
+    switch (param2) {
         default:
-            if (temp_r3 == 0) {
-                temp_r1 = &s->hitboxes[0].b;
-                s->hitboxes[0].b.left = -0xD;
-                s->hitboxes[0].b.top = -0x13;
-                s->hitboxes[0].b.right = 8;
-                s->hitboxes[0].b.bottom = 0x1E;
+        case 0: {
+            if (param3 == 0) {
+                s->hitboxes[0].b.left = -13;
+                s->hitboxes[0].b.top = -19;
+                s->hitboxes[0].b.right = +8;
+                s->hitboxes[0].b.bottom = +30;
             } else {
-                temp_r1_2 = &s->hitboxes[0].b;
                 s->hitboxes[0].b.left = -8;
-                s->hitboxes[0].b.top = -0x13;
-                s->hitboxes[0].b.right = 0xD;
-                s->hitboxes[0].b.bottom = 0x1E;
+                s->hitboxes[0].b.top = -19;
+                s->hitboxes[0].b.right = +13;
+                s->hitboxes[0].b.bottom = +30;
             }
-            break;
-        case 1:
-            if (temp_r3 == 0) {
-                temp_r1_3 = &s->hitboxes[0].b;
-                s->hitboxes[0].b.left = -0x1E;
-                temp_r1_3->top = -0xD;
-                var_r1_2 = &temp_r1_3->top + 1;
-                *var_r1_2 = 0x13;
-                var_r1_2[1] = 8;
+        } break;
+
+        case 1: {
+            if (param3 == 0) {
+                s->hitboxes[0].b.left = -30;
+                s->hitboxes[0].b.top = -13;
+                s->hitboxes[0].b.right = +19;
+                s->hitboxes[0].b.bottom = +8;
             } else {
-                temp_r1_4 = &s->hitboxes[0].b;
-                s->hitboxes[0].b.left = -0x13;
-                temp_r1_4->top = -0xD;
-                var_r1_2 = &temp_r1_4->top + 1;
-                *var_r1_2 = 0x1E;
-                var_r1_2[1] = 8;
+                s->hitboxes[0].b.left = -19;
+                s->hitboxes[0].b.top = -13;
+                s->hitboxes[0].b.right = +30;
+                s->hitboxes[0].b.bottom = +8;
             }
-            return;
-        case 2:
-            if (temp_r3 == 0) {
-                var_r4 = &s->hitboxes[0].b;
-                s->hitboxes[0].b.left = -0x1E;
-                var_r3 = &s->hitboxes[0].b.top;
-                s->hitboxes[0].b.top = -0xD;
-                var_r2 = &s->hitboxes[0].b.right;
-                var_r0_3 = 0x13;
+        } break;
+
+        case 2: {
+            if (param3 == 0) {
+                s->hitboxes[0].b.left = -30;
+                s->hitboxes[0].b.top = -13;
+                s->hitboxes[0].b.right = +19;
+                s->hitboxes[0].b.bottom = +8;
             } else {
-                var_r4 = &s->hitboxes[0].b;
-                s->hitboxes[0].b.left = -0x13;
-                var_r3 = &s->hitboxes[0].b.top;
-                s->hitboxes[0].b.top = -0xD;
-                var_r2 = &s->hitboxes[0].b.right;
-                var_r0_3 = 0x1E;
+                s->hitboxes[0].b.left = -19;
+                s->hitboxes[0].b.top = -13;
+                s->hitboxes[0].b.right = +30;
+                s->hitboxes[0].b.bottom = +8;
             }
-            *var_r2 = var_r0_3;
-            s->hitboxes[0].b.bottom = 8;
-            var_r4->left = (s8)((s32)(var_r4->left * tf->qScaleX) >> 8);
-            *var_r3 = (s8)((s32)(*var_r3 * tf->qScaleY) >> 8);
-            *var_r2 = (s8)((s32)(*var_r2 * tf->qScaleX) >> 8);
-            s->hitboxes[0].b.bottom = (s8)((s32)(s->hitboxes[0].b.bottom * tf->qScaleY) >> 8);
-            return;
+
+            s->hitboxes[0].b.left = I(s->hitboxes[0].b.left * tf->qScaleX);
+            s->hitboxes[0].b.top = I(s->hitboxes[0].b.top * tf->qScaleY);
+            s->hitboxes[0].b.right = I(s->hitboxes[0].b.right * tf->qScaleX);
+            s->hitboxes[0].b.bottom = I(s->hitboxes[0].b.bottom * tf->qScaleY);
+        } break;
     }
 }
 
 void sub_807F434(HyperEggRobo *boss)
 {
     u8 temp_r0;
-    u8 temp_r1;
+    Sprite *s;
 
     boss->unk14 = 0x78;
     sub_807BE58(boss, 0U);
-    boss->spr228.anim = gUnknown_080D5C38[4][0];
-    boss->spr228.variant = gUnknown_080D5C38[4][1];
-    sub_8078DB0(0x4F4, 0, (s16)boss->unk14, 0U);
-    sub_8078DB0(0x4F5, 0, (s16)boss->unk14, 0U);
-    temp_r1 = boss->lives - 1;
-    boss->lives = temp_r1;
+    s = &boss->spr228;
+    s->anim = gUnknown_080D5C38[2][0];
+    s->variant = gUnknown_080D5C38[2][1];
+    sub_8078DB0(0x4F4, 0, boss->unk14, 0U);
+    sub_8078DB0(0x4F5, 0, boss->unk14, 0U);
+    boss->lives--;
     boss->unk16 = 1;
-    if (gStageData.difficulty == 0) {
-        if (temp_r1 == 4) {
+    if (gStageData.difficulty == DIFFICULTY_NORMAL) {
+        if (boss->lives == 4) {
             sub_80299D4(0x37U);
         }
-    } else if (temp_r1 == 3) {
+    } else if (boss->lives == 3) {
         sub_80299D4(0x37U);
     }
     m4aSongNumStart(0xEBU);
     PlayVoiceEggmanHit();
-    if (gStageData.gameMode == 5) {
+    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
         if (gStageData.playerIndex == 0) {
-            temp_r0 = boss->lives;
-            if (temp_r0 != 0) {
-                sub_8027674(3U, (u16)temp_r0);
+            if (boss->lives != 0) {
+                sub_8027674(3U, boss->lives);
             }
         } else {
-            sub_8027674(4U, (u16)boss->lives);
+            sub_8027674(4U, boss->lives);
         }
     }
 }
 
 void sub_807F4F0(u8 *param0, s16 param1)
 {
-    s32 temp_r1;
-    u16 temp_r2;
-    Sprite *s;
     HyperEggRobo *boss = TASK_DATA(gStageData.taskBoss);
+    register s32 temp_r1 asm("r1") = 0x7F & param0[2];
+    u16 temp_r2 = param0[3] | (param0[4] << 8);
+    Sprite *s;
 
-    temp_r1 = 0x7F & param0[2];
-    temp_r2 = param0[3] | (param0[4] << 8);
     if (temp_r1 == 1) {
         boss->lives = 0;
         gStageData.levelTimer = temp_r2;
@@ -3188,8 +3118,16 @@ void sub_807F4F0(u8 *param0, s16 param1)
         boss->unk16 = 0x64;
         return;
     }
-    if ((temp_r1 >= 1) && (temp_r1 <= 4) && (temp_r1 >= 3) && (boss->lives != (u8)temp_r2)) {
-        sub_807F434(boss);
+
+    switch (temp_r1) {
+        case 1:
+            break;
+        case 3:
+        case 4:
+            if (boss->lives != (u8)temp_r2) {
+                sub_807F434(boss);
+            }
+            break;
     }
 }
 
