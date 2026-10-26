@@ -142,18 +142,35 @@ gUnknown_080D5BD8:
 gUnknown_080D5BEC:
     .incbin "baserom_sa3.gba", 0x000D5BEC, 0x1C
 
-    .global sBossFinalAnimsHands
-sBossFinalAnimsHands:
-    .incbin "baserom_sa3.gba", 0x000D5C08, 0x30
+    .global sBossFinalAnimsHandsLeft
+sBossFinalAnimsHandsLeft:
+    .short 1265, 0x00 @ ANIM_BOSS_FINAL_HAND, 0
+    .short 1265, 0x01 @ ANIM_BOSS_FINAL_HAND, 1
+    .short 1265, 0x02 @ ANIM_BOSS_FINAL_HAND, 2
+    .short 1265, 0x03 @ ANIM_BOSS_FINAL_HAND, 3
+    .short 1265, 0x04 @ ANIM_BOSS_FINAL_HAND, 4
+    .short 1265, 0x05 @ ANIM_BOSS_FINAL_HAND, 5
+
+    .global sBossFinalAnimsHandsRight
+sBossFinalAnimsHandsRight:
+    .short 1265, 0x06 @ ANIM_BOSS_FINAL_HAND, 6
+    .short 1265, 0x07 @ ANIM_BOSS_FINAL_HAND, 7
+    .short 1265, 0x08 @ ANIM_BOSS_FINAL_HAND, 8
+    .short 1265, 0x09 @ ANIM_BOSS_FINAL_HAND, 9
+    .short 1265, 0x0A @ ANIM_BOSS_FINAL_HAND, 10
+    .short 1265, 0x0B @ ANIM_BOSS_FINAL_HAND, 11
 
     .global gUnknown_080D5C38
 gUnknown_080D5C38:
-    .incbin "baserom_sa3.gba", 0x000D5C38, 0x10
+    .short 1267, 0 @ ANIM_BOSS_FINAL_EGGMAN
+    .short 1267, 1 @ ANIM_BOSS_FINAL_EGGMAN
+    .short 1267, 2 @ ANIM_BOSS_FINAL_EGGMAN
+    .short 1267, 3 @ ANIM_BOSS_FINAL_EGGMAN
 
     .global gUnknown_080D5C48
 gUnknown_080D5C48:
-    .incbin "baserom_sa3.gba", 0x000D5C48, 0x8
-
+    .byte 1, 30, 30, 30, 60, 60, 60, 60
+ 
     .global gUnknown_080D5C50
 gUnknown_080D5C50:
     .incbin "baserom_sa3.gba", 0x000D5C50, 0x14

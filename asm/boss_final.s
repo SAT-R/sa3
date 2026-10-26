@@ -2413,15 +2413,15 @@ _0807E5D2:
 	movs r3, #0x9e
 	lsls r3, r3, #2
 	adds r2, r7, r3
-	ldr r0, _0807E5DC @ =sBossFinalAnimsHands
+	ldr r0, _0807E5DC @ =sBossFinalAnimsHandsLeft
 	b _0807E5E8
 	.align 2, 0
-_0807E5DC: .4byte sBossFinalAnimsHands
+_0807E5DC: .4byte sBossFinalAnimsHandsLeft
 _0807E5E0:
 	movs r0, #0xa8
 	lsls r0, r0, #2
 	adds r2, r7, r0
-	ldr r0, _0807E600 @ =sBossFinalAnimsHands+0x18
+	ldr r0, _0807E600 @ =sBossFinalAnimsHandsLeft+0x18
 _0807E5E8:
 	ldrh r1, [r0, #4]
 	strh r1, [r2, #0xc]
@@ -2437,7 +2437,7 @@ _0807E5F0:
 	adds r1, r2, #0
 	b _0807E60E
 	.align 2, 0
-_0807E600: .4byte sBossFinalAnimsHands+0x18
+_0807E600: .4byte sBossFinalAnimsHandsLeft+0x18
 _0807E604:
 	ldr r0, [r5]
 	asrs r0, r0, #8
@@ -2862,15 +2862,15 @@ _0807E910:
 	movs r3, #0x9e
 	lsls r3, r3, #2
 	adds r2, r7, r3
-	ldr r0, _0807E91C @ =sBossFinalAnimsHands
+	ldr r0, _0807E91C @ =sBossFinalAnimsHandsLeft
 	b _0807E928
 	.align 2, 0
-_0807E91C: .4byte sBossFinalAnimsHands
+_0807E91C: .4byte sBossFinalAnimsHandsLeft
 _0807E920:
 	movs r0, #0xa8
 	lsls r0, r0, #2
 	adds r2, r7, r0
-	ldr r0, _0807E93C @ =sBossFinalAnimsHands+0x18
+	ldr r0, _0807E93C @ =sBossFinalAnimsHandsLeft+0x18
 _0807E928:
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0xc]
@@ -2884,7 +2884,7 @@ _0807E930:
 	strh r0, [r5, #0x16]
 	b _0807E98C
 	.align 2, 0
-_0807E93C: .4byte sBossFinalAnimsHands+0x18
+_0807E93C: .4byte sBossFinalAnimsHandsLeft+0x18
 _0807E940:
 	ldr r1, [r5]
 	ldr r0, [r5, #8]
@@ -3129,15 +3129,15 @@ _0807EB44:
 	movs r0, #0x9e
 	lsls r0, r0, #2
 	adds r2, r4, r0
-	ldr r0, _0807EB50 @ =sBossFinalAnimsHands
+	ldr r0, _0807EB50 @ =sBossFinalAnimsHandsLeft
 	b _0807EB5C
 	.align 2, 0
-_0807EB50: .4byte sBossFinalAnimsHands
+_0807EB50: .4byte sBossFinalAnimsHandsLeft
 _0807EB54:
 	movs r1, #0xa8
 	lsls r1, r1, #2
 	adds r2, r4, r1
-	ldr r0, _0807EB68 @ =sBossFinalAnimsHands+0x18
+	ldr r0, _0807EB68 @ =sBossFinalAnimsHandsLeft+0x18
 _0807EB5C:
 	ldrh r1, [r0, #0x10]
 	strh r1, [r2, #0xc]
@@ -3147,7 +3147,7 @@ _0807EB64:
 	movs r0, #0x1f
 	b _0807EBAA
 	.align 2, 0
-_0807EB68: .4byte sBossFinalAnimsHands+0x18
+_0807EB68: .4byte sBossFinalAnimsHandsLeft+0x18
 _0807EB6C:
 	cmp r2, #0
 	bne _0807EB94
@@ -3287,15 +3287,15 @@ _0807EC70:
 	movs r3, #0x9e
 	lsls r3, r3, #2
 	adds r2, r7, r3
-	ldr r0, _0807EC7C @ =sBossFinalAnimsHands
+	ldr r0, _0807EC7C @ =sBossFinalAnimsHandsLeft
 	b _0807EC88
 	.align 2, 0
-_0807EC7C: .4byte sBossFinalAnimsHands
+_0807EC7C: .4byte sBossFinalAnimsHandsLeft
 _0807EC80:
 	movs r0, #0xa8
 	lsls r0, r0, #2
 	adds r2, r7, r0
-	ldr r0, _0807EC94 @ =sBossFinalAnimsHands+0x18
+	ldr r0, _0807EC94 @ =sBossFinalAnimsHandsLeft+0x18
 _0807EC88:
 	ldrh r1, [r0, #0x14]
 	strh r1, [r2, #0xc]
@@ -3305,7 +3305,7 @@ _0807EC90:
 	movs r0, #0xa
 	b _0807ECEC
 	.align 2, 0
-_0807EC94: .4byte sBossFinalAnimsHands+0x18
+_0807EC94: .4byte sBossFinalAnimsHandsLeft+0x18
 _0807EC98:
 	cmp r6, #0
 	bne _0807ECA2
@@ -9498,15 +9498,15 @@ _08081AE8:
 	movs r1, #0x9e
 	lsls r1, r1, #2
 	adds r3, r0, r1
-	ldr r1, _08081AF4 @ =sBossFinalAnimsHands
+	ldr r1, _08081AF4 @ =sBossFinalAnimsHandsLeft
 	b _08081B00
 	.align 2, 0
-_08081AF4: .4byte sBossFinalAnimsHands
+_08081AF4: .4byte sBossFinalAnimsHandsLeft
 _08081AF8:
 	movs r1, #0xa8
 	lsls r1, r1, #2
 	adds r3, r0, r1
-	ldr r1, _08081B14 @ =sBossFinalAnimsHands+0x18
+	ldr r1, _08081B14 @ =sBossFinalAnimsHandsLeft+0x18
 _08081B00:
 	lsls r2, r2, #2
 	adds r0, r2, r1
@@ -9520,7 +9520,7 @@ _08081B10:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08081B14: .4byte sBossFinalAnimsHands+0x18
+_08081B14: .4byte sBossFinalAnimsHandsLeft+0x18
 
 	thumb_func_start sub_8081B18
 sub_8081B18: @ 0x08081B18

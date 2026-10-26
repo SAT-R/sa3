@@ -63,7 +63,7 @@ typedef struct {
     /* 0x002 */ u8 unk3;
     /* 0x004 */ u8 *initArg0;
     /* 0x008 */ s16 unk8;
-    /* 0x002 */ u16 unkA;
+    /* 0x002 */ s16 unkA;
     /* 0x00C */ u16 unkC;
     /* 0x00E */ u8 unkE;
     /* 0x00E */ u8 unkF;
@@ -141,7 +141,7 @@ typedef struct {
     /* 0x14 */ s32 unk8;
     /* 0x14 */ u16 unkC;
     /* 0x14 */ u16 unkE; // TODO: type
-    /* 0x14 */ u16 unk10;
+    /* 0x14 */ s16 unk10;
     /* 0x14 */ u16 unk12;
     /* 0x14 */ u16 unk14;
     /* 0x16 */ u16 unk16;
@@ -248,7 +248,8 @@ extern Vec2_32 gUnknown_080D5CD4[7]; // TODO: Maybe Chaos Emerald starting posit
 extern const s32 gUnknown_080D5C50[5]; // NOTE: Apparently only 0-2 are used.
 extern u8 gUnknown_080D5CA4[4];
 extern u16 sBossExtraAnimsChaosEmeralds[7][3];
-extern const u16 sBossFinalAnimsHands[2][6][2];
+extern const u16 sBossFinalAnimsHandsLeft[6][2];
+extern const u16 sBossFinalAnimsHandsRight[6][2];
 typedef void (*FinalBossFunc0)(HyperEggRobo *boss);
 typedef void (*ChaosEmeraldCutsceneFunc0)(AltarEmeraldCutsceneSuperSonic *emeraldCut);
 typedef void (*FinalBossFunc1)(HyperEggRobo *boss, u8 param1);
@@ -2407,12 +2408,14 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
         case 0x0:
             switch (param1) {
                 case 0: {
-                    boss->spr278[0].anim = sBossFinalAnimsHands[0][1][0];
-                    boss->spr278[0].variant = sBossFinalAnimsHands[0][1][1];
+                    Sprite *s = &boss->spr278[0];
+                    s->anim = sBossFinalAnimsHandsLeft[1][0];
+                    s->variant = sBossFinalAnimsHandsLeft[1][1];
                 } break;
                 case 1: {
-                    boss->spr278[1].anim = sBossFinalAnimsHands[0][2][0];
-                    boss->spr278[1].variant = sBossFinalAnimsHands[0][2][1];
+                    Sprite *s = &boss->spr278[1];
+                    s->anim = sBossFinalAnimsHandsRight[1][0];
+                    s->variant = sBossFinalAnimsHandsRight[1][1];
                 } break;
             }
             if (param1 == 0) {
@@ -2570,13 +2573,13 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             switch (param1) {
                 case 0:
                     var_r2 = &boss->spr278[0];
-                    var_r2->anim = sBossFinalAnimsHands[1][0][0];
-                    var_r2->variant = sBossFinalAnimsHands[1][0][1];
+                    var_r2->anim = sBossFinalAnimsHandsLeft[2][0];
+                    var_r2->variant = sBossFinalAnimsHandsLeft[2][1];
                     break;
                 case 1:
                     var_r2 = &boss->spr278[1];
-                    var_r2->anim = sBossFinalAnimsHands[1][1][0];
-                    var_r2->variant = sBossFinalAnimsHands[1][1][1];
+                    var_r2->anim = sBossFinalAnimsHandsRight[2][0];
+                    var_r2->variant = sBossFinalAnimsHandsRight[2][1];
                     break;
             }
             temp_r5->unk13 = 1;
@@ -2664,13 +2667,13 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
             switch (param1) {
                 case 0: /* switch 2 */
                     var_r2 = &boss->spr278[0];
-                    var_r2->anim = sBossFinalAnimsHands[1][2][0];
-                    var_r2->variant = sBossFinalAnimsHands[1][2][1];
+                    var_r2->anim = sBossFinalAnimsHandsLeft[4][0];
+                    var_r2->variant = sBossFinalAnimsHandsLeft[4][1];
                     break;
                 case 1: /* switch 2 */
                     var_r2 = &boss->spr278[1];
-                    var_r2->anim = sBossFinalAnimsHands[1][0][0];
-                    var_r2->variant = sBossFinalAnimsHands[1][0][1];
+                    var_r2->anim = sBossFinalAnimsHandsRight[4][0];
+                    var_r2->variant = sBossFinalAnimsHandsRight[4][1];
                     break;
             }
             temp_r5->unk16 = 0x1F;
@@ -2697,7 +2700,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
 
 void sub_807EBB8(HyperEggRobo *boss, u8 param1)
 {
-    u16 sp0[3];
+    s16 sp0[4];
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
     SpriteTransform *temp_r2;
@@ -2732,13 +2735,13 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
             switch (param1) {
                 case 0: /* switch 2 */
                     var_r2 = boss->spr278;
-                    var_r2->anim = sBossFinalAnimsHands[0][5][0];
-                    var_r2->variant = sBossFinalAnimsHands[0][5][1];
+                    var_r2->anim = sBossFinalAnimsHandsLeft[5][0];
+                    var_r2->variant = sBossFinalAnimsHandsLeft[5][1];
                     break;
                 case 1: /* switch 2 */
                     var_r2 = &boss->spr278[1];
-                    var_r2->anim = sBossFinalAnimsHands[1][5][0];
-                    var_r2->variant = sBossFinalAnimsHands[1][5][1];
+                    var_r2->anim = sBossFinalAnimsHandsRight[5][0];
+                    var_r2->variant = sBossFinalAnimsHandsRight[5][1];
                     break;
             }
             temp_r5->unk16 = 10;
@@ -2809,6 +2812,7 @@ void sub_807ECFC(HyperEggRobo *boss, u8 param1)
 
 void sub_807ED8C(HyperEggRobo *boss)
 {
+    Sprite *s;
     Player *temp_r2;
     s16 temp_r0_8;
     s16 temp_r1_3;
@@ -2852,8 +2856,9 @@ void sub_807ED8C(HyperEggRobo *boss)
             if (--boss->unk14 == 0) {
                 sub_807BE58(boss, 1U);
                 if (boss->lives != 0) {
-                    boss->spr228.anim = gUnknown_080D5C38[0][0];
-                    boss->spr228.variant = gUnknown_080D5C38[0][1];
+                    s = &boss->spr228;
+                    s->anim = gUnknown_080D5C38[0][0];
+                    s->variant = gUnknown_080D5C38[0][1];
                     boss->unk16 = (u16)0;
                     return;
                 }
@@ -2869,7 +2874,7 @@ void sub_807ED8C(HyperEggRobo *boss)
                 boss->unk16 = 0x64;
             }
         } break;
-        case 100:
+        case 100: {
             if (--boss->unk14 == 0) {
                 for (var_r3 = 0; var_r3 < 2; var_r3++) {
                     temp_r2 = &gPlayers[var_r3];
@@ -2892,14 +2897,15 @@ void sub_807ED8C(HyperEggRobo *boss)
                 boss->unk1 = 5;
                 sub_807DB00(boss, 0U, 0xBU);
                 sub_807DB00(boss, 1U, 0xBU);
-                boss->spr228.anim = gUnknown_080D5C38[6][0];
-                boss->spr228.variant = gUnknown_080D5C38[6][1];
+                s = &boss->spr228;
+                s->anim = gUnknown_080D5C38[3][0];
+                s->variant = gUnknown_080D5C38[3][1];
                 m4aSongNumStart(0x221U);
                 sub_807FB7C(0x96U);
                 sub_807FB7C(0U);
                 boss->unk16 = 200;
             }
-            break;
+        } break;
 
         case 200:
             if (1 & boss->unk14) {
@@ -2923,7 +2929,7 @@ void sub_807ED8C(HyperEggRobo *boss)
             boss->unk14 = 0x3C;
             sub_807FB7C(0xAU);
             break;
-        case 0xD2:
+        case 210:
             for (var_r1 = 0; var_r1 < 4; var_r1++) {
                 gPlayers[var_r1].idleAndCamCounter = 0x168;
             }
@@ -2935,20 +2941,16 @@ void sub_807ED8C(HyperEggRobo *boss)
                 gMusicManagerState.fadeoutSpeed = Q(1.25);
             }
             break;
-        case 0xDC:
-            var_r1_2 = 0;
-            do {
+        case 220:
+            for (var_r1_2 = 0; var_r1_2 < 4; var_r1_2++) {
                 gPlayers[var_r1_2].idleAndCamCounter = 0x168;
-                var_r1_2 += 1;
-            } while ((u32)var_r1_2 <= 3U);
+            }
+
             if (1 & boss->unk14) {
-                temp_r1_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-                temp_r7_2 = (0xFF & temp_r1_2) + 0x280;
-                temp_r0_6 = (0x196225 * temp_r1_2) + 0x3C6EF35F;
-                gPseudoRandom = temp_r0_6;
-                temp_r0_7 = (u32)temp_r0_6 % 48U;
-                sub_8079758(7U, (s16)((s32)((boss->qWorld.x + ((u32)(temp_r0_7 * gSineTable[temp_r7_2 + 0x100]) >> 6)) << 8) >> 0x10),
-                            (s16)(((s32)(boss->qWorld.y + ((u32)(temp_r0_7 * gSineTable[temp_r7_2]) >> 6)) >> 8) - 0x60),
+                temp_r7_2 = (PseudoRandom32() & 0xFF) + 0x280;
+                temp_r0_7 = PseudoRandom32() % 48U;
+                sub_8079758(7U, (s16)((s32)((boss->qWorld.x + ((u32)(temp_r0_7 * COS(temp_r7_2)) >> 6)) << 8) >> 0x10),
+                            (s16)(((s32)(boss->qWorld.y + ((u32)(temp_r0_7 * SIN(temp_r7_2)) >> 6)) >> 8) - 0x60),
                             ((temp_r0_7 & 3) << 8) | 0x400, (u16)temp_r7_2, 0x1EU, 0, boss->vram18);
             }
             if (!(0x3F & boss->unk14)) {
@@ -2965,11 +2967,11 @@ void sub_807ED8C(HyperEggRobo *boss)
 
             if (--boss->unk14 == 0) {
                 boss->unk14 = 0x3C;
-                boss->unk16 = 0x3E8;
+                boss->unk16 = 1000;
                 return;
             }
             return;
-        case 0x3E8:
+        case 1000:
             if (--boss->unk14 == 0) {
                 boss->unk8 = 1;
                 boss->unkC = 0;
@@ -3101,10 +3103,16 @@ void sub_807F434(HyperEggRobo *boss)
     }
 }
 
+// TODO: Fake-match!
 void sub_807F4F0(u8 *param0, s16 param1)
 {
     HyperEggRobo *boss = TASK_DATA(gStageData.taskBoss);
-    register s32 temp_r1 asm("r1") = 0x7F & param0[2];
+#ifndef NON_MATCHING
+    register s32 r2 asm("r2") = param0[2];
+    register s32 temp_r1 asm("r1") = 0x7F & r2;
+#else
+    s32 temp_r1 = 0x7F & param0[2];
+#endif
     u16 temp_r2 = param0[3] | (param0[4] << 8);
     Sprite *s;
 
@@ -3133,102 +3141,75 @@ void sub_807F4F0(u8 *param0, s16 param1)
 
 void Task_358_807F568(void)
 {
-    Player *temp_r0_22;
+    Player *p;
     Player *temp_r6;
     Sprite *temp_r0;
-    s16 temp_r0_14;
-    s16 temp_r3;
     s16 var_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r0_3;
-    u16 temp_r0_10;
-    u16 temp_r0_11;
-    u16 temp_r0_12;
-    u16 temp_r0_13;
-    u16 temp_r0_15;
-    u16 temp_r0_17;
-    u16 temp_r0_18;
-    u16 temp_r0_19;
-    u16 temp_r0_20;
-    u16 temp_r0_21;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u16 temp_r0_4;
-    u16 temp_r0_5;
-    u16 temp_r0_6;
-    u16 temp_r0_7;
-    u16 temp_r0_8;
-    u16 temp_r0_9;
-    u16 temp_r1;
-    u16 temp_r3_2;
-    u16 var_r0_2;
-    u16 var_r3;
-    u16 var_r4_2;
-    u8 *temp_r0_23;
-    u8 *temp_r0_24;
-    u8 *temp_r0_25;
-    u8 *temp_r0_26;
-    u8 *temp_r0_27;
-    u8 temp_r0_16;
+    s16 var_r3;
+    s16 var_r4_2;
     u8 var_r1;
     u8 var_r4;
     HyperEggRobo *boss = TASK_DATA(gCurTask);
 
     gStageData.rings = 0;
     sub_358_807C14C(boss);
-    var_r4 = 0;
-    do {
+    for (var_r4 = 0; var_r4 < 4; var_r4++) {
         temp_r0 = &boss->sprPlatforms[var_r4];
-        temp_r0->x = ((s32)boss->unk2C[var_r4].qWorld.x >> 8) - gCamera.x;
-        temp_r0->y = ((s32) * (&boss->unk2C[0].qWorld.y + (var_r4 * 0x14)) >> 8) - gCamera.y;
+        temp_r0->x = I(boss->unk2C[var_r4].qWorld.x) - gCamera.x;
+        temp_r0->y = I(boss->unk2C[var_r4].qWorld.y) - gCamera.y;
         DisplaySprite(temp_r0);
-        var_r4 += 1;
-    } while ((u32)var_r4 <= 3U);
-    if (boss->unkC != 0x406) {
-        var_r1 = 0;
-        do {
-            gPlayers[var_r1].idleAndCamCounter = 0x168;
-            var_r1 += 1;
-        } while ((u32)var_r1 <= 3U);
     }
-    temp_r1 = boss->unkC;
-    switch (temp_r1) { /* irregular */
-        case 0x7DA:
-            temp_r0_2 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) != 0) {
-                return;
+
+    if (boss->unkC != 1030) {
+        for (var_r1 = 0; var_r1 < 4; var_r1++) {
+            gPlayers[var_r1].idleAndCamCounter = 0x168;
+        }
+    }
+
+    switch (boss->unkC) {
+        case 0x0: {
+            p = &gPlayers[gStageData.playerIndex];
+            p->framesInvulnerable = 0;
+            gPlayers[p->charFlags.partnerIndex].framesInvulnerable = 0;
+            if (boss->vram18 != NULL) {
+                VramFree(boss->vram18);
+                boss->vram18 = NULL;
             }
-            gCamera.minX = gCamera.maxX - 0xF0;
-            boss->unk8 = 0xC8;
-            m4aSongNumStart(0x3CU);
-            boss->unkC = 0x7E4;
-            return;
-        case 0x3E9:
-            temp_r0_3 = gBldRegs.bldY - 1;
-            gBldRegs.bldY = temp_r0_3;
-            temp_r0_4 = temp_r0_3;
-            if (temp_r0_4 != 0) {
-                return;
+            if (boss->spr278[0].tiles != NULL) {
+                VramFree(boss->spr278[0].tiles);
+                boss->spr278[0].tiles = NULL;
             }
-            gBldRegs.bldCnt = temp_r0_4;
-            gBldRegs.bldAlpha = temp_r0_4;
-            gBldRegs.bldY = temp_r0_4;
-            boss->unk8 = 0x4B0;
-            boss->unkC = 0x3F2;
-            return;
-        case 0xA:
-            boss->unkC = 0x64;
-            return;
-        case 0x64:
-            if (MetExtraBossEnableConditions() != 0) {
-                boss->unkC = 0x7D0;
-                return;
+            if (boss->spr278[1].tiles != NULL) {
+                VramFree(boss->spr278[1].tiles);
+                boss->spr278[1].tiles = NULL;
             }
-            boss->unkC = 0x3E8;
+            if (boss->spr250.tiles != NULL) {
+                VramFree(boss->spr250.tiles);
+                boss->spr250.tiles = NULL;
+            }
+            if (boss->spr228.tiles != NULL) {
+                VramFree(boss->spr228.tiles);
+                boss->spr228.tiles = NULL;
+            }
+            gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_BG0_ON);
+            gBgScrollRegs[0][0] = 0;
+            gBgScrollRegs[0][1] = 0;
+            sub_80299FC();
+            gStageData.unk4 = 9;
+            gStageData.zone = 7;
+            boss->unkC = 10;
+        } break;
+        case 10:
+            boss->unkC = 100;
             return;
-        case 0x3E8:
+        case 100:
+            if (MetExtraBossEnableConditions()) {
+                boss->unkC = 2000;
+            } else {
+                boss->unkC = 1000;
+            }
+            break;
+        case 1000:
             sub_807FB7C(1U);
             sub_808178C(0U);
             CreateAltarEmeraldPostBossCutscene(0U);
@@ -3238,262 +3219,219 @@ void Task_358_807F568(void)
             boss->unkC = 0x3E9;
             return;
             return;
-        case 0x3F2:
-            temp_r0_5 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_5;
-            if ((temp_r0_5 << 0x10) != 0) {
-                return;
+        case 1001:
+            gBldRegs.bldY -= 1;
+            if (gBldRegs.bldY == 0) {
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldAlpha = 0;
+                gBldRegs.bldY = 0;
+                boss->unk8 = 0x4B0;
+                boss->unkC = 0x3F2;
             }
-            boss->unkC = 0x3FC;
-            return;
-        case 0x3FC:
+            break;
+
+        case 1010:
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                boss->unkC = 1020;
+            }
+            break;
+        case 1020:
             SetPlayerCallback(&gPlayers[gStageData.playerIndex], Player_8005E80);
             SetPlayerCallback(&gPlayers[temp_r6->charFlags.partnerIndex], Player_8005E80);
             boss->unkC = 0x406;
-            return;
-        case 0x7D0:
+            break;
+        case 2000:
             sub_807FB7C(1U);
             boss->task28 = CreateAltarEmeraldPostBossCutscene(1U);
             sub_808178C(1U);
             sub_807FB7C(2U);
-            gCamera.maxX += 0x1E0;
+            gCamera.maxX += 480;
             gCamera.minY = gCamera.y;
             boss->unk8 = 0x2E0;
             m4aMPlayAllStop();
-            boss->unkC = 0x7D1;
-            return;
-        case 0x7D1:
-            temp_r0_6 = gBldRegs.bldY - 1;
-            gBldRegs.bldY = temp_r0_6;
-            temp_r0_7 = temp_r0_6;
-            if (temp_r0_7 != 0) {
-                return;
+            boss->unkC = 2001;
+            break;
+        case 2001: {
+            gBldRegs.bldY -= 1;
+            if (gBldRegs.bldY == 0) {
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldAlpha = 0;
+                gBldRegs.bldY = 0;
+                boss->unk8 = 0x2E0;
+                boss->unkC = 0x7DA;
             }
-            gBldRegs.bldCnt = temp_r0_7;
-            gBldRegs.bldAlpha = temp_r0_7;
-            gBldRegs.bldY = temp_r0_7;
-            boss->unk8 = 0x2E0;
-            boss->unkC = 0x7DA;
-            return;
-        case 0x802:
-            temp_r0_8 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_8;
-            if ((temp_r0_8 << 0x10) == 0) {
-                temp_r0_9 = gBldRegs.bldY + 1;
-                gBldRegs.bldY = temp_r0_9;
-                if (temp_r0_9 == 0x10) {
-                    boss->unk8 = 0x78;
-                    boss->unkC = 0x80C;
-                    return;
-                }
-                boss->unk8 = 4;
-                return;
+        } break;
+
+        case 2010: {
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                gCamera.minX = gCamera.maxX - DISPLAY_WIDTH;
+                boss->unk8 = 0xC8;
+                m4aSongNumStart(MUS_EX_DEMO_1);
+                boss->unkC = 0x7E4;
             }
-            return;
-        case 0x7EE:
-            temp_r0_10 = boss->unkA + 0x20;
-            boss->unkA = temp_r0_10;
-            if ((s32)(s16)temp_r0_10 > 0xFF) {
+        } break;
+
+        case 2020: {
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                gDispCnt |= 0x2000;
+                gWinRegs[WINREG_WIN0H] = 0x7778;
+                gWinRegs[2] = 0xA0;
+                gWinRegs[4] = 0x3C;
+                gWinRegs[5] = 0x1C;
+                gBldRegs.bldCnt = 0x3FBF;
+                gBldRegs.bldAlpha = 8;
+                gBldRegs.bldY = 8;
+                boss->unkA = 0;
+                boss->unkC = 0x7EE;
+                m4aSongNumStart(SE_667);
+            }
+        } break;
+
+        case 2030: {
+            s32 r0;
+            boss->unkA += 0x20;
+            if (boss->unkA >= 0x100) {
                 boss->unk8 = 0x78;
                 boss->unkA = 2;
                 boss->unkE = 0;
                 boss->unkC = 0x7F3;
             }
-            var_r0 = gSineTable[(s16)boss->unkA];
-            if ((s32)var_r0 < 0) {
-                var_r0 += 0x1FF;
-            }
-            temp_r1_2 = var_r0 >> 9;
-            temp_r0_11 = 0x78 - temp_r1_2;
-            var_r4_2 = temp_r0_11;
-            if ((s32)(temp_r0_11 << 0x10) < 0) {
+
+            var_r4_2 = 120 - (SIN(boss->unkA) / 0x200);
+            if (var_r4_2 < 0) {
                 var_r4_2 = 0;
             }
-            var_r0_2 = temp_r1_2 + 0x78;
-        block_111:
-            var_r3 = var_r0_2;
-            if ((s32)(s16)var_r0_2 > 0xF0) {
-                var_r3 = 0xF0;
+
+            var_r3 = 120 + (SIN(boss->unkA) / 0x200);
+            if (var_r3 > 240) {
+                var_r3 = 240;
             }
-        block_113:
-            gWinRegs[0] = (s16)var_r3 | ((s32)(var_r4_2 << 0x10) >> 8);
-            break;
-        case 0x7E4:
-            temp_r0_12 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_12;
-            temp_r3 = (s16)temp_r0_12;
-            if (temp_r3 != 0) {
-                return;
-            }
-            gDispCnt |= 0x2000;
-            gWinRegs[0] = 0x7778;
-            gWinRegs[2] = 0xA0;
-            gWinRegs[4] = 0x3C;
-            gWinRegs[5] = 0x1C;
-            gBldRegs.bldCnt = 0x3FBF;
-            gBldRegs.bldAlpha = 8;
-            gBldRegs.bldY = 8;
-            boss->unkA = (u16)temp_r3;
-            boss->unkC = 0x7EE;
-            m4aSongNumStart(0x29BU);
-            return;
-        case 0x7F3:
+
+            gWinRegs[WINREG_WIN0H] = WIN_RANGE(var_r4_2, var_r3);
+        } break;
+
+        case 2035:
             var_r4_2 = 0x58;
             var_r3 = 0x98;
-            temp_r0_13 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_13;
-            temp_r0_14 = (s16)temp_r0_13;
-            if (temp_r0_14 == 0) {
-                boss->unkA = (u16)temp_r0_14;
+            if (--boss->unk8 == 0) {
+                boss->unkA = 0;
                 boss->unkC = 0x7F8;
             } else {
-                temp_r0_15 = boss->unkA - 1;
-                boss->unkA = temp_r0_15;
-                if ((temp_r0_15 << 0x10) == 0) {
+                if (--boss->unkA == 0) {
                     boss->unkA = 2;
-                    temp_r0_16 = boss->unkE ^ 1;
-                    boss->unkE = temp_r0_16;
-                    if (temp_r0_16 == 0) {
+                    boss->unkE ^= 1;
+                    if (boss->unkE == 0) {
                         var_r4_2 = 0x60;
                         var_r3 = 0x90;
                     }
                 }
             }
-            gWinRegs[0] = (s16)var_r3 | ((s32)(var_r4_2 << 0x10) >> 8);
+            gWinRegs[WINREG_WIN0H] = WIN_RANGE(var_r4_2, var_r3);
             break;
-        case 0x7F8:
-            temp_r0_17 = boss->unkA + 8;
-            boss->unkA = temp_r0_17;
-            if ((s32)(s16)temp_r0_17 > 0xFF) {
+        case 2040:
+            boss->unkA += 8;
+            if (boss->unkA >= 0x100) {
                 boss->unk8 = 4;
                 m4aSongNumStop(0x29BU);
                 boss->unkC = 0x802;
             }
-            var_r0_3 = gSineTable[(s16)boss->unkA] * 0x58;
-            if (var_r0_3 < 0) {
-                var_r0_3 += 0x3FFF;
-            }
-            temp_r1_3 = var_r0_3 >> 0xE;
-            temp_r0_18 = 0x58 - temp_r1_3;
-            var_r4_2 = temp_r0_18;
-            if ((s32)(temp_r0_18 << 0x10) < 0) {
+
+            var_r4_2 = 88 - ((SIN(boss->unkA) * 88) / 0x4000);
+            if (var_r4_2 < 0) {
                 var_r4_2 = 0;
             }
-            var_r0_2 = temp_r1_3 + 0x98;
-            goto block_111;
-        case 0x820:
-            temp_r0_19 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_19;
-            if ((temp_r0_19 << 0x10) == 0) {
-                boss->unkC = 0x8FC;
-                return;
+
+            var_r3 = 152 + ((SIN(boss->unkA) * 88) / 0x4000);
+            if (var_r3 > 0xF0) {
+                var_r3 = 0xF0;
             }
+
+            gWinRegs[WINREG_WIN0H] = WIN_RANGE(var_r4_2, var_r3);
             break;
-        case 0x80C:
-            temp_r0_20 = boss->unk8 - 1;
-            boss->unk8 = temp_r0_20;
-            if ((temp_r0_20 << 0x10) == 0) {
+        case 2050: {
+            boss->unk8 -= 1;
+            if (boss->unk8 == 0) {
+                gBldRegs.bldY += 1;
+                if (gBldRegs.bldY == 0x10) {
+                    boss->unk8 = 0x78;
+                    boss->unkC = 0x80C;
+                } else {
+                    boss->unk8 = 4;
+                }
+            }
+        } break;
+        case 2060: {
+            if (--boss->unk8 == 0) {
                 sub_8081DF4(boss->task28);
-                m4aSongNumStart(0x23FU);
+                m4aSongNumStart(SE_EXTRA_BOSS_578);
                 boss->unkC = 0x816;
-                return;
             }
-            break;
-        case 0x816:
-            temp_r0_21 = gBldRegs.bldY - 1;
-            gBldRegs.bldY = temp_r0_21;
-            temp_r3_2 = temp_r0_21;
-            if (temp_r3_2 == 0) {
+        } break;
+
+        case 2070: {
+            gBldRegs.bldY -= 1;
+            if (gBldRegs.bldY == 0) {
                 gDispCnt &= 0xDFFF;
-                gWinRegs[4] = temp_r3_2;
-                gWinRegs[5] = temp_r3_2;
-                gBldRegs.bldCnt = temp_r3_2;
-                gBldRegs.bldAlpha = temp_r3_2;
-                gBldRegs.bldY = temp_r3_2;
+                gWinRegs[4] = 0;
+                gWinRegs[5] = 0;
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldAlpha = 0;
+                gBldRegs.bldY = 0;
                 boss->unk8 = 0x78A;
-                boss->unkC = 0x820;
-                return;
+                boss->unkC = 2080;
+            }
+        } break;
+
+        case 2080:
+            if (--boss->unk8 == 0) {
+                boss->unkC = 0x8FC;
             }
             break;
-        case 0x8FC:
+        case 2300: {
             m4aSongNumStart(0x58U);
             sub_8002508();
             boss->unkC = 0x91A;
             sub_807FB7C(0x1EU);
-            break;
-        case 0x0:
-            temp_r0_22 = &gPlayers[gStageData.playerIndex];
-            temp_r0_22->framesInvulnerable = 0;
-            gPlayers[temp_r0_22->charFlags.partnerIndex].framesInvulnerable = 0;
-            temp_r0_23 = boss->vram18;
-            if (temp_r0_23 != NULL) {
-                VramFree(temp_r0_23);
-                boss->vram18 = NULL;
-            }
-            temp_r0_24 = boss->spr278[0].tiles;
-            if (temp_r0_24 != NULL) {
-                VramFree(temp_r0_24);
-                boss->spr278[0].tiles = NULL;
-            }
-            temp_r0_25 = boss->spr278[1].tiles;
-            if (temp_r0_25 != NULL) {
-                VramFree(temp_r0_25);
-                boss->spr278[1].tiles = NULL;
-            }
-            temp_r0_26 = boss->spr250.tiles;
-            if (temp_r0_26 != NULL) {
-                VramFree(temp_r0_26);
-                boss->spr250.tiles = NULL;
-            }
-            temp_r0_27 = boss->spr228.tiles;
-            if (temp_r0_27 != NULL) {
-                VramFree(temp_r0_27);
-                boss->spr228.tiles = NULL;
-            }
-            gDispCnt &= 0x9EFF;
-            gBgScrollRegs[0][0] = 0;
-            gBgScrollRegs[0][1] = 0;
-            sub_80299FC();
-            gStageData.unk4 = 9;
-            gStageData.zone = 7;
-            boss->unkC = 0xA;
-            return;
+        } break;
     }
 }
 
 void sub_807FB7C(u8 arg0)
 {
+    Player *player;
     Player *p;
     s32 var_r1;
     s32 var_r1_2;
     u16 temp_r5;
-    u8 temp_r3;
     void (*var_r4)(Player *);
 
-    temp_r3 = arg0;
-    p = &gPlayers[gPlayers[PLAYER_1].charFlags.partnerIndex];
-    if (gPlayers[PLAYER_1].moveState & 0x100) {
+    player = &gPlayers[PLAYER_1];
+    p = &gPlayers[player->charFlags.partnerIndex];
+    if (player->moveState & 0x100) {
         return;
     }
     if (!(p->moveState & 0x100)) {
-        switch (temp_r3) {
+        switch (arg0) {
             case 0:
-                var_r1 = 0x08000000;
-                gPlayers[PLAYER_1].moveState |= 0x08000000;
-                p->moveState |= var_r1;
+                player->moveState |= MOVESTATE_IGNORE_INPUT;
+                p->moveState |= MOVESTATE_IGNORE_INPUT;
                 break;
-            case 0x1:
+            case 1:
                 gStageData.rings = 0;
-                gPlayers[PLAYER_1].moveState &= ~1;
-                p->moveState = p->moveState & ~1 & ~0x100;
-                p->moveState2 &= ~0x100;
-                gPlayers[PLAYER_1].qSpeedGround = (s16)0;
-                gPlayers[PLAYER_1].qSpeedAirX = (s16)0;
-                gPlayers[PLAYER_1].qSpeedAirY = (s16)0;
-                gPlayers[PLAYER_1].framesInvulnerable = (s16)0;
+                player->moveState &= ~1;
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+                p->moveState &= ~MOVESTATE_DEAD;
+                p->moveState2 &= ~MOVESTATE_DEAD;
+                player->qSpeedGround = (s16)0;
+                player->qSpeedAirX = (s16)0;
+                player->qSpeedAirY = (s16)0;
+                player->framesInvulnerable = (s16)0;
                 Player_8005380(gPlayers);
-                gPlayers[PLAYER_1].qWorldX = 0x67800;
-                gPlayers[PLAYER_1].qWorldY = 0xB300;
+                player->qWorldX = 0x67800;
+                player->qWorldY = 0xB300;
                 p->qSpeedGround = (s16)0;
                 p->qSpeedAirX = (s16)0;
                 p->qSpeedAirY = (s16)0;
@@ -3501,52 +3439,71 @@ void sub_807FB7C(u8 arg0)
                 Player_8005380(p);
                 p->qWorldX = 0x65800;
                 p->qWorldY = 0xB300;
-                var_r1 = 0x20;
-                gPlayers[PLAYER_1].moveState |= 0x20;
-                p->moveState |= var_r1;
+                player->moveState |= 0x20;
+                p->moveState |= 0x20;
                 break;
-            case 0x2:
-                var_r1_2 = 0xF7FFFFFF;
-                gPlayers[PLAYER_1].moveState &= 0xF7FFFFFF;
-                p->moveState &= var_r1_2;
+            case 2:
+                player->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                p->moveState &= ~MOVESTATE_IGNORE_INPUT;
                 break;
             case 10:
                 gStageData.unk4 = 9;
-                gPlayers[PLAYER_1].keyInput = 0;
-                gPlayers[PLAYER_1].keyInput2 = 0;
+                player->keyInput = 0;
+                player->keyInput2 = 0;
                 p->keyInput = 0;
                 p->keyInput2 = 0;
                 break;
             case 11:
-                if (gPlayers[PLAYER_1].moveState & 0xC00000) {
+                if (player->moveState & 0xC00000) {
                     sub_8016F28(gPlayers);
-                    gPlayers[PLAYER_1].charFlags.unk2C_04 = 0;
+                    player->charFlags.unk2C_04 = 0;
                 }
                 if (p->moveState & 0xC00000) {
                     sub_8016F28(p);
                     p->charFlags.unk2C_04 = 0;
                 }
-                if (!(gPlayers[PLAYER_1].moveState & 0x100)) {
+                if (!(player->moveState & 0x100)) {
                     Player_8005380(gPlayers);
                 }
-                if (!(p->moveState & 0x100) || ((gPlayers[PLAYER_1].charFlags.someIndex) == 2)) {
+                if (!(p->moveState & 0x100) || ((player->charFlags.someIndex) == 2)) {
                     Player_8005380(p);
                 }
-                var_r1_2 = -0x21;
-                gPlayers[PLAYER_1].moveState &= ~0x20;
-                p->moveState &= var_r1_2;
+                player->moveState &= ~0x20;
+                p->moveState &= -0x21;
                 break;
             case 20:
                 gStageData.unk4 = 3;
-                gPlayers[PLAYER_1].moveState &= 0xF7FFFFFF;
-                p->moveState &= 0xF7FFFFFF;
-                gPlayers[PLAYER_1].keyInput = 0;
-                gPlayers[PLAYER_1].keyInput2 = 0;
+                player->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                player->keyInput = 0;
+                player->keyInput2 = 0;
                 p->keyInput = 0;
                 p->keyInput2 = 0;
                 break;
             case 30:
-                p->charFlags.character = SONIC;
+                p->charFlags.character = TAILS;
+                break;
+            case 100:
+                SetPlayerCallback(gPlayers, PlayerCB_8081810);
+                break;
+            case 150:
+                sub_807C5D0();
+                if (player->callback == PlayerCB_80819BC) {
+                    Player_8005380(gPlayers);
+                    return;
+                }
+                break;
+            case 160:
+                if (player->moveState & 0xC00000) {
+                    sub_8016F28(gPlayers);
+                    player->charFlags.unk2C_04 = 0;
+                }
+                if (p->moveState & 0xC00000) {
+                    sub_8016F28(p);
+                    p->charFlags.unk2C_04 = 0;
+                    Player_8005380(p);
+                    return;
+                }
                 break;
             case 200:
                 p->qSpeedAirX = 0;
@@ -3554,38 +3511,16 @@ void sub_807FB7C(u8 arg0)
                 SetPlayerCallback(p, PlayerCB_808183C);
                 PlayerCB_808183C(p);
                 break;
-            case 150:
-                sub_807C5D0();
-                if (gPlayers[PLAYER_1].callback == PlayerCB_80819BC) {
-                    Player_8005380(gPlayers);
-                    return;
-                }
-                break;
-            case 100:
-                SetPlayerCallback(gPlayers, PlayerCB_8081810);
-                break;
-            case 160:
-                if (gPlayers[PLAYER_1].moveState & 0xC00000) {
-                    sub_8016F28(gPlayers);
-                    gPlayers[PLAYER_1].charFlags.unk2C_04 = 0;
-                }
-                if (p->moveState & 0xC00000) {
-                    sub_8016F28(p);
-                    p->charFlags.unk2C_04 = 0;
-                    Player_8005380(p);
-                    return;
-                }
-                break;
-            case 0xDC:
-                SetPlayerCallback(gPlayers, PlayerCB_808186C);
-                SetPlayerCallback(p, PlayerCB_808186C);
-                break;
-            case 0xD2:
-                gPlayers[PLAYER_1].moveState |= 1;
+            case 210:
+                player->moveState |= 1;
                 SetPlayerCallback(gPlayers, PlayerCB_8081840);
                 SetPlayerCallback(p, PlayerCB_8081840);
                 break;
-            case 0xFA:
+            case 220:
+                SetPlayerCallback(gPlayers, PlayerCB_808186C);
+                SetPlayerCallback(p, PlayerCB_808186C);
+                break;
+            case 250:
                 SetPlayerCallback(gPlayers, Player_8005380);
                 SetPlayerCallback(p, Player_8005380);
                 break;
@@ -3630,56 +3565,29 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
     u16 var_r0;
 
     temp_r2 = &gPlayers[gPlayers[PLAYER_1].charFlags.partnerIndex];
-    temp_r1 = emeraldsCut->unk12;
-    switch (temp_r1) {
-        case 0x82:
-            if (((s32)((s32)gPlayers[PLAYER_1].qWorldY >> 8) > 0xB0) && ((s32)gPlayers[PLAYER_1].qSpeedAirY > 0)) {
-                gPlayers[PLAYER_1].qSpeedGround = 0;
-                gPlayers[PLAYER_1].qSpeedAirX = 0;
-                gPlayers[PLAYER_1].qSpeedAirY = 0;
-                Player_8005380(gPlayers);
-                var_r0 = 0xC8;
-            block_45:
-                emeraldsCut->unk12 = var_r0;
-            }
-            return;
-        case 0x14A:
-            emeraldsCut->unk14 = 0x10 | emeraldsCut->unk14 | gStageData.buttonConfig.jump;
-            if ((s32)((s32)gPlayers[PLAYER_1].qWorldX >> 8) > 0x90F) {
-                gPlayers[PLAYER_1].qSpeedAirX = 0 - gPlayers[PLAYER_1].qSpeedAirX;
-                gPlayers[PLAYER_1].qSpeedAirY = 0;
-                sub_80044CC(gPlayers);
-                var_r0 = 0x82;
-                goto block_45;
-            }
-            break;
-        case 0x0:
+    switch (emeraldsCut->unk12) {
+        case 0:
             emeraldsCut->unk10 = 0x172U;
             var_r0 = 0xA;
-            goto block_45;
-        case 0xA:
-            temp_r0 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0;
-            if ((temp_r0 << 0x10) != 0) {
-                return;
+            emeraldsCut->unk12 = var_r0;
+            break;
+        case 10:
+            if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk10 = 0xB4U;
+                emeraldsCut->unk12 = 100;
             }
-            emeraldsCut->unk10 = 0xB4U;
-            var_r0 = 0x64;
-            goto block_45;
-        case 0x64:
+            break;
+        case 100:
             emeraldsCut->unk14 |= 0x10;
-            if ((s32)(s16)emeraldsCut->unk10 <= 0x95) {
+            if (emeraldsCut->unk10 <= 0x95) {
                 emeraldsCut->unk16 |= 0x10;
             }
-            temp_r0_2 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) != 0) {
-                return;
+            if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk12 = 0x12C;
             }
-            var_r0 = 0x12C;
-            goto block_45;
-        case 0x12C:
-            temp_r2_2 = (s32)gPlayers[PLAYER_1].qWorldX >> 8;
+            break;
+        case 300:
+            temp_r2_2 = I(gPlayers[PLAYER_1].qWorldX);
             if (temp_r2_2 > 0x898) {
                 emeraldsCut->unk14 |= 0x20;
             }
@@ -3690,34 +3598,44 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 gPlayers[PLAYER_1].qSpeedAirY = 0;
                 Player_8005380(gPlayers);
                 emeraldsCut->unk12 = 0x136U;
-                return;
             }
             break;
-        case 0x136:
-            temp_r0_3 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) == 0) {
+        case 310:
+            if (--emeraldsCut->unk10 == 0) {
                 emeraldsCut->unk10 = 0x14U;
                 emeraldsCut->unk12 = 0x140U;
             }
-            if (((s32)((s32)temp_r2->qWorldX >> 8) > 0x897) && (temp_r2->qSpeedAirX != 0)) {
+            if ((I(temp_r2->qWorldX) > 0x897) && (temp_r2->qSpeedAirX != 0)) {
                 temp_r2->qSpeedGround = 0;
                 temp_r2->qSpeedAirX = 0;
                 temp_r2->qSpeedAirY = 0;
                 Player_8005380(temp_r2);
-                return;
             }
             break;
-        case 0x140:
-            temp_r2_3 = 0x10 | emeraldsCut->unk14;
-            emeraldsCut->unk14 = temp_r2_3;
-            temp_r0_4 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_4;
-            if ((temp_r0_4 << 0x10) == 0) {
+        case 320:
+            emeraldsCut->unk14 |= 0x10;
+            if (--emeraldsCut->unk10 == 0) {
                 gPlayers[PLAYER_1].unkC |= 0x40;
-                emeraldsCut->unk14 = temp_r2_3 | gStageData.buttonConfig.jump;
-                var_r0 = 0x14A;
-                goto block_45;
+                emeraldsCut->unk14 |= gStageData.buttonConfig.jump;
+                emeraldsCut->unk12 = 0x14A;
+            }
+            break;
+        case 330:
+            emeraldsCut->unk14 = 0x10 | emeraldsCut->unk14 | gStageData.buttonConfig.jump;
+            if (I(gPlayers[PLAYER_1].qWorldX) >= Q(0x910)) {
+                gPlayers[PLAYER_1].qSpeedAirX *= -1;
+                gPlayers[PLAYER_1].qSpeedAirY = 0;
+                sub_80044CC(gPlayers);
+                emeraldsCut->unk12 = 0x82;
+            }
+            break;
+        case 130:
+            if (((s32)((s32)gPlayers[PLAYER_1].qWorldY >> 8) > 0xB0) && ((s32)gPlayers[PLAYER_1].qSpeedAirY > 0)) {
+                gPlayers[PLAYER_1].qSpeedGround = 0;
+                gPlayers[PLAYER_1].qSpeedAirX = 0;
+                gPlayers[PLAYER_1].qSpeedAirY = 0;
+                Player_8005380(gPlayers);
+                emeraldsCut->unk12 = 0xC8;
             }
             break;
     }
@@ -3750,117 +3668,112 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
     u16 temp_r0_9;
     u16 temp_r1;
     u16 var_r0;
+    Player *player = &gPlayers[PLAYER_1];
 
     gStageData.unk4 = 9;
-    temp_r1 = emeraldsCut->unk12;
-    switch (temp_r1) { /* irregular */
-        case 0xBE:
-            temp_r0 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0;
-            temp_r2 = (s16)temp_r0;
-            if (temp_r2 != 0) {
+    switch (emeraldsCut->unk12) {
+        case 0:
+            emeraldsCut->unk10 = 0x181U;
+            emeraldsCut->unk12 = 10;
+            break;
+        case 10:
+            if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk10 = 0x87U;
+                emeraldsCut->unk12 = 100;
+            }
+            break;
+        case 100:
+            emeraldsCut->unk14 |= 0x10;
+            if (emeraldsCut->unk10 <= 0x45) {
+                emeraldsCut->unk16 |= 0x10;
+            }
+            if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk12 = 110;
+            }
+            break;
+        case 110:
+            if ((s32)(player->qWorldX >> 8) > 0x85C) {
+                player->qSpeedGround = 0;
+                player->qSpeedAirX = 0;
+                player->qSpeedAirY = 0;
+                Player_8005380(gPlayers);
+                emeraldsCut->unk10 = 0xD6U;
+                emeraldsCut->unk12 = 0x78U;
+                sub_807FB7C(0xC8U);
+            }
+            break;
+        case 120:
+            if (--emeraldsCut->unk10 == 0) {
+                SetPlayerCallback(gPlayers, Player_8008CD0);
+                m4aSongNumStart(0x29AU);
+                emeraldsCut->unkC = 10;
+                emeraldsCut->unk12 = 130;
+            }
+            break;
+        case 130:
+            if ((s32)((s32)player->qWorldX >> 8) > 0x803) {
                 return;
             }
-            gBldRegs.bldCnt = 0x3FBF;
-            gBldRegs.bldAlpha = 8;
-            gBldRegs.bldY = (u16)temp_r2;
-            emeraldsCut->unk10 = 1U;
-            var_r0 = 0xC8;
-        block_123:
-            emeraldsCut->unk12 = var_r0;
-            return;
-        case 0x82:
-            if ((s32)((s32)gPlayers[PLAYER_1].qWorldX >> 8) > 0x803) {
-                return;
-            }
-            gPlayers[PLAYER_1].moveState &= ~1;
-            gPlayers[PLAYER_1].qSpeedGround = 0;
-            gPlayers[PLAYER_1].qSpeedAirX = 0;
-            gPlayers[PLAYER_1].qSpeedAirY = 0;
-            gPlayers[PLAYER_1].framesInvulnerable = 0;
+            player->moveState &= ~1;
+            player->qSpeedGround = 0;
+            player->qSpeedAirX = 0;
+            player->qSpeedAirY = 0;
+            player->framesInvulnerable = 0;
             Player_8005380(gPlayers);
             var_r0 = 0x8C;
-            goto block_123;
-        case 0x78:
-            temp_r0_2 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) != 0) {
-                return;
-            }
-            SetPlayerCallback(gPlayers, Player_8008CD0);
-            m4aSongNumStart(0x29AU);
-            emeraldsCut->unkC = 0xA;
-            var_r0 = 0x82;
-            goto block_123;
-        case 0xAB:
-            temp_r0_3 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) != 0) {
-                return;
-            }
-            gPlayers[PLAYER_1].qSpeedAirY = -0x80;
-            var_r0 = 0xAC;
-            goto block_123;
-        case 0x8C:
+            emeraldsCut->unk12 = var_r0;
+            break;
+        case 140:
             if (gBldRegs.bldY != 0x10) {
                 return;
             }
             emeraldsCut->unk14 |= 0x80;
             emeraldsCut->unk10 = 0x1A4U;
-            var_r0 = 0x1F4;
-            goto block_123;
-        case 0xAA:
-            temp_r0_4 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_4;
-            if ((temp_r0_4 << 0x10) != 0) {
-                return;
+            emeraldsCut->unk12 = 500;
+            break;
+        case 170:
+            if (--emeraldsCut->unk10 == 0) {
+                SetPlayerCallback(gPlayers, Player_8008CD0);
+                emeraldsCut->unk10 = 0xB4;
+                emeraldsCut->unk12 = 0x1FE;
             }
-            gPlayers[PLAYER_1].charFlags.anim0 = 0x127;
-            emeraldsCut->unk10 = 0x1EU;
-            var_r0 = 0xAB;
-            goto block_123;
-        case 0xAC:
-            temp_r1_2 = gPlayers[PLAYER_1].qWorldY + gPlayers[PLAYER_1].qSpeedAirY;
-            gPlayers[PLAYER_1].qWorldY = temp_r1_2;
-            if ((s32)(temp_r1_2 >> 8) > (s32)(gCamera.y + 0x64)) {
+            break;
+        case 171:
+            if (--emeraldsCut->unk10 == 0) {
+                player->qSpeedAirY = -0x80;
+                emeraldsCut->unk12 = 0xAC;
+            }
+            break;
+        case 172:
+            player->qWorldY += player->qSpeedAirY;
+            if ((player->qWorldY >> 8) > (s32)(gCamera.y + 0x64)) {
                 return;
             }
             emeraldsCut->unk10 = 1U;
             var_r0 = 0xB4;
-            goto block_123;
-        case 0xB4:
+            emeraldsCut->unk12 = var_r0;
+            break;
+        case 180:
             temp_r0_5 = emeraldsCut->unk10 - 1;
             emeraldsCut->unk10 = temp_r0_5;
             if ((temp_r0_5 << 0x10) != 0) {
                 return;
             }
-            gPlayers[PLAYER_1].charFlags.anim0 = 0x128;
+            player->charFlags.anim0 = 0x128;
             emeraldsCut->unk10 = 0x78U;
-            var_r0 = 0xBE;
-            goto block_123;
-        case 0xFA:
-            gPlayers[PLAYER_1].qSpeedAirY = (u16)gPlayers[PLAYER_1].qSpeedAirY - 0x2A;
-            temp_r0_6 = gPlayers[PLAYER_1].qWorldY + gPlayers[PLAYER_1].qSpeedAirY;
-            gPlayers[PLAYER_1].qWorldY = temp_r0_6;
-            if ((s32)(temp_r0_6 >> 8) < -0x10) {
-                var_r0 = 0x12C;
-                goto block_123;
-            }
+            var_r0 = 190;
+            emeraldsCut->unk12 = var_r0;
             break;
-        case 0xDC:
-            temp_r0_7 = gBldRegs.bldY - 1;
-            gBldRegs.bldY = temp_r0_7;
-            temp_r0_8 = temp_r0_7;
-            if (temp_r0_8 == 0) {
-                gBldRegs.bldCnt = temp_r0_8;
-                gBldRegs.bldAlpha = temp_r0_8;
-                gBldRegs.bldY = temp_r0_8;
-                emeraldsCut->unk10 = 0x78U;
-                var_r0 = 0x258;
-                goto block_123;
+        case 190: {
+            if (--emeraldsCut->unk10 == 0) {
+                gBldRegs.bldCnt = 0x3FBF;
+                gBldRegs.bldAlpha = 8;
+                gBldRegs.bldY = 0;
+                emeraldsCut->unk10 = 1U;
+                emeraldsCut->unk12 = 200;
             }
-            break;
-        case 0xC8:
+        } break;
+        case 200:
             temp_r0_9 = emeraldsCut->unk10 - 1;
             emeraldsCut->unk10 = temp_r0_9;
             if ((temp_r0_9 << 0x10) != 0) {
@@ -3874,55 +3787,63 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 emeraldsCut->unkC = 0x3E8;
                 emeraldsCut->unk10 = 0x3CU;
                 var_r0 = 0xD2;
-                goto block_123;
+                emeraldsCut->unk12 = var_r0;
+                break;
             }
             break;
-        case 0xD2:
-            temp_r0_11 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_11;
-            if ((temp_r0_11 << 0x10) == 0) {
-                gPlayers[PLAYER_1].charFlags.anim0 = 0x129;
-                emeraldsCut->unk12 = 0xDCU;
-                m4aSongNumStart(0x23FU);
-                return;
+        case 210:
+            if (--emeraldsCut->unk10 == 0) {
+                player->charFlags.anim0 = 0x129;
+                emeraldsCut->unk12 = 220;
+                m4aSongNumStart(SE_EXTRA_BOSS_578);
             }
             break;
-        case 0xE6:
+        case 220:
+            temp_r0_7 = gBldRegs.bldY - 1;
+            gBldRegs.bldY = temp_r0_7;
+            temp_r0_8 = temp_r0_7;
+            if (temp_r0_8 == 0) {
+                gBldRegs.bldCnt = temp_r0_8;
+                gBldRegs.bldAlpha = temp_r0_8;
+                gBldRegs.bldY = temp_r0_8;
+                emeraldsCut->unk10 = 0x78U;
+                emeraldsCut->unk12 = 600;
+            }
+            break;
+        case 230:
             temp_r0_12 = emeraldsCut->unk10 - 1;
             emeraldsCut->unk10 = temp_r0_12;
             if ((temp_r0_12 << 0x10) == 0) {
-                gPlayers[PLAYER_1].moveState &= ~1;
-                gPlayers[PLAYER_1].charFlags.anim0 = 0x12A;
+                player->moveState &= ~1;
+                player->charFlags.anim0 = 0x12A;
                 emeraldsCut->unk10 = 0x1EU;
                 var_r0 = 0xF0;
-                goto block_123;
+                emeraldsCut->unk12 = var_r0;
+                break;
             }
             break;
-        case 0xF0:
+        case 240:
             temp_r0_13 = emeraldsCut->unk10 - 1;
             emeraldsCut->unk10 = temp_r0_13;
             temp_r1_3 = (s16)temp_r0_13;
             if (temp_r1_3 == 0) {
-                gPlayers[PLAYER_1].charFlags.anim0 = 0x12B;
-                gPlayers[PLAYER_1].qSpeedAirX = temp_r1_3;
-                gPlayers[PLAYER_1].qSpeedAirY = -0x200;
+                player->charFlags.anim0 = 0x12B;
+                player->qSpeedAirX = temp_r1_3;
+                player->qSpeedAirY = -0x200;
                 emeraldsCut->unk12 = 0xFAU;
                 m4aSongNumStart(0x70U);
                 return;
             }
             break;
-        case 0x208:
-            emeraldsCut->unk14 |= 0x10;
-            if ((s32)((s32)gPlayers[PLAYER_1].qWorldX >> 8) < (s32)(gCamera.x + 0x78)) {
-                return;
+        case 250:
+            player->qSpeedAirY = (u16)player->qSpeedAirY - 0x2A;
+            player->qWorldY += player->qSpeedAirY;
+            if ((player->qWorldY >> 8) < -0x10) {
+                emeraldsCut->unk12 = 0x12C;
+                break;
             }
-            sub_807FB7C(0x64U);
-            gPlayers[PLAYER_1].qWorldX = (gCamera.x + 0x78) << 8;
-            emeraldsCut->unk10 = 0x3CU;
-            emeraldsCut->unk12 = 0x212U;
-            m4aSongNumStart(0x73U);
-            return;
-        case 0x1F4:
+            break;
+        case 500:
             temp_r0_14 = emeraldsCut->unk10 - 1;
             emeraldsCut->unk10 = temp_r0_14;
             if ((temp_r0_14 << 0x10) != 0) {
@@ -3930,77 +3851,46 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             }
             SetPlayerCallback(gPlayers, Player_8008CD0);
             emeraldsCut->unk10 = 0xB4U;
-            var_r0 = 0x1FE;
-            goto block_123;
-        case 0x1FE:
+            emeraldsCut->unk12 = 0x1FE;
+            break;
+        case 510:
             temp_r0_15 = emeraldsCut->unk10 - 1;
             emeraldsCut->unk10 = temp_r0_15;
             temp_r1_4 = (s16)temp_r0_15;
             if (temp_r1_4 != 0) {
                 return;
             }
-            emeraldsCut->unk12 = 0x208U;
-            gPlayers[PLAYER_1].framesInvulnerable = temp_r1_4;
+            emeraldsCut->unk12 = 520;
+            player->framesInvulnerable = temp_r1_4;
             return;
-        case 0x258:
-            temp_r0_16 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_16;
-            if ((temp_r0_16 << 0x10) == 0) {
-                gPlayers[PLAYER_1].moveState |= 1;
-                emeraldsCut->unk10 = 0x78U;
-                var_r0 = 0xE6;
-                goto block_123;
+        case 520:
+            emeraldsCut->unk14 |= 0x10;
+            if ((s32)((s32)player->qWorldX >> 8) < (s32)(gCamera.x + 0x78)) {
+                return;
+            }
+            sub_807FB7C(0x64U);
+            player->qWorldX = (gCamera.x + 0x78) << 8;
+            emeraldsCut->unk10 = 0x3CU;
+            emeraldsCut->unk12 = 530;
+            m4aSongNumStart(0x73U);
+            break;
+        case 530:
+            if (--emeraldsCut->unk10 == 0) {
+                player->charFlags.anim0 = 0x126;
+                emeraldsCut->unk10 = 0x1E0U;
+                emeraldsCut->unk12 = 0xAAU;
+                emeraldsCut->unkC = 0x64;
+                m4aSongNumStart(0x3DU);
             }
             break;
-        case 0x212:
-            temp_r0_17 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_17;
-            if ((temp_r0_17 << 0x10) != 0) {
-                return;
+        case 600:
+            if (--emeraldsCut->unk10 == 0) {
+                player->moveState |= 1;
+                emeraldsCut->unk10 = 0x78U;
+                emeraldsCut->unk12 = 230;
+                break;
             }
-            gPlayers[PLAYER_1].charFlags.anim0 = 0x126;
-            emeraldsCut->unk10 = 0x1E0U;
-            emeraldsCut->unk12 = 0xAAU;
-            emeraldsCut->unkC = 0x64;
-            m4aSongNumStart(0x3DU);
-            return;
-        case 0x0:
-            emeraldsCut->unk10 = 0x181U;
-            var_r0 = 0xA;
-            goto block_123;
-        case 0xA:
-            temp_r0_18 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_18;
-            if ((temp_r0_18 << 0x10) != 0) {
-                return;
-            }
-            emeraldsCut->unk10 = 0x87U;
-            var_r0 = 0x64;
-            goto block_123;
-        case 0x64:
-            emeraldsCut->unk14 |= 0x10;
-            if ((s32)(s16)emeraldsCut->unk10 <= 0x45) {
-                emeraldsCut->unk16 |= 0x10;
-            }
-            temp_r0_19 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_19;
-            if ((temp_r0_19 << 0x10) != 0) {
-                return;
-            }
-            var_r0 = 0x6E;
-            goto block_123;
-        case 0x6E:
-            if ((s32)((s32)gPlayers[PLAYER_1].qWorldX >> 8) <= 0x85C) {
-                return;
-            }
-            gPlayers[PLAYER_1].qSpeedGround = 0;
-            gPlayers[PLAYER_1].qSpeedAirX = 0;
-            gPlayers[PLAYER_1].qSpeedAirY = 0;
-            Player_8005380(gPlayers);
-            emeraldsCut->unk10 = 0xD6U;
-            emeraldsCut->unk12 = 0x78U;
-            sub_807FB7C(0xC8U);
-            return;
+            break;
     }
 }
 
@@ -5224,8 +5114,9 @@ void sub_8081A40(HyperEggRobo *boss)
 void sub_8081A74(HyperEggRobo *boss, u8 param1, u8 param2)
 {
     if (param1 == 0) {
-        boss->spr228.anim = gUnknown_080D5C38[param2][0];
-        boss->spr228.variant = gUnknown_080D5C38[param2][1];
+        Sprite *s = &boss->spr228;
+        s->anim = gUnknown_080D5C38[param2][0];
+        s->variant = gUnknown_080D5C38[param2][1];
     }
 }
 
@@ -5242,7 +5133,6 @@ void sub_8081AA0(HyperEggRobo *boss)
     }
 }
 
-extern const u16 sBossFinalAnimsHands_[2][6][2];
 void UpdateHandAnimation(HyperEggRobo *boss, u8 param1, u8 param2)
 {
     Sprite *s;
@@ -5250,13 +5140,13 @@ void UpdateHandAnimation(HyperEggRobo *boss, u8 param1, u8 param2)
     switch (param1) {
         case 0: {
             s = &boss->spr278[0];
-            s->anim = sBossFinalAnimsHands_[0][param2][0];
-            s->variant = sBossFinalAnimsHands_[0][param2][1];
+            s->anim = sBossFinalAnimsHandsLeft[param2][0];
+            s->variant = sBossFinalAnimsHandsLeft[param2][1];
         } break;
         case 1: {
             s = &boss->spr278[1];
-            s->anim = sBossFinalAnimsHands_[1][param2][0];
-            s->variant = sBossFinalAnimsHands_[1][param2][1];
+            s->anim = sBossFinalAnimsHandsRight[param2][0];
+            s->variant = sBossFinalAnimsHandsRight[param2][1];
         } break;
         default:
             return;
