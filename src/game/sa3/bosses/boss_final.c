@@ -4604,29 +4604,20 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
     u16 var_r0_2;
 
     switch (sceneEggman->unk14[2].unk18) { /* irregular */
-        case 0x3F2:
-            temp_r0 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0;
-            temp_r0_2 = (s16)temp_r0;
-            if (temp_r0_2 != 0) {
+        case 0x0:
+            sceneEggman->unk14[2].unk14 = 0x4B;
+            var_r0 = 0xA;
+            goto block_136;
+        case 0xA:
+            temp_r0_21 = sceneEggman->unk14[2].unk14 - 1;
+            sceneEggman->unk14[2].unk14 = temp_r0_21;
+            temp_r0_22 = (s16)temp_r0_21;
+            if (temp_r0_22 != 0) {
                 return;
             }
-            sceneEggman->unk14[2].unk8 = (s32)temp_r0_2;
+            sceneEggman->unk14[2].unk8 = (s32)temp_r0_22;
             sceneEggman->unk14[2].unkC = -0x100;
-            var_r0 = 0x3FC;
-        block_136:
-            sceneEggman->unk14[2].unk18 = var_r0;
-            return;
-        case 0x32:
-            temp_r0_3 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
-            sceneEggman->unk14[2].qWorld.x = temp_r0_3;
-            if ((s32)(temp_r0_3 >> 8) <= 0x8F2) {
-                return;
-            }
-            sceneEggman->unk14[2].unk8 = 0;
-            sceneEggman->unk14[2].unkC = 0x80;
-            var_r0 = 0x3C;
-            sceneEggman->unk14[2].unk14 = 0x3C;
+            var_r0 = 0x14;
             goto block_136;
         case 0x14:
             temp_r0_4 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
@@ -4662,19 +4653,17 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             sceneEggman->unk14[2].unk8 = 0x100;
             var_r0 = 0x32;
             goto block_136;
-        case 0x50:
-            temp_r0_7 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_7;
-            if ((temp_r0_7 << 0x10) != 0) {
+        case 0x32:
+            temp_r0_3 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
+            sceneEggman->unk14[2].qWorld.x = temp_r0_3;
+            if ((s32)(temp_r0_3 >> 8) <= 0x8F2) {
                 return;
             }
-            sceneEggman->unk14[2].unk14 = 0x96;
-            sceneEggman->unk14[2].unk18 = 0x5A;
-            sceneEggman->sprites[2].anim = 0x50B;
-            sceneEggman->sprites[2].variant = 2;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            sceneEggman->sprites[2].frameFlags &= 0xFFFFFBFF;
-            return;
+            sceneEggman->unk14[2].unk8 = 0;
+            sceneEggman->unk14[2].unkC = 0x80;
+            var_r0 = 0x3C;
+            sceneEggman->unk14[2].unk14 = 0x3C;
+            goto block_136;
         case 0x3C:
             temp_r0_8 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
             sceneEggman->unk14[2].qWorld.y = temp_r0_8;
@@ -4701,16 +4690,19 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             sceneEggman->sprites[2].variant = 0;
             sceneEggman->sprites[2].prevVariant = 0xFF;
             return;
-        case 0x64:
-            sceneEggman->unk14[2].unkC += 0x2A;
-            sceneEggman->unk14[2].qWorld.x += sceneEggman->unk14[2].unk8;
-            temp_r0_10 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
-            sceneEggman->unk14[2].qWorld.y = temp_r0_10;
-            if ((s32)(temp_r0_10 >> 8) <= 0xF9) {
+        case 0x50:
+            temp_r0_7 = sceneEggman->unk14[2].unk14 - 1;
+            sceneEggman->unk14[2].unk14 = temp_r0_7;
+            if ((temp_r0_7 << 0x10) != 0) {
                 return;
             }
-            var_r0 = 0xC8;
-            goto block_136;
+            sceneEggman->unk14[2].unk14 = 0x96;
+            sceneEggman->unk14[2].unk18 = 0x5A;
+            sceneEggman->sprites[2].anim = 0x50B;
+            sceneEggman->sprites[2].variant = 2;
+            sceneEggman->sprites[2].prevVariant = 0xFF;
+            sceneEggman->sprites[2].frameFlags &= 0xFFFFFBFF;
+            return;
         case 0x5A:
             temp_r0_11 = sceneEggman->unk14[2].unk14 - 1;
             sceneEggman->unk14[2].unk14 = temp_r0_11;
@@ -4726,43 +4718,32 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             sceneEggman->unk14[2].unk18 = 0x64;
             m4aSongNumStart(0x74U);
             return;
+        case 0x64:
+            sceneEggman->unk14[2].unkC += 0x2A;
+            sceneEggman->unk14[2].qWorld.x += sceneEggman->unk14[2].unk8;
+            temp_r0_10 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
+            sceneEggman->unk14[2].qWorld.y = temp_r0_10;
+            if ((s32)(temp_r0_10 >> 8) <= 0xF9) {
+                return;
+            }
+            var_r0 = 0xC8;
+            goto block_136;
         case 0x3E8:
             sceneEggman->unk14[2].unk14 = 0x4B;
             sceneEggman->unk14[2].unk18 = 0x3F2;
             return;
-        case 0x42E:
-            temp_r1_3 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r1_3;
-            if ((temp_r1_3 << 0x10) == 0) {
-                sceneEggman->unk14[2].unk14 = 0xA;
-                sceneEggman->unk14[2].unk18 = 0x433;
-                sceneEggman->sprites[2].anim = 0x50B;
-                sceneEggman->sprites[2].variant = 0;
-                sceneEggman->sprites[2].prevVariant = 0xFF;
-                sceneEggman->sprites[2].frameFlags &= 0xFFFFFBFF;
-                m4aSongNumStart(0x223U);
+        case 0x3F2:
+            temp_r0 = sceneEggman->unk14[2].unk14 - 1;
+            sceneEggman->unk14[2].unk14 = temp_r0;
+            temp_r0_2 = (s16)temp_r0;
+            if (temp_r0_2 != 0) {
                 return;
             }
-            if (!(temp_r1_3 & 0x3F)) {
-                m4aSongNumStart(0x224U);
-                return;
-            }
-            break;
-        case 0x410:
-            temp_r0_12 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
-            sceneEggman->unk14[2].qWorld.x = temp_r0_12;
-            temp_r1_4 = temp_r0_12 >> 8;
-            if (temp_r1_4 > 0x8AB) {
-                sceneEggman->unk14[2].unk8 = 0;
-                sceneEggman->unk14[2].unkC = 0x200;
-                sceneEggman->unk14[2].unk14 = 0x3C;
-                var_r0 = 0x41A;
-                goto block_136;
-            }
-            if (temp_r1_4 <= 0x76B) {
-                return;
-            }
-            sceneEggman->unk14[2].unk8 = 0x200;
+            sceneEggman->unk14[2].unk8 = (s32)temp_r0_2;
+            sceneEggman->unk14[2].unkC = -0x100;
+            var_r0 = 0x3FC;
+        block_136:
+            sceneEggman->unk14[2].unk18 = var_r0;
             return;
         case 0x3FC:
             temp_r0_13 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
@@ -4784,6 +4765,22 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             sceneEggman->unk14[2].unkC = (s32)temp_r1_5;
             sceneEggman->unk14[2].unk18 = 0x410;
             goto block_108;
+        case 0x410:
+            temp_r0_12 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
+            sceneEggman->unk14[2].qWorld.x = temp_r0_12;
+            temp_r1_4 = temp_r0_12 >> 8;
+            if (temp_r1_4 > 0x8AB) {
+                sceneEggman->unk14[2].unk8 = 0;
+                sceneEggman->unk14[2].unkC = 0x200;
+                sceneEggman->unk14[2].unk14 = 0x3C;
+                var_r0 = 0x41A;
+                goto block_136;
+            }
+            if (temp_r1_4 <= 0x76B) {
+                return;
+            }
+            sceneEggman->unk14[2].unk8 = 0x200;
+            return;
         case 0x41A:
             temp_r0_15 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
             sceneEggman->unk14[2].qWorld.y = temp_r0_15;
@@ -4806,16 +4803,22 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             sceneEggman->unk14[2].unk18 = 0x42E;
             var_r0_2 = 0x509;
             goto block_120;
-        case 0x442:
-            temp_r0_17 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_17;
-            if ((temp_r0_17 << 0x10) == 0) {
-                sceneEggman->sprites[2].anim = 0x5CA;
+        case 0x42E:
+            temp_r1_3 = sceneEggman->unk14[2].unk14 - 1;
+            sceneEggman->unk14[2].unk14 = temp_r1_3;
+            if ((temp_r1_3 << 0x10) == 0) {
+                sceneEggman->unk14[2].unk14 = 0xA;
+                sceneEggman->unk14[2].unk18 = 0x433;
+                sceneEggman->sprites[2].anim = 0x50B;
                 sceneEggman->sprites[2].variant = 0;
                 sceneEggman->sprites[2].prevVariant = 0xFF;
-                sceneEggman->unk14[2].unk14 = 0xB4;
-                var_r0 = 0x44C;
-                goto block_136;
+                sceneEggman->sprites[2].frameFlags &= 0xFFFFFBFF;
+                m4aSongNumStart(0x223U);
+                return;
+            }
+            if (!(temp_r1_3 & 0x3F)) {
+                m4aSongNumStart(0x224U);
+                return;
             }
             break;
         case 0x433:
@@ -4842,10 +4845,15 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
                 return;
             }
             break;
-        case 0x456:
-            sceneEggman->unk14[2].qWorld.y += sceneEggman->unk14[2].unkC;
-            if (gBldRegs.bldY == 0x10) {
-                var_r0 = 0x460;
+        case 0x442:
+            temp_r0_17 = sceneEggman->unk14[2].unk14 - 1;
+            sceneEggman->unk14[2].unk14 = temp_r0_17;
+            if ((temp_r0_17 << 0x10) == 0) {
+                sceneEggman->sprites[2].anim = 0x5CA;
+                sceneEggman->sprites[2].variant = 0;
+                sceneEggman->sprites[2].prevVariant = 0xFF;
+                sceneEggman->unk14[2].unk14 = 0xB4;
+                var_r0 = 0x44C;
                 goto block_136;
             }
             break;
@@ -4861,25 +4869,17 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
                 return;
             }
             break;
+        case 0x456:
+            sceneEggman->unk14[2].qWorld.y += sceneEggman->unk14[2].unkC;
+            if (gBldRegs.bldY == 0x10) {
+                var_r0 = 0x460;
+                goto block_136;
+            }
+            break;
         case 0x460:
             VramFree(sceneEggman->vram10);
             sceneEggman->vram10 = NULL;
             var_r0 = 0x7D0;
-            goto block_136;
-        case 0x0:
-            sceneEggman->unk14[2].unk14 = 0x4B;
-            var_r0 = 0xA;
-            goto block_136;
-        case 0xA:
-            temp_r0_21 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_21;
-            temp_r0_22 = (s16)temp_r0_21;
-            if (temp_r0_22 != 0) {
-                return;
-            }
-            sceneEggman->unk14[2].unk8 = (s32)temp_r0_22;
-            sceneEggman->unk14[2].unkC = -0x100;
-            var_r0 = 0x14;
             goto block_136;
     }
 }
