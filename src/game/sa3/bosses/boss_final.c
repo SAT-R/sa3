@@ -2909,17 +2909,17 @@ void sub_807ED8C(HyperEggRobo *boss)
 
         case 200:
             if (1 & boss->unk14) {
-                temp_r0_2 = PseudoRandom32();
-                temp_r7 = 0x3FF & temp_r0_2;
-                temp_r0_3 = PseudoRandom32();
-                temp_r0_4 = (u32)temp_r0_3 % 48U;
-                sub_8079758(7U, (s16)((s32)((boss->qWorld.x + ((u32)(temp_r0_4 * COS(temp_r7)) >> 6)) << 8) >> 0x10),
-                            (s16)(((s32)(boss->qWorld.y + ((u32)(temp_r0_4 * SIN(temp_r7)) >> 6)) >> 8) - 0x30), 0x300, (u16)temp_r7, 0x1EU,
-                            0, boss->vram18);
+                temp_r7 = PseudoRandom32() % 1024u;
+                temp_r0_4 = PseudoRandom32() % 48U;
+                {
+                    s32 cosVal = (COS(temp_r7) * temp_r0_4) >> 6;
+                    s32 sinVal = (SIN(temp_r7) * temp_r0_4) >> 6;
+                    sub_8079758(7U, I(boss->qWorld.x + cosVal), (I(boss->qWorld.y + sinVal) - 48), 0x300, (u16)temp_r7, 0x1EU, 0,
+                                boss->vram18);
+                }
             }
-            temp_r0_5 = boss->unk14 + 1;
-            boss->unk14 = temp_r0_5;
-            if (!(temp_r0_5 & 0x3F)) {
+            boss->unk14 += 1;
+            if (!(boss->unk14 & 0x3F)) {
                 m4aSongNumStart(0x221U);
             }
             if (boss->unk12E != 0) {
@@ -2947,11 +2947,15 @@ void sub_807ED8C(HyperEggRobo *boss)
             }
 
             if (1 & boss->unk14) {
-                temp_r7_2 = (PseudoRandom32() & 0xFF) + 0x280;
+                temp_r7 = (PseudoRandom32() & 0xFF) + 0x280;
                 temp_r0_7 = PseudoRandom32() % 48U;
-                sub_8079758(7U, (s16)((s32)((boss->qWorld.x + ((u32)(temp_r0_7 * COS(temp_r7_2)) >> 6)) << 8) >> 0x10),
-                            (s16)(((s32)(boss->qWorld.y + ((u32)(temp_r0_7 * SIN(temp_r7_2)) >> 6)) >> 8) - 0x60),
-                            ((temp_r0_7 & 3) << 8) | 0x400, (u16)temp_r7_2, 0x1EU, 0, boss->vram18);
+                {
+                    s32 val = ((temp_r0_7 & 3) << 8);
+                    s32 cosVal = (COS(temp_r7) * temp_r0_7) >> 6;
+                    s32 sinVal = (SIN(temp_r7) * temp_r0_7) >> 6;
+                    sub_8079758(7U, I(boss->qWorld.x + cosVal), I(boss->qWorld.y + (sinVal)) - 96, 0x400 | val, (u16)temp_r7, 0x1EU, 0,
+                                boss->vram18);
+                }
             }
             if (!(0x3F & boss->unk14)) {
                 m4aSongNumStart(0x221U);
@@ -3201,7 +3205,7 @@ void Task_358_807F568(void)
         } break;
         case 10:
             boss->unkC = 100;
-            return;
+            break;
         case 100:
             if (MetExtraBossEnableConditions()) {
                 boss->unkC = 2000;
@@ -3236,11 +3240,11 @@ void Task_358_807F568(void)
                 boss->unkC = 1020;
             }
             break;
-        case 1020:
+        case 1020: {
             SetPlayerCallback(&gPlayers[gStageData.playerIndex], Player_8005E80);
             SetPlayerCallback(&gPlayers[temp_r6->charFlags.partnerIndex], Player_8005E80);
-            boss->unkC = 0x406;
-            break;
+            boss->unkC = 1030;
+        } break;
         case 2000:
             sub_807FB7C(1U);
             boss->task28 = CreateAltarEmeraldPostBossCutscene(1U);
@@ -3269,7 +3273,7 @@ void Task_358_807F568(void)
                 gCamera.minX = gCamera.maxX - DISPLAY_WIDTH;
                 boss->unk8 = 0xC8;
                 m4aSongNumStart(MUS_EX_DEMO_1);
-                boss->unkC = 0x7E4;
+                boss->unkC = 2020;
             }
         } break;
 
@@ -3278,14 +3282,14 @@ void Task_358_807F568(void)
             if (boss->unk8 == 0) {
                 gDispCnt |= 0x2000;
                 gWinRegs[WINREG_WIN0H] = 0x7778;
-                gWinRegs[2] = 0xA0;
+                gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
                 gWinRegs[4] = 0x3C;
                 gWinRegs[5] = 0x1C;
                 gBldRegs.bldCnt = 0x3FBF;
                 gBldRegs.bldAlpha = 8;
                 gBldRegs.bldY = 8;
                 boss->unkA = 0;
-                boss->unkC = 0x7EE;
+                boss->unkC = 2030;
                 m4aSongNumStart(SE_667);
             }
         } break;
@@ -3367,7 +3371,7 @@ void Task_358_807F568(void)
             if (--boss->unk8 == 0) {
                 sub_8081DF4(boss->task28);
                 m4aSongNumStart(SE_EXTRA_BOSS_578);
-                boss->unkC = 0x816;
+                boss->unkC = 2070;
             }
         } break;
 
@@ -3387,9 +3391,10 @@ void Task_358_807F568(void)
 
         case 2080:
             if (--boss->unk8 == 0) {
-                boss->unkC = 0x8FC;
+                boss->unkC = 2300;
             }
             break;
+
         case 2300: {
             m4aSongNumStart(0x58U);
             sub_8002508();
@@ -3401,87 +3406,83 @@ void Task_358_807F568(void)
 
 void sub_807FB7C(u8 arg0)
 {
-    Player *player;
-    Player *p;
-    s32 var_r1;
-    s32 var_r1_2;
-    u16 temp_r5;
-    void (*var_r4)(Player *);
+    Player *player = &gPlayers[PLAYER_1];
+    Player *partner = &gPlayers[player->charFlags.partnerIndex];
 
-    player = &gPlayers[PLAYER_1];
-    p = &gPlayers[player->charFlags.partnerIndex];
     if (player->moveState & 0x100) {
         return;
     }
-    if (!(p->moveState & 0x100)) {
+    if (!(partner->moveState & 0x100)) {
         switch (arg0) {
             case 0:
                 player->moveState |= MOVESTATE_IGNORE_INPUT;
-                p->moveState |= MOVESTATE_IGNORE_INPUT;
+                partner->moveState |= MOVESTATE_IGNORE_INPUT;
                 break;
             case 1:
                 gStageData.rings = 0;
                 player->moveState &= ~1;
-                p->moveState &= ~MOVESTATE_FACING_LEFT;
-                p->moveState &= ~MOVESTATE_DEAD;
-                p->moveState2 &= ~MOVESTATE_DEAD;
+                partner->moveState &= ~MOVESTATE_FACING_LEFT;
+                partner->moveState &= ~MOVESTATE_DEAD;
+                partner->moveState2 &= ~MOVESTATE_DEAD;
                 player->qSpeedGround = (s16)0;
                 player->qSpeedAirX = (s16)0;
                 player->qSpeedAirY = (s16)0;
                 player->framesInvulnerable = (s16)0;
-                Player_8005380(gPlayers);
-                player->qWorldX = 0x67800;
-                player->qWorldY = 0xB300;
-                p->qSpeedGround = (s16)0;
-                p->qSpeedAirX = (s16)0;
-                p->qSpeedAirY = (s16)0;
-                p->framesInvulnerable = (s16)0;
-                Player_8005380(p);
-                p->qWorldX = 0x65800;
-                p->qWorldY = 0xB300;
+                Player_8005380(player);
+                player->qWorldX = Q(1656);
+                player->qWorldY = Q(179);
+                partner->qSpeedGround = (s16)0;
+                partner->qSpeedAirX = (s16)0;
+                partner->qSpeedAirY = (s16)0;
+                partner->framesInvulnerable = (s16)0;
+                Player_8005380(partner);
+                partner->qWorldX = Q(1624);
+                partner->qWorldY = Q(179);
                 player->moveState |= 0x20;
-                p->moveState |= 0x20;
+                partner->moveState |= 0x20;
                 break;
             case 2:
                 player->moveState &= ~MOVESTATE_IGNORE_INPUT;
-                p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                partner->moveState &= ~MOVESTATE_IGNORE_INPUT;
                 break;
             case 10:
                 gStageData.unk4 = 9;
                 player->keyInput = 0;
                 player->keyInput2 = 0;
-                p->keyInput = 0;
-                p->keyInput2 = 0;
+                partner->keyInput = 0;
+                partner->keyInput2 = 0;
                 break;
             case 11:
                 if (player->moveState & 0xC00000) {
                     sub_8016F28(gPlayers);
                     player->charFlags.unk2C_04 = 0;
                 }
-                if (p->moveState & 0xC00000) {
-                    sub_8016F28(p);
-                    p->charFlags.unk2C_04 = 0;
+                if (partner->moveState & 0xC00000) {
+                    sub_8016F28(partner);
+                    partner->charFlags.unk2C_04 = 0;
                 }
                 if (!(player->moveState & 0x100)) {
                     Player_8005380(gPlayers);
                 }
-                if (!(p->moveState & 0x100) || ((player->charFlags.someIndex) == 2)) {
-                    Player_8005380(p);
+                if (!(partner->moveState & 0x100) || ((player->charFlags.someIndex) == 2)) {
+                    Player_8005380(partner);
                 }
                 player->moveState &= ~0x20;
-                p->moveState &= -0x21;
+                partner->moveState &= -0x21;
+                break;
+            case 12:
                 break;
             case 20:
                 gStageData.unk4 = 3;
                 player->moveState &= ~MOVESTATE_IGNORE_INPUT;
-                p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                partner->moveState &= ~MOVESTATE_IGNORE_INPUT;
                 player->keyInput = 0;
                 player->keyInput2 = 0;
-                p->keyInput = 0;
-                p->keyInput2 = 0;
+                partner->keyInput = 0;
+                partner->keyInput2 = 0;
                 break;
             case 30:
-                p->charFlags.character = TAILS;
+                partner->charFlags.character = TAILS;
                 break;
             case 100:
                 SetPlayerCallback(gPlayers, PlayerCB_8081810);
@@ -3498,31 +3499,31 @@ void sub_807FB7C(u8 arg0)
                     sub_8016F28(gPlayers);
                     player->charFlags.unk2C_04 = 0;
                 }
-                if (p->moveState & 0xC00000) {
-                    sub_8016F28(p);
-                    p->charFlags.unk2C_04 = 0;
-                    Player_8005380(p);
+                if (partner->moveState & 0xC00000) {
+                    sub_8016F28(partner);
+                    partner->charFlags.unk2C_04 = 0;
+                    Player_8005380(partner);
                     return;
                 }
                 break;
             case 200:
-                p->qSpeedAirX = 0;
-                p->qSpeedAirY = 0;
-                SetPlayerCallback(p, PlayerCB_808183C);
-                PlayerCB_808183C(p);
+                partner->qSpeedAirX = 0;
+                partner->qSpeedAirY = 0;
+                SetPlayerCallback(partner, PlayerCB_808183C);
+                PlayerCB_808183C(partner);
                 break;
             case 210:
                 player->moveState |= 1;
                 SetPlayerCallback(gPlayers, PlayerCB_8081840);
-                SetPlayerCallback(p, PlayerCB_8081840);
+                SetPlayerCallback(partner, PlayerCB_8081840);
                 break;
             case 220:
                 SetPlayerCallback(gPlayers, PlayerCB_808186C);
-                SetPlayerCallback(p, PlayerCB_808186C);
+                SetPlayerCallback(partner, PlayerCB_808186C);
                 break;
             case 250:
                 SetPlayerCallback(gPlayers, Player_8005380);
-                SetPlayerCallback(p, Player_8005380);
+                SetPlayerCallback(partner, Player_8005380);
                 break;
         }
     }
@@ -3566,18 +3567,20 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
 
     temp_r2 = &gPlayers[gPlayers[PLAYER_1].charFlags.partnerIndex];
     switch (emeraldsCut->unk12) {
-        case 0:
+        case 0: {
             emeraldsCut->unk10 = 0x172U;
             var_r0 = 0xA;
             emeraldsCut->unk12 = var_r0;
-            break;
-        case 10:
+        } break;
+
+        case 10: {
             if (--emeraldsCut->unk10 == 0) {
                 emeraldsCut->unk10 = 0xB4U;
                 emeraldsCut->unk12 = 100;
             }
-            break;
-        case 100:
+        } break;
+
+        case 100: {
             emeraldsCut->unk14 |= 0x10;
             if (emeraldsCut->unk10 <= 0x95) {
                 emeraldsCut->unk16 |= 0x10;
@@ -3585,8 +3588,9 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             if (--emeraldsCut->unk10 == 0) {
                 emeraldsCut->unk12 = 0x12C;
             }
-            break;
-        case 300:
+        } break;
+
+        case 300: {
             temp_r2_2 = I(gPlayers[PLAYER_1].qWorldX);
             if (temp_r2_2 > 0x898) {
                 emeraldsCut->unk14 |= 0x20;
@@ -3599,8 +3603,9 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 Player_8005380(gPlayers);
                 emeraldsCut->unk12 = 0x136U;
             }
-            break;
-        case 310:
+        } break;
+
+        case 310: {
             if (--emeraldsCut->unk10 == 0) {
                 emeraldsCut->unk10 = 0x14U;
                 emeraldsCut->unk12 = 0x140U;
@@ -3611,33 +3616,40 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 temp_r2->qSpeedAirY = 0;
                 Player_8005380(temp_r2);
             }
-            break;
-        case 320:
+        } break;
+
+        case 320: {
             emeraldsCut->unk14 |= 0x10;
             if (--emeraldsCut->unk10 == 0) {
                 gPlayers[PLAYER_1].unkC |= 0x40;
                 emeraldsCut->unk14 |= gStageData.buttonConfig.jump;
                 emeraldsCut->unk12 = 0x14A;
             }
-            break;
-        case 330:
-            emeraldsCut->unk14 = 0x10 | emeraldsCut->unk14 | gStageData.buttonConfig.jump;
-            if (I(gPlayers[PLAYER_1].qWorldX) >= Q(0x910)) {
+        } break;
+
+        case 330: {
+            emeraldsCut->unk14 |= 0x10;
+            emeraldsCut->unk14 |= gStageData.buttonConfig.jump;
+            if (I(gPlayers[PLAYER_1].qWorldX) >= Q(9.0625)) {
                 gPlayers[PLAYER_1].qSpeedAirX *= -1;
                 gPlayers[PLAYER_1].qSpeedAirY = 0;
                 sub_80044CC(gPlayers);
                 emeraldsCut->unk12 = 0x82;
             }
-            break;
-        case 130:
+        } break;
+
+        case 130: {
             if (((s32)((s32)gPlayers[PLAYER_1].qWorldY >> 8) > 0xB0) && ((s32)gPlayers[PLAYER_1].qSpeedAirY > 0)) {
                 gPlayers[PLAYER_1].qSpeedGround = 0;
                 gPlayers[PLAYER_1].qSpeedAirX = 0;
                 gPlayers[PLAYER_1].qSpeedAirY = 0;
                 Player_8005380(gPlayers);
-                emeraldsCut->unk12 = 0xC8;
+                emeraldsCut->unk12 = 200;
             }
-            break;
+        } break;
+
+        case 200: {
+        } break;
     }
 }
 
@@ -3698,7 +3710,7 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 player->qSpeedAirY = 0;
                 Player_8005380(gPlayers);
                 emeraldsCut->unk10 = 0xD6U;
-                emeraldsCut->unk12 = 0x78U;
+                emeraldsCut->unk12 = 120;
                 sub_807FB7C(0xC8U);
             }
             break;
@@ -3720,8 +3732,7 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             player->qSpeedAirY = 0;
             player->framesInvulnerable = 0;
             Player_8005380(gPlayers);
-            var_r0 = 0x8C;
-            emeraldsCut->unk12 = var_r0;
+            emeraldsCut->unk12 = 140;
             break;
         case 140:
             if (gBldRegs.bldY != 0x10) {
@@ -3735,13 +3746,13 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             if (--emeraldsCut->unk10 == 0) {
                 SetPlayerCallback(gPlayers, Player_8008CD0);
                 emeraldsCut->unk10 = 0xB4;
-                emeraldsCut->unk12 = 0x1FE;
+                emeraldsCut->unk12 = 510;
             }
             break;
         case 171:
             if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk12 = 172;
                 player->qSpeedAirY = -0x80;
-                emeraldsCut->unk12 = 0xAC;
             }
             break;
         case 172:
@@ -3750,19 +3761,15 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 return;
             }
             emeraldsCut->unk10 = 1U;
-            var_r0 = 0xB4;
-            emeraldsCut->unk12 = var_r0;
+            emeraldsCut->unk12 = 180;
             break;
+
         case 180:
-            temp_r0_5 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_5;
-            if ((temp_r0_5 << 0x10) != 0) {
-                return;
+            if (--emeraldsCut->unk10 == 0) {
+                player->charFlags.anim0 = 0x128;
+                emeraldsCut->unk10 = 0x78U;
+                emeraldsCut->unk12 = 190;
             }
-            player->charFlags.anim0 = 0x128;
-            emeraldsCut->unk10 = 0x78U;
-            var_r0 = 190;
-            emeraldsCut->unk12 = var_r0;
             break;
         case 190: {
             if (--emeraldsCut->unk10 == 0) {
@@ -3773,22 +3780,18 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 emeraldsCut->unk12 = 200;
             }
         } break;
+
         case 200:
-            temp_r0_9 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_9;
-            if ((temp_r0_9 << 0x10) != 0) {
-                return;
-            }
-            emeraldsCut->unk10 = 4U;
-            temp_r0_10 = gBldRegs.bldY + 1;
-            gBldRegs.bldY = temp_r0_10;
-            if (temp_r0_10 == 0x10) {
-                emeraldsCut->unk1 = 0;
-                emeraldsCut->unkC = 0x3E8;
-                emeraldsCut->unk10 = 0x3CU;
-                var_r0 = 0xD2;
-                emeraldsCut->unk12 = var_r0;
-                break;
+            if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk10 = 4U;
+                gBldRegs.bldY += 1;
+                if (gBldRegs.bldY == 0x10) {
+                    emeraldsCut->unk1 = 0;
+                    emeraldsCut->unkC = 0x3E8;
+                    emeraldsCut->unk10 = 0x3CU;
+                    emeraldsCut->unk12 = 210;
+                    break;
+                }
             }
             break;
         case 210:
@@ -3799,36 +3802,27 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             }
             break;
         case 220:
-            temp_r0_7 = gBldRegs.bldY - 1;
-            gBldRegs.bldY = temp_r0_7;
-            temp_r0_8 = temp_r0_7;
-            if (temp_r0_8 == 0) {
-                gBldRegs.bldCnt = temp_r0_8;
-                gBldRegs.bldAlpha = temp_r0_8;
-                gBldRegs.bldY = temp_r0_8;
-                emeraldsCut->unk10 = 0x78U;
+            if (--gBldRegs.bldY == 0) {
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldAlpha = 0;
+                gBldRegs.bldY = 0;
+                emeraldsCut->unk10 = 120;
                 emeraldsCut->unk12 = 600;
             }
             break;
         case 230:
-            temp_r0_12 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_12;
-            if ((temp_r0_12 << 0x10) == 0) {
+            if (--emeraldsCut->unk10 == 0) {
                 player->moveState &= ~1;
                 player->charFlags.anim0 = 0x12A;
                 emeraldsCut->unk10 = 0x1EU;
-                var_r0 = 0xF0;
-                emeraldsCut->unk12 = var_r0;
+                emeraldsCut->unk12 = 240;
                 break;
             }
             break;
         case 240:
-            temp_r0_13 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_13;
-            temp_r1_3 = (s16)temp_r0_13;
-            if (temp_r1_3 == 0) {
+            if (--emeraldsCut->unk10 == 0) {
                 player->charFlags.anim0 = 0x12B;
-                player->qSpeedAirX = temp_r1_3;
+                player->qSpeedAirX = 0;
                 player->qSpeedAirY = -0x200;
                 emeraldsCut->unk12 = 0xFAU;
                 m4aSongNumStart(0x70U);
@@ -3836,36 +3830,31 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             }
             break;
         case 250:
-            player->qSpeedAirY = (u16)player->qSpeedAirY - 0x2A;
+            player->qSpeedAirY -= 0x2A;
             player->qWorldY += player->qSpeedAirY;
-            if ((player->qWorldY >> 8) < -0x10) {
+            if (I(player->qWorldY) < -0x10) {
                 emeraldsCut->unk12 = 0x12C;
                 break;
             }
             break;
-        case 500:
-            temp_r0_14 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_14;
-            if ((temp_r0_14 << 0x10) != 0) {
-                return;
+        case 500: {
+            if (--emeraldsCut->unk10 == 0) {
+                SetPlayerCallback(gPlayers, Player_8008CD0);
+                emeraldsCut->unk10 = 0xB4U;
+                emeraldsCut->unk12 = 510;
             }
-            SetPlayerCallback(gPlayers, Player_8008CD0);
-            emeraldsCut->unk10 = 0xB4U;
-            emeraldsCut->unk12 = 0x1FE;
-            break;
-        case 510:
-            temp_r0_15 = emeraldsCut->unk10 - 1;
-            emeraldsCut->unk10 = temp_r0_15;
-            temp_r1_4 = (s16)temp_r0_15;
-            if (temp_r1_4 != 0) {
-                return;
+        } break;
+
+        case 510: {
+            if (--emeraldsCut->unk10 == 0) {
+                emeraldsCut->unk12 = 520;
+                player->framesInvulnerable = temp_r1_4;
             }
-            emeraldsCut->unk12 = 520;
-            player->framesInvulnerable = temp_r1_4;
-            return;
+        } break;
+
         case 520:
             emeraldsCut->unk14 |= 0x10;
-            if ((s32)((s32)player->qWorldX >> 8) < (s32)(gCamera.x + 0x78)) {
+            if (I(player->qWorldX) < (gCamera.x + DISPLAY_CENTER_X)) {
                 return;
             }
             sub_807FB7C(0x64U);
@@ -3907,11 +3896,10 @@ void InitChaosEmeraldSprites(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
     emeraldsCut->unk1 = 0;
 
     for (var_r5 = 0; var_r5 < 7; var_r5++, var_r2++, var_r6 += 0x80) {
-        temp_r1 = var_r5 * 0x14;
         emeraldsCut->unk1C[var_r5].qWorld.x = 0;
-        *(&emeraldsCut->unk1C[0].qWorld.y + temp_r1) = 0;
-        *(&emeraldsCut->unk1C[0].unk8 + temp_r1) = 0;
-        *(&emeraldsCut->unk1C[0].unkC + temp_r1) = 0;
+        emeraldsCut->unk1C[var_r5].qWorld.y = 0;
+        emeraldsCut->unk1C[var_r5].unk8 = 0;
+        emeraldsCut->unk1C[var_r5].unkC = 0;
         emeraldsCut->unk1C[var_r5].unk10 = 1;
         emeraldsCut->unk1C[var_r5].unk12 = 0;
         var_r2->tiles = var_r6;
@@ -3965,46 +3953,49 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
     u8 var_r5_7;
     u8 var_r6;
     Sprite *s;
+    Player *player = &gPlayers[PLAYER_1];
 
-    temp_r0 = arg0->unkC;
-    switch (temp_r0) { /* irregular */
-        case 0x1E:
-            temp_r0_2 = arg0->unkE - 1;
-            arg0->unkE = temp_r0_2;
-            if ((temp_r0_2 << 0x10) != 0) {
+    switch (arg0->unkC) { /* irregular */
+        case 0: {
+        } break;
+        case 10: {
+            for (var_r5 = 0; var_r5 < 7; var_r5++) {
+                arg0->unk1C[var_r5].qWorld.x = Q(gCamera.x + DISPLAY_CENTER_X);
+                arg0->unk1C[var_r5].qWorld.y = player->qWorldY;
+                arg0->unk1C[var_r5].unk8 = gUnknown_080D5CD4[var_r5].x;
+                arg0->unk1C[var_r5].unkC = gUnknown_080D5CD4[var_r5].y;
+            }
+            arg0->unk1 = 1;
+            arg0->unkC = 20;
+        } break;
+        case 20:
+            for (var_r5 = 0, var_r6 = 0; var_r5 < 7; var_r5++) {
+                if (I(arg0->unk1C[var_r5].qWorld.y) >= 0xBC) {
+                    arg0->unk1C[var_r5].qWorld.y = Q(0xBC);
+                    var_r6 += 1;
+                } else {
+                    arg0->unk1C[var_r5].qWorld.x += arg0->unk1C[var_r5].unk8;
+                    arg0->unk1C[var_r5].unkC += 0x2A;
+                    arg0->unk1C[var_r5].qWorld.y += temp_r1_4;
+                }
+            }
 
-            } else {
-                var_r5 = 0;
-                do {
-                    arg0->unk1C[var_r5].unkC = gUnknown_080D5CD4[var_r5].y / 8;
-                    var_r5 += 1;
-                } while ((u32)var_r5 <= 6U);
-                arg0->unkC = 0x28;
+            if (var_r6 == 7) {
+                arg0->unkE = 0xB4U;
+                arg0->unkC = 0x1E;
             }
             break;
-        case 0x64:
-            arg0->unk2 = 0;
-            arg0->unk8 = 0x7800;
-            arg0->unk4 = 0x1E000;
-            arg0->unk1C[0].unk8 = Q(gCamera.x + 120);
-            arg0->unk1C[0].unkC = Q(gCamera.y + 104);
-            var_r5_2 = 0;
-            var_r7 = 0;
-            do {
-                var_r0_2 = (COS(var_r7) * arg0->unk4) / 0x4000;
-                var_r0_3 = (SIN(var_r7) * arg0->unk8) / 0x4000;
-
-                arg0->unk1C[var_r5_2].qWorld.x = (var_r0_2 >> 14) + arg0->unk1C[0].unk8;
-                arg0->unk1C[var_r5_2].qWorld.y = (var_r0_3 >> 14) + arg0->unk1C[0].unkC;
-                var_r7 = (var_r7 + 0x92) & 0x3FF;
-                var_r5_2 += 1;
-            } while ((u32)var_r5_2 <= 6U);
-            arg0->unk1 = 1;
-            arg0->unkC = 0x6E;
+        case 30:
+            if (--arg0->unkE == 0) {
+                for (var_r5 = 0; var_r5 < 7; var_r5++) {
+                    arg0->unk1C[var_r5].unkC = gUnknown_080D5CD4[var_r5].y / 8;
+                }
+                arg0->unkC = 40;
+            }
             break;
-        case 0x28:
-            for (var_r5_3 = 0; var_r5_3 < 7; var_r5_3++) {
-                arg0->unk1C[var_r5_3].qWorld.y += arg0->unk1C[var_r5_3].unkC;
+        case 40:
+            for (var_r5 = 0; var_r5 < 7; var_r5++) {
+                arg0->unk1C[var_r5].qWorld.y += arg0->unk1C[var_r5].unkC;
             }
 
             if (gBldRegs.bldY != 0x10) {
@@ -4014,78 +4005,53 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
                 arg0->unkC = 0x3E8;
             }
             break;
-        case 0x6E:
+        case 100:
+            arg0->unk2 = 0;
+            arg0->unk8 = 0x7800;
+            arg0->unk4 = 0x1E000;
+            arg0->unk1C[0].unk8 = Q(gCamera.x + 120);
+            arg0->unk1C[0].unkC = Q(gCamera.y + 104);
+            for (var_r5 = 0, var_r7 = 0; var_r5 < 7; var_r5++) {
+                var_r0_2 = (COS(var_r7) * arg0->unk4) / 0x4000;
+                var_r0_3 = (SIN(var_r7) * arg0->unk8) / 0x4000;
+
+                arg0->unk1C[var_r5].qWorld.x = (var_r0_2 >> 14) + arg0->unk1C[0].unk8;
+                arg0->unk1C[var_r5].qWorld.y = (var_r0_3 >> 14) + arg0->unk1C[0].unkC;
+                var_r7 = (var_r7 + 0x92) & 0x3FF;
+            }
+            arg0->unk1 = 1;
+            arg0->unkC = 110;
+            break;
+        case 110:
             arg0->unk2 = (arg0->unk2 - 8) & 0x3FF;
-            temp_r0_4 = arg0->unk8 - 0x40;
-            arg0->unk8 = temp_r0_4;
-            if ((s32)(temp_r0_4 >> 8) <= 8) {
+            arg0->unk8 -= 0x40;
+            if (I(arg0->unk8) <= 8) {
                 arg0->unk8 = 0x800;
             }
             arg0->unk4 = arg0->unk8 * 4;
             s = arg0->sprEmeralds;
-            var_r5_4 = 0;
-            var_r7_2 = arg0->unk2;
-            do {
+            for (var_r5 = 0, var_r7_2 = arg0->unk2; var_r5 < 7; var_r5++, s++) {
                 var_r0_4 = (COS(var_r7_2) * arg0->unk4) / 0x4000;
                 var_r0_5 = (SIN(var_r7_2) * arg0->unk8) / 0x4000;
-                arg0->unk1C[var_r5_4].qWorld.x = (var_r0_4 >> 0xE) + arg0->unk1C[0].unk8;
-                arg0->unk1C[var_r5_4].qWorld.y = (var_r0_5 >> 0xE) + arg0->unk1C[0].unkC;
+                arg0->unk1C[var_r5].qWorld.x = (var_r0_4 >> 0xE) + arg0->unk1C[0].unk8;
+                arg0->unk1C[var_r5].qWorld.y = (var_r0_5 >> 0xE) + arg0->unk1C[0].unkC;
                 if ((u32)var_r7_2 < 0x200U) {
                     s->oamFlags = SPRITE_OAM_ORDER(8);
                 } else {
                     s->oamFlags = SPRITE_OAM_ORDER(19);
                 }
                 var_r7_2 = (var_r7_2 + 0x92) & 0x3FF;
-                var_r5_4++;
-                s++;
-            } while ((u32)var_r5_4 <= 6U);
-            break;
-        case 0xA:
-            var_r5_5 = 0;
-            do {
-                temp_r2_2 = var_r5_5 * 0x14;
-                arg0->unk1C[var_r5_5].qWorld.x = Q(gCamera.x + DISPLAY_CENTER_X);
-                arg0->unk1C[var_r5_5].qWorld.y = gPlayers[PLAYER_1].qWorldY;
-                arg0->unk1C[var_r5_5].unk8 = gUnknown_080D5CD4[var_r5_5].x;
-                arg0->unk1C[var_r5_5].unkC = gUnknown_080D5CD4[var_r5_5].y;
-                var_r5_5 += 1;
-            } while ((u32)var_r5_5 <= 6U);
-            arg0->unk1 = 1;
-            arg0->unkC = 0x14;
-            break;
-        case 0x14:
-            var_r5_6 = 0;
-            var_r6 = 0;
-            do {
-                if (I(arg0->unk1C[var_r5_6].qWorld.y) > 0xBB) {
-                    arg0->unk1C[var_r5_6].qWorld.y = 0xBC00;
-                    var_r6 += 1;
-                } else {
-                    arg0->unk1C[var_r5_6].qWorld.x += arg0->unk1C[var_r5_6].unk8;
-                    //                temp_r0_5 = arg0 + 0x28 + (var_r5_6 * 0x14);
-                    arg0->unk1C[var_r5_6].unkC += 0x2A;
-                    arg0->unk1C[var_r5_6].qWorld.y += temp_r1_4;
-                }
-                var_r5_6 += 1;
-            } while ((u32)var_r5_6 <= 6U);
-
-            if (var_r6 == 7) {
-                arg0->unkE = 0xB4U;
-                arg0->unkC = 0x1E;
             }
             break;
     }
     if (arg0->unk1 != 0) {
         var_r4_2 = arg0->sprEmeralds;
-        var_r5_7 = 0;
-        do {
-            var_r4_2->x = I(arg0->unk1C[var_r5_7].qWorld.x) - gCamera.x;
-            var_r4_2->y = I(arg0->unk1C[var_r5_7].qWorld.y) - gCamera.y;
+        for (var_r5 = 0; var_r5 < 7; var_r5++, var_r4_2++) {
+            var_r4_2->x = I(arg0->unk1C[var_r5].qWorld.x) - gCamera.x;
+            var_r4_2->y = I(arg0->unk1C[var_r5].qWorld.y) - gCamera.y;
             UpdateSpriteAnimation(var_r4_2);
             DisplaySprite(var_r4_2);
-            var_r5_7 += 1;
-            var_r4_2 += 0x28;
-        } while ((u32)var_r5_7 <= 6U);
+        }
     }
 }
 
@@ -4109,7 +4075,7 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
     Task *t
         = TaskCreate(Task_11C_8080AD4, sizeof(AltarEmeraldCutsceneEggmanEscape), 0x2100U, 0U, TaskDestructor_AltarEmeraldPostBossCutscene);
 
-    AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(gCurTask);
+    AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(t);
     sceneEggman->initialArg0 = arg0;
     sceneEggman->unk4 = 1;
     sceneEggman->unk6 = 0;
@@ -4120,19 +4086,17 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
         sceneEggman->sprites[var_r4].tiles = NULL;
     }
 
-    for (var_r4_2 = 0; var_r4_2 < 3; var_r4_2++) {
-        if (var_r4_2 != 2) {
-            var_r3 = var_r4_2 * 8;
-            temp_r1 = &sceneEggman->unk14[var_r4_2];
-            sp14 = temp_r1;
-            temp_r1->qWorld.x = (gCamera.x + 0x78) << 8;
-            *(&sceneEggman->unk14[0].qWorld.y + (var_r4_2 * 0x1C)) = (gCamera.y + 0xB4) << 8;
+    for (var_r4 = 0; var_r4 < 3; var_r4++) {
+        if (var_r4 != 2) {
+            var_r3 = var_r4 * 8;
+            sceneEggman->unk14[var_r4].qWorld.x = Q(gCamera.x + DISPLAY_CENTER_X);
+            sceneEggman->unk14[var_r4].qWorld.y = Q(gCamera.y + 0xB4);
         } else {
             sceneEggman->unk14[2].qWorld.x = (gCamera.x + 0x8C) << 8;
             sceneEggman->unk14[2].qWorld.y = (gCamera.y + 0xD4) << 8;
             var_r3 = 0x10;
         }
-        temp_r1_2 = var_r3 - var_r4_2;
+        temp_r1_2 = var_r3 - var_r4;
         sceneEggman->unk14[temp_r1_2].unk8 = 0;
         sceneEggman->unk14[temp_r1_2].unkC = 0;
         sceneEggman->unk14[temp_r1_2].unk10 = 0;
@@ -4147,59 +4111,71 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
     }
 
     if (sceneEggman->initialArg0 == 0) {
-        var_r0_2 = VramMalloc(0x74U);
+        sceneEggman->vram8 = VramMalloc(0x74U);
     } else {
-        var_r0_2 = NULL;
+        sceneEggman->vram8 = NULL;
     }
-    sceneEggman->vram8 = var_r0_2;
     vram = VramMalloc(0x80U);
     sceneEggman->vramC = vram;
-    sceneEggman->sprites[0].tiles = vram;
-    sceneEggman->sprites[0].oamFlags = 0x540;
-    sceneEggman->sprites[0].anim = ANIM_EGGMAN_SIDE;
-    sceneEggman->sprites[0].variant = 4;
-    sceneEggman->sprites[0].qAnimDelay = 0;
-    sceneEggman->sprites[0].prevVariant = -1;
-    sceneEggman->sprites[0].animSpeed = 0x10;
-    sceneEggman->sprites[0].palId = 0;
-    sceneEggman->sprites[0].x = 0;
-    sceneEggman->sprites[0].y = 0;
-    sceneEggman->sprites[0].frameFlags = 0x1000;
-    sceneEggman->sprites[1].tiles = vram + 0x800;
-    sceneEggman->sprites[1].oamFlags = 0x580;
-    sceneEggman->sprites[1].anim = ANIM_NEO_EGGMOBILE;
-    sceneEggman->sprites[1].variant = 0;
-    sceneEggman->sprites[1].qAnimDelay = 0;
-    sceneEggman->sprites[1].prevVariant = -1;
-    sceneEggman->sprites[1].animSpeed = 0x10;
-    sceneEggman->sprites[1].palId = 9;
-    sceneEggman->sprites[1].x = 0;
-    sceneEggman->sprites[1].y = 0;
-    sceneEggman->sprites[1].frameFlags = 0x1000;
-    sceneEggman->tf.rotation = sceneEggman->unk2;
-    sceneEggman->tf.x = (s16)(u16)sceneEggman->sprites[1].x;
-    sceneEggman->tf.y = (s16)(u16)sceneEggman->sprites[1].y;
-    sceneEggman->tf.qScaleX = 0x100;
-    sceneEggman->tf.qScaleY = 0x100;
-    vram = VramMalloc(0x24U);
-    sceneEggman->vram10 = vram;
-    sceneEggman->sprites[2].tiles = vram;
-    sceneEggman->sprites[2].oamFlags = 0x500;
-    sceneEggman->sprites[2].anim = ANIM_GEMERL_HOVER_AWAY;
-    sceneEggman->sprites[2].variant = 0;
-    sceneEggman->sprites[2].qAnimDelay = 0;
-    sceneEggman->sprites[2].prevVariant = -1;
-    sceneEggman->sprites[2].animSpeed = 0x10;
-    sceneEggman->sprites[2].palId = 0;
-    sceneEggman->sprites[2].x = 0;
-    sceneEggman->sprites[2].y = 0;
-    sceneEggman->sprites[2].frameFlags = 0x1000;
+    {
+        Sprite *s = (Sprite *)&sceneEggman->sprites[0];
+        s->tiles = vram;
+        s->oamFlags = 0x540;
+        s->anim = ANIM_EGGMAN_SIDE;
+        s->variant = 4;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->x = 0;
+        s->y = 0;
+        s->frameFlags = 0x1000;
+    }
+    {
+        Sprite *s = (Sprite *)&sceneEggman->sprites[1];
+        s->tiles = vram + 0x800;
+        s->oamFlags = 0x580;
+        s->anim = ANIM_NEO_EGGMOBILE;
+        s->variant = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 9;
+        s->x = 0;
+        s->y = 0;
+        s->frameFlags = 0x1000;
+        {
+            SpriteTransform *tf = &sceneEggman->tf;
+            tf->rotation = sceneEggman->unk2;
+            tf->x = s->x;
+            tf->y = s->y;
+            tf->qScaleX = Q(1);
+            tf->qScaleY = Q(1);
+        }
+    }
+    {
+        Sprite *s = (Sprite *)&sceneEggman->sprites[2];
+        vram = VramMalloc(0x24U);
+        sceneEggman->vram10 = vram;
+        s->tiles = vram;
+        s->oamFlags = 0x500;
+        s->anim = ANIM_GEMERL_HOVER_AWAY;
+        s->variant = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->x = 0;
+        s->y = 0;
+        s->frameFlags = 0x1000;
+    }
     return t;
 }
 
 void Task_11C_8080AD4(void)
 {
     AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(gCurTask);
+    SpriteTransform *tf = &sceneEggman->tf;
     u16 temp_r1;
     u8 var_r6;
 
@@ -4215,7 +4191,6 @@ void Task_11C_8080AD4(void)
         s->x = I(sceneEggman->unk14[var_r6].qWorld.x) - gCamera.x;
         s->y = I(sceneEggman->unk14[var_r6].qWorld.y) - gCamera.y;
         if (s->frameFlags & 0x20) {
-            SpriteTransform *tf = &sceneEggman->tf;
             tf->rotation = sceneEggman->unk2;
             tf->x = s->x;
             tf->y = s->y;
@@ -4593,7 +4568,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
         }
     }
     arg0->unk14[1].qWorld.x = arg0->unk14[0].qWorld.x;
-    (arg0 + 0x30)->unk4 = (s32)subStrc14->qWorld.y;
+    arg0->unk14[1].qWorld.y = arg0->unk14[0].qWorld.y;
 }
 
 void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
@@ -4628,8 +4603,7 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
     u16 var_r0;
     u16 var_r0_2;
 
-    temp_r1 = sceneEggman->unk14[2].unk18;
-    switch (temp_r1) { /* irregular */
+    switch (sceneEggman->unk14[2].unk18) { /* irregular */
         case 0x3F2:
             temp_r0 = sceneEggman->unk14[2].unk14 - 1;
             sceneEggman->unk14[2].unk14 = temp_r0;
