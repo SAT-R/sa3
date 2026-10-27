@@ -1922,7 +1922,7 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_80
 }
 END_NONMATCH
 
-// (94.30%) https://decomp.me/scratch/YYG32
+// (99.11%) https://decomp.me/scratch/YYG32
 NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_807DE20(HyperEggRobo *boss, u8 param1))
 {
     HyberEggRoboStrc144 *temp_r5;
