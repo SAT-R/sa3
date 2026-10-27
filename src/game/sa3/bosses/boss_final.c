@@ -1922,18 +1922,16 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_80
 }
 END_NONMATCH
 
-// (99.11%) https://decomp.me/scratch/YYG32
-NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_807DE20(HyperEggRobo *boss, u8 param1))
+void sub_807DE20(HyperEggRobo *boss, u8 param1)
 {
     HyberEggRoboStrc144 *temp_r5;
     Sprite *temp_r0_2;
     SpriteTransform *temp_r2;
-    s32 temp_r0_3;
     s32 temp_r0_5;
     s32 temp_r1;
     s32 temp_r2_5;
     s32 temp_r4;
-    s32 var_r0_2;
+    s32 temp_r1_2;
     s32 var_sl;
 
     temp_r5 = &boss->pos144[param1];
@@ -1958,9 +1956,9 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_80
                 }
             }
             {
-                s32 y = boss->qWorld.y - Q(64);
+                temp_r2_5 = boss->qWorld.y - Q(64);
                 temp_r5->qWorld.y += temp_r5->qUnk8.y;
-                if (temp_r5->qWorld.y > y) {
+                if (temp_r5->qWorld.y > temp_r2_5) {
                     return;
                 }
                 if (param1 == 0) {
@@ -1999,10 +1997,11 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_80
             }
 
             if (0x80 & temp_r5->unk1A) {
-                temp_r2_5 = boss->unk2C[temp_r5->unk1A & 0x7F].qWorld.x - temp_r5->qWorld.x;
+                temp_r1 = temp_r5->unk1A & 0x7F;
+                temp_r2_5 = boss->unk2C[temp_r1].qWorld.x - temp_r5->qWorld.x;
                 temp_r2_5 = I(ABS(temp_r2_5));
                 if (temp_r2_5 <= 1) {
-                    temp_r5->qWorld.x = boss->unk2C[temp_r5->unk1A & 0x7F].qWorld.x;
+                    temp_r5->qWorld.x = boss->unk2C[temp_r1].qWorld.x;
                     temp_r5->unk14 = 0x1E;
                     temp_r5->unk16 = 30;
                     temp_r5->qUnk8.y = 0x600;
@@ -2017,15 +2016,15 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_80
         case 100: {
             temp_r4 = temp_r5->qWorld.y;
             temp_r5->qWorld.y += temp_r5->qUnk8.y;
-            temp_r4 -= temp_r5->qUnk8.y;
+            temp_r4 -= temp_r5->qWorld.y;
             sub_807F334(temp_r0_2, temp_r2, 1U, param1);
             sub_807C244(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, 0, temp_r4);
             boss->unk11 = 1;
             temp_r1 = temp_r5->unk1A & 0x7F;
             if (boss->unk2C[temp_r1].unkC <= 0) {
-                var_r0_2 = ((boss->pos144[param1].qWorld.y) - (boss->unk2C[temp_r1].qWorld.y));
-                var_r0_2 = ABS(var_r0_2);
-                if (I(var_r0_2) < 20) {
+                temp_r1_2 = ((boss->pos144[param1].qWorld.y) - (boss->unk2C[temp_r1].qWorld.y));
+                temp_r1_2 = I(ABS(temp_r1_2));
+                if (temp_r1_2 < 20) {
                     boss->unk2C[temp_r1].unkC = boss->pos144[param1].qUnk8.y;
                     boss->unk2C[temp_r1].unk12 = 100;
                     m4aSongNumStart(SE_570);
@@ -2047,13 +2046,13 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_80
         } break;
         case 120: {
             temp_r4 = temp_r5->qWorld.y;
-            temp_r0_3 = temp_r4 + temp_r5->qUnk8.y;
-            temp_r5->qWorld.y = temp_r0_3;
+            temp_r5->qWorld.y += temp_r5->qUnk8.y;
             temp_r4 -= temp_r5->qWorld.y;
             sub_807F334(temp_r0_2, temp_r2, 1U, param1);
             sub_807C244(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, 0, temp_r4);
             boss->unk11 = 1;
-            if (temp_r5->qWorld.y <= (boss->qWorld.y - Q(64))) {
+            temp_r2_5 = boss->qWorld.y - Q(64);
+            if (temp_r5->qWorld.y <= temp_r2_5) {
                 sub_807C48C(temp_r0_2, temp_r5->qWorld.x, temp_r5->qWorld.y, temp_r5->qWorld.y);
                 temp_r5->unk13 = 0;
                 temp_r5->unk16 = 200;
@@ -2122,7 +2121,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DE20.inc", void sub_80
             break;
     }
 }
-END_NONMATCH
 
 #if 01
 #else
