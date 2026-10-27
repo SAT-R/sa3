@@ -1850,23 +1850,14 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DB60.inc", void sub_80
 }
 END_NONMATCH
 
-// (96.82%) https://decomp.me/scratch/b4LqT
-NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_807DCD8(HyperEggRobo *boss, u8 param1))
+void sub_807DCD8(HyperEggRobo *boss, u8 param1)
 {
     HyberEggRoboStrc144 *temp_r4;
-    s16 temp_r0_2;
-    s16 var_r0;
-    s32 *var_r0_2;
     s32 temp_r1;
-    s32 temp_r3_2;
+    u8 temp_r3_2;
     s32 temp_r3_3;
-    s32 temp_r6;
-    s32 var_r0_3;
-    s32 var_r0_4;
     s32 var_r1;
-    s32 var_r1_2;
     s32 var_r8;
-    u8 temp_r3;
 
     temp_r4 = &boss->pos144[param1];
     var_r8 = 0;
@@ -1877,9 +1868,9 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_80
             } else {
                 var_r1 = temp_r4->qWorld.x - Q(50);
             }
-            temp_r3 = sub_807D610(boss, var_r1, param1);
-            if (temp_r3 != 0) {
-                temp_r4->unk19 = temp_r3;
+            temp_r3_2 = sub_807D610(boss, var_r1, param1);
+            if (temp_r3_2 != 0) {
+                temp_r4->unk19 = temp_r3_2;
                 temp_r4->unk16 = 10;
             }
             break;
@@ -1888,7 +1879,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_80
             if (boss->unk194[temp_r3_2].unk18 == 0) {
                 temp_r4->unk19 = 0;
                 temp_r4->unk14 = 0x3C;
-                var_r0 = 0x14;
                 temp_r4->unk16 = 0x14;
             } else {
                 if (boss->unk194[temp_r3_2].qWorld.y > temp_r4->qWorld.y) {
@@ -1898,10 +1888,10 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_80
                 }
                 temp_r4->qWorld.y += temp_r4->qUnk8.y;
                 temp_r3_3 = temp_r4->qWorld.x - boss->unk194[temp_r3_2].qWorld.x;
-                var_r0_3 = ABS(temp_r3_3) >> 8;
+                temp_r3_3 = ABS(temp_r3_3) >> 8;
                 temp_r1 = temp_r4->qWorld.y - boss->unk194[temp_r3_2].qWorld.y;
-                var_r0_4 = (ABS(temp_r1) >> 8);
-                if (((var_r0_3) < 0x10) && (var_r0_4 < 0x20)) {
+                temp_r1 = (ABS(temp_r1) >> 8);
+                if (((temp_r3_3) < 0x10) && (temp_r1 < 0x20)) {
                     sub_807D2A4(&boss->unk194[temp_r3_2], (u8)(param1 + 2));
                     var_r8 = 1;
                 }
@@ -1920,7 +1910,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DCD8.inc", void sub_80
             break;
     }
 }
-END_NONMATCH
 
 void sub_807DE20(HyperEggRobo *boss, u8 param1)
 {
