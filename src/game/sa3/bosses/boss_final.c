@@ -1498,15 +1498,15 @@ block_7:
     return var_r5;
 }
 
-// (90.45%) https://decomp.me/scratch/O3P3r
-NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1))
+// TODO: Fake-match!
+bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1)
 {
     bool32 var_r7 = 0;
     u8 sp0[4];
     s32 sp8;
     HyberEggRoboStrc194 *temp_r4;
     HyberEggRoboStrc194 *temp_r5;
-    s32 var_ip;
+    register s32 var_ip asm("ip");
     s32 temp_r6;
     s32 var_r0_2;
     s32 var_r0_3;
@@ -1520,7 +1520,14 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_
             temp_r4 = &boss->unk194[i];
             if (temp_r4->unk18 != 0) {
                 u32 len;
+#ifndef NON_MATCHING
+                register s32 r1 asm("r1") = temp_r5->qWorld.x;
+                r1 -= temp_r4->qWorld.x;
+                var_ip = r1;
+                asm("" ::"r"(r1));
+#else
                 var_ip = temp_r5->qWorld.x - temp_r4->qWorld.x;
+#endif
                 temp_r6 = temp_r5->qWorld.y - temp_r4->qWorld.y;
                 len = Sqrt(SQUARE(var_ip) + SQUARE(temp_r6));
                 if (I(len) < 20u) {
@@ -1539,8 +1546,8 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_
                     temp_r5->unkC = (SIN(temp_r5->unk16) * temp_r5->unk10) / 0x4000;
                     var_r0_2 = (COS(temp_r4->unk16) * 11) / 0x40;
                     var_r0_3 = (SIN(temp_r4->unk16) * 11) / 0x40;
-                    temp_r4->qWorld.x = var_r0_2 + var_ip;
-                    temp_r4->qWorld.y = var_r0_3 + temp_r6;
+                    temp_r4->qWorld.x = var_ip + var_r0_2;
+                    temp_r4->qWorld.y = temp_r6 + (var_r0_3);
                     temp_r4->unk8 = (COS(temp_r4->unk16) * temp_r4->unk10) / 0x4000;
                     temp_r4->unkC = (SIN(temp_r4->unk16) * temp_r4->unk10) / 0x4000;
                     var_r7 = 1;
@@ -1555,7 +1562,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_
 
     return var_r7;
 }
-END_NONMATCH
 
 u8 sub_807D610(HyperEggRobo *boss, s32 arg1, u8 arg2)
 {
