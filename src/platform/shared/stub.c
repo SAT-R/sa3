@@ -55,7 +55,6 @@ void sub_802789C() { }
 void sub_80275B8(u32 level, u8 param1, u8 param2) { }
 void sub_8027538() { }
 s16 sub_8025D58(void) { return 0; }
-void CreateCharacterSelectMultiplayer() { }
 void MultiSio_SendPlayerName() { }
 void sub_802440C() { }
 void sub_8024584() { }
@@ -122,21 +121,7 @@ void sub_8054514() { }
 void sub_8054E38() { }
 void sub_8055CA8() { }
 void sub_8055D44() { }
-void CreateGmerl1() { }
-void CreateBoss_8068B3C() { }
-void CreateBoss_806A90C() { }
-void CreateBoss_806D1A0() { }
-void CreateBoss_806EADC() { }
-void CreateBoss_8071A08() { }
-void CreateBoss_8073640() { }
-void CreateBoss_8074E88() { }
 void sub_807B6C8() { }
-void sub_807C670() { }
-void sub_807C728() { }
-void sub_807C8AC() { }
-void sub_807C9C0() { }
-void sub_807CA38() { }
-void sub_807CB78() { }
 void sub_807DCD8() { }
 void sub_807DE20() { }
 void sub_807E214() { }
@@ -203,5 +188,3 @@ void sub_8081C80() { }
 
 void sub_807F4F0() { }
 void sub_8085588() { }
-
-void CreateHyperEggRobo() { }

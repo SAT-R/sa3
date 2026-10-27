@@ -455,7 +455,7 @@ void Task_809FEB0(void)
     if ((temp_r5 <= 1U) && (cs->listIndex[CS_CHARID_PLAYER] == (s8)*cs->unk30)) {
         for (var_r5 = 0; var_r5 < 4; var_r5++) {
             u8 *ptr = gUnknown_030010AC;
-            ECharacters *order = gCharSelect_DisplayOrder;
+            const ECharacters *order = gCharSelect_DisplayOrder;
             if (temp_r5 != var_r5) {
                 if (ptr[var_r5] == order[*cs->unk30]) {
                     sub_80A1A28(cs);
@@ -750,7 +750,7 @@ void Task_80A04D8(void)
     }
     for (var_r5 = 0; var_r5 < 4; var_r5++) {
         u8 *ptr = gUnknown_030010AC;
-        ECharacters *order = gCharSelect_DisplayOrder;
+        const ECharacters *order = gCharSelect_DisplayOrder;
         if (var_r7 != var_r5) {
             if (ptr[var_r5] == order[*cs->unk30]) {
                 sub_80A1A28(cs);
