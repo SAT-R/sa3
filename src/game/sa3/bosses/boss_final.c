@@ -2172,14 +2172,13 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
         case 10: {
             temp_r4->qUnk8.y += temp_r4->unk1C;
             if (temp_r4->qUnk8.y < 0) {
-                var_r0_3 = -0x200;
-                if (temp_r4->qUnk8.y <= 0xFFFFFE00) {
-                    goto block_26;
+                if (temp_r4->qUnk8.y <= -Q(2)) {
+                    temp_r4->qUnk8.y = -Q(2);
                 }
-            } else if (temp_r1_5 > 0x1FF) {
-                var_r0_3 = 0x200;
-            block_26:
-                temp_r4->qUnk8.y = var_r0_3;
+            } else {
+                if (temp_r4->qUnk8.y >= +Q(2)) {
+                    temp_r4->qUnk8.y = +Q(2);
+                }
             }
             temp_r4->qWorld.y += temp_r4->qUnk8.y;
             if (--temp_r4->unk14 == 0) {
@@ -2341,7 +2340,7 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
 
 void sub_807E54C(HyperEggRobo *boss, u8 param1)
 {
-    s16 sp0[3];
+    SomeMatrix sp0;
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
     Sprite *var_r2_2;
@@ -2403,13 +2402,12 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                 var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
                 var_r1_2 = 0x6C0;
             }
-            temp_r0_7 = (sp0[0] & 0xFFFF0000) | (u16)(var_r1_2 - var_r0_14);
-            sp0[0] = temp_r0_7;
-            sp0[1] = (u16)temp_r0_7 | ((0x60 - ((s32)temp_r5->qWorld.y >> 8)) << 0x10);
-            sp0[2] &= 0xFFFF0000;
+            sp0.a = (var_r1_2 - var_r0_14);
+            sp0.b = (0x60 - ((s32)temp_r5->qWorld.y >> 8));
+            sp0.c = 0;
             sa2__sub_8085A9C((void *)&sp0, 8U);
-            temp_r5->qUnk8.x = sp0[0] * 2;
-            temp_r5->qUnk8.y = sp0[1] * 2;
+            temp_r5->qUnk8.x = sp0.a * 2;
+            temp_r5->qUnk8.y = sp0.b * 2;
             temp_r5->unk10 = 0x300U;
             temp_r5->unk16 = 0xAU;
             break;
@@ -2542,12 +2540,12 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                 var_r0_10 = (s32)temp_r5->qWorld.x >> 8;
                 var_r1 = 0x6DC;
             }
-            sp0[0] = (s16)(var_r1 - var_r0_10);
-            sp0[1] = (s16)(0x98 - I(temp_r5->qWorld.y));
-            sp0[2] = 0;
-            sa2__sub_8085A9C((UNK_8085D14 *)&sp0, 8U);
-            temp_r5->qUnk8.x = sp0[0] * 2;
-            temp_r5->qUnk8.y = sp0[1] * 2;
+            sp0.a = (s16)(var_r1 - var_r0_10);
+            sp0.b = (s16)(0x98 - I(temp_r5->qWorld.y));
+            sp0.c = 0;
+            sa2__sub_8085A9C(&sp0, 8U);
+            temp_r5->qUnk8.x = sp0.a * 2;
+            temp_r5->qUnk8.y = sp0.b * 2;
             switch (param1) {
                 case 0:
                     var_r2 = &boss->spr278[0];
@@ -2678,7 +2676,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
 
 void sub_807EBB8(HyperEggRobo *boss, u8 param1)
 {
-    s16 sp0[4];
+    SomeMatrix sp0;
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
     SpriteTransform *temp_r2;
@@ -2703,13 +2701,12 @@ void sub_807EBB8(HyperEggRobo *boss, u8 param1)
                 var_r0 = (s32)temp_r5->qWorld.x >> 8;
                 var_r1 = 0x6DC;
             }
-            temp_r0_2 = (sp0[0] & 0xFFFF0000) | (u16)(var_r1 - var_r0);
-            sp0[0] = temp_r0_2;
-            sp0[0] = (u16)temp_r0_2 | ((0x98 - ((s32)temp_r5->qWorld.y >> 8)) << 0x10);
-            sp0[2] &= 0xFFFF0000;
-            sa2__sub_8085A9C((UNK_8085D14 *)&sp0, 8U);
-            temp_r5->qUnk8.x = sp0[0] * 2;
-            temp_r5->qUnk8.y = sp0[1] * 2;
+            sp0.a = (var_r1 - var_r0);
+            sp0.b = (0x98 - ((s32)temp_r5->qWorld.y >> 8));
+            sp0.c = 0;
+            sa2__sub_8085A9C(&sp0, 8U);
+            temp_r5->qUnk8.x = sp0.a * 2;
+            temp_r5->qUnk8.y = sp0.b * 2;
             switch (param1) {
                 case 0: /* switch 2 */
                     var_r2 = boss->spr278;
