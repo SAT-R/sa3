@@ -1566,8 +1566,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_
 }
 END_NONMATCH
 
-#if 01
-#else
 u8 sub_807D610(HyperEggRobo *boss, s32 arg1, u8 arg2)
 {
     HyperEggRobo *sp0;
@@ -1756,6 +1754,8 @@ u8 sub_807D9B4(HyperEggRobo *boss, u8 param1)
     return var_r3;
 }
 
+#if 01
+#else
 void sub_807DA34(HyperEggRobo *boss, u8 param1)
 {
     s16 sp0[4];
