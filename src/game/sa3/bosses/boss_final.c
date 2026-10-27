@@ -1787,8 +1787,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DA34.inc", void sub_80
 }
 END_NONMATCH
 
-#if 01
-#else
 void sub_807DB00(HyperEggRobo *boss, u8 arg1, u8 arg2)
 {
     boss->pos144[arg1].qUnk8.x = 0;
@@ -1800,8 +1798,9 @@ void sub_807DB00(HyperEggRobo *boss, u8 arg1, u8 arg2)
     boss->pos144[arg1].unk13 = 1;
 }
 
+// (86.32%) https://decomp.me/scratch/hRiN0
 void sub_807C518(HyperEggRobo *arg0, u8 arg1);
-void sub_807DB60(HyperEggRobo *boss)
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DB60.inc", void sub_807DB60(HyperEggRobo *boss))
 {
     u8 i;
     s32 spC;
@@ -1849,7 +1848,10 @@ void sub_807DB60(HyperEggRobo *boss)
         sub_807F334(&boss->spr278[i], &boss->tf340[i], 0U, i);
     }
 }
+END_NONMATCH
 
+#if 01
+#else
 void sub_807DCD8(HyperEggRobo *boss, u8 param1)
 {
     HyberEggRoboStrc144 *temp_r4;
