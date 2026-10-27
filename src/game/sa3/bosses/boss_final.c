@@ -258,23 +258,14 @@ extern const FinalBossFunc1 gUnknown_08E2ED18[12];
 extern const ChaosEmeraldCutsceneFunc0 gUnknown_08E2ED48[2];
 
 typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    u16 unk8;
-    u16 unkA;
-    u16 unkC;
-    u16 unkE;
-    u16 unk10;
-    u16 unk12;
-    u32 unk14;
-    u32 unk18;
-    u32 unk1C;
-} UNK_8085D14;
+    s32 a : 16;
+    s32 b : 16;
+    s32 c : 16;
+    s32 d : 16;
+} SomeMatrix;
 
 // TODO: Seems like the 1st parameter is a different type, that is just 0x8 bytes? Is it a different function overall?
-extern void SA2_LABEL(sub_8085A9C)(UNK_8085D14 *p1, u8 p2);
+extern void SA2_LABEL(sub_8085A9C)(SomeMatrix *p1, u8 p2);
 
 void CreateHyperEggRobo(u8 *arg0)
 {
@@ -1754,32 +1745,33 @@ u8 sub_807D9B4(HyperEggRobo *boss, u8 param1)
     return var_r3;
 }
 
-#if 01
-#else
-void sub_807DA34(HyperEggRobo *boss, u8 param1)
+// (86.58%) https://decomp.me/scratch/UmZSB
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DA34.inc", void sub_807DA34(HyperEggRobo *boss, u8 param1))
 {
-    s16 sp0[4];
-    s32 sp4;
-    HyberEggRoboStrc144 *temp_r6;
-    Player *temp_r4;
+    SomeMatrix sp0;
+    SomeMatrix sp4;
+
     s16 var_r0;
     s32 temp_r1_2;
     s32 temp_r2;
     s32 temp_r2_2;
     u16 temp_r0;
     Sprite *s2;
+#ifndef NON_MATCHING
+    register HyberEggRoboStrc144 *temp_r6 asm("r6") = &boss->pos144[param1];
+#else
+    HyberEggRoboStrc144 *temp_r6 = &boss->pos144[param1];
+#endif
+    Player *p = boss->players[0];
+    sp0.a = (I(p->qWorldX) - I(temp_r6->qWorld.x));
+    sp0.b = (I(p->qWorldY) - I(temp_r6->qWorld.y));
+    sp0.c = 0;
 
-    temp_r6 = &boss->pos144[param1];
-    temp_r4 = boss->players[0];
-    sp0[0] = (I(temp_r4->qWorldX) - I(temp_r6->qWorld.x));
-    sp0[1] = 0;
-    sp0[3] = (I(temp_r4->qWorldY) - I(temp_r6->qWorld.y));
-    sp0[2] = 0;
-    sa2__sub_8085A9C((UNK_8085D14 *)&sp0, 8U);
-    temp_r6->qUnk8.x = sp0[0];
-    temp_r6->qUnk8.y = sp0[1];
-    temp_r2_2 = temp_r4->qWorldX - temp_r6->qWorld.x;
-    temp_r1_2 = temp_r4->qWorldY - temp_r6->qWorld.y;
+    sa2__sub_8085A9C(&sp0, 8U);
+    temp_r6->qUnk8.x = sp0.a;
+    temp_r6->qUnk8.y = sp0.b;
+    temp_r2_2 = p->qWorldX - temp_r6->qWorld.x;
+    temp_r1_2 = p->qWorldY - temp_r6->qWorld.y;
     temp_r6->unk24 = Sqrt(SQUARE(temp_r2_2) + SQUARE(temp_r1_2));
     temp_r6->unk1C = (temp_r6->unk24 >> 4);
     temp_r6->unk20 = 0;
@@ -1793,7 +1785,10 @@ void sub_807DA34(HyperEggRobo *boss, u8 param1)
         s2->oamFlags = 0x500;
     }
 }
+END_NONMATCH
 
+#if 01
+#else
 void sub_807DB00(HyperEggRobo *boss, u8 arg1, u8 arg2)
 {
     boss->pos144[arg1].qUnk8.x = 0;
