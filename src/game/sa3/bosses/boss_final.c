@@ -1520,7 +1520,7 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_
     s32 var_r0_2;
     s32 var_r0_3;
     u8 i;
-    
+
     memcpy(&sp0, &gUnknown_080D5CA4, sizeof(sp0));
 
     temp_r5 = &boss->unk194[arg1];

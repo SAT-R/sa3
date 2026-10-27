@@ -278,7 +278,7 @@ bool32 sub_807AB0C(GemerlAttacks *strc10C)
 }
 
 // (96.09%) https://decomp.me/scratch/Z06eQ
-NONMATCH("asm/non_matching/game/bosses/gatk__sub_807ABB8.inc", bool32 sub_807ABB8(GemerlAttacks *strc10C))
+NONMATCH("asm/non_matching/game/sa3/bosses/gatk__sub_807ABB8.inc", bool32 sub_807ABB8(GemerlAttacks *strc10C))
 {
     s32 temp_r1;
     s32 temp_r2;
@@ -304,7 +304,7 @@ NONMATCH("asm/non_matching/game/bosses/gatk__sub_807ABB8.inc", bool32 sub_807ABB
 END_NONMATCH
 
 // (98.69%) https://decomp.me/scratch/KfevY
-NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AC48.inc", bool32 sub_807AC48(GemerlAttacks *strc10C))
+NONMATCH("asm/non_matching/game/sa3/bosses/gatk__sub_807AC48.inc", bool32 sub_807AC48(GemerlAttacks *strc10C))
 {
     s16 var_r0;
     s32 temp_r2;
@@ -371,7 +371,7 @@ NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AC48.inc", bool32 sub_807AC4
 END_NONMATCH
 
 // (93.86%) https://decomp.me/scratch/P8qmG
-NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AD88.inc", bool32 sub_807AD88(GemerlAttacks *strc10C))
+NONMATCH("asm/non_matching/game/sa3/bosses/gatk__sub_807AD88.inc", bool32 sub_807AD88(GemerlAttacks *strc10C))
 {
     s16 sp0[10];
     s32 temp_r1;
@@ -402,7 +402,7 @@ NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AD88.inc", bool32 sub_807AD8
 END_NONMATCH
 
 // (92.36%) https://decomp.me/scratch/zZvFM
-NONMATCH("asm/non_matching/game/bosses/gatk__sub_807AE3C.inc", bool32 sub_807AE3C(GemerlAttacks *strc10C))
+NONMATCH("asm/non_matching/game/sa3/bosses/gatk__sub_807AE3C.inc", bool32 sub_807AE3C(GemerlAttacks *strc10C))
 {
     const GemerlFuncs *entry = &gUnknown_080D5B00[strc10C->stateIndex];
     bool32 flag = 0;
@@ -522,7 +522,7 @@ bool32 sub_807B064(GemerlAttacks *strc10C)
 }
 
 // (95.30%) https://decomp.me/scratch/qmZ5P
-NONMATCH("asm/non_matching/game/bosses/gatk__sub_807B10C.inc", bool32 sub_807B10C(GemerlAttacks *strc10C))
+NONMATCH("asm/non_matching/game/sa3/bosses/gatk__sub_807B10C.inc", bool32 sub_807B10C(GemerlAttacks *strc10C))
 {
     SpriteTransform *var_r2;
     u16 temp_r4;
