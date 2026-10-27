@@ -1094,7 +1094,7 @@ void Task_Guard_806FC2C(void)
 }
 
 // (81.29%) https://decomp.me/scratch/dowwf
-NONMATCH("asm/non_matching/game/bosses/boss_4__sub_806FE98.inc", void sub_806FE98(EggCube *boss))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_4__sub_806FE98.inc", void sub_806FE98(EggCube *boss))
 {
     s32 sp4;
     s32 sp8;

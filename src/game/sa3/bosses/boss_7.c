@@ -1605,7 +1605,7 @@ void Task_100_8076B58(void)
 }
 
 // (99.21%) https://decomp.me/scratch/CqvJ2
-NONMATCH("asm/non_matching/game/bosses/boss_7__sub_8076DD4.inc", void sub_8076DD4(EggGravity100 *strc100))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_7__sub_8076DD4.inc", void sub_8076DD4(EggGravity100 *strc100))
 {
     s32 sp0;
     s32 temp_r5_2;
@@ -1855,7 +1855,7 @@ void sub_8077238(Task *task_EggGravity100, u8 arg1, s32 arg2, s32 arg3)
 }
 
 // (72.91%) https://decomp.me/scratch/bXmet
-NONMATCH("asm/non_matching/game/bosses/boss_7__sub_80772F0.inc", void sub_80772F0(EggGravity100 *strc100, u8 pid))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_7__sub_80772F0.inc", void sub_80772F0(EggGravity100 *strc100, u8 pid))
 {
     s32 sp4;
     s32 sp8;
@@ -2339,7 +2339,7 @@ void sub_8077A3C(Something *arg0, s16 *arg1, s16 *arg2, u8 *vram, u8 *arg4)
 }
 
 // (80.28%) https://decomp.me/scratch/DCy2M
-NONMATCH("asm/non_matching/game/bosses/boss_7__Task_84_8077C08.inc", void Task_84_8077C08(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_7__Task_84_8077C08.inc", void Task_84_8077C08(void))
 {
 #ifndef NON_MATCHING
     register s32 var_r4 asm("r4");
@@ -2587,7 +2587,7 @@ void sub_8078070(EggGravity104 *strc104, Vec2_32 *pos)
 }
 
 // (98.57%) https://decomp.me/scratch/8NhQO
-NONMATCH("asm/non_matching/game/bosses/boss_7__sub_807813C.inc", void sub_807813C(EggGravity30 *strc30))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_7__sub_807813C.inc", void sub_807813C(EggGravity30 *strc30))
 {
 #ifndef NON_MATCHING
     register s32 worldX asm("r5");
@@ -3072,7 +3072,7 @@ void sub_8078B74(EggGravity30 *strc30)
 static inline s8 someFunc(s32 x, s32 y, u8 *r4) { return SA2_LABEL(sub_801F07C)(y, x, 0, 8, r4, SA2_LABEL(sub_801EE64)); }
 
 // (99.22%) https://decomp.me/scratch/s1tQ5
-NONMATCH("asm/non_matching/game/bosses/boss_7__sub_8078BAC.inc", s32 sub_8078BAC(EggGravity30 *strc30))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_7__sub_8078BAC.inc", s32 sub_8078BAC(EggGravity30 *strc30))
 {
     s8 temp_r0;
 #ifndef NON_MATCHING

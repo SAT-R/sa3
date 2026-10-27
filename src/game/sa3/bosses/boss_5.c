@@ -802,7 +802,7 @@ void sub_80725FC(EggChaserBoss *boss)
 }
 
 // (85.61%) https://decomp.me/scratch/thhCX
-NONMATCH("asm/non_matching/game/bosses/boss_5__sub_80728B4.inc", void sub_80728B4(EggChaserBoss *boss))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_5__sub_80728B4.inc", void sub_80728B4(EggChaserBoss *boss))
 {
     Player *p;
     Player *partner;

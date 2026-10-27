@@ -411,7 +411,7 @@ void Task_Boss_8073B5C(void)
 }
 
 // (85.35%) https://decomp.me/scratch/K1gBj
-NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073BE0.inc", void Task_Boss_8073BE0(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__Task_Boss_8073BE0.inc", void Task_Boss_8073BE0(void))
 {
     EggPinball *boss = TASK_DATA(gCurTask);
     Sprite *s = &boss->sprEggman;
@@ -488,7 +488,7 @@ void Task_Boss_8073CE4(void)
 }
 
 // (76.00%) https://decomp.me/scratch/ylfFk
-NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073D98.inc", void Task_Boss_8073D98(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__Task_Boss_8073D98.inc", void Task_Boss_8073D98(void))
 {
     EggPinball *boss = TASK_DATA(gCurTask);
     u16 *sp10;
@@ -556,7 +556,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073D98.inc", void Task
 END_NONMATCH
 
 // (83.56%)  https://decomp.me/scratch/6oonJ
-NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Boss_8073F4C.inc", void Task_Boss_8073F4C(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__Task_Boss_8073F4C.inc", void Task_Boss_8073F4C(void))
 {
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -640,7 +640,7 @@ void sub_80740CC(EggPinball *boss)
 }
 
 // (74.68%) https://decomp.me/scratch/aYLuZ
-NONMATCH("asm/non_matching/game/bosses/boss_6__sub_8074148.inc", void sub_8074148(EggPinball *boss))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__sub_8074148.inc", void sub_8074148(EggPinball *boss))
 {
     s32 sp0[2];
     s16 temp_r2;
@@ -815,7 +815,7 @@ void Task_Ball_807442C(void)
 }
 
 // (92.39%) https://decomp.me/scratch/reR6q
-NONMATCH("asm/non_matching/game/bosses/boss_6__sub_807467C.inc", void sub_807467C(EggPinballBall *ball, Player *inPlayer))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__sub_807467C.inc", void sub_807467C(EggPinballBall *ball, Player *inPlayer))
 {
     Sprite *temp_r7;
     s32 temp_r0_2;
@@ -897,7 +897,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__sub_807467C.inc", void sub_807467
 END_NONMATCH
 
 // (96.04%) https://decomp.me/scratch/L1LLD
-NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballOuterPlatform.inc",
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__CreateEggPinballOuterPlatform.inc",
          void CreateEggPinballOuterPlatform(s32 posX, s32 posY, EggPinball *boss, u8 param3))
 {
     Task *t = TaskCreate(Task_Platform_OuterPlat, sizeof(EggPinballPlatform), 0x2000U, 0U, TaskDestructor_EggPinballOuterPlatform);
@@ -935,7 +935,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_6__CreateEggPinballOuterPlatform.inc
 END_NONMATCH
 
 // (94.70%) https://decomp.me/scratch/KvtXM
-NONMATCH("asm/non_matching/game/bosses/boss_6__Task_Platform_OuterPlat.inc", void Task_Platform_OuterPlat(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_6__Task_Platform_OuterPlat.inc", void Task_Platform_OuterPlat(void))
 {
     EggPinballPlatform *platform = TASK_DATA(gCurTask);
     EggPinball *boss = platform->boss;

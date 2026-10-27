@@ -968,7 +968,7 @@ s32 sub_806B6C8(EggWheeler *boss)
 }
 
 // (83.85%) https://decomp.me/scratch/Dh15W
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806B788.inc", void sub_806B788(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806B788.inc", void sub_806B788(void))
 {
     s32 points[4];
     Player *p;
@@ -1416,7 +1416,7 @@ void sub_806C004(void)
 // TODO: agbcc behavior: functions' assembly random getting changed)
 //       Either this matches once all other functions do, or we need to split up the module
 // (100.00%) https://decomp.me/scratch/WJSVH
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C06C.inc", void sub_806C06C(Boss2Exit *strc))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C06C.inc", void sub_806C06C(Boss2Exit *strc))
 {
     s32 temp_r7;
     s32 temp_r8;
@@ -1474,7 +1474,7 @@ void sub_806C12C(void)
 }
 
 // (99.79%) https://decomp.me/scratch/USFGy
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C8(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C1C8.inc", void sub_806C1C8(void))
 {
     Vec2_32 sp10;
     Sprite *sprBody;
@@ -1551,7 +1551,7 @@ void sub_806C2F8()
 // TODO: agbcc behavior: functions' assembly random getting changed)
 //       Either this matches once all other functions do, or we need to split up the module
 // (100.00%) https://decomp.me/scratch/BFDSd
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C370(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C370.inc", void sub_806C370(void))
 {
     Vec2_32 sp10;
     Vec2_32 sp18;
@@ -1620,7 +1620,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C370.inc", void sub_806C37
 END_NONMATCH
 
 // (90.00%) https://decomp.me/scratch/8LnyE
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C4F8.inc", void sub_806C4F8(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C4F8.inc", void sub_806C4F8(void))
 {
     Sprite *temp_r4;
     s32 temp_r0;
@@ -1656,7 +1656,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C4F8.inc", void sub_806C4F
 END_NONMATCH
 
 // (81.96%) https://decomp.me/scratch/6YEoJ
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C5D4.inc", void sub_806C5D4(EggWheeler *boss))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C5D4.inc", void sub_806C5D4(EggWheeler *boss))
 {
     Unknown sp8;
     s32 sp10;
@@ -1699,7 +1699,7 @@ NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C5D4.inc", void sub_806C5D
 END_NONMATCH
 
 // (94.31%) https://decomp.me/scratch/BeEwS
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C6FC.inc", u32 sub_806C6FC(EggWheeler *boss))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C6FC.inc", u32 sub_806C6FC(EggWheeler *boss))
 {
     s32 temp_r0_3;
     s32 temp_r1;
@@ -1740,7 +1740,7 @@ END_NONMATCH
 // TODO: agbcc behavior: functions' assembly random getting changed)
 //       Either this matches once all other functions do, or we need to split up the module
 // (100.00%) https://decomp.me/scratch/tatV6
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B0(void))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806C7B0.inc", void sub_806C7B0(void))
 {
     Vec2_32 sp10;
     Sprite *temp_r4;
@@ -1873,7 +1873,7 @@ void sub_806CA28(EggWheeler *boss)
 }
 
 // (98.76%) https://decomp.me/scratch/7MGp4
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806CAA4.inc", s32 sub_806CAA4(Strc_806CAA4 *arg0))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806CAA4.inc", s32 sub_806CAA4(Strc_806CAA4 *arg0))
 {
     Sprite *temp_r8;
     u8 var_sl;
@@ -2156,7 +2156,7 @@ bool32 sub_806CF70(EggWheeler *boss)
 }
 
 // (87.12%) https://decomp.me/scratch/kYVcQ
-NONMATCH("asm/non_matching/game/bosses/boss_2__sub_806CFD4.inc", bool32 sub_806CFD4(EggWheeler *boss))
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_2__sub_806CFD4.inc", bool32 sub_806CFD4(EggWheeler *boss))
 {
     s32 y = (((s32)boss->unk4 >> 8) - gCamera.y);
 

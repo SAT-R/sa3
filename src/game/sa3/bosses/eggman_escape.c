@@ -167,15 +167,15 @@ void sub_8078E34(s32 *param0, VoidFn fn)
 // TODO: This *might* be an inline function?
 //       It is unused, but there's similar structure below it.
 //       But usually an implementation of an inlined function appears later in OG code
-NONMATCH("asm/non_matching/game/bosses/eggesc__GemerlUnusedRecursiveFunc.inc", void GemerlUnusedRecursiveFunc()) { }
+NONMATCH("asm/non_matching/game/sa3/bosses/eggesc__GemerlUnusedRecursiveFunc.inc", void GemerlUnusedRecursiveFunc()) { }
 END_NONMATCH
 
 // Very similar to sub_8079468
-NONMATCH("asm/non_matching/game/bosses/eggesc__sub_8079194.inc", void sub_8079194(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
+NONMATCH("asm/non_matching/game/sa3/bosses/eggesc__sub_8079194.inc", void sub_8079194(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
 END_NONMATCH
 
 // Very similar to sub_8079194
-NONMATCH("asm/non_matching/game/bosses/eggesc__sub_8079468.inc", void sub_8079468(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
+NONMATCH("asm/non_matching/game/sa3/bosses/eggesc__sub_8079468.inc", void sub_8079468(u8 *arg0, u8 arg1, u8 arg2, u8 *arg3)) { }
 END_NONMATCH
 
 struct Task *sub_8079758(u8 stateIndex, s16 x, s16 y, s16 arg3, u16 angle, u8 arg5, s16 arg6, u8 *vram)

@@ -1507,56 +1507,49 @@ block_7:
     return var_r5;
 }
 
-#if 01
-#else
-bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1)
+// (90.45%) https://decomp.me/scratch/O3P3r
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807D41C.inc", bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1))
 {
+    bool32 var_r7 = 0;
     u8 sp0[4];
     s32 sp8;
     HyberEggRoboStrc194 *temp_r4;
     HyberEggRoboStrc194 *temp_r5;
     s32 var_ip;
-    s32 temp_r1;
     s32 temp_r6;
-    s32 temp_r6_2;
     s32 var_r0_2;
     s32 var_r0_3;
-    s32 var_r7;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
     u8 i;
+    
+    memcpy(&sp0, &gUnknown_080D5CA4, sizeof(sp0));
 
-    var_r7 = 0;
-    memcpy(&sp0, &gUnknown_080D5CA4, 4);
     temp_r5 = &boss->unk194[arg1];
     for (i = sp0[arg1]; i < 3; i++) {
         if (i != arg1) {
             temp_r4 = &boss->unk194[i];
             if (temp_r4->unk18 != 0) {
                 u32 len;
-                temp_r1 = temp_r5->qWorld.x - temp_r4->qWorld.x;
+                var_ip = temp_r5->qWorld.x - temp_r4->qWorld.x;
                 temp_r6 = temp_r5->qWorld.y - temp_r4->qWorld.y;
-                len = Sqrt(SQUARE(temp_r1) + SQUARE(temp_r6));
+                len = Sqrt(SQUARE(var_ip) + SQUARE(temp_r6));
                 if (I(len) < 20u) {
                     s32 qDX = (temp_r5->qWorld.x - temp_r4->qWorld.x);
                     s32 qDY = (temp_r5->qWorld.y - temp_r4->qWorld.y);
 
-                    temp_r5->unk16 = sa2__sub_8004418(I(qDY), I(qDX));
+                    temp_r5->unk16 = SA2_LABEL(sub_8004418)(I(qDY), I(qDX));
                     temp_r4->unk16 = (temp_r5->unk16 + 0x200) & 0x3FF;
-                    temp_r0_2 = temp_r5->qWorld.x + temp_r4->qWorld.x;
-                    var_ip = (s32)(temp_r0_2 + (temp_r0_2 >> 0x1F)) >> 1;
-                    temp_r0_4 = temp_r5->qWorld.y + temp_r4->qWorld.y;
-                    temp_r6_2 = (s32)(temp_r0_4 + (temp_r0_4 >> 0x1F)) >> 1;
-                    var_r0_2 = (COS(temp_r5->unk16) * 11) / 0x40;
-                    var_r0_3 = (SIN(temp_r5->unk16) * 11) / 0x40;
+                    var_ip = (temp_r5->qWorld.x + temp_r4->qWorld.x) / 2;
+                    temp_r6 = (temp_r5->qWorld.y + temp_r4->qWorld.y) / 2;
+                    var_r0_2 = ((COS(temp_r5->unk16) * 11) / 0x40);
+                    var_r0_3 = ((SIN(temp_r5->unk16) * 11) / 0x40);
                     temp_r5->qWorld.x = var_ip + (var_r0_2);
-                    temp_r5->qWorld.y = temp_r6_2 + (var_r0_3);
+                    temp_r5->qWorld.y = temp_r6 + (var_r0_3);
                     temp_r5->unk8 = (COS(temp_r5->unk16) * temp_r5->unk10) / 0x4000;
                     temp_r5->unkC = (SIN(temp_r5->unk16) * temp_r5->unk10) / 0x4000;
                     var_r0_2 = (COS(temp_r4->unk16) * 11) / 0x40;
                     var_r0_3 = (SIN(temp_r4->unk16) * 11) / 0x40;
                     temp_r4->qWorld.x = var_r0_2 + var_ip;
-                    temp_r4->qWorld.y = var_r0_3 + temp_r6_2;
+                    temp_r4->qWorld.y = var_r0_3 + temp_r6;
                     temp_r4->unk8 = (COS(temp_r4->unk16) * temp_r4->unk10) / 0x4000;
                     temp_r4->unkC = (SIN(temp_r4->unk16) * temp_r4->unk10) / 0x4000;
                     var_r7 = 1;
@@ -1564,12 +1557,17 @@ bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1)
             }
         }
     }
+
     if (var_r7 != 0) {
         m4aSongNumStart(SE_568);
     }
+
     return var_r7;
 }
+END_NONMATCH
 
+#if 01
+#else
 u8 sub_807D610(HyperEggRobo *boss, s32 arg1, u8 arg2)
 {
     HyperEggRobo *sp0;
