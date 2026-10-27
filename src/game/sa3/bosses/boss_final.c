@@ -1506,7 +1506,6 @@ bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1)
     s32 sp8;
     HyberEggRoboStrc194 *temp_r4;
     HyberEggRoboStrc194 *temp_r5;
-    register s32 var_ip asm("ip");
     s32 temp_r6;
     s32 var_r0_2;
     s32 var_r0_3;
@@ -1521,6 +1520,7 @@ bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1)
             if (temp_r4->unk18 != 0) {
                 u32 len;
 #ifndef NON_MATCHING
+                register s32 var_ip asm("ip");
                 register s32 r1 asm("r1") = temp_r5->qWorld.x;
                 r1 -= temp_r4->qWorld.x;
                 var_ip = r1;
