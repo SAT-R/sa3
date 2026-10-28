@@ -2501,11 +2501,9 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
     }
 }
 
-#if 01
-#else
 void sub_807E99C(HyperEggRobo *boss, u8 param1)
 {
-    s32 sp0[3];
+    SomeMatrix sp0;
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
     SpriteTransform *tf;
@@ -2522,30 +2520,25 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
     switch (temp_r5->unk16) { /* switch 1; irregular */
         case 0:
             if (param1 == 0) {
-                var_r1 = (s32)boss->qCockpitWorldPos.x >> 8;
-                var_r0 = ((s32)temp_r5->qWorld.x >> 8) + 0x20;
+                sp0.a = (I(boss->qCockpitWorldPos.x) - 32) - I(temp_r5->qWorld.x);
             } else {
-                var_r1 = (s32)boss->qCockpitWorldPos.x >> 8;
-                var_r0 = ((s32)temp_r5->qWorld.x >> 8) - 0x20;
+                sp0.a = (I(boss->qCockpitWorldPos.x) + 32) - I(temp_r5->qWorld.x);
             }
-            temp_r0_2 = (sp0[0] & 0xFFFF0000) | (u16)(var_r1 - var_r0);
-            sp0[0] = temp_r0_2;
-            sp0[0] = (u16)temp_r0_2 | ((((s32)boss->qCockpitWorldPos.y >> 8) - ((s32)temp_r5->qWorld.y >> 8)) << 0x10);
-            sp0[2] &= 0xFFFF0000;
-            sa2__sub_8085A9C((void *)sp0, 8U);
-            temp_r5->qUnk8.x = sp0[0] * 2;
-            temp_r5->qUnk8.y = sp0[1] * 2;
+            sp0.b = (I(boss->qCockpitWorldPos.y) - I(temp_r5->qWorld.y));
+            sp0.c = 0;
+            SA2_LABEL(sub_8085A9C)(&sp0, 8U);
+            temp_r5->qUnk8.x = sp0.a * 2;
+            temp_r5->qUnk8.y = sp0.b * 2;
             temp_r5->unk16 = 10;
             break;
         case 10:
-            temp_r3_2 = temp_r5->qWorld.x + temp_r5->qUnk8.x;
-            temp_r5->qWorld.x = temp_r3_2;
+            temp_r5->qWorld.x += temp_r5->qUnk8.x;
             temp_r5->qWorld.y += temp_r5->qUnk8.y;
             if (param1 == 0) {
-                if ((s32)(boss->qCockpitWorldPos.x + 0xFFFFE000) <= temp_r3_2) {
+                if ((s32)(boss->qCockpitWorldPos.x - Q(32)) <= temp_r5->qWorld.x) {
                     temp_r5->unk16 = 0x14;
                 }
-            } else if ((s32)(boss->qCockpitWorldPos.x + 0x2000) >= temp_r3_2) {
+            } else if ((s32)(boss->qCockpitWorldPos.x + Q(32)) >= temp_r5->qWorld.x) {
                 temp_r5->unk16 = 0x14;
             }
             break;
@@ -2593,6 +2586,8 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
     }
 }
 
+#if 01
+#else
 void sub_807EBB8(HyperEggRobo *boss, u8 param1)
 {
     SomeMatrix sp0;
