@@ -2117,40 +2117,19 @@ void sub_807DE20(HyperEggRobo *boss, u8 param1)
     }
 }
 
-#if 01
-#else
 void sub_807C5D0(void);
 void sub_807E214(HyperEggRobo *boss, u8 param1)
 {
     Player *p;
     s32 sp4;
     Sprite sp8;
-    HyberEggRoboStrc144 *temp_r4;
-    Player *temp_r5;
-    Player *temp_r5_2;
-    s16 temp_r0_2;
-    s16 temp_r0_5;
-    s16 temp_r0_6;
-    s32 temp_r0;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
+    Player *player;
     s32 temp_r1_6;
     s32 temp_r3;
-    s32 temp_r7;
-    s32 var_r0_3;
-    s32 var_r0_4;
     s32 var_r0_5;
     s32 var_r7;
-    u16 temp_r1;
-    u16 var_r0;
-    u16 var_r0_2;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    u8 temp_r6;
-    HyberEggRoboStrc144 *temp_r1_2;
+    HyberEggRoboStrc144 *temp_r4 = &boss->pos144[param1];
 
-    temp_r4 = &boss->pos144[param1];
     var_r7 = 0;
     switch (temp_r4->unk16) {
         case 0: {
@@ -2173,19 +2152,23 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
                     temp_r4->qUnk8.y = +Q(2);
                 }
             }
-            temp_r4->qWorld.y += temp_r4->qUnk8.y;
+
+            var_r7 = temp_r4->qWorld.y + temp_r4->qUnk8.y;
+            temp_r4->qWorld.y = var_r7;
+
             if (--temp_r4->unk14 == 0) {
                 if (param1 == 0) {
                     temp_r4->qUnk8.x = +Q(4);
                 } else {
                     temp_r4->qUnk8.x = -Q(4);
                 }
-                temp_r4->unk16 = 0x64U;
+                temp_r4->unk16 = 100;
                 temp_r4->unk13 = 0;
                 return;
             }
             if ((temp_r4->unk14 % 10) == 0) {
-                if (temp_r4->qWorld.y > boss->players[0]->qWorldY - Q(16)) {
+                player = boss->players[0];
+                if (temp_r4->qWorld.y > player->qWorldY - Q(16)) {
                     temp_r4->unk1C = -0x40;
                 } else {
                     temp_r4->unk1C = +0x40;
@@ -2198,81 +2181,76 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
             temp_r1_6 = temp_r3 + temp_r4->qUnk8.x;
             temp_r4->qWorld.x = temp_r1_6;
             if (param1 == 0) {
-                if (temp_r1_6 >= 0x66800) {
-                    temp_r4->qWorld.x = 0x66800;
+                if (temp_r1_6 >= Q(1640)) {
+                    temp_r4->qWorld.x = Q(1640);
                     var_r7 = 1;
                 }
             } else {
-                var_r0_5 = 0x68800;
-                if (temp_r1_6 <= 0x68800) {
-                    temp_r4->qWorld.x = 0x68800;
+                var_r0_5 = Q(1672);
+                if (temp_r1_6 <= Q(1672)) {
+                    temp_r4->qWorld.x = Q(1672);
                     var_r7 = 1;
                 }
-                //                p = NULL;
             }
             temp_r3 -= temp_r4->qWorld.x;
             sub_807C244(&boss->spr278[param1], temp_r4->qWorld.x, temp_r4->qWorld.y, temp_r3, 0);
-            if (var_r7 == 0) {
-                return;
-            }
-            temp_r4->unk16 = 0xC8U;
-            if (param1 == 0) {
-                return;
-            }
-            sub_807C5D0();
-            sp8.hitboxes[0].index = 0;
-            sp8.hitboxes[0].b.left = -16;
-            sp8.hitboxes[0].b.top = -16;
-            sp8.hitboxes[0].b.right = 16;
-            sp8.hitboxes[0].b.bottom = 30;
-            temp_r5_2 = boss->players[0];
-            if (temp_r5_2->framesInvulnerable == 0) {
-                p = temp_r5_2;
-                if (sub_8020700(&sp8, I(boss->qWorld.x), I(temp_r4->qWorld.y), 0, 0, 0) != 0) {
-                    temp_r4->unk1B = 1;
-                    sub_807FB7C(0xA0U);
-                    sub_8081A10(temp_r5_2);
-                    temp_r5_2->qWorldX = boss->qWorld.x;
-                    temp_r5_2->qWorldY = temp_r4->qWorld.y;
+            if (var_r7 != 0) {
+                temp_r4->unk16 = 200;
+                if (param1 != 0) {
+                    sub_807C5D0();
+                    sp8.hitboxes[0].index = 0;
+                    sp8.hitboxes[0].b.left = -16;
+                    sp8.hitboxes[0].b.top = -16;
+                    sp8.hitboxes[0].b.right = 16;
+                    sp8.hitboxes[0].b.bottom = 30;
+                    player = boss->players[0];
+                    if (player->framesInvulnerable == 0) {
+                        p = player;
+                        if (sub_8020700(&sp8, I(boss->qWorld.x), I(temp_r4->qWorld.y), 0, player, 0) != 0) {
+                            temp_r4->unk1B = 1;
+                            sub_807FB7C(0xA0U);
+                            sub_8081A10(player);
+                            player->qWorldX = boss->qWorld.x;
+                            player->qWorldY = temp_r4->qWorld.y;
+                        }
+                    }
+                    m4aSongNumStart(SE_571);
                 }
             }
-            m4aSongNumStart(SE_571);
         } break;
 
         case 200: {
-            if (param1 == 0) {
-                return;
+            if (param1 != 0) {
+                HyberEggRoboStrc144 *temp_r1_2 = temp_r4 - 1;
+                if (temp_r1_2->unk16 == 0xC8) {
+                    if (temp_r4->unk1B != 0) {
+                        temp_r1_2->unk16 = temp_r4->unk16 = 300;
+                    } else {
+                        temp_r1_2->unk16 = temp_r4->unk16 = 500;
+                    }
+                    temp_r4->qUnk8.x = -temp_r4->qUnk8.x;
+                    temp_r1_2->qUnk8.x = -temp_r1_2->qUnk8.x;
+                }
             }
-
-            temp_r1_2 = temp_r4 - 1;
-            if (temp_r1_2->unk16 != 0xC8) {
-                return;
-            }
-            if (temp_r4->unk1B != 0) {
-                temp_r1_2->unk16 = temp_r4->unk16 = 0x12C;
-            } else {
-                temp_r1_2->unk16 = temp_r4->unk16 = 0x1F4;
-            }
-            temp_r4->qUnk8.x = -temp_r4->qUnk8.x;
-            temp_r1_2->qUnk8.x = -temp_r1_2->qUnk8.x;
         } break;
 
         case 300: {
-            temp_r4->qUnk8.y = -0x800;
+            temp_r4->qUnk8.y = -Q(8);
             temp_r4->unk1B = 4;
-            temp_r4->unk16 = 0x136U;
+            temp_r4->unk16 = 310;
         } break;
 
         case 310: {
             temp_r4->qWorld.y += temp_r4->qUnk8.y;
-            temp_r4->qUnk8.y += 0x80;
+            temp_r4->qUnk8.y += Q(0.50);
             if ((param1 != 0) && (temp_r4->unk1B != 0)) {
-                boss->players[0]->qWorldY = temp_r4->qWorld.y;
+                player = boss->players[0];
+                player->qWorldY = temp_r4->qWorld.y;
             }
-            if ((temp_r4->qWorld.y >= 0xB000) && (temp_r4->qUnk8.y >= 0)) {
-                temp_r4->qWorld.y = 0xB000;
+            if ((temp_r4->qWorld.y >= Q(176)) && (temp_r4->qUnk8.y >= 0)) {
+                temp_r4->qWorld.y = Q(176);
                 temp_r4->unk14 = 0x1E;
-                temp_r4->unk16 = 0x140U;
+                temp_r4->unk16 = 320;
                 if (param1 != 0) {
                     m4aSongNumStart(SE_572);
                     CreateScreenShake(0x800U, 0x20U, 0U, -1U, 0x91);
@@ -2288,49 +2266,51 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
 
                 if (temp_r4->unk1B <= 1U) {
                     if (param1 != 0) {
-                        temp_r5 = boss->players[0];
+                        player = boss->players[0];
                         if (temp_r4->unk1B != 0) {
-                            if ((temp_r5->framesInvulnerable > 0) || (temp_r5->framesInvincible > 0)) {
-                                temp_r5->qCamOffsetY = 0;
-                                temp_r5->moveState &= ~0x20;
-                                temp_r5->sprColliding = NULL;
-                                SetPlayerCallback(temp_r5, Player_8008CD0);
-                                temp_r5->framesInvulnerable = 0x78;
+                            if ((player->framesInvulnerable > 0) || (player->framesInvincible > 0)) {
+                                player->qCamOffsetY = 0;
+                                player->moveState &= ~MOVESTATE_COLLIDING_ENT;
+                                player->sprColliding = NULL;
+                                SetPlayerCallback(player, Player_8008CD0);
+                                player->framesInvulnerable = TIME(0, 2);
                             } else {
-                                Player_8014550(temp_r5);
+                                Player_8014550(player);
                             }
                         }
                     }
-                    temp_r4->unk16 = 0x1F4U;
+                    temp_r4->unk16 = 500;
                     temp_r4->unk13 = 1;
-                    return;
+                } else {
+                    temp_r4->qUnk8.y = -Q(10);
+                    temp_r4->unk16 = 310;
                 }
-                temp_r4->qUnk8.y = -0xA00;
-                temp_r4->unk16 = 0x136U;
             }
         } break;
 
         case 500: {
             temp_r4->qWorld.x += temp_r4->qUnk8.x;
             if (param1 == 0) {
-                if (temp_r4->qWorld.x <= 0x61400) {
-                    temp_r4->qWorld.x = 0x61400;
+                if (temp_r4->qWorld.x <= Q(1556)) {
+                    temp_r4->qWorld.x = Q(1556);
                     var_r7 = 1;
                 }
             } else {
-                if (temp_r4->qWorld.x >= 0x6DC00) {
-                    temp_r4->qWorld.x = 0x6DC00;
+                if (temp_r4->qWorld.x >= Q(1756)) {
+                    temp_r4->qWorld.x = Q(1756);
                     var_r7 = 1;
                 }
             }
 
             if (var_r7 != 0) {
-                temp_r4->unk16 = 0x3E8;
+                temp_r4->unk16 = 1000;
             }
         } break;
     }
 }
 
+#if 01
+#else
 void sub_807E54C(HyperEggRobo *boss, u8 param1)
 {
     SomeMatrix sp0;
