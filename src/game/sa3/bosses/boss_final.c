@@ -2117,7 +2117,6 @@ void sub_807DE20(HyperEggRobo *boss, u8 param1)
     }
 }
 
-void sub_807C5D0(void);
 void sub_807E214(HyperEggRobo *boss, u8 param1)
 {
     Player *p;
@@ -2309,165 +2308,115 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
     }
 }
 
-#if 01
-#else
 void sub_807E54C(HyperEggRobo *boss, u8 param1)
 {
     SomeMatrix sp0;
-    HyberEggRoboStrc144 *temp_r5;
-    Sprite *var_r2;
-    Sprite *var_r2_2;
-    SpriteTransform *temp_r3;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_5;
-    s32 temp_r0_4;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
+    Sprite *s;
     s32 var_r0;
-    s32 var_r0_10;
-    s32 var_r0_12;
-    s32 var_r0_14;
     s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    s32 var_r0_6;
-    s32 var_r0_7;
-    s32 var_r0_8;
-    s32 var_r0_9;
-    s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r4;
-    u16 temp_r0_6;
-    u16 temp_r1_3;
-    u16 temp_r2;
-    u16 temp_r3_2;
-    u16 temp_r3_3;
-    temp_r5 = &boss->pos144[param1];
-    temp_r3 = &boss->tf340[param1];
-    var_r4 = 0;
-    temp_r2 = temp_r5->unk16;
-    switch (temp_r2) {
-        case 0x0:
+    HyberEggRoboStrc144 *temp_r5 = &boss->pos144[param1];
+    SpriteTransform *tf = &boss->tf340[param1];
+    s32 var_r4 = 0;
+    switch (temp_r5->unk16) {
+        case 0x0: {
             switch (param1) {
                 case 0: {
-                    Sprite *s = &boss->spr278[0];
+                    s = &boss->spr278[0];
                     s->anim = sBossFinalAnimsHandsLeft[1][0];
                     s->variant = sBossFinalAnimsHandsLeft[1][1];
                 } break;
                 case 1: {
-                    Sprite *s = &boss->spr278[1];
+                    s = &boss->spr278[1];
                     s->anim = sBossFinalAnimsHandsRight[1][0];
                     s->variant = sBossFinalAnimsHandsRight[1][1];
                 } break;
             }
             if (param1 == 0) {
-                var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
-                var_r1_2 = 0x630;
+                sp0.a = (0x630 - I(temp_r5->qWorld.x));
             } else {
-                var_r0_14 = (s32)temp_r5->qWorld.x >> 8;
-                var_r1_2 = 0x6C0;
+                sp0.a = (0x6C0 - I(temp_r5->qWorld.x));
             }
-            sp0.a = (var_r1_2 - var_r0_14);
-            sp0.b = (0x60 - ((s32)temp_r5->qWorld.y >> 8));
+            sp0.b = (0x60 - I(temp_r5->qWorld.y));
             sp0.c = 0;
-            sa2__sub_8085A9C((void *)&sp0, 8U);
+            SA2_LABEL(sub_8085A9C)((void *)&sp0, 8U);
             temp_r5->qUnk8.x = sp0.a * 2;
             temp_r5->qUnk8.y = sp0.b * 2;
             temp_r5->unk10 = 0x300U;
-            temp_r5->unk16 = 0xAU;
-            break;
-        case 10: /* switch 1 */
+            temp_r5->unk16 = 10;
+        } break;
+
+        case 10: {
             temp_r5->qWorld.x += temp_r5->qUnk8.x;
-            temp_r0_8 = temp_r5->qWorld.y + temp_r5->qUnk8.y;
-            temp_r5->qWorld.y = temp_r0_8;
-            if (temp_r0_8 <= 0x6000) {
+            temp_r5->qWorld.y += temp_r5->qUnk8.y;
+            if (temp_r5->qWorld.y <= Q(96)) {
                 temp_r5->unk13 = 0;
-                temp_r5->unk14 = (s16)temp_r2;
-                temp_r5->unk16 = 0x14U;
+                temp_r5->unk14 = 10;
+                temp_r5->unk16 = 20;
             }
             if (param1 == 0) {
-                if (temp_r3->rotation == 0x100) {
+                if (tf->rotation == 0x100) {
                     return;
                 }
-                var_r0_12 = temp_r3->rotation + 0x10;
-                temp_r3->rotation = var_r0_12 & 0x3FF;
+                tf->rotation = (tf->rotation + 0x10) & 0x3FF;
                 break;
+            } else {
+                if (tf->rotation == 0x300) {
+                    return;
+                }
+                tf->rotation = (tf->rotation - 0x10) & 0x3FF;
             }
-            temp_r1_3 = temp_r3->rotation;
-            if (temp_r1_3 == 0x300) {
-                return;
+        } break;
+
+        case 20: {
+            if (--temp_r5->unk14 == 0) {
+                temp_r5->unk14 = 0;
+                temp_r5->unk16 = 0x64U;
             }
-            var_r0_12 = temp_r1_3 - 0x10;
-            temp_r3->rotation = var_r0_12 & 0x3FF;
-            break;
-        case 20: /* switch 1 */
-            temp_r0_2 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) != 0) {
-                return;
-            }
-            temp_r5->unk14 = 0;
-            temp_r5->unk16 = 0x64U;
-            return;
-        case 100:
+        } break;
+
+        case 100: {
             if (param1 == 0) {
-                temp_r3_2 = temp_r5->unk10;
-                var_r0 = (COS(temp_r3_2) * 24) / 0x40;
-                var_r0_2 = (SIN(temp_r3_2) * 24) / 0x40;
+                var_r0 = (COS(temp_r5->unk10) * 24) / 0x40;
+                var_r0_2 = (SIN(temp_r5->unk10) * 24) / 0x40;
                 temp_r5->qWorld.x = (0x63000 + var_r0);
                 temp_r5->qWorld.y = (0x7800 + var_r0_2);
-                var_r0_3 = temp_r5->unk10 - 0x10;
+                temp_r5->unk10 = ((temp_r5->unk10 - 0x10) & 0x3FF);
             } else {
-                temp_r3_3 = temp_r5->unk10;
-                var_r0_4 = (COS(temp_r3_3) * 24) / 0x40;
-                var_r0_5 = (SIN(temp_r3_3) * 24) / 0x40;
-                temp_r5->qWorld.x = (var_r0_4) + 0x6C000;
-                temp_r5->qWorld.y = (var_r0_5) + 0x7800;
-                var_r0_3 = temp_r5->unk10 + 0x10;
+                var_r0 = (COS(temp_r5->unk10) * 24) / 0x40;
+                var_r0_2 = (SIN(temp_r5->unk10) * 24) / 0x40;
+                temp_r5->qWorld.x = Q(1728) + (var_r0);
+                temp_r5->qWorld.y = Q(120) + (var_r0_2);
+                temp_r5->unk10 = ((temp_r5->unk10 + 0x10) & 0x3FF);
             }
-            temp_r5->unk10 = (u16)(var_r0_3 & 0x3FF);
             temp_r5->unk14 += 0x10;
-            if (temp_r5->unk14 <= 0x07FFu) {
-                return;
+            if (temp_r5->unk14 >= 0x0800) {
+                temp_r5->unk16 = 110;
             }
-        block_93:
-            temp_r5->unk16 = 0x6EU;
+        } break;
+        case 110:
             break;
-        case 200: /* switch 1 */
-            temp_r0 = (u16)temp_r5->unk14 - 1;
-            temp_r5->unk14 = temp_r0;
-            if ((temp_r0 << 0x10) != 0) {
-                return;
+        case 200:
+            if (--temp_r5->unk14 == 0) {
+                m4aSongNumStart(0x23DU);
+                temp_r5->unk16 = 210;
             }
-            m4aSongNumStart(0x23DU);
-            temp_r5->unk16 = 210;
             break;
         case 210:
-            temp_r1_2 = temp_r5->unk20;
-            if (temp_r1_2 < (s32)temp_r5->unk24) {
-                temp_r2_3 = temp_r5->unk1C;
-                temp_r5->unk20 = (s32)(temp_r1_2 + temp_r2_3);
-                temp_r5->qWorld.x += (temp_r2_3 * temp_r5->qUnk8.x) / 0x100;
-                temp_r5->qWorld.y += (temp_r2_3 * temp_r5->qUnk8.y) / 0x100;
+            if (temp_r5->unk20 < temp_r5->unk24) {
+                temp_r5->unk20 += temp_r5->unk1C;
+                temp_r5->qWorld.x += (temp_r5->qUnk8.x * temp_r5->unk1C) / 0x100;
+                temp_r5->qWorld.y += (temp_r5->qUnk8.y * temp_r5->unk1C) / 0x100;
             } else {
                 var_r4 = 1;
             }
-            if (temp_r3->qScaleX <= 0x1FF) {
-                temp_r3->qScaleX += 0x10;
-                temp_r3->qScaleY += 0x10;
+            if (tf->qScaleX < 0x200) {
+                tf->qScaleX += 0x10;
+                tf->qScaleY += 0x10;
             } else {
                 var_r4 |= 2;
             }
-            if ((s32)temp_r3->qScaleX > 0x180) {
-                sub_807F334(&boss->spr278[param1], temp_r3, 2U, param1);
+            if ((s32)tf->qScaleX > 0x180) {
+                sub_807F334(&boss->spr278[param1], tf, 2U, param1);
                 temp_r5->unk13 = 1;
             }
             if (var_r4 != 3) {
@@ -2478,42 +2427,37 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             break;
 
         case 220: {
-            if (--temp_r5->unk14 != 0) {
-                return;
+            if (--temp_r5->unk14 == 0) {
+                temp_r5->unk16 = 230;
+                temp_r5->unk13 = 0;
             }
-            temp_r5->unk16 = 230;
-            temp_r5->unk13 = 0;
         } break;
 
         case 230:
             if (temp_r5->unk20 > 0) {
                 temp_r5->unk20 -= temp_r5->unk1C;
-                temp_r2_2 = -temp_r5->unk1C;
-                temp_r5->qWorld.x += (temp_r2_2 * temp_r5->qUnk8.x) / 0x100;
-                temp_r5->qWorld.y += (temp_r2_2 * temp_r5->qUnk8.y) / 0x100;
+                temp_r5->qWorld.x += (temp_r5->qUnk8.x * -temp_r5->unk1C) / 0x100;
+                temp_r5->qWorld.y += (temp_r5->qUnk8.y * -temp_r5->unk1C) / 0x100;
             } else {
                 var_r4 = 1;
             }
-            if (temp_r3->qScaleX > 0x100) {
-                temp_r3->qScaleX -= 0x10;
-                temp_r3->qScaleY -= 0x10;
+            if (tf->qScaleX > 0x100) {
+                tf->qScaleX -= 0x10;
+                tf->qScaleY -= 0x10;
             } else {
                 var_r4 |= 2;
             }
             if (var_r4 == 3) {
-                temp_r5->unk16 = 0x6EU;
+                temp_r5->unk16 = 110;
             }
             break;
 
         case 300:
             if (param1 == 0) {
-                var_r0_10 = (s32)temp_r5->qWorld.x >> 8;
-                var_r1 = 0x614;
+                sp0.a = (s16)(0x614 - I(temp_r5->qWorld.x));
             } else {
-                var_r0_10 = (s32)temp_r5->qWorld.x >> 8;
-                var_r1 = 0x6DC;
+                sp0.a = (s16)(0x6DC - I(temp_r5->qWorld.x));
             }
-            sp0.a = (s16)(var_r1 - var_r0_10);
             sp0.b = (s16)(0x98 - I(temp_r5->qWorld.y));
             sp0.c = 0;
             sa2__sub_8085A9C(&sp0, 8U);
@@ -2521,14 +2465,14 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
             temp_r5->qUnk8.y = sp0.b * 2;
             switch (param1) {
                 case 0:
-                    var_r2 = &boss->spr278[0];
-                    var_r2->anim = sBossFinalAnimsHandsLeft[2][0];
-                    var_r2->variant = sBossFinalAnimsHandsLeft[2][1];
+                    s = &boss->spr278[0];
+                    s->anim = sBossFinalAnimsHandsLeft[3][0];
+                    s->variant = sBossFinalAnimsHandsLeft[3][1];
                     break;
                 case 1:
-                    var_r2 = &boss->spr278[1];
-                    var_r2->anim = sBossFinalAnimsHandsRight[2][0];
-                    var_r2->variant = sBossFinalAnimsHandsRight[2][1];
+                    s = &boss->spr278[1];
+                    s->anim = sBossFinalAnimsHandsRight[3][0];
+                    s->variant = sBossFinalAnimsHandsRight[3][1];
                     break;
             }
             temp_r5->unk13 = 1;
@@ -2542,21 +2486,23 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
                 if (temp_r5->qWorld.x <= 0x61400) {
                     temp_r5->unk16 = 0x3E8U;
                 }
-                if (temp_r3->rotation != 0) {
-                    temp_r3->rotation = (temp_r3->rotation - 0x10) & 0x3FF;
+                if (tf->rotation != 0) {
+                    tf->rotation = (tf->rotation - 0x10) & 0x3FF;
                 }
             } else {
                 if (temp_r5->qWorld.x >= 0x6DC00) {
                     temp_r5->unk16 = 0x3E8U;
                 }
-                if (temp_r3->rotation != 0) {
-                    temp_r3->rotation = (temp_r3->rotation + 0x10) & 0x3FF;
+                if (tf->rotation != 0) {
+                    tf->rotation = (tf->rotation + 0x10) & 0x3FF;
                 }
             }
         } break;
     }
 }
 
+#if 01
+#else
 void sub_807E99C(HyperEggRobo *boss, u8 param1)
 {
     s32 sp0[3];
