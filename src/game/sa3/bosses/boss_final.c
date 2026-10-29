@@ -2712,27 +2712,28 @@ void sub_807ED8C(HyperEggRobo *boss)
     u16 temp_r0_5;
     u16 temp_r0_9;
     u16 temp_r3;
-    u32 temp_r0_4;
     u32 temp_r0_7;
     u8 temp_r0_14;
     u8 var_r1;
     u8 var_r1_2;
     u8 var_r1_3;
     u8 var_r3;
+    s32 cosVal, sinVal;
 
     switch (boss->unk16) {
-        case 0x0:
-            if (boss->unk1 > 4) {
+        case 0x0: {
+            s32 unk1 = boss->unk1;
+            if (unk1 > 4) {
                 return;
             }
-            if (boss->unk1 < 1) {
+            if (unk1 < 1) {
                 return;
             }
             if (sub_807F228(boss) == 0) {
                 return;
             }
             sub_807F434(boss);
-            break;
+        } break;
         case 0x1: {
             if (--boss->unk14 == 0) {
                 sub_807BE58(boss, 1U);
@@ -2740,19 +2741,19 @@ void sub_807ED8C(HyperEggRobo *boss)
                     s = &boss->spr228;
                     s->anim = gUnknown_080D5C38[0][0];
                     s->variant = gUnknown_080D5C38[0][1];
-                    boss->unk16 = (u16)0;
-                    return;
-                }
-                if (gStageData.gameMode == 5) {
-                    if (gStageData.playerIndex != 0) {
-                        boss->unk16 = 0x6E;
-                        return;
+                    boss->unk16 = 0;
+                } else {
+                    if (gStageData.gameMode == 5) {
+                        if (gStageData.playerIndex != 0) {
+                            boss->unk16 = 110;
+                            return;
+                        }
+                        sub_8027674(1U, gStageData.levelTimer);
                     }
-                    sub_8027674(1U, gStageData.levelTimer);
-                }
 
-                sub_8081C08(boss);
-                boss->unk16 = 0x64;
+                    sub_8081C08(boss);
+                    boss->unk16 = 100;
+                }
             }
         } break;
         case 100: {
@@ -2788,13 +2789,16 @@ void sub_807ED8C(HyperEggRobo *boss)
             }
         } break;
 
+        case 110:
+            break;
+
         case 200:
             if (1 & boss->unk14) {
                 temp_r7 = PseudoRandom32() % 1024u;
-                temp_r0_4 = PseudoRandom32() % 48U;
+                temp_r0_7 = PseudoRandom32() % 48U;
                 {
-                    s32 cosVal = (COS(temp_r7) * temp_r0_4) >> 6;
-                    s32 sinVal = (SIN(temp_r7) * temp_r0_4) >> 6;
+                    cosVal = (COS(temp_r7) * temp_r0_7) >> 6;
+                    sinVal = (SIN(temp_r7) * temp_r0_7) >> 6;
                     sub_8079758(7U, I(boss->qWorld.x + cosVal), (I(boss->qWorld.y + sinVal) - 48), 0x300, (u16)temp_r7, 0x1EU, 0,
                                 boss->vram18);
                 }
@@ -2806,7 +2810,7 @@ void sub_807ED8C(HyperEggRobo *boss)
             if (boss->unk12E != 0) {
                 return;
             }
-            boss->unk16 = 0xD2;
+            boss->unk16 = 210;
             boss->unk14 = 0x3C;
             sub_807FB7C(0xAU);
             break;
@@ -2817,7 +2821,7 @@ void sub_807ED8C(HyperEggRobo *boss)
 
             if (--boss->unk14 == 0) {
                 boss->unk14 = 0xB4;
-                boss->unk16 = 0xDC;
+                boss->unk16 = 220;
                 m4aSongNumStart(0x221U);
                 gMusicManagerState.fadeoutSpeed = Q(1.25);
             }
@@ -2832,8 +2836,8 @@ void sub_807ED8C(HyperEggRobo *boss)
                 temp_r0_7 = PseudoRandom32() % 48U;
                 {
                     s32 val = ((temp_r0_7 & 3) << 8);
-                    s32 cosVal = (COS(temp_r7) * temp_r0_7) >> 6;
-                    s32 sinVal = (SIN(temp_r7) * temp_r0_7) >> 6;
+                    cosVal = (COS(temp_r7) * temp_r0_7) >> 6;
+                    sinVal = (SIN(temp_r7) * temp_r0_7) >> 6;
                     sub_8079758(7U, I(boss->qWorld.x + cosVal), I(boss->qWorld.y + (sinVal)) - 96, 0x400 | val, (u16)temp_r7, 0x1EU, 0,
                                 boss->vram18);
                 }
@@ -3111,7 +3115,7 @@ void Task_358_807F568(void)
                 gBldRegs.bldAlpha = 0;
                 gBldRegs.bldY = 0;
                 boss->unk8 = 0x4B0;
-                boss->unkC = 0x3F2;
+                boss->unkC = 1010;
             }
             break;
 
@@ -3144,7 +3148,7 @@ void Task_358_807F568(void)
                 gBldRegs.bldAlpha = 0;
                 gBldRegs.bldY = 0;
                 boss->unk8 = 0x2E0;
-                boss->unkC = 0x7DA;
+                boss->unkC = 2010;
             }
         } break;
 
@@ -3182,7 +3186,7 @@ void Task_358_807F568(void)
                 boss->unk8 = 0x78;
                 boss->unkA = 2;
                 boss->unkE = 0;
-                boss->unkC = 0x7F3;
+                boss->unkC = 2035;
             }
 
             var_r4_2 = 120 - (SIN(boss->unkA) / 0x200);
@@ -3282,9 +3286,14 @@ void Task_358_807F568(void)
             boss->unkC = 0x91A;
             sub_807FB7C(0x1EU);
         } break;
+
+        case 2330: {
+
+        } break;
     }
 }
 
+void sub_807C5D0();
 void sub_807FB7C(u8 arg0)
 {
     Player *player = &gPlayers[PLAYER_1];
@@ -3450,8 +3459,7 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
     switch (emeraldsCut->unk12) {
         case 0: {
             emeraldsCut->unk10 = 0x172U;
-            var_r0 = 0xA;
-            emeraldsCut->unk12 = var_r0;
+            emeraldsCut->unk12 = 10;
         } break;
 
         case 10: {
@@ -3467,16 +3475,15 @@ void sub_1C0_807FEB4(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 emeraldsCut->unk16 |= 0x10;
             }
             if (--emeraldsCut->unk10 == 0) {
-                emeraldsCut->unk12 = 0x12C;
+                emeraldsCut->unk12 = 300;
             }
         } break;
 
         case 300: {
-            temp_r2_2 = I(gPlayers[PLAYER_1].qWorldX);
-            if (temp_r2_2 > 0x898) {
+            if (I(gPlayers[PLAYER_1].qWorldX) > 0x898) {
                 emeraldsCut->unk14 |= 0x20;
             }
-            if ((temp_r2_2 > 0x8CB) && (gPlayers[PLAYER_1].moveState & 1)) {
+            if ((I(gPlayers[PLAYER_1].qWorldX) > 0x8CB) && (gPlayers[PLAYER_1].moveState & 1)) {
                 emeraldsCut->unk10 = 0x3CU;
                 gPlayers[PLAYER_1].qSpeedGround = 0;
                 gPlayers[PLAYER_1].qSpeedAirX = 0;
@@ -3697,7 +3704,6 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 player->charFlags.anim0 = 0x12A;
                 emeraldsCut->unk10 = 0x1EU;
                 emeraldsCut->unk12 = 240;
-                break;
             }
             break;
         case 240:
@@ -3715,7 +3721,6 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             player->qWorldY += player->qSpeedAirY;
             if (I(player->qWorldY) < -0x10) {
                 emeraldsCut->unk12 = 0x12C;
-                break;
             }
             break;
         case 500: {
@@ -3733,18 +3738,18 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
             }
         } break;
 
-        case 520:
+        case 520: {
             emeraldsCut->unk14 |= 0x10;
-            if (I(player->qWorldX) < (gCamera.x + DISPLAY_CENTER_X)) {
-                return;
+            if (I(player->qWorldX) >= (gCamera.x + DISPLAY_CENTER_X)) {
+                sub_807FB7C(0x64U);
+                player->qWorldX = (gCamera.x + 0x78) << 8;
+                emeraldsCut->unk10 = 0x3CU;
+                emeraldsCut->unk12 = 530;
+                m4aSongNumStart(0x73U);
             }
-            sub_807FB7C(0x64U);
-            player->qWorldX = (gCamera.x + 0x78) << 8;
-            emeraldsCut->unk10 = 0x3CU;
-            emeraldsCut->unk12 = 530;
-            m4aSongNumStart(0x73U);
-            break;
-        case 530:
+        } break;
+
+        case 530: {
             if (--emeraldsCut->unk10 == 0) {
                 player->charFlags.anim0 = 0x126;
                 emeraldsCut->unk10 = 0x1E0U;
@@ -3752,15 +3757,16 @@ void sub_1C0_808007C(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
                 emeraldsCut->unkC = 0x64;
                 m4aSongNumStart(0x3DU);
             }
-            break;
-        case 600:
+        } break;
+
+        case 600: {
             if (--emeraldsCut->unk10 == 0) {
                 player->moveState |= 1;
                 emeraldsCut->unk10 = 0x78U;
                 emeraldsCut->unk12 = 230;
                 break;
             }
-            break;
+        } break;
     }
 }
 
@@ -3785,7 +3791,6 @@ void InitChaosEmeraldSprites(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
         emeraldsCut->unk1C[var_r5].unk12 = 0;
         var_r2->tiles = var_r6;
         var_r2->oamFlags = 0x280;
-        temp_r1_2 = var_r5 * 6;
         var_r2->anim = sBossExtraAnimsChaosEmeralds[var_r5][0];
         var_r2->variant = sBossExtraAnimsChaosEmeralds[var_r5][1];
         var_r2->qAnimDelay = 0;
@@ -3836,7 +3841,7 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
     Sprite *s;
     Player *player = &gPlayers[PLAYER_1];
 
-    switch (arg0->unkC) { /* irregular */
+    switch (arg0->unkC) {
         case 0: {
         } break;
         case 10: {
@@ -3971,10 +3976,10 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
         if (var_r4 != 2) {
             var_r3 = var_r4 * 8;
             sceneEggman->unk14[var_r4].qWorld.x = Q(gCamera.x + DISPLAY_CENTER_X);
-            sceneEggman->unk14[var_r4].qWorld.y = Q(gCamera.y + 0xB4);
+            sceneEggman->unk14[var_r4].qWorld.y = Q(gCamera.y + 180);
         } else {
-            sceneEggman->unk14[2].qWorld.x = (gCamera.x + 0x8C) << 8;
-            sceneEggman->unk14[2].qWorld.y = (gCamera.y + 0xD4) << 8;
+            sceneEggman->unk14[2].qWorld.x = Q(gCamera.x + 140);
+            sceneEggman->unk14[2].qWorld.y = Q(gCamera.y + 212);
             var_r3 = 0x10;
         }
         temp_r1_2 = var_r3 - var_r4;
@@ -4057,11 +4062,10 @@ void Task_11C_8080AD4(void)
 {
     AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(gCurTask);
     SpriteTransform *tf = &sceneEggman->tf;
-    u16 temp_r1;
     u8 var_r6;
 
-    temp_r1 = sceneEggman->unk14[0].unk18;
-    if (((temp_r1 == 0xC8) && (sceneEggman->unk14[2].unk18 == 0xC8)) || ((temp_r1 == 0x7D0) && (sceneEggman->unk14[2].unk18 == temp_r1))) {
+    if (((sceneEggman->unk14[0].unk18 == 0xC8) && (sceneEggman->unk14[2].unk18 == 0xC8))
+        || ((sceneEggman->unk14[0].unk18 == 0x7D0) && (sceneEggman->unk14[2].unk18 == sceneEggman->unk14[0].unk18))) {
         TaskDestroy(gCurTask);
         return;
     }
@@ -4144,31 +4148,6 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
         }
     } else if ((s32)temp_r1 <= 0x41A) {
         switch (temp_r1) { /* switch 1; irregular */
-            case 50: /* switch 1 */
-                arg0->unk14[0].qWorld.x = subStrc14->unk8 + (*gUnknown_080D5C80[subStrc14->unk16] << 8);
-                subStrc14->qWorld.y = (s32)(subStrc14->unkC + Q(gUnknown_080D5C80[subStrc14->unk16][1]));
-                subStrc14->unk16 = (u16)((subStrc14->unk16 + 1) & 7);
-                temp_r0_2 = subStrc14->unk14 - 1;
-                subStrc14->unk14 = temp_r0_2;
-                if ((temp_r0_2 << 0x10) != 0) {
-
-                } else {
-                    subStrc14->unkC = 0x80;
-                    subStrc14->unk18 = 0x64U;
-                    m4aSongNumStart(SE_545);
-                }
-                break;
-            case 20: /* switch 1 */
-                temp_r0_3 = subStrc14->qWorld.y + subStrc14->unkC;
-                subStrc14->qWorld.y = temp_r0_3;
-                if ((s32)(temp_r0_3 >> 8) > 0x6E) {
-
-                } else {
-                    subStrc14->unk14 = 0x28U;
-                    var_r0 = 0x1E;
-                    goto block_148;
-                }
-                break;
             case 0: /* switch 1 */
                 subStrc14->unk14 = 0x4BU;
                 var_r0 = 0xA;
@@ -4183,6 +4162,17 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
                     subStrc14->unk8 = (s32)temp_r0_5;
                     subStrc14->unkC = -0x100;
                     var_r0 = 0x14;
+                    goto block_148;
+                }
+                break;
+            case 20: /* switch 1 */
+                temp_r0_3 = subStrc14->qWorld.y + subStrc14->unkC;
+                subStrc14->qWorld.y = temp_r0_3;
+                if ((s32)(temp_r0_3 >> 8) > 0x6E) {
+
+                } else {
+                    subStrc14->unk14 = 0x28U;
+                    var_r0 = 0x1E;
                     goto block_148;
                 }
                 break;
@@ -4221,6 +4211,20 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
 
                 } else {
                     subStrc14->unk8 = 0x180;
+                }
+                break;
+            case 50: /* switch 1 */
+                arg0->unk14[0].qWorld.x = subStrc14->unk8 + (*gUnknown_080D5C80[subStrc14->unk16] << 8);
+                subStrc14->qWorld.y = (s32)(subStrc14->unkC + Q(gUnknown_080D5C80[subStrc14->unk16][1]));
+                subStrc14->unk16 = (u16)((subStrc14->unk16 + 1) & 7);
+                temp_r0_2 = subStrc14->unk14 - 1;
+                subStrc14->unk14 = temp_r0_2;
+                if ((temp_r0_2 << 0x10) != 0) {
+
+                } else {
+                    subStrc14->unkC = 0x80;
+                    subStrc14->unk18 = 0x64U;
+                    m4aSongNumStart(SE_545);
                 }
                 break;
             default: /* switch 1 */
