@@ -122,13 +122,6 @@ void sub_8054E38() { }
 void sub_8055CA8() { }
 void sub_8055D44() { }
 void sub_807B6C8() { }
-void sub_807DCD8() { }
-void sub_807DE20() { }
-void sub_807E214() { }
-void sub_807E54C() { }
-void sub_807E99C() { }
-void sub_807EBB8() { }
-void sub_807ECFC() { }
 void sub_807FEB4() { }
 void sub_808007C() { }
 void sub_8081B18() { }
@@ -186,5 +179,4 @@ PlayerSpriteInfo gUnknown_03001B00 = {};
 
 void sub_8081C80() { }
 
-void sub_807F4F0() { }
 void sub_8085588() { }

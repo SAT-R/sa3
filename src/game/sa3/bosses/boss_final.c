@@ -99,14 +99,13 @@ typedef struct {
 // TODO: Might be identical to HyberEggRoboStrc194
 typedef struct {
     /* 0x00 */ Vec2_32 qWorld;
-    /* 0x14 */ s32 unk8;
-    /* 0x14 */ s32 unkC;
-    /* 0x14 */ u16 unk10; // TODO: type
-    /* 0x14 */ u16 unk12; // TODO: type
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10;
     /* 0x14 */ s16 unk14;
-    /* 0x14 */ u16 unk16;
-    /* 0x14 */ u16 unk18;
-    /* 0x14 */ s16 unk1A;
+    /* 0x16 */ u16 unk16;
+    /* 0x18 */ u16 unk18;
+    /* 0x1A */ s16 unk1A;
 } EggmanEscapeStrc14; /* 0x1C */
 
 // TODO: Probably identical to HyberEggRoboPlatform?
@@ -1526,7 +1525,7 @@ bool32 sub_807D41C(HyperEggRobo *boss, u8 arg1)
                 var_ip = r1;
                 asm("" ::"r"(r1));
 #else
-                var_ip = temp_r5->qWorld.x - temp_r4->qWorld.x;
+                s32 var_ip = temp_r5->qWorld.x - temp_r4->qWorld.x;
 #endif
                 temp_r6 = temp_r5->qWorld.y - temp_r4->qWorld.y;
                 len = Sqrt(SQUARE(var_ip) + SQUARE(temp_r6));
@@ -3907,27 +3906,13 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
     }
 }
 
-#if 01
-#else
 Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
 {
-    s32 *sp8;
-    s32 *spC;
-    s32 sp10;
-    EggmanEscapeStrc14 *sp14;
     EggmanEscapeStrc14 *temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r3;
-    u8 *vram;
-    u8 *temp_r0_2;
-    u8 *var_r0_2;
-    u8 var_r0;
     u8 var_r4;
-    u8 var_r4_2;
-    void *temp_r1_4;
     Task *t
         = TaskCreate(Task_11C_8080AD4, sizeof(AltarEmeraldCutsceneEggmanEscape), 0x2100U, 0U, TaskDestructor_AltarEmeraldPostBossCutscene);
+    u8 *vram;
 
     AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(t);
     sceneEggman->initialArg0 = arg0;
@@ -3940,27 +3925,24 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
         sceneEggman->sprites[var_r4].tiles = NULL;
     }
 
-    for (var_r4 = 0; var_r4 < 3; var_r4++) {
+    for (var_r4 = 0; var_r4 < ARRAY_COUNT(sceneEggman->unk14); var_r4++) {
         if (var_r4 != 2) {
-            var_r3 = var_r4 * 8;
             sceneEggman->unk14[var_r4].qWorld.x = Q(gCamera.x + DISPLAY_CENTER_X);
             sceneEggman->unk14[var_r4].qWorld.y = Q(gCamera.y + 180);
         } else {
-            sceneEggman->unk14[2].qWorld.x = Q(gCamera.x + 140);
-            sceneEggman->unk14[2].qWorld.y = Q(gCamera.y + 212);
-            var_r3 = 0x10;
+            sceneEggman->unk14[var_r4].qWorld.x = Q(gCamera.x + 140);
+            sceneEggman->unk14[var_r4].qWorld.y = Q(gCamera.y + 212);
         }
-        temp_r1_2 = var_r3 - var_r4;
-        sceneEggman->unk14[temp_r1_2].unk8 = 0;
-        sceneEggman->unk14[temp_r1_2].unkC = 0;
-        sceneEggman->unk14[temp_r1_2].unk10 = 0;
-        sceneEggman->unk14[temp_r1_2].unk14 = 1;
-        sceneEggman->unk14[temp_r1_2].unk16 = 0;
+        sceneEggman->unk14[var_r4].unk8 = 0;
+        sceneEggman->unk14[var_r4].unkC = 0;
+        sceneEggman->unk14[var_r4].unk10 = 0;
+        sceneEggman->unk14[var_r4].unk14 = 1;
+        sceneEggman->unk14[var_r4].unk16 = 0;
 
         if (sceneEggman->initialArg0 != 0) {
-            sceneEggman->unk14[temp_r1_2].unk18 = 0x3E8;
+            sceneEggman->unk14[var_r4].unk18 = 1000;
         } else {
-            sceneEggman->unk14[temp_r1_2].unk18 = 0;
+            sceneEggman->unk14[var_r4].unk18 = 0;
         }
     }
 
@@ -3984,10 +3966,11 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
         s->x = 0;
         s->y = 0;
         s->frameFlags = 0x1000;
+        vram += 0x800;
     }
     {
         Sprite *s = (Sprite *)&sceneEggman->sprites[1];
-        s->tiles = vram + 0x800;
+        s->tiles = vram;
         s->oamFlags = 0x580;
         s->anim = ANIM_NEO_EGGMOBILE;
         s->variant = 0;
@@ -4026,6 +4009,8 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
     return t;
 }
 
+#if 01
+#else
 void Task_11C_8080AD4(void)
 {
     AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(gCurTask);
