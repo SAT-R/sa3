@@ -176,7 +176,6 @@ SECTIONS {
         src/game/sa3/bosses/eggman_escape.o(.text);
         src/game/sa3/bosses/gemerl_attacks.o(.text);
         src/game/sa3/bosses/boss_final.o(.text);
-        asm/boss_final.o(.text);
         asm/boss_extra.o(.text);
         src/game/sa3/main_menu.o(.text);
         src/game/sa3/title_screen.o(.text);

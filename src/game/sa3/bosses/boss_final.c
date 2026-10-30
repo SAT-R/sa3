@@ -4,6 +4,7 @@
 #include "multi_sio_stuff.h" // sub_8027674
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "game/bosses.h" // sub_8079FFC
 #include "game/sa3/bosses/eggman_escape.h" // sub_807A4A8
 #include "game/shared/stage/music_manager.h" // sub_80299D4
 #include "game/shared/stage/player.h"
@@ -76,7 +77,7 @@ typedef struct {
     /* 0x018 */ u8 *vram18;
     /* 0x018 */ u8 filler1C[0x4];
     /* 0x020 */ Player *players[NUM_SINGLE_PLAYER_CHARS];
-    /* 0x028 */ Task *task28;
+    /* 0x028 */ Task *taskPostBossCutscene;
     /* 0x02C */ HyberEggRoboPlatform unk2C[BOSS_F_PLATFORM_COUNT];
     /* 0x07C */ Sprite sprPlatforms[BOSS_F_PLATFORM_COUNT];
     /* 0x11C */ Vec2_32 qWorld;
@@ -211,7 +212,7 @@ void PlayerCB_808186C(Player *p);
 bool32 MetExtraBossEnableConditions(void);
 void sub_808178C(u8);
 void sub_8002508(void);
-void sub_8081DF4(Task *task28);
+void sub_8081DF4(Task *taskPostBossCutscene);
 void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *emeraldsCut);
 void Task_11C_8080AD4(void);
 void TaskDestructor_AltarEmeraldPostBossCutscene(Task *t);
@@ -3136,7 +3137,7 @@ void Task_358_807F568(void)
             break;
         case 2000:
             sub_807FB7C(1U);
-            boss->task28 = CreateAltarEmeraldPostBossCutscene(1U);
+            boss->taskPostBossCutscene = CreateAltarEmeraldPostBossCutscene(1U);
             sub_808178C(1U);
             sub_807FB7C(2U);
             gCamera.maxX += 480;
@@ -3261,7 +3262,7 @@ void Task_358_807F568(void)
         } break;
         case 2060: {
             if (--boss->unk8 == 0) {
-                sub_8081DF4(boss->task28);
+                sub_8081DF4(boss->taskPostBossCutscene);
                 m4aSongNumStart(SE_EXTRA_BOSS_578);
                 boss->unkC = 2070;
             }
@@ -4047,8 +4048,6 @@ void Task_11C_8080AD4(void)
     }
 }
 
-#if 01
-#else
 void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
 {
     s32 temp_r1_5;
@@ -4150,8 +4149,6 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
                 subStrc14_0->unk18 = 200;
                 break;
             }
-            break;
-        case 200:
             break;
         case 1000:
             subStrc14_0->unk14 = 75;
@@ -4325,7 +4322,7 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
     EggmanEscapeStrc14 *unk14 = &sceneEggman->unk14[2];
     Sprite *sprGemerl = (Sprite *)&sceneEggman->sprites[2];
 
-    switch (unk14->unk18) { /* irregular */
+    switch (unk14->unk18) {
         case 0:
             unk14->unk14 = 0x4B;
             unk14->unk18 = 10;
@@ -4359,7 +4356,7 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             break;
         case 40:
             unk14->qWorld.x += unk14->unk8;
-            if (I(unk14->qWorld.x) >= 0x81A) {
+            if (I(unk14->qWorld.x) >= 2074) {
                 unk14->unk8 = 0x100;
                 unk14->unk18 = 50;
             }
@@ -4375,7 +4372,7 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
             break;
         case 60:
             unk14->qWorld.y += unk14->unkC;
-            if (I(unk14->qWorld.y) >= 0xB4) {
+            if (I(unk14->qWorld.y) >= 180) {
                 sprGemerl->anim = ANIM_GEMERL_DASH;
                 sprGemerl->variant = 1;
                 sprGemerl->prevVariant = -1;
@@ -4540,13 +4537,13 @@ void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
         case 1110:
             unk14->qWorld.y += unk14->unkC;
             if (gBldRegs.bldY == 0x10) {
-                unk14->unk18 = 0x460;
+                unk14->unk18 = 1120;
             }
             break;
-        case 0x460:
+        case 1120:
             VramFree(sceneEggman->vram10);
             sceneEggman->vram10 = NULL;
-            unk14->unk18 = 0x7D0;
+            unk14->unk18 = 2000;
             break;
     }
 }
@@ -4891,4 +4888,3 @@ void TaskDestructor_AltarEmeraldPostBossCutscene(Task *t)
 #endif
     }
 }
-#endif // outer

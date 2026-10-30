@@ -124,7 +124,7 @@ void sub_8055D44() { }
 void sub_807B6C8() { }
 void sub_807FEB4() { }
 void sub_808007C() { }
-void sub_8081B18() { }
+void sub_8081DF4() { }
 void sub_8083BE4() { }
 void sub_8083F8C() { }
 void sub_808439C() { }
@@ -132,6 +132,7 @@ void sub_808491C() { }
 void sub_8084B2C() { }
 void sub_8084BEC() { }
 void sub_8084C50() { }
+void sub_8086D64() { }
 void sub_80870B0() { }
 void sub_8087B80() { }
 void sub_8088440() { }
