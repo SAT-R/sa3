@@ -3795,42 +3795,14 @@ void InitChaosEmeraldSprites(AltarEmeraldCutsceneSuperSonic *emeraldsCut)
     }
 }
 
-#if 01
-#else
 void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
 {
     s32 *sp0;
     Sprite *var_r4_2;
-    s16 var_r0_6;
-    s32 *temp_r0_5;
-    s32 *temp_r2;
-    s32 *temp_r2_3;
-    s32 *temp_r4;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2_2;
-    s32 temp_r2_4;
-    s32 temp_r3;
-    s32 var_r0;
     s32 var_r0_2;
     s32 var_r0_3;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    s32 var_r7;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 var_r7_2;
+    u16 var_r7;
     u8 var_r5;
-    u8 var_r5_2;
-    u8 var_r5_3;
-    u8 var_r5_4;
-    u8 var_r5_5;
-    u8 var_r5_6;
-    u8 var_r5_7;
     u8 var_r6;
     Sprite *s;
     Player *player = &gPlayers[PLAYER_1];
@@ -3856,7 +3828,7 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
                 } else {
                     arg0->unk1C[var_r5].qWorld.x += arg0->unk1C[var_r5].unk8;
                     arg0->unk1C[var_r5].unkC += 0x2A;
-                    arg0->unk1C[var_r5].qWorld.y += temp_r1_4;
+                    arg0->unk1C[var_r5].qWorld.y += arg0->unk1C[var_r5].unkC;
                 }
             }
 
@@ -3867,7 +3839,7 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
             break;
         case 30:
             if (--arg0->unkE == 0) {
-                for (var_r5 = 0; var_r5 < 7; var_r5++) {
+                for (var_r5 = 0; var_r5 < ARRAY_COUNT(arg0->unk1C); var_r5++) {
                     arg0->unk1C[var_r5].unkC = gUnknown_080D5CD4[var_r5].y / 8;
                 }
                 arg0->unkC = 40;
@@ -3885,23 +3857,23 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
             break;
         case 1000:
             break;
-        case 100:
+        case 100: {
             arg0->unk2 = 0;
             arg0->unk8 = 0x7800;
             arg0->unk4 = arg0->unk8 * 4;
             arg0->unk1C[0].unk8 = Q(gCamera.x + 120);
             arg0->unk1C[0].unkC = Q(gCamera.y + 104);
-            for (var_r5 = 0, var_r7 = 0; var_r5 < 7; var_r5++) {
+            for (var_r5 = 0, var_r7 = 0; var_r5 < ARRAY_COUNT(arg0->unk1C); var_r5++) {
                 var_r0_2 = (COS(var_r7) * arg0->unk4) / 0x4000;
                 var_r0_3 = (SIN(var_r7) * arg0->unk8) / 0x4000;
 
-                arg0->unk1C[var_r5].qWorld.x = (var_r0_2) + arg0->unk1C[0].unk8;
-                arg0->unk1C[var_r5].qWorld.y = (var_r0_3) + arg0->unk1C[0].unkC;
+                arg0->unk1C[var_r5].qWorld.x = (var_r0_2 + arg0->unk1C[0].unk8);
+                arg0->unk1C[var_r5].qWorld.y = (var_r0_3 + arg0->unk1C[0].unkC);
                 var_r7 = (var_r7 + 146) & 0x3FF;
             }
             arg0->unk1 = 1;
             arg0->unkC = 110;
-            break;
+        } break;
         case 110:
             arg0->unk2 = (arg0->unk2 - 8) & 0x3FF;
             arg0->unk8 -= Q(0.25);
@@ -3909,18 +3881,18 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
                 arg0->unk8 = Q(8);
             }
             arg0->unk4 = arg0->unk8 * 4;
-            s = arg0->sprEmeralds;
-            for (var_r5 = 0, var_r7_2 = arg0->unk2; var_r5 < 7; var_r5++, s++) {
-                var_r0_4 = (COS(var_r7_2) * arg0->unk4) / 0x4000;
-                var_r0_5 = (SIN(var_r7_2) * arg0->unk8) / 0x4000;
-                arg0->unk1C[var_r5].qWorld.x = (var_r0_4) + arg0->unk1C[0].unk8;
-                arg0->unk1C[var_r5].qWorld.y = (var_r0_5) + arg0->unk1C[0].unkC;
-                if ((u32)var_r7_2 < 0x200U) {
-                    s->oamFlags = SPRITE_OAM_ORDER(8);
+            var_r4_2 = arg0->sprEmeralds;
+            for (var_r5 = 0, var_r7 = arg0->unk2; var_r5 < ARRAY_COUNT(arg0->unk1C); var_r5++, var_r4_2++) {
+                var_r0_2 = (COS(var_r7) * arg0->unk4) / 0x4000;
+                var_r0_3 = (SIN(var_r7) * arg0->unk8) / 0x4000;
+                arg0->unk1C[var_r5].qWorld.x = var_r0_2 + arg0->unk1C[0].unk8;
+                arg0->unk1C[var_r5].qWorld.y = var_r0_3 + arg0->unk1C[0].unkC;
+                if ((u32)var_r7 < 0x200U) {
+                    var_r4_2->oamFlags = SPRITE_OAM_ORDER(8);
                 } else {
-                    s->oamFlags = SPRITE_OAM_ORDER(19);
+                    var_r4_2->oamFlags = SPRITE_OAM_ORDER(19);
                 }
-                var_r7_2 = (var_r7_2 + 0x92) & 0x3FF;
+                var_r7 = (var_r7 + 0x92) & 0x3FF;
             }
             break;
     }
@@ -3935,6 +3907,8 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
     }
 }
 
+#if 01
+#else
 Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
 {
     s32 *sp8;
