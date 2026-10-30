@@ -103,7 +103,7 @@ typedef struct {
     /* 0x14 */ s32 unkC;
     /* 0x14 */ u16 unk10; // TODO: type
     /* 0x14 */ u16 unk12; // TODO: type
-    /* 0x14 */ u16 unk14;
+    /* 0x14 */ s16 unk14;
     /* 0x14 */ u16 unk16;
     /* 0x14 */ u16 unk18;
     /* 0x14 */ s16 unk1A;
@@ -3862,7 +3862,7 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
 
             if (var_r6 == 7) {
                 arg0->unkE = 0xB4U;
-                arg0->unkC = 0x1E;
+                arg0->unkC = 30;
             }
             break;
         case 30:
@@ -3874,47 +3874,47 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
             }
             break;
         case 40:
-            for (var_r5 = 0; var_r5 < 7; var_r5++) {
+            for (var_r5 = 0; var_r5 < ARRAY_COUNT(arg0->unk1C); var_r5++) {
                 arg0->unk1C[var_r5].qWorld.y += arg0->unk1C[var_r5].unkC;
             }
 
-            if (gBldRegs.bldY != 0x10) {
-
-            } else {
+            if (gBldRegs.bldY == 0x10) {
                 arg0->unk1 = 0;
-                arg0->unkC = 0x3E8;
+                arg0->unkC = 1000;
             }
+            break;
+        case 1000:
             break;
         case 100:
             arg0->unk2 = 0;
             arg0->unk8 = 0x7800;
-            arg0->unk4 = 0x1E000;
+            arg0->unk4 = arg0->unk8 * 4;
             arg0->unk1C[0].unk8 = Q(gCamera.x + 120);
             arg0->unk1C[0].unkC = Q(gCamera.y + 104);
             for (var_r5 = 0, var_r7 = 0; var_r5 < 7; var_r5++) {
                 var_r0_2 = (COS(var_r7) * arg0->unk4) / 0x4000;
                 var_r0_3 = (SIN(var_r7) * arg0->unk8) / 0x4000;
 
-                arg0->unk1C[var_r5].qWorld.x = (var_r0_2 >> 14) + arg0->unk1C[0].unk8;
-                arg0->unk1C[var_r5].qWorld.y = (var_r0_3 >> 14) + arg0->unk1C[0].unkC;
-                var_r7 = (var_r7 + 0x92) & 0x3FF;
+                arg0->unk1C[var_r5].qWorld.x = (var_r0_2) + arg0->unk1C[0].unk8;
+                arg0->unk1C[var_r5].qWorld.y = (var_r0_3) + arg0->unk1C[0].unkC;
+                var_r7 = (var_r7 + 146) & 0x3FF;
             }
             arg0->unk1 = 1;
             arg0->unkC = 110;
             break;
         case 110:
             arg0->unk2 = (arg0->unk2 - 8) & 0x3FF;
-            arg0->unk8 -= 0x40;
+            arg0->unk8 -= Q(0.25);
             if (I(arg0->unk8) <= 8) {
-                arg0->unk8 = 0x800;
+                arg0->unk8 = Q(8);
             }
             arg0->unk4 = arg0->unk8 * 4;
             s = arg0->sprEmeralds;
             for (var_r5 = 0, var_r7_2 = arg0->unk2; var_r5 < 7; var_r5++, s++) {
                 var_r0_4 = (COS(var_r7_2) * arg0->unk4) / 0x4000;
                 var_r0_5 = (SIN(var_r7_2) * arg0->unk8) / 0x4000;
-                arg0->unk1C[var_r5].qWorld.x = (var_r0_4 >> 0xE) + arg0->unk1C[0].unk8;
-                arg0->unk1C[var_r5].qWorld.y = (var_r0_5 >> 0xE) + arg0->unk1C[0].unkC;
+                arg0->unk1C[var_r5].qWorld.x = (var_r0_4) + arg0->unk1C[0].unk8;
+                arg0->unk1C[var_r5].qWorld.y = (var_r0_5) + arg0->unk1C[0].unkC;
                 if ((u32)var_r7_2 < 0x200U) {
                     s->oamFlags = SPRITE_OAM_ORDER(8);
                 } else {
@@ -4088,678 +4088,502 @@ void Task_11C_8080AD4(void)
 
 void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
 {
-    s16 temp_r0_5;
-    s16 temp_r0_9;
-    s16 temp_r1_2;
-    s16 temp_r1_6;
-    s16 var_r0_3;
-    s32 temp_r0;
-    s32 temp_r0_11;
-    s32 temp_r0_12;
-    s32 temp_r0_14;
-    s32 temp_r0_15;
-    s32 temp_r0_16;
-    s32 temp_r0_22;
-    s32 temp_r0_3;
-    s32 temp_r0_7;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
     s32 temp_r1_5;
-    s32 temp_r1_7;
     s32 temp_r3_2;
-    u16 temp_r0_10;
-    u16 temp_r0_13;
-    u16 temp_r0_17;
-    u16 temp_r0_18;
-    u16 temp_r0_19;
-    u16 temp_r0_20;
-    u16 temp_r0_21;
-    u16 temp_r0_2;
-    u16 temp_r0_4;
-    u16 temp_r0_6;
-    u16 temp_r0_8;
-    u16 temp_r1;
-    u16 temp_r1_8;
     u16 var_r0;
-    u16 var_r0_2;
-    u16 var_r0_4;
     u16 var_r2;
-    Sprite *temp_r3;
-    Sprite *temp_r7;
-    EggmanEscapeStrc14 *subStrc14 = arg0->unk14;
+    EggmanEscapeStrc14 *subStrc14_0 = &arg0->unk14[0];
+    EggmanEscapeStrc14 *subStrc14_1 = &arg0->unk14[1];
+    Sprite *temp_r7 = (Sprite *)&arg0->sprites[0];
+    Sprite *temp_r3 = (Sprite *)&arg0->sprites[1];
 
-    temp_r7 = (Sprite *)&arg0->sprites[0];
-    temp_r3 = (Sprite *)&arg0->sprites[1];
-    temp_r1 = subStrc14->unk18;
-    if (temp_r1 == 0x41A) {
-        temp_r0 = arg0->unk14[0].qWorld.x + subStrc14->unk8;
-        arg0->unk14[0].qWorld.x = temp_r0;
-        if ((s32)(temp_r0 >> 8) > 0x8BB) {
+    switch (subStrc14_0->unk18) {
+        case 0: {
+            subStrc14_0->unk14 = 0x4BU;
+            subStrc14_0->unk18 = 10;
+        } break;
 
-        } else {
-            var_r0 = 0x424;
-            goto block_148;
-        }
-    } else if ((s32)temp_r1 <= 0x41A) {
-        switch (temp_r1) { /* switch 1; irregular */
-            case 0: /* switch 1 */
-                subStrc14->unk14 = 0x4BU;
-                var_r0 = 0xA;
-                goto block_148;
-            case 10: /* switch 1 */
-                temp_r0_4 = subStrc14->unk14 - 1;
-                subStrc14->unk14 = temp_r0_4;
-                temp_r0_5 = (s16)temp_r0_4;
-                if (temp_r0_5 != 0) {
+        case 10: {
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk8 = 0;
+                subStrc14_0->unkC = -0x100;
+                subStrc14_0->unk18 = 20;
+            }
+        } break;
 
-                } else {
-                    subStrc14->unk8 = (s32)temp_r0_5;
-                    subStrc14->unkC = -0x100;
-                    var_r0 = 0x14;
-                    goto block_148;
-                }
+        case 20: {
+            subStrc14_0->qWorld.y += subStrc14_0->unkC;
+            if (I(subStrc14_0->qWorld.y) <= 110) {
+                subStrc14_0->unk14 = 0x28U;
+                subStrc14_0->unk18 = 30;
                 break;
-            case 20: /* switch 1 */
-                temp_r0_3 = subStrc14->qWorld.y + subStrc14->unkC;
-                subStrc14->qWorld.y = temp_r0_3;
-                if ((s32)(temp_r0_3 >> 8) > 0x6E) {
+            }
+        } break;
 
-                } else {
-                    subStrc14->unk14 = 0x28U;
-                    var_r0 = 0x1E;
-                    goto block_148;
-                }
-                break;
-            case 30: /* switch 1 */
-                temp_r0_6 = subStrc14->unk14 - 1;
-                subStrc14->unk14 = temp_r0_6;
-                temp_r1_2 = (s16)temp_r0_6;
-                if (temp_r1_2 != 0) {
-
-                } else {
-                    subStrc14->unk8 = 0x180;
-                    subStrc14->unkC = (s32)temp_r1_2;
-                    var_r0_2 = 0x28;
-                block_114:
-                    subStrc14->unk18 = var_r0_2;
-                    temp_r7->anim = ANIM_EGGMAN_SIDE;
-                    temp_r7->variant = 8;
-                    temp_r7->prevVariant = -1;
-                    temp_r7->frameFlags |= 0x400;
-                    temp_r3->frameFlags |= 0x400;
-                    m4aSongNumStart(VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS);
-                }
-                break;
-            case 40: /* switch 1 */
-                temp_r0_7 = arg0->unk14[0].qWorld.x + subStrc14->unk8;
-                arg0->unk14[0].qWorld.x = temp_r0_7;
-                temp_r1_3 = temp_r0_7 >> 8;
-                if (temp_r1_3 > 0x923) {
-                    subStrc14->unk16 = 0U;
-                    subStrc14->unk14 = 0x20U;
-                    subStrc14->unk8 = (s32)arg0->unk14[0].qWorld.x;
-                    subStrc14->unkC = (s32)subStrc14->qWorld.y;
-                    subStrc14->unk18 = 0x32U;
-                    m4aSongNumStart(VOICE__EGGMAN__OW);
-                } else if (temp_r1_3 <= 0x833) {
-
-                } else {
-                    subStrc14->unk8 = 0x180;
-                }
-                break;
-            case 50: /* switch 1 */
-                arg0->unk14[0].qWorld.x = subStrc14->unk8 + (*gUnknown_080D5C80[subStrc14->unk16] << 8);
-                subStrc14->qWorld.y = (s32)(subStrc14->unkC + Q(gUnknown_080D5C80[subStrc14->unk16][1]));
-                subStrc14->unk16 = (u16)((subStrc14->unk16 + 1) & 7);
-                temp_r0_2 = subStrc14->unk14 - 1;
-                subStrc14->unk14 = temp_r0_2;
-                if ((temp_r0_2 << 0x10) != 0) {
-
-                } else {
-                    subStrc14->unkC = 0x80;
-                    subStrc14->unk18 = 0x64U;
-                    m4aSongNumStart(SE_545);
-                }
-                break;
-            default: /* switch 1 */
-                var_r2 = 0x3F2;
-                switch (temp_r1) { /* switch 2; irregular */
-                    case 0x3F2: /* switch 2 */
-                        temp_r0_8 = subStrc14->unk14 - 1;
-                        subStrc14->unk14 = temp_r0_8;
-                        temp_r0_9 = (s16)temp_r0_8;
-                        if (temp_r0_9 != 0) {
-
-                        } else {
-                            subStrc14->unk8 = (s32)temp_r0_9;
-                            subStrc14->unkC = -0x100;
-                            var_r0 = 0x3FC;
-                            goto block_148;
-                        }
-                        break;
-                    case 0x64: /* switch 2 */
-                        subStrc14->unk16 = (u16)((subStrc14->unk16 + 8) & 0x1FF);
-                        var_r0_3 = gSineTable[subStrc14->unk16];
-                        if ((s32)var_r0_3 < 0) {
-                            var_r0_3 += 0x3F;
-                        }
-                        arg0->unk14[0].qWorld.x += var_r0_3 >> 6;
-                        temp_r1_4 = subStrc14->qWorld.y + subStrc14->unkC;
-                        subStrc14->qWorld.y = temp_r1_4;
-                        temp_r0_10 = subStrc14->unk14 + 1;
-                        subStrc14->unk14 = temp_r0_10;
-                        if ((s32)(s16)temp_r0_10 > 9) {
-                            if (!(gStageData.timer & 3)) {
-                                temp_r1_5 = PseudoRandom32() & 0x3FF;
-                                temp_r3_2 = PseudoRandom32() & 0xF;
-                                sub_8086D64(I(arg0->unk14[0].qWorld.x + ((temp_r3_2 * COS(temp_r1_5)) >> 6)),
-                                            I(((u32)(temp_r3_2 * SIN(temp_r1_5)) >> 6) + temp_r1_4), 0x100, 0x200, 0x1E, arg0->vram8);
-                            }
-                            if (((s32)((s32)arg0->unk14[0].qWorld.x >> 8) <= 0x996) && !(0x3F & subStrc14->unk14)) {
-                                m4aSongNumStart(0x221U);
-                            }
-                        }
-                        if ((s16)subStrc14->unk14 == 0xA) {
-                            temp_r7->anim = ANIM_EGGMAN_SIDE;
-                            temp_r7->variant = 4;
-                            temp_r7->prevVariant = -1;
-                        }
-                        if (I(subStrc14->qWorld.y) >= 250) {
-                            subStrc14->unk18 = 0xC8;
-                            break;
-                        }
-                        break;
-                    case 0x3E8: /* switch 2 */
-                        var_r0_4 = 0x4B;
-                        goto block_141;
-                    default: /* switch 2 */
-                        var_r2 = 0x406;
-                        switch (temp_r1) { /* switch 3; irregular */
-                            case 0x406: /* switch 3 */
-                                temp_r0_13 = subStrc14->unk14 - 1;
-                                subStrc14->unk14 = temp_r0_13;
-                                temp_r1_6 = (s16)temp_r0_13;
-                                if (temp_r1_6 != 0) {
-
-                                } else {
-                                    subStrc14->unk8 = 0x180;
-                                    subStrc14->unkC = (s32)temp_r1_6;
-                                    var_r0_2 = 0x410;
-                                    goto block_114;
-                                }
-                                break;
-                            case 0x3FC: /* switch 3 */
-                                temp_r0_14 = subStrc14->qWorld.y + subStrc14->unkC;
-                                subStrc14->qWorld.y = temp_r0_14;
-                                if ((s32)(temp_r0_14 >> 8) > 0x6E) {
-
-                                } else {
-                                    var_r0_4 = 0x28;
-                                    goto block_141;
-                                }
-                                break;
-                            case 0x410: /* switch 3 */
-                                temp_r0_15 = arg0->unk14[0].qWorld.x + subStrc14->unk8;
-                                arg0->unk14[0].qWorld.x = temp_r0_15;
-                                if ((s32)(temp_r0_15 >> 8) > 0x8FB) {
-                                    subStrc14->unk8 = -0x100;
-                                    temp_r7->anim = ANIM_EGGMAN_SIDE;
-                                    temp_r7->variant = 0;
-                                    temp_r7->prevVariant = 0xFF;
-                                    temp_r7->frameFlags &= ~0x400;
-                                    temp_r3->frameFlags &= ~0x400;
-                                    subStrc14->unk18 = 0x41AU;
-                                } else if ((s32)((s32)arg0->unk14[0].qWorld.x >> 8) <= 0x7CF) {
-
-                                } else {
-                                    subStrc14->unk8 = 0x280;
-                                }
-                                break;
-                        }
-                        break;
-                }
-                break;
-        }
-    } else {
-        switch (temp_r1) { /* switch 4; irregular */
-            case 0x46A: /* switch 4 */
-                subStrc14->unk14 = 0x4E2U;
-                var_r0 = 0x474;
-            block_148:
-                subStrc14->unk18 = var_r0;
-                break;
-            case 0x438: /* switch 4 */
-                temp_r7->anim = ANIM_EGGMAN_SIDE;
-                temp_r7->variant = 12;
-                temp_r7->prevVariant = -1;
-                temp_r7->oamFlags = 0x280;
-                temp_r3->anim = 0x4F7;
-                temp_r3->variant = 5;
-                temp_r3->prevVariant = -1;
-                temp_r3->oamFlags = 0x2C0;
-                temp_r7->frameFlags |= 0x3E;
-                temp_r3->frameFlags |= 0x3F;
-                arg0->unk2 = 0x380;
-                var_r0 = 0x424;
-                subStrc14->unk18 = var_r0;
-                break;
-            case 0x42E: /* switch 4 */
+        case 30: {
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk8 = 0x180;
+                subStrc14_0->unkC = 0;
+                subStrc14_0->unk18 = 40;
                 temp_r7->anim = ANIM_EGGMAN_SIDE;
                 temp_r7->variant = 8;
                 temp_r7->prevVariant = -1;
-                subStrc14->unk18 = 0x424U;
-                break;
-            case 0x456: /* switch 4 */
-                arg0->unk14[0].qWorld.x += subStrc14->unk8;
-                temp_r1_7 = subStrc14->qWorld.y + subStrc14->unkC;
-                subStrc14->qWorld.y = temp_r1_7;
-                if ((s32)(temp_r1_7 >> 8) < (s32)(gCamera.y + 0x79)) {
+                temp_r7->frameFlags |= 0x400;
+                temp_r3->frameFlags |= 0x400;
+                m4aSongNumStart(VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS);
+            }
+        } break;
 
-                } else {
-                    CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
-                    m4aSongNumStart(VOICE__EGGMAN__OW);
-                    subStrc14->unkC = -0x400;
-                    subStrc14->unk18 = 0x460;
-                    break;
+        case 40: {
+            subStrc14_0->qWorld.x += subStrc14_0->unk8;
+            if (I(subStrc14_0->qWorld.x) >= 2340) {
+                subStrc14_0->unk16 = 0U;
+                subStrc14_0->unk14 = 0x20U;
+                subStrc14_0->unk8 = subStrc14_0->qWorld.x;
+                subStrc14_0->unkC = subStrc14_0->qWorld.y;
+                subStrc14_0->unk18 = 50;
+                m4aSongNumStart(VOICE__EGGMAN__OW);
+            } else if (I(subStrc14_0->qWorld.x) > 0x833) {
+                subStrc14_0->unk8 = 0x180;
+            }
+        } break;
+
+        case 50:
+            subStrc14_0->qWorld.x = subStrc14_0->unk8 + Q(gUnknown_080D5C80[subStrc14_0->unk16][0]);
+            subStrc14_0->qWorld.y = subStrc14_0->unkC + Q(gUnknown_080D5C80[subStrc14_0->unk16][1]);
+            subStrc14_0->unk16 = (u16)((subStrc14_0->unk16 + 1) & 7);
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unkC = 0x80;
+                subStrc14_0->unk18 = 100;
+                m4aSongNumStart(SE_545);
+            }
+            break;
+
+        case 100:
+            subStrc14_0->unk16 = (u16)((subStrc14_0->unk16 + 8) & 0x1FF);
+            subStrc14_0->qWorld.x += SIN(subStrc14_0->unk16) / 0x40;
+            subStrc14_0->qWorld.y += subStrc14_0->unkC;
+            if (++subStrc14_0->unk14 > 9) {
+                if (!(gStageData.timer & 3)) {
+                    s32 cosVal, sinVal;
+                    s32 x, y;
+                    temp_r1_5 = PseudoRandom32() & 0x3FF;
+                    temp_r3_2 = PseudoRandom32() % 16u;
+                    cosVal = ((u32)(COS(temp_r1_5) * temp_r3_2) >> 6);
+                    sinVal = ((u32)(SIN(temp_r1_5) * temp_r3_2) >> 6);
+                    sub_8086D64(I(subStrc14_0->qWorld.x + cosVal), I(subStrc14_0->qWorld.y + sinVal), 0x100, 0x200, 0x1E, arg0->vram8);
                 }
-                break;
-            case 0x44C: /* switch 4 */
-                subStrc14->unk8 = 0;
-                subStrc14->unkC = 0x800;
-                subStrc14->unk18 = 0x456U;
-                break;
-            case 0x460: /* switch 4 */
-                temp_r0_16 = subStrc14->unkC + 0x2A;
-                subStrc14->unkC = temp_r0_16;
-                subStrc14->qWorld.y = (s32)(subStrc14->qWorld.y + temp_r0_16);
-                temp_r1_8 = arg0->unk2;
-                if (temp_r1_8 != 0x300) {
-                    arg0->unk2 = temp_r1_8 - 8;
+                if ((I(subStrc14_0->qWorld.x) <= 2454) && !(0x3F & subStrc14_0->unk14)) {
+                    m4aSongNumStart(0x221U);
                 }
-                if (((s32)((s32)subStrc14->qWorld.y >> 8) >= (s32)(gCamera.y + 0x79)) && ((s32)subStrc14->unkC > 0)) {
-                    subStrc14->unkC = 0;
-                    subStrc14->unk18 = 0x46AU;
-                }
+            }
+            if (subStrc14_0->unk14 == 10) {
+                temp_r7->anim = ANIM_EGGMAN_SIDE;
+                temp_r7->variant = 4;
+                temp_r7->prevVariant = -1;
+            }
+            if (I(subStrc14_0->qWorld.y) >= 250) {
+                subStrc14_0->unk18 = 200;
                 break;
-            default: /* switch 4 */
-                var_r2 = 0x488;
-                switch (temp_r1) { /* switch 5; irregular */
-                    case 0x488: /* switch 5 */
-                        temp_r0_17 = subStrc14->unk14 - 1;
-                        subStrc14->unk14 = temp_r0_17;
-                        if ((temp_r0_17 << 0x10) == 0) {
-                            var_r0 = 0x492;
-                            goto block_148;
-                        }
-                        break;
-                    case 0x474: /* switch 5 */
-                        temp_r0_18 = subStrc14->unk14 - 1;
-                        subStrc14->unk14 = temp_r0_18;
-                        if ((temp_r0_18 << 0x10) == 0) {
-                            var_r0 = 0x492;
-                            goto block_148;
-                        }
-                        break;
-                    case 0x47E: /* switch 5 */
-                        temp_r0_19 = subStrc14->unk14 - 1;
-                        subStrc14->unk14 = temp_r0_19;
-                        if ((temp_r0_19 << 0x10) == 0) {
-                            var_r0_4 = 0x12C;
-                        block_141:
-                            subStrc14->unk14 = var_r0_4;
-                            subStrc14->unk18 = var_r2;
-                        }
-                        break;
-                    default: /* switch 5 */
-                        var_r2 = 0x49C;
-                        switch (temp_r1) { /* switch 6; irregular */
-                            case 0x49C: /* switch 6 */
-                                temp_r0_20 = subStrc14->unk14 - 1;
-                                subStrc14->unk14 = temp_r0_20;
-                                if ((temp_r0_20 << 0x10) == 0) {
-                                    subStrc14->unk8 = 0x400;
-                                    subStrc14->unkC = -0x400;
-                                    subStrc14->unk18 = 0x4A6U;
-                                    m4aSongNumStart(SE_112);
-                                }
-                                break;
-                            case 0x492: /* switch 6 */
-                                temp_r0_21 = (arg0->unk2 + 8) & 0x3FF;
-                                arg0->unk2 = temp_r0_21;
-                                if (temp_r0_21 == 0) {
-                                    var_r0_4 = 0xB4;
-                                    goto block_141;
-                                }
-                                break;
-                            case 0x4A6: /* switch 6 */
-                                arg0->unk14[0].qWorld.x += subStrc14->unk8;
-                                temp_r0_22 = subStrc14->qWorld.y + subStrc14->unkC;
-                                subStrc14->qWorld.y = temp_r0_22;
-                                if (temp_r0_22 < 0) {
-                                    var_r0 = 0x7D0;
-                                    goto block_148;
-                                }
-                                break;
-                        }
-                        break;
-                }
+            }
+            break;
+        case 200:
+            break;
+        case 1000:
+            subStrc14_0->unk14 = 75;
+            subStrc14_0->unk18 = 1160;
+            break;
+
+        case 1010:
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk8 = 0;
+                subStrc14_0->unkC = -0x100;
+                subStrc14_0->unk18 = 1020;
                 break;
-        }
+            }
+            break;
+
+        case 1020: {
+            s32 max = 0x6E;
+            subStrc14_0->qWorld.y += subStrc14_0->unkC;
+
+            if (I(subStrc14_0->qWorld.y) <= max) {
+                subStrc14_0->unk14 = 0x28;
+                subStrc14_0->unk18 = 1160;
+            }
+        } break;
+
+        case 1030: {
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk8 = 0x180;
+                subStrc14_0->unkC = 0;
+                subStrc14_0->unk18 = 1040;
+                temp_r7->anim = ANIM_EGGMAN_SIDE;
+                temp_r7->variant = 8;
+                temp_r7->prevVariant = -1;
+                temp_r7->frameFlags |= 0x400;
+                temp_r3->frameFlags |= 0x400;
+                m4aSongNumStart(VOICE__EGGMAN__YOURE_GOING_TO_PAY_FOR_THIS);
+            }
+        } break;
+
+        case 1040: {
+            subStrc14_0->qWorld.x += subStrc14_0->unk8;
+            if (I(subStrc14_0->qWorld.x) >= 2300) {
+                subStrc14_0->unk8 = -0x100;
+                temp_r7->anim = ANIM_EGGMAN_SIDE;
+                temp_r7->variant = 0;
+                temp_r7->prevVariant = -1;
+                temp_r7->frameFlags &= ~0x400;
+                temp_r3->frameFlags &= ~0x400;
+                subStrc14_0->unk18 = 1050;
+            } else {
+                if (I(subStrc14_0->qWorld.x) >= Q(32)) {
+                    subStrc14_0->unk8 = 0x280;
+                }
+            }
+        } break;
+
+        case 1050: {
+            subStrc14_0->qWorld.x += subStrc14_0->unk8;
+            if (I(subStrc14_0->qWorld.x) <= 2235) {
+                subStrc14_0->unk18 = 1060;
+            }
+        } break;
+
+        case 1060:
+            break;
+
+        case 1070:
+            temp_r7->anim = ANIM_EGGMAN_SIDE;
+            temp_r7->variant = 8;
+            temp_r7->prevVariant = -1;
+            subStrc14_0->unk18 = 1060;
+            break;
+
+        case 1080:
+            temp_r7->anim = ANIM_EGGMAN_SIDE;
+            temp_r7->variant = 12;
+            temp_r7->prevVariant = -1;
+            temp_r7->oamFlags = 0x280;
+            temp_r3->anim = ANIM_NEO_EGGMOBILE;
+            temp_r3->variant = 5;
+            temp_r3->prevVariant = -1;
+            temp_r3->oamFlags = 0x2C0;
+            temp_r7->frameFlags |= 0x3E;
+            temp_r3->frameFlags |= 0x3F;
+            arg0->unk2 = 0x380;
+            subStrc14_0->unk18 = 1060;
+            break;
+        case 1100:
+            subStrc14_0->unk8 = 0;
+            subStrc14_0->unkC = 0x800;
+            subStrc14_0->unk18 = 0x456U;
+            break;
+        case 1110:
+            subStrc14_0->qWorld.x += subStrc14_0->unk8;
+            subStrc14_0->qWorld.y += subStrc14_0->unkC;
+            if (I(subStrc14_0->qWorld.y) >= gCamera.y + 121) {
+                CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
+                m4aSongNumStart(VOICE__EGGMAN__OW);
+                subStrc14_0->unkC = -0x400;
+                subStrc14_0->unk18 = 0x460;
+            }
+            break;
+        case 1120:
+            subStrc14_0->unkC += 0x2A;
+            subStrc14_0->qWorld.y += subStrc14_0->unkC;
+            if (arg0->unk2 != 0x300) {
+                arg0->unk2 -= 8;
+            }
+            if ((I(subStrc14_0->qWorld.y) >= (s32)(gCamera.y + 0x79)) && ((s32)subStrc14_0->unkC > 0)) {
+                subStrc14_0->unkC = 0;
+                subStrc14_0->unk18 = 1130;
+            }
+            break;
+
+        case 1130:
+            subStrc14_0->unk14 = 0x4E2U;
+            subStrc14_0->unk18 = 1140;
+            break;
+
+        case 1140:
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk18 = 1170;
+                break;
+            }
+            break;
+
+        case 1170:
+            arg0->unk2 = (arg0->unk2 + 8) & 0x3FF;
+            if (arg0->unk2 == 0) {
+                subStrc14_0->unk14 = 0xB4;
+                subStrc14_0->unk18 = 1160;
+            }
+            break;
+        case 1150:
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk14 = 300;
+                subStrc14_0->unk18 = 1160;
+            }
+            break;
+
+        case 1160:
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk18 = 1170;
+                break;
+            }
+            break;
+        case 1180:
+            if (--subStrc14_0->unk14 == 0) {
+                subStrc14_0->unk8 = 0x400;
+                subStrc14_0->unkC = -0x400;
+                subStrc14_0->unk18 = 1190;
+                m4aSongNumStart(SE_112);
+            }
+            break;
+        case 1190:
+            subStrc14_0->qWorld.x += subStrc14_0->unk8;
+            subStrc14_0->qWorld.y += subStrc14_0->unkC;
+            if (subStrc14_0->qWorld.y < 0) {
+                subStrc14_0->unk18 = 0x7D0;
+                break;
+            }
+            break;
     }
-    arg0->unk14[1].qWorld.x = arg0->unk14[0].qWorld.x;
-    arg0->unk14[1].qWorld.y = arg0->unk14[0].qWorld.y;
+
+    subStrc14_1->qWorld.x = subStrc14_0->qWorld.x;
+    subStrc14_1->qWorld.y = subStrc14_0->qWorld.y;
 }
 
 void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman)
 {
-    s16 temp_r0_22;
-    s16 temp_r0_2;
-    s16 temp_r1_2;
-    s16 temp_r1_5;
-    s32 temp_r0_10;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_15;
-    s32 temp_r0_19;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_6;
-    s32 temp_r0_8;
-    s32 temp_r1_4;
-    u16 temp_r0;
-    u16 temp_r0_11;
-    u16 temp_r0_14;
-    u16 temp_r0_16;
-    u16 temp_r0_17;
-    u16 temp_r0_18;
-    u16 temp_r0_20;
-    u16 temp_r0_21;
-    u16 temp_r0_5;
-    u16 temp_r0_7;
-    u16 temp_r0_9;
-    u16 temp_r1;
-    u16 temp_r1_3;
-    u16 var_r0;
-    u16 var_r0_2;
+    EggmanEscapeStrc14 *unk14 = &sceneEggman->unk14[2];
+    Sprite *sprGemerl = (Sprite *)&sceneEggman->sprites[2];
 
-    switch (sceneEggman->unk14[2].unk18) { /* irregular */
-        case 0x0:
-            sceneEggman->unk14[2].unk14 = 0x4B;
-            var_r0 = 0xA;
-            goto block_136;
-        case 0xA:
-            temp_r0_21 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_21;
-            temp_r0_22 = (s16)temp_r0_21;
-            if (temp_r0_22 != 0) {
+    switch (unk14->unk18) { /* irregular */
+        case 0:
+            unk14->unk14 = 0x4B;
+            unk14->unk18 = 10;
+            break;
+        case 10:
+            if (--unk14->unk14 == 0) {
+                unk14->unk8 = 0;
+                unk14->unkC = -0x100;
+                unk14->unk18 = 20;
+            }
+            break;
+        case 20:
+            unk14->qWorld.y += unk14->unkC;
+            if (I(unk14->qWorld.y) > 0x8E) {
                 return;
             }
-            sceneEggman->unk14[2].unk8 = (s32)temp_r0_22;
-            sceneEggman->unk14[2].unkC = -0x100;
-            var_r0 = 0x14;
-            goto block_136;
-        case 0x14:
-            temp_r0_4 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
-            sceneEggman->unk14[2].qWorld.y = temp_r0_4;
-            if ((s32)(temp_r0_4 >> 8) > 0x8E) {
-                return;
+            unk14->unk14 = 0x28;
+            unk14->unk18 = 30;
+            break;
+
+        case 30:
+            if (--unk14->unk14 == 0) {
+                unk14->unk8 = 0x180;
+                unk14->unkC = 0;
+                unk14->unk18 = 40;
+                sprGemerl->anim = ANIM_GEMERL_HOVER_AWAY;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+                sprGemerl->frameFlags |= 0x400;
             }
-            sceneEggman->unk14[2].unk14 = 0x28;
-            var_r0 = 0x1E;
-            goto block_136;
-        case 0x1E:
-            temp_r0_5 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_5;
-            temp_r1_2 = (s16)temp_r0_5;
-            if (temp_r1_2 != 0) {
-                return;
+            break;
+        case 40:
+            unk14->qWorld.x += unk14->unk8;
+            if (I(unk14->qWorld.x) >= 0x81A) {
+                unk14->unk8 = 0x100;
+                unk14->unk18 = 50;
             }
-            sceneEggman->unk14[2].unk8 = 0x180;
-            sceneEggman->unk14[2].unkC = (s32)temp_r1_2;
-            sceneEggman->unk14[2].unk18 = 0x28;
-        block_108:
-            sceneEggman->sprites[2].anim = 0x50A;
-            sceneEggman->sprites[2].variant = 0;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            sceneEggman->sprites[2].frameFlags |= 0x400;
+            break;
+        case 50:
+            unk14->qWorld.x += unk14->unk8;
+            if (I(unk14->qWorld.x) >= 2291) {
+                unk14->unk8 = 0;
+                unk14->unkC = 0x80;
+                unk14->unk14 = 60;
+                unk14->unk18 = 60;
+            }
+            break;
+        case 60:
+            unk14->qWorld.y += unk14->unkC;
+            if (I(unk14->qWorld.y) >= 0xB4) {
+                sprGemerl->anim = ANIM_GEMERL_DASH;
+                sprGemerl->variant = 1;
+                sprGemerl->prevVariant = -1;
+                unk14->unk14 = 0x14;
+                unk14->unk18 = 70;
+            }
+            break;
+        case 70:
+            if (--unk14->unk14 == 0) {
+                unk14->unk14 = 0x3C;
+                unk14->unk18 = 80;
+                sprGemerl->anim = ANIM_GEMERL_IDLE;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+            }
+            break;
+        case 80:
+            if (--unk14->unk14 == 0) {
+                unk14->unk14 = 0x96;
+                unk14->unk18 = 90;
+                sprGemerl->anim = ANIM_GEMERL_DASH;
+                sprGemerl->variant = 2;
+                sprGemerl->prevVariant = -1;
+                sprGemerl->frameFlags &= ~0x400;
+            }
+            break;
+        case 90:
+            if (--unk14->unk14 == 0) {
+                unk14->unk8 = 0x100;
+                unk14->unkC = -0x400;
+                sprGemerl->anim = ANIM_GEMERL_HOVER_AWAY;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+                sprGemerl->frameFlags |= 0x400;
+                unk14->unk18 = 100;
+                m4aSongNumStart(SE_JUMP);
+            }
+            break;
+        case 100:
+            unk14->unkC += 0x2A;
+            unk14->qWorld.x += unk14->unk8;
+            unk14->qWorld.y += unk14->unkC;
+            if (I(unk14->qWorld.y) >= 250) {
+                unk14->unk18 = 200;
+            }
+            break;
+        case 1000:
+            unk14->unk14 = 0x4B;
+            unk14->unk18 = 1010;
             return;
-        case 0x28:
-            temp_r0_6 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
-            sceneEggman->unk14[2].qWorld.x = temp_r0_6;
-            if ((s32)(temp_r0_6 >> 8) <= 0x819) {
-                return;
+        case 1010:
+            if (--unk14->unk14 == 0) {
+                unk14->unk8 = 0;
+                unk14->unkC = -0x100;
+                unk14->unk18 = 1020;
             }
-            sceneEggman->unk14[2].unk8 = 0x100;
-            var_r0 = 0x32;
-            goto block_136;
-        case 0x32:
-            temp_r0_3 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
-            sceneEggman->unk14[2].qWorld.x = temp_r0_3;
-            if ((s32)(temp_r0_3 >> 8) <= 0x8F2) {
-                return;
+            break;
+        case 1020:
+            unk14->qWorld.y += unk14->unkC;
+            if (I(unk14->qWorld.y) <= 142) {
+                unk14->unk14 = 0x28;
+                unk14->unk18 = 1030;
             }
-            sceneEggman->unk14[2].unk8 = 0;
-            sceneEggman->unk14[2].unkC = 0x80;
-            var_r0 = 0x3C;
-            sceneEggman->unk14[2].unk14 = 0x3C;
-            goto block_136;
-        case 0x3C:
-            temp_r0_8 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
-            sceneEggman->unk14[2].qWorld.y = temp_r0_8;
-            if ((s32)(temp_r0_8 >> 8) <= 0xB3) {
-                return;
+            break;
+        case 1030:
+            if (--unk14->unk14 == 0) {
+                unk14->unk8 = 0x180;
+                unk14->unkC = 0;
+                unk14->unk18 = 0x410;
+                sprGemerl->anim = ANIM_GEMERL_HOVER_AWAY;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+                sprGemerl->frameFlags |= 0x400;
             }
-            sceneEggman->sprites[2].anim = 0x50B;
-            sceneEggman->sprites[2].variant = 1;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            sceneEggman->unk14[2].unk14 = 0x14;
-            var_r0 = 0x46;
-            goto block_136;
-        case 0x46:
-            temp_r0_9 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_9;
-            if ((temp_r0_9 << 0x10) != 0) {
-                return;
+            break;
+        case 1040:
+            unk14->qWorld.x += unk14->unk8;
+            if (I(unk14->qWorld.x) >= 2220) {
+                unk14->unk8 = 0;
+                unk14->unkC = 0x200;
+                unk14->unk14 = 0x3C;
+                unk14->unk18 = 1050;
+            } else if (I(unk14->qWorld.x) >= 1900) {
+                unk14->unk8 = 0x200;
             }
-            sceneEggman->unk14[2].unk14 = 0x3C;
-            sceneEggman->unk14[2].unk18 = 0x50;
-            var_r0_2 = 0x506;
-        block_120:
-            sceneEggman->sprites[2].anim = var_r0_2;
-            sceneEggman->sprites[2].variant = 0;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            return;
-        case 0x50:
-            temp_r0_7 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_7;
-            if ((temp_r0_7 << 0x10) != 0) {
-                return;
+
+            break;
+        case 1050:
+            unk14->qWorld.y += unk14->unkC;
+            if (I(unk14->qWorld.y) >= 180) {
+                sprGemerl->anim = ANIM_GEMERL_DASH;
+                sprGemerl->variant = 1;
+                sprGemerl->prevVariant = -1;
+                unk14->unk14 = 0x14;
+                unk14->unk18 = 1060;
             }
-            sceneEggman->unk14[2].unk14 = 0x96;
-            sceneEggman->unk14[2].unk18 = 0x5A;
-            sceneEggman->sprites[2].anim = 0x50B;
-            sceneEggman->sprites[2].variant = 2;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            sceneEggman->sprites[2].frameFlags &= 0xFFFFFBFF;
-            return;
-        case 0x5A:
-            temp_r0_11 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_11;
-            if ((temp_r0_11 << 0x10) != 0) {
-                return;
+            break;
+
+        case 1060:
+            if (--unk14->unk14 == 0) {
+                unk14->unk14 = 0xB4;
+                unk14->unk18 = 1070;
+                sprGemerl->anim = ANIM_GEMERL_SNIFF;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
             }
-            sceneEggman->unk14[2].unk8 = 0x100;
-            sceneEggman->unk14[2].unkC = -0x400;
-            sceneEggman->sprites[2].anim = 0x50A;
-            sceneEggman->sprites[2].variant = 0;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            sceneEggman->sprites[2].frameFlags |= 0x400;
-            sceneEggman->unk14[2].unk18 = 0x64;
-            m4aSongNumStart(0x74U);
-            return;
-        case 0x64:
-            sceneEggman->unk14[2].unkC += 0x2A;
-            sceneEggman->unk14[2].qWorld.x += sceneEggman->unk14[2].unk8;
-            temp_r0_10 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
-            sceneEggman->unk14[2].qWorld.y = temp_r0_10;
-            if ((s32)(temp_r0_10 >> 8) <= 0xF9) {
-                return;
+            break;
+        case 1070:
+            if (--unk14->unk14 == 0) {
+                unk14->unk14 = 0xA;
+                unk14->unk18 = 1075;
+                sprGemerl->anim = ANIM_GEMERL_DASH;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+                sprGemerl->frameFlags &= ~0x400;
+                m4aSongNumStart(SE_547);
+            } else if ((unk14->unk14 & 0x3F) == 0) {
+                m4aSongNumStart(SE_548);
             }
-            var_r0 = 0xC8;
-            goto block_136;
-        case 0x3E8:
-            sceneEggman->unk14[2].unk14 = 0x4B;
-            sceneEggman->unk14[2].unk18 = 0x3F2;
-            return;
-        case 0x3F2:
-            temp_r0 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0;
-            temp_r0_2 = (s16)temp_r0;
-            if (temp_r0_2 != 0) {
-                return;
+            break;
+        case 1075:
+            if (--unk14->unk14 == 0) {
+                unk14->unk8 = -0x400;
+                unk14->unk18 = 1080;
             }
-            sceneEggman->unk14[2].unk8 = (s32)temp_r0_2;
-            sceneEggman->unk14[2].unkC = -0x100;
-            var_r0 = 0x3FC;
-        block_136:
-            sceneEggman->unk14[2].unk18 = var_r0;
-            return;
-        case 0x3FC:
-            temp_r0_13 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
-            sceneEggman->unk14[2].qWorld.y = temp_r0_13;
-            if ((s32)(temp_r0_13 >> 8) > 0x8E) {
-                return;
-            }
-            sceneEggman->unk14[2].unk14 = 0x28;
-            var_r0 = 0x406;
-            goto block_136;
-        case 0x406:
-            temp_r0_14 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_14;
-            temp_r1_5 = (s16)temp_r0_14;
-            if (temp_r1_5 != 0) {
-                return;
-            }
-            sceneEggman->unk14[2].unk8 = 0x180;
-            sceneEggman->unk14[2].unkC = (s32)temp_r1_5;
-            sceneEggman->unk14[2].unk18 = 0x410;
-            goto block_108;
-        case 0x410:
-            temp_r0_12 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
-            sceneEggman->unk14[2].qWorld.x = temp_r0_12;
-            temp_r1_4 = temp_r0_12 >> 8;
-            if (temp_r1_4 > 0x8AB) {
-                sceneEggman->unk14[2].unk8 = 0;
-                sceneEggman->unk14[2].unkC = 0x200;
-                sceneEggman->unk14[2].unk14 = 0x3C;
-                var_r0 = 0x41A;
-                goto block_136;
-            }
-            if (temp_r1_4 <= 0x76B) {
-                return;
-            }
-            sceneEggman->unk14[2].unk8 = 0x200;
-            return;
-        case 0x41A:
-            temp_r0_15 = sceneEggman->unk14[2].qWorld.y + sceneEggman->unk14[2].unkC;
-            sceneEggman->unk14[2].qWorld.y = temp_r0_15;
-            if ((s32)(temp_r0_15 >> 8) <= 0xB3) {
-                return;
-            }
-            sceneEggman->sprites[2].anim = 0x50B;
-            sceneEggman->sprites[2].variant = 1;
-            sceneEggman->sprites[2].prevVariant = 0xFF;
-            sceneEggman->unk14[2].unk14 = 0x14;
-            var_r0 = 0x424;
-            goto block_136;
-        case 0x424:
-            temp_r0_16 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_16;
-            if ((temp_r0_16 << 0x10) != 0) {
-                return;
-            }
-            sceneEggman->unk14[2].unk14 = 0xB4;
-            sceneEggman->unk14[2].unk18 = 0x42E;
-            var_r0_2 = 0x509;
-            goto block_120;
-        case 0x42E:
-            temp_r1_3 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r1_3;
-            if ((temp_r1_3 << 0x10) == 0) {
-                sceneEggman->unk14[2].unk14 = 0xA;
-                sceneEggman->unk14[2].unk18 = 0x433;
-                sceneEggman->sprites[2].anim = 0x50B;
-                sceneEggman->sprites[2].variant = 0;
-                sceneEggman->sprites[2].prevVariant = 0xFF;
-                sceneEggman->sprites[2].frameFlags &= 0xFFFFFBFF;
-                m4aSongNumStart(0x223U);
-                return;
-            }
-            if (!(temp_r1_3 & 0x3F)) {
-                m4aSongNumStart(0x224U);
+            break;
+
+        case 1080:
+            unk14->qWorld.x += unk14->unk8;
+            if (I(unk14->qWorld.x) <= 2140) {
+                sprGemerl->anim = ANIM_GEMERL_SNIFF;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+                unk14->unk8 = 0;
+                unk14->unkC = 0;
+                unk14->unk14 = 0x78;
+                unk14->unk18 = 1090;
+                m4aSongNumStop(SE_547);
                 return;
             }
             break;
-        case 0x433:
-            temp_r0_18 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_18;
-            if ((temp_r0_18 << 0x10) == 0) {
-                sceneEggman->unk14[2].unk8 = -0x400;
-                var_r0 = 0x438;
-                goto block_136;
+
+        case 1090:
+            if (--unk14->unk14 == 0) {
+                sprGemerl->anim = ANIM_GEMERL_TRANSFORM_INTO_ULTIMATE;
+                sprGemerl->variant = 0;
+                sprGemerl->prevVariant = -1;
+                unk14->unk14 = 0xB4;
+                unk14->unk18 = 1100;
             }
             break;
-        case 0x438:
-            temp_r0_19 = sceneEggman->unk14[2].qWorld.x + sceneEggman->unk14[2].unk8;
-            sceneEggman->unk14[2].qWorld.x = temp_r0_19;
-            if ((s32)(temp_r0_19 >> 8) <= 0x85C) {
-                sceneEggman->sprites[2].anim = 0x509;
-                sceneEggman->sprites[2].variant = 0;
-                sceneEggman->sprites[2].prevVariant = 0xFF;
-                sceneEggman->unk14[2].unk8 = 0;
-                sceneEggman->unk14[2].unkC = 0;
-                sceneEggman->unk14[2].unk14 = 0x78;
-                sceneEggman->unk14[2].unk18 = 0x442;
-                m4aSongNumStop(0x223U);
+        case 1100:
+            if (--unk14->unk14 == 0) {
+                sprGemerl->anim = ANIM_GEMERL_TRANSFORM_INTO_ULTIMATE;
+                sprGemerl->variant = 1;
+                sprGemerl->prevVariant = -1;
+                unk14->unkC = -0x80;
+                unk14->unk18 = 1110;
                 return;
             }
             break;
-        case 0x442:
-            temp_r0_17 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_17;
-            if ((temp_r0_17 << 0x10) == 0) {
-                sceneEggman->sprites[2].anim = 0x5CA;
-                sceneEggman->sprites[2].variant = 0;
-                sceneEggman->sprites[2].prevVariant = 0xFF;
-                sceneEggman->unk14[2].unk14 = 0xB4;
-                var_r0 = 0x44C;
-                goto block_136;
-            }
-            break;
-        case 0x44C:
-            temp_r0_20 = sceneEggman->unk14[2].unk14 - 1;
-            sceneEggman->unk14[2].unk14 = temp_r0_20;
-            if ((temp_r0_20 << 0x10) == 0) {
-                sceneEggman->sprites[2].anim = 0x5CA;
-                sceneEggman->sprites[2].variant = 1;
-                sceneEggman->sprites[2].prevVariant = 0xFF;
-                sceneEggman->unk14[2].unkC = -0x80;
-                sceneEggman->unk14[2].unk18 = 0x456;
-                return;
-            }
-            break;
-        case 0x456:
-            sceneEggman->unk14[2].qWorld.y += sceneEggman->unk14[2].unkC;
+        case 1110:
+            unk14->qWorld.y += unk14->unkC;
             if (gBldRegs.bldY == 0x10) {
-                var_r0 = 0x460;
-                goto block_136;
+                unk14->unk18 = 0x460;
             }
             break;
         case 0x460:
             VramFree(sceneEggman->vram10);
             sceneEggman->vram10 = NULL;
-            var_r0 = 0x7D0;
-            goto block_136;
+            unk14->unk18 = 0x7D0;
+            break;
     }
 }
 
