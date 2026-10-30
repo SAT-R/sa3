@@ -4059,6 +4059,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
     EggmanEscapeStrc14 *subStrc14_1 = &arg0->unk14[1];
     Sprite *temp_r7 = (Sprite *)&arg0->sprites[0];
     Sprite *temp_r3 = (Sprite *)&arg0->sprites[1];
+    s32 cosVal, sinVal;
 
     switch (subStrc14_0->unk18) {
         case 0: {
@@ -4114,7 +4115,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
         case 50:
             subStrc14_0->qWorld.x = subStrc14_0->unk8 + Q(gUnknown_080D5C80[subStrc14_0->unk16][0]);
             subStrc14_0->qWorld.y = subStrc14_0->unkC + Q(gUnknown_080D5C80[subStrc14_0->unk16][1]);
-            subStrc14_0->unk16 = (u16)((subStrc14_0->unk16 + 1) & 7);
+            subStrc14_0->unk16 = (u16)((subStrc14_0->unk16 + 1) % 8u);
             if (--subStrc14_0->unk14 == 0) {
                 subStrc14_0->unkC = 0x80;
                 subStrc14_0->unk18 = 100;
@@ -4124,11 +4125,11 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
 
         case 100:
             subStrc14_0->unk16 = (u16)((subStrc14_0->unk16 + 8) & 0x1FF);
-            subStrc14_0->qWorld.x += SIN(subStrc14_0->unk16) / 0x40;
+            cosVal = SIN(subStrc14_0->unk16) / 0x40;
+            subStrc14_0->qWorld.x += cosVal;
             subStrc14_0->qWorld.y += subStrc14_0->unkC;
             if (++subStrc14_0->unk14 > 9) {
                 if (!(gStageData.timer & 3)) {
-                    s32 cosVal, sinVal;
                     s32 x, y;
                     temp_r1_5 = PseudoRandom32() & 0x3FF;
                     temp_r3_2 = PseudoRandom32() % 16u;
@@ -4154,7 +4155,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
             break;
         case 1000:
             subStrc14_0->unk14 = 75;
-            subStrc14_0->unk18 = 1160;
+            subStrc14_0->unk18 = 1010;
             break;
 
         case 1010:
@@ -4172,7 +4173,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
 
             if (I(subStrc14_0->qWorld.y) <= max) {
                 subStrc14_0->unk14 = 0x28;
-                subStrc14_0->unk18 = 1160;
+                subStrc14_0->unk18 = 1030;
             }
         } break;
 
@@ -4201,7 +4202,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
                 temp_r3->frameFlags &= ~0x400;
                 subStrc14_0->unk18 = 1050;
             } else {
-                if (I(subStrc14_0->qWorld.x) >= Q(32)) {
+                if (I(subStrc14_0->qWorld.x) >= 2000) {
                     subStrc14_0->unk8 = 0x280;
                 }
             }
@@ -4241,7 +4242,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
         case 1100:
             subStrc14_0->unk8 = 0;
             subStrc14_0->unkC = 0x800;
-            subStrc14_0->unk18 = 0x456U;
+            subStrc14_0->unk18 = 1110;
             break;
         case 1110:
             subStrc14_0->qWorld.x += subStrc14_0->unk8;
@@ -4250,7 +4251,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
                 CreateScreenShake(0x800U, 0x40U, 0U, -1U, 0x91U);
                 m4aSongNumStart(VOICE__EGGMAN__OW);
                 subStrc14_0->unkC = -0x400;
-                subStrc14_0->unk18 = 0x460;
+                subStrc14_0->unk18 = 1120;
             }
             break;
         case 1120:
@@ -4281,7 +4282,7 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
             arg0->unk2 = (arg0->unk2 + 8) & 0x3FF;
             if (arg0->unk2 == 0) {
                 subStrc14_0->unk14 = 0xB4;
-                subStrc14_0->unk18 = 1160;
+                subStrc14_0->unk18 = 1180;
             }
             break;
         case 1150:
