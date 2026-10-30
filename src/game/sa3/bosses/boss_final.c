@@ -4009,13 +4009,11 @@ Task *CreateAltarEmeraldPostBossCutscene(u8 arg0)
     return t;
 }
 
-#if 01
-#else
 void Task_11C_8080AD4(void)
 {
     AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(gCurTask);
     SpriteTransform *tf = &sceneEggman->tf;
-    u8 var_r6;
+    u8 i;
 
     if (((sceneEggman->unk14[0].unk18 == 0xC8) && (sceneEggman->unk14[2].unk18 == 0xC8))
         || ((sceneEggman->unk14[0].unk18 == 0x7D0) && (sceneEggman->unk14[2].unk18 == sceneEggman->unk14[0].unk18))) {
@@ -4024,27 +4022,33 @@ void Task_11C_8080AD4(void)
     }
     sub_8080BD0(sceneEggman);
     sub_80811E0(sceneEggman);
-    for (var_r6 = 0; var_r6 < 3; var_r6++) {
-        Sprite *s = (Sprite *)&sceneEggman->sprites[var_r6];
-        s->x = I(sceneEggman->unk14[var_r6].qWorld.x) - gCamera.x;
-        s->y = I(sceneEggman->unk14[var_r6].qWorld.y) - gCamera.y;
-        if (s->frameFlags & 0x20) {
-            tf->rotation = sceneEggman->unk2;
-            tf->x = s->x;
-            tf->y = s->y;
-            TransformSprite(s, tf);
-            UpdateSpriteAnimation(s);
-            DisplaySprite(s);
-        } else {
-            UpdateSpriteAnimation(s);
-            DisplaySprite(s);
+
+    for (i = 0; i < ARRAY_COUNT(sceneEggman->unk14); i++) {
+        if ((i == 2) && (sceneEggman->vram10 == NULL)) {
+            break;
         }
-        //        if (((u32) var_r6 <= 2U) && ((var_r6 != 2) || (sceneEggman->vram10 != NULL))) {
-        //            goto loop_6;
-        //        }
+
+        {
+            Sprite *s = (Sprite *)&sceneEggman->sprites[i];
+            s->x = I(sceneEggman->unk14[i].qWorld.x) - gCamera.x;
+            s->y = I(sceneEggman->unk14[i].qWorld.y) - gCamera.y;
+            if (s->frameFlags & 0x20) {
+                tf->rotation = sceneEggman->unk2;
+                tf->x = s->x;
+                tf->y = s->y;
+                TransformSprite(s, tf);
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            } else {
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
+        }
     }
 }
 
+#if 01
+#else
 void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
 {
     s32 temp_r1_5;
