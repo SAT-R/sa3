@@ -1,6 +1,11 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "game/shared/stage/player.h"
+#include "game/bosses.h"
+#include "game/save.h"
+#include "game/stage.h"
+#include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode
 
 typedef enum {
     ENAP_SONIC,
@@ -22,12 +27,12 @@ typedef struct {
 } UltiamteGemerlSub16C; /* 0x14 */
 
 typedef struct {
-    /* 0x000 */ u8 unk0;
+    /* 0x000 */ u8 lives;
     /* 0x001 */ u8 unk1;
     /* 0x001 */ u8 unk2;
     /* 0x001 */ u8 unk3;
     /* 0x004 */ s16 unk4;
-    /* 0x006 */ u8 filler6[0x2];
+    /* 0x006 */ s16 unk6;
     /* 0x008 */ s16 unk8;
     /* 0x00A */ u8 unkA;
     /* 0x00B */ u8 unkB;
@@ -38,13 +43,13 @@ typedef struct {
     /* 0x012 */ s16 unk12;
     /* 0x014 */ u8 filler14[0x3];
     /* 0x017 */ u8 unk17;
-    /* 0x018 */ u8 unk18;
-    /* 0x014 */ u8 filler19[0x3];
+    /* 0x018 */ s32 unk18;
     /* 0x01C */ u8 *vram1C;
     /* 0x020 */ u8 *vram20;
     /* 0x024 */ u8 *vram24;
     /* 0x028 */ Player *players[ENAP_COUNT]; // 0 : Sonic, 1 : Eggman
-    /* 0x030 */ u8 filler30[0x3C];
+    /* 0x030 */ Task *taskCutscene; // (AltarEmeraldCutsceneEggmanEscape *)
+    /* 0x030 */ u8 filler34[0x38];
     /* 0x06C */ u8 *vram6C;
     /* 0x072 */ u8 unk70;
     /* 0x072 */ u8 unk71;
@@ -86,6 +91,7 @@ typedef struct {
 } UltimateGemerlExplosion; /* 0x38 */
 
 void CreateUltimateGemerlBoss(void);
+void TaskDestructor_878_8081D64(Task *t);
 void Task_878_8081E74(void);
 void sub_878_8081EFC(UltimateGemerl *boss);
 void sub_878_8081FBC(UltimateGemerl *boss);
@@ -115,6 +121,7 @@ void sub_8085618(u16 param0, u16 param1, s16 param2);
 void unused_80856DC(u16 param0, u16 param1, s16 param2);
 void sub_808587C(u16 param0, u16 param1, s16 param2);
 void sub_878_80862D8(UltimateGemerl *boss);
+void TaskDestructor_878_8086ED8(Task *t);
 void Task_878_8086F08(void);
 void Task_878_8086F48(void);
 void Task_878_8086FA4(void);
@@ -136,18 +143,18 @@ void Task_878_8086F48(UltimateGemerl *boss);
 void Task_878_8086FA4(UltimateGemerl *boss);
 #endif
 
-#if 0
-void CreateUltimateGemerlBoss(UltimateGemerl *boss)
+void CreateUltimateGemerlBoss(void)
 {
-    u8 var_r0;
+    Task *t = TaskCreate(Task_878_8081E74, sizeof(UltimateGemerl), 0x3100U, 0U, TaskDestructor_878_8081D64);
+    UltimateGemerl *boss = TASK_DATA(t);
+    gStageData.taskBoss = t;
 
-    gStageData.taskBoss = TaskCreate((void (*)())Task_878_8081E74, 0x878U, 0x3100U, 0U, TaskDestructor_878_8081D64);
-    if (gStageData.difficulty == 0) {
-        var_r0 = 0xC;
+    if (gStageData.difficulty == DIFFICULTY_NORMAL) {
+        boss->lives = 12;
     } else {
-        var_r0 = 0xA;
+        boss->lives = 10;
     }
-    boss->unk0 = var_r0;
+
     boss->unk10 = 1;
     boss->unk12 = 0;
     boss->unk4 = 1;
@@ -159,9 +166,9 @@ void CreateUltimateGemerlBoss(UltimateGemerl *boss)
     boss->vram6C = NULL;
     boss->unk17 = 0;
     boss->unk18 = 0;
-    gBgScrollRegs[0][0] = 0x68;
-    gBgScrollRegs[0][1] = 0x30;
-    gCamera.sa2__unk50 |= 1;
+    gBgScrollRegs[0][0] = 104;
+    gBgScrollRegs[0][1] = 48;
+    gCamera.SA2_LABEL(unk50) |= 1;
     boss->spr38C.tiles = NULL;
     boss->spr3B4[0].tiles = NULL;
     boss->spr454[0][0].tiles = NULL;
@@ -172,108 +179,93 @@ void CreateUltimateGemerlBoss(UltimateGemerl *boss)
     boss->vram6C = NULL;
     boss->spr74.tiles = NULL;
     SetFixedRandomIfTimeAttackMode();
-    boss->players[0] = gPlayers;
-    boss->players[1] = &gPlayers[1];
-    gPlayers->unk148.ptr = (PlayerUnk148 *)&boss->filler30[0x28];
-    boss->players[1]->unk148.ptr = (PlayerUnk148 *)&boss->filler30[0x38];
+    boss->players[ENAP_SONIC] = &gPlayers[PLAYER_1];
+    boss->players[ENAP_EGGMAN] = &gPlayers[PLAYER_2];
+    boss->players[ENAP_SONIC]->unk148.ptr = (PlayerUnk148 *)&boss->filler34[0x24];
+    boss->players[ENAP_EGGMAN]->unk148.ptr = (PlayerUnk148 *)&boss->filler34[0x34];
     boss->unk70 = 0;
     sub_878_80853D8(boss);
 }
 
-void TaskDestructor_878_8081D64(Task *arg0)
+void TaskDestructor_878_8081D64(Task *t)
 {
-    u16 temp_r4;
-    void *temp_r0;
-    void *temp_r0_2;
-    void *temp_r0_3;
-    void *temp_r0_4;
-    void *temp_r0_5;
-    void *temp_r0_6;
-    void *temp_r0_7;
-    void *temp_r0_8;
-    void *temp_r0_9;
+    UltimateGemerl *boss = TASK_DATA(t);
 
-    temp_r4 = arg0->data;
-    temp_r0 = temp_r4->unk38C;
-    if (temp_r0 != NULL) {
-        VramFree(temp_r0);
+    if (boss->spr38C.tiles != NULL) {
+        VramFree(boss->spr38C.tiles);
     }
-    temp_r0_2 = temp_r4->unk3B4;
-    if (temp_r0_2 != NULL) {
-        VramFree(temp_r0_2);
+    if (boss->spr3B4[0].tiles != NULL) {
+        VramFree(boss->spr3B4[0].tiles);
     }
-    temp_r0_3 = temp_r4->unk454;
-    if (temp_r0_3 != NULL) {
-        VramFree(temp_r0_3);
+    if (boss->spr454[0][0].tiles != NULL) {
+        VramFree(boss->spr454[0][0].tiles);
     }
-    temp_r0_4 = temp_r4->unk814;
-    if (temp_r0_4 != NULL) {
-        VramFree(temp_r0_4);
+    if (boss->spr814.tiles != NULL) {
+        VramFree(boss->spr814.tiles);
     }
-    if (temp_r4->unk1 != 6) {
-        temp_r0_5 = temp_r4->unk1C;
-        if (temp_r0_5 != NULL) {
-            VramFree(temp_r0_5);
+
+    if (boss->unk1 != 6) {
+        if (boss->vram1C != NULL) {
+            VramFree(boss->vram1C);
         }
-        temp_r0_6 = temp_r4->unk20;
-        if (temp_r0_6 != NULL) {
-            VramFree(temp_r0_6);
+        if (boss->vram20 != NULL) {
+            VramFree(boss->vram20);
         }
-        temp_r0_7 = temp_r4->unk24;
-        if (temp_r0_7 != NULL) {
-            VramFree(temp_r0_7);
+        if (boss->vram24 != NULL) {
+            VramFree(boss->vram24);
         }
-        temp_r0_8 = temp_r4->unk6C;
-        if (temp_r0_8 != NULL) {
-            VramFree(temp_r0_8);
+        if (boss->vram6C != NULL) {
+            VramFree(boss->vram6C);
         }
-        temp_r0_9 = temp_r4->unk74;
-        if (temp_r0_9 != NULL) {
-            VramFree(temp_r0_9);
+        if (boss->spr74.tiles != NULL) {
+            VramFree(boss->spr74.tiles);
         }
     }
 }
 
-void CreateUltimateGemerlForCutscene(s32 arg0)
+void CreateUltimateGemerlForCutscene(Task *taskCutscene)
 {
-    u16 temp_r3;
+    UltimateGemerl *boss;
 
-    temp_r3 = TaskCreate((void (*)())Task_878_8086FA4, 0x878U, 0x2100U, 0U, TaskDestructor_878_8086ED8)->data;
-    temp_r3->unk30 = arg0;
-    temp_r3->unk4 = 1;
-    temp_r3->unk8 = 0;
-    temp_r3->unk1 = 6;
-    temp_r3->unkA = 0;
-    temp_r3->unkC = 0;
-    temp_r3->unkD = 0;
-    temp_r3->unk17 = 0;
-    temp_r3->unk18 = 0;
-    temp_r3->unk6C = 0;
-    temp_r3->unk28 = gPlayers;
-    temp_r3->unk2C = &gPlayers[1];
-    temp_r3->unk38C = 0;
-    temp_r3->unk454 = 0;
-    sub_878_8081FBC((UltimateGemerl *)temp_r3);
-    sub_878_8082A4C((UltimateGemerl *)temp_r3);
+    boss = TASK_DATA(TaskCreate(Task_878_8086FA4, sizeof(UltimateGemerl), 0x2100U, 0U, TaskDestructor_878_8086ED8));
+    boss->taskCutscene = taskCutscene; // (AltarEmeraldCutsceneEggmanEscape *)
+    boss->unk4 = 1;
+    boss->unk8 = 0;
+    boss->unk1 = 6;
+    boss->unkA = 0;
+    boss->unkC = 0;
+    boss->unkD = 0;
+    boss->unk17 = 0;
+    boss->unk18 = 0;
+    boss->vram6C = NULL;
+    boss->players[ENAP_SONIC] = &gPlayers[PLAYER_1];
+    boss->players[ENAP_EGGMAN] = &gPlayers[PLAYER_2];
+    boss->spr38C.tiles = NULL;
+    boss->spr454[0][0].tiles = NULL;
+    sub_878_8081FBC(boss);
+    sub_878_8082A4C(boss);
 }
 
-void Task_878_8081E74(UltimateGemerl *boss)
+void Task_878_8081E74(void)
 {
+    UltimateGemerl *boss = TASK_DATA(gCurTask);
     if (gStageData.unk4 == 3) {
-        gDispCnt = 0x9FFF & gDispCnt & 0xFEFF;
-        gCamera.sa2__unk50 &= 0xFFFE;
+        gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON);
+        gDispCnt &= ~DISPCNT_BG0_ON;
+        gCamera.SA2_LABEL(unk50) &= ~1;
         boss->unk4 = 1;
         boss->unk8 = 0;
         boss->unk6 = 0x3C;
         sub_878_8081FBC(boss);
         sub_878_80824F4(boss);
-        boss->vram1C = VramMalloc(0x10U);
-        boss->vram20 = VramMalloc(0x10U);
+        boss->vram1C = VramMalloc(16);
+        boss->vram20 = VramMalloc(16);
         boss->vram24 = NULL;
-        gCurTask->main = (void (*)())Task_878_8086F08;
+        gCurTask->main = Task_878_8086F08;
     }
 }
 
+#if 0
 void sub_878_8081EFC(UltimateGemerl *boss)
 {
     Player *temp_r2;
@@ -284,7 +276,7 @@ void sub_878_8081EFC(UltimateGemerl *boss)
     u8 temp_r0_3;
 
     if (gStageData.rings != 0) {
-        if (boss->unk0 == 0) {
+        if (boss->lives == 0) {
             return;
         }
         if (gStageData.unk4 == 7) {
@@ -365,7 +357,7 @@ void sub_878_8081FBC(UltimateGemerl *boss)
     boss->unkA4 = 0x400;
     boss->fillerA4[0x4A] = 0;
     boss->fillerA4[0x4B] = 0;
-    (&boss->fillerA4[0x4A] + 1)->unk1 = 0;
+    (&boss->fillerA4[0x4A])[1].unk1 = 0;
     sub_8086FF8(boss, 0U);
     sp0 = &boss->tf83C;
     boss->spr38C.tiles = VramMalloc(0x80U);
@@ -758,7 +750,7 @@ void sub_878_8082794(UltimateGemerl *boss)
     u8 var_r7_2;
     void *var_r3;
 
-    if (boss->unk0 == 0) {
+    if (boss->lives == 0) {
         var_r7 = 0;
         do {
             if (boss->strc10C[var_r7].unk10 != 0) {
@@ -1000,7 +992,6 @@ loop_1:
 
 s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 {
-    ? sp0;
     u32 sp20;
     u32 sp24;
     s32 sp28;
@@ -1148,11 +1139,11 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 
     sp20 = (u32)param1;
     temp_r0 = &gUnknown_080D5E64 + 0xC;
-    sp0.unk0 = (s32)gUnknown_080D5E64.unk0;
-    sp0.unk4 = (s32)gUnknown_080D5E64.unk4;
-    sp0.unk8 = (s32)gUnknown_080D5E64.unk8;
-    temp_r1 = &sp0 + 0xC;
-    sp0.unkC = (s32)gUnknown_080D5E64.unkC;
+    subroutine_arg0.unk0 = (s32)gUnknown_080D5E64.unk0;
+    subroutine_arg0.unk4 = (s32)gUnknown_080D5E64.unk4;
+    subroutine_arg0.unk8 = (s32)gUnknown_080D5E64.unk8;
+    temp_r1 = &subroutine_arg0 + 0xC;
+    subroutine_arg0.unkC = (s32)gUnknown_080D5E64.unkC;
     temp_r1->unk4 = (s32)temp_r0->unk4;
     temp_r1->unk8 = (s32)temp_r0->unk8;
     temp_r1->unkC = (s32)temp_r0->unkC;
@@ -1161,12 +1152,12 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
         case 0:
             sp24 = 0;
             var_r7 = 0x80;
-            sp8C = &sp0 + 4;
+            sp8C = &subroutine_arg0 + 4;
             sp2C = boss->strc10C;
             sp30 = &boss->strc10C[0].qOffsetY;
             do {
                 temp_r3 = sp24 * 8;
-                sp2C[sp24].qOffsetX = boss->qUnk9C + (*(&sp0 + temp_r3) << 8);
+                sp2C[sp24].qOffsetX = boss->qUnk9C + (*(&subroutine_arg0 + temp_r3) << 8);
                 *(sp30 + (sp24 * 0x18)) = boss->qUnkA0 + (*(sp8C + temp_r3) << 8);
                 boss->strc10C[sp24].unk14 = var_r7;
                 var_r6 = 0;
@@ -1790,7 +1781,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             return;
         case 0xC8: /* switch 1 */
             boss->unk8 = 0x12C;
-            if ((u32)boss->unk0 > 2U) {
+            if ((u32)boss->lives > 2U) {
                 boss->unk4 = 0x78;
                 var_r0_3 = 0;
             } else {
@@ -2490,7 +2481,7 @@ void sub_878_808491C(UltimateGemerl *boss)
         case 0x0:
             boss->unkB8 = temp_r2;
             boss->fillerA4[0x16] = 0;
-            (&boss->fillerA4[0x14] + 2)->unk1 = 0;
+            (&boss->fillerA4[0x14])[2].unk1 = 0;
             var_r1_2 = 0;
             do {
                 (&boss->fillerA4[0x18])[var_r1_2] = 0;
@@ -2932,7 +2923,7 @@ void sub_878_8084EB4(UltimateGemerl *boss)
             if (temp_r1_2 != 0) {
                 return;
             }
-            if (boss->unk0 != 0) {
+            if (boss->lives != 0) {
                 temp_r0_13 = (u16)boss->unk10 - 0x78;
                 boss->unk10 = temp_r0_13;
                 if ((s32)(temp_r0_13 << 0x10) <= 0) {
@@ -3127,23 +3118,23 @@ void sub_878_80854B8(UltimateGemerl *boss, u8 param1)
         sub_8078DB0(0x502, 0, 0x78, 0U);
         boss->unk12 = 0x64;
         m4aSongNumStart(0xEBU);
-        temp_r0 = boss->unk0;
-        if ((temp_r0 == 0) || (temp_r0_2 = temp_r0 - 1, boss->unk0 = temp_r0_2, ((temp_r0_2 << 0x18) == 0))) {
+        temp_r0 = boss->lives;
+        if ((temp_r0 == 0) || (temp_r0_2 = temp_r0 - 1, boss->lives = temp_r0_2, ((temp_r0_2 << 0x18) == 0))) {
             sub_878_80851FC(boss, 0U);
         }
         if (gStageData.difficulty == 0) {
-            if (boss->unk0 == 6) {
+            if (boss->lives == 6) {
                 sub_80299D4(0x39U);
             }
-        } else if (boss->unk0 == 5) {
+        } else if (boss->lives == 5) {
             sub_80299D4(0x39U);
         }
         if (gStageData.gameMode == 5) {
             if (gStageData.playerIndex == 0) {
-                sub_8027674(3U, (u16)boss->unk0);
+                sub_8027674(3U, (u16)boss->lives);
                 return;
             }
-            sub_8027674(4U, (u16)boss->unk0);
+            sub_8027674(4U, (u16)boss->lives);
         }
     }
 }
@@ -3156,14 +3147,14 @@ void sub_8085588(u8 *param0, s16 param1, UltimateGemerl *boss)
     temp_r0 = (0x7F & param0->unk2) - 1;
     switch (temp_r0) {
         case 0:
-            boss->unk0 = 0;
+            boss->lives = 0;
             sub_878_8085458(boss);
             boss->unk10 = 0x78;
             boss->unk12 = 0x3E8;
             return;
         case 2:
         case 3:
-            if (boss->unk0 != (u8)(param0->unk3 | (param0->unk4 << 8))) {
+            if (boss->lives != (u8)(param0->unk3 | (param0->unk4 << 8))) {
                 sub_878_80854B8(boss, 1U);
                 return;
             }
@@ -3997,7 +3988,7 @@ void sub_878_80862D8(UltimateGemerl *boss)
     Player *temp_r1;
     Player *temp_r4;
 
-    if (boss->unk0 == 0) {
+    if (boss->lives == 0) {
         return;
     }
     temp_r1 = boss->players[0];
@@ -4483,7 +4474,7 @@ void Task_Missile_8086B94(UltimateGemerlMissile *missile)
     temp_r7 = missile->boss;
     temp_r6 = &missile->spr18;
     var_sb = 0;
-    if ((temp_r7->unk0 == 0) && (missile->unk12 == 0)) {
+    if ((temp_r7->lives == 0) && (missile->unk12 == 0)) {
         missile->unk12 = 0x64U;
     }
     temp_r0 = missile->unk12;
@@ -4741,19 +4732,18 @@ s32 sub_80870E0(void) { return 0; }
 
 s32 sub_80870E4(u16 arg0)
 {
-    u16 sp0;
     u16 temp_r1;
 
     temp_r1 = arg0;
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        sp0 = temp_r1;
-        (void *)0x040000D4->unk0 = &sp0;
+        subroutine_arg0 = temp_r1;
+        (void *)0x040000D4->unk0 = &subroutine_arg0;
         (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
         (void *)0x040000D4->unk8 = 0x81000140;
         return (void *)0x040000D4->unk8;
     }
-    sp0 = temp_r1;
-    (void *)0x040000D4->unk0 = &sp0;
+    subroutine_arg0 = temp_r1;
+    (void *)0x040000D4->unk0 = &subroutine_arg0;
     (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
     (void *)0x040000D4->unk8 = 0x81000140;
     return (void *)0x040000D4->unk8;

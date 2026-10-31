@@ -178,6 +178,4 @@ PlayerSpriteInfo gUnknown_030010D0 = {};
 PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
 
-void CreateUltimateGemerlBoss() { }
-
 void sub_8085588() { }
