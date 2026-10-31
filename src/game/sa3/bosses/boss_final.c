@@ -212,7 +212,7 @@ void PlayerCB_808186C(Player *p);
 bool32 MetExtraBossEnableConditions(void);
 void sub_808178C(u8);
 void sub_8002508(void);
-void sub_8081DF4(Task *taskPostBossCutscene);
+void CreateUltimateGemerlForCutscene(Task *taskPostBossCutscene);
 void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *emeraldsCut);
 void Task_11C_8080AD4(void);
 void TaskDestructor_AltarEmeraldPostBossCutscene(Task *t);
@@ -3262,7 +3262,7 @@ void Task_358_807F568(void)
         } break;
         case 2060: {
             if (--boss->unk8 == 0) {
-                sub_8081DF4(boss->taskPostBossCutscene);
+                CreateUltimateGemerlForCutscene(boss->taskPostBossCutscene);
                 m4aSongNumStart(SE_EXTRA_BOSS_578);
                 boss->unkC = 2070;
             }

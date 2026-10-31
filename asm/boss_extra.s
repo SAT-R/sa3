@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8081C80
-sub_8081C80: @ 0x08081C80
+	thumb_func_start CreateUltimateGemerlBoss
+CreateUltimateGemerlBoss: @ 0x08081C80
 	push {r4, r5, lr}
 	sub sp, #4
 	ldr r0, _08081CB0 @ =Task_878_8081E74
@@ -188,8 +188,8 @@ _08081DF0: .4byte 0x03000814
 
 @ Input:
 @ R0 = (Task *) -> AltarEmeraldCutsceneEggmanEscape
-	thumb_func_start sub_8081DF4
-sub_8081DF4: @ 0x08081DF4
+	thumb_func_start CreateUltimateGemerlForCutscene
+CreateUltimateGemerlForCutscene: @ 0x08081DF4
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r5, r0, #0
@@ -4937,7 +4937,7 @@ _0808421C:
 	adds r0, r7, #0
 	adds r1, r3, #0
 	str r3, [sp, #4]
-	bl sub_878_8086A40
+	bl ExtraBoss_CreateMissile
 	movs r0, #0x1e
 	strh r0, [r4]
 	movs r0, #0x14
@@ -10228,8 +10228,8 @@ _08086A2A:
 	.align 2, 0
 _08086A3C: .4byte gCamera
 
-	thumb_func_start sub_878_8086A40
-sub_878_8086A40: @ 0x08086A40
+	thumb_func_start ExtraBoss_CreateMissile
+ExtraBoss_CreateMissile: @ 0x08086A40
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}

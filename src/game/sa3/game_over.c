@@ -112,7 +112,7 @@ extern void sub_8056AFC(u8);
 extern void CreateStageIntro();
 extern void sub_8057ECC();
 extern void sub_806611C(u8);
-extern void sub_8081C80();
+extern void CreateUltimateGemerlBoss();
 extern void sub_808ADF0(s32);
 extern void DemoPlay_InitSprites();
 extern void sub_8053030();
@@ -463,7 +463,7 @@ void Task_00_8002988(void)
             } else if (sd->zone == ZONE_UNUSED) {
                 sub_806611C(sd->zone);
                 CreateStageIntro();
-                sub_8081C80();
+                CreateUltimateGemerlBoss();
             }
         }
     } else {

@@ -124,7 +124,7 @@ void sub_8055D44() { }
 void sub_807B6C8() { }
 void sub_807FEB4() { }
 void sub_808007C() { }
-void sub_8081DF4() { }
+void CreateUltimateGemerlForCutscene() { }
 void sub_878_8083BE4() { }
 void sub_878_8083F8C() { }
 void sub_878_808439C() { }
@@ -178,6 +178,6 @@ PlayerSpriteInfo gUnknown_030010D0 = {};
 PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
 
-void sub_8081C80() { }
+void CreateUltimateGemerlBoss() { }
 
 void sub_8085588() { }
