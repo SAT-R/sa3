@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "game/shared/stage/player.h"
 #include "game/bosses.h"
+#include "game/shared/stage/player_callbacks.h" // sub_80105F0
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode
@@ -32,7 +33,7 @@ typedef struct {
     /* 0x001 */ u8 unk2;
     /* 0x001 */ u8 unk3;
     /* 0x004 */ s16 unk4;
-    /* 0x006 */ s16 unk6;
+    /* 0x006 */ s16 ringCountdownDelay;
     /* 0x008 */ s16 unk8;
     /* 0x00A */ u8 unkA;
     /* 0x00B */ u8 unkB;
@@ -49,7 +50,10 @@ typedef struct {
     /* 0x024 */ u8 *vram24;
     /* 0x028 */ Player *players[ENAP_COUNT]; // 0 : Sonic, 1 : Eggman
     /* 0x030 */ Task *taskCutscene; // (AltarEmeraldCutsceneEggmanEscape *)
-    /* 0x030 */ u8 filler34[0x38];
+    /* 0x030 */ u8 filler34[0x2A];
+    /* 0x060 */ u8 unk5E;
+    /* 0x060 */ u8 unk5F;
+    /* 0x060 */ u8 filler60[0xC];
     /* 0x06C */ u8 *vram6C;
     /* 0x072 */ u8 unk70;
     /* 0x072 */ u8 unk71;
@@ -255,7 +259,7 @@ void Task_878_8081E74(void)
         gCamera.SA2_LABEL(unk50) &= ~1;
         boss->unk4 = 1;
         boss->unk8 = 0;
-        boss->unk6 = 0x3C;
+        boss->ringCountdownDelay = TIME(0, 1);
         sub_878_8081FBC(boss);
         sub_878_80824F4(boss);
         boss->vram1C = VramMalloc(16);
@@ -265,7 +269,7 @@ void Task_878_8081E74(void)
     }
 }
 
-#if 0
+// TODO: Fake-match! (sorta, just very confusingy done)
 void sub_878_8081EFC(UltimateGemerl *boss)
 {
     Player *temp_r2;
@@ -276,49 +280,48 @@ void sub_878_8081EFC(UltimateGemerl *boss)
     u8 temp_r0_3;
 
     if (gStageData.rings != 0) {
-        if (boss->lives == 0) {
+        if (boss->lives != 0) {
+            goto else_block;
+        }
+    } else {
+        {
+            if (gStageData.unk4 != 7) {
+                if (!(boss->players[ENAP_SONIC]->moveState & 0x100)) {
+                    SetPlayerCallback(boss->players[ENAP_SONIC], sub_80105F0);
+                }
+                if (!(boss->players[ENAP_EGGMAN]->moveState & 0x100)) {
+                    SetPlayerCallback(boss->players[ENAP_EGGMAN], sub_80105F0);
+                }
+            }
+            if (boss->unk5F == 1) {
+                boss->unk5F++;
+                boss->unk4 = 1;
+                boss->unk8 = 0;
+                boss->unk1 = 7;
+                boss->unkD = boss->unkC;
+            }
             return;
         }
+
+    else_block:
         if (gStageData.unk4 == 7) {
             boss->unk1 = gStageData.unk4;
             return;
         }
-        temp_r2 = boss->players[0];
-        if (!(temp_r2->moveState & 0x100)) {
-            temp_r0 = boss->unk6 - 1;
-            boss->unk6 = temp_r0;
-            if ((temp_r0 << 0x10) == 0) {
-                boss->unk6 = 0x3CU;
-                temp_r0_2 = gStageData.rings - 1;
-                gStageData.rings = temp_r0_2;
-                if ((temp_r0_2 << 0x10) == 0) {
-                    SetPlayerCallback(temp_r2, sub_80105F0);
-                    SetPlayerCallback(boss->players[1], sub_80105F0);
+        if (!(boss->players[ENAP_SONIC]->moveState & 0x100)) {
+            if (--boss->ringCountdownDelay == 0) {
+                boss->ringCountdownDelay = TIME(0, 1);
+                gStageData.rings--;
+                if (gStageData.rings == 0) {
+                    SetPlayerCallback(boss->players[ENAP_SONIC], sub_80105F0);
+                    SetPlayerCallback(boss->players[ENAP_EGGMAN], sub_80105F0);
                 }
             }
-        }
-    } else {
-        if (gStageData.unk4 != 7) {
-            temp_r2_2 = boss->players[0];
-            if (!(temp_r2_2->moveState & 0x100)) {
-                SetPlayerCallback(temp_r2_2, sub_80105F0);
-            }
-            temp_r2_3 = boss->players[1];
-            if (!(temp_r2_3->moveState & 0x100)) {
-                SetPlayerCallback(temp_r2_3, sub_80105F0);
-            }
-        }
-        temp_r0_3 = boss->filler30[0x2F];
-        if (temp_r0_3 == 1) {
-            boss->filler30[0x2F] = temp_r0_3 + 1;
-            boss->unk4 = (s16)temp_r0_3;
-            boss->unk8 = 0;
-            boss->unk1 = 7;
-            boss->unkD = boss->unkC;
         }
     }
 }
 
+#if 0
 void sub_878_8081FBC(UltimateGemerl *boss)
 {
     SpriteTransform *sp0;
