@@ -6,146 +6,10 @@
 #include "game/shared/stage/player_callbacks.h" // sub_80105F0
 #include "game/save.h"
 #include "game/stage.h"
+#include "game/sa3/bosses/boss_extra.h"
 #include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode
 
-typedef enum {
-    ENAP_SONIC,
-    ENAP_EGGMAN,
-
-    ENAP_COUNT
-} ENonAggressionPlayers;
-
-typedef struct {
-    /* 0x00 */ s32 qOffsetX; // TODO: Is it qWorldX instead?
-    /* 0x04 */ s32 qOffsetY; // TODO: Is it qWorldY instead?
-    /* 0x08 */ u8 filler8[0x10];
-} UltiamteGemerlSub10C; /* 0x18 */
-
-typedef struct {
-    /* 0x00 */ s32 qWorldX;
-    /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u8 filler8[0xC];
-} UltiamteGemerlSub16C; /* 0x14 */
-
-typedef struct {
-    /* 0x000 */ u8 lives;
-    /* 0x001 */ u8 unk1;
-    /* 0x001 */ u8 unk2;
-    /* 0x001 */ u8 unk3;
-    /* 0x004 */ s16 unk4;
-    /* 0x006 */ s16 ringCountdownDelay;
-    /* 0x008 */ s16 unk8;
-    /* 0x00A */ u8 unkA;
-    /* 0x00B */ u8 unkB;
-    /* 0x00C */ u8 unkC;
-    /* 0x00D */ u8 unkD;
-    /* 0x00E */ u8 fillerE[0x2];
-    /* 0x010 */ s16 unk10;
-    /* 0x012 */ s16 unk12;
-    /* 0x014 */ u8 filler14[0x3];
-    /* 0x017 */ u8 unk17;
-    /* 0x018 */ s32 unk18;
-    /* 0x01C */ u8 *vram1C;
-    /* 0x020 */ u8 *vram20;
-    /* 0x024 */ u8 *vram24;
-    /* 0x028 */ Player *players[ENAP_COUNT]; // 0 : Sonic, 1 : Eggman
-    /* 0x030 */ Task *taskCutscene; // (AltarEmeraldCutsceneEggmanEscape *)
-    /* 0x030 */ u8 filler34[0x2A];
-    /* 0x060 */ u8 unk5E;
-    /* 0x060 */ u8 unk5F;
-    /* 0x060 */ u8 filler60[0xC];
-    /* 0x06C */ u8 *vram6C;
-    /* 0x072 */ u8 unk70;
-    /* 0x072 */ u8 unk71;
-    /* 0x072 */ s16 vram72;
-    /* 0x074 */ Sprite spr74;
-    /* 0x09C */ s32 qUnk9C;
-    /* 0x09C */ s32 qUnkA0;
-    /* 0x0A4 */ u8 fillerA4[0x68];
-    /* 0x10C */ UltiamteGemerlSub10C strc10C[4];
-    /* 0x16C */ UltiamteGemerlSub16C strc16C[4][6];
-    /* 0x34C */ u8 filler34C[0x40];
-    /* 0038C */ Sprite spr38C;
-    /* 0038C */ Sprite spr3B4[4];
-    /* 0038C */ Sprite spr454[4][6];
-    /* 0038C */ Sprite spr814;
-    /* 0038C */ SpriteTransform tf83C;
-    /* 0038C */ SpriteTransform tf848[4];
-} UltimateGemerl; /* 0x878 */
-
-typedef struct {
-    /* 0x00 */ s32 qWorldX;
-    /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u8 filler8[0xC];
-    /* 0x14 */ u16 rotation;
-    /* 0x16 */ u8 filler16[0x2];
-    /* 0x18 */ Sprite spr18;
-    /* 0x40 */ SpriteTransform tf40;
-    /* 0x4C */ UltimateGemerl *boss;
-} UltimateGemerlMissile;
-
-typedef struct {
-    /* 0x00 */ s32 qWorldX;
-    /* 0x04 */ s32 qWorldY;
-    /* 0x04 */ s16 unk8;
-    /* 0x04 */ s16 unkA;
-    /* 0x04 */ s16 unkC;
-    /* 0x04 */ s16 unkE;
-    /* 0x10 */ Sprite s;
-} UltimateGemerlExplosion; /* 0x38 */
-
-void CreateUltimateGemerlBoss(void);
-void TaskDestructor_878_8081D64(Task *t);
-void Task_878_8081E74(void);
-void sub_878_8081EFC(UltimateGemerl *boss);
-void sub_878_8081FBC(UltimateGemerl *boss);
-void sub_878_808211C(UltimateGemerl *boss);
-void sub_878_8082388(UltimateGemerl *boss);
-void sub_878_8082428(UltimateGemerl *boss);
-void sub_878_80824F4(UltimateGemerl *boss);
-void sub_878_8082794(UltimateGemerl *boss);
-void sub_878_8082A4C(UltimateGemerl *boss);
-void sub_878_8082D08(UltimateGemerl *boss);
-s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1);
-void sub_878_8083A44(UltimateGemerl *boss, u8 param1);
-void sub_878_8083BE4(UltimateGemerl *boss);
-void sub_878_8083F8C(UltimateGemerl *boss);
-void sub_878_808439C(UltimateGemerl *boss);
-void sub_878_808491C(UltimateGemerl *boss);
-void sub_878_8084B2C(UltimateGemerl *boss);
-void sub_878_8084BEC(UltimateGemerl *boss);
-void sub_878_8084C50(UltimateGemerl *boss);
-void sub_878_8084EB4(UltimateGemerl *boss);
-void sub_878_80851FC(UltimateGemerl *boss, u8 param1);
-void sub_878_80853D8(UltimateGemerl *boss);
-void sub_878_8085458(UltimateGemerl *boss);
-void sub_878_80854B8(UltimateGemerl *boss, u8 param1);
-void sub_8085588(u8 *param0, s16 param1);
-void sub_8085618(u16 param0, u16 param1, s16 param2);
-void unused_80856DC(u16 param0, u16 param1, s16 param2);
-void sub_808587C(u16 param0, u16 param1, s16 param2);
-void sub_878_80862D8(UltimateGemerl *boss);
-void TaskDestructor_878_8086ED8(Task *t);
-void Task_878_8086F08(void);
-void Task_878_8086F48(void);
-void Task_878_8086FA4(void);
-void Task_878_CallDestroy(Task *t);
-void Task_Missile_8086B94(void);
-void sub_808706C(UltimateGemerl *boss, u8 param1);
-void sub_878_80870B0(UltimateGemerl *boss);
-u8 sub_80871CC(UltimateGemerl *boss, Player *p);
-
 // TEMP
-
-#ifdef M2C
-void CreateUltimateGemerlBoss(UltimateGemerl *boss);
-void Task_878_8081E74(UltimateGemerl *boss);
-void sub_8085588(u8 *param0, s16 param1, UltimateGemerl *boss);
-void Task_Missile_8086B94(UltimateGemerlMissile *missile);
-void Task_878_8086F08(UltimateGemerl *boss);
-void Task_878_8086F48(UltimateGemerl *boss);
-void Task_878_8086FA4(UltimateGemerl *boss);
-#endif
 
 void CreateUltimateGemerlBoss(void)
 {
@@ -232,7 +96,7 @@ void CreateUltimateGemerlForCutscene(Task *taskCutscene)
     UltimateGemerl *boss;
 
     boss = TASK_DATA(TaskCreate(Task_878_8086FA4, sizeof(UltimateGemerl), 0x2100U, 0U, TaskDestructor_878_8086ED8));
-    boss->taskCutscene = taskCutscene; // (AltarEmeraldCutsceneEggmanEscape *)
+    boss->taskCutscene = taskCutscene; // -> (AltarEmeraldCutsceneEggmanEscape *)
     boss->unk4 = 1;
     boss->unk8 = 0;
     boss->unk1 = 6;
@@ -321,70 +185,60 @@ void sub_878_8081EFC(UltimateGemerl *boss)
     }
 }
 
-#if 0
+#if 01
+#else
 void sub_878_8081FBC(UltimateGemerl *boss)
 {
-    SpriteTransform *sp0;
-    s32 *var_r3;
-    s32 *var_r4;
-    s32 temp_r0;
-    s32 temp_r2;
-    u8 var_r0;
-
     if (boss->unk1 != 6) {
-        var_r4 = &boss->qUnk9C;
-        boss->qUnk9C = (gCamera.x + 0xC8) << 8;
-        var_r3 = &boss->qUnkA0;
-        boss->qUnkA0 = 0x7800;
-        boss->unkF4 = (s32)((gCamera.x + 0x78) << 8);
-        boss->unkF8 = 0x7800;
-        *((&boss->fillerA4[0x50] + 4) - 0x48) = 0x7800;
-        boss->unkB4 = 0;
-        var_r0 = 1;
+        boss->qUnk9C = Q(gCamera.x + 200);
+        boss->qUnkA0 = Q(120);
+        boss->qUnkF4 = Q(gCamera.x + DISPLAY_CENTER_X);
+        boss->qUnkF8 = Q(120);
+        boss->qUnkB0 = Q(120);
+        boss->qUnkB4 = 0;
+        boss->unk108 = 1;
     } else {
-        var_r4 = &boss->qUnk9C;
-        temp_r2 = (gCamera.x + 0x78) << 8;
-        boss->qUnk9C = temp_r2;
-        var_r3 = &boss->qUnkA0;
-        temp_r0 = (gCamera.y + 0x50) << 8;
-        boss->qUnkA0 = temp_r0;
-        boss->unkF4 = temp_r2;
-        boss->unkF8 = temp_r0;
-        boss->unkB0 = 0;
-        boss->unkB4 = 0;
-        var_r0 = 2;
+        boss->qUnk9C = Q(gCamera.x + DISPLAY_CENTER_X);
+        boss->qUnkA0 = Q(gCamera.y + DISPLAY_CENTER_Y);
+        boss->qUnkF4 = boss->qUnk9C;
+        boss->qUnkF8 = boss->qUnkA0;
+        boss->qUnkB0 = 0;
+        boss->qUnkB4 = 0;
+        boss->unk108 = 2;
     }
-    boss->fillerA4[0x64] = var_r0;
     boss->unkFC = 0;
-    boss->unkB8 = 0U;
+    boss->rotation = 0;
     boss->unkA4 = 0x400;
-    boss->fillerA4[0x4A] = 0;
-    boss->fillerA4[0x4B] = 0;
-    (&boss->fillerA4[0x4A])[1].unk1 = 0;
+    boss->fillerA8[0x4A - 4] = 0;
+    boss->fillerA8[0x4B - 4] = 0;
+    boss->fillerA8[0x4A - 2] = 0;
     sub_8086FF8(boss, 0U);
-    sp0 = &boss->tf83C;
-    boss->spr38C.tiles = VramMalloc(0x80U);
-    boss->spr38C.anim = 0x4FD;
-    boss->spr38C.variant = 0;
-    boss->spr38C.oamFlags = 0x280;
-    boss->spr38C.animCursor = 0;
-    boss->spr38C.qAnimDelay = 0;
-    boss->spr38C.prevVariant = 0xFF;
-    boss->spr38C.animSpeed = 0x10;
-    boss->spr38C.palId = 0;
-    boss->spr38C.hitboxes[0].index = -1;
-    boss->spr38C.frameFlags = 0x1000;
-    if (boss->unk1 != 6) {
-        boss->spr38C.frameFlags = 0x2A | 0x1000;
+    {
+        SpriteTransform *tf = &boss->tf83C;
+        Sprite *s = &boss->spr38C;
+        s->tiles = VramMalloc(0x80U);
+        s->anim = 0x4FD;
+        s->variant = 0;
+        s->oamFlags = 0x280;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x1000;
+        if (boss->unk1 != 6) {
+            s->frameFlags = 0x2A | 0x1000;
+        }
+        s->x = I(boss->qUnk9C) - gCamera.x;
+        s->y = I(boss->qUnkA0) - gCamera.y;
+        tf->rotation = boss->rotation;
+        tf->x = s->x;
+        tf->y = s->y;
+        tf->qScaleX = Q(1);
+        tf->qScaleY = Q(1);
+        UpdateSpriteAnimation(&boss->spr38C);
     }
-    boss->spr38C.x = ((s32)*var_r4 >> 8) - gCamera.x;
-    boss->spr38C.y = ((s32)*var_r3 >> 8) - gCamera.y;
-    boss->tf83C.rotation = boss->unkB8;
-    boss->tf83C.x = (s16)(u16)boss->spr38C.x;
-    boss->tf83C.y = (s16)(u16)boss->spr38C.y;
-    boss->tf83C.qScaleX = 0x100;
-    boss->tf83C.qScaleY = 0x100;
-    UpdateSpriteAnimation(&boss->spr38C);
 }
 
 void sub_878_808211C(UltimateGemerl *boss)
@@ -547,7 +401,7 @@ void sub_878_8082388(UltimateGemerl *boss)
         case 1:
             boss->spr38C.x = ((s32)boss->qUnk9C >> 8) - gCamera.x;
             boss->spr38C.y = ((s32)boss->qUnkA0 >> 8) - gCamera.y;
-            boss->tf83C.rotation = boss->unkB8;
+            boss->tf83C.rotation = boss->rotation;
             boss->tf83C.x = (s16)(u16)boss->spr38C.x;
             boss->tf83C.y = (s16)(u16)boss->spr38C.y;
             TransformSprite(temp_r4, &boss->tf83C);
@@ -629,7 +483,7 @@ void sub_878_80824F4(UltimateGemerl *boss)
     Sprite *temp_r6;
     Sprite *temp_r6_2;
     SpriteTransform *temp_r3;
-    UltiamteGemerlSub10C *temp_r0;
+    UltimateGemerlSub10C *temp_r0;
     s32 *temp_r0_2;
     s32 *temp_r3_2;
     s32 *temp_r4;
@@ -998,23 +852,23 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
     u32 sp20;
     u32 sp24;
     s32 sp28;
-    UltiamteGemerlSub10C *sp2C;
+    UltimateGemerlSub10C *sp2C;
     s32 *sp30;
     u8 *sp34;
-    UltiamteGemerlSub10C *sp38;
+    UltimateGemerlSub10C *sp38;
     s32 sp3C;
-    UltiamteGemerlSub16C *sp40;
+    UltimateGemerlSub16C *sp40;
     s32 *sp44;
     u8 *sp48;
     s32 sp4C;
-    UltiamteGemerlSub16C *sp50;
+    UltimateGemerlSub16C *sp50;
     s32 *sp54;
     u32 sp58;
     u32 sp5C;
     u8 *sp60;
     s32 sp64;
-    UltiamteGemerlSub16C *sp68;
-    UltiamteGemerlSub16C *sp6C;
+    UltimateGemerlSub16C *sp68;
+    UltimateGemerlSub16C *sp6C;
     s32 *sp70;
     s32 *sp74;
     s32 *sp78;
@@ -1485,7 +1339,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             var_r6_7 = sp88;
             goto block_108;
         case 5:
-            var_r7_3 = (boss->unkB8 + 0x80) & 0x3FF;
+            var_r7_3 = (boss->rotation + 0x80) & 0x3FF;
             sp24 = 0;
             sp74 = &boss->qUnk9C;
             sp78 = &boss->qUnkA0;
@@ -2455,11 +2309,11 @@ void sub_878_808491C(UltimateGemerl *boss)
             }
             temp_r0_3 = (boss->unk100 - gUnknown_080D5D20.unk8) & 0x3FFFF;
             boss->unk100 = temp_r0_3;
-            boss->unkB8 = (u16)(temp_r0_3 >> 8);
+            boss->rotation = (u16)(temp_r0_3 >> 8);
             temp_r0_4 = boss->unk104 - gUnknown_080D5D20.unk8;
             boss->unk104 = temp_r0_4;
             if (temp_r0_4 <= 0) {
-                boss->unkB8 = 0U;
+                boss->rotation = 0U;
                 m4aSongNumStop(0x214U);
                 var_r1 = 0;
                 do {
@@ -2482,7 +2336,7 @@ void sub_878_808491C(UltimateGemerl *boss)
             }
             return;
         case 0x0:
-            boss->unkB8 = temp_r2;
+            boss->rotation = temp_r2;
             boss->fillerA4[0x16] = 0;
             (&boss->fillerA4[0x14])[2].unk1 = 0;
             var_r1_2 = 0;
@@ -2528,7 +2382,7 @@ void sub_878_808491C(UltimateGemerl *boss)
             temp_r3 = *(((u32)((var_r0_2 >> 0xA) << 0x18) >> 0x16) + &gUnknown_080D5D20);
             temp_r1_3 = (boss->unk100 - temp_r3) & 0x3FFFF;
             boss->unk100 = temp_r1_3;
-            boss->unkB8 = (u16)(temp_r1_3 >> 8);
+            boss->rotation = (u16)(temp_r1_3 >> 8);
             temp_r1_4 = boss->unk104 + temp_r3;
             boss->unk104 = temp_r1_4;
             if (temp_r1_4 > 0xBFFFF) {
