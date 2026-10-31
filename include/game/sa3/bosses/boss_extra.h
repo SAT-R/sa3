@@ -61,7 +61,12 @@ typedef struct {
     /* 0x0B0 */ s32 qUnkB0;
     /* 0x0B4 */ s32 qUnkB4;
     /* 0x0B8 */ u16 rotation;
-    /* 0x0BA */ u8 fillerBA[0x3A];
+    /* 0x0BA */ u8 fillerBA[0x32];
+    /* 0x0BC */ u8 unkEC;
+    /* 0x0BD */ u8 unkED;
+    /* 0x0BE */ u8 unkEE;
+    /* 0x0BF */ u8 unkEF;
+    /* 0x0BA */ u16 unkF0;
     /* 0x0F4 */ s32 qUnkF4;
     /* 0x0F8 */ s32 qUnkF8;
     /* 0x0F8 */ s32 unkFC;
@@ -155,6 +160,7 @@ void Task_Missile_8086B94(UltimateGemerlMissile *missile);
 void Task_878_8086F08(UltimateGemerl *boss);
 void Task_878_8086F48(UltimateGemerl *boss);
 void Task_878_8086FA4(UltimateGemerl *boss);
+void TaskDestructor_878_8081D64(UltimateGemerl *boss);
 #endif
 
 #endif // GUARD_SA3_BOSS_EXTRA_H
