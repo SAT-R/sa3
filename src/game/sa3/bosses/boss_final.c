@@ -219,7 +219,7 @@ void TaskDestructor_AltarEmeraldPostBossCutscene(Task *t);
 void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *sceneEggman);
 void sub_80811E0(AltarEmeraldCutsceneEggmanEscape *sceneEggman);
 void TaskDestructor_ExtraChaosEmeralds(Task *t);
-extern void sub_8086D64(s16, s16, s16, s16, u8, u8 *vram);
+extern void BossExtra_CreateExplosion(s16, s16, s16, s16, u8, u8 *vram);
 void sub_808170C(HyperEggRobo *boss);
 void sub_8081A40(HyperEggRobo *boss);
 void sub_8081AA0(HyperEggRobo *boss);
@@ -262,10 +262,10 @@ typedef struct {
     s32 b : 16;
     s32 c : 16;
     s32 d : 16;
-} SomeMatrix;
+} SomePosition;
 
 // TODO: Seems like the 1st parameter is a different type, that is just 0x8 bytes? Is it a different function overall?
-extern void SA2_LABEL(sub_8085A9C)(SomeMatrix *p1, u8 p2);
+extern void SA2_LABEL(sub_8085A9C)(SomePosition *p1, u8 p2);
 
 void CreateHyperEggRobo(u8 *arg0)
 {
@@ -1754,8 +1754,8 @@ u8 sub_807D9B4(HyperEggRobo *boss, u8 param1)
 // (86.58%) https://decomp.me/scratch/UmZSB
 NONMATCH("asm/non_matching/game/sa3/bosses/boss_f__sub_807DA34.inc", void sub_807DA34(HyperEggRobo *boss, u8 param1))
 {
-    SomeMatrix sp0;
-    SomeMatrix sp4;
+    SomePosition sp0;
+    SomePosition sp4;
 
     s16 var_r0;
     s32 temp_r1_2;
@@ -2310,7 +2310,7 @@ void sub_807E214(HyperEggRobo *boss, u8 param1)
 
 void sub_807E54C(HyperEggRobo *boss, u8 param1)
 {
-    SomeMatrix sp0;
+    SomePosition sp0;
     Sprite *s;
     s32 var_r0;
     s32 var_r0_2;
@@ -2503,7 +2503,7 @@ void sub_807E54C(HyperEggRobo *boss, u8 param1)
 
 void sub_807E99C(HyperEggRobo *boss, u8 param1)
 {
-    SomeMatrix sp0;
+    SomePosition sp0;
     HyberEggRoboStrc144 *temp_r5;
     Sprite *var_r2;
     SpriteTransform *tf;
@@ -2588,7 +2588,7 @@ void sub_807E99C(HyperEggRobo *boss, u8 param1)
 
 void sub_807EBB8(HyperEggRobo *boss, u8 param1)
 {
-    SomeMatrix sp0;
+    SomePosition sp0;
     Sprite *s;
     SpriteTransform *tf;
     HyberEggRoboStrc144 *temp_r5 = &boss->pos144[param1];
@@ -3898,7 +3898,7 @@ void sub_1C0_8080548(AltarEmeraldCutsceneSuperSonic *arg0)
     }
     if (arg0->unk1 != 0) {
         var_r4_2 = arg0->sprEmeralds;
-        for (var_r5 = 0; var_r5 < 7; var_r5++, var_r4_2++) {
+        for (var_r5 = 0; var_r5 < ARRAY_COUNT(arg0->unk1C); var_r5++, var_r4_2++) {
             var_r4_2->x = I(arg0->unk1C[var_r5].qWorld.x) - gCamera.x;
             var_r4_2->y = I(arg0->unk1C[var_r5].qWorld.y) - gCamera.y;
             UpdateSpriteAnimation(var_r4_2);
@@ -4134,7 +4134,8 @@ void sub_8080BD0(AltarEmeraldCutsceneEggmanEscape *arg0)
                     temp_r3_2 = PseudoRandom32() % 16u;
                     cosVal = ((u32)(COS(temp_r1_5) * temp_r3_2) >> 6);
                     sinVal = ((u32)(SIN(temp_r1_5) * temp_r3_2) >> 6);
-                    sub_8086D64(I(subStrc14_0->qWorld.x + cosVal), I(subStrc14_0->qWorld.y + sinVal), 0x100, 0x200, 0x1E, arg0->vram8);
+                    BossExtra_CreateExplosion(I(subStrc14_0->qWorld.x + cosVal), I(subStrc14_0->qWorld.y + sinVal), 0x100, 0x200, 0x1E,
+                                              arg0->vram8);
                 }
                 if ((I(subStrc14_0->qWorld.x) <= 2454) && !(0x3F & subStrc14_0->unk14)) {
                     m4aSongNumStart(0x221U);

@@ -187,16 +187,17 @@ gUnknown_08E2ED48:
     mPtr sub_1C0_807FEB4
     mPtr sub_1C0_808007C
 
+    @ void (*ExtraBossFunc0)(ExtraBoss *boss)
     .global gUnknown_08E2ED50
 gUnknown_08E2ED50:
-    mPtr sub_80870B0
-    mPtr sub_8083BE4
-    mPtr sub_8083F8C
-    mPtr sub_808439C
-    mPtr sub_808491C
-    mPtr sub_8084B2C
-    mPtr sub_8084C50
-    mPtr sub_8084BEC
+    mPtr sub_878_80870B0
+    mPtr sub_878_8083BE4
+    mPtr sub_878_8083F8C
+    mPtr sub_878_808439C
+    mPtr sub_878_808491C
+    mPtr sub_878_8084B2C
+    mPtr sub_878_8084C50
+    mPtr sub_878_8084BEC
     mPtr -1
     mPtr -1
     mPtr -1
