@@ -57,11 +57,14 @@ typedef struct {
     /* 0x09C */ s32 qUnk9C;
     /* 0x09C */ s32 qUnkA0;
     /* 0x0A4 */ s32 unkA4;
-    /* 0x0A8 */ u8 fillerA8[0x8];
+    /* 0x0A8 */ s32 unkA8;
+    /* 0x0AC */ u8 fillerAC[0x4];
     /* 0x0B0 */ s32 qUnkB0;
     /* 0x0B4 */ s32 qUnkB4;
     /* 0x0B8 */ u16 rotation;
-    /* 0x0BA */ u8 fillerBA[0x32];
+    /* 0x0BA */ u8 fillerBA[0x26];
+    /* 0x0E0 */ u16 unkE0;
+    /* 0x0E2 */ u8 fillerE2[0xA];
     /* 0x0BC */ u8 unkEC;
     /* 0x0BD */ u8 unkED;
     /* 0x0BE */ u8 unkEE;

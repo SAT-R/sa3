@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/shared/stage/player.h"
 #include "game/bosses.h"
@@ -9,8 +10,6 @@
 #include "game/sa3/bosses/boss_extra.h"
 #include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode
 #include "constants/animations.h"
-
-// TEMP
 
 void CreateUltimateGemerlBoss(void)
 {
@@ -241,49 +240,42 @@ void sub_878_8081FBC(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
+// TODO: Fake-match!
 void sub_878_808211C(UltimateGemerl *boss)
 {
-    s32 *var_r3;
-    s32 *var_r4;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r3;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
+#ifndef NON_MATCHING
+    register s32 x asm("r0") = I(boss->players[0]->qWorldX);
+    register s32 var_r1 asm("r1");
+#else
+    s32 x = I(boss->players[0]->qWorldX);
     s32 var_r1;
-    u8 temp_r0;
-    u8 temp_r2;
+#endif
+    x = (((x + (gCamera.unk6A * 2)) - gCamera.x));
+    var_r1 = x - 0xB4;
 
-    temp_r1 = ((((s32)boss->players[0]->qWorldX >> 8) + (gCamera.unk6A * 2)) - gCamera.x) - 0xB4;
-    if (temp_r1 <= 0) {
+    if (var_r1 <= 0) {
         var_r1 = 0;
     } else {
-        var_r1 = 0 - temp_r1;
+        var_r1 = -var_r1;
     }
-    if ((gStageData.gameMode == 5) && (var_r1 == 0)) {
-        temp_r1_2 = ((((s32)boss->players[1]->qWorldX >> 8) + (gCamera.unk6A * 2)) - gCamera.x) - 0xB4;
-        if (temp_r1_2 <= 0) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (var_r1 == 0)) {
+        s32 x = (I(boss->players[1]->qWorldX));
+        var_r1 = (gCamera.unk6A * 2);
+        var_r1 = (x + var_r1);
+        x = (var_r1 - gCamera.x);
+        var_r1 = x - 180;
+        if (var_r1 <= 0) {
             var_r1 = 0;
         } else {
-            var_r1 = 0 - temp_r1_2;
+            var_r1 = -var_r1;
         }
     }
     if (boss->unk1 == 7) {
         var_r1 = 0;
     }
-    temp_r2 = boss->unk17;
-    if ((gCamera.unk6A != 0) || (temp_r2 != 0)) {
-        if (temp_r2 != 0) {
-            boss->unk17 = temp_r2 - 1;
+    if ((gCamera.unk6A != 0) || (boss->unk17 != 0)) {
+        if (boss->unk17 != 0) {
+            boss->unk17--;
         }
         if (gCamera.unk6A != 0) {
             boss->unk17 = 1;
@@ -291,134 +283,96 @@ void sub_878_808211C(UltimateGemerl *boss)
         var_r1 = boss->unk18;
     }
     boss->unk18 = var_r1;
-    boss->qUnkF4 = (gCamera.x + (var_r1 + 0x78)) << 8;
+    boss->qUnkF4 = Q(gCamera.x + (var_r1 += DISPLAY_CENTER_X));
     boss->unkEE = 0;
-    temp_r0 = boss->fillerBA[0x33];
-    var_r3 = &boss->qUnkB0;
-    var_r4 = &boss->qUnkB4;
-    switch ((u32)temp_r0) { /* irregular */
+    switch (boss->unkED) {
+        case 0:
+            break;
         case 1:
-            temp_r1_3 = boss->qUnkB0 + 0xFFFFFE00;
-            boss->qUnkB0 = temp_r1_3;
-            var_r3 = &boss->qUnkB0;
-            var_r4 = &boss->qUnkB4;
-            if (temp_r1_3 > 0) {
-
-            } else {
+            boss->qUnkB0 -= Q(2);
+            if (boss->qUnkB0 <= 0) {
                 boss->qUnkB0 = 0;
-            block_41:
                 boss->unkEE = 1;
             }
             break;
         case 2:
-            temp_r1_4 = boss->qUnkB0 + 0x200;
-            boss->qUnkB0 = temp_r1_4;
-            var_r3 = &boss->qUnkB0;
-            var_r4 = &boss->qUnkB4;
-            if (temp_r1_4 <= 0x77FF) {
-
-            } else {
-                boss->qUnkB0 = 0x7800;
-                goto block_41;
+            boss->qUnkB0 += Q(2);
+            if (boss->qUnkB0 >= Q(120)) {
+                boss->qUnkB0 = Q(120);
+                boss->unkEE = 1;
             }
             break;
         case 3:
-            var_r0 = gSineTable[boss->unkE0 + 0x100] * boss->unkFC;
-            var_r3 = &boss->qUnkB0;
-            if (var_r0 < 0) {
-                var_r0 += 0x3F;
-            }
-            boss->qUnkB0 = var_r0 >> 6;
-            var_r0_2 = gSineTable[boss->unkE0] * boss->unkFC;
-            var_r4 = &boss->qUnkB4;
-            if (var_r0_2 < 0) {
-                var_r0_2 += 0x3F;
-            }
-            boss->qUnkB4 = var_r0_2 >> 6;
+            boss->qUnkB0 = ((COS(boss->unkE0) * boss->unkFC) / 0x40);
+            boss->qUnkB4 = ((SIN(boss->unkE0) * boss->unkFC) / 0x40);
             break;
         case 4:
-            temp_r3 = boss->qUnkB4;
-            var_r4 = &boss->qUnkB4;
-            if (temp_r3 < 0) {
-                temp_r0_2 = temp_r3 + 0x80;
-                boss->qUnkB4 = temp_r0_2;
-                var_r3 = &boss->qUnkB0;
-                if (temp_r0_2 >= 0) {
-                    var_r0_3 = 0;
-                    goto block_40;
+            if (boss->qUnkB4 < 0) {
+                boss->qUnkB4 += Q(0.5);
+                if (boss->qUnkB4 >= 0) {
+                    boss->qUnkB4 = 0;
+                    boss->unkEE = 1;
                 }
             } else {
-                temp_r0_3 = temp_r3 - 0x80;
-                boss->qUnkB4 = temp_r0_3;
-                var_r3 = &boss->qUnkB0;
-                if (temp_r0_3 <= 0) {
-                    var_r0_3 = 0;
-                block_40:
-                    *var_r4 = var_r0_3;
-                    goto block_41;
+                boss->qUnkB4 -= Q(0.5);
+                if (boss->qUnkB4 <= 0) {
+                    boss->qUnkB4 = 0;
+                    boss->unkEE = 1;
                 }
             }
             break;
         case 5:
-            temp_r0_4 = boss->qUnkB4 - 0x80;
-            boss->qUnkB4 = temp_r0_4;
-            var_r3 = &boss->qUnkB0;
-            var_r4 = &boss->qUnkB4;
-            if (temp_r0_4 <= 0xFFFFA000) {
-                boss->qUnkB4 = -0x6000;
-                goto block_41;
+            boss->qUnkB4 -= 0x80;
+            if (boss->qUnkB4 <= -Q(96)) {
+                boss->qUnkB4 = -Q(96);
+                boss->unkEE = 1;
             }
             break;
         case 6:
-            temp_r1_5 = boss->qUnkB4 + 0x80;
-            boss->qUnkB4 = temp_r1_5;
-            var_r3 = &boss->qUnkB0;
-            var_r4 = &boss->qUnkB4;
-            if (temp_r1_5 > 0x5FFF) {
-                var_r0_3 = 0x6000;
-                goto block_40;
+            boss->qUnkB4 += Q(0.5);
+            if (boss->qUnkB4 >= Q(96)) {
+                boss->qUnkB4 = Q(96);
+                boss->unkEE = 1;
             }
             break;
         case 8:
             boss->unkA8 = (s32)(boss->unkA8 + 4);
-            var_r3 = &boss->qUnkB0;
             boss->qUnkB0 += boss->unkA4;
             boss->qUnkB4 += boss->unkA8;
-            var_r4 = &boss->qUnkB4;
             break;
     }
-    boss->qUnk9C = boss->qUnkF4 + *var_r3;
-    boss->qUnkA0 = boss->qUnkF8 + *var_r4;
+    boss->qUnk9C = boss->qUnkF4 + boss->qUnkB0;
+    boss->qUnkA0 = boss->qUnkF8 + boss->qUnkB4;
     sub_878_8082E2C(boss, 0U);
 }
 
 void sub_878_8082388(UltimateGemerl *boss)
 {
-    Sprite *temp_r4;
-    u8 temp_r0;
+    Sprite *s = &boss->spr38C;
+    SpriteTransform *tf = &boss->tf83C;
 
-    temp_r4 = &boss->spr38C;
-    temp_r0 = boss->unk108;
-    switch (temp_r0) { /* irregular */
+    switch (boss->unk108) {
         case 1:
-            boss->spr38C.x = ((s32)boss->qUnk9C >> 8) - gCamera.x;
-            boss->spr38C.y = ((s32)boss->qUnkA0 >> 8) - gCamera.y;
-            boss->tf83C.rotation = boss->rotation;
-            boss->tf83C.x = (s16)(u16)boss->spr38C.x;
-            boss->tf83C.y = (s16)(u16)boss->spr38C.y;
-            TransformSprite(temp_r4, &boss->tf83C);
-            UpdateSpriteAnimation(temp_r4);
-            DisplaySprite(temp_r4);
-            return;
+            s->x = I(boss->qUnk9C) - gCamera.x;
+            s->y = I(boss->qUnkA0) - gCamera.y;
+            tf->rotation = boss->rotation;
+            tf->x = s->x;
+            tf->y = s->y;
+            TransformSprite(s, &boss->tf83C);
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            break;
         case 2:
-            boss->spr38C.x = ((s32)boss->qUnk9C >> 8) - gCamera.x;
-            boss->spr38C.y = ((s32)boss->qUnkA0 >> 8) - gCamera.y;
-            UpdateSpriteAnimation(temp_r4);
-            DisplaySprite(temp_r4);
-            return;
+            s->x = I(boss->qUnk9C) - gCamera.x;
+            s->y = I(boss->qUnkA0) - gCamera.y;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+            break;
     }
 }
 
+#if 01
+#else
 void sub_878_8082428(UltimateGemerl *boss)
 {
     u16 temp_r0_2;
