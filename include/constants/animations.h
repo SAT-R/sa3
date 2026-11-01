@@ -393,27 +393,29 @@
 #define ANIM_BOSS_EXTRA_ARM_NODE          1279
 #define ANIM_BOSS_EXTRA_MISSILE           1280
 #define ANIM_BOSS_EXTRA_MISSILE_EXPLOSION 1281
-
-// Gemerl : 1286 - 1303
-#define ANIM_GEMERL_IDLE              1286
-#define ANIM_GEMERL_DEFEATED          1287
-#define ANIM_GEMERL_GET_UP            1288
-#define ANIM_GEMERL_SNIFF             1289
-#define ANIM_GEMERL_HOVER_AWAY        1290
-#define ANIM_GEMERL_DASH              1291
-#define ANIM_GEMERL_DASH_DUST         1292
-#define ANIM_GEMERL_DASH_CHARGE       1293
-#define ANIM_GEMERL_SHIELD            1294
-#define ANIM_GEMERL_LAND_1ST          1295
-#define ANIM_GEMERL_LAND_2ND          1296
-#define ANIM_GEMERL_LAND_3RD          1297
-#define ANIM_GEMERL_TINY_MISSILE      1298
-#define ANIM_GEMERL_INIT_LAUNCH_JUMP  1299 // TODO: Name not official!
-#define ANIM_GEMERL_LAUNCH_JUMP_CLOUD 1300 // TODO: Name not official!
-#define ANIM_GEMERL_ROTATE_JUMP       1301 // TODO: Name not official!
-#define ANIM_GEMERL_BOOSTING          1302
-#define ANIM_GEMERL_HANGING           1303
-#define ANIM_PALETTE_GEMERL_HIT       1304
+#define ANIM_PALETTE_BOSS_EXTRA_A         1282
+#define ANIM_PALETTE_BOSS_EXTRA_B         1283
+#define ANIM_BOSS_EXTRA_ELECTRIC_SPARK    1284
+#define ANIM_PALETTE_BOSS_EXTRA_C         1285
+#define ANIM_GEMERL_IDLE                  1286
+#define ANIM_GEMERL_DEFEATED              1287
+#define ANIM_GEMERL_GET_UP                1288
+#define ANIM_GEMERL_SNIFF                 1289
+#define ANIM_GEMERL_HOVER_AWAY            1290
+#define ANIM_GEMERL_DASH                  1291
+#define ANIM_GEMERL_DASH_DUST             1292
+#define ANIM_GEMERL_DASH_CHARGE           1293
+#define ANIM_GEMERL_SHIELD                1294
+#define ANIM_GEMERL_LAND_1ST              1295
+#define ANIM_GEMERL_LAND_2ND              1296
+#define ANIM_GEMERL_LAND_3RD              1297
+#define ANIM_GEMERL_TINY_MISSILE          1298
+#define ANIM_GEMERL_INIT_LAUNCH_JUMP      1299 // TODO: Name not official!
+#define ANIM_GEMERL_LAUNCH_JUMP_CLOUD     1300 // TODO: Name not official!
+#define ANIM_GEMERL_ROTATE_JUMP           1301 // TODO: Name not official!
+#define ANIM_GEMERL_BOOSTING              1302
+#define ANIM_GEMERL_HANGING               1303
+#define ANIM_PALETTE_GEMERL_HIT           1304
 // Super Sonic : 1305 - 1306
 // (1305 : a ton of variants/patterns)
 #define ANIM_SUPER_SONIC_MOVES               1305

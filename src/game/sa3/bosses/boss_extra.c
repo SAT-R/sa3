@@ -421,116 +421,97 @@ void sub_878_8082428(UltimateGemerl *boss)
             break;
     }
 }
-#if 01
-#else
 
 void sub_878_80824F4(UltimateGemerl *boss)
 {
-    s32 sp0;
-    u8 *sp4;
-    u8 *sp8;
-    void *spC;
-    s32 *sp14;
-    s32 *sp18;
-    Sprite *temp_r6;
-    Sprite *temp_r6_2;
-    SpriteTransform *temp_r3;
-    UltimateGemerlSub10C *temp_r0;
-    s32 *temp_r0_2;
-    s32 *temp_r3_2;
-    s32 *temp_r4;
-    s32 temp_r2;
+    u16 sp0;
+    u8 *vram;
+    u8 *vram2;
+    Sprite *s;
+    SpriteTransform *tf;
     s32 var_r0;
     s32 var_r0_2;
-    u32 temp_r1;
     u8 var_r5;
     u8 var_r8;
 
-    sp4 = VramMalloc(0x10U);
-    sp8 = VramMalloc(1U);
-    for (var_r8 = 0, sp0 = 0x80; var_r8 < 4; var_r8++) {
-        var_r0 = COS(sp0) * 0x1C;
-        if (var_r0 < 0) {
-            var_r0 += 0x3F;
-        }
-        var_r0_2 = SIN(sp0) * 0x1C;
-        if (var_r0_2 < 0) {
-            var_r0_2 += 0x3F;
-        }
-        temp_r0 = &boss->strc10C[var_r8];
-        temp_r0->qOffsetX = boss->qUnk9C + (var_r0 >> 6);
-        temp_r0_2 = &boss->strc10C[0].qOffsetY + (var_r8 * 0x18);
-        *temp_r0_2 = boss->qUnkA0 + (var_r0_2 >> 6);
-        boss->strc10C[var_r8].unk14 = (u16)sp0;
-        temp_r6 = &boss->spr3B4[var_r8];
-        temp_r3 = &boss->tf848[var_r8];
-        temp_r6->tiles = sp4;
-        temp_r6->anim = 0x4FE;
-        temp_r6->variant = 1;
-        temp_r6->oamFlags = 0x280;
-        temp_r6->animCursor = 0;
-        temp_r6->qAnimDelay = 0;
-        temp_r6->prevVariant = 0xFF;
-        temp_r6->animSpeed = 0x10;
-        temp_r6->palId = 0;
-        temp_r6->hitboxes[0].index = -1;
-        temp_r6->frameFlags = (var_r8 + 0xB) | (0x20 | 0x1000);
-        sp14 = &boss->qUnk9C;
-        sp18 = &boss->qUnkA0;
+    vram = VramMalloc(0x10U);
+    vram2 = VramMalloc(1U);
+    for (var_r8 = 0, sp0 = 0x80; var_r8 < 4; var_r8++, sp0 += 0x100) {
+        var_r0 = (COS(sp0) * 0x1C) / 0x40;
+        var_r0_2 = (SIN(sp0) * 0x1C) / 0x40;
+        boss->strc10C[var_r8].qOffsetX = boss->qUnk9C + (var_r0);
+        boss->strc10C[var_r8].qOffsetY = boss->qUnkA0 + (var_r0_2);
+        boss->strc10C[var_r8].unk14 = sp0;
+        s = &boss->spr3B4[var_r8];
+        tf = &boss->tf848[var_r8];
+        s->tiles = vram;
+        s->anim = ANIM_BOSS_EXTRA_CLAW;
+        s->variant = 1;
+        s->oamFlags = 0x280;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+        s->frameFlags |= SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | (11 + var_r8);
         if (var_r8 != 0) {
-            temp_r6->frameFlags |= 0x80000;
+            SPRITE_FLAG_SET(s, 19);
         }
-        temp_r6->x = ((s32)temp_r0->qOffsetX >> 8) - gCamera.x;
-        temp_r6->y = ((s32)*temp_r0_2 >> 8) - gCamera.y;
-        temp_r3->rotation = (boss->strc10C[var_r8].unk14 - 640) & 0x3FF;
-        temp_r3->x = (s16)(u16)temp_r6->x;
-        temp_r3->y = (s16)(u16)temp_r6->y;
-        temp_r3->qScaleX = Q(1);
-        temp_r3->qScaleY = Q(1);
-        UpdateSpriteAnimation(temp_r6);
-        var_r5 = 0;
-        spC = boss + ((var_r8 * 0xF0) + 0x454);
-        do {
-            boss->strc16C[var_r8][var_r5].qWorldX = *sp14;
-            boss->strc16C[var_r8][var_r5].qWorldY = *sp18;
-            temp_r6_2 = spC + (var_r5 * 0x28);
-            temp_r6_2->tiles = sp8;
-            temp_r6_2->anim = 0x4FF;
-            temp_r6_2->variant = 0;
-            temp_r6_2->oamFlags = 0x4C0;
-            temp_r6_2->animCursor = 0;
-            temp_r6_2->qAnimDelay = 0;
-            temp_r6_2->prevVariant = 0xFF;
-            temp_r6_2->animSpeed = 0x10;
-            temp_r6_2->palId = 0;
-            temp_r6_2->hitboxes[0].index = -1;
-            temp_r6_2->frameFlags = 0x1000;
-            temp_r6_2->x = ((s32)boss->strc16C[var_r8][var_r5].qWorldX >> 8) - gCamera.x;
-            temp_r6_2->y = ((s32)boss->strc16C[var_r8][var_r5].qWorldY >> 8) - gCamera.y;
+        s->x = (boss->strc10C[var_r8].qOffsetX >> 8) - gCamera.x;
+        s->y = (boss->strc10C[var_r8].qOffsetY >> 8) - gCamera.y;
+        tf->rotation = (boss->strc10C[var_r8].unk14 - 640) & 0x3FF;
+        tf->x = s->x;
+        tf->y = s->y;
+        tf->qScaleX = Q(1);
+        tf->qScaleY = Q(1);
+        UpdateSpriteAnimation(s);
+
+        for (var_r5 = 0; var_r5 < ARRAY_COUNT(boss->strc16C[0]); var_r5++) {
+            boss->strc16C[var_r8][var_r5].qWorldX = boss->qUnk9C;
+            boss->strc16C[var_r8][var_r5].qWorldY = boss->qUnkA0;
+            s = &boss->spr454[var_r8][var_r5];
+            s->tiles = vram2;
+            s->anim = ANIM_BOSS_EXTRA_ARM_NODE;
+            s->variant = 0;
+            s->oamFlags = 0x4C0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+            s->x = I(boss->strc16C[var_r8][var_r5].qWorldX) - gCamera.x;
+            s->y = I(boss->strc16C[var_r8][var_r5].qWorldY) - gCamera.y;
+
             if ((var_r8 != 0) || (var_r5 != 0)) {
-                temp_r6_2->frameFlags = 0x81000;
+                SPRITE_FLAG_SET(s, 19);
             }
-            UpdateSpriteAnimation(temp_r6_2);
-            var_r5 += 1;
-        } while ((u32)var_r5 <= 5U);
-        var_r8 = (u8)(var_r8 + 1);
-        sp0 = (s32)(u16)(sp0 + 0x100);
+            UpdateSpriteAnimation(s);
+        }
     }
-    boss->spr814.tiles = VramMalloc(0x10U);
-    boss->spr814.anim = 0x504;
-    boss->spr814.variant = 0;
-    boss->spr814.oamFlags = 0x240;
-    boss->spr814.animCursor = 0;
-    boss->spr814.qAnimDelay = 0;
-    boss->spr814.prevVariant = 0xFF;
-    boss->spr814.animSpeed = 0x10;
-    boss->spr814.palId = 0;
-    boss->spr814.hitboxes[0].index = -1;
-    boss->spr814.frameFlags = 0x1000;
-    boss->spr814.x = ((s32)boss->strc10C[0].qOffsetX >> 8) - gCamera.x;
-    boss->spr814.y = ((s32)boss->strc10C[0].qOffsetY >> 8) - gCamera.y;
-    boss->fillerE[1] = 0;
+    s = &boss->spr814;
+    s->tiles = VramMalloc(0x10U);
+    s->anim = 0x504;
+    s->variant = 0;
+    s->oamFlags = 0x240;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x1000;
+    s->x = I(boss->strc10C[0].qOffsetX) - gCamera.x;
+    s->y = I(boss->strc10C[0].qOffsetY) - gCamera.y;
+    boss->unkF = 0;
 }
+
+#if 01
+#else
 
 void sub_878_8082794(UltimateGemerl *boss)
 {
