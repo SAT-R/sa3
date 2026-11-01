@@ -13,9 +13,10 @@ typedef enum {
 typedef struct {
     /* 0x00 */ s32 qOffsetX; // TODO: Is it qWorldX instead?
     /* 0x04 */ s32 qOffsetY; // TODO: Is it qWorldY instead?
-    /* 0x14 */ s32 unk8;
-    /* 0x14 */ s32 unkC;
-    /* 0x14 */ s32 unk10;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s16 unk10;
+    /* 0x12 */ u8 filler12[0x2];
     /* 0x14 */ u16 unk14;
 } UltimateGemerlSub10C; /* 0x18 */
 
@@ -23,7 +24,7 @@ typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
     /* 0x08 */ u8 filler8[0x8];
-    /* 0x14 */ s32 unk10;
+    /* 0x10 */ s16 unk10;
 } UltimateGemerlSub16C; /* 0x14 */
 
 typedef struct {

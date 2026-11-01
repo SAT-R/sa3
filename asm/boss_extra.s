@@ -6,7 +6,6 @@
 .arm
 
 .if 0
-.else
 	thumb_func_start sub_878_8082794
 sub_878_8082794: @ 0x08082794
 	push {r4, r5, r6, r7, lr}
@@ -346,6 +345,7 @@ _08082A3C: .4byte 0x00000848
 _08082A40: .4byte 0xFFFFFD80
 _08082A44: .4byte 0x000003FF
 _08082A48: .4byte 0x00000454
+.else
 
 	thumb_func_start sub_878_8082A4C
 sub_878_8082A4C: @ 0x08082A4C
