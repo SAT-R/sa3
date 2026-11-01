@@ -433,7 +433,6 @@ void sub_878_80824F4(UltimateGemerl *boss)
     u8 *sp4;
     u8 *sp8;
     void *spC;
-    s32 sp10;
     s32 *sp14;
     s32 *sp18;
     Sprite *temp_r6;
@@ -452,82 +451,73 @@ void sub_878_80824F4(UltimateGemerl *boss)
 
     sp4 = VramMalloc(0x10U);
     sp8 = VramMalloc(1U);
-    var_r8 = 0;
-    sp0 = 0x80;
-loop_1:
-    var_r0 = gSineTable[sp0 + 0x100] * 0x1C;
-    if (var_r0 < 0) {
-        var_r0 += 0x3F;
-    }
-    var_r0_2 = gSineTable[sp0] * 0x1C;
-    if (var_r0_2 < 0) {
-        var_r0_2 += 0x3F;
-    }
-    temp_r0 = &boss->strc10C[var_r8];
-    temp_r0->qOffsetX = boss->qUnk9C + (var_r0 >> 6);
-    temp_r0_2 = &boss->strc10C[0].qOffsetY + (var_r8 * 0x18);
-    *temp_r0_2 = boss->qUnkA0 + (var_r0_2 >> 6);
-    boss->strc10C[var_r8].unk14 = (u16)sp0;
-    temp_r6 = &boss->spr3B4[var_r8];
-    temp_r3 = &boss->tf848[var_r8];
-    temp_r6->tiles = sp4;
-    temp_r6->anim = 0x4FE;
-    temp_r6->variant = 1;
-    temp_r6->oamFlags = 0x280;
-    temp_r6->animCursor = 0;
-    temp_r6->qAnimDelay = 0;
-    temp_r6->prevVariant = 0xFF;
-    temp_r6->animSpeed = 0x10;
-    temp_r6->palId = 0;
-    temp_r6->hitboxes[0].index = -1;
-    temp_r1 = (var_r8 + 0xB) | (0x20 | 0x1000);
-    temp_r6->frameFlags = temp_r1;
-    sp14 = &boss->qUnk9C;
-    sp18 = &boss->qUnkA0;
-    if (var_r8 != 0) {
-        temp_r6->frameFlags = temp_r1 | 0x80000;
-    }
-    temp_r6->x = ((s32)temp_r0->qOffsetX >> 8) - gCamera.x;
-    temp_r6->y = ((s32)*temp_r0_2 >> 8) - gCamera.y;
-    temp_r3->rotation = (boss->strc10C[var_r8].unk14 + 0xFFFFFD80) & 0x3FF;
-    temp_r3->x = (s16)(u16)temp_r6->x;
-    temp_r3->y = (s16)(u16)temp_r6->y;
-    temp_r3->qScaleX = 0x100;
-    temp_r3->qScaleY = 0x100;
-    UpdateSpriteAnimation(temp_r6);
-    var_r5 = 0;
-    sp10 = var_r8 + 1;
-    spC = boss + ((var_r8 * 0xF0) + 0x454);
-    do {
-        temp_r2 = (var_r5 * 0x14) + (var_r8 * 0x78);
-        temp_r3_2 = boss->strc16C[0] + temp_r2;
-        *temp_r3_2 = *sp14;
-        temp_r4 = &boss->strc16C[0][0].qWorldY + temp_r2;
-        *temp_r4 = *sp18;
-        temp_r6_2 = spC + (var_r5 * 0x28);
-        temp_r6_2->tiles = sp8;
-        temp_r6_2->anim = 0x4FF;
-        temp_r6_2->variant = 0;
-        temp_r6_2->oamFlags = 0x4C0;
-        temp_r6_2->animCursor = 0;
-        temp_r6_2->qAnimDelay = 0;
-        temp_r6_2->prevVariant = 0xFF;
-        temp_r6_2->animSpeed = 0x10;
-        temp_r6_2->palId = 0;
-        temp_r6_2->hitboxes[0].index = -1;
-        temp_r6_2->frameFlags = 0x1000;
-        temp_r6_2->x = ((s32)*temp_r3_2 >> 8) - gCamera.x;
-        temp_r6_2->y = ((s32)*temp_r4 >> 8) - gCamera.y;
-        if ((var_r8 != 0) || (var_r5 != 0)) {
-            temp_r6_2->frameFlags = 0x81000;
+    for (var_r8 = 0, sp0 = 0x80; var_r8 < 4; var_r8++) {
+        var_r0 = COS(sp0) * 0x1C;
+        if (var_r0 < 0) {
+            var_r0 += 0x3F;
         }
-        UpdateSpriteAnimation(temp_r6_2);
-        var_r5 += 1;
-    } while ((u32)var_r5 <= 5U);
-    var_r8 = (u8)sp10;
-    sp0 = (s32)(u16)(sp0 + 0x100);
-    if ((u32)var_r8 <= 3U) {
-        goto loop_1;
+        var_r0_2 = SIN(sp0) * 0x1C;
+        if (var_r0_2 < 0) {
+            var_r0_2 += 0x3F;
+        }
+        temp_r0 = &boss->strc10C[var_r8];
+        temp_r0->qOffsetX = boss->qUnk9C + (var_r0 >> 6);
+        temp_r0_2 = &boss->strc10C[0].qOffsetY + (var_r8 * 0x18);
+        *temp_r0_2 = boss->qUnkA0 + (var_r0_2 >> 6);
+        boss->strc10C[var_r8].unk14 = (u16)sp0;
+        temp_r6 = &boss->spr3B4[var_r8];
+        temp_r3 = &boss->tf848[var_r8];
+        temp_r6->tiles = sp4;
+        temp_r6->anim = 0x4FE;
+        temp_r6->variant = 1;
+        temp_r6->oamFlags = 0x280;
+        temp_r6->animCursor = 0;
+        temp_r6->qAnimDelay = 0;
+        temp_r6->prevVariant = 0xFF;
+        temp_r6->animSpeed = 0x10;
+        temp_r6->palId = 0;
+        temp_r6->hitboxes[0].index = -1;
+        temp_r6->frameFlags = (var_r8 + 0xB) | (0x20 | 0x1000);
+        sp14 = &boss->qUnk9C;
+        sp18 = &boss->qUnkA0;
+        if (var_r8 != 0) {
+            temp_r6->frameFlags |= 0x80000;
+        }
+        temp_r6->x = ((s32)temp_r0->qOffsetX >> 8) - gCamera.x;
+        temp_r6->y = ((s32)*temp_r0_2 >> 8) - gCamera.y;
+        temp_r3->rotation = (boss->strc10C[var_r8].unk14 - 640) & 0x3FF;
+        temp_r3->x = (s16)(u16)temp_r6->x;
+        temp_r3->y = (s16)(u16)temp_r6->y;
+        temp_r3->qScaleX = Q(1);
+        temp_r3->qScaleY = Q(1);
+        UpdateSpriteAnimation(temp_r6);
+        var_r5 = 0;
+        spC = boss + ((var_r8 * 0xF0) + 0x454);
+        do {
+            boss->strc16C[var_r8][var_r5].qWorldX = *sp14;
+            boss->strc16C[var_r8][var_r5].qWorldY = *sp18;
+            temp_r6_2 = spC + (var_r5 * 0x28);
+            temp_r6_2->tiles = sp8;
+            temp_r6_2->anim = 0x4FF;
+            temp_r6_2->variant = 0;
+            temp_r6_2->oamFlags = 0x4C0;
+            temp_r6_2->animCursor = 0;
+            temp_r6_2->qAnimDelay = 0;
+            temp_r6_2->prevVariant = 0xFF;
+            temp_r6_2->animSpeed = 0x10;
+            temp_r6_2->palId = 0;
+            temp_r6_2->hitboxes[0].index = -1;
+            temp_r6_2->frameFlags = 0x1000;
+            temp_r6_2->x = ((s32)boss->strc16C[var_r8][var_r5].qWorldX >> 8) - gCamera.x;
+            temp_r6_2->y = ((s32)boss->strc16C[var_r8][var_r5].qWorldY >> 8) - gCamera.y;
+            if ((var_r8 != 0) || (var_r5 != 0)) {
+                temp_r6_2->frameFlags = 0x81000;
+            }
+            UpdateSpriteAnimation(temp_r6_2);
+            var_r5 += 1;
+        } while ((u32)var_r5 <= 5U);
+        var_r8 = (u8)(var_r8 + 1);
+        sp0 = (s32)(u16)(sp0 + 0x100);
     }
     boss->spr814.tiles = VramMalloc(0x10U);
     boss->spr814.anim = 0x504;
@@ -564,8 +554,7 @@ void sub_878_8082794(UltimateGemerl *boss)
     void *var_r3;
 
     if (boss->lives == 0) {
-        var_r7 = 0;
-        do {
+        for (var_r7 = 0; var_r7 < 4; var_r7++) {
             if (boss->strc10C[var_r7].unk10 != 0) {
                 temp_r5 = &boss->spr3B4[var_r7];
                 temp_r3 = &boss->tf848[var_r7];
@@ -580,61 +569,59 @@ void sub_878_8082794(UltimateGemerl *boss)
             }
             var_r4 = 0;
         loop_13:
-            temp_r3_2 = (var_r4 * 0x14) + (var_r7 * 0x78);
-            if ((boss + temp_r3_2)->unk17C != 0) {
-                temp_r5_2 = (var_r7 * 0xF0) + 0x454 + boss + (var_r4 * 0x28);
-                temp_r5_2->x = ((s32) * (boss->strc16C[0] + temp_r3_2) >> 8) - gCamera.x;
-                temp_r5_2->y = ((s32) * (&boss->strc16C[0][0].qWorldY + temp_r3_2) >> 8) - gCamera.y;
+            if (boss->strc16C[var_r7][var_r4].unk10 != 0) {
+                temp_r5_2 = &boss->spr454[var_r7][var_r4];
+                temp_r5_2->x = I(boss->strc16C[var_r7][var_r4].qWorldX) - gCamera.x;
+                temp_r5_2->y = I(boss->strc16C[var_r7][var_r4].qWorldY) - gCamera.y;
                 DisplaySprite(temp_r5_2);
             }
             var_r4 += 1;
             if ((u32)var_r4 <= 5U) {
                 goto loop_13;
             }
+        }
+        return;
+    } else {
+        var_r7 = 0;
+        do {
+            temp_r5_3 = &boss->spr3B4[var_r7];
+            temp_r3_3 = &boss->tf848[var_r7];
+            temp_r5_3->x = ((s32)boss->strc10C[var_r7].qOffsetX >> 8) - gCamera.x;
+            temp_r5_3->y = ((s32) * (&boss->strc10C[0].qOffsetY + (var_r7 * 0x18)) >> 8) - gCamera.y;
+            temp_r3_3->rotation = (boss->strc10C[var_r7].unk14 + 0xFFFFFD80) & 0x3FF;
+            temp_r3_3->x = (s16)(u16)temp_r5_3->x;
+            temp_r3_3->y = (s16)(u16)temp_r5_3->y;
+            TransformSprite(temp_r5_3, temp_r3_3);
+            UpdateSpriteAnimation(temp_r5_3);
+            DisplaySprite(temp_r5_3);
+            var_r4_2 = 0;
+            var_r3 = boss + ((var_r7 * 0xF0) + 0x454);
+        loop_4:
+            temp_r5_4 = var_r3 + (var_r4_2 * 0x28);
+            temp_r5_4->x = I(boss->strc16C[var_r7][var_r4_2].qWorldX) - gCamera.x;
+            temp_r5_4->y = I(boss->strc16C[var_r7][var_r4_2].qWorldY) - gCamera.y;
+            sp0 = var_r3;
+            DisplaySprite(temp_r5_4);
+            var_r4_2 += 1;
+            if ((u32)var_r4_2 <= 5U) {
+                goto loop_4;
+            }
             var_r7 += 1;
         } while ((u32)var_r7 <= 3U);
-        return;
-    }
-    var_r7_2 = 0;
-    do {
-        temp_r5_3 = &boss->spr3B4[var_r7_2];
-        temp_r3_3 = &boss->tf848[var_r7_2];
-        temp_r5_3->x = ((s32)boss->strc10C[var_r7_2].qOffsetX >> 8) - gCamera.x;
-        temp_r5_3->y = ((s32) * (&boss->strc10C[0].qOffsetY + (var_r7_2 * 0x18)) >> 8) - gCamera.y;
-        temp_r3_3->rotation = (boss->strc10C[var_r7_2].unk14 + 0xFFFFFD80) & 0x3FF;
-        temp_r3_3->x = (s16)(u16)temp_r5_3->x;
-        temp_r3_3->y = (s16)(u16)temp_r5_3->y;
-        TransformSprite(temp_r5_3, temp_r3_3);
-        UpdateSpriteAnimation(temp_r5_3);
-        DisplaySprite(temp_r5_3);
-        var_r4_2 = 0;
-        var_r3 = boss + ((var_r7_2 * 0xF0) + 0x454);
-    loop_4:
-        temp_r5_4 = var_r3 + (var_r4_2 * 0x28);
-        temp_r2 = (var_r4_2 * 0x14) + (var_r7_2 * 0x78);
-        temp_r5_4->x = ((s32) * (boss->strc16C[0] + temp_r2) >> 8) - gCamera.x;
-        temp_r5_4->y = ((s32) * (&boss->strc16C[0][0].qWorldY + temp_r2) >> 8) - gCamera.y;
-        sp0 = var_r3;
-        DisplaySprite(temp_r5_4);
-        var_r4_2 += 1;
-        if ((u32)var_r4_2 <= 5U) {
-            goto loop_4;
+        if (boss->fillerE[1] == 0) {
+            return;
         }
-        var_r7_2 += 1;
-    } while ((u32)var_r7_2 <= 3U);
-    if (boss->fillerE[1] == 0) {
-        return;
+        temp_r5_5 = &boss->spr814;
+        UpdateSpriteAnimation(temp_r5_5);
+        boss->spr814.x = (((s32)boss->strc10C[3].qOffsetX >> 8) - gCamera.x) - 0x10;
+        boss->spr814.y = (((s32)boss->strc10C[3].qOffsetY >> 8) - gCamera.y) + 4;
+        boss->spr814.frameFlags &= ~0x800;
+        DisplaySprite(temp_r5_5);
+        boss->spr814.x = (((s32)boss->strc10C[0].qOffsetX >> 8) - gCamera.x) - 0x10;
+        boss->spr814.y = (((s32)boss->strc10C[0].qOffsetY >> 8) - gCamera.y) - 4;
+        boss->spr814.frameFlags |= 0x800;
+        DisplaySprite(temp_r5_5);
     }
-    temp_r5_5 = &boss->spr814;
-    UpdateSpriteAnimation(temp_r5_5);
-    boss->spr814.x = (((s32)boss->strc10C[3].qOffsetX >> 8) - gCamera.x) - 0x10;
-    boss->spr814.y = (((s32)boss->strc10C[3].qOffsetY >> 8) - gCamera.y) + 4;
-    boss->spr814.frameFlags &= 0xFFFFF7FF;
-    DisplaySprite(temp_r5_5);
-    boss->spr814.x = (((s32)boss->strc10C[0].qOffsetX >> 8) - gCamera.x) - 0x10;
-    boss->spr814.y = (((s32)boss->strc10C[0].qOffsetY >> 8) - gCamera.y) - 4;
-    boss->spr814.frameFlags |= 0x800;
-    DisplaySprite(temp_r5_5);
 }
 
 void sub_878_8082A4C(UltimateGemerl *boss)
@@ -658,7 +645,7 @@ void sub_878_8082A4C(UltimateGemerl *boss)
     u8 var_r0_3;
     u8 var_r5;
 
-    sp4 = (u8 *)0x06012800;
+    sp4 = OBJ_VRAM0 + 0x2800;
     sp8 = VramMalloc(1U);
     var_sl = 0;
     sp0 = 0x80;
@@ -721,10 +708,8 @@ loop_1:
     sp10 = var_sl + 1;
     spC = (var_sl * 0xF0) + 0x454 + boss;
     do {
-        temp_r4 = var_r5 * 4;
-        temp_r2 = (var_r5 * 0x14) + (var_sl * 0x78);
-        *(boss->strc16C[0] + temp_r2) = *sp14;
-        *(&boss->strc16C[0][0].qWorldY + temp_r2) = *sp18;
+        boss->strc16C[var_sl][var_r5].qWorldX = *sp14;
+        boss->strc16C[var_sl][var_r5].qWorldY = *sp18;
         temp_r7_2 = spC + (var_r5 * 0x28);
         temp_r7_2->tiles = sp8;
         temp_r7_2->anim = 0x4FF;
@@ -740,9 +725,8 @@ loop_1:
         if ((var_sl != 0) || (var_r5 != 0)) {
             temp_r7_2->frameFlags = 0x81000;
         }
-        temp_r2_2 = (var_r5 * 0x14) + (var_sl * 0x78);
-        temp_r7_2->x = ((s32) * (boss->strc16C[0] + temp_r2_2) >> 8) - gCamera.x;
-        temp_r7_2->y = ((s32) * (&boss->strc16C[0][0].qWorldY + temp_r2_2) >> 8) - gCamera.y;
+        temp_r7_2->x = I(boss->strc16C[var_sl][var_r5].qWorldX) - gCamera.x;
+        temp_r7_2->y = I(boss->strc16C[var_sl][var_r5].qWorldY) - gCamera.y;
         UpdateSpriteAnimation(temp_r7_2);
         var_r5 += 1;
     } while ((u32)var_r5 <= 5U);
@@ -774,7 +758,7 @@ loop_1:
     temp_r4->x = ((s32)boss->strc10C[var_r5].qOffsetX >> 8) - gCamera.x;
     temp_r4->y = ((s32) * (&boss->strc10C[0].qOffsetY + (var_r5 * 0x18)) >> 8) - gCamera.y;
     if (var_r5 == 2) {
-        temp_r3->rotation = (boss->unk150 + 0xFFFFFD80) & 0x3FF;
+        temp_r3->rotation = (boss->strc10C[2].unk14 - 0x280) & 0x3FF;
         temp_r3->x = (s16)(u16)temp_r4->x;
         temp_r3->y = (s16)(u16)temp_r4->y;
         TransformSprite(temp_r4, temp_r3);
@@ -785,9 +769,8 @@ loop_1:
         var_r3 = 0xF0;
         do {
             temp_r4_2 = &boss->spr454[2][var_r5_2];
-            temp_r2 = (var_r5_2 * 0x14) + var_r3;
-            temp_r4_2->x = ((s32) * (boss->strc16C[0] + temp_r2) >> 8) - gCamera.x;
-            temp_r4_2->y = ((s32) * (&boss->strc16C[0][0].qWorldY + temp_r2) >> 8) - gCamera.y;
+            temp_r4_2->x = I(boss->strc16C[var_r5][var_r5_2].qWorldX) - gCamera.x;
+            temp_r4_2->y = I(boss->strc16C[var_r5][var_r5_2].qWorldY) - gCamera.y;
             sp0 = var_r3;
             DisplaySprite(temp_r4_2);
             var_r5_2 += 1;
@@ -803,25 +786,27 @@ loop_1:
     }
 }
 
+extern const Vec2_32 gUnknown_080D5E64[4];
+extern const u8 gUnknown_080D5D64[0x80];
+extern const u8 gUnknown_080D5DE4[0x80];
+
 s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 {
-    u32 sp20;
+    Vec2_32 sp0[4];
     u32 sp24;
     s32 sp28;
     UltimateGemerlSub10C *sp2C;
     s32 *sp30;
-    u8 *sp34;
+    s32 *sp34;
     UltimateGemerlSub10C *sp38;
-    s32 sp3C;
     UltimateGemerlSub16C *sp40;
     s32 *sp44;
-    u8 *sp48;
+    s32 *sp48;
     s32 sp4C;
     UltimateGemerlSub16C *sp50;
     s32 *sp54;
     u32 sp58;
     u32 sp5C;
-    u8 *sp60;
     s32 sp64;
     UltimateGemerlSub16C *sp68;
     UltimateGemerlSub16C *sp6C;
@@ -950,35 +935,31 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
     void *temp_r1;
     void *var_r0_15;
 
-    sp20 = (u32)param1;
-    temp_r0 = &gUnknown_080D5E64 + 0xC;
-    subroutine_arg0.unk0 = (s32)gUnknown_080D5E64.unk0;
-    subroutine_arg0.unk4 = (s32)gUnknown_080D5E64.unk4;
-    subroutine_arg0.unk8 = (s32)gUnknown_080D5E64.unk8;
-    temp_r1 = &subroutine_arg0 + 0xC;
-    subroutine_arg0.unkC = (s32)gUnknown_080D5E64.unkC;
-    temp_r1->unk4 = (s32)temp_r0->unk4;
-    temp_r1->unk8 = (s32)temp_r0->unk8;
-    temp_r1->unkC = (s32)temp_r0->unkC;
-    (temp_r1 + 0xC)->unk4 = (s32)(temp_r0 + 0xC)->unk4;
-    switch (sp20) {
+    // TODO: Probably a memcpy?
+    sp0[0].x = gUnknown_080D5E64[0].x;
+    sp0[0].y = gUnknown_080D5E64[0].y;
+    sp0[1].x = gUnknown_080D5E64[1].x;
+    sp0[1].y = gUnknown_080D5E64[1].y;
+    sp0[2].x = gUnknown_080D5E64[2].x;
+    sp0[2].y = gUnknown_080D5E64[2].y;
+    sp0[3].x = gUnknown_080D5E64[3].x;
+    sp0[3].y = gUnknown_080D5E64[3].y;
+    switch (param1) {
         case 0:
             sp24 = 0;
             var_r7 = 0x80;
-            sp8C = &subroutine_arg0 + 4;
+            sp8C = &sp0 + 4;
             sp2C = boss->strc10C;
             sp30 = &boss->strc10C[0].qOffsetY;
             do {
-                temp_r3 = sp24 * 8;
-                sp2C[sp24].qOffsetX = boss->qUnk9C + (*(&subroutine_arg0 + temp_r3) << 8);
-                *(sp30 + (sp24 * 0x18)) = boss->qUnkA0 + (*(sp8C + temp_r3) << 8);
+                sp2C[sp24].qOffsetX = boss->qUnk9C + Q(sp0[sp24].x);
+                sp2C[sp24].qOffsetY = boss->qUnkA0 + Q(sp0[sp24].y);
                 boss->strc10C[sp24].unk14 = var_r7;
                 var_r6 = 0;
                 sp90 = sp24 + 1;
             loop_4:
-                temp_r0_2 = (var_r6 * 0x14) + (sp24 * 0x78);
-                *(boss->strc16C[0] + temp_r0_2) = boss->qUnk9C;
-                *(temp_r0_2 + &boss->strc16C[0][0].qWorldY) = boss->qUnkA0;
+                boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
+                boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
                 var_r6 += 1;
                 if ((u32)var_r6 <= 5U) {
                     goto loop_4;
@@ -989,9 +970,9 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             break;
         case 3:
             sp24 = 0;
-            sp34 = &boss->strc10C[2].filler8[0xC];
+            sp34 = &boss->strc10C[2].unk14;
             sp38 = boss->strc10C;
-            sp48 = &boss->strc10C[1].filler8[0xC];
+            sp48 = &boss->strc10C[1].unk14;
         loop_8:
             sp28 = 0;
             temp_r7 = (sp24 << 8) | 0x80;
@@ -1006,41 +987,34 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             }
             temp_r0_4 = var_r0_2 >> 6;
             if (sp24 == 1) {
-                if (boss->fillerBA[0x28] == 0) {
-                    temp_r1_2 = boss->fillerBA[2];
-                    var_r5 = 0 - (*(temp_r1_2 + &gUnknown_080D5D64) << 8);
-                    var_r4 = *(temp_r1_2 + &gUnknown_080D5DE4) << 8;
-                    sp80 = &boss->fillerBA[2];
-                    if ((u32)temp_r1_2 <= 0xCU) {
+                if (boss->fillerE2[0] == 0) {
+                    var_r5 = -Q(gUnknown_080D5D64[boss->unkBC[0]]);
+                    var_r4 = +Q(gUnknown_080D5DE4[boss->unkBC[0]]);
+                    if (boss->unkBC[0] <= 0xCU) {
                         *sp48 = 0x180;
                     } else {
                         *sp48 = 0x200;
                     }
                 } else {
-                    temp_r1_3 = boss->fillerBA[0xB];
-                    var_r5 = 0 - (*(temp_r1_3 + &gUnknown_080D5D64) << 8);
-                    var_r4 = *(temp_r1_3 + &gUnknown_080D5DE4) << 8;
+                    temp_r1_3 = boss->unkC5;
+                    var_r5 = -Q(gUnknown_080D5D64[boss->unkC5]);
+                    var_r4 = +Q(gUnknown_080D5DE4[boss->unkC5]);
                     *sp48 = 0x300;
-                    sp80 = &boss->fillerBA[2];
                 }
                 sp38[sp24].qOffsetX = boss->qUnk9C + temp_r0_3 + var_r5;
                 *(&boss->strc10C[0].qOffsetY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4;
                 sp28 = (s32)(u8)(sp28 + 1);
                 var_r6_2 = 0;
                 sp90 = sp24 + 1;
-                sp4C = sp24 * 0x78;
-                sp50 = boss->strc16C[0];
+                sp50 = &boss->strc16C[0][0];
                 sp54 = &boss->strc16C[0][0].qWorldY;
                 do {
-                    temp_r0_5 = sp80[sp28];
-                    if (temp_r0_5 != 0) {
-                        temp_r1_4 = (var_r6_2 * 0x14) + sp4C;
-                        *(sp50 + temp_r1_4) = (boss->qUnk9C + temp_r0_3) - (*(temp_r0_5 + &gUnknown_080D5D64) << 8);
-                        *(sp54 + temp_r1_4) = boss->qUnkA0 + temp_r0_4 + (*(temp_r0_5 + &gUnknown_080D5DE4) << 8);
+                    if (boss->unkBC[sp28] != 0) {
+                        boss->strc16C[sp24][var_r6_2].qWorldX = (boss->qUnk9C + temp_r0_3) - Q(gUnknown_080D5D64[boss->unkBC[sp28]]);
+                        boss->strc16C[sp24][var_r6_2].qWorldY = (boss->qUnkA0 + temp_r0_4) + Q(gUnknown_080D5DE4[boss->unkBC[sp28]]);
                     } else {
-                        temp_r0_6 = (var_r6_2 * 0x14) + sp4C;
-                        *(sp50 + temp_r0_6) = boss->qUnk9C;
-                        *(sp54 + temp_r0_6) = boss->qUnkA0;
+                        boss->strc16C[sp24][var_r6_2].qWorldX = boss->qUnk9C;
+                        boss->strc16C[sp24][var_r6_2].qWorldY = boss->qUnkA0;
                     }
                     var_r6_2 += 1;
                     sp28 = (s32)(u8)(sp28 + 1);
@@ -1050,41 +1024,33 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                 if (sp24 != 2) {
 
                 } else {
-                    if (boss->fillerBA[0x28] == 0) {
-                        temp_r1_5 = boss->fillerBA[2];
-                        var_r5_2 = 0 - (*(temp_r1_5 + &gUnknown_080D5D64) << 8);
-                        var_r4_2 = 0 - (*(temp_r1_5 + &gUnknown_080D5DE4) << 8);
-                        sp80 = &boss->fillerBA[2];
+                    if (boss->fillerE2[0] == 0) {
+                        var_r5_2 = -Q(gUnknown_080D5D64[boss->unkBC[0]]);
+                        var_r4_2 = -Q(gUnknown_080D5DE4[boss->unkBC[0]]);
                         if ((u32)temp_r1_5 <= 0xCU) {
-                            *sp34 = 0x280;
+                            boss->strc10C[2].unk14 = 0x280;
                         } else {
-                            *sp34 = 0x200;
+                            boss->strc10C[2].unk14 = 0x200;
                         }
                     } else {
-                        temp_r1_6 = boss->fillerBA[0xC];
-                        var_r5_2 = 0 - (*(temp_r1_6 + &gUnknown_080D5D64) << 8);
-                        var_r4_2 = 0 - (*(temp_r1_6 + &gUnknown_080D5DE4) << 8);
-                        *sp34 = 0x100;
-                        sp80 = &boss->fillerBA[2];
+                        var_r5_2 = -Q(gUnknown_080D5D64[boss->unkC6]);
+                        var_r4_2 = -Q(gUnknown_080D5DE4[boss->unkC6]);
+                        boss->strc10C[2].unk14 = 0x100;
                     }
                     sp38[sp24].qOffsetX = boss->qUnk9C + temp_r0_3 + var_r5_2;
                     *(&boss->strc10C[0].qOffsetY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4_2;
                     sp28 = (s32)(u8)(sp28 + 1);
                     var_r6_3 = 0;
                     sp90 = sp24 + 1;
-                    sp3C = sp24 * 0x78;
-                    sp40 = boss->strc16C[0];
+                    sp40 = &boss->strc16C[0][0];
                     sp44 = &boss->strc16C[0][0].qWorldY;
                     do {
-                        temp_r0_7 = sp80[sp28];
-                        if (temp_r0_7 != 0) {
-                            temp_r1_7 = (var_r6_3 * 0x14) + sp3C;
-                            *(sp40 + temp_r1_7) = (boss->qUnk9C + temp_r0_3) - (*(temp_r0_7 + &gUnknown_080D5D64) << 8);
-                            *(sp44 + temp_r1_7) = (boss->qUnkA0 + temp_r0_4) - (*(temp_r0_7 + &gUnknown_080D5DE4) << 8);
+                        if (boss->unkBC[sp28] != 0) {
+                            boss->strc16C[sp24][var_r6_3].qWorldX = (boss->qUnk9C + temp_r0_3) - Q(gUnknown_080D5D64[boss->unkBC[sp28]]);
+                            boss->strc16C[sp24][var_r6_3].qWorldY = (boss->qUnkA0 + temp_r0_4) - Q(gUnknown_080D5DE4[boss->unkBC[sp28]]);
                         } else {
-                            temp_r0_8 = (var_r6_3 * 0x14) + sp3C;
-                            *(sp40 + temp_r0_8) = boss->qUnk9C;
-                            *(sp44 + temp_r0_8) = boss->qUnkA0;
+                            boss->strc16C[sp24][var_r6_3].qWorldX = boss->qUnk9C;
+                            boss->strc16C[sp24][var_r6_3].qWorldY = boss->qUnkA0;
                         }
                         var_r6_3 += 1;
                         sp28 = (s32)(u8)(sp28 + 1);
@@ -1104,9 +1070,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             if (sp24 == 0) {
                 temp_r3_2 = boss->unkD8;
                 sp90 = 1;
-                if (temp_r3_2 == 0) {
-
-                } else {
+                if (temp_r3_2 != 0) {
                     var_r0_3 = gSineTable[temp_r7_2 + 0x100] * 0x1C;
                     if (var_r0_3 < 0) {
                         var_r0_3 += 0x3F;
@@ -1175,13 +1139,13 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                         sp58 = (u32)(temp_r0_13 << 0x10) >> 0x12;
                         do {
                             temp_r2_2 = var_r6_5 - 1;
-                            boss->strc16C[0][temp_r2_2].unk168 = var_sl;
-                            *(&boss->strc16C[0][0].qWorldY + ((temp_r2_2 * 0x14) + 0x168)) = var_sb;
-                            var_r0_9 = gSineTable[var_r7_2 + 0x100] * temp_r0_12;
+                            boss->strc16C[3][temp_r2_2].qWorldX = var_sl;
+                            boss->strc16C[3][temp_r2_2].qWorldY = var_sb;
+                            var_r0_9 = COS(var_r7_2) * temp_r0_12;
                             if (var_r0_9 < 0) {
                                 var_r0_9 += 0x3FFF;
                             }
-                            var_r0_10 = gSineTable[var_r7_2] * temp_r0_12;
+                            var_r0_10 = SIN(var_r7_2) * temp_r0_12;
                             if (var_r0_10 < 0) {
                                 var_r0_10 += 0x3FFF;
                             }
@@ -1198,8 +1162,8 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                         } while (var_r6_5 != 0);
                     block_82:
                         temp_r1_8 = (sp94 + sp24) * 8;
-                        (boss + temp_r1_8)->unk120 = var_r7_2;
-                        *(boss->strc10C + temp_r1_8) = var_sl;
+                        //                    (boss + temp_r1_8)->unk120 = var_r7_2;
+                        //                    *(boss->strc10C + temp_r1_8) = var_sl;
                         *(&boss->strc10C[0].qOffsetY + temp_r1_8) = var_sb;
                     }
                 }
@@ -1211,7 +1175,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             }
             break;
         case 1:
-            temp_r0_15 = boss->fillerBA[0x29];
+            temp_r0_15 = boss->fillerE2[1];
             sp24 = (u32)temp_r0_15;
             temp_r2_3 = temp_r0_15 << 8;
             var_r0_11 = gSineTable[temp_r2_3 + 0x180] * 0x1C;
@@ -1226,12 +1190,11 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             var_sb_2 = (var_r0_12 >> 6) + boss->qUnkA0;
             temp_r0_16 = (s32)boss->unkD4 / 6;
             temp_r2_4 = boss->unkCC;
-            var_r0_13 = gSineTable[temp_r2_4 + 0x100] * temp_r0_16;
-            sp84 = &boss->fillerBA[0x12];
+            var_r0_13 = COS(boss->unkCC) * temp_r0_16;
             if (var_r0_13 < 0) {
                 var_r0_13 += 0x3FFF;
             }
-            var_r0_14 = gSineTable[temp_r2_4] * temp_r0_16;
+            var_r0_14 = SIN(boss->unkCC) * temp_r0_16;
             if (var_r0_14 < 0) {
                 var_r0_14 += 0x3FFF;
             }
@@ -1239,23 +1202,21 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             sp94 = sp24 * 2;
             do {
                 temp_r0_17 = var_r6_6 - 1;
-                temp_r1_9 = (temp_r0_17 * 0x14) + (sp24 * 0x78);
-                *(boss->strc16C[0] + temp_r1_9) = var_sl_2;
-                *(&boss->strc16C[0][0].qWorldY + temp_r1_9) = var_sb_2;
+                boss->strc16C[sp24][temp_r0_17].qWorldX = var_sl_2;
+                boss->strc16C[sp24][temp_r0_17].qWorldY = var_sb_2;
                 var_sl_2 += var_r0_13 >> 0xE;
                 var_sb_2 += var_r0_14 >> 0xE;
                 var_r6_6 = temp_r0_17;
             } while (var_r6_6 != 0);
             var_r1 = (sp94 + sp24) * 8;
             var_r0_15 = boss + var_r1;
-            var_r6_7 = sp84;
         block_108:
-            var_r0_15->unk120 = (u16)*var_r6_7;
-            *(boss->strc10C + var_r1) = var_sl_2;
+            //        var_r0_15->unk10C[0].unk14 = (u16) boss->unkCC;
+            //        *(boss->strc10C + var_r1) = var_sl_2;
             *(&boss->strc10C[0].qOffsetY + var_r1) = var_sb_2;
             break;
         case 2:
-            temp_r0_18 = boss->fillerBA[0x29];
+            temp_r0_18 = boss->fillerE2[1];
             sp24 = (u32)temp_r0_18;
             temp_r2_5 = temp_r0_18 << 8;
             var_r0_16 = gSineTable[temp_r2_5 + 0x180] * 0x1C;
@@ -1283,9 +1244,8 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             sp88 = &boss->fillerBA[0x14];
             do {
                 temp_r0_20 = var_r6_8 - 1;
-                temp_r1_11 = (temp_r0_20 * 0x14) + (sp24 * 0x78);
-                *(boss->strc16C[0] + temp_r1_11) = var_sl_2;
-                *(&boss->strc16C[0][0].qWorldY + temp_r1_11) = var_sb_2;
+                boss->strc16C[sp24][temp_r0_20].qWorldX = var_sl_2;
+                boss->strc16C[sp24][temp_r0_20].qWorldY = var_sb_2;
                 var_sl_2 += var_r0_18 >> 0xE;
                 var_sb_2 += var_r0_19 >> 0xE;
                 var_r6_8 = temp_r0_20;
@@ -1300,7 +1260,6 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             sp74 = &boss->qUnk9C;
             sp78 = &boss->qUnkA0;
             sp7C = &boss->fillerBA[1];
-            sp60 = &boss->fillerBA[2];
         loop_110:
             var_r0_20 = gSineTable[var_r7_3 + 0x100] * 0x1C;
             if (var_r0_20 < 0) {
@@ -1317,9 +1276,8 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             sp94 = sp24 * 2;
             sp90 = sp24 + 1;
             sp64 = sp24 * 0x78;
-            sp68 = boss->strc16C[0];
             do {
-                temp_r1_12 = &sp60[var_r6_9];
+                temp_r1_12 = &boss->unkBC[var_r6_9];
                 if (*temp_r1_12 != 0) {
                     temp_r1_13 = *temp_r1_12;
                     var_r0_22 = temp_r1_13 * gSineTable[var_r3 + 0x100];
@@ -1339,14 +1297,13 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                 var_sl_3 += var_r5_3;
                 var_sb_3 += var_r4_3;
                 temp_r2_6 = var_r6_9 - 1;
-                temp_r0_21 = (temp_r2_6 * 0x14) + sp64;
-                *(sp68 + temp_r0_21) = var_sl_3;
-                *(temp_r0_21 + &boss->strc16C[0][0].qWorldY) = var_sb_3;
+                boss->strc16C[sp24][temp_r2_6].qWorldX = var_sl_3;
+                boss->strc16C[sp24][temp_r2_6].qWorldY = var_sb_3;
                 var_r3 = (var_r3 + 0x20) & 0x3FF;
                 var_r6_9 = temp_r2_6;
             } while (var_r6_9 != 0);
-            if (*sp60 != 0) {
-                temp_r1_14 = *sp60;
+            if (boss->unkBC[0] != 0) {
+                temp_r1_14 = boss->unkBC[0];
                 var_r0_24 = temp_r1_14 * gSineTable[var_r3 + 0x100];
                 if (var_r0_24 < 0) {
                     var_r0_24 += 0x3F;
@@ -1361,14 +1318,15 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                 var_r5_4 = 0;
                 var_r4_4 = 0;
             }
-            if ((*sp7C == 0) && (*sp60 == 0)) {
-                (((sp94 + sp24) * 8) + boss)->unk120 = var_r7_3;
+            if ((*sp7C == 0) && (boss->unkBC[0] == 0)) {
+                //            boss->strc10C[][]
+                //            (((sp94 + sp24) * 8) + boss)->unk120 = var_r7_3;
             } else {
-                (((sp94 + sp24) * 8) + boss)->unk120 = var_r3;
+                //            (((sp94 + sp24) * 8) + boss)->unk120 = var_r3;
             }
             temp_r2_7 = (sp94 + sp24) * 8;
-            *(boss->strc10C + temp_r2_7) = var_sl_3 + var_r5_4;
-            *(&boss->strc10C[0].qOffsetY + temp_r2_7) = var_sb_3 + var_r4_4;
+            //        *(boss->strc10C + temp_r2_7) = var_sl_3 + var_r5_4;
+            //        *(&boss->strc10C[0].qOffsetY + temp_r2_7) = var_sb_3 + var_r4_4;
             var_r7_3 = (var_r7_3 + 0x100) & 0x3FF;
             temp_r0_22 = (u8)sp90;
             sp24 = (u32)temp_r0_22;
@@ -1404,8 +1362,8 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                 sp70 = &boss->strc16C[0][0].qWorldY;
                 do {
                     temp_r2_9 = var_r6_10 - 1;
-                    sp6C[temp_r2_9].unkF0 = var_sl_4;
-                    *(sp70 + ((temp_r2_9 * 0x14) + 0xF0)) = var_sb_4;
+                    boss->strc16C[2][temp_r2_9].qWorldX = var_sl_4;
+                    boss->strc16C[2][temp_r2_9].qWorldY = var_sb_4;
                     var_r0_29 = gSineTable[var_r7_4 + 0x100] * temp_r0_23;
                     if (var_r0_29 < 0) {
                         var_r0_29 += 0x3FFF;
@@ -1420,16 +1378,17 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                     var_r6_10 = temp_r2_9;
                 } while (var_r6_10 != 0);
                 temp_r1_15 = (sp94 + sp24) * 8;
-                (boss + temp_r1_15)->unk120 = (s16)var_r7_4;
-                *(boss->strc10C + temp_r1_15) = var_sl_4;
+                //            (boss + temp_r1_15)->unk120 = (s16) var_r7_4;
+                //            *(boss->strc10C + temp_r1_15) = var_sl_4;
                 *(&boss->strc10C[0].qOffsetY + temp_r1_15) = var_sb_4;
             }
             break;
     }
-    boss->unkC = sp20;
+    boss->unkC = param1;
     return 0;
 }
 
+#if 0
 void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
 {
     Player *temp_r2;
@@ -1457,7 +1416,7 @@ void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
     temp_r2 = boss->players[0];
     switch (temp_r1) { /* irregular */
         case 1:
-            temp_r0 = boss->fillerBA[0x29];
+            temp_r0 = boss->fillerE2[1];
             boss->unkCE = sa2__sub_8004418(
                 (s16)(((s32)temp_r2->qWorldY >> 8) - ((s32) * (&boss->strc10C[0].qOffsetY + (temp_r0 * 0x18)) >> 8)),
                 (s16)((s16)(((s32)temp_r2->qWorldX >> 8) + (u16)gCamera.unk6A) - ((s32)boss->strc10C[temp_r0].qOffsetX >> 8)));
@@ -1502,7 +1461,7 @@ void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
             boss->unkD0 = (s32)Sqrt((temp_r1_4 * temp_r1_4) + (temp_r6 * temp_r6));
             boss->unkD4 = 0;
             boss->unk144 = 0x800;
-            boss->fillerBA[0x29] = var_sl;
+            boss->fillerE2[1] = var_sl;
             return;
     }
 }
@@ -1539,7 +1498,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
         case 0x136: /* switch 1 */
         block_67:
             sub_878_8082E2C(boss, 2U);
-            temp_r0 = boss->fillerBA[0x29];
+            temp_r0 = boss->fillerE2[1];
             sub_808587C((u16)(s16)(((s32)boss->strc10C[temp_r0].qOffsetX >> 8) - gCamera.x),
                         (u16)(s16)(((s32) * (&boss->strc10C[0].qOffsetY + (temp_r0 * 0x18)) >> 8) - gCamera.y), (s16)boss->unkCE);
             if (boss->unk2 == 0) {
@@ -1599,10 +1558,10 @@ void sub_878_8083BE4(UltimateGemerl *boss)
                 var_r0_3 = 0;
             } else {
                 if ((u32)boss->unkCE <= 0x1FFU) {
-                    var_r1 = &boss->fillerBA[0x2A];
+                    var_r1 = &boss->fillerE2[2];
                     var_r0_4 = 1;
                 } else {
-                    var_r1 = &boss->fillerBA[0x2A];
+                    var_r1 = &boss->fillerE2[2];
                     var_r0_4 = 0;
                 }
                 *var_r1 = var_r0_4;
@@ -1669,8 +1628,8 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             }
             break;
         case 0x0: /* switch 1 */
-            boss->fillerBA[0x28] = (u8)temp_r1;
-            boss->fillerBA[0x29] = (u8)temp_r1;
+            boss->fillerE2[0] = (u8)temp_r1;
+            boss->fillerE2[1] = (u8)temp_r1;
             temp_r0_8 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
             gPseudoRandom = temp_r0_8;
             boss->unkF2 = (u16)temp_r0_8;
@@ -1693,9 +1652,9 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             if ((temp_r0_10 << 0x10) != 0) {
                 return;
             }
-            temp_r1_5 = boss->fillerBA[0x28];
+            temp_r1_5 = boss->fillerE2[0];
             if ((((u32)temp_r1_5 <= 4U) && ((1 << temp_r1_5) & boss->unkF2)) || (temp_r1_5 == 0)) {
-                boss->fillerBA[0x28] += 1;
+                boss->fillerE2[0] += 1;
                 boss->unk4 = 0x3C;
                 var_r1_3 = 0;
                 do {
@@ -1718,6 +1677,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
     u32 sp4;
     Sprite *temp_r0_10;
     Sprite *temp_r0_14;
+    s16 *temp_sb;
     s16 temp_r0_12;
     s16 temp_r0_13;
     s16 temp_r0_15;
@@ -1725,6 +1685,8 @@ void sub_878_8083F8C(UltimateGemerl *boss)
     s16 temp_r0_7;
     s16 temp_r2;
     s16 var_r0;
+    s32 *temp_r4;
+    s32 *var_r1_3;
     s32 temp_r0_20;
     s32 temp_r1_4;
     s32 temp_r4_2;
@@ -1740,9 +1702,6 @@ void sub_878_8083F8C(UltimateGemerl *boss)
     u8 *temp_r1_3;
     u8 *temp_r1_5;
     u8 *temp_r1_6;
-    u8 *temp_r4;
-    u8 *temp_sb;
-    u8 *var_r1_3;
     u8 temp_r0_11;
     u8 temp_r0_16;
     u8 temp_r0_17;
@@ -1763,7 +1722,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
             sub_878_8082E2C(boss, 3U);
             var_r3 = 1;
         loop_42:
-            temp_sb = &boss->strc10C[var_r3].filler8[0xA];
+            temp_sb = &boss->strc10C[var_r3].unk12;
             temp_r0 = boss->strc10C[var_r3].unk12;
             switch (temp_r0) { /* switch 2; irregular */
                 case 0: /* switch 2 */
@@ -1772,25 +1731,25 @@ void sub_878_8083F8C(UltimateGemerl *boss)
                     if ((temp_r0_2 << 0x10) == 0) {
                         boss->strc10C[var_r3].unk10 = 0x1EU;
                         boss->strc10C[var_r3].unk12 = 0xAU;
-                    } else if (boss->strc10C[var_r3].filler8[0xE] == 0) {
-                        temp_r1_2 = &(&boss->fillerBA[0xA])[var_r3];
+                    } else if (boss->strc10C[var_r3].unk16 == 0) {
+                        temp_r1_2 = &(&boss->unkC4)[var_r3];
                         temp_r0_3 = *temp_r1_2 + 1;
                         *temp_r1_2 = temp_r0_3;
                         if ((u32)temp_r0_3 > 0x69U) {
                             goto block_54;
                         }
                     } else {
-                        temp_r1_3 = &(&boss->fillerBA[0xA])[var_r3];
+                        temp_r1_3 = &(&boss->unkC4)[var_r3];
                         temp_r0_4 = *temp_r1_3 - 1;
                         *temp_r1_3 = temp_r0_4;
                         if ((u32)temp_r0_4 <= 0x14U) {
                         block_54:
-                            boss->strc10C[var_r3].filler8[0xE] ^= 1;
+                            boss->strc10C[var_r3].unk16 = (u8)(boss->strc10C[var_r3].unk16 ^ 1);
                         }
                     }
                     break;
                 case 10: /* switch 2 */
-                    temp_r4 = &boss->strc10C[var_r3].filler8[8];
+                    temp_r4 = &boss->strc10C[var_r3].unk10;
                     temp_r0_5 = boss->strc10C[var_r3].unk10 - 1;
                     boss->strc10C[var_r3].unk10 = temp_r0_5;
                     if ((temp_r0_5 << 0x10) == 0) {
@@ -1818,7 +1777,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
                         boss->strc10C[var_r3].unk10 = (u16) * ((((u32)temp_r4_2 % 10U) * 2) + &gUnknown_080D5D50);
                         temp_r1_4 = (0x196225 * temp_r4_2) + 0x3C6EF35F;
                         gPseudoRandom = temp_r1_4;
-                        boss->strc10C[var_r3].filler8[0xE] = temp_r1_4 & 1;
+                        boss->strc10C[var_r3].unk16 = (u8)(temp_r1_4 & 1);
                         boss->strc10C[var_r3].unk12 = (u16)temp_r2;
                         goto block_61;
                     }
@@ -1838,7 +1797,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
             var_r3_2 = 0;
             if ((u32)boss->fillerBA[1] > 0U) {
                 do {
-                    temp_r1_5 = &(&boss->fillerBA[2])[var_r3_2];
+                    temp_r1_5 = &(&boss->unkBC)[var_r3_2];
                     temp_r0_8 = *temp_r1_5;
                     if (temp_r0_8 != 0) {
                         *temp_r1_5 = temp_r0_8 - 1;
@@ -1846,7 +1805,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
                     var_r3_2 += 1;
                 } while ((u32)var_r3_2 < (u32)boss->fillerBA[1]);
             }
-            temp_r0_9 = boss->fillerBA[2];
+            temp_r0_9 = boss->unkBC;
             if (temp_r0_9 == 0) {
                 boss->unk1 = temp_r0_9;
                 var_r1 = 0;
@@ -1863,7 +1822,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
         case 0xD2: /* switch 1 */
             var_r3_3 = 1;
             do {
-                temp_r1_6 = &(&boss->fillerBA[0xA])[var_r3_3];
+                temp_r1_6 = &(&boss->unkC4)[var_r3_3];
                 temp_r0_11 = *temp_r1_6;
                 if ((u32)temp_r0_11 <= 0x77U) {
                     *temp_r1_6 = temp_r0_11 + 1;
@@ -1871,7 +1830,7 @@ void sub_878_8083F8C(UltimateGemerl *boss)
                 var_r3_3 += 1;
             } while ((u32)var_r3_3 <= 2U);
             if ((boss->unkC4 & 0xFFFF00) == 0x787800) {
-                boss->fillerBA[0x28] = 0;
+                boss->fillerE2[0] = 0;
                 boss->unk8 = 0x1F4;
             }
             goto block_82;
@@ -1888,11 +1847,11 @@ void sub_878_8083F8C(UltimateGemerl *boss)
             boss->fillerBA[1] = (u8)temp_r1;
             var_r3_4 = 0;
             do {
-                (&boss->fillerBA[2])[var_r3_4] = 0;
-                (&boss->fillerBA[0xA])[var_r3_4] = 0;
+                (&boss->unkBC)[var_r3_4] = 0;
+                (&boss->unkC4)[var_r3_4] = 0;
                 var_r3_4 += 1;
             } while ((u32)var_r3_4 <= 6U);
-            boss->fillerBA[0x28] = 0;
+            boss->fillerE2[0] = 0;
             boss->unk3 = 0;
             boss->unk2 = 0;
             boss->unk4 = 1;
@@ -1924,12 +1883,12 @@ void sub_878_8083F8C(UltimateGemerl *boss)
             var_r3_5 = 0;
             if ((u32)boss->fillerBA[1] > 0U) {
                 do {
-                    temp_r0_18 = &(&boss->fillerBA[2])[var_r3_5];
+                    temp_r0_18 = &(&boss->unkBC)[var_r3_5];
                     *temp_r0_18 += 1;
                     var_r3_5 += 1;
                 } while ((u32)var_r3_5 < (u32)boss->fillerBA[1]);
             }
-            if ((u32)boss->fillerBA[2] <= 0x77U) {
+            if ((u32)boss->unkBC <= 0x77U) {
 
             } else {
                 boss->unk4 = 0x3C;
@@ -1942,23 +1901,23 @@ void sub_878_8083F8C(UltimateGemerl *boss)
             if ((temp_r0_19 << 0x10) != 0) {
 
             } else {
-                boss->fillerBA[0x28] = 1;
+                boss->fillerE2[0] = 1;
                 var_r3_6 = 1;
                 do {
-                    (&boss->fillerBA[0xA])[var_r3_6] = 0x78;
+                    (&boss->unkC4)[var_r3_6] = 0x78;
                     temp_r0_20 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
                     gPseudoRandom = temp_r0_20;
                     sp4 = var_r3_6;
                     boss->strc10C[var_r3_6].unk10 = (u16) * ((((u32)temp_r0_20 % 10U) * 2) + &gUnknown_080D5D50);
                     if (var_r3_6 == 2) {
-                        var_r1_3 = &boss->strc10C[2].filler8[0xC];
+                        var_r1_3 = &boss->strc10C[2].unk14;
                         var_r0 = 0x100;
                     } else {
-                        var_r1_3 = &boss->strc10C[var_r3_6].filler8[0xC];
+                        var_r1_3 = &boss->strc10C[var_r3_6].unk14;
                         var_r0 = 0x300;
                     }
                     *var_r1_3 = var_r0;
-                    boss->strc10C[var_r3_6].filler8[0xE] = 1;
+                    boss->strc10C[var_r3_6].unk16 = 1;
                     boss->strc10C[var_r3_6].unk12 = 0;
                     var_r3_6 = (u32)(u8)(var_r3_6 + 1);
                 } while (var_r3_6 <= 2U);
@@ -2035,12 +1994,12 @@ void sub_878_808439C(UltimateGemerl *boss)
             temp_r0 = boss->unkCC + 4;
             boss->unkCC = temp_r0;
             if ((u32)temp_r0 > 0xFFU) {
-                if (boss->fillerBA[0x28] == 0) {
+                if (boss->fillerE2[0] == 0) {
                     var_r0 = 5;
                     var_r1 = &boss->fillerBA[0x12] + 0x21;
                 } else {
                     var_r0 = 6;
-                    var_r1 = &boss->fillerBA[0x33];
+                    var_r1 = &boss->unkED;
                 }
                 *var_r1 = var_r0;
                 boss->unk4 = 0xB4;
@@ -2067,7 +2026,7 @@ void sub_878_808439C(UltimateGemerl *boss)
             return;
         case 0x6E:
             var_r1_2 = 2;
-            if (boss->fillerBA[0x28] != 0) {
+            if (boss->fillerE2[0] != 0) {
                 var_r1_2 = 1;
             }
             temp_r2 = &boss->fillerBA[0x16] + (var_r1_2 * 4);
@@ -2078,7 +2037,7 @@ void sub_878_808439C(UltimateGemerl *boss)
                 boss->unk4 = 0x3C;
                 boss->unk8 = 0xC8;
             }
-            temp_r1_2 = &boss->fillerBA[0x2A] + ((var_r1_2 - 1) * 4);
+            temp_r1_2 = &boss->fillerE2[2] + ((var_r1_2 - 1) * 4);
             *temp_r1_2 += 0x180;
         block_46:
             sub_878_8082E2C(boss, 4U);
@@ -2093,7 +2052,7 @@ void sub_878_808439C(UltimateGemerl *boss)
             goto block_46;
         case 0x15E:
             if (boss->unkEE != 0) {
-                boss->fillerBA[0x33] = 0;
+                boss->unkED = 0;
                 boss->spr814.anim = gUnknown_080D5D0C.unk0;
                 boss->spr814.variant = (u8)gUnknown_080D5D0C.unk2;
                 boss->spr814.prevVariant = 0xFF;
@@ -2114,7 +2073,7 @@ void sub_878_808439C(UltimateGemerl *boss)
             goto block_48;
         case 0x154:
             if (boss->unkEE != 0) {
-                boss->fillerBA[0x33] = 4;
+                boss->unkED = 4;
                 var_r0_3 = 0x15E;
                 goto block_60;
             }
@@ -2164,8 +2123,8 @@ void sub_878_808439C(UltimateGemerl *boss)
                 boss->fillerE[1] = (u8)temp_r2_2;
                 boss->unk1 = (u8)temp_r2_2;
                 var_r1_3 = 0;
-                var_r2 = &boss->fillerBA[0x2A];
-                var_r3 = &boss->fillerBA[0x2E];
+                var_r2 = &boss->fillerE2[2];
+                var_r3 = &boss->fillerE2[6];
                 do {
                     temp_r0_5 = &boss->spr3B4[var_r1_3];
                     temp_r0_5->anim = 0x4FE;
@@ -2180,8 +2139,8 @@ void sub_878_808439C(UltimateGemerl *boss)
         case 0x0:
             temp_r0_6 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
             gPseudoRandom = temp_r0_6;
-            boss->fillerBA[0x28] = temp_r0_6 & 1;
-            *(&boss->fillerBA[0x28] - 0x12) = 0x7800;
+            boss->fillerE2[0] = temp_r0_6 & 1;
+            *(boss->fillerE2 - 0x12) = 0x7800;
             boss->unkD4 = (s32)temp_r3;
             boss->unkD8 = (s32)temp_r3;
             boss->unk144 = 0x200;
@@ -2204,12 +2163,12 @@ void sub_878_808439C(UltimateGemerl *boss)
             if ((temp_r0_8 << 0x10) != 0) {
                 return;
             }
-            boss->fillerBA[0x28] ^= 1;
+            boss->fillerE2[0] ^= 1;
             boss->unk8 = 0x64;
             return;
         case 0x64:
             var_r1_5 = 1;
-            if (boss->fillerBA[0x28] != 0) {
+            if (boss->fillerE2[0] != 0) {
                 var_r1_5 = 2;
             }
             temp_r2_3 = &boss->fillerBA[0x16] + (var_r1_5 * 4);
@@ -2220,7 +2179,7 @@ void sub_878_808439C(UltimateGemerl *boss)
                 m4aSongNumStart(0x239U);
                 boss->unk8 = 0x6E;
             }
-            temp_r1_4 = &boss->fillerBA[0x2A] + ((var_r1_5 - 1) * 4);
+            temp_r1_4 = &boss->fillerE2[2] + ((var_r1_5 - 1) * 4);
             *temp_r1_4 += 0x180;
             goto block_46;
     }
@@ -2250,7 +2209,7 @@ void sub_878_808491C(UltimateGemerl *boss)
     temp_r2 = (u16)boss->unk8;
     switch (temp_r2) { /* irregular */
         case 0xC8:
-            boss->fillerBA[0x33] = 2;
+            boss->unkED = 2;
             boss->unk8 = 0xD2;
             return;
         case 0x6E:
@@ -2287,7 +2246,7 @@ void sub_878_808491C(UltimateGemerl *boss)
             return;
         case 0xD2:
             if (boss->unkEE != 0) {
-                boss->fillerBA[0x33] = 0;
+                boss->unkED = 0;
                 boss->unk1 = 0;
             }
             return;
@@ -2297,10 +2256,10 @@ void sub_878_808491C(UltimateGemerl *boss)
             (&boss->rotation + 2)->unk1 = 0;
             var_r1_2 = 0;
             do {
-                (&boss->fillerBA[2])[var_r1_2] = 0;
+                (&boss->unkBC)[var_r1_2] = 0;
                 var_r1_2 += 1;
             } while ((u32)var_r1_2 <= 6U);
-            boss->fillerBA[0x33] = 1;
+            boss->unkED = 1;
             boss->unk4 = 0;
             boss->unk8 = 0xA;
             return;
@@ -2308,7 +2267,7 @@ void sub_878_808491C(UltimateGemerl *boss)
             if (boss->unkEE == 0) {
                 return;
             }
-            boss->fillerBA[0x33] = 0;
+            boss->unkED = 0;
             boss->unk100 = 0;
             boss->unk104 = 0;
             m4aSongNumStart(0x214U);
@@ -2323,7 +2282,7 @@ void sub_878_808491C(UltimateGemerl *boss)
             return;
         case 0x64:
             if ((u32)boss->fillerBA[1] <= 5U) {
-                temp_r1_2 = &(&boss->fillerBA[2])[boss->fillerBA[1]];
+                temp_r1_2 = &(&boss->unkBC)[boss->fillerBA[1]];
                 temp_r0_7 = *temp_r1_2 + 1;
                 *temp_r1_2 = temp_r0_7;
                 if ((u32)temp_r0_7 > 0x17U) {
@@ -2384,8 +2343,8 @@ void sub_878_8084B2C(UltimateGemerl *boss)
             boss->unk4 = temp_r0_3;
             if ((temp_r0_3 << 0x10) == 0) {
                 boss->unk4 = 0xB4;
-                boss->fillerBA[0x33] = 8;
-                temp_r1 = &boss->fillerBA[0x33] - 0x49;
+                boss->unkED = 8;
+                temp_r1 = &boss->unkED - 0x49;
                 temp_r1->unk0 = 0xFFFFFE00;
                 temp_r1->unk4 = 0xFFFFFF00;
                 (temp_r1 + 4)->unk47 = 0x96;
@@ -2398,7 +2357,7 @@ void sub_878_8084B2C(UltimateGemerl *boss)
             boss->unk4 = temp_r0_4;
             if ((temp_r0_4 << 0x10) == 0) {
                 boss->unk108 = 0;
-                boss->fillerBA[0x33] = 0;
+                boss->unkED = 0;
                 boss->unk12 = 0xBB8;
                 var_r0 = 0x12C;
                 goto block_16;
@@ -2506,10 +2465,10 @@ void sub_878_8084C50(UltimateGemerl *boss)
             boss->unk4 = temp_r0_6;
             temp_r5 = temp_r0_6;
             if (temp_r5 == 0) {
-                boss->unkE0 = sa2__sub_8004418(-0x50, 0x78);
+                boss->unkE0 = (u16)sa2__sub_8004418(-0x50, 0x78);
                 boss->unkFC = (s32)temp_r5;
                 *(&boss->unkFC - 0x58) = (s32)temp_r5;
-                boss->fillerBA[0x33] = 3;
+                boss->unkED = 3;
                 var_r0_2 = 0xD2;
                 goto block_59;
             }
@@ -2783,13 +2742,13 @@ void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
     s32 *sp14;
     s32 *temp_r0;
     s32 *temp_r3;
+    s32 *temp_r4_3;
     s32 temp_r1_2;
     s32 temp_r4;
     s32 temp_r4_2;
     s32 temp_r5_2;
     s32 var_r0;
     s32 var_r0_2;
-    u8 *temp_r4_3;
     u8 temp_r0_2;
     u8 temp_r0_3;
     u8 temp_r1;
@@ -2842,7 +2801,7 @@ void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
             temp_r5 = var_sb_2;
             BossExtra_CreateExplosion((s32)(boss->strc10C[temp_r5].qOffsetX << 8) >> 0x10,
                                       (s32)(*(&boss->strc10C[0].qOffsetY + (temp_r5 * 0x18)) << 8) >> 0x10, 0x200U, 0U, 0x1E, boss->vram24);
-            temp_r4_3 = &boss->strc10C[temp_r5].filler8[8];
+            temp_r4_3 = &boss->strc10C[temp_r5].unk10;
             boss->strc10C[temp_r5].unk10 = 0;
             temp_r0_2 = var_sb_2 + 1;
             var_sb_2 = temp_r0_2;
@@ -3856,7 +3815,7 @@ u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1)
     }
     temp_r1_2 = arg0->unk34;
     if (1 & temp_r1_2) {
-        temp_r1_3 = arg0->fillerBA[0x29] * 0x18;
+        temp_r1_3 = arg0->fillerE2[1] * 0x18;
         temp_r4 = ((s32)arg1->qWorldY >> 8) - ((s32) * (arg0 + 0x110 + temp_r1_3) >> 8);
         temp_r5 = (((s32)arg1->qWorldX >> 8) + (u16)gCamera.unk6A) - (((s32) * (arg0 + 0x10C + temp_r1_3) >> 8) - 4);
         temp_r6_2 = (u16)sa2__sub_8004418(temp_r4, temp_r5);
@@ -4472,8 +4431,8 @@ void sub_8086FF8(UltimateGemerl *boss, u8 param1)
     s32 var_r0;
     u8 temp_r0;
 
-    boss->fillerBA[0x33] = param1;
-    temp_r0 = boss->fillerBA[0x33];
+    boss->unkED = param1;
+    temp_r0 = boss->unkED;
     switch (temp_r0) { /* irregular */
         case 7:
             boss->qUnkB0 = 0x7800;
@@ -4545,18 +4504,19 @@ s32 sub_80870E0(void) { return 0; }
 
 s32 sub_80870E4(u16 arg0)
 {
+    u16 sp0;
     u16 temp_r1;
 
     temp_r1 = arg0;
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        subroutine_arg0 = temp_r1;
-        (void *)0x040000D4->unk0 = &subroutine_arg0;
+        sp0 = temp_r1;
+        (void *)0x040000D4->unk0 = &sp0;
         (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
         (void *)0x040000D4->unk8 = 0x81000140;
         return (void *)0x040000D4->unk8;
     }
-    subroutine_arg0 = temp_r1;
-    (void *)0x040000D4->unk0 = &subroutine_arg0;
+    sp0 = temp_r1;
+    (void *)0x040000D4->unk0 = &sp0;
     (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
     (void *)0x040000D4->unk8 = 0x81000140;
     return (void *)0x040000D4->unk8;
@@ -4620,6 +4580,8 @@ loop_1:
     }
     return var_r6;
 }
+
+#endif
 
 void TaskDestructor_38_8087234(Task *t) { }
 

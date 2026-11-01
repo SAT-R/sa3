@@ -13,13 +13,17 @@ typedef enum {
 typedef struct {
     /* 0x00 */ s32 qOffsetX; // TODO: Is it qWorldX instead?
     /* 0x04 */ s32 qOffsetY; // TODO: Is it qWorldY instead?
-    /* 0x08 */ u8 filler8[0x10];
+    /* 0x14 */ s32 unk8;
+    /* 0x14 */ s32 unkC;
+    /* 0x14 */ s32 unk10;
+    /* 0x14 */ s32 unk14;
 } UltimateGemerlSub10C; /* 0x18 */
 
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u8 filler8[0xC];
+    /* 0x08 */ u8 filler8[0x8];
+    /* 0x14 */ s32 unk10;
 } UltimateGemerlSub16C; /* 0x14 */
 
 typedef struct {
@@ -62,9 +66,20 @@ typedef struct {
     /* 0x0B0 */ s32 qUnkB0;
     /* 0x0B4 */ s32 qUnkB4;
     /* 0x0B8 */ u16 rotation;
-    /* 0x0BA */ u8 fillerBA[0x26];
-    /* 0x0E0 */ u16 unkE0;
-    /* 0x0E2 */ u8 fillerE2[0xA];
+    /* 0x0BA */ u8 fillerBA[0x2];
+    /* 0x0B4 */ u8 unkBC[7];
+    u8 unkC3;
+    u8 unkC4;
+    u8 unkC5;
+    u8 unkC6;
+    u8 fillerC7[5];
+    u16 unkCC;
+    u8 fillerCE[6];
+    s32 unkD4;
+    s32 unkD8;
+    u8 fillerDC[0x4];
+    u16 unkE0;
+    u8 fillerE2[0xA];
     /* 0x0BC */ u8 unkEC;
     /* 0x0BD */ u8 unkED;
     /* 0x0BE */ u8 unkEE;
@@ -78,12 +93,12 @@ typedef struct {
     /* 0x10C */ UltimateGemerlSub10C strc10C[4];
     /* 0x16C */ UltimateGemerlSub16C strc16C[4][6];
     /* 0x34C */ u8 filler34C[0x40];
-    /* 0038C */ Sprite spr38C;
-    /* 0038C */ Sprite spr3B4[4];
-    /* 0038C */ Sprite spr454[4][6];
-    /* 0038C */ Sprite spr814;
-    /* 0038C */ SpriteTransform tf83C;
-    /* 0038C */ SpriteTransform tf848[4];
+    /* 0x38C */ Sprite spr38C;
+    /* 0x3B4 */ Sprite spr3B4[4];
+    /* 0x454 */ Sprite spr454[4][6];
+    /* 0x814 */ Sprite spr814;
+    /* 0x83C */ SpriteTransform tf83C;
+    /* 0x848 */ SpriteTransform tf848[4];
 } UltimateGemerl; /* 0x878 */
 
 typedef struct {
