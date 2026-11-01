@@ -371,61 +371,58 @@ void sub_878_8082388(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
 void sub_878_8082428(UltimateGemerl *boss)
 {
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u8 temp_r0;
-    u8 var_r0;
+    Sprite *s = &boss->spr38C;
 
-    temp_r0 = boss->unkEF;
-    switch (temp_r0) { /* irregular */
-        case 0x32:
+    switch (boss->unkEF) {
+        case 0:
+            break;
+        case 50:
             boss->unkF0 = 6;
-            boss->spr38C.anim = 0x4FD;
-            boss->spr38C.variant = 1;
-        block_20:
-            var_r0 = boss->unkEF + 1;
-        block_21:
-            boss->unkEF = var_r0;
-            return;
-        case 0x33:
-            temp_r0_2 = boss->unkF0 - 1;
-            boss->unkF0 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) == 0) {
-                boss->spr38C.anim = 0x4FD;
-                boss->spr38C.variant = 2;
-                goto block_20;
+            s->anim = ANIM_BOSS_EXTRA_BODY;
+            s->variant = 1;
+            boss->unkEF++;
+            break;
+        case 51:
+            if (--boss->unkF0 == 0) {
+                s->anim = ANIM_BOSS_EXTRA_BODY;
+                s->variant = 2;
+                boss->unkEF++;
+                break;
             }
             break;
-        case 0x64:
+        case 52:
+            break;
+        case 100:
             boss->unkF0 = 6;
-            boss->spr38C.anim = 0x4FD;
-            boss->spr38C.variant = 1;
-            goto block_20;
-        case 0x65:
-            temp_r0_3 = boss->unkF0 - 1;
-            boss->unkF0 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) == 0) {
-                boss->spr38C.anim = 0x4FD;
-                boss->spr38C.variant = 0;
-                goto block_20;
+            s->anim = ANIM_BOSS_EXTRA_BODY;
+            s->variant = 1;
+            boss->unkEF++;
+            break;
+        case 101:
+            if (--boss->unkF0 == 0) {
+                s->anim = ANIM_BOSS_EXTRA_BODY;
+                s->variant = 0;
+                boss->unkEF++;
+                break;
             }
             break;
-        case 0x66:
-            var_r0 = 0;
-            goto block_21;
-        case 0x96:
+        case 102:
+            boss->unkEF = 0;
+            break;
+        case 150:
             boss->unk108 = 2;
-            boss->spr38C.anim = 0x507;
-            boss->spr38C.variant = 0;
-            boss->spr38C.oamFlags = 0x4C0;
-            boss->spr38C.frameFlags = 0x1000;
-            goto block_20;
+            s->anim = ANIM_GEMERL_DEFEATED;
+            s->variant = 0;
+            s->oamFlags = 0x4C0;
+            s->frameFlags = 0x1000;
+            boss->unkEF++;
+            break;
     }
 }
+#if 01
+#else
 
 void sub_878_80824F4(UltimateGemerl *boss)
 {
