@@ -1337,8 +1337,7 @@ void Task_8099300()
     }
 }
 
-// (96.04%) https://decomp.me/scratch/f1JNY
-NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", void Task_SetupPartnerCharIndices())
+void Task_SetupPartnerCharIndices()
 {
     Background *bg;
 #ifndef BUG_FIX
@@ -1362,10 +1361,12 @@ NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", 
 
     cs->unk3 = 0;
     for (i = 0; i < 4; i++) {
-        if (cs->unk3 == cs->listIndex[CS_CHARID_PLAYER]) {
-            cs->unk3++;
+        if (cs->unk3 != cs->listIndex[CS_CHARID_PLAYER]) {
+            if (cs->unk3 < 5) {
+                break;
+            }
         } else {
-            break;
+            cs->unk3++;
         }
     }
 
@@ -1411,7 +1412,6 @@ NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", 
     DrawBackground(bg);
     gCurTask->main = Task_8099680;
 }
-END_NONMATCH
 
 void Task_8099680(void)
 {
