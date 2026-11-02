@@ -2953,23 +2953,19 @@ u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
     if (param1 != 0) {
         if (cs->qNameTagPos[CS_CHARID_PLAYER].x < Q(120)) {
             cs->qNameTagPos[CS_CHARID_PLAYER].x += Q(6.0625);
-            goto block_7;
+        } else {
+            cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(120);
+            var_r3 = 1;
         }
-        cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(120);
-        goto block_9;
-    }
-
-    if (cs->qNameTagPos[CS_CHARID_PLAYER].x > Q(60)) {
+    } else if (cs->qNameTagPos[CS_CHARID_PLAYER].x > Q(60)) {
         cs->qNameTagPos[CS_CHARID_PLAYER].x -= Q(6.0625);
     } else {
         cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(60);
         var_r3 = 1;
     }
-block_7:
     if (var_r3 == 0) {
         return 0;
     }
-block_9:
     return 1;
 }
 
