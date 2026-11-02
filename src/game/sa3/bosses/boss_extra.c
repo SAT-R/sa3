@@ -11,6 +11,10 @@
 #include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode
 #include "constants/animations.h"
 
+extern u8 gUnknown_080D5D64[0x80];
+extern u8 gUnknown_080D5DE4[0x80];
+extern const Vec2_32 gUnknown_080D5E64[4];
+
 void CreateUltimateGemerlBoss(void)
 {
     Task *t = TaskCreate(Task_878_8081E74, sizeof(UltimateGemerl), 0x3100U, 0U, TaskDestructor_878_8081D64);
@@ -701,628 +705,291 @@ void sub_878_8082D08(UltimateGemerl *boss)
 
 s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 {
-    u32 sp20;
-    u32 sp24;
-    s32 sp28;
-    UltimateGemerlSub10C *sp2C;
-    s32 *sp30;
-    u16 *sp34;
-    UltimateGemerlSub10C *sp38;
-    s32 sp3C;
-    UltimateGemerlSub16C *sp40;
-    s32 *sp44;
-    u16 *sp48;
-    s32 sp4C;
-    UltimateGemerlSub16C *sp50;
-    s32 *sp54;
-    u32 sp58;
-    u32 sp5C;
-    u8 *sp60;
-    s32 sp64;
-    UltimateGemerlSub16C *sp68;
-    UltimateGemerlSub16C *sp6C;
-    s32 *sp70;
-    s32 *sp74;
-    s32 *sp78;
-    u8 *sp7C;
-    u8 *sp80;
-    u16 *sp84;
-    u8 *sp88;
-    void *sp8C;
-    s32 sp90;
-    s32 sp94;
-    s16 var_r3;
+    Vec2_32 sp0[4];
+    u8 sp24;
+    u8 sp28;
     s16 var_r7_2;
-    s16 var_r7_3;
+    s32 var_r7_3;
     s32 temp_r0_10;
-    s32 temp_r0_11;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
+    u16 temp_r0_13;
     s32 temp_r0_16;
-    s32 temp_r0_19;
-    s32 temp_r0_21;
-    s32 temp_r0_23;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_6;
-    s32 temp_r0_8;
-    s32 temp_r1_11;
-    s32 temp_r1_15;
-    s32 temp_r1_4;
-    s32 temp_r1_7;
-    s32 temp_r1_8;
-    s32 temp_r1_9;
-    s32 temp_r2_3;
-    s32 temp_r2_5;
-    s32 temp_r2_7;
-    s32 temp_r2_8;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
     s32 temp_r7;
     s32 temp_r7_2;
-    s32 var_r0;
-    s32 var_r0_10;
-    s32 var_r0_11;
-    s32 var_r0_12;
-    s32 var_r0_13;
-    s32 var_r0_14;
-    s32 var_r0_16;
-    s32 var_r0_17;
-    s32 var_r0_18;
-    s32 var_r0_19;
-    s32 var_r0_20;
-    s32 var_r0_21;
-    s32 var_r0_22;
-    s32 var_r0_23;
-    s32 var_r0_24;
-    s32 var_r0_25;
-    s32 var_r0_26;
-    s32 var_r0_27;
-    s32 var_r0_28;
-    s32 var_r0_29;
-    s32 var_r0_2;
-    s32 var_r0_30;
-    s32 var_r0_3;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    s32 var_r0_6;
-    s32 var_r0_7;
-    s32 var_r0_8;
-    s32 var_r0_9;
-    s32 var_r1;
+    s32 qDirX;
+    s32 qDirY;
     s32 var_r4;
-    s32 var_r4_2;
-    s32 var_r4_3;
-    s32 var_r4_4;
     s32 var_r5;
-    s32 var_r5_2;
-    s32 var_r5_3;
-    s32 var_r5_4;
-    s32 var_r6_4;
-    s32 var_r6_5;
-    s32 var_sb;
-    s32 var_sb_2;
-    s32 var_sb_3;
-    s32 var_sb_4;
-    s32 var_sl;
-    s32 var_sl_2;
-    s32 var_sl_3;
-    s32 var_sl_4;
-    u16 *var_r6_7;
-    u16 temp_r1_10;
-    u16 temp_r2_4;
     u16 var_r7;
-    u32 var_r7_4;
-    u8 *temp_r1_12;
-    u8 temp_r0_14;
-    u8 temp_r0_15;
-    u8 temp_r0_17;
-    u8 temp_r0_18;
-    u8 temp_r0_20;
-    u8 temp_r0_22;
-    u8 temp_r0_5;
-    u8 temp_r0_7;
-    u8 temp_r0_9;
-    u8 temp_r1_13;
-    u8 temp_r1_14;
-    u8 temp_r1_2;
-    u8 temp_r1_3;
-    u8 temp_r1_5;
-    u8 temp_r1_6;
-    u8 temp_r2;
-    u8 temp_r2_2;
-    u8 temp_r2_6;
-    u8 temp_r2_9;
     u8 var_r6;
-    u8 var_r6_10;
-    u8 var_r6_2;
-    u8 var_r6_3;
-    u8 var_r6_6;
-    u8 var_r6_8;
-    u8 var_r6_9;
-    void *temp_r0;
-    void *temp_r1;
-    void *var_r0_15;
+    u16 r3;
+    s32 r4, r5;
+    u32 angle;
+#ifndef NON_MATCHING
+    register s32 var_sb asm("sb");
+    register s32 var_sl asm("sl");
+#else
+    s32 var_sb;
+    s32 var_sl;
+#endif
 
-    sp20 = (u32)param1;
-    temp_r0 = &gUnknown_080D5E64 + 0xC;
-    subroutine_arg0.unk0 = (s32)gUnknown_080D5E64.unk0;
-    subroutine_arg0.unk4 = (s32)gUnknown_080D5E64.unk4;
-    subroutine_arg0.unk8 = (s32)gUnknown_080D5E64.unk8;
-    temp_r1 = &subroutine_arg0 + 0xC;
-    subroutine_arg0.unkC = (s32)gUnknown_080D5E64.unkC;
-    temp_r1->unk4 = (s32)temp_r0->unk4;
-    temp_r1->unk8 = (s32)temp_r0->unk8;
-    temp_r1->unkC = (s32)temp_r0->unkC;
-    (temp_r1 + 0xC)->unk4 = (s32)(temp_r0 + 0xC)->unk4;
-    switch (sp20) {
+    // TODO: Inline the rodata!
+    memcpy(sp0, gUnknown_080D5E64, sizeof(sp0));
+
+    switch (param1) {
         case 0:
-            sp24 = 0;
-            var_r7 = 0x80;
-            sp8C = &subroutine_arg0 + 4;
-            sp2C = boss->strc10C;
-            sp30 = &boss->strc10C[0].qWorldY;
-            do {
-                temp_r3 = sp24 * 8;
-                sp2C[sp24].qWorldX = boss->qUnk9C + (*(&subroutine_arg0 + temp_r3) << 8);
-                *(sp30 + (sp24 * 0x18)) = boss->qUnkA0 + (*(sp8C + temp_r3) << 8);
+            for (sp24 = 0, var_r7 = 0x80; sp24 < 4; sp24++, var_r7 += 0x100) {
+                boss->strc10C[sp24].qWorldX = boss->qUnk9C + Q(sp0[sp24].x);
+                boss->strc10C[sp24].qWorldY = boss->qUnkA0 + Q(sp0[sp24].y);
                 boss->strc10C[sp24].unk14 = var_r7;
-                var_r6 = 0;
-                sp90 = sp24 + 1;
-            loop_4:
-                temp_r0_2 = (var_r6 * 0x14) + (sp24 * 0x78);
-                *(boss->strc16C[0] + temp_r0_2) = boss->qUnk9C;
-                *(temp_r0_2 + &boss->strc16C[0][0].qWorldY) = boss->qUnkA0;
-                var_r6 += 1;
-                if ((u32)var_r6 <= 5U) {
-                    goto loop_4;
+                for (var_r6 = 0; var_r6 < 6; var_r6++) {
+                    boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
+                    boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
                 }
-                sp24 = (u32)(u8)sp90;
-                var_r7 += 0x100;
-            } while (sp24 <= 3U);
+            }
             break;
         case 3:
-            sp24 = 0;
-            sp34 = &boss->strc10C[2].unk14;
-            sp38 = boss->strc10C;
-            sp48 = &boss->strc10C[1].unk14;
-        loop_8:
-            sp28 = 0;
-            temp_r7 = (sp24 << 8) | 0x80;
-            var_r0 = gSineTable[temp_r7 + 0x100] * 0x1C;
-            if (var_r0 < 0) {
-                var_r0 += 0x3F;
-            }
-            temp_r0_3 = var_r0 >> 6;
-            var_r0_2 = gSineTable[temp_r7] * 0x1C;
-            if (var_r0_2 < 0) {
-                var_r0_2 += 0x3F;
-            }
-            temp_r0_4 = var_r0_2 >> 6;
-            if (sp24 == 1) {
-                if (boss->fillerE2[0] == 0) {
-                    temp_r1_2 = boss->unkBC[0];
-                    var_r5 = 0 - (*(temp_r1_2 + &gUnknown_080D5D64) << 8);
-                    var_r4 = *(temp_r1_2 + &gUnknown_080D5DE4) << 8;
-                    sp80 = boss->unkBC;
-                    if ((u32)temp_r1_2 <= 0xCU) {
-                        *sp48 = 0x180;
-                    } else {
-                        *sp48 = 0x200;
+            for (sp24 = 0; sp24 < 4; sp24++) {
+                sp28 = 0;
+                var_r7 = (sp24 << 8) | 0x80;
+                var_sl = (COS(var_r7) * 0x1C) / 0x40;
+                var_sb = (SIN(var_r7) * 0x1C) / 0x40;
+                if (sp24 != 1) {
+                    if (sp24 == 2) {
+                        if (boss->unkE2 == 0) {
+                            var_r5 = -Q(gUnknown_080D5D64[boss->unkBC[0]]);
+                            var_r4 = -Q(gUnknown_080D5DE4[boss->unkBC[0]]);
+                            if (boss->unkBC[0] <= 0xCU) {
+                                boss->strc10C[2].unk14 = 0x280;
+                            } else {
+                                boss->strc10C[2].unk14 = 0x200;
+                            }
+                        } else {
+                            var_r5 = -Q(gUnknown_080D5D64[boss->unkC6]);
+                            var_r4 = -Q(gUnknown_080D5DE4[boss->unkC6]);
+                            boss->strc10C[2].unk14 = 0x100;
+                        }
+                        boss->strc10C[sp24].qWorldX = boss->qUnk9C + var_sl + var_r5;
+                        boss->strc10C[sp24].qWorldY = boss->qUnkA0 + var_sb + var_r4;
+                        sp28++;
+                        for (var_r6 = 0; var_r6 < ARRAY_COUNT(boss->strc16C[sp24]); var_r6++, sp28++) {
+                            if (boss->unkBC[sp28] != 0) {
+                                boss->strc16C[sp24][var_r6].qWorldX = (boss->qUnk9C + var_sl) - Q(gUnknown_080D5D64[boss->unkBC[sp28]]);
+                                boss->strc16C[sp24][var_r6].qWorldY = (boss->qUnkA0 + var_sb) - Q(gUnknown_080D5DE4[boss->unkBC[sp28]]);
+                            } else {
+                                boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
+                                boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
+                            }
+                        }
                     }
                 } else {
-                    temp_r1_3 = boss->unkC5;
-                    var_r5 = 0 - (*(temp_r1_3 + &gUnknown_080D5D64) << 8);
-                    var_r4 = *(temp_r1_3 + &gUnknown_080D5DE4) << 8;
-                    *sp48 = 0x300;
-                    sp80 = boss->unkBC;
-                }
-                sp38[sp24].qWorldX = boss->qUnk9C + temp_r0_3 + var_r5;
-                *(&boss->strc10C[0].qWorldY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4;
-                sp28 = (s32)(u8)(sp28 + 1);
-                var_r6_2 = 0;
-                sp90 = sp24 + 1;
-                sp4C = sp24 * 0x78;
-                sp50 = boss->strc16C[0];
-                sp54 = &boss->strc16C[0][0].qWorldY;
-                do {
-                    temp_r0_5 = sp80[sp28];
-                    if (temp_r0_5 != 0) {
-                        temp_r1_4 = (var_r6_2 * 0x14) + sp4C;
-                        *(sp50 + temp_r1_4) = (boss->qUnk9C + temp_r0_3) - (*(temp_r0_5 + &gUnknown_080D5D64) << 8);
-                        *(sp54 + temp_r1_4) = boss->qUnkA0 + temp_r0_4 + (*(temp_r0_5 + &gUnknown_080D5DE4) << 8);
-                    } else {
-                        temp_r0_6 = (var_r6_2 * 0x14) + sp4C;
-                        *(sp50 + temp_r0_6) = boss->qUnk9C;
-                        *(sp54 + temp_r0_6) = boss->qUnkA0;
-                    }
-                    var_r6_2 += 1;
-                    sp28 = (s32)(u8)(sp28 + 1);
-                } while ((u32)var_r6_2 <= 5U);
-            } else {
-                sp90 = sp24 + 1;
-                if (sp24 != 2) {
-
-                } else {
-                    if (boss->fillerE2[0] == 0) {
-                        temp_r1_5 = boss->unkBC[0];
-                        var_r5_2 = 0 - (*(temp_r1_5 + &gUnknown_080D5D64) << 8);
-                        var_r4_2 = 0 - (*(temp_r1_5 + &gUnknown_080D5DE4) << 8);
-                        sp80 = boss->unkBC;
-                        if ((u32)temp_r1_5 <= 0xCU) {
-                            *sp34 = 0x280;
+                    if (boss->unkE2 == 0) {
+                        var_r5 = -Q(gUnknown_080D5D64[boss->unkBC[0]]);
+                        var_r4 = +Q(gUnknown_080D5DE4[boss->unkBC[0]]);
+                        if (boss->unkBC[0] <= 12) {
+                            boss->strc10C[1].unk14 = 0x180;
                         } else {
-                            *sp34 = 0x200;
+                            boss->strc10C[1].unk14 = 0x200;
                         }
                     } else {
-                        temp_r1_6 = boss->unkC6;
-                        var_r5_2 = 0 - (*(temp_r1_6 + &gUnknown_080D5D64) << 8);
-                        var_r4_2 = 0 - (*(temp_r1_6 + &gUnknown_080D5DE4) << 8);
-                        *sp34 = 0x100;
-                        sp80 = boss->unkBC;
+                        var_r5 = -Q(gUnknown_080D5D64[boss->unkC5]);
+                        var_r4 = +Q(gUnknown_080D5DE4[boss->unkC5]);
+                        boss->strc10C[1].unk14 = 0x300;
                     }
-                    sp38[sp24].qWorldX = boss->qUnk9C + temp_r0_3 + var_r5_2;
-                    *(&boss->strc10C[0].qWorldY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4_2;
-                    sp28 = (s32)(u8)(sp28 + 1);
-                    var_r6_3 = 0;
-                    sp90 = sp24 + 1;
-                    sp3C = sp24 * 0x78;
-                    sp40 = boss->strc16C[0];
-                    sp44 = &boss->strc16C[0][0].qWorldY;
-                    do {
-                        temp_r0_7 = sp80[sp28];
-                        if (temp_r0_7 != 0) {
-                            temp_r1_7 = (var_r6_3 * 0x14) + sp3C;
-                            *(sp40 + temp_r1_7) = (boss->qUnk9C + temp_r0_3) - (*(temp_r0_7 + &gUnknown_080D5D64) << 8);
-                            *(sp44 + temp_r1_7) = (boss->qUnkA0 + temp_r0_4) - (*(temp_r0_7 + &gUnknown_080D5DE4) << 8);
+                    boss->strc10C[sp24].qWorldX = boss->qUnk9C + var_sl + var_r5;
+                    boss->strc10C[sp24].qWorldY = boss->qUnkA0 + var_sb + var_r4;
+                    sp28++;
+                    for (var_r6 = 0; var_r6 < 6; var_r6++, sp28++) {
+                        if (boss->unkBC[sp28] != 0) {
+                            boss->strc16C[sp24][var_r6].qWorldX = (boss->qUnk9C + var_sl) - Q(gUnknown_080D5D64[boss->unkBC[sp28]]);
+                            boss->strc16C[sp24][var_r6].qWorldY = (boss->qUnkA0 + var_sb) + Q(gUnknown_080D5DE4[boss->unkBC[sp28]]);
                         } else {
-                            temp_r0_8 = (var_r6_3 * 0x14) + sp3C;
-                            *(sp40 + temp_r0_8) = boss->qUnk9C;
-                            *(sp44 + temp_r0_8) = boss->qUnkA0;
+                            boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
+                            boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
                         }
-                        var_r6_3 += 1;
-                        sp28 = (s32)(u8)(sp28 + 1);
-                    } while ((u32)var_r6_3 <= 5U);
+                    }
                 }
-            }
-            temp_r0_9 = (u8)sp90;
-            sp24 = (u32)temp_r0_9;
-            if ((u32)temp_r0_9 <= 3U) {
-                goto loop_8;
             }
             break;
         case 4:
-            sp24 = 0;
-        loop_41:
-            temp_r7_2 = (sp24 << 8) | 0x80;
-            if (sp24 == 0) {
-                temp_r3_2 = boss->unkD8;
-                sp90 = 1;
-                if (temp_r3_2 == 0) {
-
-                } else {
-                    var_r0_3 = gSineTable[temp_r7_2 + 0x100] * 0x1C;
-                    if (var_r0_3 < 0) {
-                        var_r0_3 += 0x3F;
-                    }
-                    var_r0_4 = gSineTable[temp_r7_2] * 0x1C;
-                    if (var_r0_4 < 0) {
-                        var_r0_4 += 0x3F;
-                    }
-                    var_sl = (var_r0_3 >> 6) + boss->qUnk9C;
-                    var_sb = (var_r0_4 >> 6) + boss->qUnkA0;
-                    temp_r0_10 = temp_r3_2 / 6;
-                    var_r7_2 = 0x140;
-                    temp_r0_11 = (s32)boss->unkE8 >> 8;
-                    var_r6_4 = 6;
-                    sp94 = 0;
-                    sp5C = (u32)(temp_r0_11 << 0x10) >> 0x12;
-                    do {
-                        temp_r2 = var_r6_4 - 1;
-                        boss->strc16C[0][temp_r2].qWorldX = var_sl;
-                        *(&boss->strc16C[0][0].qWorldY + (temp_r2 * 0x14)) = var_sb;
-                        var_r0_5 = gSineTable[var_r7_2 + 0x100] * temp_r0_10;
-                        if (var_r0_5 < 0) {
-                            var_r0_5 += 0x3FFF;
-                        }
-                        var_r0_6 = gSineTable[var_r7_2] * temp_r0_10;
-                        if (var_r0_6 < 0) {
-                            var_r0_6 += 0x3FFF;
-                        }
-                        var_sl += var_r0_5 >> 0xE;
-                        var_sb += var_r0_6 >> 0xE;
-                        if (var_r6_4 == 1) {
-                            var_r7_2 = (var_r7_2 + sp5C) & 0x3FF;
-                        } else if ((var_r6_4 >= 1) && (var_r6_4 <= 3)) {
-                            var_r7_2 = (var_r7_2 - sp5C) & 0x3FF;
-                        } else {
-                            var_r7_2 = (var_r7_2 + (u16)temp_r0_11) & 0x3FF;
-                        }
-                        var_r6_4 = (s32)temp_r2;
-                    } while (var_r6_4 != 0);
-                    goto block_82;
-                }
-            } else {
-                sp90 = sp24 + 1;
-                if (sp24 != 3) {
-
-                } else {
-                    temp_r3_3 = boss->unkD4;
-                    if (temp_r3_3 == 0) {
-
-                    } else {
-                        var_r0_7 = gSineTable[temp_r7_2 + 0x100] * 0x1C;
-                        if (var_r0_7 < 0) {
-                            var_r0_7 += 0x3F;
-                        }
-                        var_r0_8 = gSineTable[temp_r7_2] * 0x1C;
-                        if (var_r0_8 < 0) {
-                            var_r0_8 += 0x3F;
-                        }
-                        var_sl = (var_r0_7 >> 6) + boss->qUnk9C;
-                        var_sb = (var_r0_8 >> 6) + boss->qUnkA0;
-                        temp_r0_12 = temp_r3_3 / 6;
-                        var_r7_2 = 0x2C0;
-                        temp_r0_13 = (s32)boss->unkE4 >> 8;
-                        var_r6_5 = 6;
-                        sp94 = 6;
-                        sp58 = (u32)(temp_r0_13 << 0x10) >> 0x12;
-                        do {
-                            temp_r2_2 = var_r6_5 - 1;
-                            boss->strc16C[0][temp_r2_2].unk168 = var_sl;
-                            *(&boss->strc16C[0][0].qWorldY + ((temp_r2_2 * 0x14) + 0x168)) = var_sb;
-                            var_r0_9 = gSineTable[var_r7_2 + 0x100] * temp_r0_12;
-                            if (var_r0_9 < 0) {
-                                var_r0_9 += 0x3FFF;
+            for (sp24 = 0; sp24 < 4; sp24++) {
+                temp_r7_2 = (sp24 << 8) | 0x80;
+                if (sp24 != 0) {
+                    if (sp24 == 3) {
+                        if (boss->unkD4 != 0) {
+                            var_sl = (COS(temp_r7_2) * 0x1C) / 0x40;
+                            var_sb = (SIN(temp_r7_2) * 0x1C) / 0x40;
+                            var_sl = (var_sl) + boss->qUnk9C;
+                            var_sb = (var_sb) + boss->qUnkA0;
+                            temp_r0_16 = boss->unkD4 / 6;
+                            var_r7_2 = 0x2C0;
+                            temp_r0_13 = I(boss->unkE4);
+                            for (var_r6 = 6; var_r6 != 0; var_r6--) {
+                                boss->strc16C[0][var_r6 - 1].qWorldX = var_sl;
+                                boss->strc16C[0][var_r6 - 1].qWorldY = var_sb;
+                                qDirX = (COS(var_r7_2) * temp_r0_16) / 0x4000;
+                                qDirY = (SIN(var_r7_2) * temp_r0_16) / 0x4000;
+                                var_sl += qDirX;
+                                var_sb += qDirY;
+                                if (var_r6 == 1) {
+                                    var_r7_2 = (var_r7_2 - (temp_r0_13 >> 2)) & 0x3FF;
+                                } else if ((var_r6 >= 1) && (var_r6 <= 3)) {
+                                    var_r7_2 = (var_r7_2 + (temp_r0_13 >> 2)) & 0x3FF;
+                                } else {
+                                    var_r7_2 = (var_r7_2 - (u16)temp_r0_13) & 0x3FF;
+                                }
                             }
-                            var_r0_10 = gSineTable[var_r7_2] * temp_r0_12;
-                            if (var_r0_10 < 0) {
-                                var_r0_10 += 0x3FFF;
-                            }
-                            var_sl += var_r0_9 >> 0xE;
-                            var_sb += var_r0_10 >> 0xE;
-                            if (var_r6_5 == 1) {
-                                var_r7_2 = (var_r7_2 - sp58) & 0x3FF;
-                            } else if ((var_r6_5 >= 1) && (var_r6_5 <= 3)) {
-                                var_r7_2 = (var_r7_2 + sp58) & 0x3FF;
+
+                            //                            boss->strc10C[sp24].unk14 = var_r7_2;
+                            //                            boss->strc10C[sp24].qWorldX = var_sl;
+                            //                            boss->strc10C[sp24].qWorldY = var_sb;
+                            goto set_strc10C;
+                        }
+                    }
+                } else {
+                    if (boss->unkD8 != 0) {
+                        var_sl = (COS(temp_r7_2) * 0x1C) / 0x40;
+                        var_sb = (SIN(temp_r7_2) * 0x1C) / 0x40;
+                        var_sl = (var_sl) + boss->qUnk9C;
+                        var_sb = (var_sb) + boss->qUnkA0;
+                        temp_r0_10 = boss->unkD8 / 6;
+                        var_r7_2 = 0x140;
+                        temp_r0_13 = I(boss->unkE8);
+
+                        for (var_r6 = 6; var_r6 != 0; var_r6--) {
+                            boss->strc16C[0][var_r6 - 1].qWorldX = var_sl;
+                            boss->strc16C[0][var_r6 - 1].qWorldY = var_sb;
+                            qDirX = (COS(var_r7_2) * temp_r0_10) / 0x4000;
+                            qDirY = (SIN(var_r7_2) * temp_r0_10) / 0x4000;
+                            var_sl += qDirX;
+                            var_sb += qDirY;
+                            if (var_r6 == 1) {
+                                var_r7_2 = (var_r7_2 + (temp_r0_13 >> 2)) & 0x3FF;
+                            } else if ((var_r6 >= 1) && (var_r6 <= 3)) {
+                                var_r7_2 = (var_r7_2 - (temp_r0_13 >> 2)) & 0x3FF;
                             } else {
-                                var_r7_2 = (var_r7_2 - (u16)temp_r0_13) & 0x3FF;
+                                var_r7_2 = (var_r7_2 + temp_r0_13) & 0x3FF;
                             }
-                            var_r6_5 = (s32)temp_r2_2;
-                        } while (var_r6_5 != 0);
-                    block_82:
-                        temp_r1_8 = (sp94 + sp24) * 8;
-                        (boss + temp_r1_8)->unk120 = var_r7_2;
-                        *(boss->strc10C + temp_r1_8) = var_sl;
-                        *(&boss->strc10C[0].qWorldY + temp_r1_8) = var_sb;
+                        }
+                        {
+                        set_strc10C:
+                            boss->strc10C[sp24].unk14 = var_r7_2;
+                            boss->strc10C[sp24].qWorldX = var_sl;
+                            boss->strc10C[sp24].qWorldY = var_sb;
+                        }
                     }
                 }
-            }
-            temp_r0_14 = (u8)sp90;
-            sp24 = (u32)temp_r0_14;
-            if ((u32)temp_r0_14 <= 3U) {
-                goto loop_41;
             }
             break;
         case 1:
-            temp_r0_15 = boss->fillerE2[1];
-            sp24 = (u32)temp_r0_15;
-            temp_r2_3 = temp_r0_15 << 8;
-            var_r0_11 = gSineTable[temp_r2_3 + 0x180] * 0x1C;
-            if (var_r0_11 < 0) {
-                var_r0_11 += 0x3F;
-            }
-            var_r0_12 = gSineTable[temp_r2_3 + 0x80] * 0x1C;
-            if (var_r0_12 < 0) {
-                var_r0_12 += 0x3F;
-            }
-            var_sl_2 = (var_r0_11 >> 6) + boss->qUnk9C;
-            var_sb_2 = (var_r0_12 >> 6) + boss->qUnkA0;
+            sp24 = (u32)boss->unkE3;
+            var_sl = (COS((boss->unkE3 << 8) + 0x80) * 0x1C) / 0x40;
+            var_sb = (SIN((boss->unkE3 << 8) + 0x80) * 0x1C) / 0x40;
+            var_sl = (var_sl) + boss->qUnk9C;
+            var_sb = (var_sb) + boss->qUnkA0;
             temp_r0_16 = (s32)boss->unkD4 / 6;
-            temp_r2_4 = boss->unkCC;
-            var_r0_13 = gSineTable[temp_r2_4 + 0x100] * temp_r0_16;
-            sp84 = &boss->unkCC;
-            if (var_r0_13 < 0) {
-                var_r0_13 += 0x3FFF;
+            qDirX = (COS(boss->unkCC) * temp_r0_16) / 0x4000;
+            qDirY = (SIN(boss->unkCC) * temp_r0_16) / 0x4000;
+            for (var_r6 = 6; var_r6 != 0; var_r6--) {
+                boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
+                boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
+                var_sl += qDirX;
+                var_sb += qDirY;
             }
-            var_r0_14 = gSineTable[temp_r2_4] * temp_r0_16;
-            if (var_r0_14 < 0) {
-                var_r0_14 += 0x3FFF;
-            }
-            var_r6_6 = 6;
-            sp94 = sp24 * 2;
-            do {
-                temp_r0_17 = var_r6_6 - 1;
-                temp_r1_9 = (temp_r0_17 * 0x14) + (sp24 * 0x78);
-                *(boss->strc16C[0] + temp_r1_9) = var_sl_2;
-                *(&boss->strc16C[0][0].qWorldY + temp_r1_9) = var_sb_2;
-                var_sl_2 += var_r0_13 >> 0xE;
-                var_sb_2 += var_r0_14 >> 0xE;
-                var_r6_6 = temp_r0_17;
-            } while (var_r6_6 != 0);
-            var_r1 = (sp94 + sp24) * 8;
-            var_r0_15 = boss + var_r1;
-            var_r6_7 = sp84;
-        block_108:
-            var_r0_15->unk120 = (u16)*var_r6_7;
-            *(boss->strc10C + var_r1) = var_sl_2;
-            *(&boss->strc10C[0].qWorldY + var_r1) = var_sb_2;
+
+            boss->strc10C[sp24].unk14 = boss->unkCC;
+            boss->strc10C[sp24].qWorldX = var_sl;
+            boss->strc10C[sp24].qWorldY = var_sb;
             break;
         case 2:
-            temp_r0_18 = boss->fillerE2[1];
-            sp24 = (u32)temp_r0_18;
-            temp_r2_5 = temp_r0_18 << 8;
-            var_r0_16 = gSineTable[temp_r2_5 + 0x180] * 0x1C;
-            if (var_r0_16 < 0) {
-                var_r0_16 += 0x3F;
+            sp24 = (u32)boss->unkE3;
+            var_sl = (COS((boss->unkE3 << 8) + 0x80) * 0x1C) / 0x40;
+            var_sb = (SIN((boss->unkE3 << 8) + 0x80) * 0x1C) / 0x40;
+            var_sl = (var_sl) + boss->qUnk9C;
+            var_sb = (var_sb) + boss->qUnkA0;
+            temp_r0_16 = (s32)boss->unkD4 / 6;
+            qDirX = (COS(boss->unkCC) * temp_r0_16) / 0x4000;
+            qDirY = (SIN(boss->unkCC) * temp_r0_16) / 0x4000;
+            for (var_r6 = 6; var_r6 != 0; var_r6--) {
+                boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
+                boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
+                var_sl += qDirX;
+                var_sb += qDirY;
             }
-            var_r0_17 = gSineTable[temp_r2_5 + 0x80] * 0x1C;
-            if (var_r0_17 < 0) {
-                var_r0_17 += 0x3F;
-            }
-            var_sl_2 = (var_r0_16 >> 6) + boss->qUnk9C;
-            var_sb_2 = (var_r0_17 >> 6) + boss->qUnkA0;
-            temp_r0_19 = (s32)boss->unkD4 / 6;
-            temp_r1_10 = boss->unkCC;
-            var_r0_18 = gSineTable[temp_r1_10 + 0x100] * temp_r0_19;
-            if (var_r0_18 < 0) {
-                var_r0_18 += 0x3FFF;
-            }
-            var_r0_19 = gSineTable[temp_r1_10] * temp_r0_19;
-            if (var_r0_19 < 0) {
-                var_r0_19 += 0x3FFF;
-            }
-            var_r6_8 = 6;
-            sp94 = sp24 * 2;
-            sp88 = boss->fillerCE;
-            do {
-                temp_r0_20 = var_r6_8 - 1;
-                temp_r1_11 = (temp_r0_20 * 0x14) + (sp24 * 0x78);
-                *(boss->strc16C[0] + temp_r1_11) = var_sl_2;
-                *(&boss->strc16C[0][0].qWorldY + temp_r1_11) = var_sb_2;
-                var_sl_2 += var_r0_18 >> 0xE;
-                var_sb_2 += var_r0_19 >> 0xE;
-                var_r6_8 = temp_r0_20;
-            } while (var_r6_8 != 0);
-            var_r1 = (sp94 + sp24) * 8;
-            var_r0_15 = boss + var_r1;
-            var_r6_7 = (u16 *)sp88;
-            goto block_108;
-        case 5:
-            var_r7_3 = (boss->rotation + 0x80) & 0x3FF;
-            sp24 = 0;
-            sp74 = &boss->qUnk9C;
-            sp78 = &boss->qUnkA0;
-            sp7C = &boss->fillerBA[1];
-            sp60 = boss->unkBC;
-        loop_110:
-            var_r0_20 = gSineTable[var_r7_3 + 0x100] * 0x1C;
-            if (var_r0_20 < 0) {
-                var_r0_20 += 0x3F;
-            }
-            var_r0_21 = gSineTable[var_r7_3] * 0x1C;
-            if (var_r0_21 < 0) {
-                var_r0_21 += 0x3F;
-            }
-            var_sl_3 = (var_r0_20 >> 6) + *sp74;
-            var_sb_3 = (var_r0_21 >> 6) + *sp78;
-            var_r6_9 = 6;
-            var_r3 = var_r7_3;
-            sp94 = sp24 * 2;
-            sp90 = sp24 + 1;
-            sp64 = sp24 * 0x78;
-            sp68 = boss->strc16C[0];
-            do {
-                temp_r1_12 = &sp60[var_r6_9];
-                if (*temp_r1_12 != 0) {
-                    temp_r1_13 = *temp_r1_12;
-                    var_r0_22 = temp_r1_13 * gSineTable[var_r3 + 0x100];
-                    if (var_r0_22 < 0) {
-                        var_r0_22 += 0x3F;
-                    }
-                    var_r5_3 = var_r0_22 >> 6;
-                    var_r0_23 = temp_r1_13 * gSineTable[var_r3];
-                    if (var_r0_23 < 0) {
-                        var_r0_23 += 0x3F;
-                    }
-                    var_r4_3 = var_r0_23 >> 6;
-                } else {
-                    var_r5_3 = 0;
-                    var_r4_3 = 0;
-                }
-                var_sl_3 += var_r5_3;
-                var_sb_3 += var_r4_3;
-                temp_r2_6 = var_r6_9 - 1;
-                temp_r0_21 = (temp_r2_6 * 0x14) + sp64;
-                *(sp68 + temp_r0_21) = var_sl_3;
-                *(temp_r0_21 + &boss->strc16C[0][0].qWorldY) = var_sb_3;
-                var_r3 = (var_r3 + 0x20) & 0x3FF;
-                var_r6_9 = temp_r2_6;
-            } while (var_r6_9 != 0);
-            if (*sp60 != 0) {
-                temp_r1_14 = *sp60;
-                var_r0_24 = temp_r1_14 * gSineTable[var_r3 + 0x100];
-                if (var_r0_24 < 0) {
-                    var_r0_24 += 0x3F;
-                }
-                var_r5_4 = var_r0_24 >> 6;
-                var_r0_25 = temp_r1_14 * gSineTable[var_r3];
-                if (var_r0_25 < 0) {
-                    var_r0_25 += 0x3F;
-                }
-                var_r4_4 = var_r0_25 >> 6;
-            } else {
-                var_r5_4 = 0;
-                var_r4_4 = 0;
-            }
-            if ((*sp7C == 0) && (*sp60 == 0)) {
-                (((sp94 + sp24) * 8) + boss)->unk120 = var_r7_3;
-            } else {
-                (((sp94 + sp24) * 8) + boss)->unk120 = var_r3;
-            }
-            temp_r2_7 = (sp94 + sp24) * 8;
-            *(boss->strc10C + temp_r2_7) = var_sl_3 + var_r5_4;
-            *(&boss->strc10C[0].qWorldY + temp_r2_7) = var_sb_3 + var_r4_4;
-            var_r7_3 = (var_r7_3 + 0x100) & 0x3FF;
-            temp_r0_22 = (u8)sp90;
-            sp24 = (u32)temp_r0_22;
-            if ((u32)temp_r0_22 <= 3U) {
-                goto loop_110;
-            }
-            break;
-        case 6:
-            sp24 = 2;
-            temp_r2_8 = boss->unkD4;
-            if (temp_r2_8 == 0) {
 
-            } else {
-                var_r0_26 = gSineTable[0x380] * 0x1C;
-                if (var_r0_26 < 0) {
-                    var_r0_26 += 0x3F;
-                }
-                var_r0_27 = gSineTable[0x280] * 0x1C;
-                if (var_r0_27 < 0) {
-                    var_r0_27 += 0x3F;
-                }
-                var_sl_4 = (var_r0_26 >> 6) + boss->qUnk9C;
-                var_sb_4 = (var_r0_27 >> 6) + boss->qUnkA0;
-                temp_r0_23 = temp_r2_8 / 6;
-                var_r7_4 = (u32)(boss->unkE8 << 8) >> 0x10;
-                var_r0_28 = boss->unkE4;
-                if (var_r0_28 < 0) {
-                    var_r0_28 += 0xFF;
-                }
-                var_r6_10 = 6;
-                sp94 = 4;
-                sp6C = boss->strc16C[0];
-                sp70 = &boss->strc16C[0][0].qWorldY;
-                do {
-                    temp_r2_9 = var_r6_10 - 1;
-                    sp6C[temp_r2_9].unkF0 = var_sl_4;
-                    *(sp70 + ((temp_r2_9 * 0x14) + 0xF0)) = var_sb_4;
-                    var_r0_29 = gSineTable[var_r7_4 + 0x100] * temp_r0_23;
-                    if (var_r0_29 < 0) {
-                        var_r0_29 += 0x3FFF;
+            boss->strc10C[sp24].unk14 = boss->unkCE;
+            boss->strc10C[sp24].qWorldX = var_sl;
+            boss->strc10C[sp24].qWorldY = var_sb;
+            break;
+        case 5: {
+            var_r7_3 = boss->rotation;
+            var_r7_3 = (var_r7_3 + 0x80) & 0x3FF;
+            for (sp24 = 0; sp24 < 4; sp24++) {
+                var_sl = (COS(var_r7_3) * 0x1C) / 0x40;
+                var_sb = (SIN(var_r7_3) * 0x1C) / 0x40;
+                var_sl += boss->qUnk9C;
+                var_sb += boss->qUnkA0;
+
+                for (var_r6 = 6, r3 = var_r7_3; var_r6 != 0; var_r6--) {
+                    if (boss->unkBC[var_r6] != 0) {
+                        r5 = (COS(r3) * boss->unkBC[var_r6]) / 0x40;
+                        r4 = (SIN(r3) * boss->unkBC[var_r6]) / 0x40;
+                    } else {
+                        r5 = 0;
+                        r4 = 0;
                     }
-                    var_r0_30 = gSineTable[var_r7_4] * temp_r0_23;
-                    if (var_r0_30 < 0) {
-                        var_r0_30 += 0x3FFF;
-                    }
-                    var_sl_4 += var_r0_29 >> 0xE;
-                    var_sb_4 += var_r0_30 >> 0xE;
-                    var_r7_4 = (var_r7_4 + ((u32)(var_r0_28 << 8) >> 0x10)) & 0x3FF;
-                    var_r6_10 = temp_r2_9;
-                } while (var_r6_10 != 0);
-                temp_r1_15 = (sp94 + sp24) * 8;
-                (boss + temp_r1_15)->unk120 = (s16)var_r7_4;
-                *(boss->strc10C + temp_r1_15) = var_sl_4;
-                *(&boss->strc10C[0].qWorldY + temp_r1_15) = var_sb_4;
+                    var_sl += r5;
+                    var_sb += r4;
+                    boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
+                    boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
+                    r3 = (r3 + 0x20) & 0x3FF;
+                }
+
+                if (boss->unkBC[0] != 0) {
+                    r5 = (COS(r3) * boss->unkBC[0]) / 0x40;
+                    r4 = (SIN(r3) * boss->unkBC[0]) / 0x40;
+                } else {
+                    r5 = 0;
+                    r4 = 0;
+                }
+                if ((boss->unkBB == 0) && (boss->unkBC[0] == 0)) {
+                    boss->strc10C[sp24].unk14 = var_r7_3;
+                } else {
+                    boss->strc10C[sp24].unk14 = r3;
+                }
+                boss->strc10C[sp24].qWorldX = var_sl + r5;
+                boss->strc10C[sp24].qWorldY = var_sb + r4;
+                var_r7_3 = (var_r7_3 + 0x100) & 0x3FF;
+            }
+        } break;
+        case 6: {
+            sp24 = 2;
+            temp_r7_2 = (sp24 << 8) + 0x80;
+            if (boss->unkD4 != 0) {
+                var_sl = (COS(temp_r7_2) * 0x1C) / 0x40;
+                var_sb = (SIN(temp_r7_2) * 0x1C) / 0x40;
+                var_sl = (var_sl) + boss->qUnk9C;
+                var_sb = (var_sb) + boss->qUnkA0;
+                temp_r0_16 = boss->unkD4 / 6;
+                temp_r7_2 = (u16)(boss->unkE8 >> 8);
+                r3 = boss->unkE4 / 0x100;
+                for (var_r6 = 6; var_r6 != 0; var_r6--) {
+                    s32 jIndex = 2;
+                    boss->strc16C[jIndex][var_r6 - 1].qWorldX = var_sl;
+                    boss->strc16C[jIndex][var_r6 - 1].qWorldY = var_sb;
+                    qDirX = (COS(temp_r7_2) * temp_r0_16) / 0x4000;
+                    qDirY = (SIN(temp_r7_2) * temp_r0_16) / 0x4000;
+                    var_sl += qDirX;
+                    var_sb += qDirY;
+                    temp_r7_2 = (temp_r7_2 + r3) & 0x3FF;
+                }
+                boss->strc10C[sp24].unk14 = temp_r7_2;
+                boss->strc10C[sp24].qWorldX = var_sl;
+                boss->strc10C[sp24].qWorldY = var_sb;
             }
             break;
+        }
     }
-    boss->unkC = sp20;
+    boss->unkC = param1;
     return 0;
 }
 
