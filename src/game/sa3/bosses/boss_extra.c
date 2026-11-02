@@ -439,8 +439,8 @@ void sub_878_80824F4(UltimateGemerl *boss)
     for (var_r8 = 0, sp0 = 0x80; var_r8 < 4; var_r8++, sp0 += 0x100) {
         var_r0 = (COS(sp0) * 0x1C) / 0x40;
         var_r0_2 = (SIN(sp0) * 0x1C) / 0x40;
-        boss->strc10C[var_r8].qOffsetX = boss->qUnk9C + (var_r0);
-        boss->strc10C[var_r8].qOffsetY = boss->qUnkA0 + (var_r0_2);
+        boss->strc10C[var_r8].qWorldX = boss->qUnk9C + (var_r0);
+        boss->strc10C[var_r8].qWorldY = boss->qUnkA0 + (var_r0_2);
         boss->strc10C[var_r8].unk14 = sp0;
         s = &boss->spr3B4[var_r8];
         tf = &boss->tf848[var_r8];
@@ -460,8 +460,8 @@ void sub_878_80824F4(UltimateGemerl *boss)
         if (var_r8 != 0) {
             SPRITE_FLAG_SET(s, 19);
         }
-        s->x = (boss->strc10C[var_r8].qOffsetX >> 8) - gCamera.x;
-        s->y = (boss->strc10C[var_r8].qOffsetY >> 8) - gCamera.y;
+        s->x = (boss->strc10C[var_r8].qWorldX >> 8) - gCamera.x;
+        s->y = (boss->strc10C[var_r8].qWorldY >> 8) - gCamera.y;
         tf->rotation = (boss->strc10C[var_r8].unk14 - 640) & 0x3FF;
         tf->x = s->x;
         tf->y = s->y;
@@ -505,8 +505,8 @@ void sub_878_80824F4(UltimateGemerl *boss)
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x1000;
-    s->x = I(boss->strc10C[0].qOffsetX) - gCamera.x;
-    s->y = I(boss->strc10C[0].qOffsetY) - gCamera.y;
+    s->x = I(boss->strc10C[0].qWorldX) - gCamera.x;
+    s->y = I(boss->strc10C[0].qWorldY) - gCamera.y;
     boss->unkF = 0;
 }
 
@@ -520,8 +520,8 @@ void sub_878_8082794(UltimateGemerl *boss)
         for (j = 0; j < ARRAY_COUNT(boss->spr3B4); j++) {
             s = &boss->spr3B4[j];
             tf = &boss->tf848[j];
-            s->x = I(boss->strc10C[j].qOffsetX) - gCamera.x;
-            s->y = I(boss->strc10C[j].qOffsetY) - gCamera.y;
+            s->x = I(boss->strc10C[j].qWorldX) - gCamera.x;
+            s->y = I(boss->strc10C[j].qWorldY) - gCamera.y;
             tf->rotation = (boss->strc10C[j].unk14 - 0x280) & 0x3FF;
             tf->x = s->x;
             tf->y = s->y;
@@ -539,12 +539,12 @@ void sub_878_8082794(UltimateGemerl *boss)
         if (boss->unkF != 0) {
             s = &boss->spr814;
             UpdateSpriteAnimation(s);
-            s->x = (I(boss->strc10C[3].qOffsetX) - gCamera.x) - 0x10;
-            s->y = (I(boss->strc10C[3].qOffsetY) - gCamera.y) + 4;
+            s->x = (I(boss->strc10C[3].qWorldX) - gCamera.x) - 0x10;
+            s->y = (I(boss->strc10C[3].qWorldY) - gCamera.y) + 4;
             s->frameFlags &= ~0x800;
             DisplaySprite(s);
-            s->x = (I(boss->strc10C[0].qOffsetX) - gCamera.x) - 0x10;
-            s->y = (I(boss->strc10C[0].qOffsetY) - gCamera.y) - 4;
+            s->x = (I(boss->strc10C[0].qWorldX) - gCamera.x) - 0x10;
+            s->y = (I(boss->strc10C[0].qWorldY) - gCamera.y) - 4;
             s->frameFlags |= 0x800;
             DisplaySprite(s);
         }
@@ -553,8 +553,8 @@ void sub_878_8082794(UltimateGemerl *boss)
             if (boss->strc10C[j].unk10 != 0) {
                 s = &boss->spr3B4[j];
                 tf = &boss->tf848[j];
-                s->x = I(boss->strc10C[j].qOffsetX) - gCamera.x;
-                s->y = I(boss->strc10C[j].qOffsetY) - gCamera.y;
+                s->x = I(boss->strc10C[j].qWorldX) - gCamera.x;
+                s->y = I(boss->strc10C[j].qWorldY) - gCamera.y;
                 tf->rotation = (boss->strc10C[j].unk14 - 0x280) & 0x3FF;
                 tf->x = s->x;
                 tf->y = s->y;
@@ -590,8 +590,8 @@ void sub_878_8082A4C(UltimateGemerl *boss)
     for (j = 0, angle = 0x80; j < ARRAY_COUNT(boss->strc10C); j++, angle += 0x100) {
         qVelX = (COS(angle) * 0x1C) / 0x40;
         qVelY = (SIN(angle) * 0x1C) / 0x40;
-        boss->strc10C[j].qOffsetX = boss->qUnk9C + (qVelX);
-        boss->strc10C[j].qOffsetY = boss->qUnkA0 + (qVelY);
+        boss->strc10C[j].qWorldX = boss->qUnk9C + (qVelX);
+        boss->strc10C[j].qWorldY = boss->qUnkA0 + (qVelY);
         boss->strc10C[j].unk14 = angle;
         s = &boss->spr3B4[j];
         tf = &boss->tf848[j];
@@ -624,8 +624,8 @@ void sub_878_8082A4C(UltimateGemerl *boss)
                 s->variant = 6;
                 break;
         }
-        s->x = I(boss->strc10C[j].qOffsetX) - gCamera.x;
-        s->y = I(boss->strc10C[j].qOffsetY) - gCamera.y;
+        s->x = I(boss->strc10C[j].qWorldX) - gCamera.x;
+        s->y = I(boss->strc10C[j].qWorldY) - gCamera.y;
         tf->rotation = (boss->strc10C[j].unk14 - 0x280) & 0x3FF;
         tf->x = s->x;
         tf->y = s->y;
@@ -662,56 +662,42 @@ void sub_878_8082A4C(UltimateGemerl *boss)
     boss->unkF = 0;
 }
 
-#if 01
-#else
-
 void sub_878_8082D08(UltimateGemerl *boss)
 {
-    s32 sp0;
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    SpriteTransform *temp_r3;
-    s32 temp_r2;
-    s32 var_r3;
-    u8 var_r5;
-    u8 var_r5_2;
-    u8 var_sb;
+    Sprite *s;
+    SpriteTransform *tf;
+    u8 j;
+    u8 i;
 
-    var_r5 = 0;
-loop_1:
-    temp_r4 = &boss->spr3B4[var_r5];
-    temp_r3 = &boss->tf848[var_r5];
-    temp_r4->x = ((s32)boss->strc10C[var_r5].qOffsetX >> 8) - gCamera.x;
-    temp_r4->y = ((s32) * (&boss->strc10C[0].qOffsetY + (var_r5 * 0x18)) >> 8) - gCamera.y;
-    if (var_r5 == 2) {
-        temp_r3->rotation = (boss->strc10C[2].unk14 + 0xFFFFFD80) & 0x3FF;
-        temp_r3->x = (s16)(u16)temp_r4->x;
-        temp_r3->y = (s16)(u16)temp_r4->y;
-        TransformSprite(temp_r4, temp_r3);
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_r5_2 = 0;
-        var_sb = 3;
-        var_r3 = 0xF0;
-        do {
-            temp_r4_2 = &boss->spr454[2][var_r5_2];
-            temp_r2 = (var_r5_2 * 0x14) + var_r3;
-            temp_r4_2->x = ((s32) * (boss->strc16C[0] + temp_r2) >> 8) - gCamera.x;
-            temp_r4_2->y = ((s32) * (&boss->strc16C[0][0].qWorldY + temp_r2) >> 8) - gCamera.y;
-            sp0 = var_r3;
-            DisplaySprite(temp_r4_2);
-            var_r5_2 += 1;
-        } while ((u32)var_r5_2 <= 5U);
-    } else {
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_sb = var_r5 + 1;
-    }
-    var_r5 = var_sb;
-    if ((u32)var_r5 <= 3U) {
-        goto loop_1;
+    for (j = 0; j < ARRAY_COUNT(boss->spr3B4); j++) {
+        s = &boss->spr3B4[j];
+        tf = &boss->tf848[j];
+        s->x = I(boss->strc10C[j].qWorldX) - gCamera.x;
+        s->y = I(boss->strc10C[j].qWorldY) - gCamera.y;
+
+        if (j == 2) {
+            tf->rotation = (boss->strc10C[j].unk14 - 0x280) & 0x3FF;
+            tf->x = s->x;
+            tf->y = s->y;
+            TransformSprite(s, tf);
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            for (i = 0; i < ARRAY_COUNT(boss->spr454[2]); i++) {
+                s = &boss->spr454[j][i];
+                s->x = I(boss->strc16C[j][i].qWorldX) - gCamera.x;
+                s->y = I(boss->strc16C[j][i].qWorldY) - gCamera.y;
+                DisplaySprite(s);
+            }
+        } else {
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
     }
 }
+
+#if 01
+#else
 
 s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 {
@@ -877,10 +863,10 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             var_r7 = 0x80;
             sp8C = &subroutine_arg0 + 4;
             sp2C = boss->strc10C;
-            sp30 = &boss->strc10C[0].qOffsetY;
+            sp30 = &boss->strc10C[0].qWorldY;
             do {
                 temp_r3 = sp24 * 8;
-                sp2C[sp24].qOffsetX = boss->qUnk9C + (*(&subroutine_arg0 + temp_r3) << 8);
+                sp2C[sp24].qWorldX = boss->qUnk9C + (*(&subroutine_arg0 + temp_r3) << 8);
                 *(sp30 + (sp24 * 0x18)) = boss->qUnkA0 + (*(sp8C + temp_r3) << 8);
                 boss->strc10C[sp24].unk14 = var_r7;
                 var_r6 = 0;
@@ -933,8 +919,8 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                     *sp48 = 0x300;
                     sp80 = boss->unkBC;
                 }
-                sp38[sp24].qOffsetX = boss->qUnk9C + temp_r0_3 + var_r5;
-                *(&boss->strc10C[0].qOffsetY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4;
+                sp38[sp24].qWorldX = boss->qUnk9C + temp_r0_3 + var_r5;
+                *(&boss->strc10C[0].qWorldY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4;
                 sp28 = (s32)(u8)(sp28 + 1);
                 var_r6_2 = 0;
                 sp90 = sp24 + 1;
@@ -977,8 +963,8 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                         *sp34 = 0x100;
                         sp80 = boss->unkBC;
                     }
-                    sp38[sp24].qOffsetX = boss->qUnk9C + temp_r0_3 + var_r5_2;
-                    *(&boss->strc10C[0].qOffsetY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4_2;
+                    sp38[sp24].qWorldX = boss->qUnk9C + temp_r0_3 + var_r5_2;
+                    *(&boss->strc10C[0].qWorldY + (sp24 * 0x18)) = boss->qUnkA0 + temp_r0_4 + var_r4_2;
                     sp28 = (s32)(u8)(sp28 + 1);
                     var_r6_3 = 0;
                     sp90 = sp24 + 1;
@@ -1110,7 +1096,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                         temp_r1_8 = (sp94 + sp24) * 8;
                         (boss + temp_r1_8)->unk120 = var_r7_2;
                         *(boss->strc10C + temp_r1_8) = var_sl;
-                        *(&boss->strc10C[0].qOffsetY + temp_r1_8) = var_sb;
+                        *(&boss->strc10C[0].qWorldY + temp_r1_8) = var_sb;
                     }
                 }
             }
@@ -1162,7 +1148,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
         block_108:
             var_r0_15->unk120 = (u16)*var_r6_7;
             *(boss->strc10C + var_r1) = var_sl_2;
-            *(&boss->strc10C[0].qOffsetY + var_r1) = var_sb_2;
+            *(&boss->strc10C[0].qWorldY + var_r1) = var_sb_2;
             break;
         case 2:
             temp_r0_18 = boss->fillerE2[1];
@@ -1278,7 +1264,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
             }
             temp_r2_7 = (sp94 + sp24) * 8;
             *(boss->strc10C + temp_r2_7) = var_sl_3 + var_r5_4;
-            *(&boss->strc10C[0].qOffsetY + temp_r2_7) = var_sb_3 + var_r4_4;
+            *(&boss->strc10C[0].qWorldY + temp_r2_7) = var_sb_3 + var_r4_4;
             var_r7_3 = (var_r7_3 + 0x100) & 0x3FF;
             temp_r0_22 = (u8)sp90;
             sp24 = (u32)temp_r0_22;
@@ -1332,7 +1318,7 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                 temp_r1_15 = (sp94 + sp24) * 8;
                 (boss + temp_r1_15)->unk120 = (s16)var_r7_4;
                 *(boss->strc10C + temp_r1_15) = var_sl_4;
-                *(&boss->strc10C[0].qOffsetY + temp_r1_15) = var_sb_4;
+                *(&boss->strc10C[0].qWorldY + temp_r1_15) = var_sb_4;
             }
             break;
     }
@@ -1369,8 +1355,8 @@ void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
         case 1:
             temp_r0 = boss->fillerE2[1];
             boss->unkCE = sa2__sub_8004418(
-                (s16)(((s32)temp_r2->qWorldY >> 8) - ((s32) * (&boss->strc10C[0].qOffsetY + (temp_r0 * 0x18)) >> 8)),
-                (s16)((s16)(((s32)temp_r2->qWorldX >> 8) + (u16)gCamera.unk6A) - ((s32)boss->strc10C[temp_r0].qOffsetX >> 8)));
+                (s16)(((s32)temp_r2->qWorldY >> 8) - ((s32) * (&boss->strc10C[0].qWorldY + (temp_r0 * 0x18)) >> 8)),
+                (s16)((s16)(((s32)temp_r2->qWorldX >> 8) + (u16)gCamera.unk6A) - ((s32)boss->strc10C[temp_r0].qWorldX >> 8)));
             return;
         case 0:
             temp_r4 = temp_r2->qWorldX + (gCamera.unk6A << 8);
@@ -1385,7 +1371,7 @@ void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
                 var_r2 = var_sl * 2;
             } else {
                 var_r2 = var_sl * 2;
-                temp_r0_2 = boss->strc10C[var_sl].qOffsetX;
+                temp_r0_2 = boss->strc10C[var_sl].qWorldX;
                 if (temp_r4 >= temp_r0_2) {
                     var_r0 = temp_r0_2 << 8;
                 } else {
@@ -1405,7 +1391,7 @@ void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
             temp_r0_3 = (s16)(var_r0_2 >> 0x10);
             temp_r3 = (var_r2 + var_sl) * 8;
             temp_r5_2 = boss->strc10C + temp_r3;
-            temp_r4_3 = &boss->strc10C[0].qOffsetY + temp_r3;
+            temp_r4_3 = &boss->strc10C[0].qWorldY + temp_r3;
             boss->unkCC = (u16)sa2__sub_8004418((s16)(temp_r0_3 - ((s32)*temp_r4_3 >> 8)), (s16)(temp_r1_3 - ((s32)*temp_r5_2 >> 8)));
             temp_r1_4 = (temp_r1_3 << 8) - *temp_r5_2;
             temp_r6 = (temp_r0_3 << 8) - *temp_r4_3;
@@ -1450,8 +1436,8 @@ void sub_878_8083BE4(UltimateGemerl *boss)
         block_67:
             sub_878_8082E2C(boss, 2U);
             temp_r0 = boss->fillerE2[1];
-            sub_808587C((u16)(s16)(((s32)boss->strc10C[temp_r0].qOffsetX >> 8) - gCamera.x),
-                        (u16)(s16)(((s32) * (&boss->strc10C[0].qOffsetY + (temp_r0 * 0x18)) >> 8) - gCamera.y), (s16)boss->unkCE);
+            sub_808587C((u16)(s16)(((s32)boss->strc10C[temp_r0].qWorldX >> 8) - gCamera.x),
+                        (u16)(s16)(((s32) * (&boss->strc10C[0].qWorldY + (temp_r0 * 0x18)) >> 8) - gCamera.y), (s16)boss->unkCE);
             if (boss->unk2 == 0) {
                 temp_r0_2 = (u16)boss->unk4 - 1;
                 boss->unk4 = temp_r0_2;
@@ -1965,7 +1951,7 @@ void sub_878_808439C(UltimateGemerl *boss)
                 var_r0_2 += 0x3FFF;
             }
             temp_r4 = (s32)((temp_r0_2 << 0x10) + 0xFFA80000) >> 0x10;
-            var_r5 = (s16)(u16)(((s32)boss->qUnkA0 >> 8) - gCamera.y);
+            var_r5 = (((s32)boss->qUnkA0 >> 8) - gCamera.y);
             temp_r6 = var_r0_2 >> 0xE;
             sub_8085618((u16)temp_r4, (u16)var_r5, (s16)temp_r6);
             sub_8087188(boss, temp_r4, var_r5, temp_r6);
@@ -2479,9 +2465,9 @@ void sub_878_8084C50(UltimateGemerl *boss)
             }
         block_42:
             sub_878_8082E2C(boss, 6U);
-            temp_r1_6 = boss->strc10C[2].qOffsetX;
+            temp_r1_6 = boss->strc10C[2].qWorldX;
             temp_r1->unk14 = temp_r1_6;
-            temp_r0_9 = boss->strc10C[2].qOffsetY;
+            temp_r0_9 = boss->strc10C[2].qWorldY;
             temp_r1->unk18 = temp_r0_9;
             temp_r1->unk30 = temp_r1_6;
             temp_r1->unk34 = temp_r0_9;
@@ -2750,8 +2736,8 @@ void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
         var_sb_2 = 0;
         do {
             temp_r5 = var_sb_2;
-            BossExtra_CreateExplosion((s32)(boss->strc10C[temp_r5].qOffsetX << 8) >> 0x10,
-                                      (s32)(*(&boss->strc10C[0].qOffsetY + (temp_r5 * 0x18)) << 8) >> 0x10, 0x200U, 0U, 0x1E, boss->vram24);
+            BossExtra_CreateExplosion((s32)(boss->strc10C[temp_r5].qWorldX << 8) >> 0x10,
+                                      (s32)(*(&boss->strc10C[0].qWorldY + (temp_r5 * 0x18)) << 8) >> 0x10, 0x200U, 0U, 0x1E, boss->vram24);
             temp_r4_3 = &boss->strc10C[temp_r5].unk10;
             boss->strc10C[temp_r5].unk10 = 0;
             temp_r0_2 = var_sb_2 + 1;
@@ -4140,12 +4126,12 @@ void ExtraBoss_CreateMissile(UltimateGemerl *arg0, u8 arg1, ? arg3)
     }
     temp_r1->unkC = var_r0;
     if (temp_r1->unk16 == 2) {
-        temp_r1->unk8 = (s32)arg0->strc10C[1].qOffsetY;
+        temp_r1->unk8 = (s32)arg0->strc10C[1].qWorldY;
         temp_r1->unk14 = 0U;
         arg0->unk3 = 1;
     } else {
         temp_r1->unkC = (s32)(0 - temp_r1->unkC);
-        temp_r1->unk8 = (s32)arg0->strc10C[2].qOffsetY;
+        temp_r1->unk8 = (s32)arg0->strc10C[2].qWorldY;
         temp_r1->unk14 = 0U;
         arg0->unk2 = 1;
     }
@@ -4266,8 +4252,8 @@ void Task_Missile_8086B94(UltimateGemerlMissile *missile)
     missile->spr18.x = ((s32)missile->qWorldX >> 8) - gCamera.x;
     missile->spr18.y = ((s32)missile->qWorldY >> 8) - gCamera.y;
     missile->tf40.rotation = missile->rotation;
-    missile->tf40.x = (s16)(u16)missile->spr18.x;
-    missile->tf40.y = (s16)(u16)missile->spr18.y;
+    missile->tf40.x = missile->spr18.x;
+    missile->tf40.y = missile->spr18.y;
     UpdateSpriteAnimation(temp_r6);
     DisplaySprite(temp_r6);
 }
@@ -4518,8 +4504,8 @@ u8 sub_80871CC(UltimateGemerl *boss, Player *p)
     var_r6 = 0;
     var_r4 = 0;
 loop_1:
-    if (sub_8010184(&boss->spr3B4[var_r4], (s32)boss->strc10C[var_r4].qOffsetX >> 8,
-                    (s32) * (&boss->strc10C[0].qOffsetY + (var_r4 * 0x18)) >> 8, 0, p)
+    if (sub_8010184(&boss->spr3B4[var_r4], (s32)boss->strc10C[var_r4].qWorldX >> 8,
+                    (s32) * (&boss->strc10C[0].qWorldY + (var_r4 * 0x18)) >> 8, 0, p)
         == 1) {
         var_r6 = 1;
     } else {
