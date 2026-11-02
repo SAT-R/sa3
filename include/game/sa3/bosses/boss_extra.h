@@ -68,7 +68,8 @@ typedef struct {
     /* 0x0B0 */ s32 qUnkB0;
     /* 0x0B4 */ s32 qUnkB4;
     /* 0x0B8 */ u16 rotation;
-    /* 0x0BA */ u8 fillerBA[0x2];
+    /* 0x0BA */ u8 unkBA;
+    /* 0x0BB */ u8 unkBB;
     /* 0x0B4 */ u8 unkBC[7];
     /* 0x0C3 */ u8 unkC3;
     /* 0x0C4 */ u8 unkC4;
@@ -76,12 +77,16 @@ typedef struct {
     /* 0x0C6 */ u8 unkC6;
     /* 0x0C7 */ u8 fillerC7[5];
     /* 0x0CC */ u16 unkCC;
-    /* 0x0CE */ u8 fillerCE[6];
+    /* 0x0CE */ u16 unkCE;
+    /* 0x0D0 */ u8 fillerD0[4];
     /* 0x0D4 */ s32 unkD4;
     /* 0x0D8 */ s32 unkD8;
     /* 0x0DC */ u8 fillerDC[0x4];
     /* 0x0E0 */ u16 unkE0;
-    /* 0x0E2 */ u8 fillerE2[0xA];
+    /* 0x0B2 */ u8 unkE2;
+    /* 0x0B3 */ u8 unkE3;
+    /* 0x0E4 */ s32 unkE4;
+    /* 0x0E8 */ s32 unkE8;
     /* 0x0BC */ u8 unkEC;
     /* 0x0BD */ u8 unkED;
     /* 0x0BE */ u8 unkEE;
