@@ -426,136 +426,139 @@ void SetupPositions(CharacterSelect *cs)
     cs->unkC[PLAYER_2] = gPlayers[partnerIndex].charFlags.character;
 }
 
-// TODO: Fake-match!
-// (100.00&) https://decomp.me/scratch/Y518W
 static void InitSprites(CharacterSelect *cs)
 {
-    TileInfo2 *ti;
-#ifndef NON_MATCHING
-    register Sprite *s asm("r0");
-#else
-    Sprite *s;
-#endif
-    u16 language;
     u8 *vram = OBJ_VRAM0;
-    s32 index, index2;
-    s32 unk5;
 
-    s = &cs->sprC4;
-    s->tiles = vram;
-    vram += 0x5A0;
-    s->anim = gTileInfo_CharSelect3_HeaderBackdrop[0].anim;
-    s->variant = gTileInfo_CharSelect3_HeaderBackdrop[0].variant;
-    s->prevVariant = -1;
-    s->x = ((s32)cs->qUnk2C >> 8);
-    s->y = ((s32)cs->qUnk30 >> 8);
-    s->oamFlags = 0x40;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->sprC4;
+        s->tiles = vram;
+        vram += 45 * TILE_SIZE_4BPP;
+        s->anim = gTileInfo_CharSelect3_HeaderBackdrop[0].anim;
+        s->variant = gTileInfo_CharSelect3_HeaderBackdrop[0].variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qUnk2C);
+        s->y = I(cs->qUnk30);
+        s->oamFlags = 0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = &cs->spr9C;
-    s->tiles = vram;
-    vram += 50 * TILE_SIZE_4BPP;
-    s->anim = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].anim;
-    s->variant = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].variant;
-    s->prevVariant = -1;
-    s->x = I(cs->qTxtSelectAPlayerX);
-    s->y = I(cs->qTxtSelectAPlayerY);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->spr9C;
+        s->tiles = vram;
+        vram += 50 * TILE_SIZE_4BPP;
+        s->anim = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].anim;
+        s->variant = gTileInfo_CharSelect3_TeamDescriptions[cs->language * 8].variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qTxtSelectAPlayerX);
+        s->y = I(cs->qTxtSelectAPlayerY);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = &cs->spr18C;
-    s->tiles = vram;
-    vram += 4 * TILE_SIZE_4BPP;
-    s->anim = ANIM_CHARSELECT_NAMETAG_NAMES_JP;
-    s->variant = 5;
-    s->prevVariant = -1;
-    s->x = DISPLAY_CENTER_X;
-    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->spr18C;
+        s->tiles = vram;
+        vram += 4 * TILE_SIZE_4BPP;
+        s->anim = ANIM_CHARSELECT_NAMETAG_NAMES_JP;
+        s->variant = 5;
+        s->prevVariant = -1;
+        s->x = DISPLAY_CENTER_X;
+        s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = &cs->spr74;
-    cs->spr74.tiles = vram;
-    vram += 16 * TILE_SIZE_4BPP;
-    s->anim = gUnknown_080D8F08[0].anim;
-    s->variant = gUnknown_080D8F08[0].variant;
-    s->prevVariant = -1;
-    s->x = I(cs->qUnk5C);
-    s->y = I(cs->qUnk60);
-    s->oamFlags = -0x40;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->spr74;
+        s->tiles = vram;
+        vram += 16 * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D8F08[0].anim;
+        s->variant = gUnknown_080D8F08[0].variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qUnk5C);
+        s->y = I(cs->qUnk60);
+        s->oamFlags = -0x40;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = &cs->sprEC;
-    language = (cs->language == 0) ? 0 : 1;
-    index2 = (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]]);
-    s->tiles = vram;
-    vram += 14 * TILE_SIZE_4BPP;
-    s->anim = gTileInfo_CharSelect3_NameTagNames[index2 += language * sizeof(TileInfo2)].anim;
-    s->variant = gTileInfo_CharSelect3_NameTagNames[index2].variant;
-    s->prevVariant = -1;
-    s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
-    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->sprEC;
+        u16 language = (cs->language == 0) ? 0 : 1;
+        s32 index = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+        s->tiles = vram;
+        vram += 14 * TILE_SIZE_4BPP;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[index + language * sizeof(TileInfo2)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[index + language * sizeof(TileInfo2)].variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+        s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = &cs->spr13C;
-    language = (cs->language == 0) ? 0 : 1;
-    index2 = (gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]]);
-    s->tiles = vram;
-    vram += 14 * TILE_SIZE_4BPP;
-    s->anim = gTileInfo_CharSelect3_NameTagNames[index2 += language * sizeof(TileInfo2)].anim;
-    s->variant = gTileInfo_CharSelect3_NameTagNames[index2].variant;
-    s->prevVariant = -1;
-    s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
-    s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
-    s->oamFlags = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->spr13C;
+        u16 language = (cs->language == 0) ? 0 : 1;
+        s32 index = gCharSelect_DisplayOrder[cs->listIndex[CS_CHARID_PLAYER]];
+        s->tiles = vram;
+        vram += 14 * TILE_SIZE_4BPP;
+        s->anim = gTileInfo_CharSelect3_NameTagNames[index + language * sizeof(TileInfo2)].anim;
+        s->variant = gTileInfo_CharSelect3_NameTagNames[index + language * sizeof(TileInfo2)].variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qNameTagPos[CS_CHARID_PARTNER].x);
+        s->y = I(cs->qNameTagPos[CS_CHARID_PARTNER].y);
+        s->oamFlags = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
-    s = &cs->sprNameTagBack;
-    s->tiles = vram;
-    vram += 24 * TILE_SIZE_4BPP;
-    s->anim = gUnknown_080D8EF8[0].anim;
-    s->variant = gUnknown_080D8EF8[0].variant;
-    s->prevVariant = -1;
-    s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
-    s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
-    s->oamFlags = SPRITE_OAM_ORDER(1);
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->frameFlags = 0;
-    UpdateSpriteAnimation(s);
+    {
+        Sprite *s = &cs->sprNameTagBack;
+        s->tiles = vram;
+        vram += 24 * TILE_SIZE_4BPP;
+        s->anim = gUnknown_080D8EF8[0].anim;
+        s->variant = gUnknown_080D8EF8[0].variant;
+        s->prevVariant = -1;
+        s->x = I(cs->qNameTagPos[CS_CHARID_PLAYER].x);
+        s->y = I(cs->qNameTagPos[CS_CHARID_PLAYER].y);
+        s->oamFlags = SPRITE_OAM_ORDER(1);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+    }
 
     cs->tilesCharacters[CS_CHARID_ACTIVE] = vram;
 }
@@ -1337,8 +1340,7 @@ void Task_8099300()
     }
 }
 
-// (96.04%) https://decomp.me/scratch/f1JNY
-NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", void Task_SetupPartnerCharIndices())
+void Task_SetupPartnerCharIndices()
 {
     Background *bg;
 #ifndef BUG_FIX
@@ -1362,10 +1364,12 @@ NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", 
 
     cs->unk3 = 0;
     for (i = 0; i < 4; i++) {
-        if (cs->unk3 == cs->listIndex[CS_CHARID_PLAYER]) {
-            cs->unk3++;
+        if (cs->unk3 != cs->listIndex[CS_CHARID_PLAYER]) {
+            if (cs->unk3 < CSLI_COUNT) {
+                break;
+            }
         } else {
-            break;
+            cs->unk3++;
         }
     }
 
@@ -1411,7 +1415,6 @@ NONMATCH("asm/non_matching/game/char_select__Task_SetupPartnerCharIndices.inc", 
     DrawBackground(bg);
     gCurTask->main = Task_8099680;
 }
-END_NONMATCH
 
 void Task_8099680(void)
 {
@@ -2953,23 +2956,19 @@ u32 sub_809B3C4(CharacterSelect *cs, u8 param1)
     if (param1 != 0) {
         if (cs->qNameTagPos[CS_CHARID_PLAYER].x < Q(120)) {
             cs->qNameTagPos[CS_CHARID_PLAYER].x += Q(6.0625);
-            goto block_7;
+        } else {
+            cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(120);
+            var_r3 = 1;
         }
-        cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(120);
-        goto block_9;
-    }
-
-    if (cs->qNameTagPos[CS_CHARID_PLAYER].x > Q(60)) {
+    } else if (cs->qNameTagPos[CS_CHARID_PLAYER].x > Q(60)) {
         cs->qNameTagPos[CS_CHARID_PLAYER].x -= Q(6.0625);
     } else {
         cs->qNameTagPos[CS_CHARID_PLAYER].x = Q(60);
         var_r3 = 1;
     }
-block_7:
     if (var_r3 == 0) {
         return 0;
     }
-block_9:
     return 1;
 }
 
