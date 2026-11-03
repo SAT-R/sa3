@@ -1362,7 +1362,7 @@ void Task_SetupPartnerCharIndices()
     cs->unk3 = 0;
     for (i = 0; i < 4; i++) {
         if (cs->unk3 != cs->listIndex[CS_CHARID_PLAYER]) {
-            if (cs->unk3 < 5) {
+            if (cs->unk3 < CSLI_COUNT) {
                 break;
             }
         } else {
