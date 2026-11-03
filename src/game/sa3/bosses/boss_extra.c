@@ -1015,60 +1015,48 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
     return 0;
 }
 
-#if 01
-#else
 void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
 {
-    s32 temp_r0_3;
-    s32 qWorldX;
-    s32 qWorldY;
-    s32 qR1;
-    s16 var_r1;
+    s32 qWorldX, qWorldY;
     s16 var_r0_2;
     Player *p = boss->players[0];
     u32 len;
     s16 x, y;
     s32 var_sl;
     s32 r6;
-    s32 r3;
-    register s32 r8 asm("r8");
+    s32 r8;
 
     switch (param1) {
         case 0:
             qWorldX = p->qWorldX + Q(gCamera.unk6A);
             qWorldY = p->qWorldY;
-            if (qWorldY <= (s32)boss->qUnkA0) {
+            if (qWorldY <= boss->qUnkA0) {
                 var_sl = 2;
             } else {
                 var_sl = 1;
             }
 
             if (qWorldX <= (boss->qUnk9C - Q(168))) {
-                var_r1 = I(boss->qUnk9C) - 168;
+                x = I(boss->qUnk9C) - 168;
             } else {
                 if (qWorldX >= boss->strc10C[var_sl].qWorldX) {
-                    var_r1 = I(boss->strc10C[var_sl].qWorldX);
+                    x = I(boss->strc10C[var_sl].qWorldX);
                 } else {
-                    var_r1 = I(qWorldX);
+                    x = I(qWorldX);
                 }
             }
 
             if (qWorldY <= boss->qUnkA0 - Q(32)) {
                 var_r0_2 = (I(boss->qUnkA0) - 32);
-                qR1 = (var_r1);
             } else if (qWorldY >= (s32)(boss->qUnkA0 + Q(32))) {
                 var_r0_2 = (I(boss->qUnkA0) + 32);
-                qR1 = (var_r1);
             } else {
                 var_r0_2 = I(qWorldY);
-                qR1 = (var_r1);
             }
-            r3 = Q(qR1);
-            r8 = r3;
+            r8 = Q(x);
             {
                 u32 r0 = var_r0_2;
                 r6 = Q(var_r0_2);
-                x = I(qR1);
                 x -= I(boss->strc10C[var_sl].qWorldX);
                 y = (var_r0_2 - I(boss->strc10C[var_sl].qWorldY));
                 boss->unkCC = SA2_LABEL(sub_8004418)(y, x);
@@ -1093,6 +1081,8 @@ void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
     }
 }
 
+#if 01
+#else
 void sub_878_8083BE4(UltimateGemerl *boss)
 {
     Sprite *temp_r0_11;
