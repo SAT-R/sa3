@@ -1019,78 +1019,77 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 #else
 void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
 {
-    Player *temp_r2;
-    s16 temp_r0_3;
-    s16 temp_r1_3;
-    s32 *temp_r4_3;
-    s32 *temp_r5_2;
-    s32 temp_r0_2;
-    s32 temp_r1_2;
-    s32 temp_r1_4;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5;
-    s32 temp_r6;
-    s32 var_r2;
-    u16 var_r1;
-    u32 var_r0;
-    u32 var_r0_2;
-    u8 temp_r0;
-    u8 temp_r1;
-    u8 var_sl;
+    s32 temp_r0_3;
+    s32 qWorldX;
+    s32 qWorldY;
+    s32 qR1;
+    s16 var_r1;
+    s16 var_r0_2;
+    Player *p = boss->players[0];
+    u32 len;
+    s16 x, y;
+    s32 var_sl;
+    s32 r6;
+    s32 r3;
+    register s32 r8 asm("r8");
 
-    temp_r1 = param1;
-    temp_r2 = boss->players[0];
-    switch (temp_r1) { /* irregular */
-        case 1:
-            temp_r0 = boss->fillerE2[1];
-            boss->unkCE = sa2__sub_8004418(
-                (s16)(((s32)temp_r2->qWorldY >> 8) - ((s32) * (&boss->strc10C[0].qWorldY + (temp_r0 * 0x18)) >> 8)),
-                (s16)((s16)(((s32)temp_r2->qWorldX >> 8) + (u16)gCamera.unk6A) - ((s32)boss->strc10C[temp_r0].qWorldX >> 8)));
-            return;
+    switch (param1) {
         case 0:
-            temp_r4 = temp_r2->qWorldX + (gCamera.unk6A << 8);
-            temp_r5 = temp_r2->qWorldY;
-            var_sl = 1;
-            if (temp_r5 <= (s32)boss->qUnkA0) {
+            qWorldX = p->qWorldX + Q(gCamera.unk6A);
+            qWorldY = p->qWorldY;
+            if (qWorldY <= (s32)boss->qUnkA0) {
                 var_sl = 2;
-            }
-            temp_r1_2 = boss->qUnk9C;
-            if (temp_r4 <= (s32)(temp_r1_2 + 0xFFFF5800)) {
-                var_r1 = (temp_r1_2 >> 8) - 0xA8;
-                var_r2 = var_sl * 2;
             } else {
-                var_r2 = var_sl * 2;
-                temp_r0_2 = boss->strc10C[var_sl].qWorldX;
-                if (temp_r4 >= temp_r0_2) {
-                    var_r0 = temp_r0_2 << 8;
+                var_sl = 1;
+            }
+
+            if (qWorldX <= (boss->qUnk9C - Q(168))) {
+                var_r1 = I(boss->qUnk9C) - 168;
+            } else {
+                if (qWorldX >= boss->strc10C[var_sl].qWorldX) {
+                    var_r1 = I(boss->strc10C[var_sl].qWorldX);
                 } else {
-                    var_r0 = temp_r4 << 8;
+                    var_r1 = I(qWorldX);
                 }
-                var_r1 = (u16)(var_r0 >> 0x10);
             }
-            temp_r4_2 = boss->qUnkA0;
-            if (temp_r5 <= (s32)(temp_r4_2 + 0xFFFFE000)) {
-                var_r0_2 = ((temp_r4_2 >> 8) - 0x20) << 0x10;
-            } else if (temp_r5 >= (s32)(temp_r4_2 + 0x2000)) {
-                var_r0_2 = ((temp_r4_2 >> 8) + 0x20) << 0x10;
+
+            if (qWorldY <= boss->qUnkA0 - Q(32)) {
+                var_r0_2 = (I(boss->qUnkA0) - 32);
+                qR1 = (var_r1);
+            } else if (qWorldY >= (s32)(boss->qUnkA0 + Q(32))) {
+                var_r0_2 = (I(boss->qUnkA0) + 32);
+                qR1 = (var_r1);
             } else {
-                var_r0_2 = temp_r5 << 8;
+                var_r0_2 = I(qWorldY);
+                qR1 = (var_r1);
             }
-            temp_r1_3 = (s16)var_r1;
-            temp_r0_3 = (s16)(var_r0_2 >> 0x10);
-            temp_r3 = (var_r2 + var_sl) * 8;
-            temp_r5_2 = boss->strc10C + temp_r3;
-            temp_r4_3 = &boss->strc10C[0].qWorldY + temp_r3;
-            boss->unkCC = (u16)sa2__sub_8004418((s16)(temp_r0_3 - ((s32)*temp_r4_3 >> 8)), (s16)(temp_r1_3 - ((s32)*temp_r5_2 >> 8)));
-            temp_r1_4 = (temp_r1_3 << 8) - *temp_r5_2;
-            temp_r6 = (temp_r0_3 << 8) - *temp_r4_3;
-            boss->unkD0 = (s32)Sqrt((temp_r1_4 * temp_r1_4) + (temp_r6 * temp_r6));
+            r3 = Q(qR1);
+            r8 = r3;
+            {
+                u32 r0 = var_r0_2;
+                r6 = Q(var_r0_2);
+                x = I(qR1);
+                x -= I(boss->strc10C[var_sl].qWorldX);
+                y = (var_r0_2 - I(boss->strc10C[var_sl].qWorldY));
+                boss->unkCC = SA2_LABEL(sub_8004418)(y, x);
+            }
+            r8 -= boss->strc10C[var_sl].qWorldX;
+            r6 = r6 - boss->strc10C[var_sl].qWorldY;
+            len = Sqrt(SQUARE(r8) + SQUARE(r6));
+            boss->unkD0 = len;
             boss->unkD4 = 0;
             boss->strc10C[2].unk8 = 0x800;
-            boss->fillerE2[1] = var_sl;
-            return;
+            boss->unkE3 = var_sl;
+            break;
+        case 1:
+            var_sl = boss->unkE3;
+            {
+                x = I(p->qWorldX) + gCamera.unk6A;
+                x -= I(boss->strc10C[var_sl].qWorldX);
+                y = I(p->qWorldY) - I(boss->strc10C[var_sl].qWorldY);
+                boss->unkCE = (u16)SA2_LABEL(sub_8004418)(y, x);
+            }
+            break;
     }
 }
 
