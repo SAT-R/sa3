@@ -700,10 +700,8 @@ void sub_878_8082D08(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
-
-s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
+// (87.27%) https://decomp.me/scratch/bS5pZ
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1))
 {
     Vec2_32 sp0[4];
     u8 sp24;
@@ -992,7 +990,10 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
     boss->unkC = param1;
     return 0;
 }
+END_NONMATCH
 
+#if 01
+#else
 void sub_878_8083A44(UltimateGemerl *boss, u8 param1)
 {
     Player *temp_r2;
