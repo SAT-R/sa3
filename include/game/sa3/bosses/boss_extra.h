@@ -78,7 +78,7 @@ typedef struct {
     /* 0x0C7 */ u8 fillerC7[5];
     /* 0x0CC */ u16 unkCC;
     /* 0x0CE */ u16 unkCE;
-    /* 0x0D0 */ u8 fillerD0[4];
+    /* 0x0D0 */ s32 unkD0;
     /* 0x0D4 */ s32 unkD4;
     /* 0x0D8 */ s32 unkD8;
     /* 0x0DC */ u8 fillerDC[0x4];

@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.else
-
 	thumb_func_start sub_878_8083A44
 sub_878_8083A44: @ 0x08083A44
 	push {r4, r5, r6, r7, lr}
@@ -224,7 +222,7 @@ _08083BD0:
 	bx r0
 	.align 2, 0
 _08083BE0: .4byte gCamera
-
+.else
 	thumb_func_start sub_878_8083BE4
 sub_878_8083BE4: @ 0x08083BE4
 	push {r4, r5, lr}

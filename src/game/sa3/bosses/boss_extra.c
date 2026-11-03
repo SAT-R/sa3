@@ -700,35 +700,19 @@ void sub_878_8082D08(UltimateGemerl *boss)
     }
 }
 
-// (87.27%) https://decomp.me/scratch/bS5pZ
-NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1))
+s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
 {
     Vec2_32 sp0[4];
     u8 sp24;
     u8 sp28;
-    s16 var_r7_2;
-    s32 var_r7_3;
-    s32 temp_r0_10;
-    u16 temp_r0_13;
-    s32 temp_r0_16;
-    s32 temp_r7;
-    s32 temp_r7_2;
-    s32 qDirX;
-    s32 qDirY;
+    u16 temp_r3;
+    s32 temp_ip;
     s32 var_r4;
     s32 var_r5;
     u16 var_r7;
     u8 var_r6;
-    u16 r3;
-    s32 r4, r5;
-    u32 angle;
-#ifndef NON_MATCHING
-    register s32 var_sb asm("sb");
-    register s32 var_sl asm("sl");
-#else
     s32 var_sb;
     s32 var_sl;
-#endif
 
     // TODO: Inline the rodata!
     memcpy(sp0, gUnknown_080D5E64, sizeof(sp0));
@@ -748,133 +732,173 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub
         case 3:
             for (sp24 = 0; sp24 < 4; sp24++) {
                 sp28 = 0;
-                var_r7 = (sp24 << 8) | 0x80;
+                var_r7 = (sp24 * 0x100) + 0x80;
                 var_sl = (COS(var_r7) * 0x1C) / 0x40;
                 var_sb = (SIN(var_r7) * 0x1C) / 0x40;
-                if (sp24 != 1) {
-                    if (sp24 == 2) {
+                switch (sp24) {
+                    case 2:
                         if (boss->unkE2 == 0) {
-                            var_r5 = -Q(gUnknown_080D5D64[boss->unkBC[0]]);
-                            var_r4 = -Q(gUnknown_080D5DE4[boss->unkBC[0]]);
+                            var_r5 = gUnknown_080D5D64[boss->unkBC[0]];
+                            var_r5 = -Q(var_r5);
+                            var_r4 = gUnknown_080D5DE4[boss->unkBC[0]];
+                            var_r4 = -Q(var_r4);
                             if (boss->unkBC[0] <= 0xCU) {
-                                boss->strc10C[2].unk14 = 0x280;
+                                boss->strc10C[sp24].unk14 = 0x280;
                             } else {
-                                boss->strc10C[2].unk14 = 0x200;
+                                boss->strc10C[sp24].unk14 = 0x200;
                             }
                         } else {
-                            var_r5 = -Q(gUnknown_080D5D64[boss->unkC6]);
-                            var_r4 = -Q(gUnknown_080D5DE4[boss->unkC6]);
-                            boss->strc10C[2].unk14 = 0x100;
+                            var_r5 = gUnknown_080D5D64[boss->unkC6];
+                            var_r5 = -Q(var_r5);
+                            var_r4 = gUnknown_080D5DE4[boss->unkC6];
+                            var_r4 = -Q(var_r4);
+                            boss->strc10C[sp24].unk14 = 0x100;
                         }
                         boss->strc10C[sp24].qWorldX = boss->qUnk9C + var_sl + var_r5;
                         boss->strc10C[sp24].qWorldY = boss->qUnkA0 + var_sb + var_r4;
                         sp28++;
                         for (var_r6 = 0; var_r6 < ARRAY_COUNT(boss->strc16C[sp24]); var_r6++, sp28++) {
                             if (boss->unkBC[sp28] != 0) {
-                                boss->strc16C[sp24][var_r6].qWorldX = (boss->qUnk9C + var_sl) - Q(gUnknown_080D5D64[boss->unkBC[sp28]]);
-                                boss->strc16C[sp24][var_r6].qWorldY = (boss->qUnkA0 + var_sb) - Q(gUnknown_080D5DE4[boss->unkBC[sp28]]);
+                                var_r5 = gUnknown_080D5D64[boss->unkBC[sp28]];
+                                temp_r3 = Q(var_r5);
+                                var_r4 = gUnknown_080D5DE4[boss->unkBC[sp28]];
+                                var_r4 = Q(var_r4);
+                                boss->strc16C[sp24][var_r6].qWorldX = (boss->qUnk9C + var_sl) - temp_r3;
+                                boss->strc16C[sp24][var_r6].qWorldY = (boss->qUnkA0 + var_sb) - var_r4;
                             } else {
                                 boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
                                 boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
                             }
                         }
-                    }
-                } else {
-                    if (boss->unkE2 == 0) {
-                        var_r5 = -Q(gUnknown_080D5D64[boss->unkBC[0]]);
-                        var_r4 = +Q(gUnknown_080D5DE4[boss->unkBC[0]]);
-                        if (boss->unkBC[0] <= 12) {
-                            boss->strc10C[1].unk14 = 0x180;
+                        break;
+
+                    case 1:
+                        if (boss->unkE2 == 0) {
+                            var_r5 = gUnknown_080D5D64[boss->unkBC[0]];
+                            var_r5 = -Q(var_r5);
+                            var_r4 = gUnknown_080D5DE4[boss->unkBC[0]];
+                            var_r4 = +Q(var_r4);
+                            if (boss->unkBC[0] <= 12) {
+                                boss->strc10C[sp24].unk14 = 0x180;
+                            } else {
+                                boss->strc10C[sp24].unk14 = 0x200;
+                            }
                         } else {
-                            boss->strc10C[1].unk14 = 0x200;
+                            var_r5 = gUnknown_080D5D64[boss->unkC5];
+                            var_r5 = -Q(var_r5);
+                            var_r4 = gUnknown_080D5DE4[boss->unkC5];
+                            var_r4 = +Q(var_r4);
+                            boss->strc10C[sp24].unk14 = 0x300;
                         }
-                    } else {
-                        var_r5 = -Q(gUnknown_080D5D64[boss->unkC5]);
-                        var_r4 = +Q(gUnknown_080D5DE4[boss->unkC5]);
-                        boss->strc10C[1].unk14 = 0x300;
-                    }
-                    boss->strc10C[sp24].qWorldX = boss->qUnk9C + var_sl + var_r5;
-                    boss->strc10C[sp24].qWorldY = boss->qUnkA0 + var_sb + var_r4;
-                    sp28++;
-                    for (var_r6 = 0; var_r6 < 6; var_r6++, sp28++) {
-                        if (boss->unkBC[sp28] != 0) {
-                            boss->strc16C[sp24][var_r6].qWorldX = (boss->qUnk9C + var_sl) - Q(gUnknown_080D5D64[boss->unkBC[sp28]]);
-                            boss->strc16C[sp24][var_r6].qWorldY = (boss->qUnkA0 + var_sb) + Q(gUnknown_080D5DE4[boss->unkBC[sp28]]);
-                        } else {
-                            boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
-                            boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
+                        boss->strc10C[sp24].qWorldX = boss->qUnk9C + var_sl + var_r5;
+                        boss->strc10C[sp24].qWorldY = boss->qUnkA0 + var_sb + var_r4;
+                        sp28++;
+                        for (var_r6 = 0; var_r6 < 6; var_r6++, sp28++) {
+                            if (boss->unkBC[sp28] != 0) {
+                                var_r5 = gUnknown_080D5D64[boss->unkBC[sp28]];
+                                temp_r3 = Q(var_r5);
+                                var_r4 = gUnknown_080D5DE4[boss->unkBC[sp28]];
+                                var_r4 = Q(var_r4);
+                                boss->strc16C[sp24][var_r6].qWorldX = (boss->qUnk9C + var_sl) - temp_r3;
+                                boss->strc16C[sp24][var_r6].qWorldY = (boss->qUnkA0 + var_sb) + var_r4;
+                            } else {
+                                boss->strc16C[sp24][var_r6].qWorldX = boss->qUnk9C;
+                                boss->strc16C[sp24][var_r6].qWorldY = boss->qUnkA0;
+                            }
                         }
-                    }
+                        break;
                 }
             }
             break;
         case 4:
             for (sp24 = 0; sp24 < 4; sp24++) {
-                temp_r7_2 = (sp24 << 8) | 0x80;
-                if (sp24 != 0) {
-                    if (sp24 == 3) {
+                var_r7 = (sp24 << 8) | 0x80;
+                switch (sp24) {
+                    case 3:
                         if (boss->unkD4 != 0) {
-                            var_sl = (COS(temp_r7_2) * 0x1C) / 0x40;
-                            var_sb = (SIN(temp_r7_2) * 0x1C) / 0x40;
+                            var_sl = (COS(var_r7) * 0x1C) / 0x40;
+                            var_sb = (SIN(var_r7) * 0x1C) / 0x40;
                             var_sl = (var_sl) + boss->qUnk9C;
                             var_sb = (var_sb) + boss->qUnkA0;
-                            temp_r0_16 = boss->unkD4 / 6;
-                            var_r7_2 = 0x2C0;
-                            temp_r0_13 = I(boss->unkE4);
+                            temp_ip = boss->unkD4 / 6;
+                            var_r7 = 0x2C0;
+                            temp_r3 = I(boss->unkE4);
                             for (var_r6 = 6; var_r6 != 0; var_r6--) {
-                                boss->strc16C[0][var_r6 - 1].qWorldX = var_sl;
-                                boss->strc16C[0][var_r6 - 1].qWorldY = var_sb;
-                                qDirX = (COS(var_r7_2) * temp_r0_16) / 0x4000;
-                                qDirY = (SIN(var_r7_2) * temp_r0_16) / 0x4000;
-                                var_sl += qDirX;
-                                var_sb += qDirY;
-                                if (var_r6 == 1) {
-                                    var_r7_2 = (var_r7_2 - (temp_r0_13 >> 2)) & 0x3FF;
-                                } else if ((var_r6 >= 1) && (var_r6 <= 3)) {
-                                    var_r7_2 = (var_r7_2 + (temp_r0_13 >> 2)) & 0x3FF;
-                                } else {
-                                    var_r7_2 = (var_r7_2 - (u16)temp_r0_13) & 0x3FF;
+                                boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
+                                boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
+                                var_r5 = (COS(var_r7) * temp_ip) / 0x4000;
+                                var_r4 = (SIN(var_r7) * temp_ip) / 0x4000;
+                                var_sl += var_r5;
+                                var_sb += var_r4;
+                                // if (var_r6 == 1) {
+                                //     var_r7 = (var_r7 - (temp_r3 >> 2)) & 0x3FF;
+                                // } else if ((var_r6 >= 1) && (var_r6 <= 3)) {
+                                //     var_r7 = (var_r7 + (temp_r3 >> 2)) & 0x3FF;
+                                // } else {
+                                //     var_r7 = (var_r7 - (u16)temp_r3) & 0x3FF;
+                                // }
+                                switch (var_r6) {
+                                    case 1:
+                                        var_r7 = (var_r7 - (temp_r3 >> 2)) & 0x3FF;
+                                        break;
+                                    case 2:
+                                    case 3:
+                                        var_r7 = (var_r7 + (temp_r3 >> 2)) & 0x3FF;
+                                        break;
+                                    default:
+                                        var_r7 = (var_r7 - (u16)temp_r3) & 0x3FF;
+                                        break;
                                 }
                             }
 
-                            //                            boss->strc10C[sp24].unk14 = var_r7_2;
+                            //                            boss->strc10C[sp24].unk14 = var_r7;
                             //                            boss->strc10C[sp24].qWorldX = var_sl;
                             //                            boss->strc10C[sp24].qWorldY = var_sb;
-                            goto set_strc10C;
-                        }
-                    }
-                } else {
-                    if (boss->unkD8 != 0) {
-                        var_sl = (COS(temp_r7_2) * 0x1C) / 0x40;
-                        var_sb = (SIN(temp_r7_2) * 0x1C) / 0x40;
-                        var_sl = (var_sl) + boss->qUnk9C;
-                        var_sb = (var_sb) + boss->qUnkA0;
-                        temp_r0_10 = boss->unkD8 / 6;
-                        var_r7_2 = 0x140;
-                        temp_r0_13 = I(boss->unkE8);
-
-                        for (var_r6 = 6; var_r6 != 0; var_r6--) {
-                            boss->strc16C[0][var_r6 - 1].qWorldX = var_sl;
-                            boss->strc16C[0][var_r6 - 1].qWorldY = var_sb;
-                            qDirX = (COS(var_r7_2) * temp_r0_10) / 0x4000;
-                            qDirY = (SIN(var_r7_2) * temp_r0_10) / 0x4000;
-                            var_sl += qDirX;
-                            var_sb += qDirY;
-                            if (var_r6 == 1) {
-                                var_r7_2 = (var_r7_2 + (temp_r0_13 >> 2)) & 0x3FF;
-                            } else if ((var_r6 >= 1) && (var_r6 <= 3)) {
-                                var_r7_2 = (var_r7_2 - (temp_r0_13 >> 2)) & 0x3FF;
-                            } else {
-                                var_r7_2 = (var_r7_2 + temp_r0_13) & 0x3FF;
-                            }
-                        }
-                        {
-                        set_strc10C:
-                            boss->strc10C[sp24].unk14 = var_r7_2;
+                            // goto set_strc10C;
+                            boss->strc10C[sp24].unk14 = var_r7;
                             boss->strc10C[sp24].qWorldX = var_sl;
                             boss->strc10C[sp24].qWorldY = var_sb;
                         }
-                    }
+                        break;
+
+                    case 0:
+                        if (boss->unkD8 != 0) {
+                            var_sl = (COS(var_r7) * 0x1C) / 0x40;
+                            var_sb = (SIN(var_r7) * 0x1C) / 0x40;
+                            var_sl = (var_sl) + boss->qUnk9C;
+                            var_sb = (var_sb) + boss->qUnkA0;
+                            temp_ip = boss->unkD8 / 6;
+                            var_r7 = 0x140;
+                            temp_r3 = I(boss->unkE8);
+
+                            for (var_r6 = 6; var_r6 != 0; var_r6--) {
+                                boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
+                                boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
+                                var_r5 = (COS(var_r7) * temp_ip) / 0x4000;
+                                var_r4 = (SIN(var_r7) * temp_ip) / 0x4000;
+                                var_sl += var_r5;
+                                var_sb += var_r4;
+                                switch (var_r6) {
+                                    case 1:
+                                        var_r7 = (var_r7 + (temp_r3 >> 2)) & 0x3FF;
+                                        break;
+                                    case 2:
+                                    case 3:
+                                        var_r7 = (var_r7 - (temp_r3 >> 2)) & 0x3FF;
+                                        break;
+                                    default:
+                                        var_r7 = (var_r7 + temp_r3) & 0x3FF;
+                                        break;
+                                }
+                            }
+                            {
+                            set_strc10C:
+                                boss->strc10C[sp24].unk14 = var_r7;
+                                boss->strc10C[sp24].qWorldX = var_sl;
+                                boss->strc10C[sp24].qWorldY = var_sb;
+                            }
+                        }
+                        break;
                 }
             }
             break;
@@ -884,14 +908,14 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub
             var_sb = (SIN((boss->unkE3 << 8) + 0x80) * 0x1C) / 0x40;
             var_sl = (var_sl) + boss->qUnk9C;
             var_sb = (var_sb) + boss->qUnkA0;
-            temp_r0_16 = (s32)boss->unkD4 / 6;
-            qDirX = (COS(boss->unkCC) * temp_r0_16) / 0x4000;
-            qDirY = (SIN(boss->unkCC) * temp_r0_16) / 0x4000;
+            temp_ip = (s32)boss->unkD4 / 6;
+            var_r5 = (COS(boss->unkCC) * temp_ip) / 0x4000;
+            var_r4 = (SIN(boss->unkCC) * temp_ip) / 0x4000;
             for (var_r6 = 6; var_r6 != 0; var_r6--) {
                 boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
                 boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
-                var_sl += qDirX;
-                var_sb += qDirY;
+                var_sl += var_r5;
+                var_sb += var_r4;
             }
 
             boss->strc10C[sp24].unk14 = boss->unkCC;
@@ -904,14 +928,14 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub
             var_sb = (SIN((boss->unkE3 << 8) + 0x80) * 0x1C) / 0x40;
             var_sl = (var_sl) + boss->qUnk9C;
             var_sb = (var_sb) + boss->qUnkA0;
-            temp_r0_16 = (s32)boss->unkD4 / 6;
-            qDirX = (COS(boss->unkCC) * temp_r0_16) / 0x4000;
-            qDirY = (SIN(boss->unkCC) * temp_r0_16) / 0x4000;
+            temp_ip = (s32)boss->unkD4 / 6;
+            var_r5 = (COS(boss->unkCC) * temp_ip) / 0x4000;
+            var_r4 = (SIN(boss->unkCC) * temp_ip) / 0x4000;
             for (var_r6 = 6; var_r6 != 0; var_r6--) {
                 boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
                 boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
-                var_sl += qDirX;
-                var_sb += qDirY;
+                var_sl += var_r5;
+                var_sb += var_r4;
             }
 
             boss->strc10C[sp24].unk14 = boss->unkCE;
@@ -919,68 +943,68 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub
             boss->strc10C[sp24].qWorldY = var_sb;
             break;
         case 5: {
-            var_r7_3 = boss->rotation;
-            var_r7_3 = (var_r7_3 + 0x80) & 0x3FF;
+            var_r7 = boss->rotation;
+            var_r7 = (var_r7 + 0x80) & 0x3FF;
             for (sp24 = 0; sp24 < 4; sp24++) {
-                var_sl = (COS(var_r7_3) * 0x1C) / 0x40;
-                var_sb = (SIN(var_r7_3) * 0x1C) / 0x40;
+                var_sl = (COS(var_r7) * 0x1C) / 0x40;
+                var_sb = (SIN(var_r7) * 0x1C) / 0x40;
                 var_sl += boss->qUnk9C;
                 var_sb += boss->qUnkA0;
 
-                for (var_r6 = 6, r3 = var_r7_3; var_r6 != 0; var_r6--) {
+                for (var_r6 = 6, temp_r3 = var_r7; var_r6 != 0; var_r6--) {
                     if (boss->unkBC[var_r6] != 0) {
-                        r5 = (COS(r3) * boss->unkBC[var_r6]) / 0x40;
-                        r4 = (SIN(r3) * boss->unkBC[var_r6]) / 0x40;
+                        var_r5 = (COS(temp_r3) * boss->unkBC[var_r6]) / 0x40;
+                        var_r4 = (SIN(temp_r3) * boss->unkBC[var_r6]) / 0x40;
                     } else {
-                        r5 = 0;
-                        r4 = 0;
+                        var_r5 = 0;
+                        var_r4 = 0;
                     }
-                    var_sl += r5;
-                    var_sb += r4;
+                    var_sl += var_r5;
+                    var_sb += var_r4;
                     boss->strc16C[sp24][var_r6 - 1].qWorldX = var_sl;
                     boss->strc16C[sp24][var_r6 - 1].qWorldY = var_sb;
-                    r3 = (r3 + 0x20) & 0x3FF;
+                    temp_r3 = (temp_r3 + 0x20) & 0x3FF;
                 }
 
-                if (boss->unkBC[0] != 0) {
-                    r5 = (COS(r3) * boss->unkBC[0]) / 0x40;
-                    r4 = (SIN(r3) * boss->unkBC[0]) / 0x40;
+                if (boss->unkBC[var_r6] != 0) {
+                    var_r5 = (COS(temp_r3) * boss->unkBC[var_r6]) / 0x40;
+                    var_r4 = (SIN(temp_r3) * boss->unkBC[var_r6]) / 0x40;
                 } else {
-                    r5 = 0;
-                    r4 = 0;
+                    var_r5 = 0;
+                    var_r4 = 0;
                 }
                 if ((boss->unkBB == 0) && (boss->unkBC[0] == 0)) {
-                    boss->strc10C[sp24].unk14 = var_r7_3;
+                    boss->strc10C[sp24].unk14 = var_r7;
                 } else {
-                    boss->strc10C[sp24].unk14 = r3;
+                    boss->strc10C[sp24].unk14 = temp_r3;
                 }
-                boss->strc10C[sp24].qWorldX = var_sl + r5;
-                boss->strc10C[sp24].qWorldY = var_sb + r4;
-                var_r7_3 = (var_r7_3 + 0x100) & 0x3FF;
+                boss->strc10C[sp24].qWorldX = var_sl + var_r5;
+                boss->strc10C[sp24].qWorldY = var_sb + var_r4;
+                var_r7 = (var_r7 + 0x100) & 0x3FF;
             }
         } break;
         case 6: {
             sp24 = 2;
-            temp_r7_2 = (sp24 << 8) + 0x80;
+            var_r7 = (sp24 * 0x100) + 0x80;
             if (boss->unkD4 != 0) {
-                var_sl = (COS(temp_r7_2) * 0x1C) / 0x40;
-                var_sb = (SIN(temp_r7_2) * 0x1C) / 0x40;
+                var_sl = (COS(var_r7) * 0x1C) / 0x40;
+                var_sb = (SIN(var_r7) * 0x1C) / 0x40;
                 var_sl = (var_sl) + boss->qUnk9C;
                 var_sb = (var_sb) + boss->qUnkA0;
-                temp_r0_16 = boss->unkD4 / 6;
-                temp_r7_2 = (u16)(boss->unkE8 >> 8);
-                r3 = boss->unkE4 / 0x100;
+                temp_ip = boss->unkD4 / 6;
+                var_r7 = (u16)(boss->unkE8 >> 8);
+                temp_r3 = boss->unkE4 / 0x100;
                 for (var_r6 = 6; var_r6 != 0; var_r6--) {
                     s32 jIndex = 2;
                     boss->strc16C[jIndex][var_r6 - 1].qWorldX = var_sl;
                     boss->strc16C[jIndex][var_r6 - 1].qWorldY = var_sb;
-                    qDirX = (COS(temp_r7_2) * temp_r0_16) / 0x4000;
-                    qDirY = (SIN(temp_r7_2) * temp_r0_16) / 0x4000;
-                    var_sl += qDirX;
-                    var_sb += qDirY;
-                    temp_r7_2 = (temp_r7_2 + r3) & 0x3FF;
+                    var_r5 = (COS(var_r7) * temp_ip) / 0x4000;
+                    var_r4 = (SIN(var_r7) * temp_ip) / 0x4000;
+                    var_sl += var_r5;
+                    var_sb += var_r4;
+                    var_r7 = (var_r7 + temp_r3) & 0x3FF;
                 }
-                boss->strc10C[sp24].unk14 = temp_r7_2;
+                boss->strc10C[sp24].unk14 = var_r7;
                 boss->strc10C[sp24].qWorldX = var_sl;
                 boss->strc10C[sp24].qWorldY = var_sb;
             }
@@ -990,7 +1014,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8082E2C.inc", s32 sub
     boss->unkC = param1;
     return 0;
 }
-END_NONMATCH
 
 #if 01
 #else
