@@ -1250,15 +1250,15 @@ void sub_878_8083BE4(UltimateGemerl *boss)
 // (97.78%) https://decomp.me/scratch/qwYhX
 NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void sub_878_8083F8C(UltimateGemerl *boss))
 {
-    u8 var_r3;
+    u8 i;
 
     switch (boss->unk8) {
         case 0x0: {
             boss->unkBB = 0;
 
-            for (var_r3 = 0; var_r3 < ARRAY_COUNT(boss->unkBC); var_r3++) {
-                boss->unkBC[var_r3] = 0;
-                boss->unkC4[var_r3] = 0;
+            for (i = 0; i < ARRAY_COUNT(boss->unkBC); i++) {
+                boss->unkBC[i] = 0;
+                boss->unkC4[i] = 0;
             }
 
             boss->unkE2 = 0;
@@ -1282,8 +1282,8 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
                     }
                 }
             }
-            for (var_r3 = 0; var_r3 < boss->unkBB; var_r3++) {
-                boss->unkBC[var_r3] += 1;
+            for (i = 0; i < boss->unkBB; i++) {
+                boss->unkBC[i] += 1;
             }
             if (boss->unkBC[0] >= 120) {
                 boss->unk4 = 0x3C;
@@ -1295,18 +1295,18 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
         case 110: {
             if (--boss->unk4 == 0) {
                 boss->unkE2 = 1;
-                for (var_r3 = 1; var_r3 < 3; var_r3++) {
+                for (i = 1; i < 3; i++) {
                     u8 r3;
-                    boss->unkC4[var_r3] = 0x78;
-                    boss->strc10C[var_r3].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
+                    boss->unkC4[i] = 0x78;
+                    boss->strc10C[i].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
 
-                    if (var_r3 == 2) {
-                        boss->strc10C[var_r3].unk14 = 0x100;
+                    if (i == 2) {
+                        boss->strc10C[i].unk14 = 0x100;
                     } else {
-                        boss->strc10C[var_r3].unk14 = 0x300;
+                        boss->strc10C[i].unk14 = 0x300;
                     }
-                    boss->strc10C[var_r3].unk16 = 1;
-                    boss->strc10C[var_r3].unk12 = 0;
+                    boss->strc10C[i].unk16 = 1;
+                    boss->strc10C[i].unk12 = 0;
                 }
                 boss->unk4 = 0x258;
                 boss->unk8 = 200;
@@ -1316,39 +1316,39 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
 
         case 200: {
             sub_878_8082E2C(boss, 3U);
-            for (var_r3 = 1; var_r3 < 3; var_r3++) {
-                switch (boss->strc10C[var_r3].unk12) {
+            for (i = 1; i < 3; i++) {
+                switch (boss->strc10C[i].unk12) {
                     case 0:
-                        if (--boss->strc10C[var_r3].unk10 == 0) {
-                            boss->strc10C[var_r3].unk10 = 30;
-                            boss->strc10C[var_r3].unk12 = 10;
-                        } else if (boss->strc10C[var_r3].unk16 == 0) {
-                            if (++boss->unkC4[var_r3] > 105) {
-                                boss->strc10C[var_r3].unk16 ^= 1;
+                        if (--boss->strc10C[i].unk10 == 0) {
+                            boss->strc10C[i].unk10 = 30;
+                            boss->strc10C[i].unk12 = 10;
+                        } else if (boss->strc10C[i].unk16 == 0) {
+                            if (++boss->unkC4[i] > 105) {
+                                boss->strc10C[i].unk16 ^= 1;
                             }
                         } else {
-                            if (--boss->unkC4[var_r3] < 21) {
-                                boss->strc10C[var_r3].unk16 ^= 1;
+                            if (--boss->unkC4[i] < 21) {
+                                boss->strc10C[i].unk16 ^= 1;
                             }
                         }
                         break;
                     case 10:
-                        if (--boss->strc10C[var_r3].unk10 == 0) {
-                            u8 *unk1 = &((u8 *)boss)[var_r3];
+                        if (--boss->strc10C[i].unk10 == 0) {
+                            u8 *unk1 = &((u8 *)boss)[i];
                             if (unk1[1] != 0) {
-                                boss->strc10C[var_r3].unk10 = 1;
+                                boss->strc10C[i].unk10 = 1;
                             } else {
-                                ExtraBoss_CreateMissile(boss, var_r3);
-                                boss->strc10C[var_r3].unk10 = 0x1E;
-                                boss->strc10C[var_r3].unk12 = 0x14;
+                                ExtraBoss_CreateMissile(boss, i);
+                                boss->strc10C[i].unk10 = 0x1E;
+                                boss->strc10C[i].unk12 = 0x14;
                             }
                         }
                         break;
                     case 20:
-                        if (--boss->strc10C[var_r3].unk10 == 0) {
-                            boss->strc10C[var_r3].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
-                            boss->strc10C[var_r3].unk16 = PseudoRandom32() % 2u;
-                            boss->strc10C[var_r3].unk12 = 0;
+                        if (--boss->strc10C[i].unk10 == 0) {
+                            boss->strc10C[i].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
+                            boss->strc10C[i].unk16 = PseudoRandom32() % 2u;
+                            boss->strc10C[i].unk12 = 0;
                         }
                         break;
                 }
@@ -1361,9 +1361,9 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
         } break;
 
         case 210:
-            for (var_r3 = 1; var_r3 < 3; var_r3++) {
-                if (boss->unkC4[var_r3] < 120) {
-                    boss->unkC4[var_r3]++;
+            for (i = 1; i < 3; i++) {
+                if (boss->unkC4[i] < 120) {
+                    boss->unkC4[i]++;
                 }
             }
 
@@ -1375,9 +1375,9 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
             break;
 
         case 500:
-            for (var_r3 = 0; var_r3 < boss->unkBB; var_r3++) {
-                if (boss->unkBC[var_r3] != 0) {
-                    boss->unkBC[var_r3]--;
+            for (i = 0; i < boss->unkBB; i++) {
+                if (boss->unkBC[i] != 0) {
+                    boss->unkBC[i]--;
                 }
             }
             if (boss->unkBC[0] == 0) {
