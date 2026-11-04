@@ -13,9 +13,11 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
-void sub_80870E4(s32);                                 /* extern */
-void sub_808717C(UltimateGemerl*);                     /* extern */
+void sub_80870E4(s32);
+void sub_808717C(UltimateGemerl *boss);
+void ExtraBoss_CreateMissile(UltimateGemerl *boss, u8 arg1);
 
+extern const u16 gUnknown_080D5D50[10];
 extern u8 gUnknown_080D5D64[0x80];
 extern u8 gUnknown_080D5DE4[0x80];
 extern const Vec2_32 gUnknown_080D5E64[4];
@@ -53,7 +55,7 @@ void CreateUltimateGemerlBoss(void)
     boss->unk12 = 0;
     boss->unk4 = 1;
     boss->unk8 = 0;
-    boss->unk1 = 0;
+    boss->unk1[0] = 0;
     boss->unkA = 0;
     boss->unkC = 0;
     boss->unkD = 0;
@@ -98,7 +100,7 @@ void TaskDestructor_878_8081D64(Task *t)
         VramFree(boss->spr814.tiles);
     }
 
-    if (boss->unk1 != 6) {
+    if (boss->unk1[0] != 6) {
         if (boss->vram1C != NULL) {
             VramFree(boss->vram1C);
         }
@@ -125,7 +127,7 @@ void CreateUltimateGemerlForCutscene(Task *taskCutscene)
     boss->taskCutscene = taskCutscene; // -> (AltarEmeraldCutsceneEggmanEscape *)
     boss->unk4 = 1;
     boss->unk8 = 0;
-    boss->unk1 = 6;
+    boss->unk1[0] = 6;
     boss->unkA = 0;
     boss->unkC = 0;
     boss->unkD = 0;
@@ -187,7 +189,7 @@ void sub_878_8081EFC(UltimateGemerl *boss)
                 boss->unk5F++;
                 boss->unk4 = 1;
                 boss->unk8 = 0;
-                boss->unk1 = 7;
+                boss->unk1[0] = 7;
                 boss->unkD = boss->unkC;
             }
             return;
@@ -195,7 +197,7 @@ void sub_878_8081EFC(UltimateGemerl *boss)
 
     else_block:
         if (gStageData.unk4 == 7) {
-            boss->unk1 = gStageData.unk4;
+            boss->unk1[0] = gStageData.unk4;
             return;
         }
         if (!(boss->players[ENAP_SONIC]->moveState & 0x100)) {
@@ -213,7 +215,7 @@ void sub_878_8081EFC(UltimateGemerl *boss)
 
 void sub_878_8081FBC(UltimateGemerl *boss)
 {
-    if (boss->unk1 != 6) {
+    if (boss->unk1[0] != 6) {
         boss->qUnk9C = Q(gCamera.x + 200);
         boss->qUnkA0 = Q(120);
         boss->qUnkF4 = Q(gCamera.x + DISPLAY_CENTER_X);
@@ -251,7 +253,7 @@ void sub_878_8081FBC(UltimateGemerl *boss)
         s->palId = 0;
         s->hitboxes[0].index = -1;
         s->frameFlags = 0x1000;
-        if (boss->unk1 != 6) {
+        if (boss->unk1[0] != 6) {
             s->frameFlags |= 0x2A;
             s->frameFlags |= 0x1000;
         }
@@ -296,7 +298,7 @@ void sub_878_808211C(UltimateGemerl *boss)
             var_r1 = -var_r1;
         }
     }
-    if (boss->unk1 == 7) {
+    if (boss->unk1[0] == 7) {
         var_r1 = 0;
     }
     if ((gCamera.unk6A != 0) || (boss->unk17 != 0)) {
@@ -770,9 +772,9 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                                 boss->strc10C[sp24].unk14 = 0x200;
                             }
                         } else {
-                            var_r5 = gUnknown_080D5D64[boss->unkC6];
+                            var_r5 = gUnknown_080D5D64[boss->unkC4[2]];
                             var_r5 = -Q(var_r5);
-                            var_r4 = gUnknown_080D5DE4[boss->unkC6];
+                            var_r4 = gUnknown_080D5DE4[boss->unkC4[2]];
                             var_r4 = -Q(var_r4);
                             boss->strc10C[sp24].unk14 = 0x100;
                         }
@@ -806,9 +808,9 @@ s32 sub_878_8082E2C(UltimateGemerl *boss, u8 param1)
                                 boss->strc10C[sp24].unk14 = 0x200;
                             }
                         } else {
-                            var_r5 = gUnknown_080D5D64[boss->unkC5];
+                            var_r5 = gUnknown_080D5D64[boss->unkC4[1]];
                             var_r5 = -Q(var_r5);
-                            var_r4 = gUnknown_080D5DE4[boss->unkC5];
+                            var_r4 = gUnknown_080D5DE4[boss->unkC4[1]];
                             var_r4 = +Q(var_r4);
                             boss->strc10C[sp24].unk14 = 0x300;
                         }
@@ -1112,7 +1114,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             boss->unkE2 = 0;
             boss->unkE3 = 0;
             boss->unkF2 = PseudoRandom32();
-            boss->unk2 = 0;
+            boss->unk1[1] = 0;
             /* fallthrough */
         case 1010:
             boss->unk8 = 1000;
@@ -1164,7 +1166,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             boss->unk8 = 300;
             if (boss->lives > 2U) {
                 boss->unk4 = 0x78;
-                boss->unk2 = 0;
+                boss->unk1[1] = 0;
             } else {
                 if (boss->unkCE < 0x200) {
                     boss->unkE4 = 1;
@@ -1172,7 +1174,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
                     boss->unkE4 = 0;
                 }
                 boss->unkE8 = 0;
-                boss->unk2 = 1;
+                boss->unk1[1] = 1;
             }
             m4aSongNumStart(SE_577);
             sub_80870E4(0);
@@ -1195,7 +1197,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             x = I(boss->strc10C[boss->unkE3].qWorldX) - gCamera.x;
             y = I(boss->strc10C[boss->unkE3].qWorldY) - gCamera.y;
             sub_808587C(x, y, boss->unkCE);
-            if (boss->unk2 == 0) {
+            if (boss->unk1[1] == 0) {
                 if (--boss->unk4 == 0) {
                     boss->unk8 = 320;
                 }
@@ -1234,7 +1236,7 @@ void sub_878_8083BE4(UltimateGemerl *boss)
             sub_878_8082E2C(boss, 1U);
             break;
         case 2000:
-            boss->unk1 = 0;
+            boss->unk1[0] = 0;
             break;
 
         case 6000:
@@ -1245,265 +1247,158 @@ void sub_878_8083BE4(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
-void sub_878_8083F8C(UltimateGemerl *boss)
+// (97.78%) https://decomp.me/scratch/qwYhX
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void sub_878_8083F8C(UltimateGemerl *boss))
 {
-    s32 sp0;
-    u32 sp4;
-    Sprite *temp_r0_10;
-    Sprite *temp_r0_14;
-    s16 *temp_r4;
-    s16 temp_r0_12;
-    s16 temp_r0_13;
-    s16 temp_r0_15;
-    s16 temp_r0_19;
-    s16 temp_r0_2;
-    s16 temp_r0_5;
-    s16 temp_r0_6;
-    s16 temp_r0_7;
-    s16 temp_r2;
-    s32 temp_r0_20;
-    s32 temp_r1_4;
-    s32 temp_r4_2;
-    u16 *var_r1_3;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 var_r0;
-    u32 var_r3;
-    u32 var_r3_6;
-    u8 *temp_r0_18;
-    u8 *temp_r1_2;
-    u8 *temp_r1_3;
-    u8 *temp_r1_5;
-    u8 *temp_r1_6;
-    u8 *temp_sb;
-    u8 temp_r0_11;
-    u8 temp_r0_16;
-    u8 temp_r0_17;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    u8 temp_r0_8;
-    u8 temp_r0_9;
-    u8 var_r1;
-    u8 var_r1_2;
-    u8 var_r3_2;
-    u8 var_r3_3;
-    u8 var_r3_4;
-    u8 var_r3_5;
+    u8 var_r3;
 
-    temp_r1 = (u16)boss->unk8;
-    switch (temp_r1) { /* switch 1; irregular */
-        case 0xC8: /* switch 1 */
-            sub_878_8082E2C(boss, 3U);
-            var_r3 = 1;
-        loop_42:
-            temp_sb = boss->strc10C[var_r3].filler12;
-            temp_r0 = boss->strc10C[var_r3].unk12;
-            switch (temp_r0) { /* switch 2; irregular */
-                case 0: /* switch 2 */
-                    temp_r0_2 = (u16)boss->strc10C[var_r3].unk10 - 1;
-                    boss->strc10C[var_r3].unk10 = temp_r0_2;
-                    if ((temp_r0_2 << 0x10) == 0) {
-                        boss->strc10C[var_r3].unk10 = 0x1E;
-                        boss->strc10C[var_r3].unk12 = 0xAU;
-                    } else if (boss->strc10C[var_r3].unk16 == 0) {
-                        temp_r1_2 = &(&boss->unkC4)[var_r3];
-                        temp_r0_3 = *temp_r1_2 + 1;
-                        *temp_r1_2 = temp_r0_3;
-                        if ((u32)temp_r0_3 > 0x69U) {
-                            goto block_54;
-                        }
-                    } else {
-                        temp_r1_3 = &(&boss->unkC4)[var_r3];
-                        temp_r0_4 = *temp_r1_3 - 1;
-                        *temp_r1_3 = temp_r0_4;
-                        if ((u32)temp_r0_4 <= 0x14U) {
-                        block_54:
-                            boss->strc10C[var_r3].unk16 = (u8)(boss->strc10C[var_r3].unk16 ^ 1);
-                        }
+    switch (boss->unk8) {
+        case 0x0: {
+            boss->unkBB = 0;
+
+            for (var_r3 = 0; var_r3 < ARRAY_COUNT(boss->unkBC); var_r3++) {
+                boss->unkBC[var_r3] = 0;
+                boss->unkC4[var_r3] = 0;
+            }
+
+            boss->unkE2 = 0;
+            boss->unk1[2] = 0;
+            boss->unk1[1] = 0;
+            boss->unk4 = 1;
+            boss->unk8 = 100;
+            m4aSongNumStart(SE_576);
+
+            sub_808706C_inline(boss, 1);
+
+            sub_878_8082E2C(boss, 0U);
+        } break;
+
+        case 100: {
+            if (--boss->unk4 == 0) {
+                boss->unk4 = 0x14;
+                if (boss->unkBB < ARRAY_COUNT(boss->unkBC)) {
+                    if (++boss->unkBB == 6) {
+                        boss->unk4 -= 4;
                     }
-                    break;
-                case 10: /* switch 2 */
-                    temp_r4 = &boss->strc10C[var_r3].unk10;
-                    temp_r0_5 = (u16)boss->strc10C[var_r3].unk10 - 1;
-                    boss->strc10C[var_r3].unk10 = temp_r0_5;
-                    if ((temp_r0_5 << 0x10) == 0) {
-                        if ((boss + var_r3)->unk1 != 0) {
-                            boss->strc10C[var_r3].unk10 = 1;
-                        } else {
-                            sp4 = var_r3;
-                            ExtraBoss_CreateMissile(boss, var_r3);
-                            *temp_r4 = 0x1E;
-                            *temp_sb = 0x14;
-                        block_61:
-                            var_r3 = sp4;
-                        }
-                    }
-                    break;
-                case 20: /* switch 2 */
-                    temp_r0_6 = (u16)boss->strc10C[var_r3].unk10 - 1;
-                    boss->strc10C[var_r3].unk10 = temp_r0_6;
-                    temp_r2 = temp_r0_6;
-                    if (temp_r2 == 0) {
-                        temp_r4_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-                        gPseudoRandom = temp_r4_2;
-                        sp0 = (s32)temp_r2;
-                        sp4 = var_r3;
-                        boss->strc10C[var_r3].unk10 = (s16) * ((((u32)temp_r4_2 % 10U) * 2) + &gUnknown_080D5D50);
-                        temp_r1_4 = (0x196225 * temp_r4_2) + 0x3C6EF35F;
-                        gPseudoRandom = temp_r1_4;
-                        boss->strc10C[var_r3].unk16 = (u8)(temp_r1_4 & 1);
-                        boss->strc10C[var_r3].unk12 = (u16)temp_r2;
-                        goto block_61;
-                    }
-                    break;
-            }
-            var_r3 = (u32)(u8)(var_r3 + 1);
-            if (var_r3 <= 2U) {
-                goto loop_42;
-            }
-            if (((boss->unk4 == 0) || (temp_r0_7 = (u16)boss->unk4 - 1, boss->unk4 = temp_r0_7, ((temp_r0_7 << 0x10) == 0)))
-                && (boss->unk2 == 0)) {
-                boss->unk8 = 0xD2;
-                return;
-            }
-            return;
-        case 0x1F4: /* switch 1 */
-            var_r3_2 = 0;
-            if ((u32)boss->fillerBA[1] > 0U) {
-                do {
-                    temp_r1_5 = &boss->unkBC[var_r3_2];
-                    temp_r0_8 = *temp_r1_5;
-                    if (temp_r0_8 != 0) {
-                        *temp_r1_5 = temp_r0_8 - 1;
-                    }
-                    var_r3_2 += 1;
-                } while ((u32)var_r3_2 < (u32)boss->fillerBA[1]);
-            }
-            temp_r0_9 = boss->unkBC[0];
-            if (temp_r0_9 == 0) {
-                boss->unk1 = temp_r0_9;
-                var_r1 = 0;
-                do {
-                    temp_r0_10 = &boss->spr3B4[var_r1];
-                    temp_r0_10->anim = 0x4FE;
-                    temp_r0_10->variant = 1;
-                    var_r1 += 1;
-                } while ((u32)var_r1 <= 3U);
-            }
-        block_82:
-            sub_878_8082E2C(boss, 3U);
-            return;
-        case 0xD2: /* switch 1 */
-            var_r3_3 = 1;
-            do {
-                temp_r1_6 = &(&boss->unkC4)[var_r3_3];
-                temp_r0_11 = *temp_r1_6;
-                if ((u32)temp_r0_11 <= 0x77U) {
-                    *temp_r1_6 = temp_r0_11 + 1;
                 }
-                var_r3_3 += 1;
-            } while ((u32)var_r3_3 <= 2U);
-            if ((boss->unkC4 & 0xFFFF00) == 0x787800) {
-                boss->fillerE2[0] = 0;
-                boss->unk8 = 0x1F4;
             }
-            goto block_82;
-        case 0x1FE: /* switch 1 */
-            temp_r0_12 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_12;
-            temp_r0_13 = temp_r0_12;
-            if (temp_r0_13 == 0) {
-                boss->unk8 = temp_r0_13;
+            for (var_r3 = 0; var_r3 < boss->unkBB; var_r3++) {
+                boss->unkBC[var_r3] += 1;
+            }
+            if (boss->unkBC[0] >= 120) {
+                boss->unk4 = 0x3C;
+                boss->unk8 = 110;
+            }
+            sub_878_8082E2C(boss, 3U);
+        } break;
+
+        case 110: {
+            if (--boss->unk4 == 0) {
+                boss->unkE2 = 1;
+                for (var_r3 = 1; var_r3 < 3; var_r3++) {
+                    u8 r3;
+                    boss->unkC4[var_r3] = 0x78;
+                    boss->strc10C[var_r3].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
+
+                    if (var_r3 == 2) {
+                        boss->strc10C[var_r3].unk14 = 0x100;
+                    } else {
+                        boss->strc10C[var_r3].unk14 = 0x300;
+                    }
+                    boss->strc10C[var_r3].unk16 = 1;
+                    boss->strc10C[var_r3].unk12 = 0;
+                }
+                boss->unk4 = 0x258;
+                boss->unk8 = 200;
+            }
+            sub_878_8082E2C(boss, 3U);
+        } break;
+
+        case 200: {
+            sub_878_8082E2C(boss, 3U);
+            for (var_r3 = 1; var_r3 < 3; var_r3++) {
+                switch (boss->strc10C[var_r3].unk12) {
+                    case 0:
+                        if (--boss->strc10C[var_r3].unk10 == 0) {
+                            boss->strc10C[var_r3].unk10 = 30;
+                            boss->strc10C[var_r3].unk12 = 10;
+                        } else if (boss->strc10C[var_r3].unk16 == 0) {
+                            if (++boss->unkC4[var_r3] > 105) {
+                                boss->strc10C[var_r3].unk16 ^= 1;
+                            }
+                        } else {
+                            if (--boss->unkC4[var_r3] < 21) {
+                                boss->strc10C[var_r3].unk16 ^= 1;
+                            }
+                        }
+                        break;
+                    case 10:
+                        if (--boss->strc10C[var_r3].unk10 == 0) {
+                            u8 *unk1 = &((u8 *)boss)[var_r3];
+                            if (unk1[1] != 0) {
+                                boss->strc10C[var_r3].unk10 = 1;
+                            } else {
+                                ExtraBoss_CreateMissile(boss, var_r3);
+                                boss->strc10C[var_r3].unk10 = 0x1E;
+                                boss->strc10C[var_r3].unk12 = 0x14;
+                            }
+                        }
+                        break;
+                    case 20:
+                        if (--boss->strc10C[var_r3].unk10 == 0) {
+                            boss->strc10C[var_r3].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
+                            boss->strc10C[var_r3].unk16 = PseudoRandom32() % 2u;
+                            boss->strc10C[var_r3].unk12 = 0;
+                        }
+                        break;
+                }
+            }
+            if ((boss->unk4 == 0) || (--boss->unk4 == 0)) {
+                if ((boss->unk1[1] == 0) && (boss->unk1[2] == 0)) {
+                    boss->unk8 = 210;
+                }
+            }
+        } break;
+
+        case 210:
+            for (var_r3 = 1; var_r3 < 3; var_r3++) {
+                if (boss->unkC4[var_r3] < 120) {
+                    boss->unkC4[var_r3]++;
+                }
+            }
+
+            if (boss->unkC4[1] == 120 && boss->unkC4[2] == 120) {
+                boss->unkE2 = 0;
+                boss->unk8 = 500;
             }
             sub_878_8082E2C(boss, 3U);
             break;
-        case 0x0: /* switch 1 */
-            boss->fillerBA[1] = (u8)temp_r1;
-            var_r3_4 = 0;
-            do {
-                boss->unkBC[var_r3_4] = 0;
-                (&boss->unkC4)[var_r3_4] = 0;
-                var_r3_4 += 1;
-            } while ((u32)var_r3_4 <= 6U);
-            boss->fillerE2[0] = 0;
-            boss->unk3 = 0;
-            boss->unk2 = 0;
-            boss->unk4 = 1;
-            boss->unk8 = 0x64;
-            m4aSongNumStart(0x240U);
-            var_r1_2 = 0;
-            do {
-                temp_r0_14 = &boss->spr3B4[var_r1_2];
-                temp_r0_14->anim = 0x4FE;
-                temp_r0_14->variant = 0;
-                var_r1_2 += 1;
-            } while ((u32)var_r1_2 <= 3U);
-            sub_878_8082E2C(boss, 0U);
-            return;
-        case 0x64: /* switch 1 */
-            temp_r0_15 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_15;
-            if ((temp_r0_15 << 0x10) == 0) {
-                boss->unk4 = 0x14;
-                temp_r0_16 = boss->fillerBA[1];
-                if ((u32)temp_r0_16 <= 6U) {
-                    temp_r0_17 = temp_r0_16 + 1;
-                    boss->fillerBA[1] = temp_r0_17;
-                    if (temp_r0_17 == 6) {
-                        boss->unk4 = (u16)boss->unk4 - 4;
-                    }
+
+        case 500:
+            for (var_r3 = 0; var_r3 < boss->unkBB; var_r3++) {
+                if (boss->unkBC[var_r3] != 0) {
+                    boss->unkBC[var_r3]--;
                 }
             }
-            var_r3_5 = 0;
-            if ((u32)boss->fillerBA[1] > 0U) {
-                do {
-                    temp_r0_18 = &boss->unkBC[var_r3_5];
-                    *temp_r0_18 += 1;
-                    var_r3_5 += 1;
-                } while ((u32)var_r3_5 < (u32)boss->fillerBA[1]);
+            if (boss->unkBC[0] == 0) {
+                boss->unk1[0] = 0;
+                sub_808706C_inline(boss, 0);
             }
-            if ((u32)boss->unkBC[0] <= 0x77U) {
 
-            } else {
-                boss->unk4 = 0x3C;
-                boss->unk8 = 0x6E;
+            sub_878_8082E2C(boss, 3U);
+            break;
+        case 510:
+            if (--boss->unk4 == 0) {
+                boss->unk8 = 0;
             }
-            goto block_82;
-        case 0x6E: /* switch 1 */
-            temp_r0_19 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_19;
-            if ((temp_r0_19 << 0x10) != 0) {
-
-            } else {
-                boss->fillerE2[0] = 1;
-                var_r3_6 = 1;
-                do {
-                    (&boss->unkC4)[var_r3_6] = 0x78;
-                    temp_r0_20 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-                    gPseudoRandom = temp_r0_20;
-                    sp4 = var_r3_6;
-                    boss->strc10C[var_r3_6].unk10 = (s16) * ((((u32)temp_r0_20 % 10U) * 2) + &gUnknown_080D5D50);
-                    if (var_r3_6 == 2) {
-                        var_r1_3 = &boss->strc10C[2].unk14;
-                        var_r0 = 0x100;
-                    } else {
-                        var_r1_3 = &boss->strc10C[var_r3_6].unk14;
-                        var_r0 = 0x300;
-                    }
-                    *var_r1_3 = var_r0;
-                    boss->strc10C[var_r3_6].unk16 = 1;
-                    boss->strc10C[var_r3_6].unk12 = 0;
-                    var_r3_6 = (u32)(u8)(var_r3_6 + 1);
-                } while (var_r3_6 <= 2U);
-                boss->unk4 = 0x258;
-                boss->unk8 = 0xC8;
-            }
-            goto block_82;
+            sub_878_8082E2C(boss, 3U);
+            break;
     }
 }
+END_NONMATCH
 
+#if 01
+#else
 void sub_878_808439C(UltimateGemerl *boss)
 {
     Sprite *temp_r0_5;
@@ -1697,7 +1592,7 @@ void sub_878_808439C(UltimateGemerl *boss)
                 var_r3 = &boss->unkD4 + 0x14;
             } else {
                 boss->unkF = (u8)temp_r2_2;
-                boss->unk1 = (u8)temp_r2_2;
+                boss->unk1[0] = (u8)temp_r2_2;
                 var_r1_3 = 0;
                 var_r2 = (s32 *)&boss->fillerE2[2];
                 var_r3 = (s32 *)&boss->fillerE2[6];
@@ -1823,7 +1718,7 @@ void sub_878_808491C(UltimateGemerl *boss)
         case 0xD2:
             if (boss->unkEE != 0) {
                 boss->unkED = 0;
-                boss->unk1 = 0;
+                boss->unk1[0] = 0;
             }
             return;
         case 0x0:
@@ -2427,7 +2322,7 @@ void sub_878_80853D8(UltimateGemerl *boss)
 
 void sub_878_8085458(UltimateGemerl *boss)
 {
-    boss->unk1 = 5;
+    boss->unk1[0] = 5;
     boss->unk4 = 1;
     boss->unk8 = 0;
     if (0x2000 & gDispCnt) {
@@ -3982,7 +3877,7 @@ void Task_878_8086F48(UltimateGemerl *boss)
 {
     sub_878_8087174(boss);
     sub_878_808211C(boss);
-    *((boss->unk1 * 4) + &gUnknown_08E2ED50)(boss);
+    *((boss->unk1[0] * 4) + &gUnknown_08E2ED50)(boss);
     sub_878_80862D8(boss);
     sub_878_8084EB4(boss);
     sub_878_8082428(boss);
@@ -3994,7 +3889,7 @@ void Task_878_8086F48(UltimateGemerl *boss)
 void Task_878_8086FA4(UltimateGemerl *boss)
 {
     sub_878_808211C(boss);
-    *((boss->unk1 * 4) + &gUnknown_08E2ED50)(boss);
+    *((boss->unk1[0] * 4) + &gUnknown_08E2ED50)(boss);
     sub_878_8082388(boss);
     sub_878_8082D08(boss);
 }
@@ -4064,7 +3959,7 @@ void sub_878_80870B0(UltimateGemerl *boss)
 {
     u8 temp_r0;
 
-    boss->unk1 = *(boss->unkA + &gUnknown_080D5D18);
+    boss->unk1[0] = *(boss->unkA + &gUnknown_080D5D18);
     temp_r0 = boss->unkA + 1;
     boss->unkA = temp_r0;
     if ((u32)temp_r0 > 4U) {

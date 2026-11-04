@@ -16,8 +16,9 @@ typedef struct {
     /* 0x08 */ s32 unk8;
     /* 0x0C */ s32 unkC;
     /* 0x10 */ s16 unk10;
-    /* 0x12 */ u8 filler12[0x2];
+    /* 0x14 */ u16 unk12;
     /* 0x14 */ u16 unk14;
+    /* 0x16 */ u8 unk16;
 } UltimateGemerlSub10C; /* 0x18 */
 
 typedef struct {
@@ -29,9 +30,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 lives;
-    /* 0x001 */ u8 unk1;
-    /* 0x002 */ u8 unk2;
-    /* 0x003 */ u8 unk3;
+    /* 0x001 */ u8 unk1[3];
     /* 0x004 */ s16 unk4;
     /* 0x008 */ s16 ringCountdownDelay;
     /* 0x008 */ u16 unk8;
@@ -72,10 +71,7 @@ typedef struct {
     /* 0x0BB */ u8 unkBB;
     /* 0x0B4 */ u8 unkBC[7];
     /* 0x0C3 */ u8 unkC3;
-    /* 0x0C4 */ u8 unkC4;
-    /* 0x0C5 */ u8 unkC5;
-    /* 0x0C6 */ u8 unkC6;
-    /* 0x0C7 */ u8 fillerC7[5];
+    /* 0x0C4 */ u8 unkC4[7];
     /* 0x0CC */ u16 unkCC;
     /* 0x0CE */ u16 unkCE;
     /* 0x0D0 */ s32 unkD0;
