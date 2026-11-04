@@ -34,7 +34,7 @@ typedef struct {
     /* 0x003 */ u8 unk3;
     /* 0x004 */ s16 unk4;
     /* 0x008 */ s16 ringCountdownDelay;
-    /* 0x008 */ s16 unk8;
+    /* 0x008 */ u16 unk8;
     /* 0x00A */ u8 unkA;
     /* 0x00B */ u8 unkB;
     /* 0x00C */ u8 unkC;
@@ -91,7 +91,8 @@ typedef struct {
     /* 0x0BD */ u8 unkED;
     /* 0x0BE */ u8 unkEE;
     /* 0x0BF */ u8 unkEF;
-    /* 0x0BA */ u16 unkF0;
+    /* 0x0F0 */ u16 unkF0;
+    /* 0x0F2 */ u16 unkF2;
     /* 0x0F4 */ s32 qUnkF4;
     /* 0x0F8 */ s32 qUnkF8;
     /* 0x0F8 */ s32 unkFC;
@@ -162,9 +163,9 @@ void sub_878_80853D8(UltimateGemerl *boss);
 void sub_878_8085458(UltimateGemerl *boss);
 void sub_878_80854B8(UltimateGemerl *boss, u8 param1);
 void sub_8085588(u8 *param0, s16 param1);
-void sub_8085618(u16 param0, u16 param1, s16 param2);
-void unused_80856DC(u16 param0, u16 param1, s16 param2);
-void sub_808587C(u16 param0, u16 param1, s16 param2);
+void sub_8085618(u16 param0, u16 param1, s16 param2); // TODO: Smae type as sub_808587C?
+void unused_80856DC(u16 param0, u16 param1, s16 param2); // TODO: Smae type as sub_808587C?
+void sub_808587C(s16 param0, s16 param1, u16 param2);
 void sub_878_80862D8(UltimateGemerl *boss);
 void TaskDestructor_878_8086ED8(Task *t);
 void Task_878_8086F08(void);
