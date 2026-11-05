@@ -207,9 +207,11 @@ sBossExtraAnimsChaosEmeralds:
 gUnknown_080D5CD4:
     .incbin "baserom_sa3.gba", 0x000D5CD4, 0x38
 
-    .global gUnknown_080D5D0C
-gUnknown_080D5D0C:
-    .incbin "baserom_sa3.gba", 0x000D5D0C, 0xC
+    .global gAnimPatternBossExtraElectricSpark
+gAnimPatternBossExtraElectricSpark:
+    .short 0x504, 0 @ ANIM_BOSS_EXTRA_ELECTRIC_SPARK, 0
+    .short 0x504, 1 @ ANIM_BOSS_EXTRA_ELECTRIC_SPARK, 1
+    .short 0x504, 2 @ ANIM_BOSS_EXTRA_ELECTRIC_SPARK, 2
 
     .global gUnknown_080D5D18
 gUnknown_080D5D18:

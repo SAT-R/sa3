@@ -16,11 +16,26 @@
 void sub_80870E4(s32);
 void sub_808717C(UltimateGemerl *boss);
 void ExtraBoss_CreateMissile(UltimateGemerl *boss, u8 arg1);
+bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1);
+void sub_8087188(UltimateGemerl *arg0, s16 arg1, s16 arg2, u16 arg3);
+void BossExtra_CreateExplosion(u16 arg0, u16 arg1, u16 arg2, u16 arg3, s32 arg4, u8 *arg5);
 
 extern const u16 gUnknown_080D5D50[10];
 extern u8 gUnknown_080D5D64[0x80];
 extern u8 gUnknown_080D5DE4[0x80];
 extern const Vec2_32 gUnknown_080D5E64[4];
+extern const s32 gUnknown_080D5D20[4];
+extern void sa2__sub_8005FB4(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4);
+extern void sa2__sub_8007A08(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4);
+
+extern void sub_805602C(void);
+
+typedef struct {
+    AnimId anim;
+    u16 pattern;
+} AnimPattern;
+
+extern const AnimPattern gAnimPatternBossExtraElectricSpark[3];
 
 static inline void sub_808706C_inline(UltimateGemerl *boss, u8 handType)
 {
@@ -1445,11 +1460,84 @@ void sub_878_808439C(UltimateGemerl *boss)
     u8 var_r1_3;
     u8 var_r1_4;
 
-    var_r8 = saved_reg_r8;
-    var_sb = saved_reg_r9;
+    //    var_r8 = saved_reg_r8;
+    //    var_sb = saved_reg_r9;
     temp_r3 = (u16)boss->unk8;
-    switch (temp_r3) { /* irregular */
-        case 0x12C:
+    switch (temp_r3) {
+        case 0x0:
+            temp_r0_6 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
+            gPseudoRandom = temp_r0_6;
+            boss->unkE2 = temp_r0_6 & 1;
+            boss->unkD0 = 0x7800;
+            boss->unkD4 = (s32)temp_r3;
+            boss->unkD8 = (s32)temp_r3;
+            boss->strc10C[2].unk8 = 0x200;
+            boss->unkE4 = (s32)temp_r3;
+            boss->unkE8 = (s32)temp_r3;
+            boss->unk4 = (s16)temp_r3;
+            boss->unk8 = 0x64;
+            m4aSongNumStart(0x239U);
+            var_r1_4 = 0;
+            do {
+                temp_r0_7 = &boss->spr3B4[var_r1_4];
+                temp_r0_7->anim = 0x4FE;
+                temp_r0_7->variant = 0;
+                var_r1_4 += 1;
+            } while ((u32)var_r1_4 <= 3U);
+            break;
+        case 10:
+            temp_r0_8 = (u16)boss->unk4 - 1;
+            boss->unk4 = temp_r0_8;
+            if ((temp_r0_8 << 0x10) != 0) {
+                return;
+            }
+            boss->unkE2 ^= 1;
+            boss->unk8 = 100;
+            break;
+        case 100:
+            var_r1_5 = 1;
+            if (boss->unkE2 != 0) {
+                var_r1_5 = 2;
+            }
+            temp_r2_3 = &boss->unkD0 + (var_r1_5 * 4);
+            temp_r1_3 = *temp_r2_3;
+            if ((s32)boss->unkD0 > temp_r1_3) {
+                *temp_r2_3 = temp_r1_3 + boss->strc10C[2].unk8;
+            } else {
+                m4aSongNumStart(0x239U);
+                boss->unk8 = 110;
+            }
+            temp_r1_4 = &boss->unkE4 + ((var_r1_5 - 1) * 4);
+            *temp_r1_4 += 0x180;
+            sub_878_8082E2C(boss, 4U);
+            break;
+        case 110:
+            var_r1_2 = 2;
+            if (boss->unkE2 != 0) {
+                var_r1_2 = 1;
+            }
+            temp_r2 = &boss->unkD0 + (var_r1_2 * 4);
+            temp_r1 = *temp_r2;
+            if ((s32)boss->unkD0 > temp_r1) {
+                *temp_r2 = temp_r1 + boss->strc10C[2].unk8;
+            } else {
+                boss->unk4 = 0x3C;
+                boss->unk8 = 200;
+            }
+            temp_r1_2 = &boss->unkE4 + ((var_r1_2 - 1) * 4);
+            *temp_r1_2 += 0x180;
+            sub_878_8082E2C(boss, 4U);
+            break;
+        case 200:
+            temp_r0_3 = (u16)boss->unk4 - 1;
+            boss->unk4 = temp_r0_3;
+            if ((temp_r0_3 << 0x10) == 0) {
+                sub_8078DB0(0x505, 0, 0x21C, 1U);
+                boss->unk8 = 300;
+            }
+            sub_878_8082E2C(boss, 4U);
+            break;
+        case 300:
             gDispCnt |= 0x2100;
             gWinRegs[0] = 0xF0;
             gWinRegs[2] = 0xA0;
@@ -1459,27 +1547,26 @@ void sub_878_808439C(UltimateGemerl *boss)
             gBldRegs.bldAlpha = 0xC0C;
             gBldRegs.bldY = 0xC;
             boss->unkF = 1;
-            boss->spr814.anim = gUnknown_080D5D0C.unk0;
-            boss->spr814.variant = (u8)gUnknown_080D5D0C.unk2;
+            boss->spr814.anim = gAnimPatternBossExtraElectricSpark[0].anim;
+            boss->spr814.variant = gAnimPatternBossExtraElectricSpark[0].pattern;
             boss->spr814.prevVariant = 0xFF;
             boss->unkCC = 0;
             m4aSongNumStart(0x23EU);
             boss->unk8 = 0x14A;
+            /* fallthrough */
+        case 0x14A:
         block_48:
             temp_r0 = boss->unkCC + 4;
             boss->unkCC = temp_r0;
             if ((u32)temp_r0 > 0xFFU) {
-                if (boss->fillerE2[0] == 0) {
-                    var_r0 = 5;
-                    var_r1 = &boss->unkCC + 0x21;
+                if (boss->unkE2 == 0) {
+                    boss->unkED = 5;
                 } else {
-                    var_r0 = 6;
-                    var_r1 = &boss->unkED;
+                    boss->unkED = 6;
                 }
-                *var_r1 = var_r0;
                 boss->unk4 = 0xB4;
-                boss->spr814.anim = gUnknown_080D5D0C.unk4;
-                boss->spr814.variant = (u8)gUnknown_080D5D0C.unk6;
+                boss->spr814.anim = gAnimPatternBossExtraElectricSpark[1].anim;
+                boss->spr814.variant = (u8)gAnimPatternBossExtraElectricSpark[1].pattern;
                 boss->spr814.prevVariant = 0xFF;
                 boss->unk8 = 0x154;
             }
@@ -1495,47 +1582,32 @@ void sub_878_808439C(UltimateGemerl *boss)
             sub_8087188(boss, temp_r4, var_r5, temp_r6);
             sub_878_8082E2C(boss, 4U);
             var_r6 = (s16)temp_r0_2;
-        block_62:
             gBgScrollRegs[0][0] = 0x158 - var_r6;
             gBgScrollRegs[0][1] = 0x18 - var_r5;
-            return;
-        case 0x6E:
-            var_r1_2 = 2;
-            if (boss->fillerE2[0] != 0) {
-                var_r1_2 = 1;
+            break;
+        case 0x154:
+            if (boss->unkEE != 0) {
+                boss->unkED = 4;
+                boss->unk8 = 0x15E;
             }
-            temp_r2 = &boss->fillerCE[2] + (var_r1_2 * 4);
-            temp_r1 = *temp_r2;
-            if ((s32)boss->unkD0 > temp_r1) {
-                *temp_r2 = temp_r1 + boss->strc10C[2].unk8;
-            } else {
-                boss->unk4 = 0x3C;
-                boss->unk8 = 0xC8;
-            }
-            temp_r1_2 = &boss->fillerE2[2] + ((var_r1_2 - 1) * 4);
-            *temp_r1_2 += 0x180;
-        block_46:
+            temp_r4_2 = I(boss->qUnk9C) - gCamera.x;
+            var_r6 = temp_r4_2;
+            temp_r4_3 = var_r6 - 88;
+            var_r5 = I(boss->qUnkA0) - gCamera.y;
+            sub_8085618((u16)temp_r4_3, (u16)var_r5, 0x18);
+            sub_8087188(boss, temp_r4_3, var_r5, 0x18);
             sub_878_8082E2C(boss, 4U);
-            return;
-        case 0xC8:
-            temp_r0_3 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) == 0) {
-                sub_8078DB0(0x505, 0, 0x21C, 1U);
-                boss->unk8 = 0x12C;
-            }
-            goto block_46;
+            gBgScrollRegs[0][0] = 0x158 - var_r6;
+            gBgScrollRegs[0][1] = 0x18 - var_r5;
+            break;
         case 0x15E:
             if (boss->unkEE != 0) {
                 boss->unkED = 0;
-                boss->spr814.anim = gUnknown_080D5D0C.unk0;
-                boss->spr814.variant = (u8)gUnknown_080D5D0C.unk2;
+                boss->spr814.anim = gAnimPatternBossExtraElectricSpark[0].anim;
+                boss->spr814.variant = (u8)gAnimPatternBossExtraElectricSpark[0].pattern;
                 boss->spr814.prevVariant = 0xFF;
-                var_r0_3 = 0x168;
-            block_60:
-                boss->unk8 = var_r0_3;
+                boss->unk8 = 0x168;
             }
-        block_61:
             temp_r4_2 = ((s32)boss->qUnk9C >> 8) - gCamera.x;
             var_r6 = temp_r4_2;
             temp_r4_3 = (s32)((temp_r4_2 << 0x10) + 0xFFA80000) >> 0x10;
@@ -1543,16 +1615,9 @@ void sub_878_808439C(UltimateGemerl *boss)
             sub_8085618((u16)temp_r4_3, (u16)var_r5, 0x18);
             sub_8087188(boss, temp_r4_3, var_r5, 0x18);
             sub_878_8082E2C(boss, 4U);
-            goto block_62;
-        case 0x14A:
-            goto block_48;
-        case 0x154:
-            if (boss->unkEE != 0) {
-                boss->unkED = 4;
-                var_r0_3 = 0x15E;
-                goto block_60;
-            }
-            goto block_61;
+            gBgScrollRegs[0][0] = 0x158 - var_r6;
+            gBgScrollRegs[0][1] = 0x18 - var_r5;
+            break;
         case 0x168:
             temp_r0_4 = boss->unkCC - 4;
             boss->unkCC = temp_r0_4;
@@ -1565,8 +1630,8 @@ void sub_878_808439C(UltimateGemerl *boss)
                 gBldRegs.bldAlpha = temp_r3_2;
                 gBldRegs.bldY = temp_r3_2;
                 gFlags &= ~4;
-                boss->spr814.anim = gUnknown_080D5D0C.unk8;
-                boss->spr814.variant = (u8)gUnknown_080D5D0C.unkA;
+                boss->spr814.anim = gAnimPatternBossExtraElectricSpark[2].anim;
+                boss->spr814.variant = (u8)gAnimPatternBossExtraElectricSpark[2].pattern;
                 boss->spr814.prevVariant = 0xFF;
                 boss->unk8 = 0x1F4;
             }
@@ -1586,20 +1651,20 @@ void sub_878_808439C(UltimateGemerl *boss)
             sub_878_8082E2C(boss, 4U);
             gBgScrollRegs[0][0] = 0x158 - (s16)var_r8;
             gBgScrollRegs[0][1] = 0x18 - (s16)var_sb;
-            return;
+            break;
         case 0x1F4:
             temp_r2_2 = boss->unkD4;
             if (temp_r2_2 != 0) {
                 boss->unkD4 = temp_r2_2 - boss->strc10C[2].unk8;
                 boss->unkD8 -= boss->strc10C[2].unk8;
-                var_r2 = &boss->unkD8 + 0xC;
-                var_r3 = &boss->unkD4 + 0x14;
+                var_r2 = &boss->unkE4;
+                var_r3 = &boss->unkE8;
             } else {
                 boss->unkF = (u8)temp_r2_2;
                 boss->unk1[0] = (u8)temp_r2_2;
                 var_r1_3 = 0;
-                var_r2 = (s32 *)&boss->fillerE2[2];
-                var_r3 = (s32 *)&boss->fillerE2[6];
+                var_r2 = (s32 *)&boss->unkE4;
+                var_r3 = (s32 *)&boss->unkE8;
                 do {
                     temp_r0_5 = &boss->spr3B4[var_r1_3];
                     temp_r0_5->anim = 0x4FE;
@@ -1610,53 +1675,7 @@ void sub_878_808439C(UltimateGemerl *boss)
             *var_r2 += 0xFFFFFE80;
             *var_r3 += 0xFFFFFE80;
             sub_878_8082E2C(boss, 4U);
-            return;
-        case 0x0:
-            temp_r0_6 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-            gPseudoRandom = temp_r0_6;
-            boss->fillerE2[0] = temp_r0_6 & 1;
-            *(boss->fillerE2 - 0x12) = 0x7800;
-            boss->unkD4 = (s32)temp_r3;
-            boss->unkD8 = (s32)temp_r3;
-            boss->strc10C[2].unk8 = 0x200;
-            boss->unkE4 = (s32)temp_r3;
-            boss->unkE8 = (s32)temp_r3;
-            boss->unk4 = (s16)temp_r3;
-            boss->unk8 = 0x64;
-            m4aSongNumStart(0x239U);
-            var_r1_4 = 0;
-            do {
-                temp_r0_7 = &boss->spr3B4[var_r1_4];
-                temp_r0_7->anim = 0x4FE;
-                temp_r0_7->variant = 0;
-                var_r1_4 += 1;
-            } while ((u32)var_r1_4 <= 3U);
-            return;
-        case 0xA:
-            temp_r0_8 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_8;
-            if ((temp_r0_8 << 0x10) != 0) {
-                return;
-            }
-            boss->fillerE2[0] ^= 1;
-            boss->unk8 = 0x64;
-            return;
-        case 0x64:
-            var_r1_5 = 1;
-            if (boss->fillerE2[0] != 0) {
-                var_r1_5 = 2;
-            }
-            temp_r2_3 = &boss->fillerCE[2] + (var_r1_5 * 4);
-            temp_r1_3 = *temp_r2_3;
-            if ((s32)boss->unkD0 > temp_r1_3) {
-                *temp_r2_3 = temp_r1_3 + boss->strc10C[2].unk8;
-            } else {
-                m4aSongNumStart(0x239U);
-                boss->unk8 = 0x6E;
-            }
-            temp_r1_4 = &boss->fillerE2[2] + ((var_r1_5 - 1) * 4);
-            *temp_r1_4 += 0x180;
-            goto block_46;
+            break;
     }
 }
 
@@ -1682,62 +1701,20 @@ void sub_878_808491C(UltimateGemerl *boss)
     void *temp_r1;
 
     temp_r2 = (u16)boss->unk8;
-    switch (temp_r2) { /* irregular */
-        case 0xC8:
-            boss->unkED = 2;
-            boss->unk8 = 0xD2;
-            return;
-        case 0x6E:
-            temp_r0 = boss->fillerBA[1];
-            if (temp_r0 != 0) {
-                temp_r1 = boss + temp_r0;
-                temp_r0_2 = temp_r1->unkBB - 1;
-                temp_r1->unkBB = temp_r0_2;
-                if ((temp_r0_2 << 0x18) == 0) {
-                    boss->fillerBA[1] -= 1;
-                }
-            }
-            temp_r0_3 = (boss->unk100 - gUnknown_080D5D20.unk8) & 0x3FFFF;
-            boss->unk100 = temp_r0_3;
-            boss->rotation = (u16)(temp_r0_3 >> 8);
-            temp_r0_4 = boss->unk104 - gUnknown_080D5D20.unk8;
-            boss->unk104 = temp_r0_4;
-            if (temp_r0_4 <= 0) {
-                boss->rotation = 0;
-                m4aSongNumStop(0x214U);
-                var_r1 = 0;
-                do {
-                    temp_r0_5 = &boss->spr3B4[var_r1];
-                    temp_r0_5->anim = 0x4FE;
-                    temp_r0_5->variant = 1;
-                    var_r1 += 1;
-                } while ((u32)var_r1 <= 3U);
-                var_r0 = 0xC8;
-            block_36:
-                boss->unk8 = var_r0;
-            }
-        block_37:
-            sub_878_8082E2C(boss, 5U);
-            return;
-        case 0xD2:
-            if (boss->unkEE != 0) {
-                boss->unkED = 0;
-                boss->unk1[0] = 0;
-            }
-            return;
+    switch (temp_r2) {
         case 0x0:
             boss->rotation = temp_r2;
-            boss->fillerBA[0] = 0;
-            (&boss->rotation + 2)->unk1 = 0;
-            var_r1_2 = 0;
-            do {
+            boss->unkBA = 0;
+            boss->unkBB = 0;
+
+            for (var_r1_2 = 0; var_r1_2 < 7; var_r1_2++) {
                 boss->unkBC[var_r1_2] = 0;
-                var_r1_2 += 1;
-            } while ((u32)var_r1_2 <= 6U);
+            }
+
             boss->unkED = 1;
             boss->unk4 = 0;
             boss->unk8 = 0xA;
-            return;
+            break;
         case 0xA:
             if (boss->unkEE == 0) {
                 return;
@@ -1754,33 +1731,67 @@ void sub_878_808491C(UltimateGemerl *boss)
                 var_r1_3 += 1;
             } while ((u32)var_r1_3 <= 3U);
             boss->unk8 = 0x64;
-            return;
+            break;
         case 0x64:
-            if ((u32)boss->fillerBA[1] <= 5U) {
-                temp_r1_2 = &boss->unkBC[boss->fillerBA[1]];
+            if (boss->unkBB <= 5U) {
+                temp_r1_2 = &boss->unkBC[boss->unkBB];
                 temp_r0_7 = *temp_r1_2 + 1;
                 *temp_r1_2 = temp_r0_7;
                 if ((u32)temp_r0_7 > 0x17U) {
-                    boss->fillerBA[1] += 1;
+                    boss->unkBB += 1;
                 }
             }
             boss->unk4 = (u16)boss->unk4 + 1;
-            var_r0_2 = (s32)boss->unk104 >> 8;
-            if (var_r0_2 < 0) {
-                var_r0_2 += 0x3FF;
-            }
-            temp_r3 = *(((u32)((var_r0_2 >> 0xA) << 0x18) >> 0x16) + &gUnknown_080D5D20);
+            var_r0_2 = I(boss->unk104) / 0x400;
+            temp_r3 = gUnknown_080D5D20[var_r0_2 >> 2];
             temp_r1_3 = (boss->unk100 - temp_r3) & 0x3FFFF;
             boss->unk100 = temp_r1_3;
             boss->rotation = (u16)(temp_r1_3 >> 8);
             temp_r1_4 = boss->unk104 + temp_r3;
             boss->unk104 = temp_r1_4;
-            if (temp_r1_4 > 0xBFFFF) {
+            if (boss->unk104 >= 0xC0000) {
                 boss->unk104 = (s32)(temp_r1_4 + 0xFFF80000);
                 var_r0 = 0x6E;
-                goto block_36;
+                boss->unk8 = var_r0;
             }
-            goto block_37;
+            sub_878_8082E2C(boss, 5U);
+            break;
+        case 110:
+            if (boss->unkBB != 0) {
+                if (--boss->unkBB == 0) {
+                    boss->unkBB -= 1;
+                }
+            }
+            boss->unk100 = (boss->unk100 - gUnknown_080D5D20[2]) & 0x3FFFF;
+            boss->rotation = I(boss->unk100);
+            temp_r0_4 = boss->unk104 - gUnknown_080D5D20[2];
+            boss->unk104 = temp_r0_4;
+            if (temp_r0_4 <= 0) {
+                boss->rotation = 0;
+                m4aSongNumStop(0x214U);
+                var_r1 = 0;
+                do {
+                    temp_r0_5 = &boss->spr3B4[var_r1];
+                    temp_r0_5->anim = 0x4FE;
+                    temp_r0_5->variant = 1;
+                    var_r1 += 1;
+                } while ((u32)var_r1 <= 3U);
+                var_r0 = 0xC8;
+                boss->unk8 = var_r0;
+            }
+        block_37:
+            sub_878_8082E2C(boss, 5U);
+            break;
+        case 200:
+            boss->unkED = 2;
+            boss->unk8 = 0xD2;
+            break;
+        case 0xD2:
+            if (boss->unkEE != 0) {
+                boss->unkED = 0;
+                boss->unk1[0] = 0;
+            }
+            return;
     }
 }
 
@@ -1798,7 +1809,6 @@ void sub_878_8084B2C(UltimateGemerl *boss)
         case 0x0:
             boss->unk4 = 0xF0;
             var_r0 = 0xA;
-        block_16:
             boss->unk8 = var_r0;
             break;
         case 0xA:
@@ -1807,7 +1817,7 @@ void sub_878_8084B2C(UltimateGemerl *boss)
             if ((temp_r0_2 << 0x10) == 0) {
                 boss->unk4 = 0x78;
                 var_r0 = 0x64;
-                goto block_16;
+                boss->unk8 = var_r0;
             }
             break;
         case 0x64:
@@ -1819,12 +1829,11 @@ void sub_878_8084B2C(UltimateGemerl *boss)
             if ((temp_r0_3 << 0x10) == 0) {
                 boss->unk4 = 0xB4;
                 boss->unkED = 8;
-                temp_r1 = &boss->unkED - 0x49;
-                temp_r1->unk0 = 0xFFFFFE00;
-                temp_r1->unk4 = 0xFFFFFF00;
-                (temp_r1 + 4)->unk47 = 0x96;
+                boss->unkA4 = -Q(2);
+                boss->unkA8 = -Q(1);
+                boss->unkEF = 0x96; // inline?
                 var_r0 = 0xC8;
-                goto block_16;
+                boss->unk8 = var_r0;
             }
             break;
         case 0xC8:
@@ -1835,7 +1844,7 @@ void sub_878_8084B2C(UltimateGemerl *boss)
                 boss->unkED = 0;
                 boss->unk12 = 0xBB8;
                 var_r0 = 0x12C;
-                goto block_16;
+                boss->unk8 = var_r0;
             }
             break;
     }
@@ -1884,12 +1893,9 @@ void sub_878_8084C50(UltimateGemerl *boss)
     s32 temp_r1_6;
     s32 temp_r1_7;
     s32 temp_r2;
-    u16 temp_r0;
-    u16 temp_r1;
+    AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(boss->taskCutscene);
 
-    temp_r1 = boss->taskCutscene->data;
-    temp_r0 = (u16)boss->unk8;
-    switch (temp_r0) { /* irregular */
+    switch (boss->unk8) { /* irregular */
         case 0xA0:
             temp_r0_2 = boss->unkE4;
             if (temp_r0_2 != 0) {
@@ -1900,12 +1906,11 @@ void sub_878_8084C50(UltimateGemerl *boss)
                 }
             }
             temp_r2 = boss->unkE8;
-            if ((temp_r2 >> 8) != 0x2C0) {
-                boss->unkE8 = (s32)(temp_r2 + 0xFFFFFF00);
+            if (I(boss->unkE8) != 0x2C0) {
+                boss->unkE8 -= Q(1);
             }
-            temp_r1_2 = boss->unkD4 + boss->strc10C[2].unk8;
-            boss->unkD4 = temp_r1_2;
-            if (temp_r1_2 <= 0) {
+            boss->unkD4 += boss->strc10C[2].unk8;
+            if (boss->unkD4 <= 0) {
                 boss->unkD4 = 0;
                 boss->unk4 = 0x3C;
                 var_r0 = 0xC8;
@@ -1949,7 +1954,7 @@ void sub_878_8084C50(UltimateGemerl *boss)
             }
             break;
         case 0xDC:
-            gCurTask->main = (void (*)())Task_878_CallDestroy;
+            gCurTask->main = Task_878_CallDestroy;
             var_r0_2 = 0x3E8;
             goto block_59;
         case 0x0:
@@ -1978,7 +1983,7 @@ void sub_878_8084C50(UltimateGemerl *boss)
             if ((s32)boss->unkD0 > temp_r1_4) {
                 boss->unkD4 = temp_r1_4 + boss->strc10C[2].unk8;
             } else {
-                temp_r1->unk2C = 0x42E;
+                sceneEggman->unk14[0].unk18 = 0x42E;
                 boss->unk4 = 0x3C;
                 boss->unk8 = 0x78;
             }
@@ -1996,25 +2001,23 @@ void sub_878_8084C50(UltimateGemerl *boss)
             temp_r1_5 = boss->unkE8 + 0xFFFFFE00;
             boss->unkE8 = temp_r1_5;
             if ((s32)(temp_r1_5 >> 8) <= 0x2E0) {
-                temp_r1->unk2C = 0x438;
+                sceneEggman->unk14[0].unk18 = 0x438;
                 var_r0_3 = 0x8C;
             block_41:
                 boss->unk8 = var_r0_3;
             }
         block_42:
             sub_878_8082E2C(boss, 6U);
-            temp_r1_6 = boss->strc10C[2].qWorldX;
-            temp_r1->unk14 = temp_r1_6;
-            temp_r0_9 = boss->strc10C[2].qWorldY;
-            temp_r1->unk18 = temp_r0_9;
-            temp_r1->unk30 = temp_r1_6;
-            temp_r1->unk34 = temp_r0_9;
+            sceneEggman->unk14[0].qWorld.x = boss->strc10C[2].qWorldX;
+            sceneEggman->unk14[0].qWorld.y = boss->strc10C[2].qWorldY;
+            sceneEggman->unk14[1].qWorld.x = sceneEggman->unk14[0].qWorld.x;
+            sceneEggman->unk14[1].qWorld.y = sceneEggman->unk14[0].qWorld.y;
             return;
         case 0x8C:
             temp_r1_7 = boss->unkE4 + 0xFFFFF800;
             boss->unkE4 = temp_r1_7;
             if (temp_r1_7 <= 0xFFFF9600) {
-                temp_r1->unk2C = 0x44C;
+                sceneEggman->unk14[0].unk18 = 0x44C;
                 boss->unk4 = 0x78;
                 var_r0_3 = 0x96;
                 goto block_41;
@@ -2071,22 +2074,18 @@ void sub_878_8084EB4(UltimateGemerl *boss)
             return;
             return;
         case 0x3E8:
-            temp_r0_3 = (u16)boss->unk10 - 1;
-            boss->unk10 = temp_r0_3;
-            temp_r4 = temp_r0_3;
-            if (temp_r4 != 0) {
-                return;
+            if (--boss->unk10 == 0) {
+                VramFree(boss->vram1C);
+                VramFree(boss->vram20);
+                boss->vram1C = NULL;
+                boss->vram20 = NULL;
+                boss->vram24 = VramMalloc(0x74U);
+                sub_878_80851FC(boss, 1U);
+                m4aSongNumStart(0x221U);
+                boss->unk10 = 0xF;
+                boss->unk12 = 0x3F2;
             }
-            VramFree(boss->vram1C);
-            VramFree(boss->vram20);
-            boss->vram1C = (u8 *)temp_r4;
-            boss->vram20 = (u8 *)temp_r4;
-            boss->vram24 = VramMalloc(0x74U);
-            sub_878_80851FC(boss, 1U);
-            m4aSongNumStart(0x221U);
-            boss->unk10 = 0xF;
-            boss->unk12 = 0x3F2;
-            return;
+            break;
         case 0xBB8:
             gBldRegs.bldCnt = 0x3FBF;
             gBldRegs.bldAlpha = 8;
@@ -2113,9 +2112,9 @@ void sub_878_8084EB4(UltimateGemerl *boss)
                 temp_r0_6 = (0x196225 * temp_r0_5) + 0x3C6EF35F;
                 gPseudoRandom = temp_r0_6;
                 temp_r0_7 = (u32)temp_r0_6 % 48U;
-                BossExtra_CreateExplosion((s32)((boss->qUnk9C + ((u32)(temp_r0_7 * gSineTable[temp_r4_2 + 0x100]) >> 6)) << 8) >> 0x10,
-                                          (s32)((boss->qUnkA0 + ((u32)(temp_r0_7 * gSineTable[temp_r4_2]) >> 6)) << 8) >> 0x10, 0x300U,
-                                          temp_r4_2, 0x1E, boss->vram24);
+                BossExtra_CreateExplosion((s32)((boss->qUnk9C + ((u32)(temp_r0_7 * COS(temp_r4_2)) >> 6)) << 8) >> 0x10,
+                                          (s32)((boss->qUnkA0 + ((u32)(temp_r0_7 * SIN(temp_r4_2)) >> 6)) << 8) >> 0x10, 0x300U, temp_r4_2,
+                                          0x1E, boss->vram24);
             }
             temp_r0_8 = (u16)boss->unk10 + 1;
             boss->unk10 = temp_r0_8;
@@ -2144,67 +2143,55 @@ void sub_878_8084EB4(UltimateGemerl *boss)
             var_r0 = 0x1392;
             goto block_70;
         case 0x0:
-            if ((sub_878_80867FC(boss, 0U) << 0x18) == 0) {
-                return;
+            if (sub_878_80867FC(boss, 0U)) {
+                sub_878_80854B8(boss, 0U);
             }
-            sub_878_80854B8(boss, 0U);
             return;
         case 0xA:
-            temp_r0_11 = (u16)boss->unk10 - 1;
-            boss->unk10 = temp_r0_11;
-            temp_r2 = temp_r0_11;
-            if (temp_r2 != 0) {
-                if ((sub_878_80867FC(boss, 1U) << 0x18) == 0) {
-                    return;
-                }
-                sub_878_80854B8(boss, 1U);
-                return;
-            }
-            boss->unkEF = 0x64;
-            boss->unk12 = temp_r2;
-            return;
-        case 0x64:
-            temp_r0_12 = boss->unk14 - 1;
-            boss->unk14 = temp_r0_12;
-            temp_r1_2 = (s16)temp_r0_12;
-            if (temp_r1_2 != 0) {
-                return;
-            }
-            if (boss->lives != 0) {
-                temp_r0_13 = (u16)boss->unk10 - 0x78;
-                boss->unk10 = temp_r0_13;
-                if ((s32)(temp_r0_13 << 0x10) <= 0) {
-                    boss->unk10 = temp_r1_2;
-                    boss->unk12 = temp_r1_2;
-                } else {
-                    boss->unk12 = 0xA;
+            if (--boss->unk10 == 0) {
+                if (sub_878_80867FC(boss, 1U)) {
+                    sub_878_80854B8(boss, 1U);
                 }
             } else {
-                if (gStageData.gameMode == 5) {
-                    if (gStageData.playerIndex != 0) {
-                        var_r0_2 = 0x6E;
+                boss->unkEF = 0x64;
+                boss->unk12 = temp_r2;
+            }
+            break;
+        case 0x64:
+            if (--boss->rotation == 0) {
+                if (boss->lives != 0) {
+                    if (--boss->unk10 <= 0) {
+                        boss->unk10 = 0;
+                        boss->unk12 = 0;
                     } else {
-                        sub_8027674(1U, 0U);
-                        goto block_44;
+                        boss->unk12 = 0xA;
                     }
                 } else {
-                block_44:
-                    sub_878_8085458(boss);
-                    boss->unk10 = 0x78;
-                    var_r0_2 = 0x3E8;
+                    if (gStageData.gameMode == 5) {
+                        if (gStageData.playerIndex != 0) {
+                            boss->unk12 = 0x6E;
+                        } else {
+                            sub_8027674(1U, 0U);
+                            goto block_44;
+                        }
+                    } else {
+                    block_44:
+                        sub_878_8085458(boss);
+                        boss->unk10 = 120;
+                        boss->unk12 = 0x3E8;
+                    }
+                    boss->players[0]->unk48 = 1;
+                    boss->players[1]->unk48 = 1;
+                    temp_r1_3 = boss->players[0];
+                    temp_r1_3->moveState |= 0x08000000;
+                    temp_r1_4 = boss->players[1];
+                    temp_r1_4->moveState |= 0x08000000;
                 }
-                boss->unk12 = var_r0_2;
-                boss->players[0]->unk48 = 1;
-                boss->players[1]->unk48 = 1;
-                temp_r1_3 = boss->players[0];
-                temp_r1_3->moveState |= 0x08000000;
-                temp_r1_4 = boss->players[1];
-                temp_r1_4->moveState |= 0x08000000;
+                if ((u16)boss->unk12 == 0xA) {
+                    return;
+                }
+                boss->unkEF = 0x64; // inline
             }
-            if ((u16)boss->unk12 == 0xA) {
-                return;
-            }
-            boss->unkEF = 0x64;
             return;
     }
 }
@@ -2252,20 +2239,17 @@ void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
                 if (var_r0_2 < 0) {
                     var_r0_2 += 0x3F;
                 }
-                temp_r1_2 = (temp_r7 * 0x14) + (var_sb * 0x78);
-                temp_r0 = boss->strc16C[0] + temp_r1_2;
-                temp_r4 = *temp_r0;
+                temp_r4 = boss->strc16C[var_sb][temp_r7].qWorldX;
                 if (temp_r4 == *sp14) {
                     temp_r3 = &boss->strc16C[0][0].qWorldY + temp_r1_2;
                     if (*temp_r3 == boss->qUnkA0) {
-                        *temp_r0 = temp_r4 + spC;
-                        *temp_r3 = boss->qUnkA0 + (var_r0_2 >> 6);
+                        boss->strc16C[var_sb][temp_r7].qWorldX = temp_r4 + spC;
+                        boss->strc16C[var_sb][temp_r7].qWorldY = boss->qUnkA0 + (var_r0_2 >> 6);
                     }
                 }
-                temp_r4_2 = (temp_r7 * 0x14) + (var_sb * 0x78);
-                BossExtra_CreateExplosion((s32)(*(boss->strc16C[0] + temp_r4_2) << 8) >> 0x10,
-                                          (s32)(*(&boss->strc16C[0][0].qWorldY + temp_r4_2) << 8) >> 0x10, 0x200U, 0U, 0x1E, boss->vram24);
-                (boss + temp_r4_2)->unk17C = 0;
+                BossExtra_CreateExplosion(I(boss->strc16C[var_sb][temp_r7].qWorldX), I(boss->strc16C[var_sb][temp_r7].qWorldY), 0x200U, 0U,
+                                          0x1E, boss->vram24);
+                boss->strc16C[var_sb][temp_r7].unk10 = 0;
                 var_sb += 1;
                 sp8 = (s32)(u16)(sp8 + 0x100);
             } while ((u32)var_sb <= 3U);
@@ -2291,7 +2275,7 @@ void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
         var_r7 = 0;
         temp_r5_2 = var_sb_3 * 0x10;
     loop_5:
-        (boss + ((var_r7 * 0x14) + (var_sb_3 * 0x78)))->unk17C = 1;
+        boss->strc16C[var_sb][temp_r7].unk10 = 1;
         var_r7 += 1;
         if ((u32)var_r7 <= 5U) {
             goto loop_5;
@@ -2348,7 +2332,7 @@ void sub_878_80854B8(UltimateGemerl *boss, u8 param1)
     u8 var_r0;
 
     if ((param1 << 0x18) == 0) {
-        boss->unk10 = (s16)boss->unk5A;
+        boss->unk10 = boss->unk5A;
         boss->unkEF = 0x32;
         boss->unk12 = 0xA;
         m4aSongNumStart(0x244U);
@@ -2386,12 +2370,12 @@ void sub_878_80854B8(UltimateGemerl *boss, u8 param1)
     }
 }
 
-void sub_8085588(u8 *param0, s16 param1, UltimateGemerl *boss)
+void sub_8085588(u8 *param0, s16 param1)
 {
     u32 temp_r0;
+    UltimateGemerl *boss = TASK_DATA(gStageData.taskBoss);
 
-    *NULL = &gStageData.taskBoss;
-    temp_r0 = (0x7F & param0->unk2) - 1;
+    temp_r0 = (0x7F & param0[2]) - 1;
     switch (temp_r0) {
         case 0:
             boss->lives = 0;
@@ -2401,7 +2385,7 @@ void sub_8085588(u8 *param0, s16 param1, UltimateGemerl *boss)
             return;
         case 2:
         case 3:
-            if (boss->lives != (u8)(param0->unk3 | (param0->unk4 << 8))) {
+            if (boss->lives != (u8)(param0[3] | (param0[4] << 8))) {
                 sub_878_80854B8(boss, 1U);
                 return;
             }
@@ -2425,25 +2409,18 @@ void sub_8085618(u16 param0, u16 param1, s16 param2)
     u16 temp_r0_2;
     u16 var_r1;
     u16 var_r2;
-    u16 var_r4;
 
-    var_r4 = (u16)param2;
+    // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        sp4 = 0;
-        (void *)0x040000D4->unk0 = &sp4;
-        (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        sp4 = 0;
-        (void *)0x040000D4->unk0 = &sp4;
-        (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
-    if (var_r4 == 0) {
-        var_r4 = 1;
+    if (param2 == 0) {
+        param2 = 1;
     }
     temp_r3 = (s16)param1;
-    temp_r1 = (s16)var_r4;
+    temp_r1 = (s16)param2;
     temp_r0 = temp_r3 - temp_r1;
     var_r2 = temp_r0;
     if ((s32)(temp_r0 << 0x10) < 0) {
@@ -2454,11 +2431,11 @@ void sub_8085618(u16 param0, u16 param1, s16 param2)
     if ((s32)(s16)temp_r0_2 > 0xA0) {
         var_r1 = 0xA0;
     }
-    if (((s32)(s16)var_r2 > 0x9F) || ((s32)(var_r1 << 0x10) <= 0)) {
+    if ((var_r2 > 0x9F) || ((s32)(var_r1 << 0x10) <= 0)) {
         gFlags |= 4;
         return;
     }
-    sa2__sub_8007A08(0, 0U, (u8)var_r2, (u8)param0, (s32)(u8)var_r1);
+    SA2_LABEL(sub_8007A08)(0, 0U, var_r2, param0, (s32)(u8)var_r1);
 }
 
 void unused_80856DC(u16 param0, u16 param1, s16 param2)
@@ -2473,16 +2450,11 @@ void unused_80856DC(u16 param0, u16 param1, s16 param2)
     u16 var_r2_2;
 
     var_r2 = (u16)param2;
+    // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        sp8 = 0;
-        (void *)0x040000D4->unk0 = &sp8;
-        (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        sp8 = 0;
-        (void *)0x040000D4->unk0 = &sp8;
-        (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
     if (var_r2 == 0) {
         var_r2 = 1;
@@ -2506,35 +2478,31 @@ void sub_8085784(void)
 {
     s16 sp4;
 
+    // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        sp4 = 0;
-        (void *)0x040000D4->unk0 = &sp4;
-        (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        sp4 = 0;
-        (void *)0x040000D4->unk0 = &sp4;
-        (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
+
     sa2__sub_8005FB4(0, 0, 0, 0x42, 0xA0);
+
+    // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        sp4 = 0;
-        (void *)0x040000D4->unk0 = &sp4;
-        (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        sp4 = 0;
-        (void *)0x040000D4->unk0 = &sp4;
-        (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
     sa2__sub_8005FB4(0, 0, 0, 0xE, 6);
 }
-
-void sub_808587C(u16 param0, u16 param1, s16 param2)
+extern u8 gUnknown_080D5D30[0x20];
+typedef struct {
+    /* 0x00 */ winreg_t win0h;
+} StrcHblank;
+extern winreg_t gUnknown_080D5E84[DISPLAY_HEIGHT];
+void sub_808587C(s16 param0, s16 param1, u16 param2)
 {
-    ? sp4;
+    u8 sp4[4];
     s16 sp8;
     s16 temp_r0_10;
     s16 temp_r0_14;
@@ -2552,7 +2520,7 @@ void sub_808587C(u16 param0, u16 param1, s16 param2)
     s16 var_r8_7;
     s16 var_r8_8;
     s32 temp_r0;
-    s32 temp_r0_2;
+    s16 temp_r0_2;
     s32 var_r8;
     s32 var_r8_2;
     s8 *temp_r3_4;
@@ -2643,593 +2611,590 @@ void sub_808587C(u16 param0, u16 param1, s16 param2)
     u8 var_r7_9;
     void *temp_r3;
     void *temp_r3_2;
-    void *var_r3;
+    StrcHblank *var_r3;
     void *var_r3_2;
     void *var_r3_3;
     void *var_r3_6;
 
-    temp_r6 = param0;
-    temp_r7 = param1;
+    // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        sp8 = 0;
-        (void *)0x040000D4->unk0 = &sp8;
-        (void *)0x040000D4->unk4 = gBgOffsetsBuffer;
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        sp8 = 0;
-        (void *)0x040000D4->unk0 = &sp8;
-        (void *)0x040000D4->unk4 = (u8(*)[0xA0][4])gBgOffsetsBuffer[1][0];
-        (void *)0x040000D4->unk8 = 0x81000140;
+        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
     gFlags |= 4;
-    temp_r0 = temp_r6 << 0x10;
-    if (((u32)temp_r6 <= 0xEFU) && (temp_r0_2 = temp_r7 << 0x10, temp_r1 = (s16)temp_r7, ((s32)temp_r1 <= 0x9F)) && ((s32)temp_r1 >= 0)) {
-        temp_r0_3 = *((u8)((u16)param2 >> 5) + &gUnknown_080D5D30);
-        if (3 & temp_r0_3) {
-            gHBlankCopySize = 2;
-            gHBlankCopyTarget = (void *)0x04000040;
-        }
-        switch (temp_r0_3) {
-            case 0:
-                temp_r0_4 = temp_r0_2 + 0xFFF80000;
-                var_r2 = temp_r0_4 >> 0x10;
-                if ((s32)temp_r0_4 < 0) {
-                    var_r2 = 0;
-                }
-                temp_r0_5 = (s16)temp_r7 + 8;
-                var_r4 = temp_r0_5;
-                if ((s32)(s16)temp_r0_5 > 0xA0) {
-                    var_r4 = 0xA0;
-                }
-                sa2__sub_8007A08(0, (u8)temp_r6, (u8)var_r2, 0xF0U, (s32)(u8)var_r4);
-                return;
-            case 1:
-                var_r6 = (u32)((temp_r0_2 + 0xFFF90000) << 8) >> 0x18;
-                var_r3 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6 * gHBlankCopySize);
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7 = 0;
-                var_r8 = 0;
-                if (var_r6 <= 0x9FU) {
-                    temp_r1_2 = (s16)((u32)(temp_r0 + 0x30000) >> 0x10);
-                    do {
-                        if (sp4.unk0 != 0) {
-                            var_r3->unk0 = 0xF0;
-                        } else {
-                            temp_r0_6 = temp_r1_2 + *(((var_r7 + 0xE) * 2) + &gUnknown_080D5E84);
-                            if ((s32)(s16)temp_r0_6 > 0xEF) {
-                                sp4.unk0 = 1U;
-                            }
-                            var_r3->unk0 = (s8)temp_r0_6;
-                        }
-                        temp_r3 = var_r3 + 1;
-                        if (sp4.unk1 != 0) {
-                            var_r3->unk1 = 0xF0;
-                            goto block_27;
-                        }
-                        temp_r0_7 = temp_r1_2 + *((var_r7 * 2) + &gUnknown_080D5E84);
-                        if ((s32)(s16)temp_r0_7 > 0xEF) {
-                            var_r3->unk1 = 0xF0;
-                            var_r3 = temp_r3 + 1;
-                            sp4.unk1 = 1U;
-                        } else {
-                            var_r3->unk1 = (s8)(temp_r0_7 + var_r8);
-                        block_27:
-                            var_r3 = temp_r3 + 1;
-                        }
-                        if (var_r7 == 0xD) {
-                            var_r8 = 0xFFFA;
-                        }
-                        var_r6 = (u32)(u8)(var_r6 + 1);
-                        var_r7 += 1;
-                    } while (var_r6 <= 0x9FU);
-                    return;
-                }
-                break;
-            case 2:
-                var_r6_2 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
-                var_r3_2 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_2 * gHBlankCopySize);
-                var_r4_2 = (u32)((temp_r0 + 0x60000) << 8) >> 0x18;
-                var_r5 = var_r4_2;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_2 = 0;
-                if (var_r6_2 <= 0x9FU) {
-                    do {
-                        var_r3_2->unk0 = (s8)var_r5;
-                        var_r3_2->unk1 = (s8)var_r4_2;
-                        var_r3_2 = var_r3_2 + 1 + 1;
-                        if (var_r5 <= 0xEFU) {
-                            var_r5 = (u32)(u8)(var_r5 + 1);
-                        }
-                        if (sp4.unk0 != 0) {
-                            if (var_r4_2 <= 0xEFU) {
-                                var_r4_2 = (u32)(u8)(var_r4_2 + 1);
-                            }
-                        } else {
-                            var_r4_2 = (u32)(u8)(var_r4_2 - 1);
-                            var_r7_2 += 1;
-                            if ((u32)var_r7_2 > 0xAU) {
-                                sp4.unk0 = 1U;
-                            }
-                        }
-                        var_r6_2 = (u32)(u8)(var_r6_2 + 1);
-                    } while (var_r6_2 <= 0x9FU);
-                    return;
-                }
-                break;
-            case 3:
-                var_r6_3 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
-                var_r3_3 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_3 * gHBlankCopySize);
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_3 = 0;
-                var_r8_2 = 0;
-                if (var_r6_3 > 0x9FU) {
-                    return;
-                }
-                temp_r1_3 = (s16)((u32)(temp_r0 + 0x70000) >> 0x10);
-                do {
-                    if (sp4.unk0 != 0) {
-                        var_r3_3->unk0 = 0xF0;
-                    } else {
-                        temp_r0_8 = temp_r1_3 + *(((var_r7_3 + 7) * 2) + &gUnknown_080D5FC4);
-                        if ((s32)(s16)temp_r0_8 > 0xEF) {
-                            sp4.unk0 = 1U;
-                        }
-                        var_r3_3->unk0 = (s8)temp_r0_8;
-                    }
-                    temp_r3_2 = var_r3_3 + 1;
-                    if (sp4.unk1 != 0) {
-                        var_r3_3->unk1 = 0xF0;
-                        goto block_55;
-                    }
-                    temp_r0_9 = temp_r1_3 + *((var_r7_3 * 2) + &gUnknown_080D5FC4);
-                    if ((s32)(s16)temp_r0_9 > 0xEF) {
-                        var_r3_3->unk1 = 0xF0;
-                        var_r3_3 = temp_r3_2 + 1;
-                        sp4.unk1 = 1U;
-                    } else {
-                        var_r3_3->unk1 = (s8)(temp_r0_9 + var_r8_2);
-                    block_55:
-                        var_r3_3 = temp_r3_2 + 1;
-                    }
-                    if (var_r7_3 == 6) {
-                        var_r8_2 = 0xFFF2;
-                    }
-                    var_r6_3 = (u32)(u8)(var_r6_3 + 1);
-                    var_r7_3 += 1;
-                } while (var_r6_3 <= 0x9FU);
-                return;
-            case 4:
-                var_r2_2 = temp_r7;
-                if (temp_r0_2 < 0) {
-                    var_r2_2 = 0;
-                }
-                sa2__sub_8007A08(0, (u8)(temp_r6 - 8), (u8)var_r2_2, (u8)(temp_r6 + 8), 0xA0);
-                return;
-            case 5:
-                var_r6_4 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
-                var_r3_4 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_4 * gHBlankCopySize);
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_4 = 0;
-                var_r8_3 = 0;
-                if (var_r6_4 > 0x9FU) {
-                    return;
-                }
-                temp_r0_10 = (s16)((u32)(temp_r0 + 0xFFF90000) >> 0x10);
-                do {
-                    temp_r0_11 = sp4.unk1;
-                    if (temp_r0_11 != 0) {
-                        *var_r3_4 = 0;
-                        goto block_71;
-                    }
-                    temp_r0_12 = var_r8_3 + (temp_r0_10 - *((var_r7_4 * 2) + &gUnknown_080D5FC4));
-                    if ((s32)(temp_r0_12 << 0x10) < 0) {
-                        *var_r3_4 = temp_r0_11;
-                        var_r3_5 = var_r3_4 + 1;
-                        sp4.unk1 = 1U;
-                    } else {
-                        *var_r3_4 = (u8)temp_r0_12;
-                    block_71:
-                        var_r3_5 = var_r3_4 + 1;
-                    }
-                    temp_r1_4 = sp4.unk0;
-                    if (temp_r1_4 != 0) {
-                        *var_r3_5 = 0;
-                        goto block_77;
-                    }
-                    temp_r0_13 = temp_r0_10 - *(((var_r7_4 + 7) * 2) + &gUnknown_080D5FC4);
-                    if ((s32)(temp_r0_13 << 0x10) < 0) {
-                        *var_r3_5 = temp_r1_4;
-                        var_r3_4 = var_r3_5 + 1;
-                        sp4.unk0 = 1U;
-                    } else {
-                        *var_r3_5 = (u8)temp_r0_13;
-                    block_77:
-                        var_r3_4 = var_r3_5 + 1;
-                    }
-                    if (var_r7_4 == 6) {
-                        var_r8_3 = 0xE;
-                    }
-                    var_r6_4 = (u32)(u8)(var_r6_4 + 1);
-                    var_r7_4 += 1;
-                } while (var_r6_4 <= 0x9FU);
-                return;
-            case 6:
-                var_r6_5 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
-                var_r3_6 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_5 * gHBlankCopySize);
-                var_r4_3 = (u32)((temp_r0 + 0xFFFA0000) << 8) >> 0x18;
-                var_r5_2 = var_r4_3;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_5 = 0;
-                if (var_r6_5 > 0x9FU) {
-                    return;
-                }
-                do {
-                    var_r3_6->unk0 = (s8)var_r5_2;
-                    var_r3_6->unk1 = (s8)var_r4_3;
-                    var_r3_6 = var_r3_6 + 1 + 1;
-                    if (var_r4_3 != 0) {
-                        var_r4_3 = (u32)(u8)(var_r4_3 - 1);
-                    }
-                    if (sp4.unk1 != 0) {
-                        if (var_r5_2 != 0) {
-                            var_r5_2 = (u32)(u8)(var_r5_2 - 1);
-                        }
-                    } else {
-                        var_r5_2 = (u32)(u8)(var_r5_2 + 1);
-                        var_r7_5 += 1;
-                        if ((u32)var_r7_5 > 0xAU) {
-                            sp4.unk1 = 1U;
-                        }
-                    }
-                    var_r6_5 = (u32)(u8)(var_r6_5 + 1);
-                } while (var_r6_5 <= 0x9FU);
-                return;
-            case 7:
-                var_r6_6 = (u32)((temp_r0_2 + 0xFFF90000) << 8) >> 0x18;
-                var_r3_7 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_6 * gHBlankCopySize);
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_6 = 0;
-                var_r8_4 = 0;
-                if (var_r6_6 > 0x9FU) {
-                    return;
-                }
-                temp_r0_14 = (s16)((u32)(temp_r0 + 0xFFFD0000) >> 0x10);
-                do {
-                    temp_r0_15 = sp4.unk1;
-                    if (temp_r0_15 != 0) {
-                        *var_r3_7 = 0;
-                        goto block_101;
-                    }
-                    temp_r0_16 = var_r8_4 + (temp_r0_14 - *((var_r7_6 * 2) + &gUnknown_080D5E84));
-                    if ((s32)(temp_r0_16 << 0x10) < 0) {
-                        *var_r3_7 = temp_r0_15;
-                        var_r3_8 = var_r3_7 + 1;
-                        sp4.unk1 = 1U;
-                    } else {
-                        *var_r3_7 = (u8)temp_r0_16;
-                    block_101:
-                        var_r3_8 = var_r3_7 + 1;
-                    }
-                    temp_r1_5 = sp4.unk0;
-                    if (temp_r1_5 != 0) {
-                        *var_r3_8 = 0;
-                        goto block_107;
-                    }
-                    temp_r0_17 = temp_r0_14 - *(((var_r7_6 + 0xE) * 2) + &gUnknown_080D5E84);
-                    if ((s32)(temp_r0_17 << 0x10) < 0) {
-                        *var_r3_8 = temp_r1_5;
-                        var_r3_7 = var_r3_8 + 1;
-                        sp4.unk0 = 1U;
-                    } else {
-                        *var_r3_8 = (u8)temp_r0_17;
-                    block_107:
-                        var_r3_7 = var_r3_8 + 1;
-                    }
-                    if (var_r7_6 == 0xD) {
-                        var_r8_4 = 6;
-                    }
-                    var_r6_6 = (u32)(u8)(var_r6_6 + 1);
-                    var_r7_6 += 1;
-                } while (var_r6_6 <= 0x9FU);
-                return;
-            case 8:
-                temp_r0_18 = temp_r0_2 + 0xFFF80000;
-                var_r2_3 = temp_r0_18 >> 0x10;
-                if ((s32)temp_r0_18 < 0) {
-                    var_r2_3 = 0;
-                }
-                temp_r0_19 = (s16)temp_r7 + 8;
-                var_r4_4 = temp_r0_19;
-                if ((s32)(s16)temp_r0_19 > 0xA0) {
-                    var_r4_4 = 0xA0;
-                }
-                sa2__sub_8007A08(0, 0U, (u8)var_r2_3, (u8)temp_r6, (s32)(u8)var_r4_4);
-                return;
-            case 9:
-                temp_r0_20 = (u32)(temp_r0 + 0xFFFD0000) >> 0x10;
-                var_r6_7 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
-                var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_7 * gHBlankCopySize);
-                var_r3_9->unk1 = (s8)temp_r0_20;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_7 = 0;
-                var_r8_5 = 0;
-                if (var_r6_7 == 0) {
+    temp_r0 = param0 << 0x10;
+    if (param0 < 240) {
+        temp_r0_2 = param1;
 
-                } else {
-                    temp_r0_21 = (s16)temp_r0_20;
-                    do {
-                        temp_r0_22 = sp4.unk1;
-                        if (temp_r0_22 != 0) {
-                            *var_r3_9 = 0;
-                            goto block_125;
-                        }
-                        temp_r0_23 = var_r8_5 + (temp_r0_21 - *((var_r7_7 * 2) + &gUnknown_080D5E84));
-                        if ((s32)(temp_r0_23 << 0x10) < 0) {
-                            *var_r3_9 = temp_r0_22;
-                            var_r3_10 = var_r3_9 - 1;
-                            sp4.unk1 = 1U;
-                        } else {
-                            *var_r3_9 = (u8)temp_r0_23;
-                        block_125:
-                            var_r3_10 = var_r3_9 - 1;
-                        }
-                        temp_r1_6 = sp4.unk0;
-                        if (temp_r1_6 != 0) {
-                            *var_r3_10 = 0;
-                            goto block_131;
-                        }
-                        temp_r0_24 = temp_r0_21 - *(((var_r7_7 + 0xE) * 2) + &gUnknown_080D5E84);
-                        if ((s32)(temp_r0_24 << 0x10) < 0) {
-                            *var_r3_10 = temp_r1_6;
-                            var_r3_9 = var_r3_10 - 1;
-                            sp4.unk0 = 1U;
-                        } else {
-                            *var_r3_10 = (u8)temp_r0_24;
-                        block_131:
-                            var_r3_9 = var_r3_10 - 1;
-                        }
-                        if (var_r7_7 == 0xD) {
-                            var_r8_5 = 6;
-                        }
-                        var_r6_7 = (u32)(u8)(var_r6_7 - 1);
-                        var_r7_7 += 1;
-                    } while (var_r6_7 != 0);
-                }
-            block_211:
-                var_r3_9->unk1 = 0;
-                break;
-            case 10:
-                temp_r0_25 = (u32)(temp_r0 + 0xFFFA0000) >> 0x10;
-                var_r6_8 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
-                var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_8 * gHBlankCopySize);
-                var_r3_9->unk1 = (s8)temp_r0_25;
-                var_r4_5 = (u8)temp_r0_25;
-                var_r5_3 = var_r4_5;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_8 = 0;
-                if (var_r6_8 == 0) {
-
-                } else {
-                    do {
-                        *var_r3_9 = var_r5_3;
-                        temp_r3_3 = var_r3_9 - 1;
-                        *temp_r3_3 = var_r4_5;
-                        var_r3_9 = temp_r3_3 - 1;
-                        if (var_r4_5 != 0) {
-                            var_r4_5 -= 1;
-                        }
-                        if (sp4.unk1 != 0) {
-                            if (var_r5_3 != 0) {
-                                var_r5_3 -= 1;
-                            }
-                        } else {
-                            var_r5_3 += 1;
-                            var_r7_8 += 1;
-                            if ((u32)var_r7_8 > 0xAU) {
-                                sp4.unk1 = 1U;
-                            }
-                        }
-                        var_r6_8 = (u32)(u8)(var_r6_8 - 1);
-                    } while (var_r6_8 != 0);
-                }
-                goto block_211;
-            case 11:
-                temp_r0_26 = (u32)(temp_r0 + 0xFFF90000) >> 0x10;
-                var_r6_9 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
-                var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_9 * gHBlankCopySize);
-                var_r3_9->unk1 = (s8)temp_r0_26;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_9 = 0;
-                var_r8_6 = 0;
-                if (var_r6_9 == 0) {
-
-                } else {
-                    temp_r0_27 = (s16)temp_r0_26;
-                    do {
-                        temp_r0_28 = sp4.unk1;
-                        if (temp_r0_28 != 0) {
-                            *var_r3_9 = 0;
-                            goto block_155;
-                        }
-                        temp_r0_29 = var_r8_6 + (temp_r0_27 - *((var_r7_9 * 2) + &gUnknown_080D5FC4));
-                        if ((s32)(temp_r0_29 << 0x10) < 0) {
-                            *var_r3_9 = temp_r0_28;
-                            var_r3_11 = var_r3_9 - 1;
-                            sp4.unk1 = 1U;
-                        } else {
-                            *var_r3_9 = (u8)temp_r0_29;
-                        block_155:
-                            var_r3_11 = var_r3_9 - 1;
-                        }
-                        temp_r1_7 = sp4.unk0;
-                        if (temp_r1_7 != 0) {
-                            *var_r3_11 = 0;
-                            goto block_161;
-                        }
-                        temp_r0_30 = temp_r0_27 - *(((var_r7_9 + 7) * 2) + &gUnknown_080D5FC4);
-                        if ((s32)(temp_r0_30 << 0x10) < 0) {
-                            *var_r3_11 = temp_r1_7;
-                            var_r3_9 = var_r3_11 - 1;
-                            sp4.unk0 = 1U;
-                        } else {
-                            *var_r3_11 = (u8)temp_r0_30;
-                        block_161:
-                            var_r3_9 = var_r3_11 - 1;
-                        }
-                        if (var_r7_9 == 6) {
-                            var_r8_6 = 0xE;
-                        }
-                        var_r6_9 = (u32)(u8)(var_r6_9 - 1);
-                        var_r7_9 += 1;
-                    } while (var_r6_9 != 0);
-                }
-                goto block_211;
-            case 12:
-                sa2__sub_8007A08(0, (u8)(temp_r6 - 8), 0U, (u8)(temp_r6 + 8), (s32)(u8)temp_r7);
-                return;
-            case 13:
-                temp_r0_31 = (u32)(temp_r0 + 0x70000) >> 0x10;
-                var_r6_10 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
-                var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_10 * gHBlankCopySize);
-                var_r3_9->unk1 = (s8)temp_r0_31;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_10 = 0;
-                var_r8_7 = 0;
-                if (var_r6_10 == 0) {
-
-                } else {
-                    temp_r5 = (s16)temp_r0_31;
-                    do {
-                        if (sp4.unk0 != 0) {
-                            *var_r3_9 = 0xF0;
-                        } else {
-                            temp_r0_32 = temp_r5 + *(((var_r7_10 + 7) * 2) + &gUnknown_080D5FC4);
-                            if ((s32)(s16)temp_r0_32 > 0xEF) {
-                                sp4.unk0 = 1U;
-                            }
-                            *var_r3_9 = (u8)temp_r0_32;
-                        }
-                        temp_r3_4 = var_r3_9 - 1;
-                        if (sp4.unk1 == 0) {
-                            temp_r0_33 = var_r8_7 + (temp_r5 + *((var_r7_10 * 2) + &gUnknown_080D5FC4));
-                            var_r2_4 = temp_r0_33;
-                            if ((s32)(s16)temp_r0_33 > 0xEF) {
-                                *temp_r3_4 = 0xF0;
-                                var_r3_9 = temp_r3_4 - 1;
-                                sp4.unk1 = 1U;
+        if ((param1 <= 0x9F) && (param1 >= 0)) {
+            temp_r0_3 = gUnknown_080D5D30[param2 >> 5];
+            if (3 & temp_r0_3) {
+                gHBlankCopySize = 2;
+                gHBlankCopyTarget = (void *)&REG_WIN0H;
+            }
+            switch (temp_r0_3) {
+                default:
+                    break;
+                case 0:
+                    temp_r0_4 = temp_r0_2 - 8;
+                    if (var_r2 < 0) {
+                        var_r2 = 0;
+                    }
+                    var_r4 = param1 + 8;
+                    if (var_r4 > 0xA0) {
+                        var_r4 = 0xA0;
+                    }
+                    sa2__sub_8007A08(0, param0, (u8)var_r2, 0xF0U, (s32)(u8)var_r4);
+                    return;
+                case 1:
+                    var_r6 = (u32)((temp_r0_2 - 7) << 8) >> 0x18;
+                    //                var_r3 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6 * gHBlankCopySize);
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7 = 0;
+                    var_r8 = 0;
+                    if (var_r6 <= 0x9FU) {
+                        temp_r1_2 = (s16)((u32)(temp_r0 + 0x30000) >> 0x10);
+                        do {
+                            if (sp4[0] != 0) {
+                                var_r3->win0h = WIN_RANGE(0, 240);
                             } else {
-                                goto block_179;
+                                temp_r0_6 = temp_r1_2 + gUnknown_080D5E84[var_r7 + 14];
+                                if ((s32)(s16)temp_r0_6 > 0xEF) {
+                                    sp4[0] = 1U;
+                                }
+                                var_r3->win0h = (s8)temp_r0_6;
+                            }
+                            temp_r3 = var_r3 + 1;
+                            if (sp4[1] != 0) {
+                                var_r3->unk1 = 0xF0;
+                                var_r3 = temp_r3 + 1;
+                            } else {
+                                temp_r0_7 = temp_r1_2 + *((var_r7 * 2) + &gUnknown_080D5E84);
+                                if ((s32)(s16)temp_r0_7 > 0xEF) {
+                                    var_r3->unk1 = 0xF0;
+                                    var_r3 = temp_r3 + 1;
+                                    sp4[1] = 1U;
+                                } else {
+                                    var_r3->unk1 = (s8)(temp_r0_7 + var_r8);
+                                block_27:
+                                    var_r3 = temp_r3 + 1;
+                                }
+                            }
+                            if (var_r7 == 0xD) {
+                                var_r8 = 0xFFFA;
+                            }
+                            var_r6 = (u32)(u8)(var_r6 + 1);
+                            var_r7 += 1;
+                        } while (var_r6 <= 0x9FU);
+                        return;
+                    }
+                    break;
+                case 2:
+                    var_r6_2 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
+                    var_r3_2 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_2 * gHBlankCopySize);
+                    var_r4_2 = (u32)((temp_r0 + 0x60000) << 8) >> 0x18;
+                    var_r5 = var_r4_2;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_2 = 0;
+                    if (var_r6_2 <= 0x9FU) {
+                        do {
+                            var_r3_2->unk0 = (s8)var_r5;
+                            var_r3_2->unk1 = (s8)var_r4_2;
+                            var_r3_2 = var_r3_2 + 1 + 1;
+                            if (var_r5 <= 0xEFU) {
+                                var_r5 = (u32)(u8)(var_r5 + 1);
+                            }
+                            if (sp4[0] != 0) {
+                                if (var_r4_2 <= 0xEFU) {
+                                    var_r4_2 = (u32)(u8)(var_r4_2 + 1);
+                                }
+                            } else {
+                                var_r4_2 = (u32)(u8)(var_r4_2 - 1);
+                                var_r7_2 += 1;
+                                if ((u32)var_r7_2 > 0xAU) {
+                                    sp4[0] = 1U;
+                                }
+                            }
+                            var_r6_2 = (u32)(u8)(var_r6_2 + 1);
+                        } while (var_r6_2 <= 0x9FU);
+                        return;
+                    }
+                    break;
+                case 3:
+                    var_r6_3 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
+                    var_r3_3 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_3 * gHBlankCopySize);
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_3 = 0;
+                    var_r8_2 = 0;
+                    if (var_r6_3 > 0x9FU) {
+                        return;
+                    }
+                    temp_r1_3 = (s16)((u32)(temp_r0 + 0x70000) >> 0x10);
+                    do {
+                        if (sp4[0] != 0) {
+                            var_r3_3->unk0 = 0xF0;
+                        } else {
+                            temp_r0_8 = temp_r1_3 + *(((var_r7_3 + 7) * 2) + &gUnknown_080D5FC4);
+                            if ((s32)(s16)temp_r0_8 > 0xEF) {
+                                sp4[0] = 1U;
+                            }
+                            var_r3_3->unk0 = (s8)temp_r0_8;
+                        }
+                        temp_r3_2 = var_r3_3 + 1;
+                        if (sp4[1] != 0) {
+                            var_r3_3->unk1 = 0xF0;
+                            goto block_55;
+                        }
+                        temp_r0_9 = temp_r1_3 + *((var_r7_3 * 2) + &gUnknown_080D5FC4);
+                        if ((s32)(s16)temp_r0_9 > 0xEF) {
+                            var_r3_3->unk1 = 0xF0;
+                            var_r3_3 = temp_r3_2 + 1;
+                            sp4[1] = 1U;
+                        } else {
+                            var_r3_3->unk1 = (s8)(temp_r0_9 + var_r8_2);
+                        block_55:
+                            var_r3_3 = temp_r3_2 + 1;
+                        }
+                        if (var_r7_3 == 6) {
+                            var_r8_2 = 0xFFF2;
+                        }
+                        var_r6_3 = (u32)(u8)(var_r6_3 + 1);
+                        var_r7_3 += 1;
+                    } while (var_r6_3 <= 0x9FU);
+                    return;
+                case 4:
+                    var_r2_2 = param1;
+                    if (temp_r0_2 < 0) {
+                        var_r2_2 = 0;
+                    }
+                    sa2__sub_8007A08(0, (u8)(param0 - 8), (u8)var_r2_2, (u8)(param0 + 8), 0xA0);
+                    return;
+                case 5:
+                    var_r6_4 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
+                    var_r3_4 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_4 * gHBlankCopySize);
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_4 = 0;
+                    var_r8_3 = 0;
+                    if (var_r6_4 > 0x9FU) {
+                        return;
+                    }
+                    temp_r0_10 = (s16)((u32)(temp_r0 + 0xFFF90000) >> 0x10);
+                    do {
+                        temp_r0_11 = sp4[1];
+                        if (temp_r0_11 != 0) {
+                            *var_r3_4 = 0;
+                            goto block_71;
+                        }
+                        temp_r0_12 = var_r8_3 + (temp_r0_10 - *((var_r7_4 * 2) + &gUnknown_080D5FC4));
+                        if ((s32)(temp_r0_12 << 0x10) < 0) {
+                            *var_r3_4 = temp_r0_11;
+                            var_r3_5 = var_r3_4 + 1;
+                            sp4[1] = 1U;
+                        } else {
+                            *var_r3_4 = (u8)temp_r0_12;
+                        block_71:
+                            var_r3_5 = var_r3_4 + 1;
+                        }
+                        temp_r1_4 = sp4[0];
+                        if (temp_r1_4 != 0) {
+                            *var_r3_5 = 0;
+                            goto block_77;
+                        }
+                        temp_r0_13 = temp_r0_10 - *(((var_r7_4 + 7) * 2) + &gUnknown_080D5FC4);
+                        if ((s32)(temp_r0_13 << 0x10) < 0) {
+                            *var_r3_5 = temp_r1_4;
+                            var_r3_4 = var_r3_5 + 1;
+                            sp4[0] = 1U;
+                        } else {
+                            *var_r3_5 = (u8)temp_r0_13;
+                        block_77:
+                            var_r3_4 = var_r3_5 + 1;
+                        }
+                        if (var_r7_4 == 6) {
+                            var_r8_3 = 0xE;
+                        }
+                        var_r6_4 = (u32)(u8)(var_r6_4 + 1);
+                        var_r7_4 += 1;
+                    } while (var_r6_4 <= 0x9FU);
+                    return;
+                case 6:
+                    var_r6_5 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
+                    var_r3_6 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_5 * gHBlankCopySize);
+                    var_r4_3 = (u32)((temp_r0 + 0xFFFA0000) << 8) >> 0x18;
+                    var_r5_2 = var_r4_3;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_5 = 0;
+                    if (var_r6_5 > 0x9FU) {
+                        return;
+                    }
+                    do {
+                        var_r3_6->unk0 = (s8)var_r5_2;
+                        var_r3_6->unk1 = (s8)var_r4_3;
+                        var_r3_6 = var_r3_6 + 1 + 1;
+                        if (var_r4_3 != 0) {
+                            var_r4_3 = (u32)(u8)(var_r4_3 - 1);
+                        }
+                        if (sp4[1] != 0) {
+                            if (var_r5_2 != 0) {
+                                var_r5_2 = (u32)(u8)(var_r5_2 - 1);
                             }
                         } else {
-                            var_r2_4 = 0xF0;
-                        block_179:
-                            *temp_r3_4 = (s8)var_r2_4;
-                            var_r3_9 = temp_r3_4 - 1;
+                            var_r5_2 = (u32)(u8)(var_r5_2 + 1);
+                            var_r7_5 += 1;
+                            if ((u32)var_r7_5 > 0xAU) {
+                                sp4[1] = 1U;
+                            }
                         }
-                        if (var_r7_10 == 6) {
-                            var_r8_7 = -0xE;
+                        var_r6_5 = (u32)(u8)(var_r6_5 + 1);
+                    } while (var_r6_5 <= 0x9FU);
+                    return;
+                case 7:
+                    var_r6_6 = (u32)((temp_r0_2 + 0xFFF90000) << 8) >> 0x18;
+                    var_r3_7 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_6 * gHBlankCopySize);
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_6 = 0;
+                    var_r8_4 = 0;
+                    if (var_r6_6 > 0x9FU) {
+                        return;
+                    }
+                    temp_r0_14 = (s16)((u32)(temp_r0 + 0xFFFD0000) >> 0x10);
+                    do {
+                        temp_r0_15 = sp4[1];
+                        if (temp_r0_15 != 0) {
+                            *var_r3_7 = 0;
+                            goto block_101;
                         }
-                        var_r6_10 = (u32)(u8)(var_r6_10 - 1);
-                        var_r7_10 += 1;
-                    } while (var_r6_10 != 0);
-                }
-                goto block_211;
-            case 14:
-                temp_r0_34 = (u32)(temp_r0 + 0x60000) >> 0x10;
-                var_r6_11 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
-                var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_11 * gHBlankCopySize);
-                var_r3_9->unk1 = (s8)temp_r0_34;
-                var_r4_6 = (u8)temp_r0_34;
-                var_r5_4 = var_r4_6;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_11 = 0;
-                if (var_r6_11 == 0) {
+                        temp_r0_16 = var_r8_4 + (temp_r0_14 - *((var_r7_6 * 2) + &gUnknown_080D5E84));
+                        if ((s32)(temp_r0_16 << 0x10) < 0) {
+                            *var_r3_7 = temp_r0_15;
+                            var_r3_8 = var_r3_7 + 1;
+                            sp4[1] = 1U;
+                        } else {
+                            *var_r3_7 = (u8)temp_r0_16;
+                        block_101:
+                            var_r3_8 = var_r3_7 + 1;
+                        }
+                        temp_r1_5 = sp4[0];
+                        if (temp_r1_5 != 0) {
+                            *var_r3_8 = 0;
+                            goto block_107;
+                        }
+                        temp_r0_17 = temp_r0_14 - *(((var_r7_6 + 0xE) * 2) + &gUnknown_080D5E84);
+                        if ((s32)(temp_r0_17 << 0x10) < 0) {
+                            *var_r3_8 = temp_r1_5;
+                            var_r3_7 = var_r3_8 + 1;
+                            sp4[0] = 1U;
+                        } else {
+                            *var_r3_8 = (u8)temp_r0_17;
+                        block_107:
+                            var_r3_7 = var_r3_8 + 1;
+                        }
+                        if (var_r7_6 == 0xD) {
+                            var_r8_4 = 6;
+                        }
+                        var_r6_6 = (u32)(u8)(var_r6_6 + 1);
+                        var_r7_6 += 1;
+                    } while (var_r6_6 <= 0x9FU);
+                    return;
+                case 8:
+                    temp_r0_18 = temp_r0_2 + 0xFFF80000;
+                    var_r2_3 = temp_r0_18 >> 0x10;
+                    if ((s32)temp_r0_18 < 0) {
+                        var_r2_3 = 0;
+                    }
+                    temp_r0_19 = param1 + 8;
+                    var_r4_4 = temp_r0_19;
+                    if ((s32)(s16)temp_r0_19 > 0xA0) {
+                        var_r4_4 = 0xA0;
+                    }
+                    sa2__sub_8007A08(0, 0U, (u8)var_r2_3, param0, (s32)(u8)var_r4_4);
+                    return;
+                case 9:
+                    temp_r0_20 = (u32)(temp_r0 + 0xFFFD0000) >> 0x10;
+                    var_r6_7 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
+                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_7 * gHBlankCopySize);
+                    var_r3_9->unk1 = (s8)temp_r0_20;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_7 = 0;
+                    var_r8_5 = 0;
+                    if (var_r6_7 == 0) {
 
-                } else {
-                    do {
-                        *var_r3_9 = var_r5_4;
-                        temp_r3_5 = var_r3_9 - 1;
-                        *temp_r3_5 = var_r4_6;
-                        var_r3_9 = temp_r3_5 - 1;
-                        if ((u32)var_r5_4 <= 0xEFU) {
-                            var_r5_4 += 1;
-                        }
-                        if (sp4.unk0 != 0) {
-                            if ((u32)var_r4_6 <= 0xEFU) {
-                                var_r4_6 += 1;
+                    } else {
+                        temp_r0_21 = (s16)temp_r0_20;
+                        do {
+                            temp_r0_22 = sp4[1];
+                            if (temp_r0_22 != 0) {
+                                *var_r3_9 = 0;
+                                goto block_125;
                             }
-                        } else {
-                            var_r4_6 -= 1;
-                            var_r7_11 += 1;
-                            if ((u32)var_r7_11 > 0xAU) {
-                                sp4.unk0 = 1U;
+                            temp_r0_23 = var_r8_5 + (temp_r0_21 - *((var_r7_7 * 2) + &gUnknown_080D5E84));
+                            if ((s32)(temp_r0_23 << 0x10) < 0) {
+                                *var_r3_9 = temp_r0_22;
+                                var_r3_10 = var_r3_9 - 1;
+                                sp4[1] = 1U;
+                            } else {
+                                *var_r3_9 = (u8)temp_r0_23;
+                            block_125:
+                                var_r3_10 = var_r3_9 - 1;
                             }
-                        }
-                        var_r6_11 = (u32)(u8)(var_r6_11 - 1);
-                    } while (var_r6_11 != 0);
-                }
-                goto block_211;
-            case 15:
-                temp_r0_35 = (u32)(temp_r0 + 0x30000) >> 0x10;
-                var_r6_12 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
-                var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_12 * gHBlankCopySize);
-                var_r3_9->unk1 = (s8)temp_r0_35;
-                sp4.unk1 = 0U;
-                sp4.unk0 = 0U;
-                var_r7_12 = 0;
-                var_r8_8 = 0;
-                if (var_r6_12 != 0) {
-                    temp_r5_2 = (s16)temp_r0_35;
-                    do {
-                        if (sp4.unk0 != 0) {
-                            *var_r3_9 = 0xF0;
-                        } else {
-                            temp_r0_36 = temp_r5_2 + *(((var_r7_12 + 0xE) * 2) + &gUnknown_080D5E84);
-                            if ((s32)(s16)temp_r0_36 > 0xEF) {
-                                sp4.unk0 = 1U;
+                            temp_r1_6 = sp4[0];
+                            if (temp_r1_6 != 0) {
+                                *var_r3_10 = 0;
+                                goto block_131;
                             }
-                            *var_r3_9 = (u8)temp_r0_36;
-                        }
-                        temp_r3_6 = var_r3_9 - 1;
-                        if (sp4.unk1 != 0) {
-                            *temp_r3_6 = 0xF0;
-                            goto block_207;
-                        }
-                        temp_r0_37 = var_r8_8 + (temp_r5_2 + *((var_r7_12 * 2) + &gUnknown_080D5E84));
-                        if ((s32)(s16)temp_r0_37 > 0xEF) {
-                            *temp_r3_6 = 0xF0;
-                            var_r3_9 = temp_r3_6 - 1;
-                            sp4.unk1 = 1U;
-                        } else {
-                            *temp_r3_6 = (s8)temp_r0_37;
-                        block_207:
-                            var_r3_9 = temp_r3_6 - 1;
-                        }
-                        if (var_r7_12 == 0xD) {
-                            var_r8_8 = -6;
-                        }
-                        var_r6_12 = (u32)(u8)(var_r6_12 - 1);
-                        var_r7_12 += 1;
-                    } while (var_r6_12 != 0);
-                }
-                goto block_211;
+                            temp_r0_24 = temp_r0_21 - *(((var_r7_7 + 0xE) * 2) + &gUnknown_080D5E84);
+                            if ((s32)(temp_r0_24 << 0x10) < 0) {
+                                *var_r3_10 = temp_r1_6;
+                                var_r3_9 = var_r3_10 - 1;
+                                sp4[0] = 1U;
+                            } else {
+                                *var_r3_10 = (u8)temp_r0_24;
+                            block_131:
+                                var_r3_9 = var_r3_10 - 1;
+                            }
+                            if (var_r7_7 == 0xD) {
+                                var_r8_5 = 6;
+                            }
+                            var_r6_7 = (u32)(u8)(var_r6_7 - 1);
+                            var_r7_7 += 1;
+                        } while (var_r6_7 != 0);
+                    }
+                block_211:
+                    var_r3_9->unk1 = 0;
+                    break;
+                case 10:
+                    temp_r0_25 = (u32)(temp_r0 + 0xFFFA0000) >> 0x10;
+                    var_r6_8 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
+                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_8 * gHBlankCopySize);
+                    var_r3_9->unk1 = (s8)temp_r0_25;
+                    var_r4_5 = (u8)temp_r0_25;
+                    var_r5_3 = var_r4_5;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_8 = 0;
+                    if (var_r6_8 == 0) {
+
+                    } else {
+                        do {
+                            *var_r3_9 = var_r5_3;
+                            temp_r3_3 = var_r3_9 - 1;
+                            *temp_r3_3 = var_r4_5;
+                            var_r3_9 = temp_r3_3 - 1;
+                            if (var_r4_5 != 0) {
+                                var_r4_5 -= 1;
+                            }
+                            if (sp4[1] != 0) {
+                                if (var_r5_3 != 0) {
+                                    var_r5_3 -= 1;
+                                }
+                            } else {
+                                var_r5_3 += 1;
+                                var_r7_8 += 1;
+                                if ((u32)var_r7_8 > 0xAU) {
+                                    sp4[1] = 1U;
+                                }
+                            }
+                            var_r6_8 = (u32)(u8)(var_r6_8 - 1);
+                        } while (var_r6_8 != 0);
+                    }
+                    goto block_211;
+                case 11:
+                    temp_r0_26 = (u32)(temp_r0 + 0xFFF90000) >> 0x10;
+                    var_r6_9 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
+                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_9 * gHBlankCopySize);
+                    var_r3_9->unk1 = (s8)temp_r0_26;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_9 = 0;
+                    var_r8_6 = 0;
+                    if (var_r6_9 == 0) {
+
+                    } else {
+                        temp_r0_27 = (s16)temp_r0_26;
+                        do {
+                            temp_r0_28 = sp4[1];
+                            if (temp_r0_28 != 0) {
+                                *var_r3_9 = 0;
+                                goto block_155;
+                            }
+                            temp_r0_29 = var_r8_6 + (temp_r0_27 - *((var_r7_9 * 2) + &gUnknown_080D5FC4));
+                            if ((s32)(temp_r0_29 << 0x10) < 0) {
+                                *var_r3_9 = temp_r0_28;
+                                var_r3_11 = var_r3_9 - 1;
+                                sp4[1] = 1U;
+                            } else {
+                                *var_r3_9 = (u8)temp_r0_29;
+                            block_155:
+                                var_r3_11 = var_r3_9 - 1;
+                            }
+                            temp_r1_7 = sp4[0];
+                            if (temp_r1_7 != 0) {
+                                *var_r3_11 = 0;
+                                goto block_161;
+                            }
+                            temp_r0_30 = temp_r0_27 - *(((var_r7_9 + 7) * 2) + &gUnknown_080D5FC4);
+                            if ((s32)(temp_r0_30 << 0x10) < 0) {
+                                *var_r3_11 = temp_r1_7;
+                                var_r3_9 = var_r3_11 - 1;
+                                sp4[0] = 1U;
+                            } else {
+                                *var_r3_11 = (u8)temp_r0_30;
+                            block_161:
+                                var_r3_9 = var_r3_11 - 1;
+                            }
+                            if (var_r7_9 == 6) {
+                                var_r8_6 = 0xE;
+                            }
+                            var_r6_9 = (u32)(u8)(var_r6_9 - 1);
+                            var_r7_9 += 1;
+                        } while (var_r6_9 != 0);
+                    }
+                    goto block_211;
+                case 12:
+                    sa2__sub_8007A08(0, (u8)(param0 - 8), 0U, (u8)(param0 + 8), param1);
+                    return;
+                case 13:
+                    temp_r0_31 = (u32)(temp_r0 + 0x70000) >> 0x10;
+                    var_r6_10 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
+                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_10 * gHBlankCopySize);
+                    var_r3_9->unk1 = (s8)temp_r0_31;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_10 = 0;
+                    var_r8_7 = 0;
+                    if (var_r6_10 == 0) {
+
+                    } else {
+                        temp_r5 = (s16)temp_r0_31;
+                        do {
+                            if (sp4[0] != 0) {
+                                *var_r3_9 = 0xF0;
+                            } else {
+                                temp_r0_32 = temp_r5 + *(((var_r7_10 + 7) * 2) + &gUnknown_080D5FC4);
+                                if ((s32)(s16)temp_r0_32 > 0xEF) {
+                                    sp4[0] = 1U;
+                                }
+                                *var_r3_9 = (u8)temp_r0_32;
+                            }
+                            temp_r3_4 = var_r3_9 - 1;
+                            if (sp4[1] == 0) {
+                                temp_r0_33 = var_r8_7 + (temp_r5 + *((var_r7_10 * 2) + &gUnknown_080D5FC4));
+                                var_r2_4 = temp_r0_33;
+                                if ((s32)(s16)temp_r0_33 > 0xEF) {
+                                    *temp_r3_4 = 0xF0;
+                                    var_r3_9 = temp_r3_4 - 1;
+                                    sp4[1] = 1U;
+                                } else {
+                                    goto block_179;
+                                }
+                            } else {
+                                var_r2_4 = 0xF0;
+                            block_179:
+                                *temp_r3_4 = (s8)var_r2_4;
+                                var_r3_9 = temp_r3_4 - 1;
+                            }
+                            if (var_r7_10 == 6) {
+                                var_r8_7 = -0xE;
+                            }
+                            var_r6_10 = (u32)(u8)(var_r6_10 - 1);
+                            var_r7_10 += 1;
+                        } while (var_r6_10 != 0);
+                    }
+                    goto block_211;
+                case 14:
+                    temp_r0_34 = (u32)(temp_r0 + 0x60000) >> 0x10;
+                    var_r6_11 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
+                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_11 * gHBlankCopySize);
+                    var_r3_9->unk1 = (s8)temp_r0_34;
+                    var_r4_6 = (u8)temp_r0_34;
+                    var_r5_4 = var_r4_6;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_11 = 0;
+                    if (var_r6_11 == 0) {
+
+                    } else {
+                        do {
+                            *var_r3_9 = var_r5_4;
+                            temp_r3_5 = var_r3_9 - 1;
+                            *temp_r3_5 = var_r4_6;
+                            var_r3_9 = temp_r3_5 - 1;
+                            if ((u32)var_r5_4 <= 0xEFU) {
+                                var_r5_4 += 1;
+                            }
+                            if (sp4[0] != 0) {
+                                if ((u32)var_r4_6 <= 0xEFU) {
+                                    var_r4_6 += 1;
+                                }
+                            } else {
+                                var_r4_6 -= 1;
+                                var_r7_11 += 1;
+                                if ((u32)var_r7_11 > 0xAU) {
+                                    sp4[0] = 1U;
+                                }
+                            }
+                            var_r6_11 = (u32)(u8)(var_r6_11 - 1);
+                        } while (var_r6_11 != 0);
+                    }
+                    goto block_211;
+                case 15:
+                    temp_r0_35 = (u32)(temp_r0 + 0x30000) >> 0x10;
+                    var_r6_12 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
+                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_12 * gHBlankCopySize);
+                    var_r3_9->unk1 = (s8)temp_r0_35;
+                    sp4[1] = 0U;
+                    sp4[0] = 0U;
+                    var_r7_12 = 0;
+                    var_r8_8 = 0;
+                    if (var_r6_12 != 0) {
+                        temp_r5_2 = (s16)temp_r0_35;
+                        do {
+                            if (sp4[0] != 0) {
+                                *var_r3_9 = 0xF0;
+                            } else {
+                                temp_r0_36 = temp_r5_2 + *(((var_r7_12 + 0xE) * 2) + &gUnknown_080D5E84);
+                                if ((s32)(s16)temp_r0_36 > 0xEF) {
+                                    sp4[0] = 1U;
+                                }
+                                *var_r3_9 = (u8)temp_r0_36;
+                            }
+                            temp_r3_6 = var_r3_9 - 1;
+                            if (sp4[1] != 0) {
+                                *temp_r3_6 = 0xF0;
+                                goto block_207;
+                            }
+                            temp_r0_37 = var_r8_8 + (temp_r5_2 + *((var_r7_12 * 2) + &gUnknown_080D5E84));
+                            if ((s32)(s16)temp_r0_37 > 0xEF) {
+                                *temp_r3_6 = 0xF0;
+                                var_r3_9 = temp_r3_6 - 1;
+                                sp4[1] = 1U;
+                            } else {
+                                *temp_r3_6 = (s8)temp_r0_37;
+                            block_207:
+                                var_r3_9 = temp_r3_6 - 1;
+                            }
+                            if (var_r7_12 == 0xD) {
+                                var_r8_8 = -6;
+                            }
+                            var_r6_12 = (u32)(u8)(var_r6_12 - 1);
+                            var_r7_12 += 1;
+                        } while (var_r6_12 != 0);
+                    }
+                    goto block_211;
+            }
         }
-    } else {
-        default:
     }
 }
 
+#if 0
 void sub_878_80862D8(UltimateGemerl *boss)
 {
     Player *temp_r1;
@@ -3493,7 +3458,7 @@ u8 sub_878_8086774(UltimateGemerl *arg0, Player *arg1)
     return var_r8;
 }
 
-s32 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
+bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
 {
     s32 sp0;
     Player *sp4;
@@ -3652,7 +3617,7 @@ void ExtraBoss_CreateMissile(UltimateGemerl *arg0, u8 arg1, ? arg3)
     if (arg0->unk4 == 0) {
         return;
     }
-    temp_r1 = TaskCreate((void (*)())Task_Missile_8086B94, 0x50U, 0x2100U, 0U, TaskDestructor_50_80870AC)->data;
+    temp_r1 = TaskCreate(Task_Missile_8086B94, 0x50U, 0x2100U, 0U, TaskDestructor_50_80870AC)->data;
     temp_r1->unk4C = arg0;
     temp_r1->unk16 = temp_r4;
     temp_r0 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
@@ -3874,7 +3839,7 @@ void Task_878_8086F08(UltimateGemerl *boss)
     sub_878_808211C(boss);
     sub_878_8082388(boss);
     sub_878_8082794(boss);
-    gCurTask->main = (void (*)())Task_878_8086F48;
+    gCurTask->main = Task_878_8086F48;
 }
 
 void Task_878_8086F48(UltimateGemerl *boss)
@@ -3898,7 +3863,7 @@ void Task_878_8086FA4(UltimateGemerl *boss)
     sub_878_8082D08(boss);
 }
 
-void Task_878_CallDestroy(Task *t) { TaskDestroy(gCurTask); }
+void Task_878_CallDestroy(void) { TaskDestroy(gCurTask); }
 
 void sub_8086FF8(UltimateGemerl *boss, u8 param1)
 {
@@ -3935,8 +3900,8 @@ void sub_8087044(s32 arg0, s32 arg1)
 
     temp_r0 = arg0 + 0x814;
     temp_r1 = (u32)(arg1 << 0x18) >> 0x16;
-    temp_r0->unkC = (u16) * (temp_r1 + &gUnknown_080D5D0C);
-    temp_r0->unk1A = (s8) * (temp_r1 + (&gUnknown_080D5D0C + 2));
+    temp_r0->unkC = (u16) * (temp_r1 + &gAnimPatternBossExtraElectricSpark);
+    temp_r0->unk1A = (s8) * (temp_r1 + (&gAnimPatternBossExtraElectricSpark + 2));
     temp_r0->unk1B = 0xFF;
 }
 
@@ -4055,4 +4020,5 @@ loop_1:
 void TaskDestructor_38_8087234(Task *t) { }
 
 void sub_8087238(void) { }
+#endif
 #endif

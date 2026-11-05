@@ -292,7 +292,7 @@ _0808457C:
 	strb r0, [r7, #0xf]
 	ldr r0, _0808460C @ =0x00000814
 	adds r1, r7, r0
-	ldr r2, _08084610 @ =gUnknown_080D5D0C
+	ldr r2, _08084610 @ =gAnimPatternBossExtraElectricSpark
 	ldrh r0, [r2]
 	strh r0, [r1, #0xc]
 	ldrh r0, [r2, #2]
@@ -333,7 +333,7 @@ _08084600: .4byte gBldRegs
 _08084604: .4byte 0x00003841
 _08084608: .4byte 0x00000C0C
 _0808460C: .4byte 0x00000814
-_08084610: .4byte gUnknown_080D5D0C
+_08084610: .4byte gAnimPatternBossExtraElectricSpark
 _08084614: .4byte 0x0000023E
 _08084618:
 	movs r0, #6
@@ -345,7 +345,7 @@ _0808461E:
 	strh r0, [r7, #4]
 	ldr r2, _080846BC @ =0x00000814
 	adds r1, r7, r2
-	ldr r2, _080846C0 @ =gUnknown_080D5D0C
+	ldr r2, _080846C0 @ =gAnimPatternBossExtraElectricSpark
 	ldrh r0, [r2, #4]
 	strh r0, [r1, #0xc]
 	ldrh r0, [r2, #6]
@@ -419,7 +419,7 @@ _0808467A:
 	b _08084766
 	.align 2, 0
 _080846BC: .4byte 0x00000814
-_080846C0: .4byte gUnknown_080D5D0C
+_080846C0: .4byte gAnimPatternBossExtraElectricSpark
 _080846C4: .4byte gCamera
 _080846C8: .4byte gSineTable
 _080846CC: .4byte 0x00003FFF
@@ -450,7 +450,7 @@ _080846F0:
 	strb r0, [r1]
 	ldr r3, _08084774 @ =0x00000814
 	adds r1, r7, r3
-	ldr r2, _08084778 @ =gUnknown_080D5D0C
+	ldr r2, _08084778 @ =gAnimPatternBossExtraElectricSpark
 	ldrh r0, [r2]
 	strh r0, [r1, #0xc]
 	ldrh r0, [r2, #2]
@@ -506,7 +506,7 @@ _08084766:
 	b _08084908
 	.align 2, 0
 _08084774: .4byte 0x00000814
-_08084778: .4byte gUnknown_080D5D0C
+_08084778: .4byte gAnimPatternBossExtraElectricSpark
 _0808477C: .4byte gCamera
 _08084780: .4byte 0xFFA80000
 _08084784: .4byte gBgScrollRegs
@@ -540,7 +540,7 @@ _08084788:
 	str r0, [r2]
 	ldr r3, _08084880 @ =0x00000814
 	adds r1, r7, r3
-	ldr r2, _08084884 @ =gUnknown_080D5D0C
+	ldr r2, _08084884 @ =gAnimPatternBossExtraElectricSpark
 	ldrh r0, [r2, #8]
 	strh r0, [r1, #0xc]
 	ldrh r0, [r2, #0xa]
@@ -631,7 +631,7 @@ _08084874: .4byte gWinRegs
 _08084878: .4byte gBldRegs
 _0808487C: .4byte gFlags
 _08084880: .4byte 0x00000814
-_08084884: .4byte gUnknown_080D5D0C
+_08084884: .4byte gAnimPatternBossExtraElectricSpark
 _08084888: .4byte gCamera
 _0808488C: .4byte gSineTable
 _08084890: .4byte 0x00003FFF
@@ -5880,7 +5880,7 @@ sub_8087044: @ 0x08087044
 	lsls r1, r1, #0x18
 	ldr r2, _08087064 @ =0x00000814
 	adds r0, r0, r2
-	ldr r3, _08087068 @ =gUnknown_080D5D0C
+	ldr r3, _08087068 @ =gAnimPatternBossExtraElectricSpark
 	lsrs r1, r1, #0x16
 	adds r2, r1, r3
 	ldrh r2, [r2]
@@ -5894,7 +5894,7 @@ sub_8087044: @ 0x08087044
 	bx lr
 	.align 2, 0
 _08087064: .4byte 0x00000814
-_08087068: .4byte gUnknown_080D5D0C
+_08087068: .4byte gAnimPatternBossExtraElectricSpark
 
 	thumb_func_start sub_808706C
 sub_808706C: @ 0x0808706C
