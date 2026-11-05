@@ -1297,7 +1297,7 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
                 boss->unkE2 = 1;
                 for (i = 1; i < 3; i++) {
                     u8 r3;
-                    boss->unkC4[i] = 0x78;
+                    boss->unkC4[i] = 120;
                     boss->strc10C[i].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
 
                     if (i == 2) {
@@ -1346,9 +1346,13 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_8083F8C.inc", void su
                         break;
                     case 20:
                         if (--boss->strc10C[i].unk10 == 0) {
-                            boss->strc10C[i].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
-                            boss->strc10C[i].unk16 = PseudoRandom32() % 2u;
-                            boss->strc10C[i].unk12 = 0;
+                            do {
+
+                                boss->strc10C[i].unk10 = gUnknown_080D5D50[PseudoRandom32() % ARRAY_COUNT(gUnknown_080D5D50)];
+                                boss->strc10C[i].unk16 = PseudoRandom32() % 2u;
+                                boss->strc10C[i].unk12 = 0;
+                                boss->strc10C[i].unk14 += 0;
+                            } while (0);
                         }
                         break;
                 }
