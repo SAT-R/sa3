@@ -35,7 +35,13 @@ typedef struct {
     u16 pattern;
 } AnimPattern;
 
-extern const AnimPattern gAnimPatternBossExtraElectricSpark[3];
+extern u8 gUnknown_080D5D30[0x20];
+extern const AnimPattern gAnimPatternBossExtraElectricSpark[3]; // 0x080D5D0C
+extern const s16 gUnknown_080D5FC4[0xA8];
+void sub_8010C88(Player *p);
+extern bool32 sub_8010184(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p);
+
+extern winreg_t gUnknown_080D5E84[DISPLAY_HEIGHT];
 
 static inline void sub_808706C_inline(UltimateGemerl *boss, u8 handType)
 {
@@ -92,8 +98,8 @@ void CreateUltimateGemerlBoss(void)
     SetFixedRandomIfTimeAttackMode();
     boss->players[ENAP_SONIC] = &gPlayers[PLAYER_1];
     boss->players[ENAP_EGGMAN] = &gPlayers[PLAYER_2];
-    boss->players[ENAP_SONIC]->unk148.ptr = (PlayerUnk148 *)&boss->filler34[0x24];
-    boss->players[ENAP_EGGMAN]->unk148.ptr = (PlayerUnk148 *)&boss->filler34[0x34];
+    boss->players[ENAP_SONIC]->unk148.ptr = (PlayerUnk148 *)&boss->filler58[0];
+    boss->players[ENAP_EGGMAN]->unk148.ptr = (PlayerUnk148 *)&boss->filler68[0];
     boss->unk70 = 0;
     sub_878_80853D8(boss);
 }
@@ -1434,7 +1440,7 @@ void sub_878_808439C(UltimateGemerl *boss)
     s32 *temp_r2;
     s32 *temp_r2_3;
     s32 *var_r2;
-    s32 *var_r3;
+    s32 *pWin0H;
     s32 temp_r0_6;
     s32 temp_r1;
     s32 temp_r1_3;
@@ -1658,13 +1664,13 @@ void sub_878_808439C(UltimateGemerl *boss)
                 boss->unkD4 = temp_r2_2 - boss->strc10C[2].unk8;
                 boss->unkD8 -= boss->strc10C[2].unk8;
                 var_r2 = &boss->unkE4;
-                var_r3 = &boss->unkE8;
+                pWin0H = &boss->unkE8;
             } else {
                 boss->unkF = (u8)temp_r2_2;
                 boss->unk1[0] = (u8)temp_r2_2;
                 var_r1_3 = 0;
                 var_r2 = (s32 *)&boss->unkE4;
-                var_r3 = (s32 *)&boss->unkE8;
+                pWin0H = (s32 *)&boss->unkE8;
                 do {
                     temp_r0_5 = &boss->spr3B4[var_r1_3];
                     temp_r0_5->anim = 0x4FE;
@@ -1673,7 +1679,7 @@ void sub_878_808439C(UltimateGemerl *boss)
                 } while ((u32)var_r1_3 <= 3U);
             }
             *var_r2 += 0xFFFFFE80;
-            *var_r3 += 0xFFFFFE80;
+            *pWin0H += 0xFFFFFE80;
             sub_878_8082E2C(boss, 4U);
             break;
     }
@@ -2495,11 +2501,7 @@ void sub_8085784(void)
     }
     sa2__sub_8005FB4(0, 0, 0, 0xE, 6);
 }
-extern u8 gUnknown_080D5D30[0x20];
-typedef struct {
-    /* 0x00 */ winreg_t win0h;
-} StrcHblank;
-extern winreg_t gUnknown_080D5E84[DISPLAY_HEIGHT];
+
 void sub_808587C(s16 param0, s16 param1, u16 param2)
 {
     u8 sp4[4];
@@ -2581,7 +2583,6 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
     u8 *var_r3_11;
     u8 *var_r3_4;
     u8 *var_r3_5;
-    u8 *var_r3_7;
     u8 *var_r3_8;
     u8 *var_r3_9;
     u8 temp_r0_11;
@@ -2611,10 +2612,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
     u8 var_r7_9;
     void *temp_r3;
     void *temp_r3_2;
-    StrcHblank *var_r3;
-    void *var_r3_2;
-    void *var_r3_3;
-    void *var_r3_6;
+    int_vcount *pWin0H; /// NOTE: The pointer type is *half* of GBA window register WIN0H buffer.
 
     // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
@@ -2649,7 +2647,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     return;
                 case 1:
                     var_r6 = (u32)((temp_r0_2 - 7) << 8) >> 0x18;
-                    //                var_r3 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6 * gHBlankCopySize);
+                    //                pWin0H = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6 * gHBlankCopySize);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7 = 0;
@@ -2658,28 +2656,28 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                         temp_r1_2 = (s16)((u32)(temp_r0 + 0x30000) >> 0x10);
                         do {
                             if (sp4[0] != 0) {
-                                var_r3->win0h = WIN_RANGE(0, 240);
+                                *pWin0H = WIN_RANGE(0, 240);
+                                pWin0H++;
                             } else {
                                 temp_r0_6 = temp_r1_2 + gUnknown_080D5E84[var_r7 + 14];
                                 if ((s32)(s16)temp_r0_6 > 0xEF) {
                                     sp4[0] = 1U;
                                 }
-                                var_r3->win0h = (s8)temp_r0_6;
+                                *pWin0H = (s8)temp_r0_6;
+                                pWin0H++;
                             }
-                            temp_r3 = var_r3 + 1;
                             if (sp4[1] != 0) {
-                                var_r3->unk1 = 0xF0;
-                                var_r3 = temp_r3 + 1;
+                                *pWin0H = 0xF0;
+                                pWin0H++;
                             } else {
-                                temp_r0_7 = temp_r1_2 + *((var_r7 * 2) + &gUnknown_080D5E84);
-                                if ((s32)(s16)temp_r0_7 > 0xEF) {
-                                    var_r3->unk1 = 0xF0;
-                                    var_r3 = temp_r3 + 1;
+                                temp_r0_7 = temp_r1_2 + gUnknown_080D5E84[var_r7];
+                                if (temp_r0_7 >= DISPLAY_WIDTH) {
+                                    *pWin0H = DISPLAY_WIDTH;
+                                    pWin0H++;
                                     sp4[1] = 1U;
                                 } else {
-                                    var_r3->unk1 = (s8)(temp_r0_7 + var_r8);
-                                block_27:
-                                    var_r3 = temp_r3 + 1;
+                                    *pWin0H = (s8)(temp_r0_7 + var_r8);
+                                    pWin0H++;
                                 }
                             }
                             if (var_r7 == 0xD) {
@@ -2693,7 +2691,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     break;
                 case 2:
                     var_r6_2 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
-                    var_r3_2 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_2 * gHBlankCopySize);
+                    pWin0H = pWin0H + (var_r6_2 * gHBlankCopySize);
                     var_r4_2 = (u32)((temp_r0 + 0x60000) << 8) >> 0x18;
                     var_r5 = var_r4_2;
                     sp4[1] = 0U;
@@ -2701,11 +2699,12 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     var_r7_2 = 0;
                     if (var_r6_2 <= 0x9FU) {
                         do {
-                            var_r3_2->unk0 = (s8)var_r5;
-                            var_r3_2->unk1 = (s8)var_r4_2;
-                            var_r3_2 = var_r3_2 + 1 + 1;
-                            if (var_r5 <= 0xEFU) {
-                                var_r5 = (u32)(u8)(var_r5 + 1);
+                            *pWin0H = (s8)var_r5;
+                            pWin0H++;
+                            *pWin0H = (s8)var_r4_2;
+                            pWin0H++;
+                            if (var_r5 < DISPLAY_WIDTH) {
+                                var_r5 += 1;
                             }
                             if (sp4[0] != 0) {
                                 if (var_r4_2 <= 0xEFU) {
@@ -2725,7 +2724,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     break;
                 case 3:
                     var_r6_3 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
-                    var_r3_3 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_3 * gHBlankCopySize);
+                    pWin0H = pWin0H + (var_r6_3 * gHBlankCopySize);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_3 = 0;
@@ -2736,28 +2735,29 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     temp_r1_3 = (s16)((u32)(temp_r0 + 0x70000) >> 0x10);
                     do {
                         if (sp4[0] != 0) {
-                            var_r3_3->unk0 = 0xF0;
+                            *pWin0H = DISPLAY_WIDTH;
+                            pWin0H++;
                         } else {
-                            temp_r0_8 = temp_r1_3 + *(((var_r7_3 + 7) * 2) + &gUnknown_080D5FC4);
-                            if ((s32)(s16)temp_r0_8 > 0xEF) {
+                            temp_r0_8 = temp_r1_3 + gUnknown_080D5FC4[var_r7_3 + 7];
+                            if (temp_r0_8 >= DISPLAY_WIDTH) {
                                 sp4[0] = 1U;
                             }
-                            var_r3_3->unk0 = (s8)temp_r0_8;
+                            *pWin0H = (s8)temp_r0_8;
+                            pWin0H++;
                         }
-                        temp_r3_2 = var_r3_3 + 1;
                         if (sp4[1] != 0) {
-                            var_r3_3->unk1 = 0xF0;
-                            goto block_55;
-                        }
-                        temp_r0_9 = temp_r1_3 + *((var_r7_3 * 2) + &gUnknown_080D5FC4);
-                        if ((s32)(s16)temp_r0_9 > 0xEF) {
-                            var_r3_3->unk1 = 0xF0;
-                            var_r3_3 = temp_r3_2 + 1;
-                            sp4[1] = 1U;
+                            *pWin0H = 0xF0;
+                            pWin0H++;
                         } else {
-                            var_r3_3->unk1 = (s8)(temp_r0_9 + var_r8_2);
-                        block_55:
-                            var_r3_3 = temp_r3_2 + 1;
+                            temp_r0_9 = temp_r1_3 + gUnknown_080D5FC4[var_r7_3];
+                            if ((s32)(s16)temp_r0_9 >= DISPLAY_WIDTH) {
+                                *pWin0H = DISPLAY_WIDTH;
+                                pWin0H++;
+                                sp4[1] = 1U;
+                            } else {
+                                *pWin0H = (s8)(temp_r0_9 + var_r8_2);
+                                pWin0H++;
+                            }
                         }
                         if (var_r7_3 == 6) {
                             var_r8_2 = 0xFFF2;
@@ -2775,7 +2775,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     return;
                 case 5:
                     var_r6_4 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
-                    var_r3_4 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_4 * gHBlankCopySize);
+                    pWin0H = ((u8 *)pWin0H) + (var_r6_4 * gHBlankCopySize);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_4 = 0;
@@ -2787,33 +2787,33 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     do {
                         temp_r0_11 = sp4[1];
                         if (temp_r0_11 != 0) {
-                            *var_r3_4 = 0;
+                            *pWin0H = 0;
                             goto block_71;
                         }
-                        temp_r0_12 = var_r8_3 + (temp_r0_10 - *((var_r7_4 * 2) + &gUnknown_080D5FC4));
+                        temp_r0_12 = var_r8_3 + (temp_r0_10 - gUnknown_080D5FC4[var_r7_4]);
                         if ((s32)(temp_r0_12 << 0x10) < 0) {
-                            *var_r3_4 = temp_r0_11;
-                            var_r3_5 = var_r3_4 + 1;
+                            *pWin0H = temp_r0_11;
+                            var_r3_5 = pWin0H + 1;
                             sp4[1] = 1U;
                         } else {
-                            *var_r3_4 = (u8)temp_r0_12;
+                            *pWin0H = (u8)temp_r0_12;
                         block_71:
-                            var_r3_5 = var_r3_4 + 1;
+                            var_r3_5 = pWin0H + 1;
                         }
                         temp_r1_4 = sp4[0];
                         if (temp_r1_4 != 0) {
                             *var_r3_5 = 0;
                             goto block_77;
                         }
-                        temp_r0_13 = temp_r0_10 - *(((var_r7_4 + 7) * 2) + &gUnknown_080D5FC4);
+                        temp_r0_13 = temp_r0_10 - gUnknown_080D5FC4[var_r7_4 + 7];
                         if ((s32)(temp_r0_13 << 0x10) < 0) {
                             *var_r3_5 = temp_r1_4;
-                            var_r3_4 = var_r3_5 + 1;
+                            pWin0H = var_r3_5 + 1;
                             sp4[0] = 1U;
                         } else {
                             *var_r3_5 = (u8)temp_r0_13;
                         block_77:
-                            var_r3_4 = var_r3_5 + 1;
+                            pWin0H = var_r3_5 + 1;
                         }
                         if (var_r7_4 == 6) {
                             var_r8_3 = 0xE;
@@ -2824,7 +2824,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     return;
                 case 6:
                     var_r6_5 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
-                    var_r3_6 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_5 * gHBlankCopySize);
+                    pWin0H = ((u8 *)pWin0H) + (var_r6_5 * gHBlankCopySize);
                     var_r4_3 = (u32)((temp_r0 + 0xFFFA0000) << 8) >> 0x18;
                     var_r5_2 = var_r4_3;
                     sp4[1] = 0U;
@@ -2834,9 +2834,10 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                         return;
                     }
                     do {
-                        var_r3_6->unk0 = (s8)var_r5_2;
-                        var_r3_6->unk1 = (s8)var_r4_3;
-                        var_r3_6 = var_r3_6 + 1 + 1;
+                        *pWin0H = (s8)var_r5_2;
+                        pWin0H++;
+                        *pWin0H = (s8)var_r4_3;
+                        pWin0H++;
                         if (var_r4_3 != 0) {
                             var_r4_3 = (u32)(u8)(var_r4_3 - 1);
                         }
@@ -2856,7 +2857,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     return;
                 case 7:
                     var_r6_6 = (u32)((temp_r0_2 + 0xFFF90000) << 8) >> 0x18;
-                    var_r3_7 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_6 * gHBlankCopySize);
+                    pWin0H = ((u8 *)pWin0H) + (var_r6_6 * gHBlankCopySize);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_6 = 0;
@@ -2868,33 +2869,33 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                     do {
                         temp_r0_15 = sp4[1];
                         if (temp_r0_15 != 0) {
-                            *var_r3_7 = 0;
+                            *pWin0H = 0;
                             goto block_101;
                         }
-                        temp_r0_16 = var_r8_4 + (temp_r0_14 - *((var_r7_6 * 2) + &gUnknown_080D5E84));
+                        temp_r0_16 = var_r8_4 + (temp_r0_14 - gUnknown_080D5E84[var_r7_6]);
                         if ((s32)(temp_r0_16 << 0x10) < 0) {
-                            *var_r3_7 = temp_r0_15;
-                            var_r3_8 = var_r3_7 + 1;
+                            *pWin0H = temp_r0_15;
+                            pWin0H = pWin0H + 1;
                             sp4[1] = 1U;
                         } else {
-                            *var_r3_7 = (u8)temp_r0_16;
+                            *pWin0H = (u8)temp_r0_16;
                         block_101:
-                            var_r3_8 = var_r3_7 + 1;
+                            pWin0H = pWin0H + 1;
                         }
                         temp_r1_5 = sp4[0];
                         if (temp_r1_5 != 0) {
-                            *var_r3_8 = 0;
+                            *pWin0H = 0;
                             goto block_107;
                         }
-                        temp_r0_17 = temp_r0_14 - *(((var_r7_6 + 0xE) * 2) + &gUnknown_080D5E84);
+                        temp_r0_17 = temp_r0_14 - gUnknown_080D5E84[var_r7_6 + 0xE];
                         if ((s32)(temp_r0_17 << 0x10) < 0) {
-                            *var_r3_8 = temp_r1_5;
-                            var_r3_7 = var_r3_8 + 1;
+                            *pWin0H = temp_r1_5;
+                            pWin0H = pWin0H + 1;
                             sp4[0] = 1U;
                         } else {
-                            *var_r3_8 = (u8)temp_r0_17;
+                            *pWin0H = (u8)temp_r0_17;
                         block_107:
-                            var_r3_7 = var_r3_8 + 1;
+                            pWin0H = pWin0H + 1;
                         }
                         if (var_r7_6 == 0xD) {
                             var_r8_4 = 6;
@@ -2919,46 +2920,45 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                 case 9:
                     temp_r0_20 = (u32)(temp_r0 + 0xFFFD0000) >> 0x10;
                     var_r6_7 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
-                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_7 * gHBlankCopySize);
-                    var_r3_9->unk1 = (s8)temp_r0_20;
+                    pWin0H = pWin0H + (var_r6_7 * gHBlankCopySize);
+                    pWin0H++;
+                    *pWin0H = (s8)temp_r0_20;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_7 = 0;
                     var_r8_5 = 0;
-                    if (var_r6_7 == 0) {
-
-                    } else {
+                    if (var_r6_7 != 0) {
                         temp_r0_21 = (s16)temp_r0_20;
                         do {
                             temp_r0_22 = sp4[1];
                             if (temp_r0_22 != 0) {
-                                *var_r3_9 = 0;
+                                *pWin0H = 0;
                                 goto block_125;
                             }
-                            temp_r0_23 = var_r8_5 + (temp_r0_21 - *((var_r7_7 * 2) + &gUnknown_080D5E84));
+                            temp_r0_23 = var_r8_5 + (temp_r0_21 - gUnknown_080D5E84[var_r7_7]);
                             if ((s32)(temp_r0_23 << 0x10) < 0) {
-                                *var_r3_9 = temp_r0_22;
-                                var_r3_10 = var_r3_9 - 1;
+                                *pWin0H = temp_r0_22;
+                                pWin0H = pWin0H - 1;
                                 sp4[1] = 1U;
                             } else {
-                                *var_r3_9 = (u8)temp_r0_23;
+                                *pWin0H = (u8)temp_r0_23;
                             block_125:
-                                var_r3_10 = var_r3_9 - 1;
+                                pWin0H = pWin0H - 1;
                             }
                             temp_r1_6 = sp4[0];
                             if (temp_r1_6 != 0) {
-                                *var_r3_10 = 0;
+                                *pWin0H = 0;
                                 goto block_131;
                             }
-                            temp_r0_24 = temp_r0_21 - *(((var_r7_7 + 0xE) * 2) + &gUnknown_080D5E84);
+                            temp_r0_24 = temp_r0_21 - gUnknown_080D5E84[var_r7_7 + 14];
                             if ((s32)(temp_r0_24 << 0x10) < 0) {
-                                *var_r3_10 = temp_r1_6;
-                                var_r3_9 = var_r3_10 - 1;
+                                *pWin0H = temp_r1_6;
+                                pWin0H = pWin0H - 1;
                                 sp4[0] = 1U;
                             } else {
-                                *var_r3_10 = (u8)temp_r0_24;
+                                *pWin0H = (u8)temp_r0_24;
                             block_131:
-                                var_r3_9 = var_r3_10 - 1;
+                                pWin0H = pWin0H - 1;
                             }
                             if (var_r7_7 == 0xD) {
                                 var_r8_5 = 6;
@@ -2968,13 +2968,15 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                         } while (var_r6_7 != 0);
                     }
                 block_211:
-                    var_r3_9->unk1 = 0;
+                    pWin0H++;
+                    *pWin0H = 0;
                     break;
                 case 10:
                     temp_r0_25 = (u32)(temp_r0 + 0xFFFA0000) >> 0x10;
                     var_r6_8 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
-                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_8 * gHBlankCopySize);
-                    var_r3_9->unk1 = (s8)temp_r0_25;
+                    pWin0H = pWin0H + (var_r6_8 * gHBlankCopySize);
+                    pWin0H++;
+                    *pWin0H = (s8)temp_r0_25;
                     var_r4_5 = (u8)temp_r0_25;
                     var_r5_3 = var_r4_5;
                     sp4[1] = 0U;
@@ -2984,10 +2986,10 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
 
                     } else {
                         do {
-                            *var_r3_9 = var_r5_3;
-                            temp_r3_3 = var_r3_9 - 1;
+                            *pWin0H = var_r5_3;
+                            temp_r3_3 = pWin0H - 1;
                             *temp_r3_3 = var_r4_5;
-                            var_r3_9 = temp_r3_3 - 1;
+                            pWin0H = temp_r3_3 - 1;
                             if (var_r4_5 != 0) {
                                 var_r4_5 -= 1;
                             }
@@ -3009,8 +3011,9 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                 case 11:
                     temp_r0_26 = (u32)(temp_r0 + 0xFFF90000) >> 0x10;
                     var_r6_9 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
-                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_9 * gHBlankCopySize);
-                    var_r3_9->unk1 = (s8)temp_r0_26;
+                    pWin0H = pWin0H + (var_r6_9 * gHBlankCopySize);
+                    pWin0H++;
+                    *pWin0H = (s8)temp_r0_26;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_9 = 0;
@@ -3022,33 +3025,33 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                         do {
                             temp_r0_28 = sp4[1];
                             if (temp_r0_28 != 0) {
-                                *var_r3_9 = 0;
+                                *pWin0H = 0;
                                 goto block_155;
                             }
-                            temp_r0_29 = var_r8_6 + (temp_r0_27 - *((var_r7_9 * 2) + &gUnknown_080D5FC4));
+                            temp_r0_29 = var_r8_6 + (temp_r0_27 - gUnknown_080D5FC4[var_r7_9]);
                             if ((s32)(temp_r0_29 << 0x10) < 0) {
-                                *var_r3_9 = temp_r0_28;
-                                var_r3_11 = var_r3_9 - 1;
+                                *pWin0H = temp_r0_28;
+                                var_r3_11 = pWin0H - 1;
                                 sp4[1] = 1U;
                             } else {
-                                *var_r3_9 = (u8)temp_r0_29;
+                                *pWin0H = (u8)temp_r0_29;
                             block_155:
-                                var_r3_11 = var_r3_9 - 1;
+                                var_r3_11 = pWin0H - 1;
                             }
                             temp_r1_7 = sp4[0];
                             if (temp_r1_7 != 0) {
                                 *var_r3_11 = 0;
                                 goto block_161;
                             }
-                            temp_r0_30 = temp_r0_27 - *(((var_r7_9 + 7) * 2) + &gUnknown_080D5FC4);
+                            temp_r0_30 = temp_r0_27 - gUnknown_080D5FC4[var_r7_9 + 7];
                             if ((s32)(temp_r0_30 << 0x10) < 0) {
                                 *var_r3_11 = temp_r1_7;
-                                var_r3_9 = var_r3_11 - 1;
+                                pWin0H = var_r3_11 - 1;
                                 sp4[0] = 1U;
                             } else {
                                 *var_r3_11 = (u8)temp_r0_30;
                             block_161:
-                                var_r3_9 = var_r3_11 - 1;
+                                pWin0H = var_r3_11 - 1;
                             }
                             if (var_r7_9 == 6) {
                                 var_r8_6 = 0xE;
@@ -3064,8 +3067,9 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                 case 13:
                     temp_r0_31 = (u32)(temp_r0 + 0x70000) >> 0x10;
                     var_r6_10 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
-                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_10 * gHBlankCopySize);
-                    var_r3_9->unk1 = (s8)temp_r0_31;
+                    pWin0H = pWin0H + (var_r6_10 * gHBlankCopySize);
+                    pWin0H++;
+                    *pWin0H = (s8)temp_r0_31;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_10 = 0;
@@ -3076,21 +3080,21 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                         temp_r5 = (s16)temp_r0_31;
                         do {
                             if (sp4[0] != 0) {
-                                *var_r3_9 = 0xF0;
+                                *pWin0H = 0xF0;
                             } else {
-                                temp_r0_32 = temp_r5 + *(((var_r7_10 + 7) * 2) + &gUnknown_080D5FC4);
+                                temp_r0_32 = temp_r5 + gUnknown_080D5FC4[var_r7_10 + 7];
                                 if ((s32)(s16)temp_r0_32 > 0xEF) {
                                     sp4[0] = 1U;
                                 }
-                                *var_r3_9 = (u8)temp_r0_32;
+                                *pWin0H = (u8)temp_r0_32;
                             }
-                            temp_r3_4 = var_r3_9 - 1;
+                            temp_r3_4 = pWin0H - 1;
                             if (sp4[1] == 0) {
-                                temp_r0_33 = var_r8_7 + (temp_r5 + *((var_r7_10 * 2) + &gUnknown_080D5FC4));
+                                temp_r0_33 = var_r8_7 + (temp_r5 + gUnknown_080D5FC4[var_r7_10]);
                                 var_r2_4 = temp_r0_33;
                                 if ((s32)(s16)temp_r0_33 > 0xEF) {
                                     *temp_r3_4 = 0xF0;
-                                    var_r3_9 = temp_r3_4 - 1;
+                                    pWin0H = temp_r3_4 - 1;
                                     sp4[1] = 1U;
                                 } else {
                                     goto block_179;
@@ -3099,7 +3103,7 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                                 var_r2_4 = 0xF0;
                             block_179:
                                 *temp_r3_4 = (s8)var_r2_4;
-                                var_r3_9 = temp_r3_4 - 1;
+                                pWin0H = temp_r3_4 - 1;
                             }
                             if (var_r7_10 == 6) {
                                 var_r8_7 = -0xE;
@@ -3112,8 +3116,9 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                 case 14:
                     temp_r0_34 = (u32)(temp_r0 + 0x60000) >> 0x10;
                     var_r6_11 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
-                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_11 * gHBlankCopySize);
-                    var_r3_9->unk1 = (s8)temp_r0_34;
+                    pWin0H = pWin0H + (var_r6_11 * gHBlankCopySize);
+                    pWin0H++;
+                    *pWin0H = (s8)temp_r0_34;
                     var_r4_6 = (u8)temp_r0_34;
                     var_r5_4 = var_r4_6;
                     sp4[1] = 0U;
@@ -3123,10 +3128,10 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
 
                     } else {
                         do {
-                            *var_r3_9 = var_r5_4;
-                            temp_r3_5 = var_r3_9 - 1;
+                            *pWin0H = var_r5_4;
+                            temp_r3_5 = pWin0H - 1;
                             *temp_r3_5 = var_r4_6;
-                            var_r3_9 = temp_r3_5 - 1;
+                            pWin0H = temp_r3_5 - 1;
                             if ((u32)var_r5_4 <= 0xEFU) {
                                 var_r5_4 += 1;
                             }
@@ -3148,8 +3153,9 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                 case 15:
                     temp_r0_35 = (u32)(temp_r0 + 0x30000) >> 0x10;
                     var_r6_12 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
-                    var_r3_9 = M2C_ERROR(/* Read from unset register $r3 */) + (var_r6_12 * gHBlankCopySize);
-                    var_r3_9->unk1 = (s8)temp_r0_35;
+                    pWin0H = pWin0H + (var_r6_12 * gHBlankCopySize);
+                    pWin0H++;
+                    *pWin0H = (s8)temp_r0_35;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_12 = 0;
@@ -3158,28 +3164,28 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
                         temp_r5_2 = (s16)temp_r0_35;
                         do {
                             if (sp4[0] != 0) {
-                                *var_r3_9 = 0xF0;
+                                *pWin0H = 0xF0;
                             } else {
-                                temp_r0_36 = temp_r5_2 + *(((var_r7_12 + 0xE) * 2) + &gUnknown_080D5E84);
+                                temp_r0_36 = temp_r5_2 + gUnknown_080D5E84[var_r7_12 + 14];
                                 if ((s32)(s16)temp_r0_36 > 0xEF) {
                                     sp4[0] = 1U;
                                 }
-                                *var_r3_9 = (u8)temp_r0_36;
+                                *pWin0H = (u8)temp_r0_36;
                             }
-                            temp_r3_6 = var_r3_9 - 1;
+                            temp_r3_6 = pWin0H - 1;
                             if (sp4[1] != 0) {
                                 *temp_r3_6 = 0xF0;
                                 goto block_207;
                             }
-                            temp_r0_37 = var_r8_8 + (temp_r5_2 + *((var_r7_12 * 2) + &gUnknown_080D5E84));
+                            temp_r0_37 = var_r8_8 + (temp_r5_2 + gUnknown_080D5E84[var_r7_12]);
                             if ((s32)(s16)temp_r0_37 > 0xEF) {
                                 *temp_r3_6 = 0xF0;
-                                var_r3_9 = temp_r3_6 - 1;
+                                pWin0H = temp_r3_6 - 1;
                                 sp4[1] = 1U;
                             } else {
                                 *temp_r3_6 = (s8)temp_r0_37;
                             block_207:
-                                var_r3_9 = temp_r3_6 - 1;
+                                pWin0H = temp_r3_6 - 1;
                             }
                             if (var_r7_12 == 0xD) {
                                 var_r8_8 = -6;
@@ -3194,37 +3200,41 @@ void sub_808587C(s16 param0, s16 param1, u16 param2)
     }
 }
 
-#if 0
+u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1);
+u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1);
+u8 sub_878_8086774(UltimateGemerl *arg0, Player *arg1);
+void sub_801038C(Player *p);
+void sub_8010C58(Player *p);
 void sub_878_80862D8(UltimateGemerl *boss)
 {
-    Player *temp_r1;
-    Player *temp_r4;
+    Player *player;
+    Player *partner;
 
     if (boss->lives == 0) {
         return;
     }
-    temp_r1 = boss->players[0];
-    if (!(temp_r1->moveState & 0x100) && !(boss->players[1]->moveState & 0x100)) {
-        if (!(2 & temp_r1->unk14C.arr_u8[0])
-            && ((sub_878_80863FC(boss, temp_r1) != 0) || (sub_878_80865B0(boss, temp_r1) != 0) || (sub_80871CC(boss, temp_r1) != 0)
-                || (sub_878_8086774(boss, temp_r1) != 0))) {
-            sub_801038C(temp_r1);
+    player = boss->players[0];
+    if (!(player->moveState & 0x100) && !(boss->players[1]->moveState & 0x100)) {
+        if (!(2 & player->unk14C.arr_u8[0])
+            && ((sub_878_80863FC(boss, player) != 0) || (sub_878_80865B0(boss, player) != 0) || (sub_80871CC(boss, player) != 0)
+                || (sub_878_8086774(boss, player) != 0))) {
+            sub_801038C(player);
         }
-        temp_r4 = boss->players[1];
+        partner = boss->players[1];
         if (boss->unk70 != 0) {
-            if (((sub_878_80865B0(boss, temp_r4) << 0x18) != 0) || ((sub_80871CC(boss, temp_r4) << 0x18) != 0)
-                || ((sub_878_8086774(boss, temp_r4) << 0x18) != 0)) {
-                sub_8010C58(temp_r4);
+            if (((sub_878_80865B0(boss, partner) << 0x18) != 0) || ((sub_80871CC(boss, partner) << 0x18) != 0)
+                || ((sub_878_8086774(boss, partner) << 0x18) != 0)) {
+                sub_8010C58(partner);
             }
-        } else if ((gStageData.gameMode == 5) && !(2 & temp_r4->unk14C.arr_u8[0])
-                   && ((sub_878_80863FC(boss, temp_r4) != 0) || (sub_878_80865B0(boss, temp_r4) != 0) || (sub_80871CC(boss, temp_r4) != 0)
-                       || (sub_878_8086774(boss, temp_r4) != 0))) {
-            sub_801038C(temp_r4);
+        } else if ((gStageData.gameMode == 5) && !(2 & partner->unk14C.arr_u8[0])
+                   && ((sub_878_80863FC(boss, partner) != 0) || (sub_878_80865B0(boss, partner) != 0) || (sub_80871CC(boss, partner) != 0)
+                       || (sub_878_8086774(boss, partner) != 0))) {
+            sub_801038C(partner);
         }
     }
 }
 
-u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1)
+u8 sub_878_80863FC(UltimateGemerl *boss, Player *arg1)
 {
     PlayerSpriteInfo *temp_r6;
     s16 temp_r0;
@@ -3245,21 +3255,20 @@ u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1)
     s8 temp_r5_2;
     u16 temp_r6_2;
     u8 var_sb;
-    void *temp_r1;
+    Sprite *temp_r1;
 
     var_sb = 0;
     temp_r6 = arg1->spriteInfoBody;
-    temp_r1 = temp_r6 + 0xC;
-    if ((arg1->moveState & 0x100) || (temp_r1->unk20 == -1)) {
+    temp_r1 = (Sprite *)&temp_r6->s;
+    if ((arg1->moveState & 0x100) || (temp_r1->hitboxes[0].index == -1)) {
         return 0U;
     }
-    temp_r1_2 = arg0->unk34;
-    if (1 & temp_r1_2) {
-        temp_r1_3 = arg0->fillerE2[1] * 0x18;
-        temp_r4 = ((s32)arg1->qWorldY >> 8) - ((s32) * (arg0 + 0x110 + temp_r1_3) >> 8);
-        temp_r5 = (((s32)arg1->qWorldX >> 8) + (u16)gCamera.unk6A) - (((s32) * (arg0 + 0x10C + temp_r1_3) >> 8) - 4);
+    if (1 & boss->unk34) {
+        temp_r1_3 = boss->unkE3 * 0x18;
+        temp_r4 = I(arg1->qWorldY) - I(boss->strc10C[boss->unkE3].qWorldY);
+        temp_r5 = (I(arg1->qWorldX) + (u16)gCamera.unk6A) - (I(boss->strc10C[boss->unkE3].qWorldY) - 4);
         temp_r6_2 = (u16)sa2__sub_8004418(temp_r4, temp_r5);
-        temp_r8 = *(((u16)arg0->unkCE >> 5) + &gUnknown_080D5D30) << 6;
+        temp_r8 = gUnknown_080D5D30[boss->unkCE >> 5] << 6;
         temp_r1_4 = 0x20 - ((s32)Sqrt((temp_r5 * temp_r5) + (temp_r4 * temp_r4)) / 12);
         temp_r0 = (s16)temp_r6_2;
         temp_r2 = temp_r8 - temp_r0;
@@ -3273,13 +3282,12 @@ u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1)
         block_8:
             var_sb = 2;
         }
-    } else if (temp_r1_2 & 2) {
-        temp_r4_2 = arg0->filler34[8];
-        temp_r3 = arg0->unk48 + temp_r4_2;
+    } else if (boss->unk34 & 2) {
+        temp_r3 = boss->unk48 + boss->unk3C;
         temp_r5_2 = temp_r6->s.hitboxes[0].b.left;
         temp_r1_5 = ((((s32)arg1->qWorldX >> 8) + gCamera.unk6A) - gCamera.x) + temp_r5_2;
         if (temp_r3 <= temp_r1_5) {
-            if ((s32)(temp_r3 + ((s8)arg0->filler34[0xA] - temp_r4_2)) < temp_r1_5) {
+            if ((s32)(temp_r3 + ((s8)boss->unk3E - boss->unk3C)) < temp_r1_5) {
                 if (temp_r3 >= temp_r1_5) {
                     goto block_13;
                 }
@@ -3290,12 +3298,12 @@ u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1)
         block_13:
             if ((s32)(temp_r1_5 + ((s8)temp_r6->s.hitboxes[0].b.right - temp_r5_2)) >= temp_r3) {
             block_14:
-                temp_r3_2 = arg0->filler34[9];
-                temp_r2_2 = arg0->unk4C + temp_r3_2;
-                temp_r4_3 = temp_r1->unk25;
+                temp_r3_2 = boss->unk3D;
+                temp_r2_2 = boss->unk4C + temp_r3_2;
+                temp_r4_3 = temp_r1->hitboxes[0].b.top;
                 temp_r1_6 = (((s32)arg1->qWorldY >> 8) - gCamera.y) + temp_r4_3;
                 if (temp_r2_2 <= temp_r1_6) {
-                    if ((s32)(temp_r2_2 + ((s8)arg0->filler34[0xB] - temp_r3_2)) < temp_r1_6) {
+                    if ((s32)(temp_r2_2 + ((s8)boss->unk3F - temp_r3_2)) < temp_r1_6) {
                         if (temp_r2_2 >= temp_r1_6) {
                             goto block_17;
                         }
@@ -3304,7 +3312,7 @@ u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1)
                     }
                 } else {
                 block_17:
-                    if ((s32)(temp_r1_6 + ((s8)temp_r1->unk27 - temp_r4_3)) >= temp_r2_2) {
+                    if ((s32)(temp_r1_6 + ((s8)temp_r1->hitboxes[0].b.bottom - temp_r4_3)) >= temp_r2_2) {
                     block_18:
                         var_sb = 1;
                     }
@@ -3324,7 +3332,7 @@ u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
     s32 temp_r2;
     s32 temp_r2_2;
     s32 var_r1;
-    s32 var_r3;
+    s32 pWin0H;
     s8 temp_r1_3;
     s8 temp_r1_5;
     s8 temp_r4;
@@ -3334,17 +3342,17 @@ u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
     s8 var_r2;
     u8 *var_r0;
     u8 var_sb;
-    void *temp_r1;
-    void *temp_r7;
+    Sprite *temp_r1;
+    Sprite *temp_r7;
 
     var_sb = 0;
-    temp_r1 = arg0 + 0x38C;
+    temp_r1 = &arg0->spr38C;
     temp_r0 = arg1->spriteInfoBody;
-    temp_r7 = temp_r0 + 0xC;
-    if ((arg1->moveState & 0x100) || (temp_r1->unk20 == -1)) {
+    temp_r7 = (Sprite *)&temp_r0->s;
+    if ((arg1->moveState & 0x100) || (temp_r1->hitboxes[0].index == -1)) {
         return 0U;
     }
-    temp_r1_2 = temp_r7->unk20;
+    temp_r1_2 = temp_r7->hitboxes[0].index;
     if (temp_r1_2 != -1) {
         temp_r1_3 = (s8)arg0->spr38C.hitboxes[0].b.left;
         temp_r2 = ((s32)arg0->qUnk9C >> 8) + temp_r1_3;
@@ -3366,13 +3374,13 @@ u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
 
             } else {
             block_10:
-                temp_r4_2 = temp_r1->unk25;
-                var_r3 = ((s32)arg0->qUnkA0 >> 8) + temp_r4_2;
-                var_r2 = (s8)temp_r7->unk25;
+                temp_r4_2 = temp_r1->hitboxes[0].b.top;
+                pWin0H = ((s32)arg0->qUnkA0 >> 8) + temp_r4_2;
+                var_r2 = (s8)temp_r7->hitboxes[0].b.top;
                 var_r1 = ((s32)arg1->qWorldY >> 8) + var_r2;
-                if (var_r3 <= var_r1) {
-                    if ((s32)(var_r3 + ((s8)temp_r1->unk27 - temp_r4_2)) < var_r1) {
-                        if (var_r3 >= var_r1) {
+                if (pWin0H <= var_r1) {
+                    if ((s32)(pWin0H + ((s8)temp_r1->hitboxes[0].b.bottom - temp_r4_2)) < var_r1) {
+                        if (pWin0H >= var_r1) {
                             goto block_13;
                         }
                     } else {
@@ -3380,12 +3388,12 @@ u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
                     }
                 } else {
                 block_13:
-                    var_r0 = temp_r7 + 0x27;
+                    var_r0 = &temp_r7->hitboxes[0].b.top;
                     goto block_23;
                 }
             }
         }
-    } else if (temp_r7->unk28 != temp_r1_2) {
+    } else if (temp_r7->hitboxes[1].index != temp_r1_2) {
         temp_r1_5 = (s8)arg0->spr38C.hitboxes[0].b.left;
         temp_r2_2 = ((s32)arg0->qUnk9C >> 8) + temp_r1_5;
         temp_r4_3 = temp_r0->s.hitboxes[1].b.left;
@@ -3402,13 +3410,13 @@ u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
         block_18:
             if ((s32)(temp_r1_6 + ((s8)temp_r0->s.hitboxes[1].b.right - temp_r4_3)) >= temp_r2_2) {
             block_19:
-                temp_r4_4 = temp_r1->unk25;
-                var_r3 = ((s32)arg0->qUnkA0 >> 8) + temp_r4_4;
-                var_r2 = (s8)temp_r7->unk2D;
+                temp_r4_4 = temp_r1->hitboxes[0].b.top;
+                pWin0H = ((s32)arg0->qUnkA0 >> 8) + temp_r4_4;
+                var_r2 = (s8)temp_r7->hitboxes[1].b.top;
                 var_r1 = ((s32)arg1->qWorldY >> 8) + var_r2;
-                if (var_r3 <= var_r1) {
-                    if ((s32)(var_r3 + ((s8)temp_r1->unk27 - temp_r4_4)) < var_r1) {
-                        if (var_r3 >= var_r1) {
+                if (pWin0H <= var_r1) {
+                    if ((s32)(pWin0H + ((s8)temp_r1->hitboxes[0].b.bottom - temp_r4_4)) < var_r1) {
+                        if (pWin0H >= var_r1) {
                             goto block_22;
                         }
                     } else {
@@ -3416,9 +3424,9 @@ u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
                     }
                 } else {
                 block_22:
-                    var_r0 = temp_r7 + 0x2F;
+                    var_r0 = &temp_r7->hitboxes[1].b.bottom;
                 block_23:
-                    if ((s32)(var_r1 + ((s8)*var_r0 - var_r2)) >= var_r3) {
+                    if ((s32)(var_r1 + ((s8)*var_r0 - var_r2)) >= pWin0H) {
                     block_24:
                         var_sb = 1;
                     }
@@ -3442,8 +3450,8 @@ u8 sub_878_8086774(UltimateGemerl *arg0, Player *arg1)
         var_r4 = 0;
     loop_2:
         temp_r3 = (var_r4 * 0x14) + (var_r5 * 0x78);
-        if (sub_8010184(arg0 + ((var_r5 * 0xF0) + 0x454) + (var_r4 * 0x28), (s32) * (arg0 + 0x16C + temp_r3) >> 8,
-                        (s32) * (arg0 + 0x170 + temp_r3) >> 8, 0, arg1)
+        if (sub_8010184(&arg0->spr454[var_r5][var_r4], I(arg0->strc16C[var_r5][var_r4].qWorldX), I(arg0->strc16C[var_r5][var_r4].qWorldY),
+                        0, arg1)
             == 1) {
             var_r8 = 1;
             var_r5 = 4;
@@ -3490,13 +3498,13 @@ bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
     s8 temp_r6_3;
     s8 temp_r6_5;
     u8 temp_r6;
-    void *temp_r6_2;
+    Sprite *temp_r6_2;
 
     temp_r6 = arg1;
     sp0 = 0;
     sp4 = arg0->players[0];
     temp_r2 = arg0->players[1];
-    temp_r1 = (0xFFFFFF & ((0xFF00FFFF & ((0xFFFF00FF & ((0xFFFFFF00 & saved_reg_r8) | 0xF8)) | 0xF800)) | 0x80000)) | 0x08000000;
+    //    temp_r1 = (0xFFFFFF & ((0xFF00FFFF & ((0xFFFF00FF & ((0xFFFFFF00 & saved_reg_r8) | 0xF8)) | 0xF800)) | 0x80000)) | 0x08000000;
     temp_r1_2 = (arg0->rotation + 0x200) & 0x3FF;
     temp_r0 = gSineTable[temp_r1_2 + 0x100];
     temp_r0_2 = gSineTable[temp_r1_2];
@@ -3508,7 +3516,7 @@ bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
 
             } else {
                 temp_r3 = temp_r2->spriteInfoBody;
-                temp_r6_2 = temp_r3 + 0xC;
+                temp_r6_2 = (Sprite *)&temp_r3->s;
                 temp_r0_3 = temp_r1;
                 sp8 = (s32)temp_r0_3;
                 temp_r2_3 = (temp_r2_2 >> 8) + temp_r0_3;
@@ -3532,7 +3540,7 @@ bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
                     block_11:
                         temp_r1_4 = (s32)(temp_r1 << 0x10) >> 0x18;
                         temp_r3_2 = (temp_sb >> 8) + temp_r1_4;
-                        temp_r5 = temp_r6_2->unk2D;
+                        temp_r5 = temp_r6_2->hitboxes[1].b.top;
                         temp_r2_4 = ((s32)temp_r2->qWorldY >> 8) + temp_r5;
                         if (temp_r3_2 <= temp_r2_4) {
                             if ((s32)(temp_r3_2 + ((temp_r1 >> 0x18) - temp_r1_4)) < temp_r2_4) {
@@ -3544,7 +3552,7 @@ bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
                             }
                         } else {
                         block_14:
-                            if ((s32)(temp_r2_4 + ((s8)temp_r6_2->unk2F - temp_r5)) >= temp_r3_2) {
+                            if ((s32)(temp_r2_4 + ((s8)temp_r6_2->hitboxes[1].b.bottom - temp_r5)) >= temp_r3_2) {
                             block_15:
                                 sub_8010C58(temp_r2);
                             block_26:
@@ -3603,6 +3611,7 @@ bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
     return sp0;
 }
 
+#if 0
 void ExtraBoss_CreateMissile(UltimateGemerl *arg0, u8 arg1, ? arg3)
 {
     s32 temp_r0;
@@ -3960,17 +3969,17 @@ void sub_80870E4(u16 arg0)
 
 void sub_8087140(u16 arg0, u8 arg1, u8 arg2)
 {
-    u16 *var_r3;
+    u16 *pWin0H;
     u8 temp_r2;
     u8 var_r1;
 
     var_r1 = arg1;
     temp_r2 = arg2;
-    var_r3 = gBgOffsetsHBlankPrimary + (var_r1 * 2);
+    pWin0H = gBgOffsetsHBlankPrimary + (var_r1 * 2);
     if ((u32)var_r1 < (u32)temp_r2) {
         do {
-            *var_r3 = arg0;
-            var_r3 += 2;
+            *pWin0H = arg0;
+            pWin0H += 2;
             var_r1 += 1;
         } while ((u32)var_r1 < (u32)temp_r2);
     }
@@ -3990,9 +3999,9 @@ void sub_8087188(UltimateGemerl *arg0, s16 arg1, s16 arg2, u16 arg3)
     temp_r4 = (s32)(arg1 + ((u32)(arg1 << 0x10) >> 0x1F)) >> 1;
     arg0->unk48 = temp_r4;
     arg0->unk4C = (s32)arg2;
-    arg0->filler34[8] = 0 - temp_r4;
-    arg0->filler34[9] = 0 - temp_r3;
-    arg0->filler34[0xA] = (u8)temp_r4;
+    arg0->unk3C = 0 - temp_r4;
+    arg0->unk3D = 0 - temp_r3;
+    arg0->unk3E = (u8)temp_r4;
     (arg0 + 0x3E)->unk1 = (s8)temp_r3;
 }
 

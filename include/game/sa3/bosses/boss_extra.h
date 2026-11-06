@@ -42,7 +42,8 @@ typedef struct {
     /* 0x00F */ u8 unkF;
     /* 0x010 */ s16 unk10;
     /* 0x012 */ s16 unk12;
-    /* 0x014 */ u8 filler14[0x3];
+    /* 0x014 */ s16 unk14;
+    /* 0x016 */ u8 unk16;
     /* 0x017 */ u8 unk17;
     /* 0x018 */ s32 unk18;
     /* 0x01C */ u8 *vram1C;
@@ -50,10 +51,23 @@ typedef struct {
     /* 0x024 */ u8 *vram24;
     /* 0x028 */ Player *players[ENAP_COUNT]; // 0 : Sonic, 1 : Eggman
     /* 0x030 */ Task *taskCutscene; // -> (AltarEmeraldCutsceneEggmanEscape *)
-    /* 0x030 */ u8 filler34[0x2A];
+    /* 0x060 */ u32 unk34;
+    /* 0x030 */ u8 filler38[0x4];
+    /* 0x030 */ s8 unk3C;
+    /* 0x030 */ s8 unk3D;
+    /* 0x030 */ s8 unk3E;
+    /* 0x030 */ s8 unk3F;
+    /* 0x030 */ u8 filler40[0x8];
+    /* 0x048 */ s32 unk48;
+    /* 0x04C */ s32 unk4C;
+    /* 0x050 */ u8 filler50[0x8];
+    /* 0x050 */ u8 filler58[0x2];
+    /* 0x060 */ u16 unk5A;
+    /* 0x030 */ u8 filler5C[0x2];
     /* 0x060 */ u8 unk5E;
     /* 0x060 */ u8 unk5F;
-    /* 0x060 */ u8 filler60[0xC];
+    /* 0x060 */ u8 filler60[0x8];
+    /* 0x060 */ u8 filler68[0x4];
     /* 0x06C */ u8 *vram6C;
     /* 0x072 */ u8 unk70;
     /* 0x072 */ u8 unk71;
@@ -92,7 +106,8 @@ typedef struct {
     /* 0x0F4 */ s32 qUnkF4;
     /* 0x0F8 */ s32 qUnkF8;
     /* 0x0F8 */ s32 unkFC;
-    /* 0x0FC */ u8 filler100[0x8];
+    /* 0x100 */ s32 unk100;
+    /* 0x104 */ s32 unk104;
     /* 0x108 */ u8 unk108;
     /* 0x10C */ UltimateGemerlSub10C strc10C[4];
     /* 0x16C */ UltimateGemerlSub16C strc16C[4][6];
