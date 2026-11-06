@@ -5913,50 +5913,35 @@ void Player_800B6C4(Player *p)
 
 void Player_800B748(Player *p)
 {
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 var_r0_2;
-    s16 *temp_r1;
-    s32 var_r0;
-    u32 temp_r0_4;
-    u32 temp_r1_2;
-
     p->charFlags.unk2C_40 = 1;
     if (--p->idleAndCamCounter == 0) {
         Player_PlaySong(p, SE_608);
 
-        if (p->qSpeedAirX > 0) {
-            p->qWorldX += 0x1C00;
-        } else if (p->qSpeedAirX < 0) {
-            p->qWorldX -= 0x1C00;
+        if (p->qSpeedAirX > Q(0)) {
+            p->qWorldX += Q(28);
+        } else if (p->qSpeedAirX < Q(0)) {
+            p->qWorldX -= Q(28);
         } else {
-            temp_r0_3 = p->qSpeedAirY;
-            if ((s32)temp_r0_3 > 0) {
-                var_r0 = p->qWorldY + 0x2000;
-                goto block_9;
-            }
-            if ((s32)temp_r0_3 < 0) {
-                var_r0 = p->qWorldY + 0xFFFFE000;
-            block_9:
-                p->qWorldY = var_r0;
+            if (p->qSpeedAirY > Q(0)) {
+                p->qWorldY += Q(32);
+            } else if (p->qSpeedAirY < Q(0)) {
+                p->qWorldY -= Q(32);
             }
         }
 
-        if (0x10000 & p->moveState) {
+        if (p->moveState & MOVESTATE_GRAVITY_SWITCHED) {
             s32 qSpeedAirY = p->qSpeedAirY;
             p->qSpeedAirY = -qSpeedAirY;
         }
-        if (p->qSpeedAirX == 0) {
+        if (p->qSpeedAirX == Q(0)) {
             p->charFlags.anim0 = 0x13;
         } else {
             p->charFlags.anim0 = 0x14;
         }
 
         p->callback = Player_800DAF4;
-        temp_r0_4 = (0xDDFFFFBF & p->moveState) | MOVESTATE_IN_AIR;
-        p->moveState = temp_r0_4;
-        if (temp_r0_4 & MOVESTATE_TAG_ACTION_CHARGED) {
+        p->moveState = (p->moveState & ~(MOVESTATE_40 | MOVESTATE_2000000 | MOVESTATE_20000000)) | MOVESTATE_IN_AIR;
+        if (p->moveState & MOVESTATE_TAG_ACTION_CHARGED) {
             sub_800E150(p);
             return;
         }
