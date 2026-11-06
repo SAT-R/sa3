@@ -88,15 +88,12 @@ typedef struct {
     /* 0x0C4 */ u8 unkC4[7];
     /* 0x0CC */ u16 unkCC;
     /* 0x0CE */ u16 unkCE;
-    /* 0x0D0 */ s32 unkD0;
-    /* 0x0D4 */ s32 unkD4;
-    /* 0x0D8 */ s32 unkD8;
+    /* 0x0D0 */ s32 unkD0[3];
     /* 0x0DC */ u8 fillerDC[0x4];
     /* 0x0E0 */ u16 unkE0;
     /* 0x0B2 */ u8 unkE2;
     /* 0x0B3 */ u8 unkE3;
-    /* 0x0E4 */ s32 unkE4;
-    /* 0x0E8 */ s32 unkE8;
+    /* 0x0E4 */ s32 unkE4[2];
     /* 0x0BC */ u8 unkEC;
     /* 0x0BD */ u8 unkED;
     /* 0x0BE */ u8 unkEE;
@@ -174,8 +171,8 @@ void sub_878_80853D8(UltimateGemerl *boss);
 void sub_878_8085458(UltimateGemerl *boss);
 void sub_878_80854B8(UltimateGemerl *boss, u8 param1);
 void sub_8085588(u8 *param0, s16 param1);
-void sub_8085618(u16 param0, u16 param1, s16 param2); // TODO: Smae type as sub_808587C?
-void unused_80856DC(u16 param0, u16 param1, s16 param2); // TODO: Smae type as sub_808587C?
+void sub_8085618(s16 param0, s16 param1, s16 param2); // TODO: Smae type as sub_808587C?
+void unused_80856DC(s16 param0, s16 param1, s16 param2); // TODO: Smae type as sub_808587C?
 void sub_808587C(s16 param0, s16 param1, u16 param2);
 void sub_878_80862D8(UltimateGemerl *boss);
 void TaskDestructor_878_8086ED8(Task *t);
