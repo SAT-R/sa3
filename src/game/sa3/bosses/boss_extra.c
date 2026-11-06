@@ -1426,260 +1426,199 @@ END_NONMATCH
 #else
 void sub_878_808439C(UltimateGemerl *boss)
 {
-    Sprite *temp_r0_5;
-    Sprite *temp_r0_7;
-    s16 temp_r0_3;
-    s16 temp_r0_8;
-    s16 temp_r4_2;
-    s16 temp_r5;
-    s16 var_r0_3;
-    s16 var_r5;
-    s16 var_r6;
-    s32 *temp_r1_2;
-    s32 *temp_r1_4;
-    s32 *temp_r2;
-    s32 *temp_r2_3;
-    s32 *var_r2;
-    s32 *pWin0H;
-    s32 temp_r0_6;
-    s32 temp_r1;
-    s32 temp_r1_3;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
     s32 temp_r6;
-    s32 temp_r6_2;
-    s32 var_r0_2;
-    s32 var_r0_4;
-    s32 var_r1_2;
-    s32 var_r1_5;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_4;
-    u16 temp_r3;
-    u16 temp_r3_2;
-    u16 var_r8;
-    u16 var_sb;
-    u8 *var_r1;
-    u8 var_r0;
-    u8 var_r1_3;
-    u8 var_r1_4;
+    u16 var_r1_5;
+    s16 var_r6;
+    s16 var_r8;
+    s16 var_sb;
+    Sprite *s;
 
     //    var_r8 = saved_reg_r8;
     //    var_sb = saved_reg_r9;
-    temp_r3 = (u16)boss->unk8;
-    switch (temp_r3) {
-        case 0x0:
-            temp_r0_6 = (gPseudoRandom * 0x196225) + 0x3C6EF35F;
-            gPseudoRandom = temp_r0_6;
-            boss->unkE2 = temp_r0_6 & 1;
-            boss->unkD0 = 0x7800;
-            boss->unkD4 = (s32)temp_r3;
-            boss->unkD8 = (s32)temp_r3;
+    switch (boss->unk8) {
+        case 0:
+            boss->unkE2 = PseudoRandom32() & 1;
+            boss->unkD0[0] = 0x7800;
+            boss->unkD0[1] = 0;
+            boss->unkD0[2] = 0;
             boss->strc10C[2].unk8 = 0x200;
-            boss->unkE4 = (s32)temp_r3;
-            boss->unkE8 = (s32)temp_r3;
-            boss->unk4 = (s16)temp_r3;
+            boss->unkE4[0] = 0;
+            boss->unkE4[1] = 0;
+            boss->unk4 = 0;
             boss->unk8 = 0x64;
-            m4aSongNumStart(0x239U);
-            var_r1_4 = 0;
-            do {
-                temp_r0_7 = &boss->spr3B4[var_r1_4];
-                temp_r0_7->anim = 0x4FE;
-                temp_r0_7->variant = 0;
-                var_r1_4 += 1;
-            } while ((u32)var_r1_4 <= 3U);
+            m4aSongNumStart(SE_569);
+
+            sub_808706C_inline(boss, 1);
             break;
         case 10:
-            temp_r0_8 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_8;
-            if ((temp_r0_8 << 0x10) != 0) {
-                return;
+            if (--boss->unk4 == 0) {
+                boss->unkE2 ^= 1;
+                boss->unk8 = 100;
             }
-            boss->unkE2 ^= 1;
-            boss->unk8 = 100;
             break;
         case 100:
-            var_r1_5 = 1;
             if (boss->unkE2 != 0) {
                 var_r1_5 = 2;
-            }
-            temp_r2_3 = &boss->unkD0 + (var_r1_5 * 4);
-            temp_r1_3 = *temp_r2_3;
-            if ((s32)boss->unkD0 > temp_r1_3) {
-                *temp_r2_3 = temp_r1_3 + boss->strc10C[2].unk8;
             } else {
-                m4aSongNumStart(0x239U);
+                var_r1_5 = 1;
+            }
+            if (boss->unkD0[0] > boss->unkD0[var_r1_5]) {
+                boss->unkD0[var_r1_5] += boss->strc10C[2].unk8;
+            } else {
+                m4aSongNumStart(SE_569);
                 boss->unk8 = 110;
             }
-            temp_r1_4 = &boss->unkE4 + ((var_r1_5 - 1) * 4);
-            *temp_r1_4 += 0x180;
+            boss->unkE4[var_r1_5 - 1] += 0x180;
             sub_878_8082E2C(boss, 4U);
             break;
-        case 110:
-            var_r1_2 = 2;
+        case 110: {
             if (boss->unkE2 != 0) {
-                var_r1_2 = 1;
+                var_r1_5 = 1;
+            } else {
+                var_r1_5 = 2;
             }
-            temp_r2 = &boss->unkD0 + (var_r1_2 * 4);
-            temp_r1 = *temp_r2;
-            if ((s32)boss->unkD0 > temp_r1) {
-                *temp_r2 = temp_r1 + boss->strc10C[2].unk8;
+            if (boss->unkD0[0] > boss->unkD0[var_r1_5]) {
+                boss->unkD0[var_r1_5] += boss->strc10C[2].unk8;
             } else {
                 boss->unk4 = 0x3C;
                 boss->unk8 = 200;
             }
-            temp_r1_2 = &boss->unkE4 + ((var_r1_2 - 1) * 4);
-            *temp_r1_2 += 0x180;
+            boss->unkE4[var_r1_5 - 1] += 0x180;
             sub_878_8082E2C(boss, 4U);
-            break;
+        } break;
         case 200:
-            temp_r0_3 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) == 0) {
+            if (--boss->unk4 == 0) {
                 sub_8078DB0(0x505, 0, 0x21C, 1U);
                 boss->unk8 = 300;
             }
             sub_878_8082E2C(boss, 4U);
             break;
-        case 300:
+        case 300: {
+            Sprite *s;
             gDispCnt |= 0x2100;
-            gWinRegs[0] = 0xF0;
-            gWinRegs[2] = 0xA0;
+            gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+            gWinRegs[2] = WIN_RANGE(0, DISPLAY_HEIGHT);
             gWinRegs[WINREG_WININ] = 0x3F;
-            gWinRegs[WINREG_WINOUT] = 0x18;
+            gWinRegs[WINREG_WINOUT] = 24;
             gBldRegs.bldCnt = 0x3841;
             gBldRegs.bldAlpha = 0xC0C;
             gBldRegs.bldY = 0xC;
             boss->unkF = 1;
-            boss->spr814.anim = gAnimPatternBossExtraElectricSpark[0].anim;
-            boss->spr814.variant = gAnimPatternBossExtraElectricSpark[0].pattern;
-            boss->spr814.prevVariant = 0xFF;
+            s = &boss->spr814;
+            s->anim = gAnimPatternBossExtraElectricSpark[0].anim;
+            s->variant = gAnimPatternBossExtraElectricSpark[0].pattern;
+            s->prevVariant = 0xFF;
             boss->unkCC = 0;
-            m4aSongNumStart(0x23EU);
+            m4aSongNumStart(SE_574);
             boss->unk8 = 0x14A;
+        }
             /* fallthrough */
         case 0x14A:
-        block_48:
-            temp_r0 = boss->unkCC + 4;
-            boss->unkCC = temp_r0;
-            if ((u32)temp_r0 > 0xFFU) {
+            boss->unkCC += 4;
+            if (boss->unkCC >= 0x100) {
+                s32 unkED;
+                Sprite *s;
                 if (boss->unkE2 == 0) {
-                    boss->unkED = 5;
+                    unkED = 5;
+                    boss->unkED = unkED;
                 } else {
-                    boss->unkED = 6;
+                    unkED = 6;
+                    boss->unkED = unkED;
                 }
                 boss->unk4 = 0xB4;
-                boss->spr814.anim = gAnimPatternBossExtraElectricSpark[1].anim;
-                boss->spr814.variant = (u8)gAnimPatternBossExtraElectricSpark[1].pattern;
-                boss->spr814.prevVariant = 0xFF;
-                boss->unk8 = 0x154;
+                s = &boss->spr814;
+                s->anim = gAnimPatternBossExtraElectricSpark[1].anim;
+                s->variant = (u8)gAnimPatternBossExtraElectricSpark[1].pattern;
+                s->prevVariant = -1;
+                boss->unk8 = 340;
             }
-            temp_r0_2 = ((s32)boss->qUnk9C >> 8) - gCamera.x;
-            var_r0_2 = gSineTable[boss->unkCC] * 0x18;
-            if (var_r0_2 < 0) {
-                var_r0_2 += 0x3FFF;
-            }
-            temp_r4 = (s32)((temp_r0_2 << 0x10) + 0xFFA80000) >> 0x10;
-            var_r5 = (((s32)boss->qUnkA0 >> 8) - gCamera.y);
-            temp_r6 = var_r0_2 >> 0xE;
-            sub_8085618((u16)temp_r4, (u16)var_r5, (s16)temp_r6);
-            sub_8087188(boss, temp_r4, var_r5, temp_r6);
+            var_r8 = I(boss->qUnk9C) - gCamera.x;
+            var_sb = (I(boss->qUnkA0) - gCamera.y);
+            temp_r6 = (SIN(boss->unkCC) * 24) / 0x4000;
+            var_r6 = var_r8;
+            var_r8 -= 88;
+            sub_8085618(var_r8, var_sb, temp_r6);
+            sub_8087188(boss, var_r8, var_sb, temp_r6);
             sub_878_8082E2C(boss, 4U);
-            var_r6 = (s16)temp_r0_2;
-            gBgScrollRegs[0][0] = 0x158 - var_r6;
-            gBgScrollRegs[0][1] = 0x18 - var_r5;
+            gBgScrollRegs[0][0] = 344 - var_r6;
+            gBgScrollRegs[0][1] = 24 - var_sb;
             break;
-        case 0x154:
+        case 340:
             if (boss->unkEE != 0) {
                 boss->unkED = 4;
-                boss->unk8 = 0x15E;
+                boss->unk8 = 350;
             }
-            temp_r4_2 = I(boss->qUnk9C) - gCamera.x;
-            var_r6 = temp_r4_2;
-            temp_r4_3 = var_r6 - 88;
-            var_r5 = I(boss->qUnkA0) - gCamera.y;
-            sub_8085618((u16)temp_r4_3, (u16)var_r5, 0x18);
-            sub_8087188(boss, temp_r4_3, var_r5, 0x18);
+            var_r8 = I(boss->qUnk9C) - gCamera.x;
+            var_sb = I(boss->qUnkA0) - gCamera.y;
+            var_r6 = var_r8;
+            var_r8 -= 88;
+            sub_8085618(var_r8, var_sb, 24);
+            sub_8087188(boss, var_r8, var_sb, 24);
             sub_878_8082E2C(boss, 4U);
-            gBgScrollRegs[0][0] = 0x158 - var_r6;
-            gBgScrollRegs[0][1] = 0x18 - var_r5;
+            gBgScrollRegs[0][0] = 344 - var_r6;
+            gBgScrollRegs[0][1] = 24 - var_sb;
             break;
-        case 0x15E:
+        case 350:
             if (boss->unkEE != 0) {
+                Sprite *s;
                 boss->unkED = 0;
-                boss->spr814.anim = gAnimPatternBossExtraElectricSpark[0].anim;
-                boss->spr814.variant = (u8)gAnimPatternBossExtraElectricSpark[0].pattern;
-                boss->spr814.prevVariant = 0xFF;
-                boss->unk8 = 0x168;
+                s = &boss->spr814;
+                s->anim = gAnimPatternBossExtraElectricSpark[0].anim;
+                s->variant = gAnimPatternBossExtraElectricSpark[0].pattern;
+                s->prevVariant = 0xFF;
+                boss->unk8 = 360;
             }
-            temp_r4_2 = ((s32)boss->qUnk9C >> 8) - gCamera.x;
-            var_r6 = temp_r4_2;
-            temp_r4_3 = (s32)((temp_r4_2 << 0x10) + 0xFFA80000) >> 0x10;
-            var_r5 = ((s32)boss->qUnkA0 >> 8) - gCamera.y;
-            sub_8085618((u16)temp_r4_3, (u16)var_r5, 0x18);
-            sub_8087188(boss, temp_r4_3, var_r5, 0x18);
+            var_r8 = I(boss->qUnk9C) - gCamera.x;
+            var_sb = I(boss->qUnkA0) - gCamera.y;
+            var_r6 = var_r8;
+            var_r8 -= 88;
+            sub_8085618(var_r8, var_sb, 24);
+            sub_8087188(boss, var_r8, var_sb, 24);
             sub_878_8082E2C(boss, 4U);
-            gBgScrollRegs[0][0] = 0x158 - var_r6;
-            gBgScrollRegs[0][1] = 0x18 - var_r5;
+            gBgScrollRegs[0][0] = 344 - var_r6;
+            gBgScrollRegs[0][1] = 24 - var_sb;
             break;
-        case 0x168:
-            temp_r0_4 = boss->unkCC - 4;
-            boss->unkCC = temp_r0_4;
-            temp_r3_2 = temp_r0_4;
-            if (temp_r3_2 == 0) {
-                gDispCnt &= 0xDEFF;
-                gWinRegs[WINREG_WININ] = temp_r3_2;
-                gWinRegs[WINREG_WINOUT] = temp_r3_2;
-                gBldRegs.bldCnt = temp_r3_2;
-                gBldRegs.bldAlpha = temp_r3_2;
-                gBldRegs.bldY = temp_r3_2;
-                gFlags &= ~4;
-                boss->spr814.anim = gAnimPatternBossExtraElectricSpark[2].anim;
-                boss->spr814.variant = (u8)gAnimPatternBossExtraElectricSpark[2].pattern;
-                boss->spr814.prevVariant = 0xFF;
-                boss->unk8 = 0x1F4;
+        case 360:
+            boss->unkCC -= 4;
+            if (boss->unkCC == 0) {
+                Sprite *s;
+                gDispCnt &= ~0x2100;
+                gWinRegs[WINREG_WININ] = 0;
+                gWinRegs[WINREG_WINOUT] = 0;
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldAlpha = 0;
+                gBldRegs.bldY = 0;
+                gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+                s = &boss->spr814;
+                s->anim = gAnimPatternBossExtraElectricSpark[2].anim;
+                s->variant = (u8)gAnimPatternBossExtraElectricSpark[2].pattern;
+                s->prevVariant = 0xFF;
+                boss->unk8 = 500;
             }
             if (boss->unkCC != 0) {
-                var_r8 = ((s32)boss->qUnk9C >> 8) - gCamera.x;
-                var_sb = ((s32)boss->qUnkA0 >> 8) - gCamera.y;
-                var_r0_4 = gSineTable[boss->unkCC] * 0x18;
-                if (var_r0_4 < 0) {
-                    var_r0_4 += 0x3FFF;
-                }
-                temp_r4_4 = (s32)((var_r8 << 0x10) + 0xFFA80000) >> 0x10;
-                temp_r5 = (s16)var_sb;
-                temp_r6_2 = var_r0_4 >> 0xE;
-                sub_8085618((u16)temp_r4_4, (u16)temp_r5, (s16)temp_r6_2);
-                sub_8087188(boss, temp_r4_4, temp_r5, temp_r6_2);
+                var_r8 = I(boss->qUnk9C) - gCamera.x;
+                var_r6 = var_r8;
+                var_sb = I(boss->qUnkA0) - gCamera.y;
+                temp_r6 = (SIN(boss->unkCC) * 24) / 0x4000;
+                var_r8 -= 88;
+                sub_8085618(var_r8, var_sb, temp_r6);
+                sub_8087188(boss, var_r8, var_sb, temp_r6);
             }
             sub_878_8082E2C(boss, 4U);
-            gBgScrollRegs[0][0] = 0x158 - (s16)var_r8;
-            gBgScrollRegs[0][1] = 0x18 - (s16)var_sb;
+            gBgScrollRegs[0][0] = 344 - var_r6;
+            gBgScrollRegs[0][1] = 24 - var_sb;
             break;
-        case 0x1F4:
-            temp_r2_2 = boss->unkD4;
-            if (temp_r2_2 != 0) {
-                boss->unkD4 = temp_r2_2 - boss->strc10C[2].unk8;
-                boss->unkD8 -= boss->strc10C[2].unk8;
-                var_r2 = &boss->unkE4;
-                pWin0H = &boss->unkE8;
+        case 500:
+            if (boss->unkD0[1] != 0) {
+                boss->unkD0[1] -= boss->strc10C[2].unk8;
+                boss->unkD0[2] -= boss->strc10C[2].unk8;
             } else {
-                boss->unkF = (u8)temp_r2_2;
-                boss->unk1[0] = (u8)temp_r2_2;
-                var_r1_3 = 0;
-                var_r2 = (s32 *)&boss->unkE4;
-                pWin0H = (s32 *)&boss->unkE8;
-                do {
-                    temp_r0_5 = &boss->spr3B4[var_r1_3];
-                    temp_r0_5->anim = 0x4FE;
-                    temp_r0_5->variant = 1;
-                    var_r1_3 += 1;
-                } while ((u32)var_r1_3 <= 3U);
+                boss->unkF = 0;
+                boss->unk1[0] = 0;
+                sub_808706C_inline(boss, 0);
             }
-            *var_r2 += 0xFFFFFE80;
-            *pWin0H += 0xFFFFFE80;
+            boss->unkE4[0] -= 0x180;
+            boss->unkE4[1] -= 0x180;
             sub_878_8082E2C(boss, 4U);
             break;
     }
