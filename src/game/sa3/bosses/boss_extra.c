@@ -61,6 +61,8 @@ static inline void sub_808706C_inline(UltimateGemerl *boss, u8 handType)
     }
 }
 
+static inline void sub_8087038_inline(UltimateGemerl *boss, u8 value) { boss->unkEF = value; }
+
 void CreateUltimateGemerlBoss(void)
 {
     Task *t = TaskCreate(Task_878_8081E74, sizeof(UltimateGemerl), 0x3100U, 0U, TaskDestructor_878_8081D64);
@@ -1634,180 +1636,147 @@ void sub_878_808439C(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
-void sub_878_808491C(UltimateGemerl *boss)
+// (98.10%) https://decomp.me/scratch/18eMl
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_808491C.inc", void sub_878_808491C(UltimateGemerl *boss))
 {
-    Sprite *temp_r0_5;
-    Sprite *temp_r0_6;
     s16 var_r0;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r3;
-    s32 var_r0_2;
+    u8 var_r0_2;
     u16 temp_r2;
     u8 *temp_r1_2;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r0_7;
     u8 var_r1;
     u8 var_r1_2;
     u8 var_r1_3;
     void *temp_r1;
+    s32 unk4, unkED;
 
-    temp_r2 = (u16)boss->unk8;
-    switch (temp_r2) {
-        case 0x0:
-            boss->rotation = temp_r2;
+    switch (boss->unk8) {
+        case 0: {
+            boss->rotation = 0;
             boss->unkBA = 0;
             boss->unkBB = 0;
 
-            for (var_r1_2 = 0; var_r1_2 < 7; var_r1_2++) {
+            for (var_r1_2 = 0; var_r1_2 < ARRAY_COUNT(boss->unkBC); var_r1_2++) {
                 boss->unkBC[var_r1_2] = 0;
             }
 
             boss->unkED = 1;
             boss->unk4 = 0;
-            boss->unk8 = 0xA;
-            break;
-        case 0xA:
-            if (boss->unkEE == 0) {
-                return;
+            boss->unk8 = 10;
+        } break;
+
+        case 10: {
+            if (boss->unkEE != 0) {
+                boss->unkED = 0;
+                boss->unk100 = 0;
+                boss->unk104 = boss->unk100;
+                m4aSongNumStart(SE_532);
+                sub_808706C_inline(boss, 1);
+                boss->unk8 = 100;
             }
-            boss->unkED = 0;
-            boss->unk100 = 0;
-            boss->unk104 = 0;
-            m4aSongNumStart(0x214U);
-            var_r1_3 = 0;
-            do {
-                temp_r0_6 = &boss->spr3B4[var_r1_3];
-                temp_r0_6->anim = 0x4FE;
-                temp_r0_6->variant = 0;
-                var_r1_3 += 1;
-            } while ((u32)var_r1_3 <= 3U);
-            boss->unk8 = 0x64;
-            break;
-        case 0x64:
-            if (boss->unkBB <= 5U) {
-                temp_r1_2 = &boss->unkBC[boss->unkBB];
-                temp_r0_7 = *temp_r1_2 + 1;
-                *temp_r1_2 = temp_r0_7;
-                if ((u32)temp_r0_7 > 0x17U) {
+        } break;
+
+        case 100: {
+            if (boss->unkBB < ARRAY_COUNT(boss->unkBC) - 1) {
+                if (++boss->unkBC[boss->unkBB] > 0x17U) {
                     boss->unkBB += 1;
                 }
             }
-            boss->unk4 = (u16)boss->unk4 + 1;
+            boss->unk4++;
             var_r0_2 = I(boss->unk104) / 0x400;
-            temp_r3 = gUnknown_080D5D20[var_r0_2 >> 2];
-            temp_r1_3 = (boss->unk100 - temp_r3) & 0x3FFFF;
-            boss->unk100 = temp_r1_3;
-            boss->rotation = (u16)(temp_r1_3 >> 8);
-            temp_r1_4 = boss->unk104 + temp_r3;
-            boss->unk104 = temp_r1_4;
+            boss->unk100 = (boss->unk100 - gUnknown_080D5D20[var_r0_2]) % 0x40000u;
+            boss->rotation = (boss->unk100 >> 8);
+            boss->unk104 += gUnknown_080D5D20[var_r0_2];
             if (boss->unk104 >= 0xC0000) {
-                boss->unk104 = (s32)(temp_r1_4 + 0xFFF80000);
-                var_r0 = 0x6E;
-                boss->unk8 = var_r0;
+                boss->unk104 -= 0x80000;
+                boss->unk8 = 0x6E;
             }
             sub_878_8082E2C(boss, 5U);
-            break;
-        case 110:
+        } break;
+
+        case 110: {
             if (boss->unkBB != 0) {
-                if (--boss->unkBB == 0) {
+                if (--boss->unkBC[boss->unkBB - 1] == 0) {
                     boss->unkBB -= 1;
                 }
             }
-            boss->unk100 = (boss->unk100 - gUnknown_080D5D20[2]) & 0x3FFFF;
+            boss->unk100 = (boss->unk100 - gUnknown_080D5D20[2]) % 0x40000u;
             boss->rotation = I(boss->unk100);
-            temp_r0_4 = boss->unk104 - gUnknown_080D5D20[2];
-            boss->unk104 = temp_r0_4;
-            if (temp_r0_4 <= 0) {
+            boss->unk104 -= gUnknown_080D5D20[2];
+            if (boss->unk104 <= 0) {
                 boss->rotation = 0;
-                m4aSongNumStop(0x214U);
-                var_r1 = 0;
-                do {
-                    temp_r0_5 = &boss->spr3B4[var_r1];
-                    temp_r0_5->anim = 0x4FE;
-                    temp_r0_5->variant = 1;
-                    var_r1 += 1;
-                } while ((u32)var_r1 <= 3U);
-                var_r0 = 0xC8;
-                boss->unk8 = var_r0;
+                m4aSongNumStop(SE_532);
+                sub_808706C_inline(boss, 0);
+                boss->unk8 = 200;
             }
-        block_37:
+
             sub_878_8082E2C(boss, 5U);
-            break;
-        case 200:
-            boss->unkED = 2;
-            boss->unk8 = 0xD2;
-            break;
-        case 0xD2:
+        } break;
+
+        case 200: {
+            u32 unkED = 2;
+            boss->unkED = unkED;
+            boss->unk8 = 210;
+        } break;
+
+        case 210: {
             if (boss->unkEE != 0) {
                 boss->unkED = 0;
                 boss->unk1[0] = 0;
             }
-            return;
+        } break;
     }
 }
+END_NONMATCH
 
 void sub_878_8084B2C(UltimateGemerl *boss)
 {
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
-    s16 var_r0;
-    u16 temp_r0;
-    void *temp_r1;
-
-    temp_r0 = (u16)boss->unk8;
-    switch (temp_r0) { /* irregular */
+    switch (boss->unk8) {
         case 0x0:
-            boss->unk4 = 0xF0;
-            var_r0 = 0xA;
-            boss->unk8 = var_r0;
+            boss->unk4 = 240;
+            boss->unk8 = 10;
             break;
-        case 0xA:
-            temp_r0_2 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_2;
-            if ((temp_r0_2 << 0x10) == 0) {
-                boss->unk4 = 0x78;
-                var_r0 = 0x64;
-                boss->unk8 = var_r0;
+
+        case 10:
+            if (--boss->unk4 == 0) {
+                boss->unk4 = 120;
+                boss->unk8 = 100;
             }
             break;
-        case 0x64:
+
+        case 100:
             if (1 & (u16)boss->unk4) {
                 boss->unk108 ^= 1;
             }
-            temp_r0_3 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_3;
-            if ((temp_r0_3 << 0x10) == 0) {
-                boss->unk4 = 0xB4;
-                boss->unkED = 8;
+            if (--boss->unk4 == 0) {
+                boss->unk4 = 180;
+                {
+                    s32 unk8 = 8;
+                    boss->unkED = unk8;
+                }
                 boss->unkA4 = -Q(2);
                 boss->unkA8 = -Q(1);
-                boss->unkEF = 0x96; // inline?
-                var_r0 = 0xC8;
-                boss->unk8 = var_r0;
+                sub_8087038_inline(boss, 150);
+                boss->unk8 = 200;
             }
             break;
-        case 0xC8:
-            temp_r0_4 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_4;
-            if ((temp_r0_4 << 0x10) == 0) {
+
+        case 200:
+            if (--boss->unk4 == 0) {
                 boss->unk108 = 0;
                 boss->unkED = 0;
-                boss->unk12 = 0xBB8;
-                var_r0 = 0x12C;
-                boss->unk8 = var_r0;
+                boss->unk12 = 3000;
+                boss->unk8 = 300;
             }
+            break;
+
+        case 300:
             break;
     }
     sub_878_8082E2C(boss, boss->unkD);
 }
 
+#if 01
+#else
 void sub_878_8084BEC(UltimateGemerl *boss)
 {
     u16 temp_r1;
