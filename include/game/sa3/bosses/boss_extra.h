@@ -41,7 +41,7 @@ typedef struct {
     /* 0x00E */ u8 unkE;
     /* 0x00F */ u8 unkF;
     /* 0x010 */ s16 unk10;
-    /* 0x012 */ s16 unk12;
+    /* 0x012 */ u16 unk12;
     /* 0x014 */ s16 unk14;
     /* 0x016 */ u8 unk16;
     /* 0x017 */ u8 unk17;

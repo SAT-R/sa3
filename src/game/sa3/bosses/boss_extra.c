@@ -4,11 +4,13 @@
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
-#include "game/shared/stage/player.h"
 #include "game/bosses.h"
+#include "game/shared/stage/music_manager.h"
+#include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h" // sub_80105F0
 #include "game/save.h"
 #include "game/stage.h"
+#include "multi_sio_stuff.h" // sub_8027674
 #include "game/sa3/bosses/boss_extra.h"
 #include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode(), AltarEmeraldCutsceneEggmanEscape
 #include "constants/animations.h"
@@ -19,7 +21,7 @@ void sub_808717C(UltimateGemerl *boss);
 void ExtraBoss_CreateMissile(UltimateGemerl *boss, u8 arg1);
 bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1);
 void sub_8087188(UltimateGemerl *arg0, s16 arg1, s16 arg2, s16 arg3);
-void BossExtra_CreateExplosion(u16 arg0, u16 arg1, u16 arg2, u16 arg3, s32 arg4, u8 *arg5);
+void BossExtra_CreateExplosion(s16 arg0, s16 arg1, u16 arg2, u16 arg3, s32 arg4, u8 *vram);
 
 extern const u16 gUnknown_080D5D50[10];
 extern u8 gUnknown_080D5D64[0x80];
@@ -1927,57 +1929,72 @@ void sub_878_8084C50(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
-
 void sub_878_8084EB4(UltimateGemerl *boss)
 {
     Player *temp_r1_3;
-    Player *temp_r1_4;
-    s16 temp_r0;
-    s16 temp_r0_11;
-    s16 temp_r0_13;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
-    s16 temp_r0_8;
-    s16 temp_r0_9;
-    s16 temp_r1_2;
-    s16 temp_r2;
-    s16 temp_r4;
+    Player *partner;
     s16 var_r0;
-    s16 var_r0_2;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    u16 temp_r0_10;
-    u16 temp_r0_12;
-    u16 temp_r1;
     u16 temp_r4_2;
     u32 temp_r0_7;
     u8 temp_r0_2;
 
-    temp_r1 = (u16)boss->unk12;
-    switch (temp_r1) { /* irregular */
-        case 0x3F2:
-            temp_r0 = (u16)boss->unk10 - 1;
-            boss->unk10 = temp_r0;
-            if ((temp_r0 << 0x10) != 0) {
-                return;
+    switch (boss->unk12) {
+        case 0:
+            if (sub_878_80867FC(boss, 0U)) {
+                sub_878_80854B8(boss, 0U);
             }
-            sub_878_80851FC(boss, (u8)(boss->unkE + 0xA));
-            m4aSongNumStart(0x221U);
-            temp_r0_2 = boss->unkE + 1;
-            boss->unkE = temp_r0_2;
-            if ((u32)temp_r0_2 <= 5U) {
-                boss->unk10 = 0xF;
-                return;
+            break;
+        case 10:
+            if (--boss->unk10 != 0) {
+                if (sub_878_80867FC(boss, 1U)) {
+                    sub_878_80854B8(boss, 1U);
+                }
+            } else {
+                sub_8087038_inline(boss, 100);
+                boss->unk12 = 0;
             }
-            boss->unk10 = 0x78;
-            var_r0 = 0x3FC;
-        block_70:
-            boss->unk12 = var_r0;
-            return;
-            return;
-        case 0x3E8:
+            break;
+        case 100:
+            if (--boss->unk14 == 0) {
+                if (boss->lives != 0) {
+                    boss->unk10 -= 120;
+                    if (boss->unk10 <= 0) {
+                        boss->unk10 = 0;
+                        boss->unk12 = 0;
+                    } else {
+                        boss->unk12 = 10;
+                    }
+                } else {
+                    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
+                        if (gStageData.playerIndex != 0) {
+                            boss->unk12 = 0x6E;
+                        } else {
+                            sub_8027674(1U, 0U);
+                            sub_878_8085458(boss);
+                            boss->unk10 = 120;
+                            boss->unk12 = 1000;
+                        }
+                    } else {
+                        sub_878_8085458(boss);
+                        boss->unk10 = 120;
+                        boss->unk12 = 1000;
+                    }
+                    boss->players[0]->unk48 = 1;
+                    boss->players[1]->unk48 = 1;
+                    temp_r1_3 = boss->players[0];
+                    temp_r1_3->moveState |= 0x08000000;
+                    partner = boss->players[1];
+                    partner->moveState |= 0x08000000;
+                }
+                if (boss->unk12 == 10) {
+                    return;
+                }
+                sub_8087038_inline(boss, 100);
+            }
+            break;
+        case 110:
+            break;
+        case 1000:
             if (--boss->unk10 == 0) {
                 VramFree(boss->vram1C);
                 VramFree(boss->vram20);
@@ -1985,120 +2002,74 @@ void sub_878_8084EB4(UltimateGemerl *boss)
                 boss->vram20 = NULL;
                 boss->vram24 = VramMalloc(0x74U);
                 sub_878_80851FC(boss, 1U);
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
                 boss->unk10 = 0xF;
-                boss->unk12 = 0x3F2;
+                boss->unk12 = 1010;
             }
             break;
-        case 0xBB8:
+        case 1010:
+            if (--boss->unk10 == 0) {
+                sub_878_80851FC(boss, (u8)(boss->unkE + 0xA));
+                m4aSongNumStart(SE_545);
+                if (++boss->unkE <= 5U) {
+                    boss->unk10 = 0xF;
+                    return;
+                }
+                boss->unk10 = 0x78;
+                boss->unk12 = 1020;
+            }
+            break;
+        case 1020:
+            if (--boss->unk10 == 0) {
+                m4aSongNumStart(SE_545);
+                var_r0 = 0x7D0;
+                boss->unk12 = 2000;
+            }
+            break;
+        case 2000:
+            if (gStageData.timer & 1) {
+                s32 cosVal, sinVal;
+                temp_r4_2 = PseudoRandom32() % 1024u;
+                temp_r0_7 = PseudoRandom32() % 48U;
+                cosVal = (COS(temp_r4_2) * temp_r0_7) >> 6;
+                sinVal = (SIN(temp_r4_2) * temp_r0_7) >> 6;
+                BossExtra_CreateExplosion(I((s32)(boss->qUnk9C + cosVal)), I(boss->qUnkA0 + sinVal), 0x300U, temp_r4_2, 0x1E, boss->vram24);
+            }
+            if (((++boss->unk10) & 0x3F) == 0) {
+                m4aSongNumStart(SE_545);
+            }
+            break;
+        case 3000:
             gBldRegs.bldCnt = 0x3FBF;
             gBldRegs.bldAlpha = 8;
             gBldRegs.bldY = 0;
             boss->unk10 = 8;
             boss->unk12 = 0xBC2;
-            gPlayers->moveState |= 0x08000000;
+            gPlayers[0].moveState |= 0x08000000;
             gPlayers[1].moveState |= 0x08000000;
             gMusicManagerState.fadeoutSpeed = 0x140;
-            return;
-        case 0x3FC:
-            temp_r0_4 = (u16)boss->unk10 - 1;
-            boss->unk10 = temp_r0_4;
-            if ((temp_r0_4 << 0x10) != 0) {
-                return;
-            }
-            m4aSongNumStart(0x221U);
-            var_r0 = 0x7D0;
-            goto block_70;
-        case 0x7D0:
-            if (gStageData.timer & 1) {
-                temp_r0_5 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-                temp_r4_2 = 0x3FF & temp_r0_5;
-                temp_r0_6 = (0x196225 * temp_r0_5) + 0x3C6EF35F;
-                gPseudoRandom = temp_r0_6;
-                temp_r0_7 = (u32)temp_r0_6 % 48U;
-                BossExtra_CreateExplosion((s32)((boss->qUnk9C + ((u32)(temp_r0_7 * COS(temp_r4_2)) >> 6)) << 8) >> 0x10,
-                                          (s32)((boss->qUnkA0 + ((u32)(temp_r0_7 * SIN(temp_r4_2)) >> 6)) << 8) >> 0x10, 0x300U, temp_r4_2,
-                                          0x1E, boss->vram24);
-            }
-            temp_r0_8 = (u16)boss->unk10 + 1;
-            boss->unk10 = temp_r0_8;
-            if (!(temp_r0_8 & 0x3F)) {
-                m4aSongNumStart(0x221U);
-                return;
-            }
             break;
-        case 0xBC2:
-            temp_r0_9 = (u16)boss->unk10 - 1;
-            boss->unk10 = temp_r0_9;
-            if ((temp_r0_9 << 0x10) == 0) {
-                temp_r0_10 = gBldRegs.bldY + 1;
-                gBldRegs.bldY = temp_r0_10;
-                if (temp_r0_10 == 0x10) {
-                    boss->unk12 = 0x1388;
-                    boss->unk10 = 0x78;
-                    return;
-                }
-                boss->unk10 = 8;
-                return;
-            }
-            break;
-        case 0x1388:
-            sub_805602C();
-            var_r0 = 0x1392;
-            goto block_70;
-        case 0x0:
-            if (sub_878_80867FC(boss, 0U)) {
-                sub_878_80854B8(boss, 0U);
-            }
-            return;
-        case 0xA:
+        case 3010:
             if (--boss->unk10 == 0) {
-                if (sub_878_80867FC(boss, 1U)) {
-                    sub_878_80854B8(boss, 1U);
+                gBldRegs.bldY += 1;
+                if (gBldRegs.bldY == 0x10) {
+                    boss->unk12 = 5000;
+                    boss->unk10 = 0x78;
+                } else {
+                    boss->unk10 = 8;
                 }
-            } else {
-                boss->unkEF = 0x64;
-                boss->unk12 = temp_r2;
+                return;
             }
             break;
-        case 0x64:
-            if (--boss->rotation == 0) {
-                if (boss->lives != 0) {
-                    if (--boss->unk10 <= 0) {
-                        boss->unk10 = 0;
-                        boss->unk12 = 0;
-                    } else {
-                        boss->unk12 = 0xA;
-                    }
-                } else {
-                    if (gStageData.gameMode == 5) {
-                        if (gStageData.playerIndex != 0) {
-                            boss->unk12 = 0x6E;
-                        } else {
-                            sub_8027674(1U, 0U);
-                            goto block_44;
-                        }
-                    } else {
-                    block_44:
-                        sub_878_8085458(boss);
-                        boss->unk10 = 120;
-                        boss->unk12 = 0x3E8;
-                    }
-                    boss->players[0]->unk48 = 1;
-                    boss->players[1]->unk48 = 1;
-                    temp_r1_3 = boss->players[0];
-                    temp_r1_3->moveState |= 0x08000000;
-                    temp_r1_4 = boss->players[1];
-                    temp_r1_4->moveState |= 0x08000000;
-                }
-                if ((u16)boss->unk12 == 0xA) {
-                    return;
-                }
-                boss->unkEF = 0x64; // inline
-            }
-            return;
+        case 5000:
+            sub_805602C();
+            boss->unk12 = 5010;
+            break;
     }
 }
+
+#if 01
+#else
 
 void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
 {
