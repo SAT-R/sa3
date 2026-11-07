@@ -179,7 +179,7 @@ void TaskDestructor_878_8086ED8(Task *t);
 void Task_878_8086F08(void);
 void Task_878_8086F48(void);
 void Task_878_8086FA4(void);
-void Task_878_CallDestroy(Task *t);
+void Task_878_CallDestroy(void);
 void Task_Missile_8086B94(void);
 void sub_808706C(UltimateGemerl *boss, u8 param1);
 void sub_878_80870B0(UltimateGemerl *boss);

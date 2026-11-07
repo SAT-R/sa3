@@ -10,7 +10,7 @@
 #include "game/save.h"
 #include "game/stage.h"
 #include "game/sa3/bosses/boss_extra.h"
-#include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode
+#include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode(), AltarEmeraldCutsceneEggmanEscape
 #include "constants/animations.h"
 #include "constants/songs.h"
 
@@ -1799,43 +1799,94 @@ void sub_878_8084BEC(UltimateGemerl *boss)
     sub_878_8082E2C(boss, boss->unkD);
 }
 
-#if 01
-#else
-
 void sub_878_8084C50(UltimateGemerl *boss)
 {
-    s16 temp_r0_4;
-    s16 temp_r0_6;
-    s16 temp_r0_7;
-    s16 temp_r0_8;
-    s16 temp_r5;
-    s16 var_r0;
-    s16 var_r0_2;
-    s16 var_r0_3;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r0_9;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r1_6;
-    s32 temp_r1_7;
-    s32 temp_r2;
     AltarEmeraldCutsceneEggmanEscape *sceneEggman = TASK_DATA(boss->taskCutscene);
 
-    switch (boss->unk8) { /* irregular */
-        case 0xA0:
-            temp_r0_2 = boss->unkE4;
-            if (temp_r0_2 != 0) {
-                temp_r0_3 = temp_r0_2 + 0x400;
-                boss->unkE4 = temp_r0_3;
-                if (temp_r0_3 >= 0) {
-                    boss->unkE4 = 0;
+    switch (boss->unk8) {
+        case 0: {
+            boss->unk4 = 0x78;
+            boss->unk8 = 10;
+        } break;
+
+        case 10: {
+            if (--boss->unk4 == 0) {
+                boss->unk8 = 100;
+            }
+        } break;
+
+        case 100: {
+            boss->unkD0[0] = 0x8C00;
+            boss->unkD0[1] = 0;
+            boss->strc10C[2].unk8 = 0x400;
+            boss->unkE4[0] = 0;
+            boss->unkE4[1] = 0x36000;
+            m4aSongNumStart(SE_576);
+            boss->unk8 = 110;
+        } break;
+
+        case 110: {
+            if (boss->unkD0[0] > boss->unkD0[1]) {
+                boss->unkD0[1] += boss->strc10C[2].unk8;
+            } else {
+                sceneEggman->unk14[0].unk18 = 0x42E;
+                boss->unk4 = 0x3C;
+                boss->unk8 = 120;
+            }
+            boss->unkE4[0] += 0x180;
+            sub_878_8082E2C(boss, 6U);
+        } break;
+
+        case 120: {
+            if (--boss->unk4 == 0) {
+                boss->unk8 = 130;
+            }
+            sub_878_8082E2C(boss, 6U);
+        } break;
+
+        case 130: {
+            boss->unkE4[1] -= Q(2);
+            if (I(boss->unkE4[1]) <= 0x2E0) {
+                sceneEggman->unk14[0].unk18 = 0x438;
+                boss->unk8 = 140;
+            }
+
+            sub_878_8082E2C(boss, 6U);
+            sceneEggman->unk14[0].qWorld.x = boss->strc10C[2].qWorldX;
+            sceneEggman->unk14[0].qWorld.y = boss->strc10C[2].qWorldY;
+            sceneEggman->unk14[1].qWorld.x = sceneEggman->unk14[0].qWorld.x;
+            sceneEggman->unk14[1].qWorld.y = sceneEggman->unk14[0].qWorld.y;
+        } break;
+
+        case 140: {
+            boss->unkE4[0] -= Q(8);
+            if (boss->unkE4[0] <= -Q(106)) {
+                sceneEggman->unk14[0].unk18 = 0x44C;
+                boss->unk4 = 0x78;
+                boss->unk8 = 150;
+            }
+            sub_878_8082E2C(boss, 6U);
+            sceneEggman->unk14[0].qWorld.x = boss->strc10C[2].qWorldX;
+            sceneEggman->unk14[0].qWorld.y = boss->strc10C[2].qWorldY;
+            sceneEggman->unk14[1].qWorld.x = sceneEggman->unk14[0].qWorld.x;
+            sceneEggman->unk14[1].qWorld.y = sceneEggman->unk14[0].qWorld.y;
+        } break;
+
+        case 150: {
+            if (--boss->unk4 == 0) {
+                boss->strc10C[2].unk8 = -Q(4);
+                boss->unk8 = 160;
+            }
+            sub_878_8082E2C(boss, 6U);
+        } break;
+
+        case 160: {
+            if (boss->unkE4[0] != 0) {
+                boss->unkE4[0] += Q(4);
+                if (boss->unkE4[0] >= 0) {
+                    boss->unkE4[0] = 0;
                 }
             }
-            temp_r2 = boss->unkE4[1];
             if (I(boss->unkE4[1]) != 0x2C0) {
                 boss->unkE4[1] -= Q(1);
             }
@@ -1843,118 +1894,41 @@ void sub_878_8084C50(UltimateGemerl *boss)
             if (boss->unkD0[1] <= 0) {
                 boss->unkD0[1] = 0;
                 boss->unk4 = 0x3C;
-                var_r0 = 0xC8;
-            block_52:
-                boss->unk8 = var_r0;
+                boss->unk8 = 200;
             }
-        block_53:
             sub_878_8082E2C(boss, 6U);
-            return;
-        case 0x96:
-            temp_r0_4 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_4;
-            if ((temp_r0_4 << 0x10) == 0) {
-                boss->strc10C[2].unk8 = -0x400;
-                var_r0 = 0xA0;
-                goto block_52;
+        } break;
+
+        case 200: {
+            if (--boss->unk4 == 0) {
+                boss->unkE0 = (u16)sa2__sub_8004418(-80, 120);
+                boss->unkFC = 0;
+                boss->unkA4 = 0;
+                {
+                    s32 unkED = 3;
+                    boss->unkED = unkED;
+                }
+                boss->unk8 = 210;
             }
-            goto block_53;
-        case 0xD2:
-            temp_r1_3 = boss->unkA4 + 0x80;
-            boss->unkA4 = temp_r1_3;
-            temp_r0_5 = boss->unkFC + (temp_r1_3 >> 8);
-            boss->unkFC = temp_r0_5;
-            if (temp_r0_5 > 0xC7) {
-                var_r0_2 = 0xDC;
-            block_59:
-                boss->unk8 = var_r0_2;
+        } break;
+
+        case 210: {
+            boss->unkA4 += 0x80;
+            boss->unkFC += I(boss->unkA4);
+            if (boss->unkFC >= 200) {
+                boss->unk8 = 220;
             }
-            return;
-        case 0xC8:
-            temp_r0_6 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_6;
-            temp_r5 = temp_r0_6;
-            if (temp_r5 == 0) {
-                boss->unkE0 = (u16)sa2__sub_8004418(-0x50, 0x78);
-                boss->unkFC = (s32)temp_r5;
-                *(&boss->unkFC - 0x58) = (s32)temp_r5;
-                boss->unkED = 3;
-                var_r0_2 = 0xD2;
-                goto block_59;
-            }
-            break;
-        case 0xDC:
+        } break;
+
+        case 220: {
             gCurTask->main = Task_878_CallDestroy;
-            var_r0_2 = 0x3E8;
-            goto block_59;
-        case 0x0:
-            boss->unk4 = 0x78;
-            var_r0_2 = 0xA;
-            goto block_59;
-        case 0xA:
-            temp_r0_7 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_7;
-            if ((temp_r0_7 << 0x10) != 0) {
-                return;
-            }
-            var_r0_2 = 0x64;
-            goto block_59;
-        case 0x64:
-            boss->unkD0[0] = 0x8C00;
-            boss->unkD0[1] = 0;
-            boss->strc10C[2].unk8 = 0x400;
-            boss->unkE4 = 0;
-            boss->unkE4[1] = 0x36000;
-            m4aSongNumStart(0x240U);
-            var_r0_2 = 0x6E;
-            goto block_59;
-        case 0x6E:
-            temp_r1_4 = boss->unkD0[1];
-            if ((s32)boss->unkD0[0] > temp_r1_4) {
-                boss->unkD0[1] = temp_r1_4 + boss->strc10C[2].unk8;
-            } else {
-                sceneEggman->unk14[0].unk18 = 0x42E;
-                boss->unk4 = 0x3C;
-                boss->unk8 = 0x78;
-            }
-            boss->unkE4 = (s32)(boss->unkE4 + 0x180);
-            goto block_53;
-        case 0x78:
-            temp_r0_8 = (u16)boss->unk4 - 1;
-            boss->unk4 = temp_r0_8;
-            if ((temp_r0_8 << 0x10) == 0) {
-                var_r0 = 0x82;
-                goto block_52;
-            }
-            goto block_53;
-        case 0x82:
-            temp_r1_5 = boss->unkE4[1] + 0xFFFFFE00;
-            boss->unkE4[1] = temp_r1_5;
-            if ((s32)(temp_r1_5 >> 8) <= 0x2E0) {
-                sceneEggman->unk14[0].unk18 = 0x438;
-                var_r0_3 = 0x8C;
-            block_41:
-                boss->unk8 = var_r0_3;
-            }
-        block_42:
-            sub_878_8082E2C(boss, 6U);
-            sceneEggman->unk14[0].qWorld.x = boss->strc10C[2].qWorldX;
-            sceneEggman->unk14[0].qWorld.y = boss->strc10C[2].qWorldY;
-            sceneEggman->unk14[1].qWorld.x = sceneEggman->unk14[0].qWorld.x;
-            sceneEggman->unk14[1].qWorld.y = sceneEggman->unk14[0].qWorld.y;
-            return;
-        case 0x8C:
-            temp_r1_7 = boss->unkE4 + 0xFFFFF800;
-            boss->unkE4 = temp_r1_7;
-            if (temp_r1_7 <= 0xFFFF9600) {
-                sceneEggman->unk14[0].unk18 = 0x44C;
-                boss->unk4 = 0x78;
-                var_r0_3 = 0x96;
-                goto block_41;
-            }
-            goto block_42;
+            boss->unk8 = 1000;
+        } break;
     }
 }
+
+#if 01
+#else
 
 void sub_878_8084EB4(UltimateGemerl *boss)
 {
