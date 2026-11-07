@@ -2068,97 +2068,51 @@ void sub_878_8084EB4(UltimateGemerl *boss)
     }
 }
 
-#if 01
-#else
-
 void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 *sp14;
-    s16 *temp_r4_3;
-    s32 *temp_r0;
-    s32 *temp_r3;
-    s32 temp_r1_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5_2;
-    s32 var_r0;
-    s32 var_r0_2;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
-    u8 temp_r1;
-    u8 temp_r5;
-    u8 temp_r7;
-    u8 var_r7;
-    u8 var_sb;
-    u8 var_sb_2;
-    u8 var_sb_3;
+    u16 angle;
+    s32 cosVal, sinVal;
+    u8 i, j;
 
-    temp_r1 = param1;
-    if (temp_r1 != 0) {
-        if (temp_r1 != 1) {
-            var_sb = 0;
-            sp8 = 0x80;
-            sp10 = temp_r1 - 0xA;
-            sp14 = &boss->qUnk9C;
-            do {
-                temp_r7 = (u8)sp10;
-                var_r0 = gSineTable[sp8 + 0x100] * 0x1C;
-                if (var_r0 < 0) {
-                    var_r0 += 0x3F;
+    switch (param1) {
+        case 0: {
+            boss->unkD = boss->unkC;
+            boss->unkE = 0;
+            for (j = 0; j < ARRAY_COUNT(boss->strc10C); j++) {
+                boss->strc10C[j].unk10 = 1;
+                for (i = 0; i < ARRAY_COUNT(boss->strc16C[j]); i++) {
+                    boss->strc16C[j][i].unk10 = 1;
                 }
-                spC = var_r0 >> 6;
-                var_r0_2 = gSineTable[sp8] * 0x1C;
-                if (var_r0_2 < 0) {
-                    var_r0_2 += 0x3F;
-                }
-                temp_r4 = boss->strc16C[var_sb][temp_r7].qWorldX;
-                if (temp_r4 == *sp14) {
-                    temp_r3 = &boss->strc16C[0][0].qWorldY + temp_r1_2;
-                    if (*temp_r3 == boss->qUnkA0) {
-                        boss->strc16C[var_sb][temp_r7].qWorldX = temp_r4 + spC;
-                        boss->strc16C[var_sb][temp_r7].qWorldY = boss->qUnkA0 + (var_r0_2 >> 6);
+            }
+        } break;
+
+        case 1: {
+            for (j = 0; j < 4; j++) {
+                BossExtra_CreateExplosion(I(boss->strc10C[j].qWorldX), I(boss->strc10C[j].qWorldY), 0x200U, 0U, 30, boss->vram24);
+                boss->strc10C[j].unk10 = 0;
+            }
+        } break;
+
+        default: {
+            for (j = 0, angle = 0x80; j < 4; j++, angle += 0x100) {
+                i = param1 - 10;
+                cosVal = (COS(angle) * 28) / 0x40;
+                sinVal = (SIN(angle) * 28) / 0x40;
+                if (boss->strc16C[j][i].qWorldX == boss->qUnk9C) {
+                    if (boss->strc16C[j][i].qWorldY == boss->qUnkA0) {
+                        boss->strc16C[j][i].qWorldX += cosVal;
+                        boss->strc16C[j][i].qWorldY = boss->qUnkA0 + sinVal;
                     }
                 }
-                BossExtra_CreateExplosion(I(boss->strc16C[var_sb][temp_r7].qWorldX), I(boss->strc16C[var_sb][temp_r7].qWorldY), 0x200U, 0U,
-                                          0x1E, boss->vram24);
-                boss->strc16C[var_sb][temp_r7].unk10 = 0;
-                var_sb += 1;
-                sp8 = (s32)(u16)(sp8 + 0x100);
-            } while ((u32)var_sb <= 3U);
-            return;
-        }
-        var_sb_2 = 0;
-        do {
-            temp_r5 = var_sb_2;
-            BossExtra_CreateExplosion((s32)(boss->strc10C[temp_r5].qWorldX << 8) >> 0x10,
-                                      (s32)(*(&boss->strc10C[0].qWorldY + (temp_r5 * 0x18)) << 8) >> 0x10, 0x200U, 0U, 0x1E, boss->vram24);
-            temp_r4_3 = &boss->strc10C[temp_r5].unk10;
-            boss->strc10C[temp_r5].unk10 = 0;
-            temp_r0_2 = var_sb_2 + 1;
-            var_sb_2 = temp_r0_2;
-        } while ((u32)temp_r0_2 <= 3U);
-        return;
+                BossExtra_CreateExplosion(I(boss->strc16C[j][i].qWorldX), I(boss->strc16C[j][i].qWorldY), 0x200U, 0U, 0x1E, boss->vram24);
+                boss->strc16C[j][i].unk10 = 0;
+            }
+        } break;
     }
-    boss->unkD = boss->unkC;
-    boss->unkE = temp_r1;
-    var_sb_3 = 0;
-    do {
-        boss->strc10C[var_sb_3].unk10 = 1;
-        var_r7 = 0;
-        temp_r5_2 = var_sb_3 * 0x10;
-    loop_5:
-        boss->strc16C[var_sb][temp_r7].unk10 = 1;
-        var_r7 += 1;
-        if ((u32)var_r7 <= 5U) {
-            goto loop_5;
-        }
-        temp_r0_3 = var_sb_3 + 1;
-        var_sb_3 = temp_r0_3;
-    } while ((u32)temp_r0_3 <= 3U);
 }
+
+#if 01
+#else
 
 void sub_878_80853D8(UltimateGemerl *boss)
 {
