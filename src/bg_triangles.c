@@ -722,7 +722,7 @@ void SA2_LABEL(sub_800724C)(u8 bg, TriParam1 *arg1)
 }
 
 // TODO: param2 might be horizontal
-void sa2__sub_80075D0(u8 bg, u8 param1, u8 param2, s16 param3, u16 param4, u16 param5)
+void sa2__sub_80075D0(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4, u16 param5)
 {
     int_vcount *cursor;
     s16 r1;

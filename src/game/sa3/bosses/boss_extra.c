@@ -2,6 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "flags.h"
+#include "bg_triangles.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
 #include "game/bosses.h"
@@ -1903,7 +1904,7 @@ void sub_878_8084C50(UltimateGemerl *boss)
 
         case 200: {
             if (--boss->unk4 == 0) {
-                boss->unkE0 = (u16)sa2__sub_8004418(-80, 120);
+                boss->unkE0 = SA2_LABEL(sub_8004418)(-80, 120);
                 boss->unkFC = 0;
                 boss->unkA4 = 0;
                 {
@@ -2227,104 +2228,117 @@ void sub_8085588(u8 *param0, s16 param1)
     }
 }
 
-#if 01
-#else
-
-void sub_8085618(u16 param0, u16 param1, s16 param2)
+void sub_8085618(s16 param0, s16 param1, s16 param2)
 {
-    s16 sp4;
-    s16 temp_r1;
     s16 temp_r3;
-    u16 temp_r0;
+    u16 temp_r0 = 0;
     u16 temp_r0_2;
     u16 var_r1;
-    u16 var_r2;
+    s16 var_r2;
 
     // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
+        DmaFill16(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
+        DmaFill16(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
     if (param2 == 0) {
         param2 = 1;
     }
-    temp_r3 = (s16)param1;
-    temp_r1 = (s16)param2;
-    temp_r0 = temp_r3 - temp_r1;
+
+    temp_r0 = param1 - param2;
     var_r2 = temp_r0;
     if ((s32)(temp_r0 << 0x10) < 0) {
         var_r2 = 0;
     }
-    temp_r0_2 = temp_r3 + temp_r1;
+    temp_r0_2 = param1 + param2;
     var_r1 = temp_r0_2;
     if ((s32)(s16)temp_r0_2 > 0xA0) {
         var_r1 = 0xA0;
     }
     if ((var_r2 > 0x9F) || ((s32)(var_r1 << 0x10) <= 0)) {
         gFlags |= 4;
-        return;
+    } else {
+        SA2_LABEL(sub_8007A08)(0, 0U, var_r2, param0, (s32)(u8)var_r1);
     }
-    SA2_LABEL(sub_8007A08)(0, 0U, var_r2, param0, (s32)(u8)var_r1);
 }
 
-void unused_80856DC(u16 param0, u16 param1, s16 param2)
+void unused_80856DC(s16 param0, s16 param1, s16 param2)
 {
     s16 sp8;
     s16 temp_r2;
     s16 temp_r4;
     u16 temp_r0;
     u16 temp_r0_2;
-    u16 var_r1;
-    u16 var_r2;
+    u16 var_r1 = 0;
     u16 var_r2_2;
 
-    var_r2 = (u16)param2;
     // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
+        DmaFill16(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
+        DmaFill16(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
-    if (var_r2 == 0) {
-        var_r2 = 1;
+    if (param2 == 0) {
+        param2 = 1;
     }
-    temp_r4 = (s16)param1;
-    temp_r2 = (s16)var_r2;
-    temp_r0 = temp_r4 - temp_r2;
+
+    temp_r0 = param1 - param2;
     var_r1 = temp_r0;
     if ((s32)(temp_r0 << 0x10) < 0) {
         var_r1 = 0;
     }
-    temp_r0_2 = temp_r4 + temp_r2;
+    temp_r0_2 = param1 + param2;
     var_r2_2 = temp_r0_2;
     if ((s32)(s16)temp_r0_2 > 0xA0) {
         var_r2_2 = 0xA0;
     }
-    sa2__sub_80075D0(0U, (u8)var_r1, (u8)var_r2_2, (s16)param0, (u16)(s32)temp_r4, (u16)(s32)var_r2);
+    SA2_LABEL(sub_80075D0)(0U, var_r1, var_r2_2, param0, param1, param2);
 }
 
-void sub_8085784(void)
+static inline void temp(s16 input) { asm("" ::"r"(input)); };
+
+// (98.24%) https://decomp.me/scratch/Byk7d
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_8085784.inc", void sub_8085784(void))
 {
     s16 sp4;
+    u16 angle;
+    s16 r0;
+    s32 r1 = 0;
 
     // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
+        DmaFill16(3, 0, gBgOffsetsBuffer[0], 0x280);
     } else {
-        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
+        DmaFill16(3, 0, gBgOffsetsBuffer[1], 0x280);
     }
 
-    sa2__sub_8005FB4(0, 0, 0, 0x42, 0xA0);
+    SA2_LABEL(sub_8005FB4)(0, 0, 0, 0x42, 0xA0);
 
+#ifndef NON_MATCHING
+    // Unused data
+    angle = 0x3C0;
+    temp(COS(angle));
+    temp(SIN(angle));
+
+    angle = 0x1C0;
+    temp(COS(angle));
+    temp(SIN(angle));
+#endif
+
+    r1 = 0;
     // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
-        DmaFill32(3, 0, gBgOffsetsBuffer[0], 0x280);
+        DmaFill16(3, r1, gBgOffsetsBuffer[0], 0x280);
     } else {
-        DmaFill32(3, 0, gBgOffsetsBuffer[1], 0x280);
+        DmaFill16(3, r1, gBgOffsetsBuffer[1], 0x280);
     }
-    sa2__sub_8005FB4(0, 0, 0, 0xE, 6);
+    SA2_LABEL(sub_8005FB4)(0, 0, 0, 0xE, 6);
 }
+END_NONMATCH
+
+#if 01
+#else
 
 void sub_808587C(s16 param0, s16 param1, u16 param2)
 {
