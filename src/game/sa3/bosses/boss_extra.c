@@ -101,10 +101,10 @@ void CreateUltimateGemerlBoss(void)
     boss->vram6C = NULL;
     boss->spr74.tiles = NULL;
     SetFixedRandomIfTimeAttackMode();
-    boss->players[ENAP_SONIC] = &gPlayers[PLAYER_1];
-    boss->players[ENAP_EGGMAN] = &gPlayers[PLAYER_2];
-    boss->players[ENAP_SONIC]->unk148.ptr = (PlayerUnk148 *)&boss->filler58[0];
-    boss->players[ENAP_EGGMAN]->unk148.ptr = (PlayerUnk148 *)&boss->filler68[0];
+    boss->players[NAP_SONIC] = &gPlayers[PLAYER_1];
+    boss->players[NAP_EGGMAN] = &gPlayers[PLAYER_2];
+    boss->players[NAP_SONIC]->unk148.ptr = (PlayerUnk148 *)&boss->filler58[0];
+    boss->players[NAP_EGGMAN]->unk148.ptr = (PlayerUnk148 *)&boss->filler68[0];
     boss->unk70 = 0;
     sub_878_80853D8(boss);
 }
@@ -160,8 +160,8 @@ void CreateUltimateGemerlForCutscene(Task *taskCutscene)
     boss->unk17 = 0;
     boss->unk18 = 0;
     boss->vram6C = NULL;
-    boss->players[ENAP_SONIC] = &gPlayers[PLAYER_1];
-    boss->players[ENAP_EGGMAN] = &gPlayers[PLAYER_2];
+    boss->players[NAP_SONIC] = &gPlayers[PLAYER_1];
+    boss->players[NAP_EGGMAN] = &gPlayers[PLAYER_2];
     boss->spr38C.tiles = NULL;
     boss->spr454[0][0].tiles = NULL;
     sub_878_8081FBC(boss);
@@ -204,11 +204,11 @@ void sub_878_8081EFC(UltimateGemerl *boss)
     } else {
         {
             if (gStageData.unk4 != 7) {
-                if (!(boss->players[ENAP_SONIC]->moveState & 0x100)) {
-                    SetPlayerCallback(boss->players[ENAP_SONIC], sub_80105F0);
+                if (!(boss->players[NAP_SONIC]->moveState & 0x100)) {
+                    SetPlayerCallback(boss->players[NAP_SONIC], sub_80105F0);
                 }
-                if (!(boss->players[ENAP_EGGMAN]->moveState & 0x100)) {
-                    SetPlayerCallback(boss->players[ENAP_EGGMAN], sub_80105F0);
+                if (!(boss->players[NAP_EGGMAN]->moveState & 0x100)) {
+                    SetPlayerCallback(boss->players[NAP_EGGMAN], sub_80105F0);
                 }
             }
             if (boss->unk5F == 1) {
@@ -226,13 +226,13 @@ void sub_878_8081EFC(UltimateGemerl *boss)
             boss->unk1[0] = gStageData.unk4;
             return;
         }
-        if (!(boss->players[ENAP_SONIC]->moveState & 0x100)) {
+        if (!(boss->players[NAP_SONIC]->moveState & 0x100)) {
             if (--boss->ringCountdownDelay == 0) {
                 boss->ringCountdownDelay = TIME(0, 1);
                 gStageData.rings--;
                 if (gStageData.rings == 0) {
-                    SetPlayerCallback(boss->players[ENAP_SONIC], sub_80105F0);
-                    SetPlayerCallback(boss->players[ENAP_EGGMAN], sub_80105F0);
+                    SetPlayerCallback(boss->players[NAP_SONIC], sub_80105F0);
+                    SetPlayerCallback(boss->players[NAP_EGGMAN], sub_80105F0);
                 }
             }
         }
@@ -2111,30 +2111,30 @@ void sub_878_80851FC(UltimateGemerl *boss, u8 param1)
     }
 }
 
-#if 01
-#else
-
 void sub_878_80853D8(UltimateGemerl *boss)
 {
-    Player *temp_r8;
+    Player *partner = boss->players[NAP_EGGMAN];
 
-    temp_r8 = boss->players[1];
-    boss->vram6C = VramMalloc(0x40U);
-    boss->unk72 = 0x12C;
-    boss->spr74.tiles = VramMalloc(0x10U);
-    boss->spr74.anim = 0x4F8;
-    boss->spr74.variant = 0;
-    boss->spr74.oamFlags = 0x440;
-    boss->spr74.animCursor = 0;
-    boss->spr74.qAnimDelay = 0;
-    boss->spr74.prevVariant = 0xFF;
-    boss->spr74.animSpeed = 0x10;
-    boss->spr74.palId = 0;
-    boss->spr74.hitboxes[0].index = -1;
-    boss->spr74.frameFlags = 0x1400;
-    boss->spr74.x = ((s32)temp_r8->qWorldX >> 8) - gCamera.x;
-    boss->spr74.y = ((s32)temp_r8->qWorldY >> 8) - gCamera.y;
-    UpdateSpriteAnimation(&boss->spr74);
+    boss->vram6C = VramMalloc(64);
+    boss->unk72 = 300;
+
+    {
+        Sprite *s = &boss->spr74;
+        s->tiles = ALLOC_TILES(ANIM_EGGMAN_SIDE);
+        s->anim = ANIM_EGGMAN_SIDE;
+        s->variant = 0;
+        s->oamFlags = SPRITE_OAM_ORDER(17);
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x1400;
+        s->x = I(partner->qWorldX) - gCamera.x;
+        s->y = I(partner->qWorldY) - gCamera.y;
+        UpdateSpriteAnimation(s);
+    }
 }
 
 void sub_878_8085458(UltimateGemerl *boss)
@@ -2156,30 +2156,26 @@ void sub_878_8085458(UltimateGemerl *boss)
 
 void sub_878_80854B8(UltimateGemerl *boss, u8 param1)
 {
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 var_r0;
-
-    if ((param1 << 0x18) == 0) {
+    if (param1 == 0) {
         boss->unk10 = boss->unk5A;
-        boss->unkEF = 0x32;
-        boss->unk12 = 0xA;
-        m4aSongNumStart(0x244U);
-        if (gStageData.gameMode == 5) {
-            if (gStageData.playerIndex == 0) {
-                var_r0 = 5;
+        sub_8087038_inline(boss, 50);
+        boss->unk12 = 10;
+        m4aSongNumStart(SE_EXTRA_BOSS_OPEN);
+
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
+            if (gStageData.playerIndex == PLAYER_1) {
+                sub_8027674(5, 0);
             } else {
-                var_r0 = 6;
+                sub_8027674(6, 0);
             }
-            sub_8027674(var_r0, 0U);
         }
     } else {
-        boss->unk14 = 0x78;
-        sub_8078DB0(0x502, 0, 0x78, 0U);
-        boss->unk12 = 0x64;
-        m4aSongNumStart(0xEBU);
-        temp_r0 = boss->lives;
-        if ((temp_r0 == 0) || (temp_r0_2 = temp_r0 - 1, boss->lives = temp_r0_2, ((temp_r0_2 << 0x18) == 0))) {
+        boss->unk14 = 120;
+        sub_8078DB0(ANIM_PALETTE_BOSS_EXTRA_A, 0, 120, 0U);
+        boss->unk12 = 100;
+        m4aSongNumStart(SE_235);
+
+        if ((boss->lives == 0) || (--boss->lives == 0)) {
             sub_878_80851FC(boss, 0U);
         }
         if (gStageData.difficulty == 0) {
@@ -2189,45 +2185,50 @@ void sub_878_80854B8(UltimateGemerl *boss, u8 param1)
         } else if (boss->lives == 5) {
             sub_80299D4(0x39U);
         }
-        if (gStageData.gameMode == 5) {
-            if (gStageData.playerIndex == 0) {
-                sub_8027674(3U, (u16)boss->lives);
-                return;
+        if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
+            if (gStageData.playerIndex == PLAYER_1) {
+                sub_8027674(3U, boss->lives);
+            } else {
+                sub_8027674(4U, boss->lives);
             }
-            sub_8027674(4U, (u16)boss->lives);
         }
     }
 }
 
 void sub_8085588(u8 *param0, s16 param1)
 {
-    u32 temp_r0;
     UltimateGemerl *boss = TASK_DATA(gStageData.taskBoss);
+    u32 temp_r0 = (0x7F & param0[2]);
+    u16 lives = (param0[3] | (param0[4] << 8));
 
-    temp_r0 = (0x7F & param0[2]) - 1;
     switch (temp_r0) {
-        case 0:
+        case 1:
             boss->lives = 0;
             sub_878_8085458(boss);
             boss->unk10 = 0x78;
             boss->unk12 = 0x3E8;
-            return;
+            break;
         case 2:
+            break;
         case 3:
-            if (boss->lives != (u8)(param0[3] | (param0[4] << 8))) {
-                sub_878_80854B8(boss, 1U);
-                return;
-            }
-        default:
-            return;
         case 4:
+            if (boss->lives != (u8)lives) {
+                sub_878_80854B8(boss, 1U);
+            }
+            break;
         case 5:
+        case 6:
             if ((u16)boss->unk12 == 0) {
                 sub_878_80854B8(boss, 0U);
             }
             break;
+        default:
+            break;
     }
 }
+
+#if 01
+#else
 
 void sub_8085618(u16 param0, u16 param1, s16 param2)
 {

@@ -4,10 +4,10 @@
 #include "game/shared/stage/player.h" // Player
 
 typedef enum {
-    ENAP_SONIC,
-    ENAP_EGGMAN,
+    NAP_SONIC,
+    NAP_EGGMAN,
 
-    ENAP_COUNT
+    NAP_COUNT
 } ENonAggressionPlayers;
 
 typedef struct {
@@ -49,7 +49,7 @@ typedef struct {
     /* 0x01C */ u8 *vram1C;
     /* 0x020 */ u8 *vram20;
     /* 0x024 */ u8 *vram24;
-    /* 0x028 */ Player *players[ENAP_COUNT]; // 0 : Sonic, 1 : Eggman
+    /* 0x028 */ Player *players[NAP_COUNT]; // 0 : Sonic, 1 : Eggman
     /* 0x030 */ Task *taskCutscene; // -> (AltarEmeraldCutsceneEggmanEscape *)
     /* 0x060 */ u32 unk34;
     /* 0x030 */ u8 filler38[0x4];
@@ -68,7 +68,7 @@ typedef struct {
     /* 0x060 */ u8 unk5F;
     /* 0x060 */ u8 filler60[0x8];
     /* 0x060 */ u8 filler68[0x4];
-    /* 0x06C */ u8 *vram6C;
+    /* 0x06C */ u8 *vram6C; // TODO: Is this memory unused? (If so, don't alloc/free, or repurpose it)
     /* 0x072 */ u8 unk70;
     /* 0x072 */ u8 unk71;
     /* 0x072 */ s16 unk72;

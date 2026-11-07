@@ -638,6 +638,10 @@
 #define ANIM_BOSS_FINAL_GLASS_WIDTH                 32
 #define ANIM_BOSS_FINAL_GLASS_HEIGHT                32
 
+// 1272
+#define ANIM_EGGMAN_SIDE_WIDTH                      32
+#define ANIM_EGGMAN_SIDE_HEIGHT                     32
+
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
 #define ANIM_GEMERL_IDLE_HEIGHT                     64
