@@ -1775,28 +1775,32 @@ void sub_878_8084B2C(UltimateGemerl *boss)
     sub_878_8082E2C(boss, boss->unkD);
 }
 
-#if 01
-#else
 void sub_878_8084BEC(UltimateGemerl *boss)
 {
-    u16 temp_r1;
+    switch (boss->unk8) {
+        case 0:
+            boss->unk4 = 1;
+            boss->unk8 = 1000;
 
-    temp_r1 = (u16)boss->unk8;
-    if (temp_r1 == 0) {
-        boss->unk4 = 1;
-        boss->unk8 = 0x3E8;
-        if (0x2000 & gDispCnt) {
-            gDispCnt &= 0xDEFF;
-            gWinRegs[WINREG_WININ] = temp_r1;
-            gWinRegs[WINREG_WINOUT] = temp_r1;
-            gBldRegs.bldCnt = temp_r1;
-            gBldRegs.bldAlpha = temp_r1;
-            gBldRegs.bldY = temp_r1;
-            gFlags &= ~4;
-        }
+            if (DISPCNT_WIN0_ON & gDispCnt) {
+                gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_BG0_ON);
+                gWinRegs[WINREG_WININ] = 0;
+                gWinRegs[WINREG_WINOUT] = 0;
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldAlpha = 0;
+                gBldRegs.bldY = 0;
+                gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+            }
+            break;
+
+        case 1000:
+            break;
     }
     sub_878_8082E2C(boss, boss->unkD);
 }
+
+#if 01
+#else
 
 void sub_878_8084C50(UltimateGemerl *boss)
 {
