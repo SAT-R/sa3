@@ -138,7 +138,7 @@ typedef struct {
     /* 0x04 */ s16 unk8;
     /* 0x04 */ s16 unkA;
     /* 0x04 */ s16 unkC;
-    /* 0x04 */ s16 unkE;
+    /* 0x04 */ u8 unkE;
     /* 0x10 */ Sprite s;
 } UltimateGemerlExplosion; /* 0x38 */
 

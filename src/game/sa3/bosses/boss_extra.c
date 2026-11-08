@@ -17,7 +17,7 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
-#define WINDOW_INCREMENT(window, wordCount) (int_vcount *)(((u8 *)window) + ((wordCount)*gHBlankCopySize))
+#define WINDOW_INCREMENT(window, wordCount) (int_vcount *)(((u8 *)window) + ((wordCount) * gHBlankCopySize))
 
 u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1);
 u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1);
@@ -3081,9 +3081,8 @@ void sub_878_80862D8(UltimateGemerl *boss)
     }
 }
 
-u8 sub_878_80863FC(UltimateGemerl *boss, Player *arg1)
+u8 sub_878_80863FC(UltimateGemerl *boss, Player *player)
 {
-    PlayerSpriteInfo *temp_r6;
     s16 temp_r0;
     s16 temp_r4;
     s16 temp_r5;
@@ -3101,41 +3100,33 @@ u8 sub_878_80863FC(UltimateGemerl *boss, Player *arg1)
     s8 temp_r4_3;
     s8 temp_r5_2;
     u16 temp_r6_2;
-    u8 var_sb;
-    Sprite *temp_r1;
+    u8 var_sb = 0;
+    PlayerSpriteInfo *psi = player->spriteInfoBody;
+    Sprite *sprPlayer = (Sprite *)&psi->s;
 
-    var_sb = 0;
-    temp_r6 = arg1->spriteInfoBody;
-    temp_r1 = (Sprite *)&temp_r6->s;
-    if ((arg1->moveState & 0x100) || (temp_r1->hitboxes[0].index == -1)) {
+    if ((player->moveState & 0x100) || (sprPlayer->hitboxes[0].index == -1)) {
         return 0U;
     }
     if (1 & boss->unk34) {
-        temp_r1_3 = boss->unkE3 * 0x18;
-        temp_r4 = I(arg1->qWorldY) - I(boss->strc10C[boss->unkE3].qWorldY);
-        temp_r5 = (I(arg1->qWorldX) + (u16)gCamera.unk6A) - (I(boss->strc10C[boss->unkE3].qWorldY) - 4);
+        temp_r4 = I(player->qWorldY) - I(boss->strc10C[boss->unkE3].qWorldY);
+        temp_r5 = (I(player->qWorldX) + (u16)gCamera.unk6A) - (I(boss->strc10C[boss->unkE3].qWorldY) - 4);
         temp_r6_2 = (u16)sa2__sub_8004418(temp_r4, temp_r5);
         temp_r8 = gUnknown_080D5D30[boss->unkCE >> 5] << 6;
-        temp_r1_4 = 0x20 - ((s32)Sqrt((temp_r5 * temp_r5) + (temp_r4 * temp_r4)) / 12);
+        temp_r1_4 = 32 - ((s32)Sqrt(SQUARE(temp_r5) + SQUARE(temp_r4)) / 12);
         temp_r0 = (s16)temp_r6_2;
         temp_r2 = temp_r8 - temp_r0;
         if (temp_r2 >= 0) {
-            if (temp_r2 > temp_r1_4) {
-
-            } else {
-                goto block_8;
+            if (temp_r2 <= temp_r1_4) {
+                var_sb = 2;
             }
         } else if ((s32)(temp_r0 - temp_r8) <= temp_r1_4) {
-        block_8:
             var_sb = 2;
         }
     } else if (boss->unk34 & 2) {
-        temp_r3 = boss->unk48 + boss->unk3C;
-        temp_r5_2 = temp_r6->s.hitboxes[0].b.left;
-        temp_r1_5 = ((((s32)arg1->qWorldX >> 8) + gCamera.unk6A) - gCamera.x) + temp_r5_2;
-        if (temp_r3 <= temp_r1_5) {
-            if ((s32)(temp_r3 + ((s8)boss->unk3E - boss->unk3C)) < temp_r1_5) {
-                if (temp_r3 >= temp_r1_5) {
+        if (boss->unk48 + boss->unk3C <= (I(player->qWorldX) + gCamera.unk6A) - gCamera.x + psi->s.hitboxes[0].b.left) {
+            if ((s32)(boss->unk48 + boss->unk3C + ((s8)boss->unk3E - boss->unk3C))
+                < (I(player->qWorldX) + gCamera.unk6A) - gCamera.x + psi->s.hitboxes[0].b.left) {
+                if (boss->unk48 + boss->unk3C >= (I(player->qWorldX) + gCamera.unk6A) - gCamera.x + psi->s.hitboxes[0].b.left) {
                     goto block_13;
                 }
             } else {
@@ -3143,14 +3134,13 @@ u8 sub_878_80863FC(UltimateGemerl *boss, Player *arg1)
             }
         } else {
         block_13:
-            if ((s32)(temp_r1_5 + ((s8)temp_r6->s.hitboxes[0].b.right - temp_r5_2)) >= temp_r3) {
+            if ((HB_RIGHT(I(player->qWorldX) + gCamera.unk6A - gCamera.x, psi->s.hitboxes[0].b)) >= boss->unk48 + boss->unk3C) {
             block_14:
-                temp_r3_2 = boss->unk3D;
-                temp_r2_2 = boss->unk4C + temp_r3_2;
-                temp_r4_3 = temp_r1->hitboxes[0].b.top;
-                temp_r1_6 = (((s32)arg1->qWorldY >> 8) - gCamera.y) + temp_r4_3;
+                temp_r2_2 = boss->unk4C + boss->unk3D;
+                temp_r4_3 = sprPlayer->hitboxes[0].b.top;
+                temp_r1_6 = (((s32)player->qWorldY >> 8) - gCamera.y) + temp_r4_3;
                 if (temp_r2_2 <= temp_r1_6) {
-                    if ((s32)(temp_r2_2 + ((s8)boss->unk3F - temp_r3_2)) < temp_r1_6) {
+                    if ((s32)(temp_r2_2 + ((s8)boss->unk3F - boss->unk3D)) < temp_r1_6) {
                         if (temp_r2_2 >= temp_r1_6) {
                             goto block_17;
                         }
@@ -3159,7 +3149,7 @@ u8 sub_878_80863FC(UltimateGemerl *boss, Player *arg1)
                     }
                 } else {
                 block_17:
-                    if ((s32)(temp_r1_6 + ((s8)temp_r1->hitboxes[0].b.bottom - temp_r4_3)) >= temp_r2_2) {
+                    if ((s32)(temp_r1_6 + ((s8)sprPlayer->hitboxes[0].b.bottom - temp_r4_3)) >= temp_r2_2) {
                     block_18:
                         var_sb = 1;
                     }
@@ -3170,146 +3160,50 @@ u8 sub_878_80863FC(UltimateGemerl *boss, Player *arg1)
     return var_sb;
 }
 
-u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1)
+u8 sub_878_80865B0(UltimateGemerl *boss, Player *player)
 {
-    PlayerSpriteInfo *temp_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_4;
-    s32 temp_r1_6;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 var_r1;
-    s32 pWin0H;
-    s8 temp_r1_3;
-    s8 temp_r1_5;
-    s8 temp_r4;
-    s8 temp_r4_2;
-    s8 temp_r4_3;
-    s8 temp_r4_4;
-    s8 var_r2;
-    u8 *var_r0;
-    u8 var_sb;
-    Sprite *temp_r1;
-    Sprite *temp_r7;
+    Sprite *sprBoss = &boss->spr38C;
+    u8 isColliding = 0;
+    PlayerSpriteInfo *psi = player->spriteInfoBody;
+    Sprite *sprPlayer = (Sprite *)&psi->s;
 
-    var_sb = 0;
-    temp_r1 = &arg0->spr38C;
-    temp_r0 = arg1->spriteInfoBody;
-    temp_r7 = (Sprite *)&temp_r0->s;
-    if ((arg1->moveState & 0x100) || (temp_r1->hitboxes[0].index == -1)) {
+    if ((player->moveState & 0x100) || (sprBoss->hitboxes[0].index == -1)) {
         return 0U;
     }
-    temp_r1_2 = temp_r7->hitboxes[0].index;
-    if (temp_r1_2 != -1) {
-        temp_r1_3 = (s8)arg0->spr38C.hitboxes[0].b.left;
-        temp_r2 = ((s32)arg0->qUnk9C >> 8) + temp_r1_3;
-        temp_r4 = temp_r0->s.hitboxes[0].b.left;
-        temp_r1_4 = ((s32)arg1->qWorldX >> 8) + gCamera.unk6A + temp_r4;
-        if (temp_r2 <= temp_r1_4) {
-            if ((s32)(temp_r2 + ((s8)arg0->spr38C.hitboxes[0].b.right - temp_r1_3)) < temp_r1_4) {
-                if (temp_r2 < temp_r1_4) {
 
-                } else {
-                    goto block_8;
-                }
-            } else {
-                goto block_10;
-            }
-        } else {
-        block_8:
-            if ((s32)(temp_r1_4 + ((s8)temp_r0->s.hitboxes[0].b.right - temp_r4)) < temp_r2) {
-
-            } else {
-            block_10:
-                temp_r4_2 = temp_r1->hitboxes[0].b.top;
-                pWin0H = ((s32)arg0->qUnkA0 >> 8) + temp_r4_2;
-                var_r2 = (s8)temp_r7->hitboxes[0].b.top;
-                var_r1 = ((s32)arg1->qWorldY >> 8) + var_r2;
-                if (pWin0H <= var_r1) {
-                    if ((s32)(pWin0H + ((s8)temp_r1->hitboxes[0].b.bottom - temp_r4_2)) < var_r1) {
-                        if (pWin0H >= var_r1) {
-                            goto block_13;
-                        }
-                    } else {
-                        goto block_24;
-                    }
-                } else {
-                block_13:
-                    var_r0 = &temp_r7->hitboxes[0].b.top;
-                    goto block_23;
-                }
-            }
+    if (sprPlayer->hitboxes[0].index != -1) {
+        if (HB_COLLISION(I(boss->qUnk9C), I(boss->qUnkA0), sprBoss->hitboxes[0].b, I(player->qWorldX) + gCamera.unk6A, I(player->qWorldY),
+                         sprPlayer->hitboxes[0].b)) {
+            isColliding = 1;
         }
-    } else if (temp_r7->hitboxes[1].index != temp_r1_2) {
-        temp_r1_5 = (s8)arg0->spr38C.hitboxes[0].b.left;
-        temp_r2_2 = ((s32)arg0->qUnk9C >> 8) + temp_r1_5;
-        temp_r4_3 = temp_r0->s.hitboxes[1].b.left;
-        temp_r1_6 = ((s32)arg1->qWorldX >> 8) + gCamera.unk6A + temp_r4_3;
-        if (temp_r2_2 <= temp_r1_6) {
-            if ((s32)(temp_r2_2 + ((s8)arg0->spr38C.hitboxes[0].b.right - temp_r1_5)) < temp_r1_6) {
-                if (temp_r2_2 >= temp_r1_6) {
-                    goto block_18;
-                }
-            } else {
-                goto block_19;
-            }
-        } else {
-        block_18:
-            if ((s32)(temp_r1_6 + ((s8)temp_r0->s.hitboxes[1].b.right - temp_r4_3)) >= temp_r2_2) {
-            block_19:
-                temp_r4_4 = temp_r1->hitboxes[0].b.top;
-                pWin0H = ((s32)arg0->qUnkA0 >> 8) + temp_r4_4;
-                var_r2 = (s8)temp_r7->hitboxes[1].b.top;
-                var_r1 = ((s32)arg1->qWorldY >> 8) + var_r2;
-                if (pWin0H <= var_r1) {
-                    if ((s32)(pWin0H + ((s8)temp_r1->hitboxes[0].b.bottom - temp_r4_4)) < var_r1) {
-                        if (pWin0H >= var_r1) {
-                            goto block_22;
-                        }
-                    } else {
-                        goto block_24;
-                    }
-                } else {
-                block_22:
-                    var_r0 = &temp_r7->hitboxes[1].b.bottom;
-                block_23:
-                    if ((s32)(var_r1 + ((s8)*var_r0 - var_r2)) >= pWin0H) {
-                    block_24:
-                        var_sb = 1;
-                    }
-                }
+    } else if (sprPlayer->hitboxes[1].index != -1) {
+        if (HB_COLLISION(I(boss->qUnk9C), I(boss->qUnkA0), sprBoss->hitboxes[0].b, I(player->qWorldX) + gCamera.unk6A, I(player->qWorldY),
+                         sprPlayer->hitboxes[1].b)) {
+            isColliding = 1;
+        }
+    }
+
+    return isColliding;
+}
+
+u8 sub_878_8086774(UltimateGemerl *boss, Player *player)
+{
+    u8 var_r8 = 0;
+    u8 var_r4;
+    u8 var_r5;
+
+    for (var_r5 = 0; var_r5 < ARRAY_COUNT(boss->spr454); var_r5++) {
+        for (var_r4 = 0; var_r4 < ARRAY_COUNT(boss->spr454[var_r5]); var_r4++) {
+            if (sub_8010184(&boss->spr454[var_r5][var_r4], I(boss->strc16C[var_r5][var_r4].qWorldX),
+                            I(boss->strc16C[var_r5][var_r4].qWorldY), 0, player)
+                == 1) {
+                var_r8 = 1;
+                var_r5 = ARRAY_COUNT(boss->spr454);
+                var_r4 = ARRAY_COUNT(boss->spr454[0]);
             }
         }
     }
-    return var_sb;
-}
 
-u8 sub_878_8086774(UltimateGemerl *arg0, Player *arg1)
-{
-    s32 temp_r3;
-    u8 var_r4;
-    u8 var_r5;
-    u8 var_r8;
-
-    var_r8 = 0;
-    var_r5 = 0;
-    do {
-        var_r4 = 0;
-    loop_2:
-        temp_r3 = (var_r4 * 0x14) + (var_r5 * 0x78);
-        if (sub_8010184(&arg0->spr454[var_r5][var_r4], I(arg0->strc16C[var_r5][var_r4].qWorldX), I(arg0->strc16C[var_r5][var_r4].qWorldY),
-                        0, arg1)
-            == 1) {
-            var_r8 = 1;
-            var_r5 = 4;
-            var_r4 = 6;
-        }
-        var_r4 += 1;
-        if ((u32)var_r4 <= 5U) {
-            goto loop_2;
-        }
-        var_r5 += 1;
-    } while ((u32)var_r5 <= 3U);
     return var_r8;
 }
 
@@ -3359,9 +3253,7 @@ bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
     temp_sb = ((s32)(temp_r0_2 + ((u32)temp_r0_2 >> 0x1F)) >> 1) + arg0->qUnkA0;
     switch (temp_r6) { /* irregular */
         case 0:
-            if (arg0->unk70 == 0) {
-
-            } else {
+            if (arg0->unk70 != 0) {
                 temp_r3 = temp_r2->spriteInfoBody;
                 temp_r6_2 = (Sprite *)&temp_r3->s;
                 temp_r0_3 = temp_r1;
