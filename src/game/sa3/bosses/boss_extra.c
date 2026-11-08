@@ -1663,8 +1663,7 @@ void sub_878_808491C(UltimateGemerl *boss)
         } break;
 
         case 10: {
-            if (boss->unkEE != 0) 
-            {
+            if (boss->unkEE != 0) {
                 boss->unkED = 0;
                 {
 #ifndef NON_MATCHING
@@ -1680,7 +1679,7 @@ void sub_878_808491C(UltimateGemerl *boss)
                 m4aSongNumStart(SE_532);
                 sub_808706C_inline(boss, 1);
                 boss->unk8 = 100;
-            } 
+            }
         } break;
 
         case 100: {
@@ -1703,7 +1702,7 @@ void sub_878_808491C(UltimateGemerl *boss)
 
         case 110: {
             if (boss->unkBB != 0) {
-                if (--boss->unkBC[boss->unkBB-1] == 0) {
+                if (--boss->unkBC[boss->unkBB - 1] == 0) {
                     boss->unkBB -= 1;
                 }
             }
