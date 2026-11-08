@@ -7,7 +7,6 @@
 
 .if 0
 .else
-
 	thumb_func_start sub_808587C
 sub_808587C: @ 0x0808587C
 	push {r4, r5, r6, r7, lr}
@@ -1397,6 +1396,7 @@ _080862C4:
 	bx r0
 	.align 2, 0
 _080862D4: .4byte 0x0000FFFA
+@.else
 
 	thumb_func_start sub_878_80862D8
 sub_878_80862D8: @ 0x080862D8

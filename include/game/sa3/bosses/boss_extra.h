@@ -120,9 +120,13 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u8 filler8[0xC];
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ u16 unk10;
+    /* 0x12 */ u16 unk12;
     /* 0x14 */ u16 rotation;
-    /* 0x16 */ u8 filler16[0x2];
+    /* 0x16 */ u8 unk16;
+    /* 0x17 */ u8 unk17;
     /* 0x18 */ Sprite spr18;
     /* 0x40 */ SpriteTransform tf40;
     /* 0x4C */ UltimateGemerl *boss;
@@ -137,6 +141,12 @@ typedef struct {
     /* 0x04 */ s16 unkE;
     /* 0x10 */ Sprite s;
 } UltimateGemerlExplosion; /* 0x38 */
+
+// TODO: This probably can be used globally, there are other places with a struct like this.
+typedef struct {
+    AnimId anim;
+    u16 pattern;
+} AnimPattern;
 
 // -> (AltarEmeraldCutsceneEggmanEscape *)
 void CreateUltimateGemerlForCutscene(Task *taskCutscene);
@@ -181,6 +191,7 @@ void Task_878_8086F48(void);
 void Task_878_8086FA4(void);
 void Task_878_CallDestroy(void);
 void Task_Missile_8086B94(void);
+void sub_8087044(UltimateGemerl *boss, u8 param1);
 void sub_808706C(UltimateGemerl *boss, u8 param1);
 void sub_878_80870B0(UltimateGemerl *boss);
 u8 sub_80871CC(UltimateGemerl *boss, Player *p);
@@ -195,6 +206,8 @@ void Task_878_8086F08(UltimateGemerl *boss);
 void Task_878_8086F48(UltimateGemerl *boss);
 void Task_878_8086FA4(UltimateGemerl *boss);
 void TaskDestructor_878_8081D64(UltimateGemerl *boss);
+void Task_38_8086E58(UltimateGemerlExplosion *expl);
+extern const AnimPattern gAnimPatternBossExtraElectricSpark[3];
 #endif
 
 #endif // GUARD_SA3_BOSS_EXTRA_H

@@ -414,6 +414,8 @@ void sub_80044CC(Player *p);
 void sub_8004D68(s32 qWorldX, s32 qWorldY);
 void sub_8004DD8(s32 qWorldX, s32 qWorldY);
 
+bool32 sub_8010288(Sprite *s, s32 offsetX, s32 offsetY, s16 hbIndex, Player *p);
+void sub_801038C(Player *p, u8 arg1);
 s32 sub_8011BFC(u8, Player *p);
 
 extern bool32 sub_8020700(Sprite *s, s32 worldX, s32 worldY, s16 p3, Player *p, s16 p5);
