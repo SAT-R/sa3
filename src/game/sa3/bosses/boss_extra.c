@@ -1639,17 +1639,12 @@ void sub_878_808439C(UltimateGemerl *boss)
     }
 }
 
-// (98.10%) https://decomp.me/scratch/18eMl
-NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_808491C.inc", void sub_878_808491C(UltimateGemerl *boss))
+// (100.00%) https://decomp.me/scratch/YsDC7
+// TODO: Fake-match!
+void sub_878_808491C(UltimateGemerl *boss)
 {
-    s16 var_r0;
     u8 var_r0_2;
-    u16 temp_r2;
-    u8 *temp_r1_2;
-    u8 var_r1;
     u8 var_r1_2;
-    u8 var_r1_3;
-    void *temp_r1;
     s32 unk4, unkED;
 
     switch (boss->unk8) {
@@ -1663,19 +1658,29 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_808491C.inc", void su
             }
 
             boss->unkED = 1;
-            boss->unk4 = 0;
+            boss->unk4 = boss->unkED - 1;
             boss->unk8 = 10;
         } break;
 
         case 10: {
-            if (boss->unkEE != 0) {
+            if (boss->unkEE != 0) 
+            {
                 boss->unkED = 0;
-                boss->unk100 = 0;
-                boss->unk104 = boss->unk100;
+                {
+#ifndef NON_MATCHING
+                    s32 *r0 = &boss->unk100;
+                    s32 r1;
+                    asm("mov %0, #0" : "=r"(r1));
+                    *r0 = r1;
+#else
+                    boss->unk100 = 0;
+#endif
+                    boss->unk104 = boss->unk100;
+                }
                 m4aSongNumStart(SE_532);
                 sub_808706C_inline(boss, 1);
                 boss->unk8 = 100;
-            }
+            } 
         } break;
 
         case 100: {
@@ -1698,7 +1703,7 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_808491C.inc", void su
 
         case 110: {
             if (boss->unkBB != 0) {
-                if (--boss->unkBC[boss->unkBB - 1] == 0) {
+                if (--boss->unkBC[boss->unkBB-1] == 0) {
                     boss->unkBB -= 1;
                 }
             }
@@ -1729,7 +1734,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_808491C.inc", void su
         } break;
     }
 }
-END_NONMATCH
 
 void sub_878_8084B2C(UltimateGemerl *boss)
 {
