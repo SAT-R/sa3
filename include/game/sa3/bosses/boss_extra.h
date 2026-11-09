@@ -207,7 +207,7 @@ void Task_878_8086F48(UltimateGemerl *boss);
 void Task_878_8086FA4(UltimateGemerl *boss);
 void TaskDestructor_878_8081D64(UltimateGemerl *boss);
 void Task_38_8086E58(UltimateGemerlExplosion *expl);
-extern const AnimPattern gAnimPatternBossExtraElectricSpark[3];
+extern const u16 gAnimPatternBossExtraElectricSpark[3][2];
 #endif
 
 #endif // GUARD_SA3_BOSS_EXTRA_H

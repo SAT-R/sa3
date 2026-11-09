@@ -17,7 +17,7 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
-#define WINDOW_INCREMENT(window, wordCount) (int_vcount *)(((u8 *)window) + ((wordCount) * gHBlankCopySize))
+#define WINDOW_INCREMENT(window, wordCount) (int_vcount *)(((u8 *)window) + ((wordCount)*gHBlankCopySize))
 
 u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1);
 u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1);
@@ -3207,147 +3207,63 @@ u8 sub_878_8086774(UltimateGemerl *boss, Player *player)
     return var_r8;
 }
 
-bool8 sub_878_80867FC(UltimateGemerl *arg0, u8 arg1)
+bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1)
 {
-    s32 sp0;
-    Player *sp4;
-    s32 sp8;
-    Player *temp_r2;
-    PlayerSpriteInfo *temp_r3;
+    bool8 result = 0;
+    Rect8 rec;
+    Player *player;
+    Player *partner;
+    PlayerSpriteInfo *sprPartner;
     PlayerSpriteInfo *temp_r3_3;
-    Sprite2 *temp_r6_4;
-    s16 temp_r0;
-    s16 temp_r0_2;
+    Sprite *temp_r6_4;
+    s32 temp_r0;
+    u32 temp_r0_2;
     s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r1_6;
     s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r2_5;
-    s32 temp_r2_6;
-    s32 temp_r3_2;
-    s32 temp_r3_4;
     s32 temp_sb;
-    s8 temp_r0_3;
-    s8 temp_r0_4;
-    s8 temp_r1;
-    s8 temp_r5;
-    s8 temp_r5_2;
-    s8 temp_r6_3;
-    s8 temp_r6_5;
-    u8 temp_r6;
-    Sprite *temp_r6_2;
+    Sprite *s;
 
-    temp_r6 = arg1;
-    sp0 = 0;
-    sp4 = arg0->players[0];
-    temp_r2 = arg0->players[1];
-    //    temp_r1 = (0xFFFFFF & ((0xFF00FFFF & ((0xFFFF00FF & ((0xFFFFFF00 & saved_reg_r8) | 0xF8)) | 0xF800)) | 0x80000)) | 0x08000000;
-    temp_r1_2 = (arg0->rotation + 0x200) & 0x3FF;
-    temp_r0 = gSineTable[temp_r1_2 + 0x100];
-    temp_r0_2 = gSineTable[temp_r1_2];
-    temp_r2_2 = ((s32)(temp_r0 + ((u32)temp_r0 >> 0x1F)) >> 1) + arg0->qUnk9C;
-    temp_sb = ((s32)(temp_r0_2 + ((u32)temp_r0_2 >> 0x1F)) >> 1) + arg0->qUnkA0;
-    switch (temp_r6) { /* irregular */
+    player = boss->players[0];
+    partner = boss->players[1];
+    rec.left = -8;
+    rec.top = -8;
+    rec.right = +8;
+    rec.bottom = +8;
+
+    temp_r1_2 = CLAMP_SIN_PERIOD(boss->rotation + 0x200);
+    temp_r0 = COS(temp_r1_2);
+    temp_r2_2 = (temp_r0 + (((u32)temp_r0 >> 31)));
+    temp_r2_2 >>= 1;
+    temp_r0_2 = SIN(temp_r1_2);
+    temp_sb = ((s32)(temp_r0_2 + (temp_r0_2 >> 31)) >> 1);
+    temp_r2_2 += boss->qUnk9C;
+    temp_sb += boss->qUnkA0;
+    switch (arg1) {
         case 0:
-            if (arg0->unk70 != 0) {
-                temp_r3 = temp_r2->spriteInfoBody;
-                temp_r6_2 = (Sprite *)&temp_r3->s;
-                temp_r0_3 = temp_r1;
-                sp8 = (s32)temp_r0_3;
-                temp_r2_3 = (temp_r2_2 >> 8) + temp_r0_3;
-                temp_r6_3 = temp_r3->s.hitboxes[1].b.left;
-                temp_r1_3 = ((s32)temp_r2->qWorldX >> 8) + gCamera.unk6A + temp_r6_3;
-                if (temp_r2_3 <= temp_r1_3) {
-                    if ((s32)(temp_r2_3 + ((s8)((s32)(temp_r1 << 8) >> 0x18) - sp8)) < temp_r1_3) {
-                        if (temp_r2_3 < temp_r1_3) {
+            if (boss->unk70 != 0) {
+                sprPartner = partner->spriteInfoBody;
+                s = (Sprite *)&sprPartner->s;
 
-                        } else {
-                            goto block_9;
-                        }
-                    } else {
-                        goto block_11;
-                    }
-                } else {
-                block_9:
-                    if ((s32)(temp_r1_3 + ((s8)temp_r3->s.hitboxes[1].b.right - temp_r6_3)) < temp_r2_3) {
-
-                    } else {
-                    block_11:
-                        temp_r1_4 = (s32)(temp_r1 << 0x10) >> 0x18;
-                        temp_r3_2 = (temp_sb >> 8) + temp_r1_4;
-                        temp_r5 = temp_r6_2->hitboxes[1].b.top;
-                        temp_r2_4 = ((s32)temp_r2->qWorldY >> 8) + temp_r5;
-                        if (temp_r3_2 <= temp_r2_4) {
-                            if ((s32)(temp_r3_2 + ((temp_r1 >> 0x18) - temp_r1_4)) < temp_r2_4) {
-                                if (temp_r3_2 >= temp_r2_4) {
-                                    goto block_14;
-                                }
-                            } else {
-                                goto block_15;
-                            }
-                        } else {
-                        block_14:
-                            if ((s32)(temp_r2_4 + ((s8)temp_r6_2->hitboxes[1].b.bottom - temp_r5)) >= temp_r3_2) {
-                            block_15:
-                                sub_8010C58(temp_r2);
-                            block_26:
-                                sp0 = 1;
-                            }
-                        }
-                    }
+                if (HB_COLLISION(I(temp_r2_2), I(temp_sb), rec, I(partner->qWorldX) + gCamera.unk6A, I(partner->qWorldY),
+                                 s->hitboxes[1].b)) {
+                    sub_8010C58(partner);
+                    result = 1;
                 }
             }
             break;
         case 1:
-            temp_r3_3 = sp4->spriteInfoBody;
-            temp_r6_4 = &temp_r3_3->s;
-            if (temp_r3_3->s.hitboxes[1].index != -1) {
-                temp_r0_4 = temp_r1;
-                temp_r2_5 = (temp_r2_2 >> 8) + temp_r0_4;
-                temp_r6_5 = temp_r3_3->s.hitboxes[1].b.left;
-                temp_r1_5 = ((s32)sp4->qWorldX >> 8) + gCamera.unk6A + temp_r6_5;
-                if (temp_r2_5 <= temp_r1_5) {
-                    if ((s32)(temp_r2_5 + ((s8)((s32)(temp_r1 << 8) >> 0x18) - temp_r0_4)) < temp_r1_5) {
-                        if (temp_r2_5 >= temp_r1_5) {
-                            goto block_20;
-                        }
-                    } else {
-                        goto block_21;
-                    }
-                } else {
-                block_20:
-                    if ((s32)(temp_r1_5 + ((s8)(u8)temp_r3_3->s.hitboxes[1].b.right - temp_r6_5)) >= temp_r2_5) {
-                    block_21:
-                        temp_r1_6 = (s32)(temp_r1 << 0x10) >> 0x18;
-                        temp_r3_4 = (temp_sb >> 8) + temp_r1_6;
-                        temp_r5_2 = temp_r6_4->hitboxes[1].b.top;
-                        temp_r2_6 = ((s32)sp4->qWorldY >> 8) + temp_r5_2;
-                        if (temp_r3_4 <= temp_r2_6) {
-                            if ((s32)(temp_r3_4 + ((temp_r1 >> 0x18) - temp_r1_6)) < temp_r2_6) {
-                                if (temp_r3_4 >= temp_r2_6) {
-                                    goto block_24;
-                                }
-                            } else {
-                                goto block_25;
-                            }
-                        } else {
-                        block_24:
-                            if ((s32)(temp_r2_6 + ((s8)(u8)temp_r6_4->hitboxes[1].b.bottom - temp_r5_2)) >= temp_r3_4) {
-                            block_25:
-                                sub_8010C88(sp4);
-                                goto block_26;
-                            }
-                        }
-                    }
+            temp_r3_3 = player->spriteInfoBody;
+            s = (Sprite *)&temp_r3_3->s;
+            if (s->hitboxes[1].index != -1) {
+                if (HB_COLLISION(I(temp_r2_2), I(temp_sb), rec, I(player->qWorldX) + gCamera.unk6A, I(player->qWorldY), s->hitboxes[1].b)) {
+                    sub_8010C88(player);
+                    result = 1;
                 }
             }
             break;
     }
-    return sp0;
+
+    return result;
 }
 
 void TaskDestructor_50_80870AC(Task *t);
