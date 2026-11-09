@@ -17,7 +17,7 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
-#define WINDOW_INCREMENT(window, wordCount) (int_vcount *)(((u8 *)window) + ((wordCount)*gHBlankCopySize))
+#define WINDOW_INCREMENT(window, wordCount) (int_vcount *)(((u8 *)window) + ((wordCount) * gHBlankCopySize))
 
 u8 sub_878_80863FC(UltimateGemerl *arg0, Player *arg1);
 u8 sub_878_80865B0(UltimateGemerl *arg0, Player *arg1);
@@ -2371,8 +2371,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     s16 var_r8_7;
     s16 var_r8_8;
     s32 temp_r0;
-    s16 temp_r0_2;
-    s32 var_r8;
+    s16 var_r8;
     s32 var_r8_2;
     s8 *temp_r3_4;
     s8 *temp_r3_6;
@@ -2407,21 +2406,16 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     u32 temp_r0_34;
     u32 temp_r0_35;
     u32 temp_r0_4;
-    u32 var_r2;
+    s16 var_r2;
     u32 var_r2_3;
-    u32 var_r4_2;
+    u16 var_r4_2;
     u32 var_r4_3;
     int_vcount var_r5;
     u32 var_r5_2;
-    u32 var_r6;
+    s16 var_r6;
     u32 var_r6_10;
     u32 var_r6_11;
     u32 var_r6_12;
-    u32 var_r6_2;
-    u32 var_r6_3;
-    u32 var_r6_4;
-    u32 var_r6_5;
-    u32 var_r6_6;
     u32 var_r6_7;
     u32 var_r6_8;
     u32 var_r6_9;
@@ -2461,7 +2455,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     void *temp_r3;
     void *temp_r3_2;
     int_vcount *pWin0H; /// NOTE: The pointer type is *half* of GBA window register WIN0H buffer.
-    u16 var_r4 = 0;
+    s16 var_r4 = 0;
 
     // Probably inline of sub_80870E4!
     if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
@@ -2472,8 +2466,6 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     temp_r0 = screenX << 0x10;
     if (screenX < 240) {
-        temp_r0_2 = screenY;
-
         if ((screenY < 0xA0) && (screenY >= 0)) {
             temp_r0_3 = gUnknown_080D5D30[unkCE >> 5];
             if (3 & temp_r0_3) {
@@ -2484,69 +2476,64 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                 default:
                     break;
                 case 0:
-                    temp_r0_4 = temp_r0_2 - 8;
+                    var_r2 = screenY - 8;
                     if (var_r2 < 0) {
                         var_r2 = 0;
                     }
                     var_r4 = screenY + 8;
-                    if (var_r4 > 0xA0) {
-                        var_r4 = 0xA0;
+                    if (var_r4 > DISPLAY_HEIGHT) {
+                        var_r4 = DISPLAY_HEIGHT;
                     }
                     sa2__sub_8007A08(0, screenX, (u8)var_r2, 0xF0U, var_r4);
                     break;
                 case 1:
-                    var_r6 = (u32)((temp_r0_2 - 7) << 8) >> 0x18;
+                    temp_r1_2 = screenX + 3;
+                    var_r6 = (screenY - 7);
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7 = 0;
                     var_r8 = 0;
-                    if (var_r6 < 0xA0) {
-                        temp_r1_2 = screenX + 3;
-                        do {
-                            if (sp4[0] != 0) {
-                                *pWin0H = WIN_RANGE(0, 240);
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++, var_r7++) {
+                        if (sp4[0] != 0) {
+                            *pWin0H = WIN_RANGE(0, 240);
+                            pWin0H++;
+                        } else {
+                            temp_r0_6 = temp_r1_2 + gUnknown_080D5E84[var_r7 + 14];
+                            if (temp_r0_6 >= 0xF0) {
+                                sp4[0] = 1U;
+                            }
+                            *pWin0H = (s8)temp_r0_6;
+                            pWin0H++;
+                        }
+                        if (sp4[1] != 0) {
+                            *pWin0H = 0xF0;
+                            pWin0H++;
+                        } else {
+                            temp_r0_7 = temp_r1_2 + gUnknown_080D5E84[var_r7];
+                            if (temp_r0_7 >= DISPLAY_WIDTH) {
+                                *pWin0H = DISPLAY_WIDTH;
                                 pWin0H++;
+                                sp4[1] = 1U;
                             } else {
-                                temp_r0_6 = temp_r1_2 + gUnknown_080D5E84[var_r7 + 14];
-                                if (temp_r0_6 > 0xEF) {
-                                    sp4[0] = 1U;
-                                }
-                                *pWin0H = (s8)temp_r0_6;
+                                *pWin0H = (s8)(temp_r0_7 + var_r8);
                                 pWin0H++;
                             }
-                            if (sp4[1] != 0) {
-                                *pWin0H = 0xF0;
-                                pWin0H++;
-                            } else {
-                                temp_r0_7 = temp_r1_2 + gUnknown_080D5E84[var_r7];
-                                if (temp_r0_7 >= DISPLAY_WIDTH) {
-                                    *pWin0H = DISPLAY_WIDTH;
-                                    pWin0H++;
-                                    sp4[1] = 1U;
-                                } else {
-                                    *pWin0H = (s8)(temp_r0_7 + var_r8);
-                                    pWin0H++;
-                                }
-                            }
-                            if (var_r7 == 0xD) {
-                                var_r8 = 0xFFFA;
-                            }
-                            var_r6 = (u32)(u8)(var_r6 + 1);
-                            var_r7 += 1;
-                        } while (var_r6 <= 0x9FU);
-                        return;
+                        }
+                        if (var_r7 == 0xD) {
+                            var_r8 = -6;
+                        }
                     }
                     break;
                 case 2:
-                    var_r6 = WIN_GET_LOWER(temp_r0_2 - 6);
+                    var_r4_2 = (screenX + 6);
+                    var_r6 = (screenY - 6) >> 8;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
-                    var_r4_2 = (u32)((temp_r0 + 0x60000) << 8) >> 0x18;
                     var_r5 = var_r4_2;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_2 = 0;
-                    while (var_r6 < 0xA0) {
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++) {
                         *pWin0H = (s8)var_r5;
                         pWin0H++;
                         *pWin0H = (s8)var_r4_2;
@@ -2555,8 +2542,8 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             var_r5 += 1;
                         }
                         if (sp4[0] != 0) {
-                            if (var_r4_2 < 0xF0) {
-                                var_r4_2 = (u32)(u8)(var_r4_2 + 1);
+                            if (var_r4_2 < 240) {
+                                var_r4_2 += 1;
                             }
                         } else {
                             var_r4_2 = (u32)(u8)(var_r4_2 - 1);
@@ -2565,122 +2552,110 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                                 sp4[0] = 1U;
                             }
                         }
-                        var_r6 += 1;
                     }
 
                     break;
                 case 3:
-                    var_r6_3 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
-                    pWin0H = pWin0H + (var_r6_3 * gHBlankCopySize);
+                    var_r6 = screenY - 3;
+                    pWin0H = pWin0H + (var_r6 * gHBlankCopySize);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_3 = 0;
-                    var_r8_2 = 0;
-                    if (var_r6_3 > 0x9FU) {
-                        return;
-                    }
-                    temp_r1_3 = (s16)((u32)(temp_r0 + 0x70000) >> 0x10);
-                    do {
-                        if (sp4[0] != 0) {
-                            *pWin0H = DISPLAY_WIDTH;
-                            pWin0H++;
-                        } else {
-                            temp_r0_8 = temp_r1_3 + gUnknown_080D5FC4[var_r7_3 + 7];
-                            if (temp_r0_8 >= DISPLAY_WIDTH) {
-                                sp4[0] = 1U;
-                            }
-                            *pWin0H = (s8)temp_r0_8;
-                            pWin0H++;
-                        }
-                        if (sp4[1] != 0) {
-                            *pWin0H = 0xF0;
-                            pWin0H++;
-                        } else {
-                            temp_r0_9 = temp_r1_3 + gUnknown_080D5FC4[var_r7_3];
-                            if ((s32)(s16)temp_r0_9 >= DISPLAY_WIDTH) {
+                    var_r8 = 0;
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++, var_r7_3++) {
+                        temp_r1_3 = screenX + 7;
+                        {
+                            if (sp4[0] != 0) {
                                 *pWin0H = DISPLAY_WIDTH;
                                 pWin0H++;
-                                sp4[1] = 1U;
                             } else {
-                                *pWin0H = (s8)(temp_r0_9 + var_r8_2);
+                                temp_r0_8 = temp_r1_3 + gUnknown_080D5FC4[var_r7_3 + 7];
+                                if (temp_r0_8 >= DISPLAY_WIDTH) {
+                                    sp4[0] = 1U;
+                                }
+                                *pWin0H = (s8)temp_r0_8;
                                 pWin0H++;
                             }
+                            if (sp4[1] != 0) {
+                                *pWin0H = 0xF0;
+                                pWin0H++;
+                            } else {
+                                temp_r0_9 = temp_r1_3 + gUnknown_080D5FC4[var_r7_3];
+                                if ((s32)(s16)temp_r0_9 >= DISPLAY_WIDTH) {
+                                    *pWin0H = DISPLAY_WIDTH;
+                                    pWin0H++;
+                                    sp4[1] = 1U;
+                                } else {
+                                    *pWin0H = (s8)(temp_r0_9 + var_r8);
+                                    pWin0H++;
+                                }
+                            }
+                            if (var_r7_3 == 6) {
+                                var_r8 = -14;
+                            }
                         }
-                        if (var_r7_3 == 6) {
-                            var_r8_2 = 0xFFF2;
-                        }
-                        var_r6_3 = (u32)(u8)(var_r6_3 + 1);
-                        var_r7_3 += 1;
-                    } while (var_r6_3 <= 0x9FU);
-                    return;
-                case 4:
-                    var_r2_2 = screenY;
-                    if (temp_r0_2 < 0) {
-                        var_r2_2 = 0;
                     }
-                    sa2__sub_8007A08(0, (u8)(screenX - 8), (u8)var_r2_2, (u8)(screenX + 8), 0xA0);
-                    return;
+                    break;
+                case 4:
+                    var_r2 = screenY;
+                    if (screenY < 0) {
+                        var_r2 = 0;
+                    }
+                    sa2__sub_8007A08(0, (u8)(screenX - 8), var_r2, (u8)(screenX + 8), 0xA0);
+                    break;
                 case 5:
-                    var_r6_4 = (u32)((temp_r0_2 + 0xFFFD0000) << 8) >> 0x18;
-                    pWin0H = ((u8 *)pWin0H) + (var_r6_4 * gHBlankCopySize);
+                    temp_r0_10 = screenX - 11;
+                    var_r6 = screenY - 3;
+                    pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_4 = 0;
                     var_r8_3 = 0;
-                    if (var_r6_4 > 0x9FU) {
-                        return;
-                    }
-                    temp_r0_10 = (s16)((u32)(temp_r0 + 0xFFF90000) >> 0x10);
-                    do {
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++, var_r7_4++) {
                         temp_r0_11 = sp4[1];
                         if (temp_r0_11 != 0) {
                             *pWin0H = 0;
-                            var_r3_5 = pWin0H + 1;
+                            pWin0H = pWin0H + 1;
                         } else {
                             temp_r0_12 = var_r8_3 + (temp_r0_10 - gUnknown_080D5FC4[var_r7_4]);
                             if ((s32)(temp_r0_12 << 0x10) < 0) {
                                 *pWin0H = temp_r0_11;
-                                var_r3_5 = pWin0H + 1;
+                                pWin0H = pWin0H + 1;
                                 sp4[1] = 1U;
                             } else {
                                 *pWin0H = (u8)temp_r0_12;
-                                var_r3_5 = pWin0H + 1;
+                                pWin0H = pWin0H + 1;
                             }
                         }
                         temp_r1_4 = sp4[0];
                         if (temp_r1_4 != 0) {
-                            *var_r3_5 = 0;
+                            *pWin0H = 0;
                             goto block_77;
                         }
                         temp_r0_13 = temp_r0_10 - gUnknown_080D5FC4[var_r7_4 + 7];
                         if ((s32)(temp_r0_13 << 0x10) < 0) {
-                            *var_r3_5 = temp_r1_4;
-                            pWin0H = var_r3_5 + 1;
+                            *pWin0H = temp_r1_4;
+                            pWin0H = pWin0H + 1;
                             sp4[0] = 1U;
                         } else {
-                            *var_r3_5 = (u8)temp_r0_13;
+                            *pWin0H = (u8)temp_r0_13;
                         block_77:
-                            pWin0H = var_r3_5 + 1;
+                            pWin0H = pWin0H + 1;
                         }
                         if (var_r7_4 == 6) {
                             var_r8_3 = 0xE;
                         }
-                        var_r6_4 = (u32)(u8)(var_r6_4 + 1);
-                        var_r7_4 += 1;
-                    } while (var_r6_4 <= 0x9FU);
-                    return;
+                    }
+                    break;
                 case 6:
-                    var_r6_5 = (u32)((temp_r0_2 + 0xFFFA0000) << 8) >> 0x18;
-                    pWin0H = ((u8 *)pWin0H) + (var_r6_5 * gHBlankCopySize);
-                    var_r4_3 = (u32)((temp_r0 + 0xFFFA0000) << 8) >> 0x18;
+                    var_r6 = screenY - 6;
+                    pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
+                    var_r4_3 = screenX - 6;
                     var_r5_2 = var_r4_3;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_5 = 0;
-                    if (var_r6_5 > 0x9FU) {
-                        return;
-                    }
-                    do {
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++) {
                         *pWin0H = (s8)var_r5_2;
                         pWin0H++;
                         *pWin0H = (s8)var_r4_3;
@@ -2699,35 +2674,32 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                                 sp4[1] = 1U;
                             }
                         }
-                        var_r6_5 = (u32)(u8)(var_r6_5 + 1);
-                    } while (var_r6_5 <= 0x9FU);
-                    return;
+                    }
+                    break;
                 case 7:
-                    var_r6_6 = (u32)((temp_r0_2 + 0xFFF90000) << 8) >> 0x18;
-                    pWin0H = ((u8 *)pWin0H) + (var_r6_6 * gHBlankCopySize);
+                    var_r6 = screenY - 7;
+                    pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7_6 = 0;
                     var_r8_4 = 0;
-                    if (var_r6_6 > 0x9FU) {
-                        return;
-                    }
-                    temp_r0_14 = (s16)((u32)(temp_r0 + 0xFFFD0000) >> 0x10);
-                    do {
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++) {
+                        temp_r0_14 = (s16)((u32)(temp_r0 + 0xFFFD0000) >> 0x10);
+
                         temp_r0_15 = sp4[1];
                         if (temp_r0_15 != 0) {
                             *pWin0H = 0;
-                            goto block_101;
-                        }
-                        temp_r0_16 = var_r8_4 + (temp_r0_14 - gUnknown_080D5E84[var_r7_6]);
-                        if ((s32)(temp_r0_16 << 0x10) < 0) {
-                            *pWin0H = temp_r0_15;
                             pWin0H = pWin0H + 1;
-                            sp4[1] = 1U;
                         } else {
-                            *pWin0H = (u8)temp_r0_16;
-                        block_101:
-                            pWin0H = pWin0H + 1;
+                            temp_r0_16 = var_r8_4 + (temp_r0_14 - gUnknown_080D5E84[var_r7_6]);
+                            if ((s32)(temp_r0_16 << 0x10) < 0) {
+                                *pWin0H = temp_r0_15;
+                                pWin0H = pWin0H + 1;
+                                sp4[1] = 1U;
+                            } else {
+                                *pWin0H = (u8)temp_r0_16;
+                                pWin0H = pWin0H + 1;
+                            }
                         }
                         temp_r1_5 = sp4[0];
                         if (temp_r1_5 != 0) {
@@ -2747,12 +2719,11 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         if (var_r7_6 == 0xD) {
                             var_r8_4 = 6;
                         }
-                        var_r6_6 = (u32)(u8)(var_r6_6 + 1);
-                        var_r7_6 += 1;
-                    } while (var_r6_6 <= 0x9FU);
-                    return;
+                        var_r6 = (u32)(u8)(var_r6 + 1);
+                    }
+                    break;
                 case 8:
-                    temp_r0_18 = temp_r0_2 + 0xFFF80000;
+                    temp_r0_18 = screenY - 8;
                     var_r2_3 = temp_r0_18 >> 0x10;
                     if ((s32)temp_r0_18 < 0) {
                         var_r2_3 = 0;
@@ -2766,7 +2737,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     return;
                 case 9:
                     temp_r0_20 = (u32)(temp_r0 + 0xFFFD0000) >> 0x10;
-                    var_r6_7 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
+                    var_r6_7 = screenY + 7;
                     pWin0H = pWin0H + (var_r6_7 * gHBlankCopySize);
                     *(pWin0H + 1) = (s8)temp_r0_20;
                     sp4[1] = 0U;
@@ -2818,7 +2789,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     break;
                 case 10:
                     temp_r0_25 = (u32)(temp_r0 + 0xFFFA0000) >> 0x10;
-                    var_r6_8 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
+                    var_r6_8 = screenY + 6;
                     pWin0H = pWin0H + (var_r6_8 * gHBlankCopySize);
                     pWin0H++;
                     *pWin0H = (s8)temp_r0_25;
@@ -2856,7 +2827,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     break;
                 case 11:
                     temp_r0_26 = (u32)(temp_r0 + 0xFFF90000) >> 0x10;
-                    var_r6_9 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
+                    var_r6_9 = screenY + 3;
                     pWin0H = pWin0H + (var_r6_9 * gHBlankCopySize);
                     pWin0H++;
                     *pWin0H = (s8)temp_r0_26;
@@ -2914,7 +2885,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     return;
                 case 13:
                     temp_r0_31 = (u32)(temp_r0 + 0x70000) >> 0x10;
-                    var_r6_10 = (u32)((temp_r0_2 + 0x30000) << 8) >> 0x18;
+                    var_r6_10 = screenY + 3;
                     pWin0H = pWin0H + (var_r6_10 * gHBlankCopySize);
                     pWin0H++;
                     *pWin0H = (s8)temp_r0_31;
@@ -2964,7 +2935,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     break;
                 case 14:
                     temp_r0_34 = (u32)(temp_r0 + 0x60000) >> 0x10;
-                    var_r6_11 = (u32)((temp_r0_2 + 0x60000) << 8) >> 0x18;
+                    var_r6_11 = screenY + 6;
                     pWin0H = pWin0H + (var_r6_11 * gHBlankCopySize);
                     pWin0H++;
                     *pWin0H = (s8)temp_r0_34;
@@ -3002,7 +2973,7 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     break;
                 case 15:
                     temp_r0_35 = (u32)(temp_r0 + 0x30000) >> 0x10;
-                    var_r6_12 = (u32)((temp_r0_2 + 0x70000) << 8) >> 0x18;
+                    var_r6_12 = screenY + 7;
                     pWin0H = pWin0H + (var_r6_12 * gHBlankCopySize);
                     pWin0H++;
                     *pWin0H = (s8)temp_r0_35;
