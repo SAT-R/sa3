@@ -53,10 +53,7 @@ typedef struct {
     /* 0x030 */ Task *taskCutscene; // -> (AltarEmeraldCutsceneEggmanEscape *)
     /* 0x060 */ u32 unk34;
     /* 0x030 */ u8 filler38[0x4];
-    /* 0x030 */ s8 unk3C;
-    /* 0x030 */ s8 unk3D;
-    /* 0x030 */ s8 unk3E;
-    /* 0x030 */ s8 unk3F;
+    /* 0x030 */ Rect8 unk3C;
     /* 0x030 */ u8 filler40[0x8];
     /* 0x048 */ s32 unk48;
     /* 0x04C */ s32 unk4C;

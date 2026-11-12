@@ -2348,16 +2348,13 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_8085784.inc", void sub_80
 }
 END_NONMATCH
 
-#if 01
-#else
-
-void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
+// (87.12%) https://decomp.me/scratch/gQY3e
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_808587C.inc", void sub_808587C(s16 screenX, s16 screenY, u16 unkCE))
 {
     u8 sp4[4];
     s16 sp8;
     s16 temp_r0_10;
     s16 temp_r0_14;
-    s16 temp_r0_21;
     s16 temp_r0_27;
     s16 temp_r1;
     s16 temp_r1_2;
@@ -2376,27 +2373,20 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     u16 temp_r0_30;
     u16 temp_r0_32;
     u16 temp_r0_33;
-    u16 temp_r0_36;
+    s16 temp_r0_36;
     u16 temp_r0_37;
-    u16 temp_r0_5;
     s16 temp_r0_6;
     s16 temp_r0_7;
     s16 temp_r0_8;
     s16 temp_r0_9;
-    u16 temp_r6;
-    u16 temp_r7;
-    u16 var_r2_2;
     u16 var_r2_4;
     u16 var_r4_4;
-    u32 temp_r0_18;
-    u32 temp_r0_20;
+    s16 temp_r0_20;
     u32 temp_r0_25;
     u32 temp_r0_26;
     u32 temp_r0_31;
     u16 temp_r0_34;
-    u32 temp_r0_4;
     s16 var_r2;
-    u32 var_r2_3;
     u16 var_r4_2;
     u32 var_r4_3;
     int_vcount var_r5;
@@ -2406,13 +2396,10 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     u8 temp_r0_15;
     u8 temp_r0_28;
     u8 temp_r0_3;
-    u8 temp_r1_4;
-    u8 temp_r1_5;
-    u8 temp_r1_6;
-    u8 temp_r1_7;
     u8 var_r4_5;
     u8 var_r4_6;
     u8 var_r7;
+    u32 uScreenY;
     int_vcount *pWin0H; /// NOTE: The pointer type is *half* of GBA window register WIN0H buffer.
     s16 var_r4 = 0;
 
@@ -2424,18 +2411,24 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
     }
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     if (screenX >= 0 && screenX < DISPLAY_WIDTH) {
-        if ((screenY < DISPLAY_HEIGHT) && (screenY >= 0)) {
-            u8 index = unkCE >> 5;
+        if ((screenY < DISPLAY_HEIGHT)) {
+            u8 index;
+            if (screenY < 0) {
+                return;
+            }
+            index = unkCE >> 5;
             temp_r0_3 = gUnknown_080D5D30[index];
             if (3 & temp_r0_3) {
                 gHBlankCopySize = sizeof(winreg_t);
+                pWin0H = gBgOffsetsHBlankPrimary;
                 gHBlankCopyTarget = (void *)&REG_WIN0H;
             }
             switch (temp_r0_3) {
                 default:
                     break;
-                case 0:
-                    var_r2 = screenY - 8;
+                case 0: {
+                    uScreenY = (winreg_t)(screenY - 8);
+                    var_r2 = uScreenY;
                     if (var_r2 < 0) {
                         var_r2 = 0;
                     }
@@ -2444,10 +2437,12 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         var_r4 = DISPLAY_HEIGHT;
                     }
                     sa2__sub_8007A08(0, screenX, (u8)var_r2, 0xF0U, var_r4);
-                    break;
-                case 1:
+                } break;
+
+                case 1: {
                     temp_r1_2 = screenX + 3;
-                    var_r6 = (screenY - 7);
+                    uScreenY = (winreg_t)(screenY - 7);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
@@ -2483,10 +2478,12 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             var_r8 = -6;
                         }
                     }
-                    break;
-                case 2:
+                } break;
+
+                case 2: {
                     var_r4_2 = (screenX + 6);
-                    var_r6 = (screenY - 6) >> 8;
+                    uScreenY = (winreg_t)(screenY - 6);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     var_r5 = var_r4_2;
                     sp4[1] = 0U;
@@ -2512,11 +2509,12 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             }
                         }
                     }
+                } break;
 
-                    break;
-                case 3:
-                    temp_r1_3 = screenX + 7;
-                    var_r6 = screenY - 3;
+                case 3: {
+                    temp_r1_2 = screenX + 7;
+                    uScreenY = (winreg_t)(screenY - 3);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
@@ -2526,20 +2524,19 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         {
                             if (sp4[0] != 0) {
                                 *pWin0H = DISPLAY_WIDTH;
-                                pWin0H++;
                             } else {
-                                temp_r0_8 = temp_r1_3 + gUnknown_080D5FC4[var_r7 + 7];
+                                temp_r0_8 = temp_r1_2 + gUnknown_080D5FC4[var_r7 + 7];
                                 if (temp_r0_8 >= DISPLAY_WIDTH) {
                                     sp4[0] = 1U;
                                 }
                                 *pWin0H = (s8)temp_r0_8;
-                                pWin0H++;
                             }
+                            pWin0H++;
                             if (sp4[1] != 0) {
                                 *pWin0H = 0xF0;
                                 pWin0H++;
                             } else {
-                                temp_r0_9 = temp_r1_3 + gUnknown_080D5FC4[var_r7];
+                                temp_r0_9 = temp_r1_2 + gUnknown_080D5FC4[var_r7];
                                 if ((s32)(s16)temp_r0_9 >= DISPLAY_WIDTH) {
                                     *pWin0H = DISPLAY_WIDTH;
                                     pWin0H++;
@@ -2554,17 +2551,20 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             }
                         }
                     }
-                    break;
-                case 4:
+                } break;
+
+                case 4: {
                     var_r2 = screenY;
                     if (screenY < 0) {
                         var_r2 = 0;
                     }
                     sa2__sub_8007A08(0, (u8)(screenX - 8), var_r2, (u8)(screenX + 8), 0xA0);
-                    break;
-                case 5:
-                    temp_r0_10 = screenX - 11;
-                    var_r6 = screenY - 3;
+                } break;
+
+                case 5: {
+                    temp_r0_10 = screenX - 7;
+                    uScreenY = (winreg_t)(screenY - 3);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
@@ -2604,12 +2604,15 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             var_r8 = 0xE;
                         }
                     }
-                    break;
-                case 6:
-                    var_r6 = screenY - 6;
+                } break;
+
+                case 6: {
+                    u32 uScreenX;
+                    uScreenX = (screenX - 6);
+                    uScreenY = (winreg_t)(screenY - 6);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
-                    var_r4_3 = screenX - 6;
-                    var_r5_2 = var_r4_3;
+                    var_r5_2 = (winreg_t)uScreenX;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7 = 0;
@@ -2633,16 +2636,18 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             }
                         }
                     }
-                    break;
-                case 7:
+                } break;
+
+                case 7: {
                     temp_r0_14 = screenX - 3;
-                    var_r6 = screenY - 7;
+                    uScreenY = (winreg_t)(screenY - 7);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7 = 0;
                     var_r8 = 0;
-                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++) {
+                    for (; var_r6 < DISPLAY_HEIGHT; var_r6++, var_r7++) {
 
                         temp_r0_15 = sp4[1];
                         if (temp_r0_15 != 0) {
@@ -2677,23 +2682,25 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             var_r8 = 6;
                         }
                     }
-                    break;
-                case 8:
-                    temp_r0_18 = screenY - 8;
-                    var_r2_3 = temp_r0_18 >> 0x10;
-                    if ((s32)temp_r0_18 < 0) {
-                        var_r2_3 = 0;
+                } break;
+
+                case 8: {
+                    uScreenY = (u16)(screenY - 8);
+                    if (screenY < 0) {
+                        uScreenY = 0;
                     }
                     temp_r0_19 = screenY + 8;
                     var_r4_4 = temp_r0_19;
                     if ((s32)(s16)temp_r0_19 > 0xA0) {
                         var_r4_4 = 0xA0;
                     }
-                    sa2__sub_8007A08(0, 0U, (u8)var_r2_3, screenX, (s32)(u8)var_r4_4);
-                    return;
-                case 9:
+                    sa2__sub_8007A08(0, 0U, (u8)uScreenY, screenX, (s32)(u8)var_r4_4);
+                } break;
+
+                case 9: {
                     temp_r0_20 = screenX - 3;
-                    var_r6 = screenY + 7;
+                    uScreenY = (winreg_t)(screenY + 7);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     *(pWin0H + 1) = (s8)temp_r0_20;
                     sp4[1] = 0U;
@@ -2734,13 +2741,14 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         }
                     }
                     *(pWin0H + 1) = 0;
-                    break;
-                case 10:
-                    temp_r0_25 = screenX - 6;
-                    var_r6 = screenY + 6;
+                } break;
+
+                case 10: {
+                    temp_r0_25 = (winreg_t)(screenX - 6);
+                    uScreenY = (winreg_t)(screenY + 6);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
-                    pWin0H++;
-                    *pWin0H = (s8)temp_r0_25;
+                    *(pWin0H + 1) = (s8)temp_r0_25;
                     var_r4_5 = (u8)temp_r0_25;
                     var_r5 = var_r4_5;
                     sp4[1] = 0U;
@@ -2767,13 +2775,14 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         }
                     }
                     *(pWin0H + 1) = 0;
-                    break;
+                } break;
+
                 case 11:
-                    temp_r0_26 = screenX - 11;
-                    var_r6 = screenY + 3;
+                    temp_r0_26 = (winreg_t)(screenX - 7);
+                    uScreenY = (winreg_t)(screenY + 3);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
-                    pWin0H++;
-                    *pWin0H = (s8)temp_r0_26;
+                    *(pWin0H + 1) = (s8)temp_r0_26;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7 = 0;
@@ -2819,9 +2828,11 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                 case 12:
                     sa2__sub_8007A08(0, (u8)(screenX - 8), 0U, (u8)(screenX + 8), screenY);
                     return;
-                case 13:
-                    temp_r0_31 = screenX + 7;
-                    var_r6 = screenY + 3;
+                case 13: {
+                    u32 uScreenY;
+                    temp_r0_31 = (winreg_t)(screenX + 7);
+                    uScreenY = (winreg_t)(screenY + 3);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     pWin0H++;
                     *pWin0H = (s8)temp_r0_31;
@@ -2832,11 +2843,11 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                     for (; var_r6 != 0; var_r6--, var_r7++) {
                         temp_r5 = (s16)temp_r0_31;
                         if (sp4[0] != 0) {
-                            *pWin0H = 0xF0;
+                            *pWin0H = 240;
                         } else {
                             temp_r0_32 = temp_r5 + gUnknown_080D5FC4[var_r7 + 7];
                             if ((s32)(s16)temp_r0_32 > 0xEF) {
-                                sp4[0] = 1U;
+                                sp4[0] = temp_r0_31;
                             }
                             *pWin0H = (u8)temp_r0_32;
                         }
@@ -2845,14 +2856,14 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                             temp_r0_33 = var_r8 + (temp_r5 + gUnknown_080D5FC4[var_r7]);
                             var_r2_4 = temp_r0_33;
                             if ((s32)(s16)temp_r0_33 > 0xEF) {
-                                *pWin0H = 0xF0;
-                                pWin0H = pWin0H - 1;
-                                sp4[1] = 1U;
+                                *pWin0H = 240;
+                                pWin0H -= 1;
+                                sp4[1] = temp_r0_31;
                             } else {
                                 goto block_179;
                             }
                         } else {
-                            var_r2_4 = 0xF0;
+                            var_r2_4 = 240;
                         block_179:
                             *pWin0H = (s8)var_r2_4;
                             pWin0H = pWin0H - 1;
@@ -2862,10 +2873,13 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         }
                     }
                     *(pWin0H + 1) = 0;
-                    break;
-                case 14:
-                    temp_r0_34 = screenX + 6;
-                    var_r6 = screenY + 6;
+                } break;
+
+                case 14: {
+                    u32 uScreenY;
+                    temp_r0_34 = (winreg_t)(screenX + 6);
+                    uScreenY = (winreg_t)(screenY + 6);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
                     *(pWin0H + 1) = (s8)temp_r0_34;
                     var_r4_6 = (u8)temp_r0_34;
@@ -2896,13 +2910,14 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         }
                     }
                     *(pWin0H + 1) = 0;
-                    break;
-                case 15:
+                } break;
+
+                case 15: {
                     temp_r0_34 = (screenX + 3);
-                    var_r6 = screenY + 7;
+                    uScreenY = (winreg_t)(screenY + 7);
+                    var_r6 = uScreenY;
                     pWin0H = WINDOW_INCREMENT(pWin0H, var_r6);
-                    pWin0H++;
-                    *pWin0H = (s8)temp_r0_34;
+                    *(pWin0H + 1) = (s8)temp_r0_34;
                     sp4[1] = 0U;
                     sp4[0] = 0U;
                     var_r7 = 0;
@@ -2927,12 +2942,12 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                                 temp_r0_37 = var_r8 + (temp_r5_2 + gUnknown_080D5E84[var_r7]);
                                 if ((s32)(s16)temp_r0_37 >= 0xF0) {
                                     *pWin0H = 0xF0;
-                                    pWin0H = pWin0H - 1;
+                                    pWin0H -= 1;
                                     sp4[1] = 1U;
                                 } else {
                                     *pWin0H = (s8)temp_r0_37;
                                 block_207:
-                                    pWin0H = pWin0H - 1;
+                                    pWin0H -= 1;
                                 }
                             }
                             if (var_r7 == 0xD) {
@@ -2941,60 +2956,60 @@ void sub_808587C(s16 screenX, s16 screenY, u16 unkCE)
                         }
                     }
                     *(pWin0H + 1) = 0;
-                    break;
+                } break;
             }
         }
     }
 }
+END_NONMATCH
+
+#if 0
 
 void sub_878_80862D8(UltimateGemerl *boss)
 {
-    Player *player;
-    Player *partner;
+    u8 param1;
 
     if (boss->lives == 0) {
         return;
     }
-    player = boss->players[0];
-    if (!(player->moveState & 0x100) && !(boss->players[1]->moveState & 0x100)) {
-        if (!(2 & player->unk14C.arr_u8[0])
-            && ((sub_878_80863FC(boss, player) != 0) || (sub_878_80865B0(boss, player) != 0) || (sub_80871CC(boss, player) != 0)
-                || (sub_878_8086774(boss, player) != 0))) {
-            sub_801038C(player, 1);
+
+    if (!(boss->players[PLAYER_1]->moveState & 0x100) && !(boss->players[PLAYER_2]->moveState & 0x100)) {
+        Player *p = boss->players[PLAYER_1];
+        if (!(2 & p->unk14C.arr_u8[0])
+            && ((param1 = sub_878_80863FC(boss, p)) || (param1 = sub_878_80865B0(boss, p)) || (param1 = sub_80871CC(boss, p))
+                || (param1 = sub_878_8086774(boss, p)))) {
+            sub_801038C(p, param1);
         }
-        partner = boss->players[1];
+
+        p = boss->players[PLAYER_2];
         if (boss->unk70 != 0) {
-            if (((sub_878_80865B0(boss, partner) << 0x18) != 0) || ((sub_80871CC(boss, partner) << 0x18) != 0)
-                || ((sub_878_8086774(boss, partner) << 0x18) != 0)) {
-                sub_8010C58(partner);
+            if ((param1 = sub_878_80865B0(boss, p)) || (param1 = sub_80871CC(boss, p)) || (param1 = sub_878_8086774(boss, p))) {
+                sub_8010C58(p);
             }
-        } else if ((gStageData.gameMode == 5) && !(2 & partner->unk14C.arr_u8[0])
-                   && ((sub_878_80863FC(boss, partner) != 0) || (sub_878_80865B0(boss, partner) != 0) || (sub_80871CC(boss, partner) != 0)
-                       || (sub_878_8086774(boss, partner) != 0))) {
-            sub_801038C(partner, 1);
+        } else if ((gStageData.gameMode == GAME_MODE_MP_STORY_COOP) && !(2 & p->unk14C.arr_u8[0])
+                   && ((param1 = sub_878_80863FC(boss, p)) || (param1 = sub_878_80865B0(boss, p)) || (param1 = sub_80871CC(boss, p))
+                       || (param1 = sub_878_8086774(boss, p)))) {
+            sub_801038C(p, param1);
         }
     }
 }
 
+// TODO: Fake-match!
 u8 sub_878_80863FC(UltimateGemerl *boss, Player *player)
 {
-    s16 temp_r0;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 var_r3;
     s16 temp_r4;
     s16 temp_r5;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
+    s16 temp_r6_2;
+#ifndef NON_MATCHING
+    register s32 temp_r1_4 asm("r1");
+    register s32 temp_r8 asm("r8");
+#else
     s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r1_6;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r3;
     s32 temp_r8;
-    s8 temp_r3_2;
-    s8 temp_r4_2;
-    s8 temp_r4_3;
-    s8 temp_r5_2;
-    u16 temp_r6_2;
+#endif
     u8 var_sb = 0;
     PlayerSpriteInfo *psi = player->spriteInfoBody;
     Sprite *sprPlayer = (Sprite *)&psi->s;
@@ -3003,53 +3018,34 @@ u8 sub_878_80863FC(UltimateGemerl *boss, Player *player)
         return 0U;
     }
     if (1 & boss->unk34) {
+        s32 twelve;
+        temp_r5 = (I(player->qWorldX) + (u16)gCamera.unk6A) + 4 - I(boss->strc10C[boss->unkE3].qWorldX);
         temp_r4 = I(player->qWorldY) - I(boss->strc10C[boss->unkE3].qWorldY);
-        temp_r5 = (I(player->qWorldX) + (u16)gCamera.unk6A) - (I(boss->strc10C[boss->unkE3].qWorldY) - 4);
         temp_r6_2 = (u16)sa2__sub_8004418(temp_r4, temp_r5);
-        temp_r8 = gUnknown_080D5D30[boss->unkCE >> 5] << 6;
-        temp_r1_4 = 32 - ((s32)Sqrt(SQUARE(temp_r5) + SQUARE(temp_r4)) / 12);
-        temp_r0 = (s16)temp_r6_2;
-        temp_r2 = temp_r8 - temp_r0;
+        temp_r8 = gUnknown_080D5D30[boss->unkCE >> 5];
+        temp_r1_4 = temp_r8 << 6;
+        temp_r8 = temp_r1_4;
+        temp_r1_4 = SQUARE(temp_r5);
+        temp_r1_4 += SQUARE(temp_r4);
+        twelve = 12; // Without this, it does an unsigned div, which is non-matching
+        temp_r1 = ((signed)Sqrt(temp_r1_4)) / twelve;
+        temp_r1 = 32 - (temp_r1);
+        var_r3 = temp_r8;
+        temp_r2 = var_r3 - temp_r6_2;
         if (temp_r2 >= 0) {
-            if (temp_r2 <= temp_r1_4) {
-                var_sb = 2;
+            if (temp_r2 <= temp_r1) {
+                goto blk;
             }
-        } else if ((s32)(temp_r0 - temp_r8) <= temp_r1_4) {
+        } else if ((s32)(temp_r6_2 - var_r3) <= temp_r1) {
+        blk:
             var_sb = 2;
         }
     } else if (boss->unk34 & 2) {
-        if (boss->unk48 + boss->unk3C <= (I(player->qWorldX) + gCamera.unk6A) - gCamera.x + psi->s.hitboxes[0].b.left) {
-            if ((s32)(boss->unk48 + boss->unk3C + ((s8)boss->unk3E - boss->unk3C))
-                < (I(player->qWorldX) + gCamera.unk6A) - gCamera.x + psi->s.hitboxes[0].b.left) {
-                if (boss->unk48 + boss->unk3C >= (I(player->qWorldX) + gCamera.unk6A) - gCamera.x + psi->s.hitboxes[0].b.left) {
-                    goto block_13;
-                }
-            } else {
-                goto block_14;
-            }
-        } else {
-        block_13:
-            if ((HB_RIGHT(I(player->qWorldX) + gCamera.unk6A - gCamera.x, psi->s.hitboxes[0].b)) >= boss->unk48 + boss->unk3C) {
-            block_14:
-                temp_r2_2 = boss->unk4C + boss->unk3D;
-                temp_r4_3 = sprPlayer->hitboxes[0].b.top;
-                temp_r1_6 = (((s32)player->qWorldY >> 8) - gCamera.y) + temp_r4_3;
-                if (temp_r2_2 <= temp_r1_6) {
-                    if ((s32)(temp_r2_2 + ((s8)boss->unk3F - boss->unk3D)) < temp_r1_6) {
-                        if (temp_r2_2 >= temp_r1_6) {
-                            goto block_17;
-                        }
-                    } else {
-                        goto block_18;
-                    }
-                } else {
-                block_17:
-                    if ((s32)(temp_r1_6 + ((s8)sprPlayer->hitboxes[0].b.bottom - temp_r4_3)) >= temp_r2_2) {
-                    block_18:
-                        var_sb = 1;
-                    }
-                }
-            }
+        s32 screenX = ((I(player->qWorldX) + gCamera.unk6A) - gCamera.x);
+        s32 screenY = (I(player->qWorldY) - gCamera.y);
+
+        if (HB_COLLISION(boss->unk48, boss->unk4C, boss->unk3C, screenX, screenY, sprPlayer->hitboxes[0].b)) {
+            var_sb = 1;
         }
     }
     return var_sb;
@@ -3057,8 +3053,8 @@ u8 sub_878_80863FC(UltimateGemerl *boss, Player *player)
 
 u8 sub_878_80865B0(UltimateGemerl *boss, Player *player)
 {
-    Sprite *sprBoss = &boss->spr38C;
     u8 isColliding = 0;
+    Sprite *sprBoss = &boss->spr38C;
     PlayerSpriteInfo *psi = player->spriteInfoBody;
     Sprite *sprPlayer = (Sprite *)&psi->s;
 
@@ -3106,8 +3102,6 @@ bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1)
 {
     bool8 result = 0;
     Rect8 rec;
-    Player *player;
-    Player *partner;
     PlayerSpriteInfo *sprPartner;
     PlayerSpriteInfo *temp_r3_3;
     Sprite *temp_r6_4;
@@ -3117,9 +3111,9 @@ bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1)
     s32 temp_r2_2;
     s32 temp_sb;
     Sprite *s;
+    Player *player = boss->players[0];
+    Player *partner = boss->players[1];
 
-    player = boss->players[0];
-    partner = boss->players[1];
     rec.left = -8;
     rec.top = -8;
     rec.right = +8;
@@ -3507,10 +3501,10 @@ void sub_8087188(UltimateGemerl *boss, s16 arg1, s16 arg2, s16 arg3)
     temp_r4 = (s32)(arg1 + ((u32)(arg1 << 0x10) >> 0x1F)) >> 1;
     boss->unk48 = temp_r4;
     boss->unk4C = (s32)arg2;
-    boss->unk3C = 0 - temp_r4;
-    boss->unk3D = 0 - temp_r3;
-    boss->unk3E = (u8)temp_r4;
-    boss->unk3F = (s8)temp_r3;
+    boss->unk3C.left = 0 - temp_r4;
+    boss->unk3C.top = 0 - temp_r3;
+    boss->unk3C.right = (u8)temp_r4;
+    boss->unk3C.bottom = (s8)temp_r3;
 }
 
 u8 sub_80871CC(UltimateGemerl *boss, Player *p)
@@ -3531,4 +3525,5 @@ u8 sub_80871CC(UltimateGemerl *boss, Player *p)
 void TaskDestructor_38_8087234(Task *t) { }
 
 void sub_8087238(void) { }
+#endif
 #endif
