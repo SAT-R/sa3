@@ -114,30 +114,6 @@ void sub_8027878() { }
 void sub_80278DC() { }
 void sub_8027960() { }
 void sub_8028850() { }
-void sub_8029990() { }
-
-void sub_8052D8C() { }
-void sub_8054514() { }
-void sub_8054E38() { }
-void sub_8055CA8() { }
-void sub_8055D44() { }
-void sub_807B6C8() { }
-void sub_807FEB4() { }
-void sub_808007C() { }
-void CreateUltimateGemerlForCutscene() { }
-void sub_878_8083BE4() { }
-void sub_878_8083F8C() { }
-void sub_878_808439C() { }
-void sub_878_808491C() { }
-void sub_878_8084B2C() { }
-void sub_878_8084BEC() { }
-void sub_878_8084C50() { }
-void BossExtra_CreateExplosion() { }
-void sub_878_80870B0() { }
-void sub_8087B80() { }
-void sub_8088440() { }
-void sub_80885CC() { }
-void sub_8088770() { }
 
 void sub_80C4EB0() { }
 void sub_80C59E8() { }
@@ -177,5 +153,3 @@ Strc_03001BF0 gUnknown_03001BF0 = {};
 PlayerSpriteInfo gUnknown_030010D0 = {};
 PlayerSpriteInfo gUnknown_0300110C = {};
 PlayerSpriteInfo gUnknown_03001B00 = {};
-
-void sub_8085588() { }

@@ -3155,7 +3155,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_80867FC.inc", bool8 s
 }
 END_NONMATCH
 
-#if 0
 void TaskDestructor_50_80870AC(Task *t);
 void ExtraBoss_CreateMissile(UltimateGemerl *boss, u8 arg1)
 {
@@ -3526,4 +3525,3 @@ u8 sub_80871CC(UltimateGemerl *boss, Player *p)
 void TaskDestructor_38_8087234(Task *t) { }
 
 void sub_8087238(void) { }
-#endif
