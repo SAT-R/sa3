@@ -510,7 +510,7 @@ void sub_878_80824F4(UltimateGemerl *boss)
         s->tiles = vram;
         s->anim = ANIM_BOSS_EXTRA_CLAW;
         s->variant = 1;
-        s->oamFlags = 0x280;
+        s->oamFlags = SPRITE_OAM_ORDER(10);
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->prevVariant = -1;
@@ -523,8 +523,8 @@ void sub_878_80824F4(UltimateGemerl *boss)
         if (var_r8 != 0) {
             SPRITE_FLAG_SET(s, 19);
         }
-        s->x = (boss->strc10C[var_r8].qWorldX >> 8) - gCamera.x;
-        s->y = (boss->strc10C[var_r8].qWorldY >> 8) - gCamera.y;
+        s->x = I(boss->strc10C[var_r8].qWorldX) - gCamera.x;
+        s->y = I(boss->strc10C[var_r8].qWorldY) - gCamera.y;
         tf->rotation = (boss->strc10C[var_r8].unk14 - 640) & 0x3FF;
         tf->x = s->x;
         tf->y = s->y;
@@ -539,7 +539,7 @@ void sub_878_80824F4(UltimateGemerl *boss)
             s->tiles = vram2;
             s->anim = ANIM_BOSS_EXTRA_ARM_NODE;
             s->variant = 0;
-            s->oamFlags = 0x4C0;
+            s->oamFlags = SPRITE_OAM_ORDER(19);
             s->animCursor = 0;
             s->qAnimDelay = 0;
             s->prevVariant = -1;
@@ -557,14 +557,14 @@ void sub_878_80824F4(UltimateGemerl *boss)
         }
     }
     s = &boss->spr814;
-    s->tiles = VramMalloc(0x10U);
-    s->anim = 0x504;
+    s->tiles = ALLOC_TILES(ANIM_BOSS_EXTRA_ELECTRIC_SPARK);
+    s->anim = ANIM_BOSS_EXTRA_ELECTRIC_SPARK;
     s->variant = 0;
-    s->oamFlags = 0x240;
+    s->oamFlags = SPRITE_OAM_ORDER(9);
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
-    s->animSpeed = 0x10;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x1000;
@@ -3248,9 +3248,9 @@ void Task_Missile_8086B94(void)
             }
             break;
         case 100:
-            s->anim = 0x501;
+            s->anim = ANIM_BOSS_EXTRA_MISSILE_EXPLOSION;
             s->variant = 0;
-            m4aSongNumStart(0x90U);
+            m4aSongNumStart(SE_CAPSULE_DESTROY);
             missile->unk10 = 0x15;
             missile->unk12 = 110;
             break;
@@ -3400,9 +3400,6 @@ void Task_878_CallDestroy(void) { TaskDestroy(gCurTask); }
 
 void sub_8086FF8(UltimateGemerl *boss, u8 param1)
 {
-    s32 *var_r1;
-    s32 var_r0;
-
     boss->unkED = param1;
     switch (boss->unkED) { /* irregular */
         case 7:
@@ -3437,10 +3434,10 @@ void sub_808706C(UltimateGemerl *boss, u8 param1)
     do {
         temp_r0 = &boss->spr3B4[var_r2];
         if (param1 == 0) {
-            temp_r0->anim = 0x4FE;
+            temp_r0->anim = ANIM_BOSS_EXTRA_CLAW;
             temp_r0->variant = 1;
         } else {
-            temp_r0->anim = 0x4FE;
+            temp_r0->anim = ANIM_BOSS_EXTRA_CLAW;
             temp_r0->variant = 0;
         }
         var_r2 += 1;

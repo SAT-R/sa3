@@ -642,6 +642,10 @@
 #define ANIM_EGGMAN_SIDE_WIDTH                      32
 #define ANIM_EGGMAN_SIDE_HEIGHT                     32
 
+// 1284
+#define ANIM_BOSS_EXTRA_ELECTRIC_SPARK_WIDTH        32
+#define ANIM_BOSS_EXTRA_ELECTRIC_SPARK_HEIGHT       32
+
 // 1286
 #define ANIM_GEMERL_IDLE_WIDTH                      64
 #define ANIM_GEMERL_IDLE_HEIGHT                     64
