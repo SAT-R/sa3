@@ -2414,7 +2414,7 @@ void sub_8026254(Player *p) {
 
     // NOTE: The SioSend/Recv data in here is highly likely player data like speed etc.
 
-    if ((gStageData.gameMode == 7) && (gMultiSioSend.pat0.unk0 == 0x600E)) {
+    if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && (gMultiSioSend.pat0.unk0 == 0x600E)) {
         return;
     }
     if (gStageData.unk4 == 4) {
@@ -2460,8 +2460,8 @@ block_20:
     gMultiSioSend.pat3.unk8 = p->moveState;
     gMultiSioSend.pat0.unk8[2] = (0xFFFFF800 & gMultiSioSend.pat0.unk8[2]) | (0x7FF & p->charFlags.anim2);
     gMultiSioSend.pat4.unkD = (7 & gMultiSioSend.pat4.unkD) | (p->charFlags.state1 * 8);
-    if (gStageData.gameMode != 7) {
-        if ((gStageData.gameMode == 5) && (gStageData.act == 8)) {
+    if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.act == ACT_BONUS_CAPSULE)) {
             var_r0_3 = gStageData.unk8C;
         } else {
             var_r0_3 = gStageData.rings;
@@ -2616,7 +2616,7 @@ block_46:
         }
         if ((u32) gStageData.unk4 <= 4U) {
             gStageData.unk4 = 5;
-            if (gStageData.gameMode == 6) {
+            if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                 gStageData.unk5 = temp_r4->pat4.unk12;
                 gStageData.levelTimer = (u16) temp_r4->patU.levelTimer;
 block_39:
@@ -2636,7 +2636,7 @@ block_39:
             gStageData.levelTimer = (u16) temp_r4->patU.levelTimer;
         }
 block_52:
-        if ((gStageData.gameMode == 5) && (temp_r4->pat3.unk8 & 0x100)) {
+        if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (temp_r4->pat3.unk8 & 0x100)) {
         case 0x68FF:
 block_25:
             return 1;
@@ -2768,8 +2768,8 @@ u16 sub_80268B8(u16 arg0) {
         temp_r4->moveState = temp_r7->pat3.unk8;
         temp_r4->unk13C = (0xF & temp_r4->unk13C) | (((u32) (temp_r7->pat0.unkF << 0x19) >> 0x1B) * 0x10);
         temp_r4->layer = (u8) ((u8) temp_r7->pat0.unkF >> 7);
-        if (gStageData.gameMode != 7) {
-            if ((gStageData.gameMode == 5) && (gStageData.act == 8)) {
+        if (CURRENT_GAME_MODE != GAME_MODE_MP_SINGLE_PACK) {
+            if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.act == 8)) {
                 temp_r1_2 = (u32) (temp_r7->unkE << 0x16) >> 0x16;
                 var_r5 = temp_r1 << 0x10;
                 if ((u32) gStageData.unk8C < temp_r1_2) {
@@ -2790,8 +2790,8 @@ u16 sub_80268B8(u16 arg0) {
                     PlayRingCollectSE();
                     gStageData.rings = (u16) ((u32) (temp_r7->unkE << 0x16) >> 0x16);
                     if (gStageData.currentLevel != 0x48) {
-                        temp_r4_2 = Div((s32) gStageData.rings, 0x64);
-                        if ((temp_r4_2 != Div((s32) temp_r6_2, 0x64)) && (gStageData.gameMode == 5)) {
+                        temp_r4_2 = Div((s32) gStageData.rings, 100);
+                        if ((temp_r4_2 != Div((s32) temp_r6_2, 100)) && (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP)) {
                             AddLives(1);
                         }
                     }
@@ -3155,7 +3155,7 @@ block_109:
                     gStageData.levelTimer = (temp_r4->raw[0x15] << 8) | temp_r4->raw[0x14];
                     break;
                 case 5:                             /* switch 2 */
-                    if (gStageData.gameMode == 6) {
+                    if (CURRENT_GAME_MODE == GAME_MODE_MP_MULTI_PACK) {
                         if (gStageData.taskCheese != NULL) {
                             temp_r2_5 = &gPlayers[temp_r4->raw[0x14]];
                             if ((0xF & temp_r2_5->unk2A) != 1) {
@@ -3163,7 +3163,7 @@ block_109:
                             }
                             sub_801EBC0(0, temp_r2_5);
                         }
-                    } else if ((gStageData.gameMode == 7) && ((temp_r1 == 0) || (gStageData.playerIndex == 0))) {
+                    } else if ((CURRENT_GAME_MODE == GAME_MODE_MP_SINGLE_PACK) && ((temp_r1 == 0) || (gStageData.playerIndex == 0))) {
                         if ((gStageData.playerIndex != 0) || (gStageData.levelTimer != 0)) {
                             sub_80293E8(&gPlayers[temp_r4->raw[0x14]]);
                             gStageData.mpOpponentPlayerIndex = temp_r4->raw[0x14];
@@ -4087,7 +4087,7 @@ void sub_8028688(void) {
     CpuSet(&sp0, &gUnknown_03000970, 0x05000004U);
     sp4 = 0;
     CpuSet(&sp4, &gStageData, 0x05000032U);
-    gStageData.gameMode = 7;
+    CURRENT_GAME_MODE = 7;
     gStageData.difficulty = 0;
     gStageData.playerIndex = SIO_MULTI_CNT->id;
     sp8 = 0;

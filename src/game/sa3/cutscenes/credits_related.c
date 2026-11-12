@@ -5497,7 +5497,8 @@ void Task_54_80AA49C(void)
         }
     }
 
-    if (((3 & LOADED_SAVE->unlockFlags) == 3) || ((CURRENT_GAME_MODE == 5) && (gStageData.unkC5 == 1)) || (gStageData.unkC5 == 1)) {
+    if (((3 & LOADED_SAVE->unlockFlags) == 3) || ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && (gStageData.unkC5 == 1))
+        || (gStageData.unkC5 == 1)) {
         LaunchGameIntro();
         TaskDestroy(gCurTask);
         return;
@@ -6002,18 +6003,12 @@ void Task_14C_80AAF50(void)
 void Task_14C_80AAFB0(void)
 {
     CreditsRelated14C *strc14C = TASK_DATA(gCurTask);
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
     u8 var_r0;
     u8 var_r0_2;
     u8 var_r3;
-    u8 var_r5;
-    u8 var_r7;
+    u8 var_r5 = 0;
+    u8 var_r7 = 0;
 
-    var_r5 = 0;
-    var_r7 = 0;
     sub_80ABB98(strc14C);
     sub_80AB0D8(strc14C);
 
@@ -6038,17 +6033,17 @@ void Task_14C_80AAFB0(void)
     }
     gWinRegs[2] = (((s32)strc14C->unk10 >> 8) * WIN_RANGE(1, 1)) + ((s32)strc14C->unk8 >> 8);
     if (var_r5 == 2) {
-        if (((3 & gLoadedSaveGame.unlockFlags) != 3) && ((gStageData.gameMode != 5) || (gStageData.unkC5 != 1))
+        if (((3 & LOADED_SAVE->unlockFlags) != 3) && ((CURRENT_GAME_MODE != GAME_MODE_MP_STORY_COOP) || (gStageData.unkC5 != 1))
             && (gStageData.unkC5 != 1)) {
             for (var_r0 = 0; var_r0 < 7; var_r0++) {
                 for (var_r3 = 0; var_r3 < 4; var_r3++) {
-                    if (4 & gLoadedSaveGame.collectedMedals[0][var_r3 + (var_r0 * 4)]) {
+                    if (4 & LOADED_SAVE->collectedMedals[0][var_r3 + (var_r0 * 4)]) {
                         var_r7 += 1;
                     }
                 }
             }
 
-            if (!(1 & gLoadedSaveGame.unlockFlags)) {
+            if (!(1 & LOADED_SAVE->unlockFlags)) {
                 var_r0_2 = 1;
                 goto block_23;
             }
@@ -6898,7 +6893,7 @@ void Task_62C_80AC0C4(void)
     u8 temp_r5;
 
     sub_80AC2B4(strc62C);
-    if (((strc62C->unk0 == 0) && (0x10 & gLoadedSaveGame.unk34)) || ((strc62C->unk0 != 0) && (0x20 & gLoadedSaveGame.unk34))) {
+    if (((strc62C->unk0 == 0) && (0x10 & LOADED_SAVE->unk34)) || ((strc62C->unk0 != 0) && (0x20 & LOADED_SAVE->unk34))) {
         if (8 & gInput) {
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();

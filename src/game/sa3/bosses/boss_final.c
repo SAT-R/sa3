@@ -2716,7 +2716,7 @@ void sub_807ED8C(HyperEggRobo *boss)
                     s->variant = gUnknown_080D5C38[0][1];
                     boss->unk16 = 0;
                 } else {
-                    if (gStageData.gameMode == 5) {
+                    if (CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) {
                         if (gStageData.playerIndex != 0) {
                             boss->unk16 = 110;
                             return;
@@ -2817,7 +2817,7 @@ void sub_807ED8C(HyperEggRobo *boss)
                 }
             }
             if (!(0x3F & boss->unk14)) {
-                m4aSongNumStart(0x221U);
+                m4aSongNumStart(SE_545);
             }
 
             if (boss->unk14 == 0x3C) {
@@ -2838,9 +2838,10 @@ void sub_807ED8C(HyperEggRobo *boss)
             if (--boss->unk14 == 0) {
                 boss->unk8 = 1;
                 boss->unkC = 0;
-                if (gStageData.gameMode == 0) {
-                    gPlayers[1].moveState &= 0xFFFFFEFF;
-                    SetPlayerCallback(&gPlayers[1], Player_8005380);
+
+                if (CURRENT_GAME_MODE == GAME_MODE_SINGLE_PLAYER) {
+                    gPlayers[1].moveState &= ~MOVESTATE_DEAD;
+                    SetPlayerCallback(&gPlayers[PLAYER_2], Player_8005380);
                     gPlayers[1].qWorldX = gPlayers[PLAYER_1].qWorldX;
                     gPlayers[1].qWorldY = gPlayers[PLAYER_1].qWorldY;
                     gPlayers[1].layer = gPlayers[PLAYER_1].layer;

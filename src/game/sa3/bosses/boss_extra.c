@@ -2984,7 +2984,7 @@ void sub_878_80862D8(UltimateGemerl *boss)
             if ((param1 = sub_878_80865B0(boss, p)) || (param1 = sub_80871CC(boss, p)) || (param1 = sub_878_8086774(boss, p))) {
                 sub_8010C58(p);
             }
-        } else if ((gStageData.gameMode == GAME_MODE_MP_STORY_COOP) && !(2 & p->unk14C.arr_u8[0])
+        } else if ((CURRENT_GAME_MODE == GAME_MODE_MP_STORY_COOP) && !(2 & p->unk14C.arr_u8[0])
                    && ((param1 = sub_878_80863FC(boss, p)) || (param1 = sub_878_80865B0(boss, p)) || (param1 = sub_80871CC(boss, p))
                        || (param1 = sub_878_8086774(boss, p)))) {
             sub_801038C(p, param1);
