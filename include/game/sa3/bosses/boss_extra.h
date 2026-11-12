@@ -193,18 +193,4 @@ void sub_808706C(UltimateGemerl *boss, u8 param1);
 void sub_878_80870B0(UltimateGemerl *boss);
 u8 sub_80871CC(UltimateGemerl *boss, Player *p);
 
-// TODO: Remove these once module is finished!
-#ifdef M2C
-void CreateUltimateGemerlBoss(UltimateGemerl *boss);
-void Task_878_8081E74(UltimateGemerl *boss);
-void sub_8085588(u8 *param0, s16 param1, UltimateGemerl *boss);
-void Task_Missile_8086B94(UltimateGemerlMissile *missile);
-void Task_878_8086F08(UltimateGemerl *boss);
-void Task_878_8086F48(UltimateGemerl *boss);
-void Task_878_8086FA4(UltimateGemerl *boss);
-void TaskDestructor_878_8081D64(UltimateGemerl *boss);
-void Task_38_8086E58(UltimateGemerlExplosion *expl);
-extern const u16 gAnimPatternBossExtraElectricSpark[3][2];
-#endif
-
 #endif // GUARD_SA3_BOSS_EXTRA_H

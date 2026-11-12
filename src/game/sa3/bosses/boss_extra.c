@@ -2963,8 +2963,6 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_808587C.inc", void sub_80
 }
 END_NONMATCH
 
-#if 0
-
 void sub_878_80862D8(UltimateGemerl *boss)
 {
     u8 param1;
@@ -3098,7 +3096,8 @@ u8 sub_878_8086774(UltimateGemerl *boss, Player *player)
     return var_r8;
 }
 
-bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1)
+// (82.96%) https://decomp.me/scratch/p0qJb
+NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_80867FC.inc", bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1))
 {
     bool8 result = 0;
     Rect8 rec;
@@ -3154,7 +3153,9 @@ bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1)
 
     return result;
 }
+END_NONMATCH
 
+#if 0
 void TaskDestructor_50_80870AC(Task *t);
 void ExtraBoss_CreateMissile(UltimateGemerl *boss, u8 arg1)
 {
@@ -3525,5 +3526,4 @@ u8 sub_80871CC(UltimateGemerl *boss, Player *p)
 void TaskDestructor_38_8087234(Task *t) { }
 
 void sub_8087238(void) { }
-#endif
 #endif
