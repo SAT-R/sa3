@@ -3096,7 +3096,7 @@ u8 sub_878_8086774(UltimateGemerl *boss, Player *player)
     return var_r8;
 }
 
-// (82.96%) https://decomp.me/scratch/p0qJb
+// (83.20%) https://decomp.me/scratch/8IIEx
 NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_80867FC.inc", bool8 sub_878_80867FC(UltimateGemerl *boss, u8 arg1))
 {
     bool8 result = 0;
@@ -3119,11 +3119,8 @@ NONMATCH("asm/non_matching/game/sa3/bosses/boss_e__sub_878_80867FC.inc", bool8 s
     rec.bottom = +8;
 
     temp_r1_2 = CLAMP_SIN_PERIOD(boss->rotation + 0x200);
-    temp_r0 = COS(temp_r1_2);
-    temp_r2_2 = (temp_r0 + (((u32)temp_r0 >> 31)));
-    temp_r2_2 >>= 1;
-    temp_r0_2 = SIN(temp_r1_2);
-    temp_sb = ((s32)(temp_r0_2 + (temp_r0_2 >> 31)) >> 1);
+    temp_r2_2 = COS(temp_r1_2) / 2;
+    temp_sb = SIN(temp_r1_2) / 2;
     temp_r2_2 += boss->qUnk9C;
     temp_sb += boss->qUnkA0;
     switch (arg1) {
