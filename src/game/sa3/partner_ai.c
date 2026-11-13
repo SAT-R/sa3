@@ -772,67 +772,73 @@ block_18:
     return 0U;
 }
 
-// (97.30&) https://decomp.me/scratch/Xf7QW
-NONMATCH("asm/non_matching/game/cx__sub_80B8218.inc", u16 sub_80B8218(Struc_3001150_1C *strc, Player *partner, Player *p))
+u16 sub_80B8218(Struc_3001150_1C *strc, Player *partner)
 {
-    u16 var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    u16 resultKeys = strc->inputBuffer[strc->inputBufferIndex];
 
-    if (strc->unk3E-- <= 0) {
-        var_r3 &= 0xFFCF;
-        if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
-        }
-        if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
-        }
-        if ((strc->unk10 >= partner->qWorldY) || !(partner->moveState & MOVESTATE_IN_AIR) || (partner->qSpeedAirY >= 0)) {
-            var_r3 &= ~gStageData.buttonConfig.jump;
-            strc->unk0 = 0;
-            strc->func = gUnknown_080E3254->funcA;
-            strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
-        }
+    if (strc->unk3E-- > 0) {
+        return resultKeys;
     }
-    return var_r3;
+
+    resultKeys &= ~DPAD_SIDEWAYS;
+
+    if (strc->unk14 > +Q(2)) {
+        resultKeys |= DPAD_RIGHT;
+    }
+
+    if (strc->unk14 < -Q(2)) {
+        resultKeys |= DPAD_LEFT;
+    }
+
+    if (strc->unk10 < partner->qWorldY && (partner->moveState & MOVESTATE_IN_AIR) && partner->qSpeedAirY < 0) {
+        return resultKeys;
+    }
+
+    resultKeys &= ~gStageData.buttonConfig.jump;
+    strc->unk0 = 0;
+    strc->func = gUnknown_080E3254->funcA;
+    strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
+
+    return resultKeys;
 }
-END_NONMATCH
 
 u16 sub_80B82D8(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
     u16 var_r1;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
-    if (var_r3 & gStageData.buttonConfig.jump) {
-        var_r3 &= ~gStageData.buttonConfig.jump;
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
+    if (resultKeys & gStageData.buttonConfig.jump) {
+        resultKeys &= ~gStageData.buttonConfig.jump;
     } else {
         if ((0xF & strc->unk3E) == 0xF) {
-            var_r3 |= gStageData.buttonConfig.jump;
+            resultKeys |= gStageData.buttonConfig.jump;
         }
     }
 
     if (strc->unk3E-- <= 0) {
-        var_r3 &= ~(gStageData.buttonConfig.jump | 0x80);
+        resultKeys &= ~(gStageData.buttonConfig.jump | 0x80);
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 0x3C;
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B836C(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (partner->moveState & 4) {
-        var_r3 &= 0xFFCF;
+        resultKeys &= 0xFFCF;
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
     } else {
         strc->unk0 = 0;
@@ -841,15 +847,15 @@ u16 sub_80B836C(Struc_3001150_1C *strc, Player *partner, Player *p)
         gPseudoRandom = temp_r0;
         strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B83FC(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0_2;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
 
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
@@ -857,66 +863,66 @@ u16 sub_80B83FC(Struc_3001150_1C *strc, Player *partner, Player *p)
         temp_r0_2 = PseudoRandom32();
         gPseudoRandom = temp_r0_2;
         strc->unk2 = (((u32)temp_r0_2 >> 8) & 0x1F) + 0x3C;
-        var_r3 = var_r3 & ~gStageData.buttonConfig.jump;
+        resultKeys = resultKeys & ~gStageData.buttonConfig.jump;
     } else {
-        var_r3 = var_r3 & 0xFFCF;
+        resultKeys = resultKeys & 0xFFCF;
 
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
-        var_r3 = var_r3 ^ gStageData.buttonConfig.jump;
+        resultKeys = resultKeys ^ gStageData.buttonConfig.jump;
         if (strc->unk18 > 0) {
             if (!(p->moveState & 4)) {
-                var_r3 &= ~gStageData.buttonConfig.jump;
+                resultKeys &= ~gStageData.buttonConfig.jump;
             } else if (strc->unk18 > Q(16)) {
-                var_r3 &= ~gStageData.buttonConfig.jump;
+                resultKeys &= ~gStageData.buttonConfig.jump;
             }
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B84C8(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
         strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
-        var_r3 = var_r3 & ~gStageData.buttonConfig.jump;
+        resultKeys = resultKeys & ~gStageData.buttonConfig.jump;
     } else {
-        var_r3 = var_r3 & 0xFFCF;
+        resultKeys = resultKeys & 0xFFCF;
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
-        var_r3 = var_r3 | gStageData.buttonConfig.jump;
+        resultKeys = resultKeys | gStageData.buttonConfig.jump;
         if (strc->unk18 < -Q(16)) {
-            var_r3 &= ~gStageData.buttonConfig.jump;
+            resultKeys &= ~gStageData.buttonConfig.jump;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B8584(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
     s32 temp_r1_2;
-    u16 var_r3;
+    u16 resultKeys;
     u8 temp_r1;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
-    var_r3 &= ~gStageData.buttonConfig.attack;
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys &= ~gStageData.buttonConfig.attack;
 
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
@@ -925,29 +931,29 @@ u16 sub_80B8584(Struc_3001150_1C *strc, Player *partner, Player *p)
         gPseudoRandom = temp_r0;
         strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
     } else {
-        var_r3 &= 0xFFCF;
+        resultKeys &= 0xFFCF;
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B8620(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & MOVESTATE_IN_AIR)) {
         if ((u32)(u16)((u16)partner->charFlags.anim0 - 0xEE) <= 1U) {
             strc->func = sub_80B86E4;
-            var_r3 &= ~gStageData.buttonConfig.jump;
+            resultKeys &= ~gStageData.buttonConfig.jump;
         } else {
-            var_r3 &= ~gStageData.buttonConfig.jump;
+            resultKeys &= ~gStageData.buttonConfig.jump;
             strc->unk0 = 0;
             strc->func = gUnknown_080E3254->funcA;
             temp_r0 = PseudoRandom32();
@@ -955,15 +961,15 @@ u16 sub_80B8620(Struc_3001150_1C *strc, Player *partner, Player *p)
             strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
         }
     } else {
-        var_r3 &= 0xFFCF;
+        resultKeys &= 0xFFCF;
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 // TODO: Match without gotos!
@@ -972,61 +978,61 @@ u16 sub_80B86E4(Struc_3001150_1C *strc, Player *partner, Player *p)
     s32 temp_r0;
     s32 temp_r1_2;
     s32 var_r0;
-    u16 var_r3;
+    u16 resultKeys;
     u8 temp_r1;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (partner->moveState & MOVESTATE_IN_AIR) {
-        var_r3 = var_r3 & 0xFF3F;
+        resultKeys = resultKeys & 0xFF3F;
         strc->unk0 = 0;
     block_2:
         strc->func = gUnknown_080E3254->funcA;
         strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 60;
     } else if (partner->charFlags.anim0 != 238 && partner->charFlags.anim0 != 239) {
-        var_r3 = var_r3 & 0xFF3F;
+        resultKeys = resultKeys & 0xFF3F;
         strc->unk0 = 0;
         goto block_2;
     } else {
         if (strc->unk18 < -Q(8)) {
-            var_r3 = var_r3 & 0xFF7F;
-            var_r3 = var_r3 | 0x40;
+            resultKeys = resultKeys & 0xFF7F;
+            resultKeys = resultKeys | 0x40;
         } else if (strc->unk18 > +Q(8)) {
-            var_r3 = var_r3 & 0xFFBF;
-            var_r3 = var_r3 | 0x80;
+            resultKeys = resultKeys & 0xFFBF;
+            resultKeys = resultKeys | 0x80;
         } else {
-            var_r3 = var_r3 & 0xFF3F;
+            resultKeys = resultKeys & 0xFF3F;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B87B0(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
-    u16 var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    u16 resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     s32 temp_r1 = gStageData.buttonConfig.attack | 0x80;
 
-    if (var_r3 & temp_r1) {
-        var_r3 = var_r3 & ~temp_r1;
+    if (resultKeys & temp_r1) {
+        resultKeys = resultKeys & ~temp_r1;
     } else {
         if ((strc->unk14 < 0) && !(partner->moveState & 1)) {
-            var_r3 = (var_r3 & ~0x10);
-            var_r3 |= 0x20;
+            resultKeys = (resultKeys & ~0x10);
+            resultKeys |= 0x20;
         }
         if ((strc->unk14 > 0) && (partner->moveState & 1)) {
-            var_r3 = (var_r3 & ~0x20);
-            var_r3 |= 0x10;
+            resultKeys = (resultKeys & ~0x20);
+            resultKeys |= 0x10;
         }
-        var_r3 = var_r3 | gStageData.buttonConfig.attack;
+        resultKeys = resultKeys | gStageData.buttonConfig.attack;
         strc->func = sub_80B9454;
     }
 
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B8840(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
-    u16 var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    u16 resultKeys = strc->inputBuffer[strc->inputBufferIndex];
 
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
@@ -1034,71 +1040,71 @@ u16 sub_80B8840(Struc_3001150_1C *strc, Player *partner, Player *p)
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
         strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
-        var_r3 = var_r3 & ~(gStageData.buttonConfig.attack | 0x80);
+        resultKeys = resultKeys & ~(gStageData.buttonConfig.attack | 0x80);
     } else {
-        var_r3 = var_r3 & 0xFFCF;
+        resultKeys = resultKeys & 0xFFCF;
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B88E0(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
     s32 temp_r1_2;
-    u16 var_r3;
+    u16 resultKeys;
     u8 temp_r1;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
         strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
-        var_r3 = var_r3 & ~(gStageData.buttonConfig.attack | 0x80);
+        resultKeys = resultKeys & ~(gStageData.buttonConfig.attack | 0x80);
     } else {
-        var_r3 = var_r3 & 0xFFCF;
+        resultKeys = resultKeys & 0xFFCF;
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B8980(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r0;
     s32 temp_r1_2;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         temp_r0 = PseudoRandom32();
         gPseudoRandom = temp_r0;
         strc->unk2 = (((u32)temp_r0 >> 8) & 0x1F) + 0x3C;
-        var_r3 = var_r3 & ~(gStageData.buttonConfig.attack | 0x40);
+        resultKeys = resultKeys & ~(gStageData.buttonConfig.attack | 0x40);
     } else {
-        var_r3 = var_r3 & 0xFFCF;
+        resultKeys = resultKeys & 0xFFCF;
         temp_r1_2 = strc->unk14;
         if (temp_r1_2 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (temp_r1_2 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B8A20(Struc_3001150_1C *strc, Player *partner, Player *player)
@@ -1106,79 +1112,79 @@ u16 sub_80B8A20(Struc_3001150_1C *strc, Player *partner, Player *player)
     s32 temp_r0_2;
     s32 temp_r2;
     s32 temp_r2_2;
-    u16 var_r3;
+    u16 resultKeys;
     u16 var_r3_2;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & 4)) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         temp_r0_2 = PseudoRandom32();
         strc->unk2 = (((u32)temp_r0_2 >> 8) & 0x1F) + 0x3C;
-        var_r3 &= ~gStageData.buttonConfig.jump;
+        resultKeys &= ~gStageData.buttonConfig.jump;
     } else {
-        var_r3 ^= gStageData.buttonConfig.jump;
+        resultKeys ^= gStageData.buttonConfig.jump;
         temp_r2 = strc->unk18;
         if (temp_r2 > 0) {
             if (!(player->moveState & MOVESTATE_IN_AIR)) {
-                var_r3 &= ~gStageData.buttonConfig.jump;
+                resultKeys &= ~gStageData.buttonConfig.jump;
             } else if (temp_r2 > 0x1000) {
-                var_r3 &= ~gStageData.buttonConfig.jump;
+                resultKeys &= ~gStageData.buttonConfig.jump;
             }
         }
-        if (var_r3 & gStageData.buttonConfig.attack) {
-            var_r3 = var_r3 & ~gStageData.buttonConfig.attack;
+        if (resultKeys & gStageData.buttonConfig.attack) {
+            resultKeys = resultKeys & ~gStageData.buttonConfig.attack;
         } else {
             temp_r2_2 = strc->unk14;
             if ((temp_r2_2 < 0) && !(partner->moveState & 1)) {
-                var_r3 = (var_r3 & ~0x10);
-                var_r3 |= 0x20;
+                resultKeys = (resultKeys & ~0x10);
+                resultKeys |= 0x20;
             }
             if ((temp_r2_2 > 0) && (partner->moveState & 1)) {
-                var_r3 = (var_r3 & ~0x20);
-                var_r3 |= 0x10;
+                resultKeys = (resultKeys & ~0x20);
+                resultKeys |= 0x10;
             }
-            var_r3 = var_r3 | gStageData.buttonConfig.attack;
+            resultKeys = resultKeys | gStageData.buttonConfig.attack;
             strc->func = sub_80B8B24;
         }
     }
-    return var_r3;
+    return resultKeys;
 }
 
 u16 sub_80B8B24(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     s32 temp_r2;
-    u16 var_r3;
+    u16 resultKeys;
 
-    var_r3 = strc->inputBuffer[strc->inputBufferIndex];
+    resultKeys = strc->inputBuffer[strc->inputBufferIndex];
     if (!(partner->moveState & MOVESTATE_IN_AIR)) {
         strc->unk0 = 0;
         strc->func = gUnknown_080E3254->funcA;
         strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 0x3C;
-        return var_r3 & ~gStageData.buttonConfig.jump;
+        return resultKeys & ~gStageData.buttonConfig.jump;
     } else {
-        var_r3 = var_r3 ^ gStageData.buttonConfig.jump;
+        resultKeys = resultKeys ^ gStageData.buttonConfig.jump;
         temp_r2 = strc->unk18;
         if (temp_r2 > 0) {
             if (!(p->moveState & MOVESTATE_IN_AIR)) {
-                var_r3 &= ~gStageData.buttonConfig.jump;
+                resultKeys &= ~gStageData.buttonConfig.jump;
             } else if (temp_r2 > 0x1000) {
-                var_r3 &= ~gStageData.buttonConfig.jump;
+                resultKeys &= ~gStageData.buttonConfig.jump;
             }
         }
-        var_r3 = var_r3 & 0xFFCF;
+        resultKeys = resultKeys & 0xFFCF;
 
         if (strc->unk14 > +Q(2)) {
-            var_r3 |= 0x10;
+            resultKeys |= 0x10;
         }
         if (strc->unk14 < -Q(2)) {
-            var_r3 |= 0x20;
+            resultKeys |= 0x20;
         }
         strc->unk0 = 9;
         strc->func = gUnknown_080E3254[9].funcA;
         strc->unk2 = (((u32)PseudoRandom32() >> 8) & 0x1F) + 0x3C;
     }
-    return var_r3;
+    return resultKeys;
 }
 
 void sub_80B8C2C(Struc_3001150_1C *arg0)
