@@ -331,7 +331,7 @@ SECTIONS {
         src/game/sa3/interactables/platform_chaos_angel.o(.rodata);
         src/game/sa3/interactables/chao.o(.rodata);
         src/game/stage/camera.o(.rodata);
-        src/data/tilemap_table.o(.rodata);
+        src/data/sa3/tilemap_table.o(.rodata);
         data/data_1_1.o(.rodata);
         src/game/shared/demo_manager.o(.rodata);
         src/game/code_1_3.o(.rodata);
@@ -684,19 +684,19 @@ SECTIONS {
         *libc.a:s_rint.o(.rodata);
 
         data/gfx_data_0.o(.rodata);
-        src/data/unk_singlepak_rl_data.o(.rodata);
-        src/data/animations/animations.o(.rodata);
-        src/data/animations/animation_table.o(.data);
-        src/data/sprite_tables.o(.rodata);
-        src/data/sprite_oam_data.o(.rodata);
-        src/data/obj_palettes.o(.rodata);
+        src/data/sa3/unk_singlepak_rl_data.o(.rodata);
+        src/data/sa3/animations/animations.o(.rodata);
+        src/data/sa3/animations/animation_table.o(.data);
+        src/data/sa3/sprite_tables.o(.rodata);
+        src/data/sa3/sprite_oam_data.o(.rodata);
+        src/data/sa3/obj_palettes.o(.rodata);
         data/empty_unknown_data.o(.rodata);
-        src/data/tilemap_data.o(.rodata);
-        src/data/stage_notifications_data.o(.rodata);
-        src/data/stage_notifications_strings.o(.rodata);
-        src/data/tilemap_data_2.o(.rodata);
+        src/data/sa3/tilemap_data.o(.rodata);
+        src/data/sa3/stage_notifications_data.o(.rodata);
+        src/data/sa3/stage_notifications_strings.o(.rodata);
+        src/data/sa3/tilemap_data_2.o(.rodata);
         data/gfx_data_1.o(.rodata);
-        src/data/sprite_dimensions.o(.rodata);
+        src/data/sa3/sprite_dimensions.o(.rodata);
         data/ia_bonus_capsule.o(.rodata);
         *libgcc.a:_divdi3.o(.rodata);
         *libgcc.a:_divsi3.o(.rodata);
@@ -708,8 +708,8 @@ SECTIONS {
         *libc.a:mprec.o(.rodata);
         *libc.a:syscalls.o(.rodata);
         data/data3.o(.rodata);
-        src/data/stage_notifications_strings_pointers.o(.rodata);
-        src/data/stage_notifications_strings_pointers.o(.data);
+        src/data/sa3/stage_notifications_strings_pointers.o(.rodata);
+        src/data/sa3/stage_notifications_strings_pointers.o(.data);
         asm/rom_footer.o(.rodata);
 
         *libc.a:impure.o(.data);
