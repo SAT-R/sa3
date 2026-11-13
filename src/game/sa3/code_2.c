@@ -11,7 +11,7 @@
 #include "game/sa3/character_select.h"
 #include "game/save.h"
 #include "game/special_stage.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
 

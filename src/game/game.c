@@ -10,8 +10,8 @@
 #include "game/save.h"
 #include "game/sa3/character_select.h"
 #include "game/sa3/cutscenes/opening.h"
+#include "game/sa3/stage/stage.h"
 #include "game/sa3/title_screen.h"
-#include "game/stage.h"
 #include "game/shared/stage/tilemap_table.h"
 
 void sub_80001EC(void);

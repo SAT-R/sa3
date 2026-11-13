@@ -3,7 +3,7 @@
 #include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "game/gTask_03001CFC.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/rings_manager.h"
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player.h"

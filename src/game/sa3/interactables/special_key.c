@@ -6,7 +6,7 @@
 #include "game/shared/entities_manager.h"
 #include "game/shared/stage/camera.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"

@@ -4,7 +4,7 @@
 #include "game/parameters/enemies.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/terrain_collision.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "malloc_vram.h"
 
 typedef struct Yukigasen {

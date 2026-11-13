@@ -16,7 +16,7 @@
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"

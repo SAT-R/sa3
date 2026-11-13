@@ -6,7 +6,7 @@
 #include "multi_sio_stuff.h" // gUnknown_03001060
 #include "game/sa3/character_select.h"
 #include "game/save.h" // LOADED_SAVE
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/songs.h"
 
 void CharSelectMP_InitBackgrounds(CharacterSelectMP *cs);

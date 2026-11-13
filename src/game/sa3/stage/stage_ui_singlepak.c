@@ -3,7 +3,7 @@
 #include "flags.h"
 #include "color.h"
 #include "multi_sio_stuff.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 
 // TODO: Make sense of the various sprite array sizes...

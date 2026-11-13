@@ -11,7 +11,7 @@
 #include "game/parameters/interactables.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"

@@ -5,7 +5,7 @@
 #include "color.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/water_effects.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/anim_commands.h"
 #include "constants/animations.h"
 

@@ -8,7 +8,7 @@
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "game/enemy_unknown.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 typedef struct {
     /* 0x00 */ MapEntity *me;

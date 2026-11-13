@@ -5,7 +5,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/chao.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/tilemaps.h"
 

@@ -6,7 +6,7 @@
 #include "malloc_vram.h"
 #include "game/bosses.h"
 #include "game/save.h" // DIFFICULTY_NORMAL
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/shared/stage/terrain_collision.h"

@@ -3,7 +3,7 @@
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "code_0_1.h" // sub_8001E58
 #include "constants/songs.h"
 #include "constants/tilemaps.h"

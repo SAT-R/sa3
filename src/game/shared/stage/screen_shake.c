@@ -7,7 +7,7 @@
 #include "game/globals.h"
 #else
 #include "game/game.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #endif
 
 #include "game/shared/stage/player.h"

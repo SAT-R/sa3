@@ -2,7 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "lib/m4a/m4a.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/sa3/bosses/gemerl.h"
 #include "game/sa3/bosses/eggman_escape.h"
 #include "game/shared/stage/player.h"

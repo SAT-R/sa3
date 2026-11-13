@@ -8,7 +8,7 @@
 #include "game/sa3/title_screen.h"
 #include "game/save.h"
 #include "game/special_stage.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "code_0_1.h" // WarpToMap
 #include "constants/songs.h"
 #include "constants/tilemaps.h"

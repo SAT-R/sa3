@@ -6,7 +6,7 @@
 #include "game/shared/stage/player.h"
 #include "game/save.h"
 #include "game/screen_fade.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/songs.h"
 
 // Multiplayer-related (used in IA item_box_mp.c)

@@ -2,7 +2,7 @@
 #include "core.h"
 
 //#include "game/globals.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/music_manager.h"
 #include "constants/move_states.h"

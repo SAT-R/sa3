@@ -9,7 +9,7 @@
 #include "game/game_over.h"
 #include "game/notification_text.h"
 #include "game/save.h" // NUM_LANGUAGES
-#include "game/stage.h" // gStageData
+#include "game/sa3/stage/stage.h" // gStageData
 #include "game/special_stage.h" // sub_808ADF0
 #include "constants/songs.h"
 

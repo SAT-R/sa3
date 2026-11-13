@@ -1,7 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 typedef struct SomeStageMgr {
     u8 unk0;

@@ -8,7 +8,7 @@
 #include "game/enemies/hariisen.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/entity.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 /* NOTE: Task_806152C hits one of the rare occasions where agbcc generates different code when a function is in the beginning of a module
  * vs. in the middle. */

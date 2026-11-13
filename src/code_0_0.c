@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "gba/defines.h"
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "lib/agb_flash/agb_flash.h"
@@ -7,8 +8,7 @@
 #include "malloc_ewram.h"
 #include "malloc_vram.h"
 #include "game/save.h"
-#include "game/stage.h"
-#include "gba/defines.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/characters.h"
 #include "constants/zones.h"
 

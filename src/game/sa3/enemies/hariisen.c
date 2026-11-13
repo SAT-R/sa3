@@ -8,7 +8,7 @@
 #include "game/enemies/hariisen.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/entity.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 void CreateEntity_Hariisen(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {

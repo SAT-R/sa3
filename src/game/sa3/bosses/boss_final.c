@@ -6,12 +6,12 @@
 #include "lib/m4a/m4a.h"
 #include "game/bosses.h" // sub_8079FFC
 #include "game/sa3/bosses/eggman_escape.h" // sub_807A4A8
+#include "game/sa3/stage/stage.h" // gStageData
 #include "game/shared/stage/music_manager.h" // sub_80299D4
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/screen_shake.h"
 #include "game/save.h" // DIFFICULTY_NORMAL
-#include "game/stage.h" // gStageData
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"

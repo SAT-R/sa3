@@ -4,12 +4,12 @@
 #include "malloc_vram.h"
 #include "game/gTask_03001CFC.h" // gTask_03001CFC
 #include "lib/m4a/m4a.h"
-#include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
+#include "game/sa3/stage/stage.h"
+#include "game/shared/stage/camera.h"
 #include "game/shared/stage/player.h" // PlayerCallback
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/stage/terrain_collision.h"
-#include "game/stage.h"
 #include "game/interactables/bonus_game_enemies.h"
 #include "constants/animations.h"
 #include "constants/move_states.h" // MOVESTATE_1000000

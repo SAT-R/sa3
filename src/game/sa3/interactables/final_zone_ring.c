@@ -6,7 +6,7 @@
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #include "constants/animations.h"
 #include "constants/move_states.h"

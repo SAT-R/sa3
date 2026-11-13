@@ -10,10 +10,10 @@
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h" // sub_80105F0
 #include "game/save.h"
-#include "game/stage.h"
 #include "multi_sio_stuff.h" // sub_8027674
 #include "game/sa3/bosses/boss_extra.h"
 #include "game/sa3/bosses/eggman_escape.h" // SetFixedRandomIfTimeAttackMode(), AltarEmeraldCutsceneEggmanEscape
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/songs.h"
 

@@ -2,7 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/sa3/character_select.h"
 #include "code_0_1.h"
 #include "constants/songs.h"

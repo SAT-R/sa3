@@ -5,7 +5,7 @@
 #include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/entity.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #define NUM_BODY_SEGMENTS 5
 typedef enum UutsuboType {

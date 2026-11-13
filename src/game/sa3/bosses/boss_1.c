@@ -9,7 +9,7 @@
 #include "game/save.h"
 #include "game/sa3/bosses/gemerl.h"
 #include "game/sa3/bosses/eggman_escape.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/stage/music_manager.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"

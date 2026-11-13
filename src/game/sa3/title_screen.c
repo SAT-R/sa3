@@ -4,7 +4,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/sa3/title_screen.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "code_z_1.h" // MaskingColors
 #include "constants/tilemaps.h"
 #include "constants/songs.h"

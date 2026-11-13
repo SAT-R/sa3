@@ -8,7 +8,7 @@
 #include "game/special_stage.h"
 #include "game/save.h"
 #include "game/screen_fade.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"

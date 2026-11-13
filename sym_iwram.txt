@@ -58,7 +58,7 @@ src/game/shared/stage/music_manager.o(.data);
 src/game/gTask_03001CFC.o(.data);
 . = 0x00001D00; gUnknown_03001D00 = .;
 . = 0x00001D10;
-src/game/stage/camera.o(.data);
+src/game/sa3/stage/camera.o(.data);
 . = 0x00001E80; gRefCollision = .;
 . = 0x00001E94; gRngPrevValue = .;
 . = 0x00001E98; gRngValue = .;

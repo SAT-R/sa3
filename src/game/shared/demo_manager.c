@@ -8,7 +8,7 @@
 #include "game/shared/stage/player.h"
 #include "game/save.h" // NUM_LANGUAGES
 #include "game/screen_fade.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/zones.h"
 

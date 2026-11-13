@@ -4,7 +4,7 @@
 #include "game/game.h"
 #include "game/save.h"
 #include "game/screen_fade.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 // TODO: Merge with "./src/sio_stuff_x.c"
 

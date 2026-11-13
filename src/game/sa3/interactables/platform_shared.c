@@ -3,7 +3,7 @@
 #include "game/interactables/platform_shared.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 u16 sub_804DC38(u8 kind, s32 worldX, s32 worldY, MapEntity *me)
 {

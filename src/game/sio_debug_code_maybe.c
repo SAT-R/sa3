@@ -5,7 +5,7 @@
 #include "game/save.h"
 #include "game/sa3/character_select.h"
 #include "game/screen_fade.h"
-#include "game/stage.h" // gStageData
+#include "game/sa3/stage/stage.h" // gStageData
 #include "animation_commands_bg.h" // RenderText
 #include "multi_sio_stuff.h"
 #include "constants/characters.h"

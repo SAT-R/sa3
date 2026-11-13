@@ -10,7 +10,7 @@
 #include "game/screen_fade.h"
 #include "game/shared/stage/player.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 

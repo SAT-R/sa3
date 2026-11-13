@@ -27,8 +27,8 @@ SECTIONS {
         src/game/sa3/game_over.o(.text);
         src/game/sa3/stage/player.o(.text);
         src/screen_fade.o(.text);
-        src/game/stage/stage_ui.o(.text);
-        src/game/stage/stage_ui_singlepak.o(.text);
+        src/game/sa3/stage/stage_ui.o(.text);
+        src/game/sa3/stage/stage_ui_singlepak.o(.text);
         src/game/sa3/chao_map.o(.text);
         src/game/sa3/stage_notifications.o(.text);
         src/game/sio_stuff_x.o(.text);
@@ -39,7 +39,7 @@ SECTIONS {
         src/game/shared/stage/music_manager.o(.text);
         src/game/shared/rings_manager.o(.text);
         src/game/gTask_03001CFC.o(.text);
-        src/game/stage/entities_manager.o(.text);
+        src/game/sa3/stage/entities_manager.o(.text);
         src/game/sa3/itembox.o(.text);
         src/game/sa3/interactables/zone_warp.o(.text);
         src/game/sa3/interactables/spring.o(.text);
@@ -129,7 +129,7 @@ SECTIONS {
         src/game/sa3/interactables/mp_chao.o(.text);
         src/game/sa3/interactables/final_zone_ring.o(.text);
         src/game/sa3/interactables/emerald_in_playground.o(.text);
-        src/game/stage/camera.o(.text);
+        src/game/sa3/stage/camera.o(.text);
         src/game/shared/stage/terrain_collision.o(.text);
         src/game/shared/stage/screen_shake.o(.text);
         src/game/shared/stage/water_effects.o(.text);
@@ -164,7 +164,7 @@ SECTIONS {
         src/game/sa3/enemies/kamaki.o(.text);
         src/game/sa3/enemies/guruguru.o(.text);
         src/game/sa3/enemies/kyacchaa.o(.text);
-        src/game/stage/some_stage_manager.o(.text);
+        src/game/sa3/stage/some_stage_manager.o(.text);
         src/game/sa3/bosses/gemerl_states.o(.text);
         src/game/sa3/bosses/boss_1.o(.text);
         src/game/sa3/bosses/boss_2.o(.text);
@@ -317,12 +317,12 @@ SECTIONS {
         src/game/timer_digits.o(.rodata);
         src/game/sa3/game_over.o(.rodata);
         src/game/sa3/stage/player.o(.rodata);
-        src/game/stage/stage_ui.o(.rodata);
-        src/game/stage/stage_ui_singlepak.o(.rodata);
+        src/game/sa3/stage/stage_ui.o(.rodata);
+        src/game/sa3/stage/stage_ui_singlepak.o(.rodata);
         src/game/sa3/chao_map.o(.rodata);
         data/data__sio_stuff_x.o(.rodata);
         src/game/shared/rings_manager.o(.rodata);
-        src/game/stage/entities_manager.o(.rodata);
+        src/game/sa3/stage/entities_manager.o(.rodata);
         data/data_0_1.o(.rodata);
         src/game/sa3/interactables/rocket.o(.rodata);
         src/game/sa3/interactables/panda_cart.o(.rodata);
@@ -330,7 +330,7 @@ SECTIONS {
         src/game/sa3/interactables/ice_launcher.o(.rodata);
         src/game/sa3/interactables/platform_chaos_angel.o(.rodata);
         src/game/sa3/interactables/chao.o(.rodata);
-        src/game/stage/camera.o(.rodata);
+        src/game/sa3/stage/camera.o(.rodata);
         src/data/sa3/tilemap_table.o(.rodata);
         data/data_1_1.o(.rodata);
         src/game/shared/demo_manager.o(.rodata);

@@ -3,7 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/shared/stage/player.h"
 #include "game/sa3/multiplayer/singlepak/chao.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"

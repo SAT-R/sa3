@@ -11,7 +11,7 @@
 #include "game/shared/stage/player_callbacks.h"
 #include "game/shared/entities_manager.h"
 #include "game/save.h" // for DIFFICULTY_EASY
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #include "constants/move_states.h"
 #include "constants/zones.h"

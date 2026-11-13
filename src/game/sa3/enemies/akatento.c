@@ -1,10 +1,10 @@
 #include "global.h"
 #include "task.h"
 #include "malloc_vram.h"
+#include "game/enemy_unknown.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/entity.h"
-#include "game/enemy_unknown.h"
-#include "game/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"

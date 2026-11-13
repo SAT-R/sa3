@@ -1,8 +1,8 @@
 #include "global.h"
 #include "core.h"
 #include "lib/m4a/m4a.h"
+#include "game/sa3/stage/stage.h"
 #include "game/save.h"
-#include "game/stage.h"
 
 extern void sub_8001D58(VoidFn voidFn, u16 color);
 extern void sub_8003F40(void);

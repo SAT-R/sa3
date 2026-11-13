@@ -10,7 +10,7 @@
 #include "game/notification_text.h"
 #include "game/main_menu.h" // CreateMainMenu()
 #include "game/save.h" // LOADED_SAVE
-#include "game/stage.h" // gStageData
+#include "game/sa3/stage/stage.h" // gStageData
 #include "game/shared/stage/player.h" // NUM_SINGLE_PLAYER_CHARS
 #include "game/sa3/title_screen.h" // CreateTitleScreen
 #include "constants/animations.h"

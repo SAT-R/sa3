@@ -3,7 +3,7 @@
 #include "trig.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h" // Player_HitWithoutRingsUpdate
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/move_states.h"
 
 void sub_80B75E4(Struc_3001150 *strc, Player *partner, Player *player);

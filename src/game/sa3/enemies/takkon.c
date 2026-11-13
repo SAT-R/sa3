@@ -5,7 +5,7 @@
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/terrain_collision.h"
 #include "game/enemy_unknown.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"

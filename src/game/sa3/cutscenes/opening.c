@@ -7,9 +7,9 @@
 #include "code_0_1.h" // WarpToMap
 #include "game/game.h"
 #include "game/save.h"
-#include "game/stage.h"
 #include "game/special_stage.h" // sub_808ADF0
 #include "game/sa3/cutscenes/opening.h"
+#include "game/sa3/stage/stage.h"
 #include "constants/animations.h"
 #include "constants/characters.h"
 #include "constants/songs.h"

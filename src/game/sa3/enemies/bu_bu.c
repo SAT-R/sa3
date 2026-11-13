@@ -9,7 +9,7 @@
 #include "game/shared/rings_manager.h"
 #include "game/gTask_03001CFC.h"
 #include "game/shared/stage/player.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 typedef struct {
     /* 0x00 */ MapEntity *me;

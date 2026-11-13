@@ -4,7 +4,7 @@
 #include "game/main_menu.h"
 #include "game/sa3/code_3.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/sa3/character_select.h"
 #include "constants/songs.h"
 

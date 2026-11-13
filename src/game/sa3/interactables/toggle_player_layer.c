@@ -4,7 +4,7 @@
 #include "game/shared/stage/entity.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/player_callbacks.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #define LAYER_TYPE_FRONT PLAYER_LAYER_FRONT
 #define LAYER_TYPE_BACK  PLAYER_LAYER_BACK

@@ -1,6 +1,6 @@
 #include "global.h"
 #include "core.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/game_over.h"
 #include "constants/songs.h"
 

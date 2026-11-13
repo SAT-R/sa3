@@ -3,7 +3,7 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
-#include "game/stage.h" // gStageData
+#include "game/sa3/stage/stage.h" // gStageData
 #include "game/shared/stage/camera.h"
 #include "game/shared/stage/player_callbacks.h"
 #include "game/sa3/bosses/eggman_escape.h"

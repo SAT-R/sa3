@@ -8,7 +8,7 @@
 #include "multi_sio_stuff.h"
 #include "game/game_over.h"
 #include "game/main_menu.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/save.h"
 #include "game/shared/stage/player.h"
 #include "game/shared/stage/music_manager.h"

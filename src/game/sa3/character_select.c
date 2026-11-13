@@ -8,7 +8,7 @@
 #include "code_z_1.h" // CopyObjPaletteMasked
 #include "lib/m4a/m4a.h"
 #include "game/save.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 
 #include "constants/animations.h"
 #include "constants/songs.h"

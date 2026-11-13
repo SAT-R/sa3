@@ -2,10 +2,10 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/stage/camera.h"
 #include "game/enemy_unknown.h"
 #include "game/shared/stage/entity.h"
-#include "game/stage.h"
 
 typedef struct Clam {
     /* 0x00 */ MapEntity *me;

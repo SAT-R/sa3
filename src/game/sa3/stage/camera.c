@@ -5,7 +5,7 @@
 #include "malloc_ewram.h"
 //#include "sprite.h"
 #include "game/shared/stage/camera.h"
-#include "game/stage.h"
+#include "game/sa3/stage/stage.h"
 #include "game/shared/stage/tilemap_table.h"
 #include "constants/move_states.h"
 #include "constants/tilemaps.h"
