@@ -6037,7 +6037,7 @@ void Task_14C_80AAFB0(void)
             && (gStageData.unkC5 != 1)) {
             for (var_r0 = 0; var_r0 < 7; var_r0++) {
                 for (var_r3 = 0; var_r3 < 4; var_r3++) {
-                    if (4 & LOADED_SAVE->collectedMedals[0][var_r3 + (var_r0 * 4)]) {
+                    if (4 & LOADED_SAVE->collectedMedals[var_r0][var_r3]) {
                         var_r7 += 1;
                     }
                 }
@@ -6342,9 +6342,9 @@ void Task_D4_80AB5A8(void)
         temp_r0 = strcD4->unk0;
         if (strcD4->unk0 == 1) {
             var_r6 = 0;
-            for (var_r0 = 0; var_r0 < 7; var_r0++) {
-                for (var_r3 = 0; var_r3 < 4; var_r3++) {
-                    if (4 & LOADED_SAVE->collectedMedals[0][var_r3 + (var_r0 * 4)]) {
+            for (var_r0 = 0; var_r0 < NUM_COURSE_ZONES; var_r0++) {
+                for (var_r3 = 0; var_r3 < ARRAY_COUNT(LOADED_SAVE->collectedMedals[0]); var_r3++) {
+                    if (4 & LOADED_SAVE->collectedMedals[var_r0][var_r3]) {
                         var_r6 += 1;
                     }
                 }
