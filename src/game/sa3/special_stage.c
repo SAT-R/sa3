@@ -3567,7 +3567,7 @@ void sub_80B6CD8(u8 arg0, u8 arg1, u8 arg2, u8 arg3)
     }
 }
 
-// (98.29%) https://decomp.me/scratch/llTC6
+// (99.77%) https://decomp.me/scratch/o1LfW
 NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(void))
 {
     s32 sp18;
@@ -3575,8 +3575,8 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
     s16 var_r5;
     u8 var_r4;
     u8 var_r6;
-    TileInfo2 *temp_r1;
-    TileInfo2 *temp_r1_2;
+    TileInfo3 *temp_r1;
+    TileInfo3 *temp_r1_2;
 
     SpStage288 *strc288 = TASK_DATA(gCurTask);
 
@@ -3595,7 +3595,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
         if (strc288->unk27E != 0) {
             s = &strc288->sprite4C;
             temp_r1 = gUnknown_080E3074;
-            sub_80B6BB8(s, 1, temp_r1[strc288->unk27D].numTiles, temp_r1[strc288->unk27D].anim, 0, 0x104, 0x14, 0,
+            sub_80B6BB8(s, 1, (u16)temp_r1[strc288->unk27D].numTiles, temp_r1[strc288->unk27D].anim, 0, 0x104, 0x14, 0,
                         temp_r1[strc288->unk27D].variant, 0);
             sub_80B6BB8(&strc288->sprite74, 1, 0x28U, 0x46DU, 0, 0x14A, 0x1C, 0, 1U, 0);
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_1);
@@ -3604,6 +3604,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_2);
         }
     } else {
+        AnimId anim;
         var_r6 = 0;
         sp18 = 0;
         var_r5 = 0;
@@ -3620,8 +3621,9 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
         if (strc288->unk27E == 0) {
             var_r5 = -16;
         }
+        anim = ANIM_SP_STAGE_DISCLAIMERS;
         var_r5 += 28;
-        sub_80B6BB8(&strc288->sprite74, 1, 8U, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x1C, var_r5, 0, 8U, 0);
+        sub_80B6BB8(&strc288->sprite74, 1, 8U, anim, 0, 0x1C, var_r5, 0, 8U, 0);
         sub_80B6BB8(&strc288->spriteC4, 1, 6U, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x40, var_r5, 0, var_r6, 0);
         sub_80B6BB8(&strc288->sprite4C, 1, 12, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x58, var_r5, 0, 9U, 0);
         sub_80B6BB8(&strc288->sprite9C, 1, 22, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x8C, var_r5, 0, sp18 + 10, 0);
@@ -3639,8 +3641,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
     for (var_r4 = 0; var_r4 < 8; var_r4++) {
         Sprite *s = &strc288->sprites13C[var_r4];
         temp_r1_2 = gUnknown_080E309C;
-        temp_r1_2 += var_r4;
-        sub_80B6BB8(s, 1, temp_r1_2->numTiles, temp_r1_2->anim, 0, 0, 0, 0, temp_r1_2->variant, 0);
+        sub_80B6BB8(s, 1, (u16)temp_r1_2[var_r4].numTiles, temp_r1_2[var_r4].anim, 0, 0, 0, 0, temp_r1_2[var_r4].variant, 0);
     }
 
     gCurTask->main = Task_80B7314;
