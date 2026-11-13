@@ -628,7 +628,7 @@ void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex)
 
 void sub_80B2B38(SpStage2A4 *strc2A4)
 {
-    s16 sp00[3];
+    s16 sp00[ARRAY_COUNT(strc2A4->unk290)];
     Sprite *s;
     s32 var_sb;
     u8 var_r0;
@@ -645,11 +645,11 @@ void sub_80B2B38(SpStage2A4 *strc2A4)
 
     var_r0 = (strc2A4->unk28A <= 3) ? strc2A4->unk28A : strc2A4->unk28A - 4;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ARRAY_COUNT(strc2A4->unk290); i++) {
         sp00[i] = sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk290[i]) >> 1;
     }
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < ARRAY_COUNT(gUnknown_080DBF94[0]); i++) {
         switch (i) {
             case 0:
                 var_sb = 0;
@@ -3490,7 +3490,6 @@ void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 fram
 {
     Sprite sprDummy;
     Sprite *s;
-    void *var_r0;
 
     if (inSprite != NULL) {
         s = inSprite;
@@ -3502,12 +3501,11 @@ void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 fram
         if (gUnknown_03001E9C == NULL) {
             gUnknown_03001E9C = gUnknown_03001EA0;
         }
-        var_r0 = gUnknown_03001E9C;
+        s->tiles = gUnknown_03001E9C;
     } else {
-        var_r0 = gUnknown_03001EA0;
+        s->tiles = gUnknown_03001EA0;
     }
 
-    s->tiles = var_r0;
     s->anim = anim;
     s->frameFlags = frameFlags;
     s->x = x;
@@ -3638,7 +3636,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
         }
     }
 
-    for (var_r4 = 0; var_r4 < 8; var_r4++) {
+    for (var_r4 = 0; var_r4 < ARRAY_COUNT(gUnknown_080E309C); var_r4++) {
         Sprite *s = &strc288->sprites13C[var_r4];
         temp_r1_2 = gUnknown_080E309C;
         sub_80B6BB8(s, 1, (u16)temp_r1_2[var_r4].numTiles, temp_r1_2[var_r4].anim, 0, 0, 0, 0, temp_r1_2[var_r4].variant, 0);
@@ -3708,7 +3706,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
     sp30 = (u16)((s32)(temp_r4 * 10) / 84);
     temp_r4 >>= 5;
 
-    for (var_r6 = 0; var_r6 < 7; var_r6++) {
+    for (var_r6 = 0; var_r6 < (ARRAY_COUNT(strc288->sprites13C) - 1); var_r6++) {
         temp_r5 = (s16)sp30 + (0x92 * var_r6);
         for (var_r4 = 0; var_r4 < 7; var_r4++) {
             sp00[var_r4] = (s16)((s32)(SIN((temp_r5 + (var_r4 * 0x92)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
@@ -3729,7 +3727,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
         if (GetBit(strc288->unk27F, var_r6)) {
             s = &strc288->sprites13C[var_r6];
         } else {
-            s = &strc288->sprite254;
+            s = &strc288->sprites13C[ARRAY_COUNT(strc288->sprites13C) - 1];
         }
         s->x = temp_r4_2;
         s->y = temp_r2_2;

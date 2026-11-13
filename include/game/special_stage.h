@@ -16,8 +16,7 @@ typedef struct {
     /* 0x0C4 */ Sprite spriteC4;
     /* 0x0EC */ Sprite spriteEC;
     /* 0x114 */ Sprite sprite114;
-    /* 0x114 */ Sprite sprites13C[7];
-    /* 0x254 */ Sprite sprite254;
+    /* 0x114 */ Sprite sprites13C[8];
     /* 0x27C */ u8 unk27C;
     /* 0x27D */ u8 unk27D;
     /* 0x27E */ u8 unk27E;
@@ -384,8 +383,8 @@ extern const SpStgFunc gUnknown_080DC448[27];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
-extern TileInfo3 gUnknown_080E3074[];
-extern TileInfo3 gUnknown_080E309C[];
+extern TileInfo3 gUnknown_080E3074[5];
+extern TileInfo3 gUnknown_080E309C[8];
 
 extern s16 gUnknown_080DBFCC[];
 
