@@ -306,7 +306,7 @@ endif
 ifeq ($(PLATFORM),gba)
     LIBS := $(ROOT_DIR)/tools/agbcc/lib/libgcc.a $(ROOT_DIR)/tools/agbcc/lib/libc.a $(LIBABGSYSCALL_LIBS)
 else ifeq ($(PLATFORM),sdl)
-    LIBS := $(shell sdl2-config --cflags --libs)
+    LIBS := $(shell sdl2-config --cflags --libs) -lm
 else ifeq ($(PLATFORM),sdl_win32)
     LIBS := -mwin32 -lkernel32 -lwinmm -lmingw32 -lxinput $(SDL_MINGW_LIBS)
 else ifeq ($(PLATFORM), win32)

@@ -389,7 +389,7 @@ typedef struct Struc_3001150 {
     /* 0x01C */ Struc_3001150_1C unk1C;
     /* 0x164 */ Struc_3001150_164 unk164;
 } Struc_3001150; /* 0x468 */
-Struc_3001150 gUnknown_03001150;
+extern Struc_3001150 gUnknown_03001150;
 
 typedef struct Strc_80E3254 {
     Struc_3001150_InputRes funcA;
