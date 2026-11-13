@@ -927,7 +927,7 @@ void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2)
 {
     Sprite *sp[CSO_OTHER_CHARS_COUNT];
     s32 sp14;
-    Sprite *temp_r4;
+    Sprite *s;
     Sprite *var_r1;
     TileInfo2 **temp_r1;
     u32 temp_r2;
@@ -956,27 +956,27 @@ void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2)
     var_r8 = 0;
     for (var_r5 = 0; var_r5 < 5; var_r5++) {
         if ((var_r5 != sp14) && (var_r5 != var_r0)) {
-            temp_r4 = sp[var_r8];
-            temp_r4->anim = gUnknown_080D9B5C[var_r5][param1].anim;
-            temp_r4->variant = gUnknown_080D9B5C[var_r5][param1].variant;
-            temp_r4->prevVariant = -1;
-            temp_r4->oamFlags = 0x240;
-            temp_r4->animCursor = 0;
-            temp_r4->qAnimDelay = 0;
-            temp_r4->animSpeed = 0x10;
-            temp_r4->palId = var_r5;
+            s = sp[var_r8];
+            s->anim = gUnknown_080D9B5C[var_r5][param1].anim;
+            s->variant = gUnknown_080D9B5C[var_r5][param1].variant;
+            s->prevVariant = -1;
+            s->oamFlags = 0x240;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            s->palId = var_r5;
             if (var_r5 == 4) {
-                temp_r4->palId = 5;
+                s->palId = 5;
             }
             {
                 u32 matchingMask = 0x1000;
-                temp_r4->frameFlags = matchingMask;
+                s->frameFlags = matchingMask;
                 if ((*strc248->initArg0 < 20) && (var_r5 == 0 || var_r5 == 1)) {
-                    temp_r4->frameFlags = 0x400;
-                    temp_r4->frameFlags |= 0x1000;
+                    s->frameFlags = 0x400;
+                    s->frameFlags |= 0x1000;
                 } else {
                     // TODO(Jace): Maybe there is a way to match this without the variable, but I couldn't find one yet
-                    temp_r4->frameFlags = matchingMask;
+                    s->frameFlags = matchingMask;
                 }
             }
 
@@ -997,7 +997,7 @@ void sub_80A4A88(CreditsRelated248 *strc248, u8 param1, u8 param2)
                 var_r1->frameFlags = 0;
                 UpdateSpriteAnimation(var_r1);
             }
-            UpdateSpriteAnimation(temp_r4);
+            UpdateSpriteAnimation(s);
             var_r8 += 1;
         }
     }
@@ -2343,7 +2343,7 @@ void Task_150_80A6768(void)
 {
     CreditsRelated150 *strc150 = TASK_DATA(gCurTask);
     u16 sp4[3] = { 0 };
-    Sprite *temp_r4;
+    Sprite *s;
     u16 temp_r1;
     u16 temp_r1_2;
     u32 temp_r2;
@@ -2364,11 +2364,11 @@ void Task_150_80A6768(void)
     sub_80A6DD0(strc150);
 
     if (strc150->unk8 >= (u32)sp4[0]) {
-        temp_r4 = &strc150->spr34;
-        temp_r4->x = I(strc150->unk14);
-        temp_r4->y = I(strc150->unk18) + 8;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
+        s = &strc150->spr34;
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18) + 8;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
 
     if (strc150->unk8 <= (u32)sp4[2]) {
@@ -2635,13 +2635,13 @@ bool32 sub_80A6CE0(CreditsRelated150 *strc150)
     }
 
     if (var_r2 == 3) {
-        Sprite *temp_r4 = &strc150->spr5C;
-        temp_r4->x = I(strc150->unk14);
-        temp_r4->y = I(strc150->unk18);
-        temp_r4->x += 18;
-        temp_r4->y -= 15;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
+        Sprite *s = &strc150->spr5C;
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18);
+        s->x += 18;
+        s->y -= 15;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
     if (var_r6 == 3) {
         Sprite *temp_r4_2 = &strc150->spr5C;
@@ -2694,13 +2694,13 @@ bool32 sub_80A6DD0(CreditsRelated150 *strc150)
     }
 
     if (var_r2 == 3) {
-        Sprite *temp_r4 = &strc150->spr84;
-        temp_r4->x = I(strc150->unk14);
-        temp_r4->y = I(strc150->unk18);
-        temp_r4->x += 18;
-        temp_r4->y -= 15;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
+        Sprite *s = &strc150->spr84;
+        s->x = I(strc150->unk14);
+        s->y = I(strc150->unk18);
+        s->x += 18;
+        s->y -= 15;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
     if (var_r6 == 3) {
         Sprite *temp_r4_2 = &strc150->spr84;
@@ -3762,9 +3762,8 @@ void Task_12C_80A8360(void)
 {
     CreditsRelated12C *strc12C = TASK_DATA(gCurTask);
     u16 sp0[2] = { 0, 0 };
-    u8 temp_r5;
+    u8 temp_r5 = sub_80A71E8(strc12C, (void *)&sp0);
 
-    temp_r5 = sub_80A71E8(strc12C, (void *)&sp0);
     if (temp_r5 != 0) {
         sub_80A72F4(strc12C, (void *)&sp0);
         if (temp_r5 == 2) {
@@ -6100,7 +6099,7 @@ void sub_80AB120(u8 param0)
     strcD4->unk1 = 0;
     strcD4->unk2 = 0;
     strcD4->unk24 = 0;
-    gDispCnt |= 0x2000;
+    gDispCnt |= DISPCNT_WIN0_ON;
     gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
     gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
     gWinRegs[4] |= 0x3F;
@@ -6261,10 +6260,10 @@ void Task_D4_80AB1C4(void)
 void Task_D4_80AB4A4(void)
 {
     CreditsRelatedD4 *strcD4 = TASK_DATA(gCurTask);
-    Sprite *temp_r4;
+    Sprite *s;
 
     if (strcD4->unk1 == 0) {
-        gDispCnt |= 0x2000;
+        gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
@@ -6285,11 +6284,11 @@ void Task_D4_80AB4A4(void)
     sub_80ABD10(strcD4);
     sub_80ABC80(strcD4);
     sub_80ABCF4(strcD4);
-    temp_r4 = &strcD4->spr2C;
-    temp_r4->x = (s16)((s32)strcD4->unk8 >> 8);
-    temp_r4->y = (s16)((s32)strcD4->unkC >> 8);
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    s = &strcD4->spr2C;
+    s->x = I(strcD4->unk8);
+    s->y = I(strcD4->unkC);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
     if (gBldRegs.bldY != 0) {
         gBldRegs.bldY = I(strcD4->unk2);
         strcD4->unk2 -= Q(1);
@@ -6310,14 +6309,14 @@ void Task_D4_80AB5A8(void)
 {
     CreditsRelatedD4 *strcD4 = TASK_DATA(gCurTask);
     CreditsRelatedD4 *temp_r1;
-    Sprite *temp_r4;
+    Sprite *s;
     u8 temp_r0;
     u8 var_r0;
     u8 var_r3;
     u8 var_r6;
 
     if (strcD4->unk1 != 0) {
-        gDispCnt |= 0x2000;
+        gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
@@ -6329,11 +6328,11 @@ void Task_D4_80AB5A8(void)
     sub_80ABD10(strcD4);
     sub_80ABC80(strcD4);
     sub_80ABCF4(strcD4);
-    temp_r4 = &strcD4->spr2C;
-    temp_r4->x = (s16)((s32)strcD4->unk8 >> 8);
-    temp_r4->y = (s16)((s32)strcD4->unkC >> 8);
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    s = &strcD4->spr2C;
+    s->x = I(strcD4->unk8);
+    s->y = I(strcD4->unkC);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
     if (gBldRegs.bldY < 0x10) {
         gBldRegs.bldY = (u16)((u16)strcD4->unk2 >> 8);
         strcD4->unk2 += 0x100;
@@ -6383,7 +6382,7 @@ void Task_D4_80AB5A8(void)
 void Task_D4_80AB770(void)
 {
     CreditsRelatedD4 *strcD4 = TASK_DATA(gCurTask);
-    Sprite *temp_r4;
+    Sprite *s;
     s16 temp_r0_2;
     s16 var_r0;
     u8 temp_r0;
@@ -6391,11 +6390,11 @@ void Task_D4_80AB770(void)
     sub_80ABD10(strcD4);
     sub_80ABC80(strcD4);
     sub_80ABCF4(strcD4);
-    temp_r4 = &strcD4->spr2C;
-    temp_r4->x = I(strcD4->unk8);
-    temp_r4->y = I(strcD4->unkC);
-    UpdateSpriteAnimation(temp_r4);
-    DisplaySprite(temp_r4);
+    s = &strcD4->spr2C;
+    s->x = I(strcD4->unk8);
+    s->y = I(strcD4->unkC);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 
     if (strcD4->unk0 == 0 || strcD4->unk0 == 3) {
         if (strcD4->unk0 == 0) {
@@ -7181,7 +7180,7 @@ void Task_294_80AC7D0(void)
     }
 
     if (++strc294->unk4 > 120) {
-        gDispCnt |= 0x2000;
+        gDispCnt |= DISPCNT_WIN0_ON;
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[4] |= 0x3F;
