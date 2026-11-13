@@ -3594,8 +3594,9 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
     if (gStageData.unkD == 0) {
         if (strc288->unk27E != 0) {
             s = &strc288->sprite4C;
-            temp_r1 = &gUnknown_080E3074[strc288->unk27D];
-            sub_80B6BB8(s, 1, temp_r1->numTiles, temp_r1->anim, 0, 0x104, 0x14, 0, gUnknown_080E3074[strc288->unk27D].variant, 0);
+            temp_r1 = gUnknown_080E3074;
+            sub_80B6BB8(s, 1, temp_r1[strc288->unk27D].numTiles, temp_r1[strc288->unk27D].anim, 0, 0x104, 0x14, 0,
+                        temp_r1[strc288->unk27D].variant, 0);
             sub_80B6BB8(&strc288->sprite74, 1, 0x28U, 0x46DU, 0, 0x14A, 0x1C, 0, 1U, 0);
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_1);
         } else {
