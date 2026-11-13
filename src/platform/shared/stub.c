@@ -121,18 +121,6 @@ void sub_80C59E8() { }
 void /* 0x080C7558 */ SoundBiasReset() { }
 void /* 0x080C7560 */ SoundBiasSet() { }
 
-typedef struct MusicManagerState {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-    u8 unk4;
-    u8 unk5;
-    u16 fadeoutSpeed;
-} MusicManagerState; /* size: 8 */
-
-MusicManagerState gMusicManagerState;
-
 typedef struct SomeSubStruct_3001BF0 {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;

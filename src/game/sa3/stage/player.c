@@ -258,6 +258,7 @@ extern TileInfoShield sTileInfoShields[];
 extern u16 gUnknown_08E2EAD0[][3];
 extern u16 gUnknown_08E2EB04[NUM_CHARACTERS][2];
 extern u16 gCheeseTileInfo[][2];
+Struc_3001150 gUnknown_03001150;
 
 static inline void SongStopCheck_inline(Player *p, u16 song)
 {

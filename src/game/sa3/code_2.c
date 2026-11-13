@@ -174,7 +174,7 @@ void TaskDestructor_809E858(Task *t);
 bool32 sub_809E828(Code_2_1 *strc);
 void Task_570_809C620(void);
 void Task_60_809CA64(void);
-bool32 sub_809E354();
+bool32 sub_809E354(Code_2_0__60 *strc);
 void sub_809E5E4(Code_2_0__3C *strc);
 bool32 sub_809E5AC(Code_2_0__3C *strc);
 void sub_809CC80(u8 *vram, u8 *param1, u8 param2);

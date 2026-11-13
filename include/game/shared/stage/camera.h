@@ -76,7 +76,7 @@ struct Camera {
     /* 0x6A */ s16 unk6A;
 }; /* size (SA3): 0x6C */
 
-struct Camera gCamera;
+extern struct Camera gCamera;
 
 // TODO: Merge all these into one!
 #define IS_OUT_OF_RANGE_2(x, y, radiusX, radiusY)                                                                                          \
