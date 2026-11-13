@@ -3565,16 +3565,13 @@ void sub_80B6CD8(u8 arg0, u8 arg1, u8 arg2, u8 arg3)
     }
 }
 
-// (99.77%) https://decomp.me/scratch/o1LfW
-NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(void))
+void Task_80B6D78(void)
 {
     s32 sp18;
     Sprite *s;
     s16 var_r5;
-    u8 var_r4;
+    u8 i;
     u8 var_r6;
-    TileInfo3 *temp_r1;
-    TileInfo3 *temp_r1_2;
 
     SpStage288 *strc288 = TASK_DATA(gCurTask);
 
@@ -3592,9 +3589,8 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
     if (gStageData.unkD == 0) {
         if (strc288->unk27E != 0) {
             s = &strc288->sprite4C;
-            temp_r1 = gUnknown_080E3074;
-            sub_80B6BB8(s, 1, (u16)temp_r1[strc288->unk27D].numTiles, temp_r1[strc288->unk27D].anim, 0, 0x104, 0x14, 0,
-                        temp_r1[strc288->unk27D].variant, 0);
+            sub_80B6BB8(s, 1, gUnknown_080E3074[strc288->unk27D].numTiles, gUnknown_080E3074[strc288->unk27D].anim, 0, 0x104, 0x14, 0,
+                        gUnknown_080E3074[strc288->unk27D].variant, 0);
             sub_80B6BB8(&strc288->sprite74, 1, 0x28U, 0x46DU, 0, 0x14A, 0x1C, 0, 1U, 0);
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_1);
         } else {
@@ -3602,49 +3598,45 @@ NONMATCH("asm/non_matching/game/sa3/spstg__Task_80B6D78.inc", void Task_80B6D78(
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_2);
         }
     } else {
-        AnimId anim;
+        const AnimId anim = ANIM_SP_STAGE_DISCLAIMERS;
         var_r6 = 0;
         sp18 = 0;
         var_r5 = 0;
 
-        for (var_r4 = 0; var_r4 < 7; var_r4++) {
-            if (GetBit(strc288->unk27F, var_r4)) {
+        for (i = 0; i < 7; i++) {
+            if (GetBit(strc288->unk27F, i)) {
                 var_r6 += 1;
             }
         }
 
-        if (var_r6 > 1U) {
+        if (var_r6 > 1) {
             sp18 = 1;
         }
         if (strc288->unk27E == 0) {
             var_r5 = -16;
         }
-        anim = ANIM_SP_STAGE_DISCLAIMERS;
-        var_r5 += 28;
-        sub_80B6BB8(&strc288->sprite74, 1, 8U, anim, 0, 0x1C, var_r5, 0, 8U, 0);
-        sub_80B6BB8(&strc288->spriteC4, 1, 6U, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x40, var_r5, 0, var_r6, 0);
-        sub_80B6BB8(&strc288->sprite4C, 1, 12, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x58, var_r5, 0, 9U, 0);
-        sub_80B6BB8(&strc288->sprite9C, 1, 22, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x8C, var_r5, 0, sp18 + 10, 0);
+        sub_80B6BB8(&strc288->sprite74, 1, 8U, anim, 0, 0x1C, var_r5 + 28, 0, 8U, 0);
+        sub_80B6BB8(&strc288->spriteC4, 1, 6U, anim, 0, 0x40, var_r5 + 28, 0, var_r6, 0);
+        sub_80B6BB8(&strc288->sprite4C, 1, 12, anim, 0, 0x58, var_r5 + 28, 0, 9U, 0);
+        sub_80B6BB8(&strc288->sprite9C, 1, 22, anim, 0, 0x8C, var_r5 + 28, 0, sp18 + 10, 0);
 
         if (strc288->unk27E != 0) {
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_1);
         } else {
-            sub_80B6BB8(&strc288->spriteEC, 1, 0x14U, ANIM_SP_STAGE_DISCLAIMERS, 0, 0x24, 0x8C, 0, 0xCU, 0);
-            sub_80B6BB8(&strc288->sprite114, 1, 8U, ANIM_SP_STAGE_DISCLAIMERS, 0, 0xAC, 0x8C, 0, 0xEU, 0);
+            sub_80B6BB8(&strc288->spriteEC, 1, 0x14U, anim, 0, 0x24, 0x8C, 0, 0xCU, 0);
+            sub_80B6BB8(&strc288->sprite114, 1, 8U, anim, 0, 0xAC, 0x8C, 0, 0xEU, 0);
             strc288->unk282 = 0;
             m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_2);
         }
     }
 
-    for (var_r4 = 0; var_r4 < ARRAY_COUNT(gUnknown_080E309C); var_r4++) {
-        Sprite *s = &strc288->sprites13C[var_r4];
-        temp_r1_2 = gUnknown_080E309C;
-        sub_80B6BB8(s, 1, (u16)temp_r1_2[var_r4].numTiles, temp_r1_2[var_r4].anim, 0, 0, 0, 0, temp_r1_2[var_r4].variant, 0);
+    for (i = 0; i < ARRAY_COUNT(gUnknown_080E309C); i++) {
+        Sprite *s = &strc288->sprites13C[i];
+        sub_80B6BB8(s, 1, gUnknown_080E309C[i].numTiles, gUnknown_080E309C[i].anim, 0, 0, 0, 0, gUnknown_080E309C[i].variant, 0);
     }
 
     gCurTask->main = Task_80B7314;
 }
-END_NONMATCH
 
 // (94.71%) https://decomp.me/scratch/z7ukN
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(void))
