@@ -772,7 +772,7 @@ block_18:
     return 0U;
 }
 
-u16 sub_80B8218(Struc_3001150_1C *strc, Player *partner)
+u16 sub_80B8218(Struc_3001150_1C *strc, Player *partner, Player *p)
 {
     u16 resultKeys = strc->inputBuffer[strc->inputBufferIndex];
 

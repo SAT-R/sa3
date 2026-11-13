@@ -384,8 +384,8 @@ extern const SpStgFunc gUnknown_080DC448[27];
 extern s16 gUnknown_080E30DC[12];
 extern s16 gUnknown_080E30F4[12];
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
-extern TileInfo2 gUnknown_080E3074[];
-extern TileInfo2 gUnknown_080E309C[];
+extern TileInfo3 gUnknown_080E3074[];
+extern TileInfo3 gUnknown_080E309C[];
 
 extern s16 gUnknown_080DBFCC[];
 
