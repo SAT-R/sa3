@@ -43,11 +43,22 @@ void sub_80277F0(u16, u16); /* extern */
 void sub_8027834(); /* extern */
 void sub_805CEBC(s32, s32, s32, s32, s32, s32); /* extern */
 void TaskDestructor_ItemBox(Task *); /* static */
-extern u16 gUnknown_080CF3B8[2][2];
-extern u16 gUnknown_080CF3C0[][3];
-extern u16 gUnknown_080CF420[][3];
-extern u8 ItemBox_ringAmountTable[16];
-extern u16 gUnknown_080CF44E[][2];
+const u16 gUnknown_080CF3B8[2][2] = { { ANIM_ITEM_BOX, 0 }, { ANIM_ITEM_BOX, 1 } };
+const u16 gUnknown_080CF3C0[16][3] = {
+    { ANIM_ITEM_BOX_TYPE, 0, 4 },  { ANIM_ITEM_BOX_TYPE, 10, 4 }, { ANIM_ITEM_BOX_TYPE, 11, 4 }, { ANIM_ITEM_BOX_TYPE, 9, 4 },
+    { ANIM_ITEM_BOX_TYPE, 8, 4 },  { ANIM_ITEM_BOX_TYPE, 7, 4 },  { ANIM_ITEM_BOX_TYPE, 5, 4 },  { ANIM_ITEM_BOX_TYPE, 6, 4 },
+    { ANIM_ITEM_BOX_TYPE, 17, 4 }, { ANIM_ITEM_BOX_TYPE, 18, 4 }, { ANIM_ITEM_BOX_TYPE, 21, 4 }, { ANIM_ITEM_BOX_TYPE, 12, 4 },
+    { ANIM_ITEM_BOX_TYPE, 19, 4 }, { ANIM_ITEM_BOX_TYPE, 13, 4 }, { ANIM_ITEM_BOX_TYPE, 20, 4 }, { ANIM_ITEM_BOX_TYPE, 14, 4 },
+};
+const u16 gUnknown_080CF420[5][3] = {
+    { ANIM_ITEM_BOX_TYPE, 0, 4 }, { ANIM_ITEM_BOX_TYPE, 1, 4 }, { ANIM_ITEM_BOX_TYPE, 3, 4 },
+    { ANIM_ITEM_BOX_TYPE, 2, 4 }, { ANIM_ITEM_BOX_TYPE, 4, 4 },
+};
+const u8 ItemBox_ringAmountTable[16] = { 1, 5, 10, 30, 50, //
+                                         1, 5, 10, 30, 50, //
+                                         1, 5, 10, 30, 50, //
+                                         1 };
+const u16 gUnknown_080CF44E[][2] = { 3, 9, 13, 14, 4, 10, 11, 12, 1, 8, 15, 15 };
 
 void sub_802C35C(ItemBox *itembox, s32 param1);
 void sub_802C618(ItemBox *itembox);

@@ -6,29 +6,6 @@
 
 .section .rodata
 
-    .global gUnknown_080CF3B8
-gUnknown_080CF3B8:
-    .incbin "baserom_sa3.gba", 0x000CF3B8, 0x8
-
-    .global gUnknown_080CF3C0
-gUnknown_080CF3C0:
-    .incbin "baserom_sa3.gba", 0x000CF3C0, 0x60
-
-    .global gUnknown_080CF420
-gUnknown_080CF420:
-    .incbin "baserom_sa3.gba", 0x000CF420, 0x1E
-
-    .global ItemBox_ringAmountTable
-ItemBox_ringAmountTable:
-    .byte 1, 5, 10, 30, 50
-    .byte 1, 5, 10, 30, 50
-    .byte 1, 5, 10, 30, 50
-    .byte 1
-
-    .global gUnknown_080CF44E
-gUnknown_080CF44E:
-    .short 3, 9, 13, 14, 4, 10, 11, 12, 1, 8, 15, 15, 0
-
     .global gUnknown_080CF468
 gUnknown_080CF468:
     .byte 0x78, 0x90, 0xA8, 0xC0, 0xD8, 0xF0, 0xFF, 0x78

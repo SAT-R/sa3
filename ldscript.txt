@@ -323,6 +323,7 @@ SECTIONS {
         data/data__sio_stuff_x.o(.rodata);
         src/game/shared/rings_manager.o(.rodata);
         src/game/sa3/stage/entities_manager.o(.rodata);
+        src/game/sa3/itembox.o(.rodata);
         data/data_0_1.o(.rodata);
         src/game/sa3/interactables/rocket.o(.rodata);
         src/game/sa3/interactables/panda_cart.o(.rodata);
