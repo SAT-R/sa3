@@ -376,7 +376,7 @@ extern u16 gUnknown_080DBFA8[6][3];
 extern u16 gUnknown_080DBFD8[];
 extern AnimId gUnknown_080DBFEC[];
 extern Arg4_80B4498 *gUnknown_080DC36C[5];
-extern Arg4_80B4498 gUnknown_080DC380;
+extern Arg4_80B4498 gAnimData_SpStageMultiplier;
 extern TaskMain gUnknown_080DC388[24];
 extern s16 gUnknown_080DC436[8];
 extern const SpStgFunc gUnknown_080DC448[27];

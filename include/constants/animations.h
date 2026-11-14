@@ -254,6 +254,8 @@
 #define ANIM_ASCII_CHAR(c)   ((c)-ANIM_ASCII_FIRST_CHAR + 1)
 #define ANIM_NUM_ASCII_CHARS 94
 
+#define ANIM_SP_STAGE_MULTIPLIER 1123
+
 #define ANIM_SP_STAGE_IRON_BALL           1139
 #define ANIM_SP_STAGE_MISSILE_BADNIK_PROJ 1140
 #define ANIM_SP_STAGE_RING_BOOSTER        1141 // NOTE: Official(?) name, via Sonic Retro
@@ -478,38 +480,35 @@
 #define ANIM_CHARSELECT_SELECT_A_CHARACTER_FR     1417
 #define ANIM_CHARSELECT_SELECT_A_CHARACTER_ES     1418
 #define ANIM_CHARSELECT_SELECT_A_CHARACTER_IT     1419
-
-#define ANIM_UI_CHARACTER_TYPE 1420 // V0: Speed, V1: Flying, V2: Power
-#define ANIM_UI_TIME           1421
-#define ANIM_UI_SPECIAL_KEY    1422
-#define ANIM_LIFE_ICONS        1423
-#define ANIM_ZONEX_NAME        1424 /* Substate-Index == Zone number */
-
-#define ANIM_PAUSE_MENU            1425 // Patterns 0 and 1 are without Continue/Back buttons, but all ANIM_PAUSE_MENU_CONT frames are in here
-#define ANIM_PAUSE_MENU_CONT       1426 // Does not contain a button-less menu
-#define ANIM_GAME_OVER             1427
-#define ANIM_DEMO_PLAY             1428
-#define ANIM_CHAO_NERVOUS          1429 // NOTE: No bowtie, so it's not Cheese?
-#define ANIM_MP_TXT_CHARS_AND_ACTS 1430
-
-#define ANIM_PALETTE_1432 1432
-#define ANIM_PRESS_START  1433
-
-#define ANIM_MP_PLAYER_AVATAR_AMY              1434
-#define ANIM_MP_PLAYER_AVATAR_KNUCKLES         1435
-#define ANIM_MP_PLAYER_AVATAR_SONIC            1436
-#define ANIM_MP_PLAYER_AVATAR_TAILS            1437
-#define ANIM_MP_RESULT_EN                      1443
-#define ANIM_MP_RESULT_FR                      1444
-#define ANIM_MP_RESULT_DE                      1445
-#define ANIM_MP_RESULT_IT                      1446
-#define ANIM_MP_RESULT_JP                      1447
-#define ANIM_MP_RESULT_ES                      1448
-#define ANIM_MP_PLAYER_ID                      1449
-#define ANIM_MP_SELECT_A_ZONE                  1450
-#define ANIM_MP_WAIT                           1451
-#define ANIM_MP_PLAYER_AVATAR_CREAM            1452
-#define ANIM_MP_SINGLEPAK_TRANSFER_SCREEN_CHAO 1453
+#define ANIM_UI_CHARACTER_TYPE                    1420 // V0: Speed, V1: Flying, V2: Power
+#define ANIM_UI_TIME                              1421
+#define ANIM_UI_SPECIAL_KEY                       1422
+#define ANIM_LIFE_ICONS                           1423
+#define ANIM_ZONEX_NAME                           1424 /* Substate-Index == Zone number */
+#define ANIM_PAUSE_MENU                           1425 // Patterns 0 and 1 are without Continue/Back buttons, but all ANIM_PAUSE_MENU_CONT frames are in here
+#define ANIM_PAUSE_MENU_CONT                      1426 // Does not contain a button-less menu
+#define ANIM_GAME_OVER                            1427
+#define ANIM_DEMO_PLAY                            1428
+#define ANIM_CHAO_NERVOUS                         1429 // NOTE: No bowtie, so it's not Cheese?
+#define ANIM_MP_TXT_CHARS_AND_ACTS                1430
+#define ANIM_TIME_RECORD_RANKS                    1431
+#define ANIM_PALETTE_1432                         1432
+#define ANIM_PRESS_START                          1433
+#define ANIM_MP_PLAYER_AVATAR_AMY                 1434
+#define ANIM_MP_PLAYER_AVATAR_KNUCKLES            1435
+#define ANIM_MP_PLAYER_AVATAR_SONIC               1436
+#define ANIM_MP_PLAYER_AVATAR_TAILS               1437
+#define ANIM_MP_RESULT_EN                         1443
+#define ANIM_MP_RESULT_FR                         1444
+#define ANIM_MP_RESULT_DE                         1445
+#define ANIM_MP_RESULT_IT                         1446
+#define ANIM_MP_RESULT_JP                         1447
+#define ANIM_MP_RESULT_ES                         1448
+#define ANIM_MP_PLAYER_ID                         1449
+#define ANIM_MP_SELECT_A_ZONE                     1450
+#define ANIM_MP_WAIT                              1451
+#define ANIM_MP_PLAYER_AVATAR_CREAM               1452
+#define ANIM_MP_SINGLEPAK_TRANSFER_SCREEN_CHAO    1453
 
 #define ANIM_GEMERL_TRANSFORM_INTO_ULTIMATE 1482
 

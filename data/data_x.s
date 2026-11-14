@@ -85,9 +85,10 @@ gUnknown_080DC36C:
     mPtr gUnknown_080DC2BC
     mPtr gUnknown_080DC0AC
 
-    .global gUnknown_080DC380
-gUnknown_080DC380:
-    .incbin "baserom_sa3.gba", 0x000DC380, 0x8
+    .global gAnimData_SpStageMultiplier
+gAnimData_SpStageMultiplier:
+    .short 0x0463, 0, 2 @ ANIM_SP_STAGE_MULTIPLIER, 0, 2
+    .byte  0x10, 0x00
 
     .global gUnknown_080DC388
 gUnknown_080DC388:

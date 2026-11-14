@@ -167,7 +167,7 @@ typedef enum {
     INDEX_COUNT
 } EAnimIndices;
 
-// NOTE: Includes Cheese, that's why it is [NUM_CHARACTERS + 1]
+// NOTE: Includes Cheese, that's why it is [INDEX_COUNT]
 const u16 gUnknown_080D1C48[INDEX_COUNT][4][2] = {
     [INDEX_SONIC] = {
         { ANIM_SONIC_IDLE + 161, 0 },
@@ -728,13 +728,13 @@ void Task_220_8053C70(void)
         strc->sprite0.variant = gUnknown_080D1C48[strc->playerAnimIndex][1][1];
         strc->sprite0.frameFlags &= ~0x20;
         strc->sprite0.frameFlags |= 0x400;
-        strc->sprite0.x = 0x82;
-        strc->sprite0.y = 0x96;
+        strc->sprite0.x = 130;
+        strc->sprite0.y = 150;
         strc->sprite28.anim = gUnknown_080D1C48[strc->partnerAnimIndex][1][0];
         strc->sprite28.variant = gUnknown_080D1C48[strc->partnerAnimIndex][1][1];
         strc->sprite28.frameFlags = (strc->sprite28.frameFlags & ~0x21) | 0x400;
-        strc->sprite28.x = 0x50;
-        strc->sprite28.y = 0x96;
+        strc->sprite28.x = 80;
+        strc->sprite28.y = 150;
 
         if (strc->cheeseSpriteIndex != CSI_NONE) {
             strc->sprCheese.anim = gUnknown_080D1C48[INDEX_CHEESE][1][0];
@@ -1817,7 +1817,7 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     u8 temp_r0;
     u16 temp_r1_2;
     u8 temp_r5;
-    u8 var_r4;
+    u8 rank;
     s32 var_r0;
 
     p = &gPlayers[gStageData.playerIndex];
@@ -2084,8 +2084,8 @@ void sub_8055614(Strc_2A4_8053284 *strc)
     s->oamFlags = 0x80;
     s->frameFlags = 0;
     s->animCursor = 0;
-    s->x = 0x78;
-    s->y = -0x10;
+    s->x = DISPLAY_CENTER_X;
+    s->y = -16;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = 0x40;
@@ -2116,15 +2116,15 @@ void sub_8055614(Strc_2A4_8053284 *strc)
             act = (u8)(act - 3);
         }
 
-        for (var_r4 = 0; var_r4 < 5; var_r4++) {
-            if (LOADED_SAVE->timeRecords.table[zone][act][var_r4].time > levelTimer) {
+        for (rank = 0; rank < 5; rank++) {
+            if (LOADED_SAVE->timeRecords.table[zone][act][rank].time > levelTimer) {
                 break;
             }
         }
         s = &strc->sprite264;
         s->tiles = VramMalloc(8U);
-        s->anim = 1431;
-        s->variant = var_r4;
+        s->anim = ANIM_TIME_RECORD_RANKS;
+        s->variant = rank;
         s->oamFlags = 0x40;
         s->frameFlags = 0;
         s->animCursor = 0;
@@ -2208,18 +2208,16 @@ void sub_8055E50(Strc_64_8056090 *strc)
     s32 temp_r4_2;
     s32 temp_sb;
     Sprite *s;
-    s32 n;
     u8 language = gStageData.language;
 
     temp_sb = strc->unk5E;
     temp_r4 = strc->unk5F;
 
     s = &strc->s;
-    n = 8;
     s->tiles = VramMalloc(TI2_NUM_TILES(gUnknown_080D1CE4[language][temp_r4]));
     s->anim = TI2_ANIM(gUnknown_080D1CE4[language][temp_r4]);
     s->variant = TI2_VARIANT(gUnknown_080D1CE4[language][temp_r4]);
-    s->oamFlags = 0x80;
+    s->oamFlags = SPRITE_OAM_ORDER(2);
     s->frameFlags = 0;
     s->animCursor = 0;
     s->x = DISPLAY_CENTER_X;
@@ -2231,11 +2229,10 @@ void sub_8055E50(Strc_64_8056090 *strc)
     s->hitboxes[0].index = -1;
 
     s = &strc->s2;
-
     s->tiles = VramMalloc(TI2_NUM_TILES(gUnknown_080D1CD2[temp_sb]));
     s->anim = TI2_ANIM(gUnknown_080D1CD2[temp_sb]);
     s->variant = TI2_VARIANT(gUnknown_080D1CD2[temp_sb]);
-    s->oamFlags = 0x80;
+    s->oamFlags = SPRITE_OAM_ORDER(2);
     s->frameFlags = 0;
     s->animCursor = 0;
     s->x = DISPLAY_CENTER_X;
@@ -2274,7 +2271,7 @@ void sub_8055F28(void)
     strc->fade.window = 1;
     strc->fade.flags = 2;
     strc->fade.brightness = 0;
-    strc->fade.speed = 0x400;
+    strc->fade.speed = Q(4);
     strc->fade.bldCnt = 0xBF;
     strc->fade.bldAlpha = 0;
 

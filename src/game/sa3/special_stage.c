@@ -1074,7 +1074,7 @@ Task *sub_80B33D0(SpStgContext *ctx)
     memcpy(sp18, gUnknown_080DC36C, sizeof(sp18));
 #endif
 
-    sp2C = gUnknown_080DC380;
+    sp2C = gAnimData_SpStageMultiplier;
 
     temp_r6 = ctx->unk8C7;
     t = TaskCreate(Task_80B3648, sizeof(Arg2Task8), 0x9000U, 0U, NULL);
