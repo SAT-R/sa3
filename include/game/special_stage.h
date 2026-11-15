@@ -71,7 +71,7 @@ typedef struct {
     /* 0x8BC */ u16 unk8BC;
     /* 0x8BE */ s16 unk8BE;
     /* 0x8C0 */ s16 unk8C0;
-    /* 0x8C2 */ s16 unk8C2;
+    /* 0x8C2 */ s16 ringsRequired;
     /* 0x8C4 */ u16 unk8C4;
     /* 0x8C6 */ u8 unk8C6;
     /* 0x8C7 */ u8 unk8C7;
@@ -272,102 +272,19 @@ typedef struct {
 
 typedef void (*SpStgFunc)(s16, Strc_8E2EF8C_2 *);
 
-s16 sub_80B5944(s16 param0, s16 param1_);
-s16 sub_80B5AD4(s16 param0, const Strc_8E2EF8C *param1, Strc_8E2EF8C_2 *param2, s32 param3);
-s16 sub_80B65FC(s16, Strc_8E2EF8C_2 *, s32 unused);
-
-struct Task *sub_80B33D0(SpStgContext *ctx);
-struct Task *sub_80B48A4(SpStgContext *strc);
-void SpStage_InitializeBoost(SpStgContext *strc, s32 unk1);
-struct Task *sub_80B4E1C(SpStgContext *strc);
-struct Task *sub_80B3314(SpStgContext *strc);
-struct Task *sub_80B22CC(SpStgContext *strc);
-
 extern void sub_800341C(void);
 extern void sub_808ADF0(u8 param0);
 extern void sub_80AB120(u8 param0);
-void sub_80B1AF4(s16 param0, s16 param1, u8 param2);
-void Task_8E8_80B1E34(void);
-void sub_2A4_80B26FC(void);
-void Task_8E8_80B1F4C(void);
-void Task_8E8_80B205C(void);
-void Task_SpStage8E8_Destroy(void);
-void TaskDestructor_80B2224(struct Task *t);
-void Task_8E8_80B2228(void);
-void Task_8E8_80B2284(void);
-void Task_2A4_80B2358(void);
-void sub_80B24AC(SpStage2A4 *strc2A4);
-void sub_2A4_80B2640(void);
-void sub_2A4_80B26FC(void);
-void sub_80B28AC(SpStage2A4 *strc2A4);
-void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex);
-void sub_80B2B38(SpStage2A4 *strc2A4);
-void sub_80B2C98(SpStage2A4 *strc2A4, u8 param1);
-void sub_80B2D0C(SpStage2A4 *strc2A4);
-void sub_80B2D90(SpStage2A4 *strc2A4);
-void sub_80B2D9C(SpStage2A4 *strc2A4);
-void sub_80B2DF4(SpStage2A4 *strc2A4);
-void sub_80B2E9C(SpStage2A4 *strc2A4);
-void sub_80B2ED4(SpStage2A4 *strc2A4);
-void TaskDestructor_80B2D84(struct Task *t);
-void Task_80B3080(void);
-void TaskDestructor_80B339C(Task *t);
-void sub_80B33CC(Arg2Task0 *strc);
-void Task_80B3648(void);
-void Task_80B36F4(void);
-void sub_80B37F0(void);
-void sub_80B39B8(void);
-void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
-void sub_80B4508(Arg2Task8 *task8);
-void sub_80B4654(SpStgContext *arg0, s8 arg1);
-void sub_80B46DC(void);
-void sub_80B51F4(SpStgContext *arg0);
-void sub_80B5450(void);
-void sub_80B62FC(SpStgContext *);
-void sub_80B6370(s16, Arg2Task4_x744 *);
-void sub_80B6464(s16, Arg2Task4_x744 *);
-void sub_80B59E4();
-void sub_80B6778(SpStgContext *arg0, s32 *arg1);
-void sub_80B46B0(SpStgContext *);
-bool8 sub_80B47C4();
-void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
-void Task_80B494C(void);
-void sub_80B4B68(Arg2TaskC *);
-void Task_80B4D08(void);
-void sub_80B4D58(Arg2TaskC *temp_r2);
-void sub_80B4DA8(Arg2TaskC *);
-void sub_80B4EEC(SpStgContext *ctx, s16 arg1);
-void sub_80B4FA8(SpStgContext *ctx, s16 arg1);
-void Task_80B5038(void);
-void sub_80B524C(void);
-void sub_80B5CC4(s16 param0, u16 *param1); // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
-void sub_80B6198(SpStgContext *arg0, s16 arg1);
-void sub_80B6B20(void);
-void sub_80B6538(Strc_8E2EF8C_3 *);
-// TODO: sub_80B67C4's arg0 type
-s16 sub_80B67C4(Strc_8E2EF8C_2 *arg0, Strc_8E2EF8C_3 *arg1, SpStgContext *arg2, s32 arg3);
-void sub_8E8_80B69B4(Sprite *);
+extern void sub_80B1AF4(s16 param0, s16 param1, u8 param2);
 
-void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
-void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
-s16 sub_80B6CA4(Arg4_80B4498 *arg0);
-void sub_80B6CD8(u8, u8, u8, u8);
-void Task_80B6D78(void);
-void TaskDestructor_SpStage288(struct Task *t);
-void sub_80B7074(void);
-void Task_80B7470(void);
-void Task_80B75A0(void);
-void sub_80B73A4(void);
-void Task_80B7314(void);
+extern void sub_80BE46C(Sprite *s);
 
-s16 sa3__sub_80B1560(const s16 *unk28, u16 unk5C);
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
 
-extern const s16 gUnknown_080DBE82[7][2];
-extern const TileInfo3 gUnknown_080DBEA0[11];
+extern const TileInfo3 sTileInfo_SpStageDigits[11];
 extern const TileInfo_16_2 gUnknown_080DBEF8[];
-extern const TileInfo_16_2 gUnknown_080DBF58[];
-extern const s16 gUnknown_080DBF68;
+extern const TileInfo_16_2 gUnknown_080DBF48[];
+extern const s16 gUnknown_080DBF68[22];
 extern const s16 gUnknown_080DC3E8[8];
 extern const s16 gUnknown_080DC3F8[8];
 extern const s16 gUnknown_080DC408[8];

@@ -270,26 +270,6 @@ typedef struct {
     /* 0x08 */ s16 y;
 } SpriteTransform; /* size 0xA */
 
-typedef struct {
-    /* 0x00 */ u32 numTiles;
-    /* 0x04 */ AnimId anim;
-    /* 0x06 */ u8 variant;
-} TileInfo;
-
-// TileInfo, but ordered differently
-typedef struct {
-    /* 0x00 */ AnimId anim;
-    /* 0x02 */ u8 variant;
-    /* 0x04 */ u32 numTiles;
-} TileInfo2;
-
-// TileInfo, but ordered differently
-typedef struct {
-    /* 0x00 */ AnimId anim;
-    /* 0x02 */ u8 variant;
-    /* 0x04 */ u16 numTiles;
-} TileInfo3;
-
 // Used in places where the RODATA is u16[n][3] instead of TileInfo.
 #define TI_NUM_TILES(arr) (arr)[0]
 #define TI_ANIM(arr)      (arr)[1]
@@ -311,6 +291,26 @@ typedef struct {
     u16 variant;
     u16 numTiles;
 } TileInfo_16_2;
+
+typedef struct {
+    /* 0x00 */ u32 numTiles;
+    /* 0x04 */ AnimId anim;
+    /* 0x06 */ u8 variant;
+} TileInfo;
+
+// TileInfo, but ordered differently
+typedef struct {
+    /* 0x00 */ AnimId anim;
+    /* 0x02 */ u8 variant;
+    /* 0x04 */ u32 numTiles;
+} TileInfo2;
+
+// TileInfo, but ordered differently
+typedef struct {
+    /* 0x00 */ AnimId anim;
+    /* 0x02 */ u8 variant;
+    /* 0x04 */ u16 numTiles;
+} TileInfo3;
 
 extern const u8 gOamShapesSizes[12][2];
 

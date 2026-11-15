@@ -13,6 +13,12 @@
 #include "constants/move_states.h"
 #include "constants/songs.h"
 
+typedef enum {
+    LAP_1,
+    LAP_2,
+    LAP_COUNT,
+} ELaps;
+
 /* TODO: WarpToMap needs to be declared like this for the call in Task_80B7470() to match to match:
  * 'void WarpToMap(s32 level, s16 warpId);'
  * but level is s16 in the implementation and most other calls... */
@@ -20,7 +26,91 @@ extern void WarpToMap(s32 level, s16 warpId);
 // declare sub_8001E58() here because of the WarpToMap issue
 bool32 sub_8001E58(void);
 
-extern void sub_80BE46C(Sprite *s);
+s16 sub_80B5944(s16 param0, s16 param1_);
+s16 sub_80B5AD4(s16 param0, const Strc_8E2EF8C *param1, Strc_8E2EF8C_2 *param2, s32 param3);
+s16 sub_80B65FC(s16, Strc_8E2EF8C_2 *, s32 unused);
+
+struct Task *sub_80B33D0(SpStgContext *ctx);
+struct Task *sub_80B48A4(SpStgContext *strc);
+void SpStage_InitializeBoost(SpStgContext *strc, s32 unk1);
+struct Task *sub_80B4E1C(SpStgContext *strc);
+struct Task *sub_80B3314(SpStgContext *strc);
+struct Task *sub_80B22CC(SpStgContext *strc);
+
+void Task_8E8_80B1E34(void);
+void sub_2A4_80B26FC(void);
+void Task_8E8_80B1F4C(void);
+void Task_8E8_80B205C(void);
+void Task_SpStage8E8_Destroy(void);
+void TaskDestructor_80B2224(struct Task *t);
+void Task_8E8_80B2228(void);
+void Task_8E8_80B2284(void);
+void Task_2A4_80B2358(void);
+void sub_80B24AC(SpStage2A4 *strc2A4);
+void sub_2A4_80B2640(void);
+void sub_2A4_80B26FC(void);
+void sub_80B28AC(SpStage2A4 *strc2A4);
+void sub_80B29B4(SpStage2A4 *strc2A4, ELaps laps);
+void sub_80B2B38(SpStage2A4 *strc2A4);
+void sub_80B2C98(SpStage2A4 *strc2A4, u8 param1);
+void sub_80B2D0C(SpStage2A4 *strc2A4);
+void sub_80B2D90(SpStage2A4 *strc2A4);
+void CreateNotificationText_Start(SpStage2A4 *strc2A4);
+void sub_80B2DF4(SpStage2A4 *strc2A4);
+void sub_80B2E9C(SpStage2A4 *strc2A4);
+void sub_80B2ED4(SpStage2A4 *strc2A4);
+void TaskDestructor_80B2D84(struct Task *t);
+void Task_80B3080(void);
+void TaskDestructor_80B339C(Task *t);
+void sub_80B33CC(Arg2Task0 *strc);
+void Task_80B3648(void);
+void Task_80B36F4(void);
+void sub_80B37F0(void);
+void sub_80B39B8(void);
+void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
+void sub_80B4508(Arg2Task8 *task8);
+void sub_80B4654(SpStgContext *arg0, s8 arg1);
+void sub_80B46DC(void);
+void sub_80B51F4(SpStgContext *arg0);
+void sub_80B5450(void);
+void sub_80B62FC(SpStgContext *);
+void sub_80B6370(s16, Arg2Task4_x744 *);
+void sub_80B6464(s16, Arg2Task4_x744 *);
+void sub_80B59E4();
+void sub_80B6778(SpStgContext *arg0, s32 *arg1);
+void sub_80B46B0(SpStgContext *);
+bool8 sub_80B47C4();
+void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
+void Task_80B494C(void);
+void sub_80B4B68(Arg2TaskC *);
+void Task_80B4D08(void);
+void sub_80B4D58(Arg2TaskC *temp_r2);
+void sub_80B4DA8(Arg2TaskC *);
+void sub_80B4EEC(SpStgContext *ctx, s16 arg1);
+void sub_80B4FA8(SpStgContext *ctx, s16 arg1);
+void Task_80B5038(void);
+void sub_80B524C(void);
+void sub_80B5CC4(s16 param0, u16 *param1); // TODO: Should be void sub_80B5CC4(s16 param0, Strc_8E2EF8C_2 *param1);
+void sub_80B6198(SpStgContext *arg0, s16 arg1);
+void sub_80B6B20(void);
+void sub_80B6538(Strc_8E2EF8C_3 *);
+// TODO: sub_80B67C4's arg0 type
+s16 sub_80B67C4(Strc_8E2EF8C_2 *arg0, Strc_8E2EF8C_3 *arg1, SpStgContext *arg2, s32 arg3);
+void sub_8E8_80B69B4(Sprite *);
+
+void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
+void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
+s16 sub_80B6CA4(Arg4_80B4498 *arg0);
+void sub_80B6CD8(u8, u8, u8, u8);
+void Task_80B6D78(void);
+void TaskDestructor_SpStage288(struct Task *t);
+void sub_80B7074(void);
+void Task_80B7470(void);
+void Task_80B75A0(void);
+void sub_80B73A4(void);
+void Task_80B7314(void);
+
+s16 sa3__sub_80B1560(const s16 *unk28, u16 unk5C);
 
 void *gUnknown_03001E9C = NULL, *gUnknown_03001EA0 = NULL; // VRAM Pointers referencing eachother
 
@@ -28,8 +118,33 @@ const s16 gUnknown_080DBE58[][3] = {
     { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 },
 };
 
-const s16 gUnknown_080DBE82[7][2] = {
-    { 80, 160 }, { 80, 160 }, { 90, 180 }, { 90, 180 }, { 100, 200 }, { 110, 220 }, { 120, 260 },
+const s16 sRingRequirements[NUM_COURSE_ZONES][LAP_COUNT] = {
+    [ZONE_1] = { 80, 160 },  [ZONE_2] = { 80, 160 },  [ZONE_3] = { 90, 180 },  [ZONE_4] = { 90, 180 },
+    [ZONE_5] = { 100, 200 }, [ZONE_6] = { 110, 220 }, [ZONE_7] = { 120, 260 },
+};
+
+const TileInfo3 sTileInfo_SpStageDigits[11] = {
+    { ANIM_ASCII, ANIM_ASCII_CHAR('0'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR('1'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR('2'), 2 },
+    { ANIM_ASCII, ANIM_ASCII_CHAR('3'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR('4'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR('5'), 2 },
+    { ANIM_ASCII, ANIM_ASCII_CHAR('6'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR('7'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR('8'), 2 },
+    { ANIM_ASCII, ANIM_ASCII_CHAR('9'), 2 }, { ANIM_ASCII, ANIM_ASCII_CHAR(':'), 2 },
+};
+
+const TileInfo_16_2 gUnknown_080DBEF8[14] = {
+    [0] = { ANIM_SP_STAGE_NOTIF_DIGITS, 9, 4 }, // 0
+    [1] = { ANIM_SP_STAGE_NOTIF_DIGITS, 0, 4 }, // 1
+    [2] = { ANIM_SP_STAGE_NOTIF_DIGITS, 1, 4 }, // 2
+    [3] = { ANIM_SP_STAGE_NOTIF_DIGITS, 2, 4 }, // 3
+    [4] = { ANIM_SP_STAGE_NOTIF_DIGITS, 3, 4 }, // 4
+    [5] = { ANIM_SP_STAGE_NOTIF_DIGITS, 4, 4 }, // 5
+    [6] = { ANIM_SP_STAGE_NOTIF_DIGITS, 5, 4 }, // 6
+    [7] = { ANIM_SP_STAGE_NOTIF_DIGITS, 6, 4 }, // 7
+    [8] = { ANIM_SP_STAGE_NOTIF_DIGITS, 7, 4 }, // 8
+    [9] = { ANIM_SP_STAGE_NOTIF_DIGITS, 8, 4 }, // 9
+    [10] = { ANIM_SP_STAGE_NOTIF, 0, 10 }, // "GET"
+    [11] = { ANIM_SP_STAGE_NOTIF, 1, 14 }, // "RINGS"
+    [12] = { ANIM_SP_STAGE_NOTIF, 2, 14 }, // "GOOD!"
+    [13] = { ANIM_SP_STAGE_NOTIF, 3, 10 }, // "BAD!"
 };
 
 void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
@@ -64,15 +179,15 @@ void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
     temp_r2->unk8CC = 0;
     temp_r2->unk8CD = 0;
     temp_r2->unk8C0 = 0;
-    temp_r2->unk8C2 = gUnknown_080DBE82[zone][0];
+    temp_r2->ringsRequired = sRingRequirements[zone][LAP_1];
     temp_r2->unk8C4 = 0;
     temp_r2->unk8C8 = 0;
     temp_r2->unk8CE = 0;
     temp_r2->unk8CF = 0;
     temp_r2->unk8D0 = 0;
-    temp_r2->unk8D1 = (s8)Div(temp_r2->unk8C2, 100);
-    temp_r2->unk8D2 = (s8)(Div(temp_r2->unk8C2, 10) - (temp_r2->unk8D1 * 10));
-    temp_r2->unk8D3 = (s8)Mod(temp_r2->unk8C2, 10);
+    temp_r2->unk8D1 = (s8)Div(temp_r2->ringsRequired, 100);
+    temp_r2->unk8D2 = (s8)(Div(temp_r2->ringsRequired, 10) - (temp_r2->unk8D1 * 10));
+    temp_r2->unk8D3 = (s8)Mod(temp_r2->ringsRequired, 10);
     temp_r2->unk8D4 = 0;
     temp_r2->unk8D5 = 0;
     temp_r2->unk8D6 = 0;
@@ -304,13 +419,13 @@ void Task_SpStage8E8_Destroy(void)
     }
     if (gStageData.unkD == 0) {
         var_r4 = 0;
-        if ((s32)strc->unk8C2 <= (s32)strc->unk8C0) {
+        if ((s32)strc->ringsRequired <= (s32)strc->unk8C0) {
             var_r4 = 1;
         }
         sub_80B6CD8(var_r4, strc->unk8C7, strc->unk8C6, strc->unk8C9);
     } else if (((s8)strc->unk8D4 == 0) || (strc->unk8C7 == 6)) {
         var_r4 = 0;
-        if (strc->unk8C2 <= strc->unk8C0) {
+        if (strc->ringsRequired <= strc->unk8C0) {
             var_r4 = 1;
         }
 
@@ -381,7 +496,7 @@ void Task_2A4_80B2358()
     sub_2A4_80B2640();
     if (strc2A4->unk288 == 0) {
         if (temp_r6->unk8C4 == 4) {
-            sub_80B2D9C(strc2A4);
+            CreateNotificationText_Start(strc2A4);
         }
     } else {
         sub_80B28AC(strc2A4);
@@ -421,9 +536,9 @@ void Task_2A4_80B2358()
     }
 
     if ((temp_r6->unk8C4 == 4) && (strc2A4->unk28A == 0)) {
-        sub_80B29B4(strc2A4, 0);
+        sub_80B29B4(strc2A4, LAP_1);
     } else if ((temp_r6->unk8C4 == 6) && (strc2A4->unk28A == 4)) {
-        sub_80B29B4(strc2A4, 1);
+        sub_80B29B4(strc2A4, LAP_2);
     } else if ((strc2A4->unk28A != 7) && (strc2A4->unk28A != 0) && (strc2A4->unk28A != 4)) {
         if (strc2A4->unk290[2] > Q(168)) {
             sub_80B2E9C(strc2A4);
@@ -436,23 +551,23 @@ void Task_2A4_80B2358()
 void sub_80B24AC(SpStage2A4 *strc2A4)
 {
     SpStgContext *temp_r5 = strc2A4->unk0;
-    const TileInfo3 *tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8CE];
+    const TileInfo3 *tiles = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8CE];
 
     sub_80B6BB8(&strc2A4->sprite4, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x64, 0x10, 1, tiles->variant, 0U);
-    tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8CF];
+    tiles = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8CF];
     sub_80B6BB8(&strc2A4->sprite2C, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x6C, 0x10, 1, tiles->variant, 0U);
 
-    tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8D0];
+    tiles = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D0];
     sub_80B6BB8(&strc2A4->sprite54, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x74, 0x10, 1, tiles->variant, 0U);
     sub_80B6BB8(&strc2A4->sprite7C, 0, 8, 1124, 0x1000U, 120, 0xE, 2, 0U, 0U);
 
-    tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8D1];
+    tiles = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D1];
     sub_80B6BB8(&strc2A4->spriteA4, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x7C, 0x18, 1, tiles->variant, 0U);
 
-    tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8D2];
+    tiles = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D2];
     sub_80B6BB8(&strc2A4->spriteCC, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x84, 0x18, 1, tiles->variant, 0U);
 
-    tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8D3];
+    tiles = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D3];
     sub_80B6BB8(&strc2A4->spriteF4, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x8C, 0x18, 1, tiles->variant, 0U);
 }
 
@@ -491,53 +606,53 @@ void sub_2A4_80B26FC(void)
 {
     SpStage2A4 *strc = TASK_DATA(gCurTask);
     SpStgContext *temp_r5 = strc->unk0;
-    const TileInfo3 *temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8CE];
-    Sprite *s = &strc->sprite4;
 
-    s->anim = temp_r2->anim;
-    s->variant = *(u16 *)&temp_r2->variant;
+    const TileInfo3 *digits = &sTileInfo_SpStageDigits[(s8)(u8)temp_r5->unk8CE];
+    Sprite *s = &strc->sprite4;
+    s->anim = digits->anim;
+    s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8CF];
+    digits = &sTileInfo_SpStageDigits[(s8)(u8)temp_r5->unk8CF];
     s = &strc->sprite2C;
-    s->anim = temp_r2->anim;
-    s->variant = *(u16 *)&temp_r2->variant;
+    s->anim = digits->anim;
+    s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    temp_r2 = &gUnknown_080DBEA0[(s8)temp_r5->unk8D0];
+    digits = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D0];
     s = &strc->sprite54;
-    s->anim = temp_r2->anim;
-    s->variant = *(u16 *)&temp_r2->variant;
+    s->anim = digits->anim;
+    s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8D1];
+    digits = &sTileInfo_SpStageDigits[(s8)(u8)temp_r5->unk8D1];
     s = &strc->spriteA4;
-    s->anim = temp_r2->anim;
-    s->variant = *(u16 *)&temp_r2->variant;
+    s->anim = digits->anim;
+    s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    temp_r2 = &gUnknown_080DBEA0[(s8)temp_r5->unk8D2];
+    digits = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D2];
     s = &strc->spriteCC;
-    s->anim = temp_r2->anim;
-    s->variant = *(u16 *)&temp_r2->variant;
+    s->anim = digits->anim;
+    s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    temp_r2 = &gUnknown_080DBEA0[(s8)temp_r5->unk8D3];
+    digits = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D3];
     s = &strc->spriteF4;
-    s->anim = temp_r2->anim;
-    s->variant = *(u16 *)&temp_r2->variant;
+    s->anim = digits->anim;
+    s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
 
     if ((s8)temp_r5->unk8D4 == 0) {
-        if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
+        if (temp_r5->unk8C0 >= temp_r5->ringsRequired) {
             temp_r5->unk8D4 = 1;
             temp_r5->unk8D6 = 1;
             temp_r5->unk8D7 = 120;
             s = &strc->sprite7C;
-            s->anim = 1124;
+            s->anim = ANIM_SP_STAGE_RING_COUNTER_BACKDROP;
             s->variant = 1;
             UpdateSpriteAnimation(&strc->sprite7C);
         }
     } else {
-        if (temp_r5->unk8C0 < temp_r5->unk8C2) {
+        if (temp_r5->unk8C0 < temp_r5->ringsRequired) {
             temp_r5->unk8D4 = 0;
             s = &strc->sprite7C;
-            s->anim = 1124;
+            s->anim = ANIM_SP_STAGE_RING_COUNTER_BACKDROP;
             s->variant = 0;
             UpdateSpriteAnimation(s);
         } else {
@@ -557,7 +672,7 @@ void sub_80B28AC(SpStage2A4 *strc2A4)
 
     temp_r6 = &strc2A4->sprite144;
     strc2A4->unk28E = (u16)strc2A4->unk28E + 0xC0;
-    a = sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk28E) >> 1;
+    a = sa3__sub_80B1560(gUnknown_080DBF68, strc2A4->unk28E) >> 1;
     s = &strc2A4->sprite144;
     s->x = gUnknown_080DBF94[0][1] + a;
     if (s->x > 0x012B) {
@@ -593,18 +708,17 @@ void sub_80B292C(SpStage2A4 *strc2A4)
     strc2A4->unk289 = 1;
 }
 
-void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex)
+void sub_80B29B4(SpStage2A4 *strc2A4, ELaps lap)
 {
     s16 sp18[5];
     s16 targetRingCount;
     u8 i;
     u8 var_sb;
-    const TileInfo_16_2 *tileInfo;
     SpStgContext *ctx = strc2A4->unk0;
 
-    targetRingCount = gUnknown_080DBE82[ctx->unk8C7][spStageHalfIndex];
-    sp18[0] = 0xA; // GET
-    sp18[4] = 0xB; // RINGS
+    targetRingCount = sRingRequirements[ctx->unk8C7][lap];
+    sp18[0] = 10; // GET
+    sp18[4] = 11; // RINGS
     sp18[1] = Div(targetRingCount, 100); // Digit of hundreds
     sp18[2] = (Div(targetRingCount, 10) - (sp18[1] * 10)); // Digit of tens
     sp18[3] = Mod(targetRingCount, 10); // Lowest digit
@@ -614,9 +728,9 @@ void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex)
         var_sb = 1;
     }
     for (i = 0; i < ARRAY_COUNT(sp18); i++) {
-        tileInfo = &gUnknown_080DBEF8[sp18[i]];
-        sub_80B6BB8(&strc2A4->sprites194[i], 1, tileInfo->numTiles, tileInfo->anim, 0, gUnknown_080DBF94[var_sb][i], gUnknown_080DBFCC[i],
-                    1, tileInfo->variant, 0);
+        const TileInfo_16_2 *digits = &gUnknown_080DBEF8[sp18[i]];
+        sub_80B6BB8(&strc2A4->sprites194[i], 1, digits->numTiles, digits->anim, 0, gUnknown_080DBF94[var_sb][i], gUnknown_080DBFCC[i], 1,
+                    digits->variant, 0);
         strc2A4->sprites194[i].animSpeed = SPRITE_ANIM_SPEED(1.0);
     }
     if (strc2A4->unk28A != 0) {
@@ -651,7 +765,7 @@ void sub_80B2B38(SpStage2A4 *strc2A4)
     var_r0 = (strc2A4->unk28A <= 3) ? strc2A4->unk28A : strc2A4->unk28A - 4;
 
     for (i = 0; i < ARRAY_COUNT(strc2A4->unk290); i++) {
-        sp00[i] = sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk290[i]) >> 1;
+        sp00[i] = sa3__sub_80B1560(gUnknown_080DBF68, strc2A4->unk290[i]) >> 1;
     }
 
     for (i = 0; i < ARRAY_COUNT(gUnknown_080DBF94[0]); i++) {
@@ -688,9 +802,11 @@ void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1)
     const TileInfo_16_2 *var_r5;
 
     if (arg1 == 0) {
-        var_r5 = &gUnknown_080DBF58[0];
+        // "GOOD!"
+        var_r5 = &gUnknown_080DBEF8[12];
     } else {
-        var_r5 = &gUnknown_080DBF58[1];
+        // "BAD!"
+        var_r5 = &gUnknown_080DBEF8[13];
     }
 
     sub_80B6BB8(&strc2A4->sprite25C, 1, var_r5->numTiles, var_r5->anim, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 1, var_r5->variant, 0);
@@ -707,7 +823,7 @@ void sub_80B2D0C(SpStage2A4 *strc2A4)
     Sprite *s;
     s16 x;
     strc2A4->unk28C += 0xC0;
-    x = (sa3__sub_80B1560(&gUnknown_080DBF68, strc2A4->unk28C) >> 1);
+    x = (sa3__sub_80B1560(gUnknown_080DBF68, strc2A4->unk28C) >> 1);
     s = &strc2A4->sprite25C;
     s->x = x;
     s->x += (u16)gUnknown_080DBF94[0][1];
@@ -731,12 +847,15 @@ void sub_80B2D8C(void) { }
 
 void sub_80B2D90(SpStage2A4 *strc2A4) { sub_80B24AC(strc2A4); }
 
-void sub_80B2D9C(SpStage2A4 *strc2A4)
+void CreateNotificationText_Start(SpStage2A4 *strc2A4)
 {
+    const u8 pattern = 0; // TODO: Remove magic num!
+    const u32 size = 20; // TODO: Remove magic num!
+    const AnimId anim = ANIM_SP_STAGE_START;
     Sprite *s = &strc2A4->sprite144;
     strc2A4->unk288 = 1;
     strc2A4->unk284 = gUnknown_03001EA0;
-    sub_80B6BB8(s, 0, 0x14, 0x471U, 0U, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 1, 0U, 0U);
+    sub_80B6BB8(s, pattern, size, anim, 0U, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 1, 0U, 0U);
     strc2A4->unk28E = 0;
 }
 
@@ -1366,7 +1485,7 @@ void sub_80B3B1C(void)
         task8->unkB0 = 0;
         taskC->unk60 = 0;
         taskC->unk64 = 0;
-        if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
+        if (temp_r5->unk8C0 >= temp_r5->ringsRequired) {
             task8->unkAC = 0xA;
             task8->sprite8.prevVariant = -1;
         } else {
@@ -1414,10 +1533,10 @@ void sub_80B3C28(void)
     if (task8->unkAC == 0xA) {
         s32 a, b;
         task8->unkB0 += 1;
-        if (temp_r6->unk8C2 < gUnknown_080DBE82[temp_r6->unk8C7][1]) {
+        if (temp_r6->ringsRequired < sRingRequirements[temp_r6->unk8C7][LAP_2]) {
             s32 temp_r4_2;
-            temp_r0 = (u16)temp_r6->unk8C2 + 1;
-            temp_r6->unk8C2 = (s16)temp_r0;
+            temp_r0 = (u16)temp_r6->ringsRequired + 1;
+            temp_r6->ringsRequired = (s16)temp_r0;
             temp_r4_2 = (s16)temp_r0;
             temp_r6->unk8D1 = Div(temp_r4_2, 100);
             temp_r6->unk8D2 = Div(temp_r4_2, 10) - (temp_r6->unk8D1 * 10);
@@ -1427,9 +1546,9 @@ void sub_80B3C28(void)
             temp_r4 = 0;
             task8->unkB0 = temp_r4;
             task8->unkAC = temp_r4;
-            temp_r0 = (u16)gUnknown_080DBE82[temp_r6->unk8C7][1];
+            temp_r0 = (u16)sRingRequirements[temp_r6->unk8C7][LAP_2];
             temp_r0_2 = temp_r0;
-            temp_r6->unk8C2 = (s16)temp_r0_2;
+            temp_r6->ringsRequired = (s16)temp_r0_2;
             temp_r4 = temp_r0_2 << 16;
             temp_r4 >>= 16;
             temp_r6->unk8D1 = (s8)Div(temp_r4, 100);
@@ -1458,7 +1577,7 @@ void sub_80B3D4C()
         task8->unkB0 = 0;
         temp_r2->unk60 = 0;
         temp_r2->unk64 = 0;
-        if (temp_r5->unk8C0 >= temp_r5->unk8C2) {
+        if (temp_r5->unk8C0 >= temp_r5->ringsRequired) {
             task8->unkAC = 0xF;
             task8->sprite8.prevVariant = -1;
             m4aSongNumStart(MUS_SPECIAL_STAGE_CLEAR);
