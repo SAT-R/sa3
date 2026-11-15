@@ -246,7 +246,8 @@
 #define ANIM_SP_STAGE_RING_COLLECT_EFFECT 1116
 #define ANIM_SP_STAGE_RING                1117
 
-#define ANIM_ASCII 1122
+#define ANIM_SP_STAGE_TXT_SPECIAL_STAGE 1120
+#define ANIM_ASCII                      1122
 
 #define ANIM_ASCII_FIRST_CHAR '!'
 

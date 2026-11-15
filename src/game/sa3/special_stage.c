@@ -43,7 +43,7 @@ void Task_8E8_80B1F4C(void);
 void Task_8E8_80B205C(void);
 void Task_SpStage8E8_Destroy(void);
 void TaskDestructor_80B2224(struct Task *t);
-void Task_8E8_80B2228(void);
+void Task_InitSpecialStageTxtAndMusic(void);
 void Task_8E8_80B2284(void);
 void Task_2A4_80B2358(void);
 void sub_80B24AC(SpStage2A4 *strc2A4);
@@ -162,7 +162,7 @@ void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
     gStageData.unk4 = 3;
     gPlayers[gStageData.playerIndex].moveState &= ~MOVESTATE_DEAD;
     sub_80B6B20();
-    temp_r2 = TASK_DATA(TaskCreate(Task_8E8_80B2228, sizeof(SpStgContext), 0x2000U, 0U, TaskDestructor_80B2224));
+    temp_r2 = TASK_DATA(TaskCreate(Task_InitSpecialStageTxtAndMusic, sizeof(SpStgContext), 0x2000U, 0U, TaskDestructor_80B2224));
     temp_r2->unk8B0 = 0x01000000;
     temp_r2->unk8B4 = 0x01000000;
     temp_r2->unk8B8 = 0;
@@ -440,12 +440,15 @@ void Task_SpStage8E8_Destroy(void)
 
 void TaskDestructor_80B2224(Task *arg0) { }
 
-void Task_8E8_80B2228(void)
+void Task_InitSpecialStageTxtAndMusic(void)
 {
     SpStgContext *strc = TASK_DATA(gCurTask);
+    const u8 pattern = 0; // TODO: Remove magic num!
+    const u32 size = 40; // TODO: Remove magic num!
+    const AnimId anim = ANIM_SP_STAGE_TXT_SPECIAL_STAGE;
 
     sub_80B1D30();
-    sub_80B6BB8(&strc->sprite14, 0, 0x28U, 0x460U, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 0, 0U, 0);
+    sub_80B6BB8(&strc->sprite14, pattern, size, anim, 0, DISPLAY_CENTER_X, DISPLAY_CENTER_Y, 0, 0U, 0);
     strc->unk8C4 = 1;
     m4aSongNumStart(MUS_SPECIAL_STAGE);
     gCurTask->main = Task_8E8_80B1DA0;
