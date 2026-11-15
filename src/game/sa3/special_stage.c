@@ -110,7 +110,7 @@ void Task_80B75A0(void);
 void sub_80B73A4(void);
 void Task_80B7314(void);
 
-s16 sa3__sub_80B1560(const s16 *unk28, u16 unk5C);
+extern s16 sa3__sub_80B1560(const s16 *unk28, u16 unk5C);
 
 void *gUnknown_03001E9C = NULL, *gUnknown_03001EA0 = NULL; // VRAM Pointers referencing eachother
 
@@ -145,6 +145,31 @@ const TileInfo_16_2 gUnknown_080DBEF8[14] = {
     [11] = { ANIM_SP_STAGE_NOTIF, 1, 14 }, // "RINGS"
     [12] = { ANIM_SP_STAGE_NOTIF, 2, 14 }, // "GOOD!"
     [13] = { ANIM_SP_STAGE_NOTIF, 3, 10 }, // "BAD!"
+};
+
+const s16 gUnknown_080DBF68[22] = {
+    [ 0] = 0x0000, 
+	[ 1] = 0x0000, 
+	[ 2] = 0x0000, 
+	[ 3] = 0x0000, 
+	[ 4] = 0x0000, 
+	[ 5] = 0x0000, 
+	[ 6] = 0x0000, 
+	[ 7] = 0x0000, 
+	[ 8] = 0x0384, 
+	[ 9] = 0x03C2, 
+	[10] = 0x0400, 
+	[11] = 0x043E, 
+	[12] = 0x047C, 
+	[13] = 0x0800, 
+	[14] = 0x0800, 
+	[15] = 0x0800, 
+	[16] = 0x0800, 
+	[17] = 0x0800, 
+	[18] = 0x0800, 
+	[19] = 0x0800, 
+	[20] = 0x0800, 
+	[21] = 0x0802,
 };
 
 void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
