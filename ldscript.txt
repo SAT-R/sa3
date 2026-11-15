@@ -348,6 +348,7 @@ SECTIONS {
         src/game/sa3/character_select.o(.rodata);
         data/data_1_4.o(.rodata);
         src/game/math.o(.rodata);
+        src/game/sa3/special_stage.o(.rodata);
         data/data_x.o(.rodata);
         src/game/sa3/partner_ai.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);

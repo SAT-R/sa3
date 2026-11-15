@@ -273,7 +273,7 @@ typedef struct {
 typedef void (*SpStgFunc)(s16, Strc_8E2EF8C_2 *);
 
 s16 sub_80B5944(s16 param0, s16 param1_);
-s16 sub_80B5AD4(s16 param0, Strc_8E2EF8C *param1, Strc_8E2EF8C_2 *param2, s32 param3);
+s16 sub_80B5AD4(s16 param0, const Strc_8E2EF8C *param1, Strc_8E2EF8C_2 *param2, s32 param3);
 s16 sub_80B65FC(s16, Strc_8E2EF8C_2 *, s32 unused);
 
 struct Task *sub_80B33D0(SpStgContext *ctx);
@@ -360,34 +360,35 @@ void Task_80B75A0(void);
 void sub_80B73A4(void);
 void Task_80B7314(void);
 
-s16 sa3__sub_80B1560(s16 *unk28, u16 unk5C);
-extern s16 gUnknown_080DBE82[2][2];
-extern TileInfo3 gUnknown_080DBEA0[11];
-extern TileInfo_16_2 gUnknown_080DBEF8[];
-extern TileInfo_16_2 gUnknown_080DBF58[];
-extern s16 gUnknown_080DBF68;
-extern s16 gUnknown_080DC3E8[8];
-extern s16 gUnknown_080DC3F8[8];
-extern s16 gUnknown_080DC408[8];
-extern s16 gUnknown_080DC418[8];
-extern s16 gUnknown_080DC428[7];
-extern s16 gUnknown_080DBF94[][5];
-extern u16 gUnknown_080DBFA8[6][3];
-extern u16 gUnknown_080DBFD8[];
-extern AnimId gUnknown_080DBFEC[];
-extern Arg4_80B4498 *gUnknown_080DC36C[5];
-extern Arg4_80B4498 gAnimData_SpStageMultiplier;
-extern TaskMain gUnknown_080DC388[24];
-extern s16 gUnknown_080DC436[8];
-extern const SpStgFunc gUnknown_080DC448[27];
-extern s16 gUnknown_080E30DC[12];
-extern s16 gUnknown_080E30F4[12];
+s16 sa3__sub_80B1560(const s16 *unk28, u16 unk5C);
 extern void *gUnknown_03001E9C, *gUnknown_03001EA0; // VRAM Pointers
-extern TileInfo3 gUnknown_080E3074[5];
-extern TileInfo3 gUnknown_080E309C[8];
 
-extern s16 gUnknown_080DBFCC[];
+extern const s16 gUnknown_080DBE82[7][2];
+extern const TileInfo3 gUnknown_080DBEA0[11];
+extern const TileInfo_16_2 gUnknown_080DBEF8[];
+extern const TileInfo_16_2 gUnknown_080DBF58[];
+extern const s16 gUnknown_080DBF68;
+extern const s16 gUnknown_080DC3E8[8];
+extern const s16 gUnknown_080DC3F8[8];
+extern const s16 gUnknown_080DC408[8];
+extern const s16 gUnknown_080DC418[8];
+extern const s16 gUnknown_080DC428[7];
+extern const s16 gUnknown_080DBF94[][5];
+extern const u16 gUnknown_080DBFA8[6][3];
+extern const u16 gUnknown_080DBFD8[];
+extern const AnimId gUnknown_080DBFEC[];
+extern const Arg4_80B4498 *gUnknown_080DC36C[5];
+extern const Arg4_80B4498 gAnimData_SpStageMultiplier;
+extern const TaskMain gUnknown_080DC388[24];
+extern const s16 gUnknown_080DC436[8];
+extern const SpStgFunc gUnknown_080DC448[27];
+extern const s16 gUnknown_080E30DC[12];
+extern const s16 gUnknown_080E30F4[12];
+extern const TileInfo3 gUnknown_080E3074[5];
+extern const TileInfo3 gUnknown_080E309C[8];
 
-extern Strc_8E2EF8C *gUnknown_08E2EF8C[];
+extern const s16 gUnknown_080DBFCC[];
+
+extern const Strc_8E2EF8C *gUnknown_08E2EF8C[];
 
 #endif // GUARD_SA3_SPECIAL_STAGE_H

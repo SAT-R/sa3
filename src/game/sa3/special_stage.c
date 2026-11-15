@@ -24,6 +24,14 @@ extern void sub_80BE46C(Sprite *s);
 
 void *gUnknown_03001E9C = NULL, *gUnknown_03001EA0 = NULL; // VRAM Pointers referencing eachother
 
+const s16 gUnknown_080DBE58[][3] = {
+    { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 }, { 512, 100, 512 },
+};
+
+const s16 gUnknown_080DBE82[7][2] = {
+    { 80, 160 }, { 80, 160 }, { 90, 180 }, { 90, 180 }, { 100, 200 }, { 110, 220 }, { 120, 260 },
+};
+
 void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
 {
     s32 *temp_r0;
@@ -428,7 +436,7 @@ void Task_2A4_80B2358()
 void sub_80B24AC(SpStage2A4 *strc2A4)
 {
     SpStgContext *temp_r5 = strc2A4->unk0;
-    TileInfo3 *tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8CE];
+    const TileInfo3 *tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8CE];
 
     sub_80B6BB8(&strc2A4->sprite4, 0, tiles->numTiles, tiles->anim, 0x1000U, 0x64, 0x10, 1, tiles->variant, 0U);
     tiles = &gUnknown_080DBEA0[(s8)temp_r5->unk8CF];
@@ -481,14 +489,11 @@ void sub_2A4_80B2640(void)
 
 void sub_2A4_80B26FC(void)
 {
-    TileInfo3 *temp_r2;
     SpStage2A4 *strc = TASK_DATA(gCurTask);
-    SpStgContext *temp_r5;
-    Sprite *s;
+    SpStgContext *temp_r5 = strc->unk0;
+    const TileInfo3 *temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8CE];
+    Sprite *s = &strc->sprite4;
 
-    temp_r5 = strc->unk0;
-    temp_r2 = &gUnknown_080DBEA0[(s8)(u8)temp_r5->unk8CE];
-    s = &strc->sprite4;
     s->anim = temp_r2->anim;
     s->variant = *(u16 *)&temp_r2->variant;
     UpdateSpriteAnimation(s);
@@ -594,7 +599,7 @@ void sub_80B29B4(SpStage2A4 *strc2A4, u8 spStageHalfIndex)
     s16 targetRingCount;
     u8 i;
     u8 var_sb;
-    TileInfo_16_2 *tileInfo;
+    const TileInfo_16_2 *tileInfo;
     SpStgContext *ctx = strc2A4->unk0;
 
     targetRingCount = gUnknown_080DBE82[ctx->unk8C7][spStageHalfIndex];
@@ -680,7 +685,7 @@ void sub_80B2B38(SpStage2A4 *strc2A4)
 
 void sub_80B2C98(SpStage2A4 *strc2A4, u8 arg1)
 {
-    TileInfo_16_2 *var_r5;
+    const TileInfo_16_2 *var_r5;
 
     if (arg1 == 0) {
         var_r5 = &gUnknown_080DBF58[0];
@@ -1043,8 +1048,6 @@ void TaskDestructor_80B339C(Task *t)
 }
 
 void sub_80B33CC(Arg2Task0 *strc) { }
-
-extern s16 gUnknown_080DBE58[][3];
 
 Task *sub_80B33D0(SpStgContext *ctx)
 {
@@ -2494,7 +2497,7 @@ void sub_80B5450(void)
     s32 sp[5];
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
     SpStgContext *ctx = strc4->unk0;
-    Strc_8E2EF8C *array = gUnknown_08E2EF8C[ctx->unk8C7];
+    const Strc_8E2EF8C *array = gUnknown_08E2EF8C[ctx->unk8C7];
     Arg2Task8 *strc8 = TASK_DATA(ctx->task8);
     Arg2TaskC *strcC = TASK_DATA(ctx->taskC);
     s16 sp20;
@@ -2648,9 +2651,9 @@ s16 sub_80B5944(s16 param0, s16 param1_)
     s32 fakematch = param1_ << 16;
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
     SpStgContext *ctx = strc4->unk0;
-    Strc_8E2EF8C *array0 = gUnknown_08E2EF8C[ctx->unk8C7];
+    const Strc_8E2EF8C *array0 = gUnknown_08E2EF8C[ctx->unk8C7];
     s16 max = param1_;
-    Strc_8E2EF8C *array = &array0[max];
+    const Strc_8E2EF8C *array = &array0[max];
     Arg2Task8 *temp_r5 = TASK_DATA(ctx->task8);
     Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
 
@@ -2678,7 +2681,6 @@ void sub_80B59E4(void)
 {
     Strc_8E2EF8C_2 sp00[20];
     SpStgFunc funcs[27];
-    Strc_8E2EF8C *temp_sb;
     Strc_8E2EF8C_2 *var_r5;
     s16 temp_r0_2;
     s32 temp_r6;
@@ -2687,8 +2689,8 @@ void sub_80B59E4(void)
     SpStgContext *temp_r1 = strc4->unk0;
     Arg2Task8 *temp_r8 = TASK_DATA(temp_r1->task8);
     Arg2TaskC *temp_r4 = TASK_DATA(temp_r1->taskC);
+    const Strc_8E2EF8C *temp_sb = gUnknown_08E2EF8C[temp_r1->unk8C7];
 
-    temp_sb = gUnknown_08E2EF8C[temp_r1->unk8C7];
     memcpy(funcs, gUnknown_080DC448, sizeof(funcs));
     temp_r6 = 30 - ((s32)temp_r4->unk54 >> 10);
     for (var_r1 = 0, var_r5 = &sp00[0]; var_r1 < 20; var_r1++, var_r5++) {
@@ -2712,27 +2714,22 @@ void sub_80B59E4(void)
     }
 }
 
-s16 sub_80B5AD4(s16 arg0, Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3)
+s16 sub_80B5AD4(s16 arg0, const Strc_8E2EF8C *arg1, Strc_8E2EF8C_2 *arg2, s32 arg3)
 {
     Strc_8E2EF8C_3 sp00;
     Strc_8E2EF8C_2 sp14;
-    Arg2Task4 *task4;
-    Strc_8E2EF8C *var_r5;
-    s16 dirX;
-    s16 dirY;
+    Arg2Task4 *task4 = TASK_DATA(gCurTask);
+    const Strc_8E2EF8C *var_r5 = arg1;
+    s16 dirX = SIN(task4->unk8E4);
+    s16 dirY = COS(task4->unk8E4) >> 4;
+    s16 var_sl = arg0;
     s16 var_r0;
     s32 temp_r0;
-    // s32 var_r8;
     s8 temp_r0_2;
     s16 i;
     s16 max;
-    s16 var_sl;
     Strc_8E2EF8C_2 *temp_r4;
-    task4 = TASK_DATA(gCurTask);
-    var_r5 = arg1;
-    dirX = SIN(task4->unk8E4);
-    dirY = COS(task4->unk8E4) >> 4;
-    var_sl = arg0;
+
     i = task4->unk8DE;
     max = (task4->unk8DE + 20);
     for (; (var_r5->unk0 != -1) && (i < max); var_r5++, i++) {
@@ -2903,8 +2900,8 @@ void sub_80B5EBC(s16 arg0, u16 *arg1)
     Arg2TaskC *sp2C = (void *)TASK_DATA(ctx->taskC);
     Sprite *sprDest = &strc4->sprites194[arg0];
     s32 sp34;
-    Strc_8E2EF8C *temp_r6_0 = gUnknown_08E2EF8C[ctx->unk8C7];
-    Strc_8E2EF8C *temp_r6 = &temp_r6_0[(s16)arg1[4]];
+    const Strc_8E2EF8C *temp_r6_0 = gUnknown_08E2EF8C[ctx->unk8C7];
+    const Strc_8E2EF8C *temp_r6 = &temp_r6_0[(s16)arg1[4]];
     s16 dirX = SIN(strc4->unk8E4);
     s16 dirY = COS(strc4->unk8E4) >> 4;
     s32 var_r3_2;
