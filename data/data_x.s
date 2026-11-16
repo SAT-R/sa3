@@ -29,8 +29,8 @@ gUnknown_080DBFD8:
 gUnknown_080DBFE8:
     .incbin "baserom_sa3.gba", 0x000DBFE8, 0x4
 
-    .global gUnknown_080DBFEC
-gUnknown_080DBFEC:
+    .global gTilemapIds_080DBFEC
+gTilemapIds_080DBFEC:
     .incbin "baserom_sa3.gba", 0x000DBFEC, 0x10
 
     .global gUnknown_080DBFFC

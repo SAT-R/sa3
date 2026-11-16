@@ -293,7 +293,7 @@ extern const s16 gUnknown_080DC428[7];
 extern const s16 gUnknown_080DBF94[][5];
 extern const u16 gUnknown_080DBFA8[6][3];
 extern const u16 gUnknown_080DBFD8[];
-extern const AnimId gUnknown_080DBFEC[];
+extern const u16 gTilemapIds_080DBFEC[];
 extern const Arg4_80B4498 *gUnknown_080DC36C[5];
 extern const Arg4_80B4498 gAnimData_SpStageMultiplier;
 extern const TaskMain gUnknown_080DC388[24];

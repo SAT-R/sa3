@@ -12,6 +12,7 @@
 #include "constants/animations.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 
 typedef enum {
     LAP_1,
@@ -98,7 +99,7 @@ void sub_80B6538(Strc_8E2EF8C_3 *);
 s16 sub_80B67C4(Strc_8E2EF8C_2 *arg0, Strc_8E2EF8C_3 *arg1, SpStgContext *arg2, s32 arg3);
 void sub_8E8_80B69B4(Sprite *);
 
-void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9);
+void sub_80B6B3C(Background *bg, s32 charBase, s32 screenBase, u16 tilemapId, u16 targetTilesX, u16 targetTilesY, u8 paletteOffset, u8 flags, u16 scrollX, u16 scrollY);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
 s16 sub_80B6CA4(Arg4_80B4498 *arg0);
 void sub_80B6CD8(u8, u8, u8, u8);
@@ -1138,8 +1139,10 @@ Task *sub_80B3314(SpStgContext *strc)
     AnimId sp18[7];
     Task *t;
     Arg2Task0 *task0;
+    const s32 charBase = 1;
+    const s32 screenBase = 16;
 
-    memcpy(&sp18, &gUnknown_080DBFEC, sizeof(sp18));
+    memcpy(&sp18, &gTilemapIds_080DBFEC, sizeof(sp18));
     t = TaskCreate(Task_80B3080, sizeof(Arg2Task0), 0x8000U, 0U, TaskDestructor_80B339C);
     task0 = TASK_DATA(t);
     task0->unk0 = strc;
@@ -1147,7 +1150,7 @@ Task *sub_80B3314(SpStgContext *strc)
     task0->unk8 = 0;
     task0->unkC = 0;
     task0->unk10 = 0;
-    sub_80B6B3C(&task0->bg14, 1, 0x10, sp18[strc->unk8C7], 0x80, 0x80, 0, 2, 0, 0);
+    sub_80B6B3C(&task0->bg14, charBase, screenBase, sp18[strc->unk8C7], 0x80, 0x80, 0, 2, 0, 0);
     sub_80B2EFC(task0);
     return t;
 }
@@ -2282,6 +2285,8 @@ void sub_80B4B68(Arg2TaskC *arg0)
     SpStgContext *temp_r7 = arg0->ctx;
     Arg2Task8 *temp_r2 = TASK_DATA(temp_r7->task8);
     u16 temp_r8 = 0xBE - ((s32)((arg0->unk4C + 0xFE100000) * 0x47) >> 0x14);
+    const s32 charBase = 0;
+    const s32 screenBase = 28;
 
     var_r3 = 0;
     switch (arg0->unk68) {
@@ -2326,7 +2331,7 @@ void sub_80B4B68(Arg2TaskC *arg0)
         var_r5 += (temp_r0_3) >> 1;
     }
 
-    sub_80B6B3C(&arg0->bg8, 0, 0x1C, var_r3, 0x10, 0x10, 0, 0x13, 0, 0);
+    sub_80B6B3C(&arg0->bg8, charBase, screenBase, var_r3, 0x10, 0x10, 0, 0x13, 0, 0);
 
     temp_r2_2 = (s16)var_r5;
     sa2__sub_8003EE4((u16)((u32)(arg0->unk58 << 0xE) >> 0x16), temp_r2_2, temp_r2_2, 0x40, 0x40, (s16)(s32)(s16)temp_r8,
@@ -3581,26 +3586,26 @@ void sub_80B6B20(void)
     gUnknown_03001E9C = NULL;
 }
 
-void sub_80B6B3C(Background *bg, s32 arg1, s32 arg2, u16 arg3, u16 arg4, u16 arg5, u8 arg6, u8 arg7, u16 arg8, u16 arg9)
+void sub_80B6B3C(Background *bg, s32 charBase, s32 screenBase, u16 tilemapId, u16 targetTilesX, u16 targetTilesY, u8 paletteOffset, u8 flags, u16 scrollX, u16 scrollY)
 {
-    bg->graphics.dest = BG_CHAR_ADDR(arg1);
+    bg->graphics.dest = BG_CHAR_ADDR(charBase);
     bg->graphics.anim = 0;
-    bg->layoutVram = ((void *)BG_VRAM + (arg2 << 11));
+    bg->layoutVram = BG_SCREEN_ADDR(screenBase);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = arg3;
+    bg->tilemapId = tilemapId;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
     bg->unk24 = 0;
-    bg->targetTilesX = arg4;
-    bg->targetTilesY = arg5;
-    bg->paletteOffset = arg6;
+    bg->targetTilesX = targetTilesX;
+    bg->targetTilesY = targetTilesY;
+    bg->paletteOffset = paletteOffset;
     bg->animFrameCounter = 0;
     bg->animDelayCounter = 0;
-    bg->flags = arg7;
-    bg->scrollX = arg8;
-    bg->scrollY = arg9;
+    bg->flags = flags;
+    bg->scrollX = scrollX;
+    bg->scrollY = scrollY;
     DrawBackground(bg);
 }
 
@@ -3690,14 +3695,16 @@ void Task_80B6D78(void)
     s16 var_r5;
     u8 i;
     u8 var_r6;
+    const s32 charBase = 0;
+    const s32 screenBase = 7;
 
     SpStage288 *strc288 = TASK_DATA(gCurTask);
 
-    gDispCnt = 0x1240;
-    gBgCntRegs[1] = 0x703;
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG1_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_0;
+    gBgCntRegs[1] = BGCNT_SCREENBASE(screenBase) | BGCNT_CHARBASE(charBase) | BGCNT_PRIORITY(3);
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
-    sub_80B6B3C(&strc288->bgC, 0, 7, 0x1ABU, 0x1E, 0x14, 0, 1, 0, 0);
+    sub_80B6B3C(&strc288->bgC, charBase, screenBase, TM_UNKNOWN_427, DISPLAY_WIDTH / TILE_WIDTH, DISPLAY_HEIGHT / TILE_WIDTH, 0, BACKGROUND_FLAGS_BG_ID(1), 0, 0);
     gBldRegs.bldY = 0;
     gBldRegs.bldCnt = 0;
     gBldRegs.bldAlpha = 0;
