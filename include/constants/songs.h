@@ -74,9 +74,9 @@
 #define MUS_ENDING_B      0x3F
 #define MUS_STAFF_CREDITS 0x40
 
-#define MUS_SPECIAL_STAGE          0x41
-#define MUS_SPECIAL_STAGE_RESULT_1 0x42
-#define MUS_SPECIAL_STAGE_RESULT_2 0x43
+#define MUS_SPECIAL_STAGE                    0x41
+#define MUS_SPECIAL_STAGE_RESULT_GOT_EMERALD 0x42
+#define MUS_SPECIAL_STAGE_RESULT_NO_EMERALD  0x43
 
 #define MUS_VS_MUSIC_1    0x44 // Checking connection
 #define MUS_VS_MUSIC_2    0x45

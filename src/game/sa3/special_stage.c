@@ -3725,11 +3725,13 @@ void Task_80B6D78(void)
             s = &strc288->sprite4C;
             sub_80B6BB8(s, 1, gUnknown_080E3074[strc288->unk27D].numTiles, gUnknown_080E3074[strc288->unk27D].anim, 0, 0x104, 0x14, 0,
                         gUnknown_080E3074[strc288->unk27D].variant, 0);
-            sub_80B6BB8(&strc288->sprite74, 1, 0x28U, 0x46DU, 0, 0x14A, 0x1C, 0, 1U, 0);
-            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_1);
+            sub_80B6BB8(&strc288->sprite74, 1, MAX_TILES_VARIANT(ANIM_SP_STAGE_UI_RESULT_MESSAGES, 1), ANIM_SP_STAGE_UI_RESULT_MESSAGES, 0,
+                        0x14A, 0x1C, 0, 1U, 0);
+            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_GOT_EMERALD);
         } else {
-            sub_80B6BB8(&strc288->sprite9C, 1, 0x20U, 0x46DU, 0, 0x42, 0x1C, 0, 0, 0);
-            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_2);
+            sub_80B6BB8(&strc288->sprite9C, 1, MAX_TILES_VARIANT(ANIM_SP_STAGE_UI_RESULT_MESSAGES, 0), ANIM_SP_STAGE_UI_RESULT_MESSAGES, 0,
+                        0x42, 0x1C, 0, 0, 0);
+            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_NO_EMERALD);
         }
     } else {
         const AnimId anim = ANIM_SP_STAGE_DISCLAIMERS;
@@ -3755,12 +3757,12 @@ void Task_80B6D78(void)
         sub_80B6BB8(&strc288->sprite9C, 1, 22, anim, 0, 0x8C, var_r5 + 28, 0, sp18 + 10, 0);
 
         if (strc288->unk27E != 0) {
-            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_1);
+            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_GOT_EMERALD);
         } else {
-            sub_80B6BB8(&strc288->spriteEC, 1, 0x14U, anim, 0, 0x24, 0x8C, 0, 0xCU, 0);
+            sub_80B6BB8(&strc288->spriteEC, 1, 20, anim, 0, 0x24, 0x8C, 0, 0xCU, 0);
             sub_80B6BB8(&strc288->sprite114, 1, 8U, anim, 0, 0xAC, 0x8C, 0, 0xEU, 0);
             strc288->unk282 = 0;
-            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_2);
+            m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_NO_EMERALD);
         }
     }
 
