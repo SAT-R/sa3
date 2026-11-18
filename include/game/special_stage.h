@@ -74,7 +74,7 @@ typedef struct {
     /* 0x8C2 */ s16 ringsRequired;
     /* 0x8C4 */ u16 unk8C4;
     /* 0x8C6 */ u8 unk8C6;
-    /* 0x8C7 */ u8 unk8C7;
+    /* 0x8C7 */ u8 zone;
     /* 0x8C8 */ u8 unk8C8;
     /* 0x8C9 */ u8 unk8C9;
     /* 0x8CA */ u8 unk8CA;
@@ -212,7 +212,7 @@ typedef struct {
     /* 0xB7 */ u8 unkB7;
     /* 0xB8 */ s8 unkB8;
     /* 0xB9 */ s8 unkB9;
-    /* 0xBC */ Arg4_80B4498 *unkBC;
+    /* 0xBC */ const Arg4_80B4498 *unkBC;
     /* 0xC0 */ Sprite spriteC0;
     /* 0xE8 */ Sprite spriteE8;
 } Arg2Task8; /* 0x110 */
@@ -294,8 +294,10 @@ extern const s16 gUnknown_080DBF94[][5];
 extern const u16 gUnknown_080DBFA8[6][3];
 extern const u16 gUnknown_080DBFD8[];
 extern const u16 gTilemapIds_080DBFEC[];
-extern const Arg4_80B4498 *gUnknown_080DC36C[5];
-extern const Arg4_80B4498 gAnimData_SpStageMultiplier;
+extern const s16 gUnknown_080DBFCC[];
+extern const Arg4_80B4498 gUnknown_080DBFFC[22];
+extern const Arg4_80B4498 *const gUnknown_080DC36C[5];
+extern const Arg4_80B4498 sAnimList_SpStageMultiplier;
 extern const TaskMain gUnknown_080DC388[24];
 extern const s16 gUnknown_080DC436[8];
 extern const SpStgFunc gUnknown_080DC448[27];
@@ -303,8 +305,6 @@ extern const s16 gUnknown_080E30DC[12];
 extern const s16 gUnknown_080E30F4[12];
 extern const TileInfo3 gUnknown_080E3074[5];
 extern const TileInfo3 gUnknown_080E309C[8];
-
-extern const s16 gUnknown_080DBFCC[];
 
 extern const Strc_8E2EF8C *gUnknown_08E2EF8C[];
 

@@ -259,6 +259,7 @@ gUnknown_08E2EF64:
     mPtr gUnknown_080DBFE8
     mPtr gUnknown_080DBFE8
 
+    @ Probably entity/ring positions.
     .global gUnknown_08E2EF8C
 gUnknown_08E2EF8C:
     mPtr gUnknown_080DC4B4

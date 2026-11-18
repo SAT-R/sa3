@@ -68,20 +68,35 @@ void Task_80B3648(void);
 void Task_80B36F4(void);
 void sub_80B37F0(void);
 void sub_80B39B8(void);
-void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, Arg4_80B4498 *arg4);
+void sub_80B3B1C(void);
+void sub_80B3BD4(void);
+void sub_80B3C28(void);
+void sub_80B3D4C(void);
+void sub_80B3E14(void);
+void sub_80B3E68(void);
+void sub_80B3F1C(void);
+void sub_80B407C(void);
+void sub_80B41B0(void);
+void sub_80B4294(void);
+void sub_80B43B4(void);
+void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, const Arg4_80B4498 *arg4);
 void sub_80B4508(Arg2Task8 *task8);
 void sub_80B4654(SpStgContext *arg0, s8 arg1);
 void sub_80B46DC(void);
+void sub_80B46E0(void);
+void sub_80B4738(void);
+void sub_80B4774(void);
+void sub_80B4778(void);
 void sub_80B51F4(SpStgContext *arg0);
 void sub_80B5450(void);
+void sub_80B59E4(void);
 void sub_80B62FC(SpStgContext *);
 void sub_80B6370(s16, Arg2Task4_x744 *);
 void sub_80B6464(s16, Arg2Task4_x744 *);
-void sub_80B59E4();
 void sub_80B6778(SpStgContext *arg0, s32 *arg1);
 void sub_80B46B0(SpStgContext *);
 bool8 sub_80B47C4();
-void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, Arg4_80B4498 *arg4);
+void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, const Arg4_80B4498 *arg4);
 void Task_80B494C(void);
 void sub_80B4B68(Arg2TaskC *);
 void Task_80B4D08(void);
@@ -102,7 +117,7 @@ void sub_8E8_80B69B4(Sprite *);
 void sub_80B6B3C(Background *bg, s32 charBase, s32 screenBase, u16 tilemapId, u16 targetTilesX, u16 targetTilesY, u8 paletteOffset,
                  u8 flags, u16 scrollX, u16 scrollY);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
-s16 sub_80B6CA4(Arg4_80B4498 *arg0);
+s16 sub_80B6CA4(const Arg4_80B4498 *arg0);
 void sub_80B6CD8(u8, u8, u8, u8);
 void Task_80B6D78(void);
 void TaskDestructor_SpStage288(struct Task *t);
@@ -155,6 +170,86 @@ const s16 gUnknown_080DBF68[22] = {
     [16] = 0x0800, [17] = 0x0800, [18] = 0x0800, [19] = 0x0800, [20] = 0x0800, [21] = 0x0802,
 };
 
+const s16 gUnknown_080DBF94[2][5] = {
+    { -436, -404, -388, -372, -336 },
+    { -436, -500, -396, -384, -336 },
+};
+
+const u16 gUnknown_080DBFA8[6][3] = {
+    { 40, ANIM_PAUSE_MENU, 2 }, { 40, ANIM_PAUSE_MENU, 3 }, { 40, ANIM_PAUSE_MENU, 4 },
+    { 40, ANIM_PAUSE_MENU, 5 }, { 40, ANIM_PAUSE_MENU, 6 }, { 40, ANIM_PAUSE_MENU, 7 },
+};
+
+const s16 gUnknown_080DBFCC[] = { 60, 80, 80, 80, 100, 0 };
+
+const u16 gUnknown_080DBFD8[] = { 1, 1, 1, 1, 1, 1, 1, 0 };
+
+const ColorRaw gUnknown_080DBFE8[2] = { RGB16(31, 2, 1), RGB16(0, 0, 0) };
+
+const u16 gTilemapIds_080DBFEC[] = { //
+    TM_UNKNOWN_434, TM_UNKNOWN_435, TM_UNKNOWN_436, TM_UNKNOWN_437, TM_UNKNOWN_438, TM_UNKNOWN_439, TM_UNKNOWN_440
+};
+
+// Sonic
+const Arg4_80B4498 sOnTornadoAnimList_Sonic[22] = {
+    { 0x92, 0, 64, 0x10, 0x00 }, { 0x94, 0, 64, 0x10, 0x01 }, { 0x94, 0, 64, 0x10, 0x00 }, { 0x95, 0, 16, 0x10, 0x00 },
+    { 0x96, 0, 64, 0x10, 0x00 }, { 0x93, 0, 64, 0x10, 0x00 }, { 0x93, 1, 64, 0x10, 0x00 }, { 0x67, 0, 25, 0x10, 0x00 },
+    { 0x67, 0, 25, 0x10, 0x00 }, { 0x92, 0, 64, 0x10, 0x00 }, { 0x97, 0, 30, 0x10, 0x00 }, { 0x97, 1, 20, 0x10, 0x00 },
+    { 0x9C, 0, 64, 0x10, 0x00 }, { 0x9C, 0, 64, 0x10, 0x00 }, { 0x92, 0, 64, 0x10, 0x00 }, { 0x97, 0, 30, 0x10, 0x00 },
+    { 0x97, 0, 30, 0x10, 0x00 }, { 0x99, 0, 30, 0x10, 0x00 }, { 0x99, 0, 30, 0x10, 0x00 }, { 0x9C, 0, 64, 0x10, 0x00 },
+    { 0x9C, 0, 64, 0x10, 0x00 }, { -1, -1, -1, 0, 0 },
+};
+
+// Amy
+const Arg4_80B4498 sOnTornadoAnimList_Amy[22] = {
+    { 0x31E, 0, 0x40, 0x10, 0 }, { 0x320, 0, 0x40, 0x10, 1 }, { 0x320, 0, 0x40, 0x10, 0 }, { 0x321, 0, 0x10, 0x10, 0 },
+    { 0x322, 0, 0x40, 0x10, 0 }, { 0x31F, 0, 0x40, 0x10, 0 }, { 0x31F, 1, 0x40, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },
+    { 0x328, 0, 0x40, 0x10, 0 }, { 0x31E, 0, 0x40, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 },
+    { 0x328, 0, 0x40, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 }, { 0x31E, 0, 0x40, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 },
+    { 0x323, 0, 0x19, 0x10, 0 }, { 0x325, 0, 0x1E, 0x10, 0 }, { 0x325, 0, 0x1E, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },
+    { 0x328, 0, 0x40, 0x10, 0 }, { -1, -1, -1, 0, 0 },
+};
+
+// Tails
+const Arg4_80B4498 sOnTornadoAnimList_Tails[22] = {
+    { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DA, 0, 0x40, 0x10, 1 }, { 0x1DA, 0, 0x40, 0x10, 0 }, { 0x1DB, 0, 0x10, 0x10, 0 },
+    { 0x1DC, 0, 0x40, 0x10, 0 }, { 0x1D9, 0, 0x40, 0x10, 0 }, { 0x1D9, 1, 0x40, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },
+    { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 },
+    { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 },
+    { 0x1DD, 0, 0x19, 0x10, 0 }, { 0x1DF, 0, 0x23, 0x10, 0 }, { 0x1DF, 0, 0x23, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },
+    { 0x1E2, 0, 0x40, 0x10, 0 }, { -1, -1, -1, 0, 0 },
+};
+
+// Cream
+const Arg4_80B4498 sOnTornadoAnimList_Cream[22] = {
+    { 0x0135, 0, 0x0040, 0x10, 0x00 }, { 0x0137, 0, 0x0040, 0x10, 0x01 },
+    { 0x0137, 0, 0x0040, 0x10, 0x00 }, { 0x0138, 0, 0x0010, 0x10, 0x00 },
+    { 0x0139, 0, 0x0040, 0x10, 0x00 }, { 0x0136, 0, 0x0040, 0x10, 0x00 },
+    { 0x0136, 1, 0x0040, 0x10, 0x00 }, { 0x013F, 0, 0x0040, 0x10, 0x00 },
+    { 0x013F, 0, 0x0040, 0x10, 0x00 }, { 0x0135, 0, 0x0040, 0x10, 0x00 },
+    { 0x013A, 0, 0x0019, 0x10, 0x00 }, { 0x013A, 0, 0x0019, 0x10, 0x00 },
+    { 0x013F, 0, 0x0040, 0x10, 0x00 }, { 0x013F, 0, 0x0040, 0x10, 0x00 },
+    { 0x0135, 0, 0x0040, 0x10, 0x00 }, { 0x013A, 0, 0x0019, 0x10, 0x00 },
+    { 0x013A, 0, 0x0019, 0x10, 0x00 }, { 0x013C, 0, 0x0019, 0x10, 0x00 },
+    { 0x013C, 0, 0x0019, 0x10, 0x00 }, { 0x013F, 0, 0x0040, 0x10, 0x00 },
+    { 0x013F, 0, 0x0040, 0x10, 0x00 }, { -1, -1, -1, 0, 0 },
+};
+
+// Knuckles
+const Arg4_80B4498 sOnTornadoAnimList_Knuckles[22] = {
+    { 0x027B, 0, 0x0040, 0x10, 0x00 }, { 0x027D, 0, 0x0040, 0x10, 0x01 },
+    { 0x027D, 0, 0x0040, 0x10, 0x00 }, { 0x027E, 0, 0x0010, 0x10, 0x00 },
+    { 0x027F, 0, 0x0040, 0x10, 0x00 }, { 0x027C, 0, 0x0040, 0x10, 0x00 },
+    { 0x027C, 1, 0x0040, 0x10, 0x00 }, { 0x0067, 0, 0x0019, 0x10, 0x00 },
+    { 0x0067, 0, 0x0019, 0x10, 0x00 }, { 0x027B, 0, 0x0040, 0x10, 0x00 },
+    { 0x0280, 0, 0x001E, 0x10, 0x00 }, { 0x0280, 0, 0x001E, 0x10, 0x00 },
+    { 0x0285, 0, 0x0040, 0x10, 0x00 }, { 0x0285, 0, 0x0040, 0x10, 0x00 },
+    { 0x027B, 0, 0x0040, 0x10, 0x00 }, { 0x0280, 0, 0x001E, 0x10, 0x00 },
+    { 0x0280, 0, 0x001E, 0x10, 0x00 }, { 0x0282, 0, 0x0023, 0x10, 0x00 },
+    { 0x0282, 0, 0x0023, 0x10, 0x00 }, { 0x0285, 0, 0x0040, 0x10, 0x00 },
+    { 0x0285, 0, 0x0040, 0x10, 0x00 }, { -1, -1, -1, 0, 0 },
+};
+
 void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
 {
     s32 *temp_r0;
@@ -180,7 +275,7 @@ void sub_80B1AF4(s16 character, s16 zone, u8 collectedEmeralds)
     } else {
         temp_r2->unk8C6 = TAILS;
     }
-    temp_r2->unk8C7 = zone;
+    temp_r2->zone = zone;
     temp_r2->unk8BE = 0;
     temp_r2->unk8CA = 1;
     temp_r2->unk8CB = 2;
@@ -246,7 +341,7 @@ void Task_8E8_80B1DA0(void)
     SpStgContext *strc = TASK_DATA(gCurTask);
     ScreenFade *fade = &strc->fade7C;
 
-    if ((gStageData.unkD == 0) || (strc->unk8C7 == 0)) {
+    if ((gStageData.unkD == 0) || (strc->zone == 0)) {
         Sprite *s = &strc->sprite14;
         DisplaySprite(s);
 
@@ -430,18 +525,18 @@ void Task_SpStage8E8_Destroy(void)
         if ((s32)strc->ringsRequired <= (s32)strc->unk8C0) {
             var_r4 = 1;
         }
-        sub_80B6CD8(var_r4, strc->unk8C7, strc->unk8C6, strc->unk8C9);
-    } else if (((s8)strc->unk8D4 == 0) || (strc->unk8C7 == 6)) {
+        sub_80B6CD8(var_r4, strc->zone, strc->unk8C6, strc->unk8C9);
+    } else if (((s8)strc->unk8D4 == 0) || (strc->zone == 6)) {
         var_r4 = 0;
         if (strc->ringsRequired <= strc->unk8C0) {
             var_r4 = 1;
         }
 
-        sub_80B6CD8(var_r4, strc->unk8C7, strc->unk8C6, strc->unk8C9);
+        sub_80B6CD8(var_r4, strc->zone, strc->unk8C6, strc->unk8C9);
     } else {
-        SetBit(strc->unk8C9, strc->unk8C7);
+        SetBit(strc->unk8C9, strc->zone);
         gStageData.unkD = 1;
-        sub_80B1AF4(0U, strc->unk8C7 + 1, strc->unk8C9);
+        sub_80B1AF4(0U, strc->zone + 1, strc->unk8C9);
     }
     TaskDestroy(gCurTask);
 }
@@ -727,7 +822,7 @@ void sub_80B29B4(SpStage2A4 *strc2A4, ELaps lap)
     u8 var_sb;
     SpStgContext *ctx = strc2A4->unk0;
 
-    targetRingCount = sRingRequirements[ctx->unk8C7][lap];
+    targetRingCount = sRingRequirements[ctx->zone][lap];
     sp18[0] = 10; // GET
     sp18[4] = 11; // RINGS
     sp18[1] = Div(targetRingCount, 100); // Digit of hundreds
@@ -1125,7 +1220,7 @@ void sub_80B3290(void)
 
     Arg2Task0 *strc = TASK_DATA(gCurTask);
     SpStgContext *temp_r1_2 = strc->unk0;
-    u8 *index = &temp_r1_2->unk8C7;
+    u8 *index = &temp_r1_2->zone;
     s16 temp_r0 = gUnknown_080DBFD8[*index];
 
     u8 *unk8BC = (u8 *)&temp_r1_2->unk8BC;
@@ -1157,7 +1252,7 @@ Task *sub_80B3314(SpStgContext *strc)
     task0->unk8 = 0;
     task0->unkC = 0;
     task0->unk10 = 0;
-    sub_80B6B3C(&task0->bg14, charBase, screenBase, sp18[strc->unk8C7], 0x80, 0x80, 0, 2, 0, 0);
+    sub_80B6B3C(&task0->bg14, charBase, screenBase, sp18[strc->zone], 0x80, 0x80, 0, 2, 0, 0);
     sub_80B2EFC(task0);
     return t;
 }
@@ -1183,7 +1278,6 @@ void sub_80B33CC(Arg2Task0 *strc) { }
 
 Task *sub_80B33D0(SpStgContext *ctx)
 {
-    Arg4_80B4498 sp2C;
     Arg2Task8 *sp34;
     u8 *sp38;
     Sprite *var_r0;
@@ -1195,23 +1289,12 @@ Task *sub_80B33D0(SpStgContext *ctx)
     u8 temp_r6;
     Arg2Task8 *strc;
     struct Task *t;
-#if 0
-    // TODO: Do this, once data is split off from assembly.
-    Arg4_80B4498 *sp18[5] = {
-        gUnknown_080DBFFC,
-        gUnknown_080DC20C,
-        gUnknown_080DC15C,
-        gUnknown_080DC2BC,
-        gUnknown_080DC0AC
-    };
-#else
-    Arg4_80B4498 *sp18[5];
-    memcpy(sp18, gUnknown_080DC36C, sizeof(sp18));
-#endif
 
-    sp2C = gAnimData_SpStageMultiplier;
+    const Arg4_80B4498 *sp18[NUM_CHARACTERS] = { &sOnTornadoAnimList_Sonic[0], &sOnTornadoAnimList_Cream[0], &sOnTornadoAnimList_Tails[0],
+                                                 &sOnTornadoAnimList_Knuckles[0], &sOnTornadoAnimList_Amy[0] };
+    Arg4_80B4498 sp2C = { ANIM_SP_STAGE_MULTIPLIER, 0, 2, 0x10, 0 };
 
-    temp_r6 = ctx->unk8C7;
+    temp_r6 = ctx->zone;
     t = TaskCreate(Task_80B3648, sizeof(Arg2Task8), 0x9000U, 0U, NULL);
     strc = TASK_DATA(t);
     strc->unk0 = ctx;
@@ -1295,14 +1378,11 @@ void Task_80B3648(void)
 
 void Task_80B36F4(void)
 {
-    TaskMain sp0[24];
-    SpStgContext *temp_r6;
-    u16 temp_r1;
-    u8 var_r0;
-
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    temp_r6 = task8->unk0;
-    memcpy(sp0, &gUnknown_080DC388, sizeof(sp0));
+    SpStgContext *temp_r6 = task8->unk0;
+    TaskMain tasks[24] = { sub_80B39B8, sub_80B46DC, sub_80B41B0, sub_80B4294, sub_80B4294, sub_80B43B4, sub_80B46E0, sub_80B3F1C,
+                           sub_80B407C, sub_80B4738, sub_80B4774, sub_80B3B1C, sub_80B3C28, sub_80B3C28, sub_80B3BD4, sub_80B3BD4,
+                           sub_80B3D4C, sub_80B3E68, sub_80B3E68, sub_80B4778, sub_80B4778, sub_80B3E14, sub_80B3E14, NULL };
     task8->unk88 += task8->unk94;
     task8->unk8C += 0x1BF00;
     temp_r6->unk8B4 = task8->unk8C;
@@ -1315,8 +1395,8 @@ void Task_80B36F4(void)
 
     if (temp_r6->unk8C8 == 0) {
         if (temp_r6->unk8C4 != 7) {
-            sp0[task8->unkAC + 2]();
-            sp0[0]();
+            tasks[task8->unkAC + 2]();
+            tasks[0]();
         }
 
         sub_80B37F0();
@@ -1325,7 +1405,7 @@ void Task_80B36F4(void)
             DisplaySprite(&task8->sprite8);
         }
     } else {
-        sp0[1]();
+        tasks[1]();
         sub_80B37F0();
         DisplaySprite(&task8->sprite8);
     }
@@ -1342,7 +1422,7 @@ void sub_80B37F0(void)
     Sprite *s;
     s16 temp_r6_2;
     s32 var_r0;
-    Arg4_80B4498 *var_sb;
+    const Arg4_80B4498 *var_sb;
     u16 temp_r0;
     u16 temp_r1;
     Arg2TaskC *taskC;
@@ -1546,7 +1626,7 @@ void sub_80B3C28(void)
     if (task8->unkAC == 0xA) {
         s32 a, b;
         task8->unkB0 += 1;
-        if (temp_r6->ringsRequired < sRingRequirements[temp_r6->unk8C7][LAP_2]) {
+        if (temp_r6->ringsRequired < sRingRequirements[temp_r6->zone][LAP_2]) {
             s32 temp_r4_2;
             temp_r0 = (u16)temp_r6->ringsRequired + 1;
             temp_r6->ringsRequired = (s16)temp_r0;
@@ -1559,7 +1639,7 @@ void sub_80B3C28(void)
             temp_r4 = 0;
             task8->unkB0 = temp_r4;
             task8->unkAC = temp_r4;
-            temp_r0 = (u16)sRingRequirements[temp_r6->unk8C7][LAP_2];
+            temp_r0 = (u16)sRingRequirements[temp_r6->zone][LAP_2];
             temp_r0_2 = temp_r0;
             temp_r6->ringsRequired = (s16)temp_r0_2;
             temp_r4 = temp_r0_2 << 16;
@@ -1929,7 +2009,7 @@ void sub_80B43B4(void)
     task8->unkAC = var_r5;
 }
 
-void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, Arg4_80B4498 *arg4)
+void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, const Arg4_80B4498 *arg4)
 {
     u32 var_r3;
     u8 temp_r2;
@@ -2005,6 +2085,8 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B4508.inc", void sub_80B4508(Ar
     DisplaySprite(s);
 }
 END_NONMATCH
+
+// TODO: split modules?
 
 void sub_80B4654(SpStgContext *arg0, s8 arg1)
 {
@@ -2112,7 +2194,7 @@ bool8 sub_80B47C4(void)
     return var_r1;
 }
 
-void sub_80B47EC(Sprite *s, s16 animSpeed, s16 arg2, s16 arg3, Arg4_80B4498 *arg4)
+void sub_80B47EC(Sprite *s, s16 animSpeed, s16 arg2, s16 arg3, const Arg4_80B4498 *arg4)
 {
     u32 frameFlags;
 
@@ -2153,7 +2235,7 @@ void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, Arg4_80B4498 *arg4)
 // -> taskC
 Task *sub_80B48A4(SpStgContext *ctx)
 {
-    u8 index = ctx->unk8C7;
+    u8 index = ctx->zone;
     Task *t = TaskCreate(Task_80B494C, sizeof(Arg2TaskC), 0xA000U, 0U, NULL);
     Arg2TaskC *temp_r5 = TASK_DATA(t);
     temp_r5->ctx = ctx;
@@ -2174,6 +2256,14 @@ Task *sub_80B48A4(SpStgContext *ctx)
 
     return t;
 }
+
+const s16 gUnknown_080DC3E8[] = { 0x0000, 0x0000, 0x0000, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400 };
+
+const s16 gUnknown_080DC3F8[] = { 0x0000, 0x0000, 0x007C, 0x007C, 0x0000, 0x0040, 0x0040, 0x0040 };
+
+const s16 gUnknown_080DC408[] = { 0x01E0, 0x0190, 0x0140, 0x0028, 0x0078, 0x00F0, 0x0140, 0x01E0 };
+
+const s16 gUnknown_080DC418[] = { 0x0800, 0x0200, 0x0080, 0x0080, 0x0202, 0x0202, 0x0202, 0x0202 };
 
 void Task_80B494C(void)
 {
@@ -2418,18 +2508,17 @@ void sub_80B4DA8(Arg2TaskC *taskC)
 
 Task *sub_80B4E1C(SpStgContext *ctx)
 {
-    s16 sp4[7];
+    const s16 sp4[7] = {
+        0x00CA, 0x00D8, 0x00ED, 0x00E8, 0x0112, 0x0106, 0x0126,
+    };
     u8 var_r0;
     u8 var_r0_2;
     Arg2Task4_x744 *var_r1;
-    Task *t;
-    Arg2Task4 *temp_r1;
+    Task *t = TaskCreate(Task_80B5038, sizeof(Arg2Task4), 0xB000U, 0U, NULL);
+    Arg2Task4 *temp_r1 = TASK_DATA(t);
 
-    memcpy(&sp4, gUnknown_080DC428, sizeof(sp4));
-    t = TaskCreate(Task_80B5038, sizeof(Arg2Task4), 0xB000U, 0U, NULL);
-    temp_r1 = TASK_DATA(t);
     temp_r1->unk0 = ctx;
-    temp_r1->unk8DA = sp4[ctx->unk8C7];
+    temp_r1->unk8DA = sp4[ctx->zone];
     temp_r1->unk8DC = 0;
     temp_r1->unk8E2 = 0;
     temp_r1->unk8E4 = 0;
@@ -2550,12 +2639,11 @@ void Task_80B5038(void)
 
 void sub_80B51F4(SpStgContext *arg0)
 {
-    s16 sp[8];
     Sprite *s = &arg0->sprite88;
-    memcpy(sp, &gUnknown_080DC436, sizeof(sp));
+    const s16 sp[8] = { ANIM_SP_STAGE_EMERALD, 0x047B, 0x047C, 0x047D, 0x047E, 0x047F, 0x0480, 0 };
     s->tiles = NULL;
     s->oamFlags = 0;
-    s->anim = sp[arg0->unk8C7];
+    s->anim = sp[arg0->zone];
     s->variant = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
@@ -2631,7 +2719,7 @@ void sub_80B5450(void)
     s32 sp[5];
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
     SpStgContext *ctx = strc4->unk0;
-    const Strc_8E2EF8C *array = gUnknown_08E2EF8C[ctx->unk8C7];
+    const Strc_8E2EF8C *array = gUnknown_08E2EF8C[ctx->zone];
     Arg2Task8 *strc8 = TASK_DATA(ctx->task8);
     Arg2TaskC *strcC = TASK_DATA(ctx->taskC);
     s16 sp20;
@@ -2785,7 +2873,7 @@ s16 sub_80B5944(s16 param0, s16 param1_)
     s32 fakematch = param1_ << 16;
     Arg2Task4 *strc4 = TASK_DATA(gCurTask);
     SpStgContext *ctx = strc4->unk0;
-    const Strc_8E2EF8C *array0 = gUnknown_08E2EF8C[ctx->unk8C7];
+    const Strc_8E2EF8C *array0 = gUnknown_08E2EF8C[ctx->zone];
     s16 max = param1_;
     const Strc_8E2EF8C *array = &array0[max];
     Arg2Task8 *temp_r5 = TASK_DATA(ctx->task8);
@@ -2810,11 +2898,15 @@ s16 sub_80B5944(s16 param0, s16 param1_)
     return max;
 }
 
+// // TODO: Should be void sub_80B6774(s16 param0, Strc_8E2EF8C_2 *param1);
+void sub_80B6774(s16 arg0, u16 *arg1);
+void sub_80B5DF4(s16 arg0, u16 *arg1);
+void sub_80B5EBC(s16 arg0, u16 *arg1);
+void sub_80B60E0(s16 arg0, u16 *arg1);
 // TODO: Fake-match
 void sub_80B59E4(void)
 {
     Strc_8E2EF8C_2 sp00[20];
-    SpStgFunc funcs[27];
     Strc_8E2EF8C_2 *var_r5;
     s16 temp_r0_2;
     s32 temp_r6;
@@ -2823,9 +2915,17 @@ void sub_80B59E4(void)
     SpStgContext *temp_r1 = strc4->unk0;
     Arg2Task8 *temp_r8 = TASK_DATA(temp_r1->task8);
     Arg2TaskC *temp_r4 = TASK_DATA(temp_r1->taskC);
-    const Strc_8E2EF8C *temp_sb = gUnknown_08E2EF8C[temp_r1->unk8C7];
+    const Strc_8E2EF8C *temp_sb = gUnknown_08E2EF8C[temp_r1->zone];
 
-    memcpy(funcs, gUnknown_080DC448, sizeof(funcs));
+    // TODO: Remove temporary (void*) casts!
+    SpStgFunc funcs[27] = {
+        (void *)sub_80B6774, (void *)sub_80B5CC4, (void *)sub_80B5CC4, (void *)sub_80B5CC4, (void *)sub_80B5EBC, (void *)sub_80B5CC4,
+        (void *)sub_80B5CC4, (void *)NULL,        (void *)NULL,        (void *)sub_80B5DF4, (void *)sub_80B5CC4, (void *)sub_80B60E0,
+        (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0,
+        (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)sub_80B60E0,
+        (void *)sub_80B60E0, (void *)sub_80B60E0, (void *)NULL,
+    };
+
     temp_r6 = 30 - ((s32)temp_r4->unk54 >> 10);
     for (var_r1 = 0, var_r5 = &sp00[0]; var_r1 < 20; var_r1++, var_r5++) {
         var_r5->unk0 = 0;
@@ -3034,7 +3134,7 @@ void sub_80B5EBC(s16 arg0, u16 *arg1)
     Arg2TaskC *sp2C = (void *)TASK_DATA(ctx->taskC);
     Sprite *sprDest = &strc4->sprites194[arg0];
     s32 sp34;
-    const Strc_8E2EF8C *temp_r6_0 = gUnknown_08E2EF8C[ctx->unk8C7];
+    const Strc_8E2EF8C *temp_r6_0 = gUnknown_08E2EF8C[ctx->zone];
     const Strc_8E2EF8C *temp_r6 = &temp_r6_0[(s16)arg1[4]];
     s16 dirX = SIN(strc4->unk8E4);
     s16 dirY = COS(strc4->unk8E4) >> 4;
@@ -3426,7 +3526,8 @@ s16 sub_80B65FC(s16 arg0, Strc_8E2EF8C_2 *arg1, s32 unused)
     return (s16)result;
 }
 
-void sub_80B6774(void) { }
+// // TODO: Should be void sub_80B6774(s16 param0, Strc_8E2EF8C_2 *param1);
+void sub_80B6774(s16 arg0, u16 *arg1) { }
 
 void sub_80B6778(SpStgContext *arg0, s32 *arg1)
 {
@@ -3662,7 +3763,7 @@ void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 fram
     }
 }
 
-s16 sub_80B6CA4(Arg4_80B4498 *arg0)
+s16 sub_80B6CA4(const Arg4_80B4498 *arg0)
 {
     s16 var_r3;
 
