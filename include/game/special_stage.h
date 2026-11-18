@@ -301,10 +301,10 @@ extern const Arg4_80B4498 sAnimList_SpStageMultiplier;
 extern const TaskMain gUnknown_080DC388[24];
 extern const s16 gUnknown_080DC436[8];
 extern const SpStgFunc gUnknown_080DC448[27];
-extern const s16 gUnknown_080E30DC[12];
-extern const s16 gUnknown_080E30F4[12];
 extern const TileInfo3 gUnknown_080E3074[5];
 extern const TileInfo3 gUnknown_080E309C[8];
+extern const s16 gUnknown_080E30DC[12];
+extern const s16 gUnknown_080E30F4[12];
 
 extern const Strc_8E2EF8C *gUnknown_08E2EF8C[];
 

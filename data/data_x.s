@@ -34,13 +34,25 @@ gUnknown_080E0D94:
 gUnknown_080E1E04:
     .incbin "baserom_sa3.gba", 0x000E1E04, 0x1270
 
+
     .global gUnknown_080E3074
 gUnknown_080E3074:
-    .incbin "baserom_sa3.gba", 0x000E3074, 0x28
+    .short 0x46E, 0, 0x18, 0 @ ANIM_SP_STAGE_UI_CHARACTER_NAMES
+    .short 0x46E, 4, 0x1B, 0 @ ANIM_SP_STAGE_UI_CHARACTER_NAMES
+    .short 0x46E, 1, 0x18, 0 @ ANIM_SP_STAGE_UI_CHARACTER_NAMES
+    .short 0x46E, 2, 0x1B, 0 @ ANIM_SP_STAGE_UI_CHARACTER_NAMES
+    .short 0x46E, 3, 0x12, 0 @ ANIM_SP_STAGE_UI_CHARACTER_NAMES
 
     .global gUnknown_080E309C
 gUnknown_080E309C:
-    .incbin "baserom_sa3.gba", 0x000E309C, 0x40
+    .short 0x466, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_RED        
+    .short 0x467, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_BLUE       
+    .short 0x468, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_YELLOW     
+    .short 0x469, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_GREEN      
+    .short 0x46A, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_WHITE      
+    .short 0x46B, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_CYAN       
+    .short 0x46C, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_PURPLE     
+    .short 0x465, 0, 9, 0 @ ANIM_SP_STAGE_UI_EMERALD_NONE
 
     .global gUnknown_080E30DC
 gUnknown_080E30DC:
