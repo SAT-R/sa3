@@ -3872,7 +3872,7 @@ void Task_80B6D78(void)
     gCurTask->main = Task_80B7314;
 }
 
-// (99.26%) https://decomp.me/scratch/Dl454
+// (99.26%) https://decomp.me/scratch/At6YK
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(void))
 {
     s16 sp00[12];
@@ -3883,11 +3883,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
     s32 temp_r2;
     u16 temp_r4;
     s16 var_r5;
-#ifndef NON_MATCHING
-    register s32 temp_r4_2 asm("r4");
-#else
-    s32 temp_r4_2;
-#endif
+    s16 temp_r4_2;
     u8 var_r4;
     s16 res2;
     u8 var_r6;
@@ -3942,25 +3938,20 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
             sp18[var_r4] = (s16)((s32)(COS((temp_r5 + (var_r4 * 0x46)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
         }
 
-        temp_r4_2 = (u16)sa3__sub_80B1560(sp00, (u16)sp34);
-        res2 = sa3__sub_80B1560((s16 *)&sp18, (u16)sp34);
-        temp_r4_2 <<= 16;
-        temp_r2 = ((var_r6 * 0x91) + (s16)temp_r4) & 0x3FF;
-        {
-            s32 sinValue = ((SIN(temp_r2) * 5) >> 11);
-            temp_r4_2 += 0x6C0000;
-            temp_r4_2 >>= 16;
-            temp_r4_2 += sinValue;
-            temp_r4_2 <<= 16;
-            temp_r4_2 = ((u32)temp_r4_2) >> 16;
-            res2 = (res2 + 0x5D);
-            res2 -= ((COS(temp_r2) * 5) >> 11);
-            res2 += var_r5;
-        }
+        temp_r4_2 = sa3__sub_80B1560(sp00, sp34);
+        res2 = sa3__sub_80B1560(sp18, sp34);
+
+        temp_r4_2 += 0x6C;
+        temp_r4_2 += ((SIN(((var_r6 * 0x91) + (s16)temp_r4) & 0x3FF) * 5) >> 11);
+
+        res2 += 0x5D;
+        res2 -= ((COS(((var_r6 * 0x91) + (s16)temp_r4) & 0x3FF) * 5) >> 11);
+        res2 += var_r5;
+
         if (GetBit(strc288->unk27F, var_r6)) {
             s = &strc288->sprites13C[var_r6];
         } else {
-            s = &strc288->sprites13C[ARRAY_COUNT(strc288->sprites13C) - 1];
+            s = &strc288->sprite254;
         }
         s->x = temp_r4_2;
         s->y = res2;
