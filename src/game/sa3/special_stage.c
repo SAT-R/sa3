@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "trig.h"
+#include "flags.h"
 #include "malloc_ewram.h"
 #include "game/code_1_3.h" // DmaIoData
 #include "lib/m4a/m4a.h"
@@ -39,7 +40,6 @@ struct Task *sub_80B3314(SpStgContext *strc);
 struct Task *sub_80B22CC(SpStgContext *strc);
 
 void Task_8E8_80B1E34(void);
-void sub_2A4_80B26FC(void);
 void Task_8E8_80B1F4C(void);
 void Task_8E8_80B205C(void);
 void Task_SpStage8E8_Destroy(void);
@@ -49,7 +49,7 @@ void Task_8E8_80B2284(void);
 void Task_2A4_80B2358(void);
 void sub_80B24AC(SpStage2A4 *strc2A4);
 void sub_2A4_80B2640(void);
-void sub_2A4_80B26FC(void);
+void UpdateRingCounterSprites(void);
 void sub_80B28AC(SpStage2A4 *strc2A4);
 void sub_80B29B4(SpStage2A4 *strc2A4, ELaps laps);
 void sub_80B2B38(SpStage2A4 *strc2A4);
@@ -124,7 +124,7 @@ void TaskDestructor_SpStage288(struct Task *t);
 void sub_80B7074(void);
 void Task_80B7470(void);
 void Task_80B75A0(void);
-void sub_80B73A4(void);
+void Task_80B73A4(void);
 void Task_80B7314(void);
 
 extern s16 sa3__sub_80B1560(const s16 *unk28, u16 unk5C);
@@ -473,29 +473,24 @@ void Task_8E8_80B205C(void)
     fade->bldCnt = 0xBF;
     UpdateScreenFade(fade);
 
-    gDispCnt = 0x9C42;
-    gWinRegs[5] = 0x103F;
+    gDispCnt = DISPCNT_MODE_2 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG2_ON | DISPCNT_BG3_ON | DISPCNT_OBJ_ON | DISPCNT_OBJWIN_ON;
+    gWinRegs[WINREG_WINOUT] = WINOUT_WINOBJ_OBJ | WINOUT_WIN01_ALL;
     gCurTask->main = Task_SpStage8E8_Destroy;
 }
 
 void Task_SpStage8E8_Destroy(void)
 {
-    Task *temp_r0;
-    Task *temp_r0_2;
-    Task *temp_r0_3;
-    Task *temp_r0_4;
-    Task *temp_r0_5;
-    u8 var_r4;
     SpStgContext *strc = TASK_DATA(gCurTask);
     ScreenFade *fade = &strc->fade7C;
+    u8 var_r4;
 
     if (UpdateScreenFade(fade) == SCREEN_FADE_RUNNING) {
-        gDispCnt = 0x9C42;
-        gWinRegs[5] = 0x103F;
+        gDispCnt = DISPCNT_MODE_2 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG2_ON | DISPCNT_BG3_ON | DISPCNT_OBJ_ON | DISPCNT_OBJWIN_ON;
+        gWinRegs[WINREG_WINOUT] = WINOUT_WINOBJ_OBJ | WINOUT_WIN01_ALL;
         return;
     }
 
-    gFlags &= ~4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     if (strc->task0 != NULL) {
         TaskDestroy(strc->task0);
         strc->task0 = NULL;
@@ -510,23 +505,21 @@ void Task_SpStage8E8_Destroy(void)
         TaskDestroy(strc->task8);
         strc->task8 = NULL;
     }
-    temp_r0_4 = strc->taskC;
-    if (temp_r0_4 != NULL) {
-        TaskDestroy(temp_r0_4);
+    if (strc->taskC != NULL) {
+        TaskDestroy(strc->taskC);
         strc->taskC = NULL;
     }
-    temp_r0_5 = strc->task10;
-    if (temp_r0_5 != NULL) {
-        TaskDestroy(temp_r0_5);
+    if (strc->task10 != NULL) {
+        TaskDestroy(strc->task10);
         strc->task10 = NULL;
     }
     if (gStageData.unkD == 0) {
         var_r4 = 0;
-        if ((s32)strc->ringsRequired <= (s32)strc->unk8C0) {
+        if (strc->ringsRequired <= strc->unk8C0) {
             var_r4 = 1;
         }
         sub_80B6CD8(var_r4, strc->zone, strc->unk8C6, strc->unk8C9);
-    } else if (((s8)strc->unk8D4 == 0) || (strc->zone == 6)) {
+    } else if ((strc->unk8D4 == 0) || (strc->zone == 6)) {
         var_r4 = 0;
         if (strc->ringsRequired <= strc->unk8C0) {
             var_r4 = 1;
@@ -684,7 +677,7 @@ void sub_2A4_80B2640(void)
     Sprite *s;
 
     if (temp_r6->unk8C8 == 0) {
-        sub_2A4_80B26FC();
+        UpdateRingCounterSprites();
     }
     if (temp_r6->unk8CE) {
         DisplaySprite(&strc->sprite4);
@@ -708,43 +701,48 @@ void sub_2A4_80B2640(void)
     DisplaySprite(&strc->spriteF4);
 }
 
-void sub_2A4_80B26FC(void)
+void UpdateRingCounterSprites(void)
 {
     SpStage2A4 *strc = TASK_DATA(gCurTask);
     SpStgContext *temp_r5 = strc->unk0;
 
-    const TileInfo3 *digits = &sTileInfo_SpStageDigits[(s8)(u8)temp_r5->unk8CE];
+    const TileInfo3 *digits = &sTileInfo_SpStageDigits[temp_r5->unk8CE];
     Sprite *s = &strc->sprite4;
     s->anim = digits->anim;
     s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    digits = &sTileInfo_SpStageDigits[(s8)(u8)temp_r5->unk8CF];
+
+    digits = &sTileInfo_SpStageDigits[temp_r5->unk8CF];
     s = &strc->sprite2C;
     s->anim = digits->anim;
     s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    digits = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D0];
+
+    digits = &sTileInfo_SpStageDigits[temp_r5->unk8D0];
     s = &strc->sprite54;
     s->anim = digits->anim;
     s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    digits = &sTileInfo_SpStageDigits[(s8)(u8)temp_r5->unk8D1];
+
+    digits = &sTileInfo_SpStageDigits[temp_r5->unk8D1];
     s = &strc->spriteA4;
     s->anim = digits->anim;
     s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    digits = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D2];
+
+    digits = &sTileInfo_SpStageDigits[temp_r5->unk8D2];
     s = &strc->spriteCC;
     s->anim = digits->anim;
     s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
-    digits = &sTileInfo_SpStageDigits[(s8)temp_r5->unk8D3];
+
+    digits = &sTileInfo_SpStageDigits[temp_r5->unk8D3];
     s = &strc->spriteF4;
     s->anim = digits->anim;
     s->variant = *(u16 *)&digits->variant;
     UpdateSpriteAnimation(s);
 
-    if ((s8)temp_r5->unk8D4 == 0) {
+    if (temp_r5->unk8D4 == 0) {
         if (temp_r5->unk8C0 >= temp_r5->ringsRequired) {
             temp_r5->unk8D4 = 1;
             temp_r5->unk8D6 = 1;
@@ -752,7 +750,7 @@ void sub_2A4_80B26FC(void)
             s = &strc->sprite7C;
             s->anim = ANIM_SP_STAGE_RING_COUNTER_BACKDROP;
             s->variant = 1;
-            UpdateSpriteAnimation(&strc->sprite7C);
+            UpdateSpriteAnimation(s);
         }
     } else {
         if (temp_r5->unk8C0 < temp_r5->ringsRequired) {
@@ -772,7 +770,6 @@ void sub_80B28AC(SpStage2A4 *strc2A4)
 {
     Sprite *temp_r6;
     u16 a;
-    s16 temp_r0;
     u16 temp_r2;
     Sprite *s;
 
@@ -1153,7 +1150,7 @@ void Task_80B3080(void)
         pBgAffine->bg2pa = 0x100;
         pBgAffine->bg2pd = 0x100;
         temp_r0_4 = ((s32)(120 - var_r6) >> 2) + 60;
-        gFlags |= 4;
+        gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
         var_r4 = 90 - temp_r0_4;
         var_r6 = 0;
@@ -3875,7 +3872,7 @@ void Task_80B6D78(void)
     gCurTask->main = Task_80B7314;
 }
 
-// (94.71%) https://decomp.me/scratch/z7ukN
+// (99.26%) https://decomp.me/scratch/Dl454
 NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(void))
 {
     s16 sp00[12];
@@ -3883,20 +3880,23 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
     s16 sp30;
     u16 sp34;
     Sprite *s;
-    s16 temp_r5;
-    s32 temp_r1;
     s32 temp_r2;
-    s16 var_r5;
-    s16 temp_r2_2;
     u16 temp_r4;
+    s16 var_r5;
+#ifndef NON_MATCHING
+    register s32 temp_r4_2 asm("r4");
+#else
     s32 temp_r4_2;
+#endif
     u8 var_r4;
     s16 res2;
     u8 var_r6;
     SpStage288 *strc288 = TASK_DATA(gCurTask);
+    s16 temp_r5;
+    Sprite *s0;
 
-    memcpy(&sp00, gUnknown_080E30DC, 0x18);
-    memcpy(&sp18, gUnknown_080E30F4, 0x18);
+    memcpy(&sp00, gUnknown_080E30DC, sizeof(sp00));
+    memcpy(&sp18, gUnknown_080E30F4, sizeof(sp18));
     var_r5 = 0;
     if (gStageData.unkD == 0) {
         if (strc288->unk27E != 0) {
@@ -3935,7 +3935,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
     sp30 = (u16)((s32)(temp_r4 * 10) / 84);
     temp_r4 >>= 5;
 
-    for (var_r6 = 0; var_r6 < (ARRAY_COUNT(strc288->sprites13C) - 1); var_r6++) {
+    for (var_r6 = 0; var_r6 < 7; var_r6++) {
         temp_r5 = (s16)sp30 + (0x92 * var_r6);
         for (var_r4 = 0; var_r4 < 7; var_r4++) {
             sp00[var_r4] = (s16)((s32)(SIN((temp_r5 + (var_r4 * 0x92)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
@@ -3950,8 +3950,12 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
             s32 sinValue = ((SIN(temp_r2) * 5) >> 11);
             temp_r4_2 += 0x6C0000;
             temp_r4_2 >>= 16;
-            temp_r4_2 = (u16)(temp_r4_2 + sinValue);
-            temp_r2_2 = (((res2 + 0x5D) - ((s32)(COS(temp_r2) * 5) >> 0xB)) + var_r5);
+            temp_r4_2 += sinValue;
+            temp_r4_2 <<= 16;
+            temp_r4_2 = ((u32)temp_r4_2) >> 16;
+            res2 = (res2 + 0x5D);
+            res2 -= ((COS(temp_r2) * 5) >> 11);
+            res2 += var_r5;
         }
         if (GetBit(strc288->unk27F, var_r6)) {
             s = &strc288->sprites13C[var_r6];
@@ -3959,7 +3963,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
             s = &strc288->sprites13C[ARRAY_COUNT(strc288->sprites13C) - 1];
         }
         s->x = temp_r4_2;
-        s->y = temp_r2_2;
+        s->y = res2;
         DisplaySprite(s);
     }
 }
@@ -3967,9 +3971,6 @@ END_NONMATCH
 
 void Task_80B7314(void)
 {
-    s32 var_r0;
-    u16 *temp_r1;
-    u8 temp_r0;
     SpStage288 *strc288;
 
     strc288 = TASK_DATA(gCurTask);
@@ -3989,20 +3990,16 @@ void Task_80B7314(void)
     sub_80B7074();
 
     if (strc288->unk284 < 0) {
-        gCurTask->main = sub_80B73A4;
+        gCurTask->main = Task_80B73A4;
     }
 }
 
-void sub_80B73A4(void)
+void Task_80B73A4(void)
 {
-    s16 var_r0;
-    u8 temp_r1;
-    SpStage288 *strc288;
-    ScreenFade *fade;
+    SpStage288 *strc288 = TASK_DATA(gCurTask);
+    ScreenFade *fade = &strc288->fade0;
 
-    strc288 = TASK_DATA(gCurTask);
-    fade = &strc288->fade0;
-    strc288->unk284 = (u16)(strc288->unk284 + 0x80);
+    strc288->unk284 += 0x80;
     sub_80B7074();
 
     if ((gStageData.unkD == 0) || ((0x7F & strc288->unk27F) == 0x7F)) {

@@ -85,9 +85,9 @@ typedef struct {
     /* 0x8CF */ s8 unk8CF;
     /* 0x8D0 */ s8 unk8D0;
     /* 0x8D1 */ s8 unk8D1;
-    /* 0x8D2 */ u8 unk8D2;
-    /* 0x8D3 */ u8 unk8D3;
-    /* 0x8D4 */ u8 unk8D4;
+    /* 0x8D2 */ s8 unk8D2;
+    /* 0x8D3 */ s8 unk8D3;
+    /* 0x8D4 */ s8 unk8D4;
     /* 0x8D5 */ u8 unk8D5;
     /* 0x8D6 */ u8 unk8D6;
     /* 0x8D7 */ u8 unk8D7;
