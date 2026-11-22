@@ -1346,9 +1346,6 @@ Task *sub_80B33D0(SpStgContext *ctx)
 
 void Task_80B3648(void)
 {
-    s32 temp_r0_2;
-    u8 temp_r2_2;
-
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
     SpStgContext *ctx = task8->unk0;
     Arg2TaskC *taskC = TASK_DATA(ctx->taskC);
@@ -1392,6 +1389,7 @@ void Task_80B36F4(void)
 
     if (temp_r6->unk8C8 == 0) {
         if (temp_r6->unk8C4 != 7) {
+            // TODO: ASSERT((task8->unkAC + 2) < ARRAY_COUNT(tasks))
             tasks[task8->unkAC + 2]();
             tasks[0]();
         }
@@ -1902,15 +1900,10 @@ void sub_80B41B0(void)
 
 void sub_80B4294(void)
 {
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 var_r1;
-    s32 var_r2;
-    u16 var_r5;
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
     Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+    u16 var_r5 = task8->unkAC;
 
-    var_r5 = task8->unkAC;
     if (DPAD_LEFT & gInput) {
         task8->unk94 += 0xA80;
     } else if (DPAD_RIGHT & gInput) {
@@ -1925,19 +1918,14 @@ void sub_80B4294(void)
         task8->unk88 = 0x021B0000;
     }
 
-    var_r1 = task8->unk94;
-    if (var_r1 < 0) {
-        var_r1 = 0 - var_r1;
-    }
-    if ((var_r1 <= 0x4FE) && !(0x30 & gInput)) {
+    if ((ABS(task8->unk94) < 0x4FF) && !(DPAD_SIDEWAYS & gInput)) {
         var_r5 = 0;
         task8->sprite8.prevVariant = -1;
         task8->unk94 = 0;
     } else {
-        temp_r0_2 = task8->unk94;
-        if (temp_r0_2 > 0) {
+        if (task8->unk94 > 0) {
             var_r5 = 2;
-        } else if (temp_r0_2 < 0) {
+        } else if (task8->unk94 < 0) {
             var_r5 = 1;
         }
     }
@@ -1955,16 +1943,12 @@ void sub_80B4294(void)
 
 void sub_80B43B4(void)
 {
-    u16 var_r5;
-    s32 unk90;
-    s32 unk9C;
-
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
     Arg2TaskC *taskC = TASK_DATA(task8->unk0->taskC);
+    u16 var_r5 = task8->unkAC;
+    s32 unk90 = task8->unk90;
+    s32 unk9C = task8->unk9C;
 
-    var_r5 = task8->unkAC;
-    unk90 = task8->unk90;
-    unk9C = task8->unk9C;
     unk9C += 0x30;
     unk90 += unk9C;
 
@@ -2008,19 +1992,17 @@ void sub_80B43B4(void)
 
 void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, const Arg4_80B4498 *arg4)
 {
-    u32 var_r3;
-    u8 temp_r2;
+    u32 frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(OBJ_MODE, 0);
 
-    var_r3 = 0x1000;
     if (1 & arg4->unk7) {
-        var_r3 |= 0x400;
+        frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
     if (2 & arg4->unk7) {
-        var_r3 |= 0x800;
+        frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
     }
     s->tiles = (u8 *)vram;
     s->anim = arg4->anim;
-    s->frameFlags = var_r3;
+    s->frameFlags = frameFlags;
     s->x = DISPLAY_CENTER_X;
     s->y = yPos;
     s->oamFlags = arg3 << 6;
@@ -2164,10 +2146,9 @@ void sub_80B4774(void) { }
 void sub_80B4778(void)
 {
     Arg2Task8 *task8 = TASK_DATA(gCurTask);
-    u16 temp_r1;
 
     if (task8->unkAC != 0x12) {
-        if (task8->unkB0++ > 0x3BU) {
+        if (task8->unkB0++ >= 60) {
             task8->unkAC = 0x12;
         }
     }
@@ -2191,21 +2172,20 @@ bool8 sub_80B47C4(void)
     return var_r1;
 }
 
-void sub_80B47EC(Sprite *s, s16 animSpeed, s16 arg2, s16 arg3, const Arg4_80B4498 *arg4)
+void sub_80B47EC(Sprite *s, s16 animSpeed, s16 screenX, s16 screenY, const Arg4_80B4498 *arg4)
 {
-    u32 frameFlags;
+    u32 frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(OBJ_MODE, 0);
 
-    frameFlags = 0x1000;
     if (1 & arg4->unk7) {
-        frameFlags |= 0x400;
+        frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
     if (2 & arg4->unk7) {
-        frameFlags |= 0x800;
+        frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
     }
     s->anim = arg4->anim;
     s->frameFlags = frameFlags;
-    s->x = (s16)(u16)arg2;
-    s->y = (s16)(u16)arg3;
+    s->x = screenX;
+    s->y = screenY;
     s->variant = (u8)arg4->variant;
     s->animSpeed = (animSpeed != -1) ? animSpeed : SPRITE_ANIM_SPEED(1.0);
     UpdateSpriteAnimation(s);
@@ -2213,13 +2193,13 @@ void sub_80B47EC(Sprite *s, s16 animSpeed, s16 arg2, s16 arg3, const Arg4_80B449
 
 void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, Arg4_80B4498 *arg4)
 {
-    u32 frameFlags = 0x1100;
+    u32 frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(OBJ_MODE, 2);
 
     if (1 & arg4->unk7) {
-        frameFlags |= 0x400;
+        frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
     if (2 & arg4->unk7) {
-        frameFlags |= 0x800;
+        frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
     }
     s->anim = arg4->anim;
     s->frameFlags = frameFlags;
@@ -3951,7 +3931,7 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
         if (GetBit(strc288->unk27F, var_r6)) {
             s = &strc288->sprites13C[var_r6];
         } else {
-            s = &strc288->sprite254;
+            s = &strc288->sprites13C[ARRAY_COUNT(strc288->sprites13C) - 1];
         }
         s->x = temp_r4_2;
         s->y = res2;
@@ -3969,10 +3949,10 @@ void Task_80B7314(void)
         if (strc288->unk281 > 0) {
             strc288->unk281--;
             if (strc288->unk27E != 0) {
-                strc288->sprite4C.x -= 0x10;
-                strc288->sprite74.x -= 0x10;
+                strc288->sprite4C.x -= 16;
+                strc288->sprite74.x -= 16;
             } else {
-                strc288->sprite9C.x -= 0x10;
+                strc288->sprite9C.x -= 16;
             }
         }
     }

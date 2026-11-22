@@ -56,8 +56,30 @@ gUnknown_080E309C:
 
     .global gUnknown_080E30DC
 gUnknown_080E30DC:
-    .incbin "baserom_sa3.gba", 0x000E30DC, 0x18
+    .short +220
+    .short -160
+    .short +100
+    .short -40
+    .short +20
+    .short +80
+    .short +20
+    .short +0
+    .short +0
+    .short +0
+    .short +0
+    .short +0
 
     .global gUnknown_080E30F4
 gUnknown_080E30F4:
-    .incbin "baserom_sa3.gba", 0x000E30F4, 0x18
+    .short -220
+    .short -160
+    .short +100
+    .short +40
+    .short +20
+    .short -80
+    .short -20
+    .short 0
+    .short 0
+    .short 0
+    .short 0
+    .short 0
