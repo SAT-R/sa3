@@ -3854,22 +3854,22 @@ void Task_80B6D78(void)
 
 void sub_80B7074(void)
 {
-    s16 sp00[12];
-    s16 sp18[12];
     s16 sp30;
     u16 sp34;
     Sprite *s;
     s16 x, y;
-    s32 stackFillerForMatching;
     s16 temp_r4;
-    s16 yOffset;
-    u8 i, j;
     s16 res1, res2;
     SpStage288 *strc288 = TASK_DATA(gCurTask);
+    u8 i, j;
+    s16 sp00[12];
+    s16 sp18[12];
+    s16 yOffset;
 
     memcpy(&sp00, gUnknown_080E30DC, sizeof(sp00));
     memcpy(&sp18, gUnknown_080E30F4, sizeof(sp18));
     yOffset = 0;
+
     if (gStageData.unkD == 0) {
         if (strc288->unk27E != 0) {
             DisplaySprite(&strc288->sprite4C);
