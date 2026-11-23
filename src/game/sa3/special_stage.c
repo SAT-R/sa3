@@ -3859,28 +3859,24 @@ void Task_80B6D78(void)
     gCurTask->main = Task_80B7314;
 }
 
-// (99.26%) https://decomp.me/scratch/At6YK
-NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(void))
+void sub_80B7074(void)
 {
-    s16 sp00[12];
-    s16 sp18[12];
     s16 sp30;
     u16 sp34;
     Sprite *s;
-    s32 temp_r2;
-    u16 temp_r4;
-    s16 var_r5;
-    s16 temp_r4_2;
-    u8 var_r4;
-    s16 res2;
-    u8 var_r6;
+    s16 x, y;
+    s16 temp_r4;
+    s16 res1, res2;
     SpStage288 *strc288 = TASK_DATA(gCurTask);
-    s16 temp_r5;
-    Sprite *s0;
+    u8 i, j;
+    s16 sp00[12];
+    s16 sp18[12];
+    s16 yOffset;
 
     memcpy(&sp00, gUnknown_080E30DC, sizeof(sp00));
     memcpy(&sp18, gUnknown_080E30F4, sizeof(sp18));
-    var_r5 = 0;
+    yOffset = 0;
+
     if (gStageData.unkD == 0) {
         if (strc288->unk27E != 0) {
             DisplaySprite(&strc288->sprite4C);
@@ -3902,50 +3898,48 @@ NONMATCH("asm/non_matching/game/sa3/spstg__sub_80B7074.inc", void sub_80B7074(vo
             s->variant = ((strc288->unk282 ^ 1) & 1) + 0xE;
             UpdateSpriteAnimation(s);
             DisplaySprite(s);
-            var_r5 = -16;
+            yOffset = -16;
         }
     }
     if (strc288->unk27E == 0) {
-        strc288->unk284 = 0x8000 | (u16)strc288->unk284;
+        strc288->unk284 |= 0x8000;
     }
 
-    if ((s32)strc288->unk284 >= 0) {
+    if ((s16)strc288->unk284 >= 0) {
         sp34 = strc288->unk284;
     } else {
         sp34 = 0x8000;
     }
-    temp_r4 = (u16)strc288->unk284;
-    sp30 = (u16)((s32)(temp_r4 * 10) / 84);
-    temp_r4 >>= 5;
+    sp30 = (strc288->unk284 * 10) / 84;
+    temp_r4 = strc288->unk284 / 32;
 
-    for (var_r6 = 0; var_r6 < 7; var_r6++) {
-        temp_r5 = (s16)sp30 + (0x92 * var_r6);
-        for (var_r4 = 0; var_r4 < 7; var_r4++) {
-            sp00[var_r4] = (s16)((s32)(SIN((temp_r5 + (var_r4 * 0x92)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
-            sp18[var_r4] = (s16)((s32)(COS((temp_r5 + (var_r4 * 0x46)) & ONE_CYCLE) * (7 - var_r4)) >> 9);
+    for (i = 0; i < 7; i++) {
+        s16 temp_r5 = sp30 + (0x92 * i);
+        for (j = 0; j < 7; j++) {
+            sp00[j] = (SIN((temp_r5 + (j * 0x92)) & ONE_CYCLE) * (7 - j)) >> 9;
+            sp18[j] = (COS((temp_r5 + (j * 0x46)) & ONE_CYCLE) * (7 - j)) >> 9;
         }
 
-        temp_r4_2 = sa3__sub_80B1560(sp00, sp34);
+        res1 = sa3__sub_80B1560(sp00, sp34);
         res2 = sa3__sub_80B1560(sp18, sp34);
 
-        temp_r4_2 += 0x6C;
-        temp_r4_2 += ((SIN(((var_r6 * 0x91) + (s16)temp_r4) & 0x3FF) * 5) >> 11);
+        x = res1 + 0x6C;
+        x += (SIN(((i * 0x91) + temp_r4) & 0x3FF) * 5) >> 11;
 
-        res2 += 0x5D;
-        res2 -= ((COS(((var_r6 * 0x91) + (s16)temp_r4) & 0x3FF) * 5) >> 11);
-        res2 += var_r5;
+        y = res2 + 0x5D;
+        y -= (COS(((i * 0x91) + temp_r4) & 0x3FF) * 5) >> 11;
+        y += yOffset;
 
-        if (GetBit(strc288->unk27F, var_r6)) {
-            s = &strc288->sprites13C[var_r6];
+        if (GetBit(strc288->unk27F, i)) {
+            s = &strc288->sprites13C[i];
         } else {
             s = &strc288->sprites13C[ARRAY_COUNT(strc288->sprites13C) - 1];
         }
-        s->x = temp_r4_2;
-        s->y = res2;
+        s->x = x;
+        s->y = y;
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 void Task_80B7314(void)
 {
@@ -3967,7 +3961,7 @@ void Task_80B7314(void)
     strc288->unk284 += 0x80;
     sub_80B7074();
 
-    if (strc288->unk284 < 0) {
+    if ((s16)strc288->unk284 < 0) {
         gCurTask->main = Task_80B73A4;
     }
 }

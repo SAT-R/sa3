@@ -25,7 +25,7 @@ typedef struct {
     /* 0x281 */ u8 unk281;
     /* 0x282 */ u8 unk282;
     /* 0x283 */ u8 unk283;
-    /* 0x284 */ s16 unk284;
+    /* 0x284 */ u16 unk284;
 } SpStage288; /* 0x288 */
 
 typedef struct {
