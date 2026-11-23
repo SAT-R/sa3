@@ -176,13 +176,18 @@ typedef struct {
     /* 0x8E4 */ u16 unk8E4;
 } Arg2Task4; /* 0x8E8 */
 
+typedef enum {
+    SSA4_X_FLIP = 1,
+    SSA4_Y_FLIP = 2,
+} SpStagePlayerAnimData_Flags;
+
 typedef struct {
     /* 0x00 */ AnimId anim;
     /* 0x02 */ u16 variant;
-    /* 0x04 */ u16 unk4;
+    /* 0x04 */ u16 numTiles;
     /* 0x06 */ u8 animSpeed;
-    /* 0x07 */ u8 unk7;
-} Arg4_80B4498;
+    /* 0x07 */ u8 flags;
+} SpStagePlayerAnimData;
 
 typedef struct {
     /* 0x00 */ SpStgContext *unk0;
@@ -212,7 +217,7 @@ typedef struct {
     /* 0xB7 */ u8 unkB7;
     /* 0xB8 */ s8 unkB8;
     /* 0xB9 */ s8 unkB9;
-    /* 0xBC */ const Arg4_80B4498 *unkBC;
+    /* 0xBC */ const SpStagePlayerAnimData *unkBC;
     /* 0xC0 */ Sprite spriteC0;
     /* 0xE8 */ Sprite spriteE8;
 } Arg2Task8; /* 0x110 */
@@ -295,9 +300,9 @@ extern const u16 gUnknown_080DBFA8[6][3];
 extern const u16 gUnknown_080DBFD8[];
 extern const u16 gTilemapIds_080DBFEC[];
 extern const s16 gUnknown_080DBFCC[];
-extern const Arg4_80B4498 gUnknown_080DBFFC[22];
-extern const Arg4_80B4498 *const gUnknown_080DC36C[5];
-extern const Arg4_80B4498 sAnimList_SpStageMultiplier;
+extern const SpStagePlayerAnimData gUnknown_080DBFFC[22];
+extern const SpStagePlayerAnimData *const gUnknown_080DC36C[5];
+extern const SpStagePlayerAnimData sAnimList_SpStageMultiplier;
 extern const TaskMain gUnknown_080DC388[24];
 extern const s16 gUnknown_080DC436[8];
 extern const SpStgFunc gUnknown_080DC448[27];

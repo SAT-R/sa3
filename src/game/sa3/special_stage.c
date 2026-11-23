@@ -79,7 +79,7 @@ void sub_80B407C(void);
 void sub_80B41B0(void);
 void sub_80B4294(void);
 void sub_80B43B4(void);
-void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, const Arg4_80B4498 *arg4);
+void sub_80B4498(Sprite *s, u16 *vram, s16 arg2, u8 arg3, const SpStagePlayerAnimData *arg4);
 void sub_80B4508(Arg2Task8 *task8);
 void sub_80B4654(SpStgContext *arg0, s8 arg1);
 void sub_80B46DC(void);
@@ -96,7 +96,7 @@ void sub_80B6464(s16, Arg2Task4_x744 *);
 void sub_80B6778(SpStgContext *arg0, s32 *arg1);
 void sub_80B46B0(SpStgContext *);
 bool8 sub_80B47C4();
-void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, const Arg4_80B4498 *arg4);
+void sub_80B47EC(Sprite *s, s16 arg1, s16 arg2, s16 arg3, const SpStagePlayerAnimData *arg4);
 void Task_80B494C(void);
 void sub_80B4B68(Arg2TaskC *);
 void Task_80B4D08(void);
@@ -117,7 +117,7 @@ void sub_8E8_80B69B4(Sprite *);
 void sub_80B6B3C(Background *bg, s32 charBase, s32 screenBase, u16 tilemapId, u16 targetTilesX, u16 targetTilesY, u8 paletteOffset,
                  u8 flags, u16 scrollX, u16 scrollY);
 void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 frameFlags, s16 x, s16 y, s16 oamOrder, u8 pattern, u8 palId);
-s16 sub_80B6CA4(const Arg4_80B4498 *arg0);
+s16 SpStage_GetPlayerAnimsMaxSize(const SpStagePlayerAnimData *arg0);
 void sub_80B6CD8(u8, u8, u8, u8);
 void Task_80B6D78(void);
 void TaskDestructor_SpStage288(struct Task *t);
@@ -191,38 +191,44 @@ const u16 gTilemapIds_080DBFEC[] = { //
 };
 
 // Sonic
-const Arg4_80B4498 sOnTornadoAnimList_Sonic[22] = {
-    { 0x92, 0, 64, 0x10, 0x00 }, { 0x94, 0, 64, 0x10, 0x01 }, { 0x94, 0, 64, 0x10, 0x00 }, { 0x95, 0, 16, 0x10, 0x00 },
-    { 0x96, 0, 64, 0x10, 0x00 }, { 0x93, 0, 64, 0x10, 0x00 }, { 0x93, 1, 64, 0x10, 0x00 }, { 0x67, 0, 25, 0x10, 0x00 },
-    { 0x67, 0, 25, 0x10, 0x00 }, { 0x92, 0, 64, 0x10, 0x00 }, { 0x97, 0, 30, 0x10, 0x00 }, { 0x97, 1, 20, 0x10, 0x00 },
-    { 0x9C, 0, 64, 0x10, 0x00 }, { 0x9C, 0, 64, 0x10, 0x00 }, { 0x92, 0, 64, 0x10, 0x00 }, { 0x97, 0, 30, 0x10, 0x00 },
-    { 0x97, 0, 30, 0x10, 0x00 }, { 0x99, 0, 30, 0x10, 0x00 }, { 0x99, 0, 30, 0x10, 0x00 }, { 0x9C, 0, 64, 0x10, 0x00 },
-    { 0x9C, 0, 64, 0x10, 0x00 }, { -1, -1, -1, 0, 0 },
+const SpStagePlayerAnimData sOnTornadoAnimList_Sonic[22] = {
+    { 146, 0, 64, 0x10, 0x00 }, { 148, 0, 64, 0x10, SSA4_X_FLIP }, { 148, 0, 64, 0x10, 0x00 },
+    { 149, 0, 16, 0x10, 0x00 }, { 150, 0, 64, 0x10, 0x00 },        { 147, 0, 64, 0x10, 0x00 },
+    { 147, 1, 64, 0x10, 0x00 }, { 103, 0, 25, 0x10, 0x00 },        { 103, 0, 25, 0x10, 0x00 },
+    { 146, 0, 64, 0x10, 0x00 }, { 151, 0, 30, 0x10, 0x00 },        { 151, 1, 20, 0x10, 0x00 },
+    { 156, 0, 64, 0x10, 0x00 }, { 156, 0, 64, 0x10, 0x00 },        { 146, 0, 64, 0x10, 0x00 },
+    { 151, 0, 30, 0x10, 0x00 }, { 151, 0, 30, 0x10, 0x00 },        { 153, 0, 30, 0x10, 0x00 },
+    { 153, 0, 30, 0x10, 0x00 }, { 156, 0, 64, 0x10, 0x00 },        { 156, 0, 64, 0x10, 0x00 },
+    { -1, -1, -1, 0, 0 },
 };
 
 // Amy
-const Arg4_80B4498 sOnTornadoAnimList_Amy[22] = {
-    { 0x31E, 0, 0x40, 0x10, 0 }, { 0x320, 0, 0x40, 0x10, 1 }, { 0x320, 0, 0x40, 0x10, 0 }, { 0x321, 0, 0x10, 0x10, 0 },
-    { 0x322, 0, 0x40, 0x10, 0 }, { 0x31F, 0, 0x40, 0x10, 0 }, { 0x31F, 1, 0x40, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },
-    { 0x328, 0, 0x40, 0x10, 0 }, { 0x31E, 0, 0x40, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 },
-    { 0x328, 0, 0x40, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 }, { 0x31E, 0, 0x40, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 },
-    { 0x323, 0, 0x19, 0x10, 0 }, { 0x325, 0, 0x1E, 0x10, 0 }, { 0x325, 0, 0x1E, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },
-    { 0x328, 0, 0x40, 0x10, 0 }, { -1, -1, -1, 0, 0 },
+const SpStagePlayerAnimData sOnTornadoAnimList_Amy[22] = {
+    { 0x31E, 0, 0x40, 0x10, 0 }, { 0x320, 0, 0x40, 0x10, SSA4_X_FLIP }, { 0x320, 0, 0x40, 0x10, 0 },
+    { 0x321, 0, 0x10, 0x10, 0 }, { 0x322, 0, 0x40, 0x10, 0 },           { 0x31F, 0, 0x40, 0x10, 0 },
+    { 0x31F, 1, 0x40, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },           { 0x328, 0, 0x40, 0x10, 0 },
+    { 0x31E, 0, 0x40, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 },           { 0x323, 0, 0x19, 0x10, 0 },
+    { 0x328, 0, 0x40, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },           { 0x31E, 0, 0x40, 0x10, 0 },
+    { 0x323, 0, 0x19, 0x10, 0 }, { 0x323, 0, 0x19, 0x10, 0 },           { 0x325, 0, 0x1E, 0x10, 0 },
+    { 0x325, 0, 0x1E, 0x10, 0 }, { 0x328, 0, 0x40, 0x10, 0 },           { 0x328, 0, 0x40, 0x10, 0 },
+    { -1, -1, -1, 0, 0 },
 };
 
 // Tails
-const Arg4_80B4498 sOnTornadoAnimList_Tails[22] = {
-    { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DA, 0, 0x40, 0x10, 1 }, { 0x1DA, 0, 0x40, 0x10, 0 }, { 0x1DB, 0, 0x10, 0x10, 0 },
-    { 0x1DC, 0, 0x40, 0x10, 0 }, { 0x1D9, 0, 0x40, 0x10, 0 }, { 0x1D9, 1, 0x40, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },
-    { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 },
-    { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 },
-    { 0x1DD, 0, 0x19, 0x10, 0 }, { 0x1DF, 0, 0x23, 0x10, 0 }, { 0x1DF, 0, 0x23, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },
-    { 0x1E2, 0, 0x40, 0x10, 0 }, { -1, -1, -1, 0, 0 },
+const SpStagePlayerAnimData sOnTornadoAnimList_Tails[22] = {
+    { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DA, 0, 0x40, 0x10, SSA4_X_FLIP }, { 0x1DA, 0, 0x40, 0x10, 0 },
+    { 0x1DB, 0, 0x10, 0x10, 0 }, { 0x1DC, 0, 0x40, 0x10, 0 },           { 0x1D9, 0, 0x40, 0x10, 0 },
+    { 0x1D9, 1, 0x40, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },           { 0x1E2, 0, 0x40, 0x10, 0 },
+    { 0x1D8, 0, 0x40, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 },           { 0x1DD, 0, 0x19, 0x10, 0 },
+    { 0x1E2, 0, 0x40, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },           { 0x1D8, 0, 0x40, 0x10, 0 },
+    { 0x1DD, 0, 0x19, 0x10, 0 }, { 0x1DD, 0, 0x19, 0x10, 0 },           { 0x1DF, 0, 0x23, 0x10, 0 },
+    { 0x1DF, 0, 0x23, 0x10, 0 }, { 0x1E2, 0, 0x40, 0x10, 0 },           { 0x1E2, 0, 0x40, 0x10, 0 },
+    { -1, -1, -1, 0, 0 },
 };
 
 // Cream
-const Arg4_80B4498 sOnTornadoAnimList_Cream[22] = {
-    { 0x0135, 0, 0x0040, 0x10, 0x00 }, { 0x0137, 0, 0x0040, 0x10, 0x01 },
+const SpStagePlayerAnimData sOnTornadoAnimList_Cream[22] = {
+    { 0x0135, 0, 0x0040, 0x10, 0x00 }, { 0x0137, 0, 0x0040, 0x10, SSA4_X_FLIP },
     { 0x0137, 0, 0x0040, 0x10, 0x00 }, { 0x0138, 0, 0x0010, 0x10, 0x00 },
     { 0x0139, 0, 0x0040, 0x10, 0x00 }, { 0x0136, 0, 0x0040, 0x10, 0x00 },
     { 0x0136, 1, 0x0040, 0x10, 0x00 }, { 0x013F, 0, 0x0040, 0x10, 0x00 },
@@ -236,8 +242,8 @@ const Arg4_80B4498 sOnTornadoAnimList_Cream[22] = {
 };
 
 // Knuckles
-const Arg4_80B4498 sOnTornadoAnimList_Knuckles[22] = {
-    { 0x027B, 0, 0x0040, 0x10, 0x00 }, { 0x027D, 0, 0x0040, 0x10, 0x01 },
+const SpStagePlayerAnimData sOnTornadoAnimList_Knuckles[22] = {
+    { 0x027B, 0, 0x0040, 0x10, 0x00 }, { 0x027D, 0, 0x0040, 0x10, SSA4_X_FLIP },
     { 0x027D, 0, 0x0040, 0x10, 0x00 }, { 0x027E, 0, 0x0010, 0x10, 0x00 },
     { 0x027F, 0, 0x0040, 0x10, 0x00 }, { 0x027C, 0, 0x0040, 0x10, 0x00 },
     { 0x027C, 1, 0x0040, 0x10, 0x00 }, { 0x0067, 0, 0x0019, 0x10, 0x00 },
@@ -1287,9 +1293,10 @@ Task *sub_80B33D0(SpStgContext *ctx)
     Arg2Task8 *strc;
     struct Task *t;
 
-    const Arg4_80B4498 *sp18[NUM_CHARACTERS] = { &sOnTornadoAnimList_Sonic[0], &sOnTornadoAnimList_Cream[0], &sOnTornadoAnimList_Tails[0],
-                                                 &sOnTornadoAnimList_Knuckles[0], &sOnTornadoAnimList_Amy[0] };
-    Arg4_80B4498 sp2C = { ANIM_SP_STAGE_MULTIPLIER, 0, 2, 0x10, 0 };
+    const SpStagePlayerAnimData *sp18[NUM_CHARACTERS]
+        = { &sOnTornadoAnimList_Sonic[0], &sOnTornadoAnimList_Cream[0], &sOnTornadoAnimList_Tails[0], &sOnTornadoAnimList_Knuckles[0],
+            &sOnTornadoAnimList_Amy[0] };
+    SpStagePlayerAnimData sp2C = { ANIM_SP_STAGE_MULTIPLIER, 0, 2, 0x10, 0 };
 
     temp_r6 = ctx->zone;
     t = TaskCreate(Task_80B3648, sizeof(Arg2Task8), 0x9000U, 0U, NULL);
@@ -1304,12 +1311,12 @@ Task *sub_80B33D0(SpStgContext *ctx)
     strc->unkB3 = 0;
     strc->unkBC = sp18[ctx->unk8C6];
     sp38 = &ctx->unk8C6;
-    temp_r0 = sub_80B6CA4(strc->unkBC);
+    temp_r0 = SpStage_GetPlayerAnimsMaxSize(strc->unkBC);
     strc->vram84 = gUnknown_03001EA0;
     gUnknown_03001EA0 += temp_r0 * TILE_SIZE_4BPP;
     sub_80B4498(&strc->sprite8, strc->vram84, ctx->unk8DA, 9U, strc->unkBC);
     sub_80B4498(&strc->spriteE8, gUnknown_03001EA0, 0, 4U, &sp2C);
-    gUnknown_03001EA0 += (sp2C.unk4 * TILE_SIZE_4BPP);
+    gUnknown_03001EA0 += (sp2C.numTiles * TILE_SIZE_4BPP);
     strc->unk94 = 0;
     strc->unk98 = 0;
     strc->unk9C = 0;
@@ -1417,7 +1424,7 @@ void sub_80B37F0(void)
     Sprite *s;
     s16 temp_r6_2;
     s32 var_r0;
-    const Arg4_80B4498 *var_sb;
+    const SpStagePlayerAnimData *var_sb;
     u16 temp_r0;
     u16 temp_r1;
     Arg2TaskC *taskC;
@@ -1990,14 +1997,14 @@ void sub_80B43B4(void)
     task8->unkAC = var_r5;
 }
 
-void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, const Arg4_80B4498 *arg4)
+void sub_80B4498(Sprite *s, u16 *vram, s16 yPos, u8 arg3, const SpStagePlayerAnimData *arg4)
 {
     u32 frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(OBJ_MODE, 0);
 
-    if (1 & arg4->unk7) {
+    if (SSA4_X_FLIP & arg4->flags) {
         frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
-    if (2 & arg4->unk7) {
+    if (SSA4_Y_FLIP & arg4->flags) {
         frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
     }
     s->tiles = (u8 *)vram;
@@ -2172,14 +2179,14 @@ bool8 sub_80B47C4(void)
     return var_r1;
 }
 
-void sub_80B47EC(Sprite *s, s16 animSpeed, s16 screenX, s16 screenY, const Arg4_80B4498 *arg4)
+void sub_80B47EC(Sprite *s, s16 animSpeed, s16 screenX, s16 screenY, const SpStagePlayerAnimData *arg4)
 {
     u32 frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(OBJ_MODE, 0);
 
-    if (1 & arg4->unk7) {
+    if (SSA4_X_FLIP & arg4->flags) {
         frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
-    if (2 & arg4->unk7) {
+    if (SSA4_Y_FLIP & arg4->flags) {
         frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
     }
     s->anim = arg4->anim;
@@ -2191,14 +2198,14 @@ void sub_80B47EC(Sprite *s, s16 animSpeed, s16 screenX, s16 screenY, const Arg4_
     UpdateSpriteAnimation(s);
 }
 
-void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, Arg4_80B4498 *arg4)
+void sub_80B484C(Sprite *s, s16 animSpeed, s16 posY, SpStagePlayerAnimData *arg4)
 {
     u32 frameFlags = SPRITE_FLAG(PRIORITY, 1) | SPRITE_FLAG(OBJ_MODE, 2);
 
-    if (1 & arg4->unk7) {
+    if (SSA4_X_FLIP & arg4->flags) {
         frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
-    if (2 & arg4->unk7) {
+    if (SSA4_Y_FLIP & arg4->flags) {
         frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
     }
     s->anim = arg4->anim;
@@ -3740,20 +3747,20 @@ void sub_80B6BB8(Sprite *inSprite, s8 arg1, s32 tileCount, AnimId anim, u32 fram
     }
 }
 
-s16 sub_80B6CA4(const Arg4_80B4498 *arg0)
+s16 SpStage_GetPlayerAnimsMaxSize(const SpStagePlayerAnimData *arg0)
 {
-    s16 var_r3;
+    s16 numTiles;
 
-    var_r3 = 0;
+    numTiles = 0;
     while (arg0->anim != (u16)-1) {
-        if (var_r3 < arg0->unk4) {
-            var_r3 = arg0->unk4;
+        if (numTiles < arg0->numTiles) {
+            numTiles = arg0->numTiles;
         }
 
         arg0++;
     }
 
-    return var_r3;
+    return numTiles;
 }
 
 void sub_80B6CD8(u8 arg0, u8 arg1, u8 arg2, u8 arg3)
